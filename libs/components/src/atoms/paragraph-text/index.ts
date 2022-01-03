@@ -1,2 +1,4 @@
-import ParagraphText from './paragraph-text';
-export { ParagraphText };
+
+
+
+export {default as ParagraphText} from './paragraph-text';

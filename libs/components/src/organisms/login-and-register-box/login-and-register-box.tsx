@@ -17,6 +17,7 @@ const LoginAndRegisterBox: FC<LoginAndRegisterBoxProps> = (props) => (
       defaultTab={props.defaultTab}
       onChange={(tab) => {
         window.history.replaceState(
+          // eslint-disable-next-line unicorn/no-null
           null,
           '',
           `/${tab.props.tabTitle.toLocaleLowerCase()}/`

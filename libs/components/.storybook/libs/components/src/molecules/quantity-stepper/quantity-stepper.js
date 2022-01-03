@@ -25,7 +25,7 @@ const LabelText = styled.label `
   padding-left: 0.5rem;
 `;
 const QuantityStepper = (props) => {
-    var _a, _b;
+    let _a, _b;
     const CountLabel = styled('div') `
     font-family: 'Acumin Pro', Arial, sans-serif;
     font-weight: bold;
@@ -40,13 +40,13 @@ const QuantityStepper = (props) => {
         props.max !== undefined &&
         props.value === props.max;
     const minusButton = (_jsx(IconButton, { onClick: () => {
-            var _a, _b;
+            let _a, _b;
             if (!minusDisabled) {
                 (_a = props.onChange) === null || _a === void 0 ? void 0 : _a.call(props, ((_b = props.value) !== null && _b !== void 0 ? _b : 0) - 1);
             }
         }, icon: MinusIcon, a11yLabel: "Decrease", disabled: minusDisabled }, void 0));
     const plusButton = (_jsx(IconButton, { onClick: () => {
-            var _a, _b;
+            let _a, _b;
             if (!plusDisabled) {
                 (_a = props.onChange) === null || _a === void 0 ? void 0 : _a.call(props, ((_b = props.value) !== null && _b !== void 0 ? _b : 0) + 1);
             }

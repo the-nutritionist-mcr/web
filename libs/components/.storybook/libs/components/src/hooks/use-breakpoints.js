@@ -2,7 +2,7 @@ import { useLayoutEffect, useState } from 'react';
 const isBrowser = typeof window !== 'undefined';
 const findBreakpoint = (breakpoints) => {
     const smallestEnd = Object.entries(breakpoints).reduce((accum, current) => {
-        var _a, _b;
+        let _a, _b;
         return ((_a = current[1].end) !== null && _a !== void 0 ? _a : 9999999) < ((_b = accum[1].end) !== null && _b !== void 0 ? _b : 9999999)
             ? current
             : accum;
@@ -11,7 +11,7 @@ const findBreakpoint = (breakpoints) => {
         return smallestEnd[0];
     }
     const betweenBreakpoint = Object.entries(breakpoints).find(([, values]) => {
-        var _a, _b;
+        let _a, _b;
         const start = (_a = values.start) !== null && _a !== void 0 ? _a : 0;
         const end = (_b = values.end) !== null && _b !== void 0 ? _b : 9999999;
         return window.innerWidth >= start && window.innerWidth <= end;

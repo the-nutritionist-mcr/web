@@ -1,2 +1,4 @@
-import Hero from './hero';
-export { Hero };
+
+
+
+export {default as Hero} from './hero';

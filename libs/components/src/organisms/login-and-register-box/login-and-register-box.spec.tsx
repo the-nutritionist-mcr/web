@@ -64,6 +64,7 @@ describe('The login and register box', () => {
 
     act(() => userEvent.click(registerTab));
 
+    // eslint-disable-next-line unicorn/no-null
     expect(replaceStateSpy).toBeCalledWith(null, '', '/register/');
   });
 });

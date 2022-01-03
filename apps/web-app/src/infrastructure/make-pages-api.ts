@@ -1,4 +1,4 @@
-import * as path from "path";
+import * as path from "node:path";
 import { Cors, LambdaIntegration, RestApi } from "@aws-cdk/aws-apigateway";
 import { HttpOrigin } from "@aws-cdk/aws-cloudfront-origins";
 import { UserPool } from "@aws-cdk/aws-cognito";

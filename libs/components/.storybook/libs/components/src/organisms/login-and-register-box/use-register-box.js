@@ -31,7 +31,7 @@ export const useRegisterBox = () => {
     const [registerState, setRegisterState] = useState(RegisterState.DoRegister);
     const [registerData, setRegisterData] = useState();
     const onSubmit = (data) => __awaiter(void 0, void 0, void 0, function* () {
-        var _a, _b, _c;
+        let _a, _b, _c;
         try {
             if (isRegister(data, registerState)) {
                 const result = yield callRegister(data, register);

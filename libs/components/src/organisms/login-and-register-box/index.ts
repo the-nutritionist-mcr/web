@@ -1,17 +1,13 @@
-import Authenticated, { Redirect } from './authenticated';
-import {
-  AuthenticationContextType,
-  AuthenticationServiceContext,
-} from './authentication-service-context';
-import LoginAndRegisterBox from './login-and-register-box';
-import { NavigationContext, NavigationContextType } from './navigation-context';
 
-export {
-  LoginAndRegisterBox,
-  Authenticated,
-  Redirect,
-  AuthenticationServiceContext,
-  NavigationContext,
-};
 
-export type { NavigationContextType, AuthenticationContextType }
+
+
+
+
+
+
+
+export {default as Authenticated, Redirect} from './authenticated';
+export {AuthenticationContextType, AuthenticationServiceContext} from './authentication-service-context';
+export {default as LoginAndRegisterBox} from './login-and-register-box';
+export {NavigationContext, NavigationContextType} from './navigation-context';

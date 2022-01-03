@@ -1,6 +1,11 @@
-import { Button } from './button';
-import { IconButton } from './icon-button';
-import { Input } from './input';
-import { ParagraphText } from './paragraph-text';
 
-export { Button, Input, IconButton, ParagraphText };
+
+
+
+
+
+
+export {Button} from './button';
+export {IconButton} from './icon-button';
+export {Input} from './input';
+export {ParagraphText} from './paragraph-text';

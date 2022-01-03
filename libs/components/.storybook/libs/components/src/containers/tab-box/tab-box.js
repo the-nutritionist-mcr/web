@@ -11,11 +11,11 @@ const ButtonRow = styled.div `
 `;
 const isTab = (node) => isValidElement(node) && 'tabTitle' in node.props;
 const getTabs = (nodes) => {
-    var _a, _b;
+    let _a, _b;
     return (_b = (_a = Children.map(nodes, (node) => isTab(node) ? node : undefined)) === null || _a === void 0 ? void 0 : _a.filter(Boolean)) !== null && _b !== void 0 ? _b : [];
 };
 const TabBox = (props) => {
-    var _a;
+    let _a;
     const tabs = getTabs(props.children);
     const defaultTabIndex = props.defaultTab
         ? tabs.findIndex((tab) => tab.props.tabTitle === props.defaultTab)
@@ -23,7 +23,7 @@ const TabBox = (props) => {
     const [tabIndex, setTabIndex] = useState(defaultTabIndex);
     const ButtonComponent = (_a = props.tabButton) !== null && _a !== void 0 ? _a : TabButton;
     const buttons = tabs.map((tab, index) => (_jsx(ButtonComponent, Object.assign({ tabListLength: tabs.length, onClick: () => {
-            var _a;
+            let _a;
             setTabIndex(index);
             (_a = props.onChange) === null || _a === void 0 ? void 0 : _a.call(props, tab);
         }, active: tabIndex === index }, { children: tab.props.tabTitle }), index)));

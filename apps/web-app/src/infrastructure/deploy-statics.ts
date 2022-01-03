@@ -29,9 +29,9 @@ export const deployStatics = (
 
   const bucketOrigin = new S3Origin(deploymentBucket);
 
-  prefixes.forEach(prefix =>
+  prefixes.forEach(prefix => {
     distribution.addBehavior(`/${prefix}/*`, bucketOrigin)
-  );
+  })
 
   distribution.addBehavior("/backend-config.json", bucketOrigin);
 };

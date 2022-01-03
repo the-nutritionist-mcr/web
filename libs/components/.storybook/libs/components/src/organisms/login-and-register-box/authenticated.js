@@ -14,7 +14,7 @@ const Authenticated = (props) => {
     }
     useEffect(() => {
         (() => __awaiter(void 0, void 0, void 0, function* () {
-            var _a;
+            let _a;
             if ((!props.user && props.redirect === Redirect.IfLoggedOut) ||
                 (props.user && props.redirect === Redirect.IfLoggedIn)) {
                 navigate((_a = props.redirectPath) !== null && _a !== void 0 ? _a : '/login/');

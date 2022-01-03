@@ -1,2 +1,4 @@
-import IconButton from './icon-button';
-export { IconButton };
+
+
+
+export {default as IconButton} from './icon-button';

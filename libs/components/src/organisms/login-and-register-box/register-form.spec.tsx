@@ -3,6 +3,7 @@ import RegisterForm from './register-form';
 
 describe('The <RegisterForm> component', () => {
   it('renders without errors', () => {
-    render(<RegisterForm onSubmit={() => {}} />);
+    const onSubmit = jest.fn()
+    render(<RegisterForm onSubmit={onSubmit} />);
   });
 });

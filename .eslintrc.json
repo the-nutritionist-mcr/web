@@ -1,15 +1,27 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx", "fp"],
+  "plugins": ["@nrwl/nx", "fp", "unicorn", "security"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "extends": "plugin:fp/recommended",
+      "extends": ["plugin:fp/recommended", "plugin:unicorn/recommended", "plugin:security/recommended"],
       "rules": {
+        "unicorn/no-array-for-each": "off",
+        "unicorn/no-useless-undefined": "off",
+        "unicorn/no-reduce": "off",
+        "unicorn/no-array-reduce": "off",
+        "unicorn/prefer-object-from-entries": "off",
+        "unicorn/no-fn-reference-in-iterator": "off",
+        "unicorn/prevent-abbreviations": "off",
+        "unicorn/prefer-spread": "off",
+        "unicorn/filename-case": "off",
+        // Extremely slow
+        "unicorn/better-regex": "off",
         "fp/no-class": "off",
         "fp/no-nil": "off",
         "fp/no-throw": "off",
+        "fp/no-mutation": "off",
         "fp/no-unused-expression": "off",
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
@@ -27,10 +39,12 @@
       }
     },
     {
-      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spect.jsx"],
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
       "rules": {
         "fp/no-delete": "off",
-        "fp/no-mutation": "off"
+        "unicorn/no-array-callback-reference": "off",
+        "fp/no-mutating-methods": "off",
+        "unicorn/consistent-function-scoping": "off"
       }
     },
     {
@@ -54,7 +68,7 @@
     {
       "files": ["*.config.js", "*.config.ts"],
       "rules": {
-        "fp/no-mutation": [ "error", { "commonjs": true } ]
+        "unicorn/prefer-module": "off"
       }
     }
   ]

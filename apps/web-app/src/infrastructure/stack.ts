@@ -1,5 +1,5 @@
 import { App, Stack, StackProps, Construct } from "@aws-cdk/core";
-import * as path from "path";
+import * as path from "node:path";
 import { makeUserPool } from "./make-user-pool";
 import { makePagesApi } from "./make-pages-api";
 import { setupFrontDoor } from "./setup-front-door";
@@ -11,6 +11,7 @@ interface TnmAppProps {
   transient: boolean;
 }
 
+// eslint-disable-next-line unicorn/prefer-module
 const packageRoot = path.resolve(__dirname, "..", "..");
 
 class AppStack extends Stack {

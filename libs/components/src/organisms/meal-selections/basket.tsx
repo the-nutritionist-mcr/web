@@ -65,6 +65,7 @@ const Basket: FC<BasketProps> = (props) => {
   );
 
   if (totalSelected === 0) {
+    // eslint-disable-next-line unicorn/no-null
     return null;
   }
 

@@ -26,7 +26,7 @@ const StyledH2 = styled.h2 `
   margin: 0 0 0 0;
 `;
 StyledH2.displayName = 'h2';
-const findMessage = (errorMessages, name) => errorMessages === null || errorMessages === void 0 ? void 0 : errorMessages.find((message) => { var _a; return (_a = message.fields) === null || _a === void 0 ? void 0 : _a.includes(name); });
+const findMessage = (errorMessages, name) => errorMessages === null || errorMessages === void 0 ? void 0 : errorMessages.find((message) => { let _a; return (_a = message.fields) === null || _a === void 0 ? void 0 : _a.includes(name); });
 const addErrorMessages = (nodes, errorMessages) => addNewProps(nodes, ({ props: { name } }) => ({
     apply: Boolean(findMessage(errorMessages, name)),
     props: { error: true },
@@ -41,7 +41,7 @@ function assertFC(_component
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 ) { }
 function ChallengeForm(props) {
-    var _a, _b, _c, _d;
+    let _a, _b, _c, _d;
     const [data, setData] = useState();
     const eventHandlersAdded = addEventHandlers(props.children, data, setData);
     const errorMessagesAdded = addErrorMessages(eventHandlersAdded, (_a = props.errors) !== null && _a !== void 0 ? _a : []);
@@ -51,7 +51,7 @@ function ChallengeForm(props) {
                         ? error.message.slice(0, -1)
                         : error.message)
                         .join(', ') }), void 0) }, void 0), errorMessagesAdded, _jsx(Button, Object.assign({ primary: true, onClick: (event) => {
-                    var _a;
+                    let _a;
                     if (data) {
                         (_a = props.onSubmit) === null || _a === void 0 ? void 0 : _a.call(props, data);
                         event.preventDefault();

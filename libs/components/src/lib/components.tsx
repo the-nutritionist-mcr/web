@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-/* eslint-disable-next-line */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ComponentsProps {}
 
 const StyledComponents = styled.div`

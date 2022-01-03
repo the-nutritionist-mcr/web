@@ -19,14 +19,14 @@ const isChangePasswordData = (
   formData: SrpData,
   loginState: LoginState
 ): formData is ChangePasswordFormData =>
-  formData.hasOwnProperty('password') &&
+  Object.prototype.hasOwnProperty.call(formData, 'password') &&
   loginState === LoginState.ChangePasswordChallenge;
 
 const isLoginData = (
   formData: SrpData,
   loginState: LoginState
 ): formData is LoginFormData =>
-  formData.hasOwnProperty('email') && loginState === LoginState.DoLogin;
+  Object.prototype.hasOwnProperty.call(formData, 'email') && loginState === LoginState.DoLogin;
 
 export const useLoginBox = () => {
   const { login, newPasswordChallengeResponse } = useContext(

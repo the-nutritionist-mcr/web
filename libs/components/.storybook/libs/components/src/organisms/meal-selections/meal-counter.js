@@ -16,7 +16,7 @@ const Container = styled.section `
   align-items: center;
 `;
 const MealCounter = (props) => {
-    var _a, _b, _c;
+    let _a, _b, _c;
     const headerId = uniqueId();
     return (_jsxs(Container, Object.assign({ "aria-labelledby": headerId }, { children: [_jsx(Header, Object.assign({ id: headerId }, { children: props.title }), void 0), _jsx(ParagraphText, { children: props.description }, void 0), _jsx(QuantityStepper, { onChange: props.onChange, value: (_a = props.value) !== null && _a !== void 0 ? _a : 0, min: (_b = props.min) !== null && _b !== void 0 ? _b : 0, max: (_c = props.max) !== null && _c !== void 0 ? _c : 0 }, void 0)] }), void 0));
 };

@@ -1,4 +1,7 @@
-import { addNewProps } from './addNewProps';
-import { recursiveTransform } from './recursiveTransform';
 
-export { addNewProps, recursiveTransform };
+
+
+
+
+export {addNewProps} from './addNewProps';
+export {recursiveTransform} from './recursiveTransform';

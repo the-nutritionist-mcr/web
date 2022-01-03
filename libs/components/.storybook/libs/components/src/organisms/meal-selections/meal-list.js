@@ -12,7 +12,7 @@ const FlexBox = styled.div `
 const MealList = (props) => {
     const total = Object.entries(props.selected).reduce((accum, item) => accum + item[1], 0);
     return (_jsx(FlexBox, { children: props.things.map((thing) => {
-            var _a, _b;
+            let _a, _b;
             return (_jsx(MealCounter, { title: thing.title, description: thing.description, value: (_a = props.selected[thing.id]) !== null && _a !== void 0 ? _a : 0, min: 0, max: props.max - total + ((_b = props.selected[thing.id]) !== null && _b !== void 0 ? _b : 0), onChange: (newValue) => props.setSelected(Object.assign(Object.assign({}, props.selected), { [thing.id]: newValue })) }, thing.id));
         }) }, void 0));
 };

@@ -1,3 +1,6 @@
-import { useAxe } from './use-axe';
-import { useBreakpoints } from './use-breakpoints';
-export { useAxe, useBreakpoints };
+
+
+
+
+export {useAxe} from './use-axe';
+export {useBreakpoints} from './use-breakpoints';

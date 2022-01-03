@@ -15,8 +15,8 @@ const makeBasketItems = (selectedThings, available, setSelected, max, total) => 
     .filter(([, count]) => count > 0)
     .map(([id, count]) => (Object.assign(Object.assign({}, available.find((thing) => thing.id === id)), { count })))
     .map((thing) => {
-    var _a, _b;
-    return (_jsx(QuantityStepper, { label: thing.title, value: thing.count, max: max - total + ((_b = selectedThings[(_a = thing.id) !== null && _a !== void 0 ? _a : '']) !== null && _b !== void 0 ? _b : 0), onChange: (newValue) => { var _a; return setSelected(Object.assign(Object.assign({}, selectedThings), { [(_a = thing === null || thing === void 0 ? void 0 : thing.id) !== null && _a !== void 0 ? _a : '']: newValue })); } }, `${thing.id}-basket-item`));
+    let _a, _b;
+    return (_jsx(QuantityStepper, { label: thing.title, value: thing.count, max: max - total + ((_b = selectedThings[(_a = thing.id) !== null && _a !== void 0 ? _a : '']) !== null && _b !== void 0 ? _b : 0), onChange: (newValue) => { let _a; return setSelected(Object.assign(Object.assign({}, selectedThings), { [(_a = thing === null || thing === void 0 ? void 0 : thing.id) !== null && _a !== void 0 ? _a : '']: newValue })); } }, `${thing.id}-basket-item`));
 });
 const BasketHeader = styled.h3 `
   font-family: 'Acumin Pro', Arial, sans-serif;

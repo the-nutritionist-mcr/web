@@ -2,7 +2,7 @@ import { jsx as _jsx } from "@emotion/react/jsx-runtime";
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 const ButtonElement = styled.button((props) => {
-    var _a;
+    let _a;
     const theme = useTheme();
     const color = (_a = props.color) !== null && _a !== void 0 ? _a : theme.colors.buttonBlack;
     return {
