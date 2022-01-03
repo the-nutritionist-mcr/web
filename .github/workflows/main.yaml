@@ -51,7 +51,7 @@ jobs:
         run: yarn nx ${{ matrix.target }} ${{ matrix.project }}
 
   build-next-app:
-    name: Build next app
+    name: Build NextJS app
     runs-on: ubuntu-latest
 
     steps:
@@ -74,5 +74,32 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
-      - name: Run ${{ matrix.target }}
+      - name: Run 
         run: yarn nx build web-app
+
+  build-storybook:
+    name: Build Storybook
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure node 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+          cache: 'yarn'
+
+      - name: Cache Nx
+        uses: actions/cache@v2
+        with:
+          path: node_modules/.cache/nx
+          key: cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
+          restore-keys: |
+            cache-nx-${{ hashFiles('yarn.lock') }}-
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Run 
+        run: yarn nx run components:build-storybook
