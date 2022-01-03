@@ -9,7 +9,7 @@
       "defaultConfiguration": "production",
       "options": {
         "root": "apps/web-app",
-        "outputPath": "dist/apps/web-app"
+        "outputPath": "apps/web-app/out_lambda"
       },
       "configurations": {
         "production": {}
