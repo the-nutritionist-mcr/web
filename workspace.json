@@ -1,6 +1,9 @@
 {
   "version": 2,
   "projects": {
-    "components": "libs/components"
+    "components": "libs/components",
+    "verify-jwt": "libs/verify-jwt",
+    "web-app": "apps/web-app",
+    "web-app-e2e": "apps/web-app-e2e"
   }
 }

@@ -1,0 +1,63 @@
+@font-face {
+  font-family: "Acumin Pro";
+  src: url("./fonts/acumin-pro/Acumin\ Pro\ Bold.otf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Acumin Pro";
+  src: url("./fonts/acumin-pro/Acumin\ Pro\ Medium.otf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Acumin Pro Semicondensed";
+  src: url("./fonts/acumin-pro-semi-condensed//Acumin\ Pro\ SemiCond\ Bold.otf");
+}
+
+@font-face {
+  font-family: "IBM Plex Serif";
+  src: url("./fonts/ibm-plex-serif//IBMPlexSerif-Regular.ttf");
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("./fonts/ibm-plex-mono/IBMPlexMono-Regular.ttf");
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: hsla(0, 0%, 0%, 0.8);
+  word-wrap: break-word;
+  font-kerning: normal;
+  -moz-font-feature-settings: "kern", "liga", "clig", "calt";
+  -ms-font-feature-settings: "kern", "liga", "clig", "calt";
+  -webkit-font-feature-settings: "kern", "liga", "clig", "calt";
+  font-feature-settings: "kern", "liga", "clig", "calt";
+}
+
+* {
+  box-sizing: inherit;
+}
+
+*::before {
+  box-sizing: inherit;
+}
+
+*::after {
+  box-sizing: inherit;
+}
+
+@media only screen and (max-width: 480px) {
+  html {
+    font-size: 100%;
+  }
+}

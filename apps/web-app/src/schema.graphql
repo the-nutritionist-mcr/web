@@ -1,0 +1,225 @@
+type CustomerPlan {
+  deliveries: [Delivery!]!
+  configuration: PlanConfiguration
+}
+
+input CustomerPlanInput {
+  deliveries: [DeliveryInput!]!
+  configuration: PlanConfigurationInput
+}
+
+type DeliveryItem {
+  name: String!
+  quantity: Int!
+}
+
+input DeliveryItemInput {
+  name: String!
+  quantity: Int!
+}
+
+type Delivery {
+  items: [DeliveryItem!]!
+  extras: [DeliveryItem!]!
+}
+
+input DeliveryInput {
+  items: [DeliveryItemInput!]!
+  extras: [DeliveryItemInput!]!
+}
+
+type PlanConfiguration {
+  planType: String!
+  daysPerWeek: Int!
+  mealsPerDay: Int!
+  totalPlans: Int!
+  deliveryDays: [String!]!
+  extrasChosen: [String!]!
+}
+
+input PlanConfigurationInput {
+  planType: String!
+  daysPerWeek: Int!
+  mealsPerDay: Int!
+  totalPlans: Int!
+  deliveryDays: [String!]!
+  extrasChosen: [String!]!
+}
+
+interface Node {
+  id: ID!
+}
+
+type Customisation implements Node {
+  id: ID!
+  name: String!
+  allergen: Boolean!
+}
+
+input CustomisationInput {
+  name: String!
+  allergen: Boolean!
+}
+
+input UpdateCustomisationInput {
+  id: ID!
+  name: String!
+  allergen: Boolean!
+}
+
+input DeleteCustomisationInput {
+  id: ID!
+}
+
+type Recipe implements Node {
+  id: ID!
+  name: String!
+  hotOrCold: String!
+  shortName: String!
+  description: String
+  possibleCustomisations: [Customisation!]!
+}
+
+input UpdateRecipeInput {
+  id: ID!
+  hotOrCold: String!
+  shortName: String!
+  name: String!
+  description: String
+  customisationIds: [ID!]!
+}
+
+input DeleteRecipeInput {
+  id: ID!
+}
+
+input RecipeInput {
+  name: String!
+  hotOrCold: String!
+  shortName: String!
+  description: String
+  customisationIds: [ID!]!
+}
+
+type Customer implements Node {
+  id: ID!
+  username: String!
+  firstName: String!
+  surname: String!
+  salutation: String!
+  address: String!
+  telephone: String!
+  startDate: Int
+  paymentDayOfMonth: Int
+  notes: String
+  email: String!
+  pauseStart: Int
+  pauseEnd: Int
+  daysPerWeek: Int!
+  plan: Plan!
+  newPlan: CustomerPlan
+  legacyPrice: Int
+  snack: String!
+  breakfast: Boolean!
+  requiredCustomisations: [Customisation!]!
+}
+
+input CustomerInput {
+  username: String!
+  firstName: String!
+  surname: String!
+  salutation: String!
+  address: String!
+  telephone: String!
+  startDate: Int
+  paymentDayOfMonth: Int
+  notes: String
+  email: String!
+  pauseStart: Int
+  pauseEnd: Int
+  daysPerWeek: Int!
+  newPlan: CustomerPlanInput
+  plan: PlanInput!
+  legacyPrice: Int
+  snack: String!
+  breakfast: Boolean!
+  requiredCustomisationIds: [String!]!
+}
+
+input UpdateCustomerInput {
+  firstName: String!
+  surname: String!
+  salutation: String!
+  address: String!
+  telephone: String!
+  startDate: Int
+  paymentDayOfMonth: Int
+  notes: String
+  email: String!
+  newPlan: CustomerPlanInput
+  pauseStart: Int
+  pauseEnd: Int
+  daysPerWeek: Int!
+  plan: PlanInput!
+  legacyPrice: Int
+  snack: String!
+  breakfast: Boolean!
+  requiredCustomisationIds: [String!]!
+}
+
+input DeleteCustomerInput {
+  id: ID!
+}
+
+type Query {
+  customisatios: [Customisation] @aws_auth(cognito_groups: ["user", "admin"])
+
+  recipes: [Recipe] @aws_auth(cognito_groups: ["user", "admin"])
+
+  customers: [Customer] @aws_auth(cognito_groups: ["user", "admin"])
+
+  node(id: String): Node @aws_auth(cognito_groups: ["user", "admin"])
+}
+
+type Mutation {
+  updateRecipe(input: UpdateRecipeInput): Recipe
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  deleteRecipe(input: DeleteRecipeInput): String
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  createRecipe(input: RecipeInput): Recipe
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  updateCustomer(input: UpdateCustomerInput): Customer
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  createCustomer(input: CustomerInput): Customer
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  deleteCustomer(input: DeleteCustomerInput): String
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  updateCustomisation(input: UpdateCustomisationInput): Customisation
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  createCustomisation(input: CustomisationInput): Customisation
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  deleteCustomisation(input: DeleteCustomisationInput): String
+    @aws_auth(cognito_groups: ["user", "admin"])
+}
+
+type Plan {
+  name: String!
+  mealsPerDay: Int!
+  costPerMeal: Int!
+  category: String!
+}
+
+input PlanInput {
+  name: String!
+  mealsPerDay: Int!
+  costPerMeal: Int!
+  category: String!
+}
