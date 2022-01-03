@@ -3,7 +3,7 @@ module.exports = {
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: [
     '<rootDir>/src/test-support/test-setup.ts',
-    'jest-extended/all'
+    'jest-extended/all',
   ],
   transform: {
     '^.+\\.(svg|css|png)$': 'jest-transform-stub',

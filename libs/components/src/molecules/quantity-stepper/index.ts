@@ -1,4 +1,1 @@
-
-
-
-export {default as QuantityStepper} from './quantity-stepper';
+export { default as QuantityStepper } from './quantity-stepper';

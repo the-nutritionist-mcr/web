@@ -12,17 +12,17 @@ const nextConfig = {
   },
 };
 
-const GenerateAwsLambda = require("next-aws-lambda-webpack-plugin");
-const withImages = require("next-images");
+const GenerateAwsLambda = require('next-aws-lambda-webpack-plugin');
+const withImages = require('next-images');
 
 module.exports = withNx(
   withImages({
-    pageExtensions: ["page.tsx", "page.ts", "page.jsx", "page.js"],
+    pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
     generateBuildId: async () => {
-      return 'tnm-web-build'
+      return 'tnm-web-build';
     },
     ...nextConfig,
-    target: "serverless",
+    target: 'serverless',
     productionBrowserSourceMaps: true,
     webpack: (config, nextConfig) => {
       // eslint-disable-next-line fp/no-mutating-methods
@@ -35,7 +35,7 @@ module.exports = withNx(
     },
     images: {
       disableStaticImages: true,
-      loader: "custom",
+      loader: 'custom',
     },
   })
 );

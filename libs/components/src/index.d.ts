@@ -1,4 +1,4 @@
-import { Breakpoints } from "./breakpoints"
+import { Breakpoints } from './breakpoints';
 
 import '@emotion/react';
 

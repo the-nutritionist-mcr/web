@@ -1,7 +1,7 @@
-import { Auth } from "@aws-amplify/auth";
-import { getPoolConfig, AuthDetails } from "./get-pool-config";
+import { Auth } from '@aws-amplify/auth';
+import { getPoolConfig, AuthDetails } from './get-pool-config';
 
-const REGION = "eu-west-2";
+const REGION = 'eu-west-2';
 
 const getConfigurer = () => {
   // eslint-disable-next-line fp/no-let
@@ -17,14 +17,14 @@ const getConfigurer = () => {
           userPoolWebClientId: outputs.ClientId,
           cookieStorage: {
             domain: process.env.NEXT_PUBLIC_IS_LOCAL_DEV
-              ? "localhost"
+              ? 'localhost'
               : outputs.DomainName,
             secure: !process.env.NEXT_PUBLIC_IS_LOCAL_DEV,
-            path: "/",
+            path: '/',
             expires: 365,
-            region: REGION
-          }
-        }
+            region: REGION,
+          },
+        },
       });
     }
     return outputs;
@@ -55,7 +55,7 @@ export const login = async (
    * Congito.completeNewPassword throws an error if it is not an actual
    * CognitoUser passed in
    */
-   // eslint-disable-next-line fp/no-mutating-assign
+  // eslint-disable-next-line fp/no-mutating-assign
   return Object.assign(response, { success });
 };
 
@@ -78,8 +78,8 @@ export const register = async (
       given_name: firstname,
       family_name: surname,
       address: address,
-      phone_number: telephone
-    }
+      phone_number: telephone,
+    },
   });
 };
 
@@ -115,6 +115,6 @@ export const newPasswordChallengeResponse = async (
 
   return {
     challengeName,
-    success: Boolean(signInUserSession?.accessToken)
+    success: Boolean(signInUserSession?.accessToken),
   };
 };

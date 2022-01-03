@@ -1,4 +1,1 @@
-
-
-
-export {default as ParagraphText} from './paragraph-text';
+export { default as ParagraphText } from './paragraph-text';

@@ -1,10 +1,10 @@
-import { FC } from "react";
-import { LoginAndRegisterBox, Hero, Layout } from "@tnmw/components";
-import AccountIcon from "../images/TNM_Icons_Final_Account.png";
-import styled from "@emotion/styled";
-import { loggedOutOnlyRoute } from "../utils";
+import { FC } from 'react';
+import { LoginAndRegisterBox, Hero, Layout } from '@tnmw/components';
+import AccountIcon from '../images/TNM_Icons_Final_Account.png';
+import styled from '@emotion/styled';
+import { loggedOutOnlyRoute } from '../utils';
 
-const YourAccountHeaderBox = styled("div")`
+const YourAccountHeaderBox = styled('div')`
   text-align: center;
   color: #3b7d7a;
   align-items: center;
@@ -14,7 +14,7 @@ const YourAccountHeaderBox = styled("div")`
   gap: 1rem;
 `;
 
-const YourAccountHeader = styled("h1")`
+const YourAccountHeader = styled('h1')`
   font-size: 40px;
   display: auto;
   margin: 0.5rem 0 0 0;
@@ -34,6 +34,6 @@ const Login: FC = () => {
   );
 };
 
-export const getServerSideProps = loggedOutOnlyRoute("account");
+export const getServerSideProps = loggedOutOnlyRoute('account');
 
 export default Login;

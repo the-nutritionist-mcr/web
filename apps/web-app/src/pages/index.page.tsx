@@ -1,7 +1,7 @@
-import { FC } from "react";
+import { FC } from 'react';
 
-import { ParagraphText, Hero, Layout } from "@tnmw/components";
-import styled from "@emotion/styled";
+import { ParagraphText, Hero, Layout } from '@tnmw/components';
+import styled from '@emotion/styled';
 
 const StyledDiv = styled.div`
   padding: 1rem;

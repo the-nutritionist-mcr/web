@@ -1,13 +1,13 @@
-import { FC } from "react";
-import { Hero, Layout, Button } from "@tnmw/components";
-import Router from "next/router";
-import { signOut } from "../aws/authenticate";
+import { FC } from 'react';
+import { Hero, Layout, Button } from '@tnmw/components';
+import Router from 'next/router';
+import { signOut } from '../aws/authenticate';
 
-import AccountIcon from "../images/TNM_Icons_Final_Account.png";
-import styled from "@emotion/styled";
-import { authorizedRoute } from "../utils/authorised-route";
+import AccountIcon from '../images/TNM_Icons_Final_Account.png';
+import styled from '@emotion/styled';
+import { authorizedRoute } from '../utils/authorised-route';
 
-const YourAccountHeaderBox = styled("div")`
+const YourAccountHeaderBox = styled('div')`
   text-align: center;
   color: #3b7d7a;
   align-items: center;
@@ -17,7 +17,7 @@ const YourAccountHeaderBox = styled("div")`
   gap: 1rem;
 `;
 
-const YourAccountHeader = styled("h1")`
+const YourAccountHeader = styled('h1')`
   font-size: 40px;
   display: auto;
   margin: 0.5rem 0 0 0;
@@ -42,7 +42,7 @@ const Account: FC = () => {
         onClick={async () => {
           await signOut();
           // eslint-disable-next-line fp/no-mutating-methods
-          await Router.push("/");
+          await Router.push('/');
         }}
       >
         Logout

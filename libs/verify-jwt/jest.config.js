@@ -1,9 +1,7 @@
 module.exports = {
   displayName: 'verify-jwt',
   preset: '../../jest.preset.js',
-  setupFilesAfterEnv: [
-    'jest-extended/all'
-  ],
+  setupFilesAfterEnv: ['jest-extended/all'],
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',

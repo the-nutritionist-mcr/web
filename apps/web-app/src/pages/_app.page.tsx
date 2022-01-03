@@ -1,29 +1,29 @@
-import Router from "next/router";
-import { FC } from "react";
-import { AppProps } from "next/app";
-import { ThemeProvider } from "@emotion/react";
+import Router from 'next/router';
+import { FC } from 'react';
+import { AppProps } from 'next/app';
+import { ThemeProvider } from '@emotion/react';
 import {
   AuthenticationServiceContext,
-  NavigationContext
-} from "@tnmw/components";
+  NavigationContext,
+} from '@tnmw/components';
 
-import { theme } from "../theme";
+import { theme } from '../theme';
 
 import {
   confirmSignup,
   login,
   newPasswordChallengeResponse,
   register,
-  signOut
-} from "../aws/authenticate";
+  signOut,
+} from '../aws/authenticate';
 
-import "../assets/global.css";
+import '../assets/global.css';
 
 const navigator = {
   navigate: async (path: string) => {
     // eslint-disable-next-line fp/no-mutating-methods
     await Router.push(path);
-  }
+  },
 };
 
 const authenticationService = {
@@ -31,7 +31,7 @@ const authenticationService = {
   register,
   signOut,
   confirmSignup,
-  newPasswordChallengeResponse
+  newPasswordChallengeResponse,
 };
 
 const TnmApp: FC<AppProps> = ({ Component, pageProps }) => (

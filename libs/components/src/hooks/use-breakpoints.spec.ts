@@ -1,4 +1,4 @@
-import { Breakpoints } from "../types/breakpoints"
+import { Breakpoints } from '../types/breakpoints';
 
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useBreakpoints } from './use-breakpoints';

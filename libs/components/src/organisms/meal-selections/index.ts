@@ -1,4 +1,1 @@
-
-
-
-export {default as MealCounter} from './meal-counter';
+export { default as MealCounter } from './meal-counter';

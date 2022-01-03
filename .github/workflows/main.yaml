@@ -9,7 +9,7 @@ on:
     branches:
       - main
     paths-ignore:
-      - "**.md"
+      - '**.md'
 
 jobs:
   static-checks:
@@ -33,7 +33,7 @@ jobs:
       - name: Configure node 14
         uses: actions/setup-node@v2
         with:
-          node-version: "14"
+          node-version: '14'
           cache: 'yarn'
 
       - name: Cache Nx
@@ -60,7 +60,7 @@ jobs:
       - name: Configure node 14
         uses: actions/setup-node@v2
         with:
-          node-version: "14"
+          node-version: '14'
           cache: 'yarn'
 
       - name: Cache Nx
@@ -74,7 +74,7 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
-      - name: Run 
+      - name: Run
         run: yarn nx build web-app
 
   build-storybook:
@@ -87,7 +87,7 @@ jobs:
       - name: Configure node 14
         uses: actions/setup-node@v2
         with:
-          node-version: "14"
+          node-version: '14'
           cache: 'yarn'
 
       - name: Cache Nx
@@ -101,5 +101,5 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
-      - name: Run 
+      - name: Run
         run: yarn nx run components:build-storybook

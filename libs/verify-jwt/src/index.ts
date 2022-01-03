@@ -1,5 +1,1 @@
-
-
-
-
-export {verifyJwtToken} from "./verify-jwt";
+export { verifyJwtToken } from './verify-jwt';

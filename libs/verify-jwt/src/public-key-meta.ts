@@ -1,4 +1,4 @@
-import { PublicKey } from "./public-key";
+import { PublicKey } from './public-key';
 
 export interface PublicKeyMeta {
   instance: PublicKey;

@@ -1,4 +1,4 @@
-import { Breakpoints } from "../types/breakpoints"
+import { Breakpoints } from '../types/breakpoints';
 
 import { useLayoutEffect, useState } from 'react';
 

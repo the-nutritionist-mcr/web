@@ -1,13 +1,13 @@
-import * as Axios from "axios";
-import jwkToPem from "jwk-to-pem";
-import { getIssuer } from "./get-issuer";
-import { PublicKeyMeta } from "./public-key-meta";
+import * as Axios from 'axios';
+import jwkToPem from 'jwk-to-pem';
+import { getIssuer } from './get-issuer';
+import { PublicKeyMeta } from './public-key-meta';
 
 interface PublicKey {
   alg: string;
   e: string;
   kid: string;
-  kty: "RSA";
+  kty: 'RSA';
   n: string;
   use: string;
 }

@@ -4,5 +4,5 @@ export interface TokenHeader {
 }
 
 export const isTokenHeader = (thing: unknown): thing is TokenHeader =>
-  Object.hasOwnProperty.call(thing, "kid") &&
-  Object.hasOwnProperty.call(thing, "alg");
+  Object.hasOwnProperty.call(thing, 'kid') &&
+  Object.hasOwnProperty.call(thing, 'alg');

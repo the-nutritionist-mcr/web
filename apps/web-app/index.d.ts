@@ -1,4 +1,4 @@
-import { Theme as ComponentTheme } from "@tnmw/components"
+import { Theme as ComponentTheme } from '@tnmw/components';
 
 declare module '*.svg' {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

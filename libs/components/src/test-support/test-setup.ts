@@ -1,6 +1,6 @@
 import 'jest-enzyme';
 import '@testing-library/jest-dom/extend-expect';
-import 'jest-styled-components'
+import 'jest-styled-components';
 
 import { createSerializer, matchers as emotionMatchers } from '@emotion/jest';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';

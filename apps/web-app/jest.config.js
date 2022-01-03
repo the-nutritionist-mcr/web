@@ -3,7 +3,7 @@ module.exports = {
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: [
     '<rootDir>/src/test-support/test-setup.ts',
-    'jest-extended/all'
+    'jest-extended/all',
   ],
   transform: {
     '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nrwl/react/plugins/jest',
