@@ -47,5 +47,5 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
-      - name: Run all unit tests
+      - name: Run ${{ matrix.target }}
         run: yarn nx ${{ matrix.target }} ${{ matrix.project }}
