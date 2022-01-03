@@ -36,5 +36,5 @@ jobs:
         run: yarn install
 
       - name: Run all unit tests
-        run: yarn nx run-many --all target=test
+        run: yarn nx run-many --all --target=test
 
