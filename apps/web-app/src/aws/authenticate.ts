@@ -8,6 +8,7 @@ const getConfigurer = () => {
   let outputs: undefined | AuthDetails;
   return async () => {
     if (!outputs) {
+      // eslint-disable-next-line fp/no-mutation
       outputs = await getPoolConfig();
       Auth.configure({
         Auth: {
@@ -18,7 +19,7 @@ const getConfigurer = () => {
             domain: process.env.NEXT_PUBLIC_IS_LOCAL_DEV
               ? "localhost"
               : outputs.DomainName,
-            secure: !Boolean(process.env.NEXT_PUBLIC_IS_LOCAL_DEV),
+            secure: !process.env.NEXT_PUBLIC_IS_LOCAL_DEV,
             path: "/",
             expires: 365,
             region: REGION
@@ -54,6 +55,7 @@ export const login = async (
    * Congito.completeNewPassword throws an error if it is not an actual
    * CognitoUser passed in
    */
+   // eslint-disable-next-line fp/no-mutating-assign
   return Object.assign(response, { success });
 };
 

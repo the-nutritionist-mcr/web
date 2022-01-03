@@ -25,8 +25,10 @@ module.exports = withNx(
     target: "serverless",
     productionBrowserSourceMaps: true,
     webpack: (config, nextConfig) => {
+      // eslint-disable-next-line fp/no-mutating-methods
       config.plugins.push(new GenerateAwsLambda(nextConfig));
       if (!nextConfig.isServer) {
+        // eslint-disable-next-line fp/no-mutation
         config.resolve.fallback.fs = false;
       }
       return config;

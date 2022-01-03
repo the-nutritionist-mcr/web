@@ -7,6 +7,10 @@
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "extends": "plugin:fp/recommended",
       "rules": {
+        "fp/no-class": "off",
+        "fp/no-nil": "off",
+        "fp/no-throw": "off",
+        "fp/no-unused-expression": "off",
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {
@@ -23,6 +27,21 @@
       }
     },
     {
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spect.jsx"],
+      "rules": {
+        "fp/no-delete": "off",
+        "fp/no-mutation": "off"
+      }
+    },
+    {
+
+      "files": ["*.d.ts"],
+      "rules": {
+        "fp/no-nil": "off",
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    },
+    {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nrwl/nx/typescript"],
       "rules": {}
@@ -31,6 +50,13 @@
       "files": ["*.js", "*.jsx"],
       "extends": ["plugin:@nrwl/nx/javascript"],
       "rules": {}
+    },
+    {
+      "files": ["*.config.js", "*.config.ts"],
+      "rules": {
+        "fp/no-mutation": [ "error", { "commonjs": true } ]
+      }
     }
   ]
 }
+

@@ -41,6 +41,7 @@ const Account: FC = () => {
       <Button
         onClick={async () => {
           await signOut();
+          // eslint-disable-next-line fp/no-mutating-methods
           await Router.push("/");
         }}
       >
