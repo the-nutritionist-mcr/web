@@ -1,0 +1,1 @@
+{"version":3,"file":"tab.js","sourceRoot":"","sources":["../../../../../../src/containers/tab-box/tab.tsx"],"names":[],"mappings":";AAAA,OAAO,MAAM,MAAM,iBAAiB,CAAC;AAOrC,MAAM,WAAW,GAAG,MAAM,CAAC,GAAG,CAAA;;CAE7B,CAAC;AAEF,MAAM,GAAG,GAAiB,CAAC,KAAK,EAAE,EAAE;IAClC,OAAO,KAAC,WAAW,kBAAC,IAAI,EAAC,UAAU,gBAAE,KAAK,CAAC,QAAQ,YAAe,CAAC;AACrE,CAAC,CAAC;AAEF,eAAe,GAAG,CAAC"}

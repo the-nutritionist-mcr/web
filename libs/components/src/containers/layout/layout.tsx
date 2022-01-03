@@ -1,4 +1,4 @@
-import { Header, Footer } from '@tnm-web/libs-components';
+import { Header, Footer } from '../../organisms';
 import { useAxe } from '../../hooks';
 import { User, UserContext } from '../../contexts';
 import styled from '@emotion/styled';
@@ -20,13 +20,11 @@ const Layout: FC<LayoutProps> = (props) => {
   useAxe();
 
   return (
-    <>
-      <UserContext.Provider value={{ user, setUser }}>
-        <Header />
-        <MainContainer>{props.children}</MainContainer>
-        <Footer />
-      </UserContext.Provider>
-    </>
+    <UserContext.Provider value={{ user, setUser }}>
+      <Header />
+      <MainContainer>{props.children}</MainContainer>
+      <Footer />
+    </UserContext.Provider>
   );
 };
 

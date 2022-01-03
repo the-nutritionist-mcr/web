@@ -1,7 +1,7 @@
 import { FC, Dispatch, SetStateAction } from 'react';
 import { Meal } from './meal';
 import { SelectedThings } from './selected-things';
-import { QuantityStepper } from '@tnm-web/libs-components';
+import { QuantityStepper } from '../../molecules';
 import styled from '@emotion/styled';
 
 interface BasketProps {
