@@ -5,15 +5,17 @@ import { ThemeProvider } from "@emotion/react";
 import {
   AuthenticationServiceContext,
   NavigationContext
-} from "@tnm-v5/components";
-import { theme } from "@/theme";
+} from "@tnmw/components";
+
+import { theme } from "../theme";
+
 import {
   confirmSignup,
   login,
   newPasswordChallengeResponse,
   register,
   signOut
-} from "@/aws/authenticate";
+} from "../aws/authenticate";
 
 import "../assets/global.css";
 

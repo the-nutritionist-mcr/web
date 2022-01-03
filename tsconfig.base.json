@@ -16,8 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@the-nutritionist-mcr-web/components": ["libs/components/src/index.ts"],
-      "@the-nutritionist-mcr-web/verify-jwt": ["libs/verify-jwt/src/index.ts"]
+      "@tnmw/components": ["libs/components/src/index.ts"],
+      "@tnmw/verify-jwt": ["libs/verify-jwt/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

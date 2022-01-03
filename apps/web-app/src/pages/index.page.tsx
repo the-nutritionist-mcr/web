@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { ParagraphText, Hero, Layout } from "@tnm-v5/components";
+import { ParagraphText, Hero, Layout } from "@tnmw/components";
 import styled from "@emotion/styled";
 
 const StyledDiv = styled.div`

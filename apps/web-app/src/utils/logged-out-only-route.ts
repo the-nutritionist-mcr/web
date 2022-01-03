@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import { verifyJwtToken } from "@tnm-v5/verify-jwt";
+import { verifyJwtToken } from "@tnmw/verify-jwt";
 import { backendRedirect } from "./backend-redirect";
 
 export const loggedOutOnlyRoute = (

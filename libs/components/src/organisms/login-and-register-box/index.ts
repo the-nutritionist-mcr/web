@@ -11,7 +11,7 @@ export {
   Authenticated,
   Redirect,
   AuthenticationServiceContext,
-  AuthenticationContextType,
   NavigationContext,
-  NavigationContextType,
 };
+
+export type { NavigationContextType, AuthenticationContextType }

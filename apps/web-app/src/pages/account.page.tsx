@@ -1,9 +1,9 @@
 import { FC } from "react";
-import { Hero, Layout, Button } from "@the-nutritionist-mcr-web/components";
+import { Hero, Layout, Button } from "@tnmw/components";
 import Router from "next/router";
 import { signOut } from "../aws/authenticate";
 
-import AccountIcon from "@/images/TNM_Icons_Final_Account.png";
+import AccountIcon from "../images/TNM_Icons_Final_Account.png";
 import styled from "@emotion/styled";
 import { authorizedRoute } from "../utils/authorised-route";
 

@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { Layout } from "@tnm-web/libs-components";
+import { Layout } from "@tnmw/components";
 
 const NotFoundPage: FC = () => (
   <Layout>

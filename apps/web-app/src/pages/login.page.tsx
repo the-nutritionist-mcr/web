@@ -1,8 +1,8 @@
 import { FC } from "react";
-import { LoginAndRegisterBox, Hero, Layout } from "@tnm-v5/components";
-import AccountIcon from "@/images/TNM_Icons_Final_Account.png";
+import { LoginAndRegisterBox, Hero, Layout } from "@tnmw/components";
+import AccountIcon from "../images/TNM_Icons_Final_Account.png";
 import styled from "@emotion/styled";
-import { loggedOutOnlyRoute } from "@/utils";
+import { loggedOutOnlyRoute } from "../utils";
 
 const YourAccountHeaderBox = styled("div")`
   text-align: center;

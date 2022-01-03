@@ -1,8 +1,8 @@
-interface BreakpointValue {
+export interface BreakpointValue {
   start?: number;
   end?: number;
 }
 
-interface Breakpoints {
+export interface Breakpoints {
   [name: string]: BreakpointValue;
 }

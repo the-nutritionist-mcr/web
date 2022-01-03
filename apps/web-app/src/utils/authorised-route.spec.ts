@@ -1,10 +1,10 @@
 import { mock } from "jest-mock-extended";
 import { GetServerSidePropsContext } from "next";
 import { mocked } from "ts-jest/utils";
-import { verifyJwtToken } from "@tnm-v5/verify-jwt";
+import { verifyJwtToken } from "@tnmw/verify-jwt";
 import { authorizedRoute } from "./authorised-route";
 
-jest.mock("@tnm-v5/verify-jwt");
+jest.mock("@tnmw/verify-jwt");
 
 describe("authorised route", () => {
   it("redirects to the login route without trying to verify if there is no token cookie", async () => {

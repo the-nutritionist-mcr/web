@@ -1,6 +1,6 @@
 {
   "extends": "@nrwl/workspace/presets/core.json",
-  "npmScope": "the-nutritionist-mcr-web",
+  "npmScope": "tnmw",
   "affected": {
     "defaultBase": "main"
   },

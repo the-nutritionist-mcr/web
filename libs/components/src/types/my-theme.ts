@@ -1,3 +1,5 @@
+import { Breakpoints } from "../types/breakpoints"
+
 export interface Theme {
   colors: {
     buttonBlack: string;

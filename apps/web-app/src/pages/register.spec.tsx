@@ -4,10 +4,10 @@ import {
   AuthenticationServiceContext,
   NavigationContextType,
   AuthenticationContextType
-} from "@tnm-v5/components";
+} from "@tnmw/components";
 import { ThemeProvider } from "@emotion/react";
 import Register from "./register.page";
-import { theme } from "@/theme";
+import { theme } from "../theme";
 import { mock } from "jest-mock-extended";
 
 const mockNavigation = mock<NavigationContextType>();

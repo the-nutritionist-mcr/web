@@ -17,7 +17,7 @@ export {
   Footer,
   Header,
   AuthenticationServiceContext,
-  AuthenticationContextType,
   NavigationContext,
-  NavigationContextType,
 };
+
+export type { NavigationContextType, AuthenticationContextType}

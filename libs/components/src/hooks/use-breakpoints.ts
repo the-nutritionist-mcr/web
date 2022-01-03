@@ -1,3 +1,5 @@
+import { Breakpoints } from "../types/breakpoints"
+
 import { useLayoutEffect, useState } from 'react';
 
 const isBrowser = typeof window !== 'undefined';
