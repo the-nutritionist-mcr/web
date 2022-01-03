@@ -12,9 +12,21 @@ on:
       - "**.md"
 
 jobs:
-  test:
-    name: Run Unit Tests
+  static-checks:
+    name: Run Static Checks
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - web-app
+          - components
+          - verify-jwt
+
+        target:
+          - test
+          - lint
+
     steps:
       - uses: actions/checkout@v2
 
@@ -36,5 +48,4 @@ jobs:
         run: yarn install
 
       - name: Run all unit tests
-        run: yarn nx run-many --all --target=test
-
+        run: yarn nx ${{ matrix.target }} ${{ matrix.project }}
