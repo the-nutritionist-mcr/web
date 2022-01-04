@@ -5,11 +5,11 @@
   "targets": {
     "build": {
       "executor": "@nrwl/next:build",
-      "outputs": ["{options.outputPath}"],
+      "outputs": ["{options.outputPath}", "dist/apps/web-app/out_lambda"],
       "defaultConfiguration": "production",
       "options": {
         "root": "apps/web-app",
-        "outputPath": "apps/web-app/out_lambda"
+        "outputPath": "dist/apps/web-app"
       },
       "configurations": {
         "production": {}
