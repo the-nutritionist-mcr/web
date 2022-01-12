@@ -1,0 +1,9 @@
+{
+  "ProductionFrontendStackDev": {
+    "UserPool": "3bt30t617ta73h85naf9hcj5u",
+    "GraphQlQpiUrl": "https://rksk526w3zcz5ikdokt4nkpp2y.appsync-api.us-east-1.amazonaws.com/graphql",
+    "UserPoolId": "us-east-1_c0s2ESxxf",
+    "AuthUrl": "https://dev-undefined-auth.auth.us-east-1.amazoncognito.com",
+    "RedirectUrl": "https://dev-undefined-auth.auth.us-east-1.amazoncognito.com/login?client_id=3bt30t617ta73h85naf9hcj5u&response_type=code&redirect_uri=https://dev.tnm-admin.com"
+  }
+}

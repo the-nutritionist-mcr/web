@@ -16,6 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@tnmw/admin-app": ["libs/admin-app/src/index.ts"],
       "@tnmw/components": ["libs/components/src/index.ts"],
       "@tnmw/verify-jwt": ["libs/verify-jwt/src/index.ts"]
     }

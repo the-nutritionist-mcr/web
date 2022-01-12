@@ -1,0 +1,232 @@
+type DeliveryItem {
+  name: String!
+  quantity: Int!
+}
+
+input DeliveryItemInput {
+  name: String!
+  quantity: Int!
+}
+
+type Delivery {
+  items: [DeliveryItem!]!
+  extras: [DeliveryItem!]!
+}
+
+input DeliveryInput {
+  items: [DeliveryItemInput!]!
+  extras: [DeliveryItemInput!]!
+}
+
+type PlanConfiguration {
+  planType: String!
+  daysPerWeek: Int!
+  mealsPerDay: Int!
+  totalPlans: Int!
+  deliveryDays: [String!]!
+  extrasChosen: [String!]!
+}
+
+input PlanConfigurationInput {
+  planType: String!
+  daysPerWeek: Int!
+  mealsPerDay: Int!
+  totalPlans: Int!
+  deliveryDays: [String!]!
+  extrasChosen: [String!]!
+}
+
+type CustomerPlan {
+  deliveries: [Delivery!]!
+  configuration: PlanConfiguration
+}
+
+input CustomerPlanInput {
+  deliveries: [DeliveryInput!]!
+  configuration: PlanConfigurationInput
+}
+
+type Exclusion {
+  id: ID!
+  name: String!
+  allergen: Boolean!
+  customers: [Customer!]!
+  recipes: [Recipe!]!
+}
+
+input ExclusionInput {
+  name: String!
+  allergen: Boolean!
+}
+
+input UpdateExclusionInput {
+  id: ID!
+  name: String!
+  allergen: Boolean!
+}
+
+input DeleteExclusionInput {
+  id: ID!
+}
+
+type Recipe {
+  id: ID!
+  name: String!
+  hotOrCold: String!
+  shortName: String!
+  description: String
+  invalidExclusions: [ID!]
+  potentialExclusions: [Exclusion!]!
+}
+
+input UpdateRecipeInput {
+  id: ID!
+  hotOrCold: String!
+  shortName: String!
+  name: String!
+  description: String
+  invalidExclusions: [ID!]
+  exclusionIds: [ID!]!
+}
+
+input DeleteRecipeInput {
+  id: ID!
+}
+
+input RecipeInput {
+  name: String!
+  hotOrCold: String!
+  shortName: String!
+  description: String
+  exclusionIds: [ID!]!
+  invalidExclusions: [ID!]
+}
+
+type Customer {
+  id: ID!
+  firstName: String!
+  surname: String!
+  salutation: String!
+  address: String!
+  telephone: String!
+  startDate: AWSDateTime
+  paymentDayOfMonth: Int
+  notes: String
+  email: String!
+  newPlan: CustomerPlan
+  pauseStart: AWSDateTime
+  pauseEnd: AWSDateTime
+  daysPerWeek: Int!
+  plan: Plan!
+  legacyPrice: Int
+  snack: String!
+  breakfast: Boolean!
+  exclusions: [Exclusion!]!
+}
+
+input CustomerInput {
+  firstName: String!
+  surname: String!
+  salutation: String!
+  address: String!
+  telephone: String!
+  startDate: AWSDateTime
+  paymentDayOfMonth: Int
+  notes: String
+  newPlan: CustomerPlanInput
+  email: String!
+  pauseStart: AWSDateTime
+  pauseEnd: AWSDateTime
+  daysPerWeek: Int!
+  plan: PlanInput!
+  legacyPrice: Int
+  snack: String!
+  breakfast: Boolean!
+  exclusionIds: [String!]!
+}
+
+input UpdateCustomerInput {
+  id: ID!
+  firstName: String!
+  surname: String!
+  salutation: String!
+  address: String!
+  telephone: String!
+  startDate: AWSDateTime
+  paymentDayOfMonth: Int
+  notes: String
+  email: String!
+  pauseStart: AWSDateTime
+  newPlan: CustomerPlanInput
+  pauseEnd: AWSDateTime
+  daysPerWeek: Int!
+  plan: PlanInput!
+  legacyPrice: Int
+  snack: String!
+  breakfast: Boolean!
+  exclusionIds: [String!]!
+}
+
+input DeleteCustomerInput {
+  id: ID!
+}
+
+type Query {
+  getExclusionById(exclusionId: String!): Exclusion
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  listExclusions: [Exclusion] @aws_auth(cognito_groups: ["user", "admin"])
+
+  getRecipeById(recipeId: String!): Recipe
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  listRecipes: [Recipe] @aws_auth(cognito_groups: ["user", "admin"])
+
+  getCustomerById(customerId: String!): Customer
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  listCustomers: [Customer] @aws_auth(cognito_groups: ["user", "admin"])
+}
+
+type Mutation {
+  updateRecipe(input: UpdateRecipeInput): Recipe
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  deleteRecipe(input: DeleteRecipeInput): String
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  createRecipe(input: RecipeInput): Recipe
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  updateCustomer(input: UpdateCustomerInput): Customer
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  createCustomer(input: CustomerInput): Customer
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  deleteCustomer(input: DeleteCustomerInput): String
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  updateExclusion(input: UpdateExclusionInput): Exclusion
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  createExclusion(input: ExclusionInput): Exclusion
+    @aws_auth(cognito_groups: ["user", "admin"])
+
+  deleteExclusion(input: DeleteExclusionInput): String
+    @aws_auth(cognito_groups: ["user", "admin"])
+}
+
+type Plan {
+  name: String!
+  mealsPerDay: Int!
+  costPerMeal: Int!
+  category: String!
+}
+
+input PlanInput {
+  name: String!
+  mealsPerDay: Int!
+  costPerMeal: Int!
+  category: String!
+}

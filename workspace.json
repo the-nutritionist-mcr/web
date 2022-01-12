@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
+    "admin-app": "libs/admin-app",
     "components": "libs/components",
     "verify-jwt": "libs/verify-jwt",
     "web-app": "apps/web-app",
