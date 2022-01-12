@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { App } from '@tnmw/admin-app';
+import { AppWrapper } from '@tnmw/admin-app';
 
-const Admin: FC = () => <App />;
+const Admin: FC = () => <AppWrapper />;
 
 export default Admin;

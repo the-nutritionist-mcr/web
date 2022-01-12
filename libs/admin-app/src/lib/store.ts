@@ -3,15 +3,14 @@ import persistState from "redux-localstorage";
 import rootReducer from "./rootReducer";
 import { useDispatch } from "react-redux";
 
-const store = configureStore({
-  reducer: rootReducer,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  enhancers: [persistState("planner" as any) as any],
-});
+export const buildStore = () =>
+  configureStore({
+    reducer: rootReducer,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    enhancers: [persistState("planner" as any) as any],
+  });
 
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = ReturnType<typeof buildStore>['dispatch']
 
-export const useAppDispatch = (): typeof store.dispatch =>
+export const useAppDispatch = (): ReturnType<typeof buildStore>['dispatch'] =>
   useDispatch<AppDispatch>();
-
-export default store;

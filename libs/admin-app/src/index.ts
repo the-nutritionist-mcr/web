@@ -1,1 +1,1 @@
-export { App } from "./components/app"
+export { AppWrapper } from './components/app';
