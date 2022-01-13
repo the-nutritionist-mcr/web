@@ -1,3 +1,4 @@
+import * as os from "node:os"
 import * as path from 'node:path';
 import { Cors, LambdaIntegration, RestApi } from '@aws-cdk/aws-apigateway';
 import { HttpOrigin } from '@aws-cdk/aws-cloudfront-origins';
@@ -10,13 +11,14 @@ import { Duration } from '@aws-cdk/core';
 
 export const makePagesApi = (
   context: cdk.Construct,
-  lambdaFolder: string,
+  outLambda: string,
   envName: string,
-  projectRoot: string,
+  dotNextFolder: string,
   pool: UserPool
 ) => {
+
   const awsNextLayer = new LayerVersion(context, 'aws-next-layer', {
-    code: Code.fromAsset(path.resolve(projectRoot, 'out_lambda', 'layer')),
+    code: Code.fromAsset(path.resolve(outLambda, 'layer')),
   });
 
   const api = new RestApi(context, 'pages-api', {
@@ -26,17 +28,18 @@ export const makePagesApi = (
     restApiName: `${envName}-app-render`,
   });
 
-  const pageNames = fs.readdirSync(path.resolve(lambdaFolder, 'lambda'));
+  const pageNames = fs.readdirSync(path.resolve(outLambda, 'lambda'));
 
   const functions = pageNames.map((name) => {
     const parts = name.split('_');
     const pageName = parts[parts.length - 1];
 
-    const build = path.resolve(projectRoot, 'build', name);
-    fs.copySync(path.resolve(projectRoot, '.next', 'serverless'), build);
+    const buildDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tnm-cdk'));
+
+    fs.copySync(path.resolve(dotNextFolder, 'serverless'), buildDir);
     fs.copySync(
-      path.resolve(projectRoot, 'out_lambda', 'lambda', name),
-      path.resolve(build, 'page')
+      path.resolve(outLambda, 'lambda', name),
+      path.resolve(buildDir, 'page')
     );
 
     const pageFunction = new Function(context, `next-${pageName}-handler`, {
@@ -45,7 +48,7 @@ export const makePagesApi = (
       timeout: Duration.seconds(30),
       memorySize: 2048,
       handler: 'page/handler.render',
-      code: Code.fromAsset(build),
+      code: Code.fromAsset(buildDir),
       layers: [awsNextLayer],
       environment: {
         COGNITO_POOL_ID: pool.userPoolId,

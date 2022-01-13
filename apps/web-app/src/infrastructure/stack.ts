@@ -13,6 +13,7 @@ interface TnmAppProps {
 
 // eslint-disable-next-line unicorn/prefer-module
 const packageRoot = path.resolve(__dirname, '..', '..');
+const repoRoot = path.resolve(packageRoot, '..', '..')
 
 class AppStack extends Stack {
   constructor(scope: Construct, id: string, props: TnmAppProps) {
@@ -26,7 +27,7 @@ class AppStack extends Stack {
       this,
       path.resolve(packageRoot, 'out_lambda'),
       props.envName,
-      packageRoot,
+      path.resolve(repoRoot, 'dist', 'apps', 'web-app', '.next'),
       userPool
     );
 
@@ -34,8 +35,6 @@ class AppStack extends Stack {
 
     deployStatics(
       this,
-      path.resolve(packageRoot, 'public'),
-      path.resolve(packageRoot, '.next/static'),
       props.envName,
       distribution
     );

@@ -3,6 +3,14 @@
   "sourceRoot": "apps/web-app",
   "projectType": "application",
   "targets": {
+    "deploy": {
+      "executor": "@codebrew/nx-aws-cdk:deploy",
+      "options": {}
+    },
+    "destroy": {
+      "executor": "@codebrew/nx-aws-cdk:destroy",
+      "options": {}
+    },
     "build": {
       "executor": "@nrwl/next:build",
       "outputs": ["{options.outputPath}", "dist/apps/web-app/out_lambda"],

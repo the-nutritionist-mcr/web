@@ -6,8 +6,6 @@ import { getDomainName } from './get-domain-name';
 
 export const deployStatics = (
   context: Construct,
-  _publicFolder: string,
-  _staticsFolder: string,
   envName: string,
   distribution: Distribution
 ) => {

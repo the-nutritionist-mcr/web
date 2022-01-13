@@ -32,6 +32,7 @@ export default class BackendStack extends cdk.Stack {
     const removalPolicy = props.transient
       ? RemovalPolicy.DESTROY
       : RemovalPolicy.RETAIN;
+
     const pool = new cognito.UserPool(this, "Users", {
       removalPolicy,
       userPoolName: `${name}-users`,

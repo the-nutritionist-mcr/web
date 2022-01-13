@@ -57,5 +57,5 @@ export const setupFrontDoor = (
     target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
   });
 
-  return { distribution };
+  return { distribution, hostedZone };
 };
