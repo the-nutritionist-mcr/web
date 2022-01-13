@@ -1,7 +1,8 @@
 export const BASE_DOMAIN_NAME = 'thenutritionistmcr.com';
 
-export const getDomainName = (environment: string) => {
-  const domainPrefix = environment !== 'prod' ? `${environment}.` : '';
+export const getDomainName = (environment: string, prefix?: string) => {
+  const otherPrefix = prefix ? `${prefix}.` : ``
+  const finalPrefix = environment !== 'prod' ? `${otherPrefix}${environment}.` : otherPrefix;
 
-  return `${domainPrefix}app.${BASE_DOMAIN_NAME}`;
+  return `${finalPrefix}app.${BASE_DOMAIN_NAME}`;
 };
