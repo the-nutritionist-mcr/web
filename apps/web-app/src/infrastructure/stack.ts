@@ -4,6 +4,7 @@ import { makeUserPool } from './make-user-pool';
 import { makePagesApi } from './make-pages-api';
 import { setupFrontDoor } from './setup-front-door';
 import { deployStatics } from './deploy-statics';
+import { makeDataApis } from './make-data-apis';
 
 interface TnmAppProps {
   stackProps: StackProps;
@@ -31,9 +32,11 @@ class AppStack extends Stack {
       userPool
     );
 
-    const { distribution } = setupFrontDoor(this, props.envName, httpOrigin);
+    const { distribution, hostedZone } = setupFrontDoor(this, props.envName, httpOrigin);
 
     deployStatics(this, props.envName, distribution);
+
+    makeDataApis(this, hostedZone, props.envName)
   }
 }
 
