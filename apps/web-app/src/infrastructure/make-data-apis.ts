@@ -30,50 +30,32 @@ const makeDataApi = (
     }
   });
 
-  const getFunction = new NodejsFunction(context, `Get${name}`, {
-    functionName: getResourceName(`get-${name}-handler`, environment),
-    entry: entryName('get.ts'),
-    runtime: Runtime.NODEJS_14_X,
-    memorySize: 2048,
-    environment: {
-      DYNAMODB_TABLE: dataTable.tableName
-    },
-    bundling: {
-      sourceMap: true
-    }
-  });
+  const makeCrudFunction = (entry: string, opName: string) =>
+    new NodejsFunction(context, `${opName}${name}`, {
+      functionName: getResourceName(`${opName}-${name}-handler`, environment),
+      entry: entryName(entry),
+      runtime: Runtime.NODEJS_14_X,
+      memorySize: 2048,
+      environment: {
+        DYNAMODB_TABLE: dataTable.tableName
+      },
+      bundling: {
+        sourceMap: true
+      }
+    });
+
+  const getFunction = makeCrudFunction('get.ts', `get`);
 
   apiResource.addMethod('GET', new LambdaIntegration(getFunction));
+
   dataTable.grantReadData(getFunction);
 
-  const createFunction = new NodejsFunction(context, `Create${name}`, {
-    functionName: getResourceName(`post-${name}-handler`, environment),
-    entry: entryName('post.ts'),
-    runtime: Runtime.NODEJS_14_X,
-    memorySize: 2048,
-    environment: {
-      DYNAMODB_TABLE: dataTable.tableName
-    },
-    bundling: {
-      sourceMap: true
-    }
-  });
+  const createFunction = makeCrudFunction('post.ts', 'create');
 
   apiResource.addMethod('POST', new LambdaIntegration(createFunction));
   dataTable.grantWriteData(createFunction);
 
-  const updateFunction = new NodejsFunction(context, `Update${name}`, {
-    functionName: getResourceName(`put-${name}-handler`, environment),
-    entry: entryName('put.ts'),
-    runtime: Runtime.NODEJS_14_X,
-    memorySize: 2048,
-    environment: {
-      DYNAMODB_TABLE: dataTable.tableName
-    },
-    bundling: {
-      sourceMap: true
-    }
-  });
+  const updateFunction = makeCrudFunction('put.ts', `update`);
 
   apiResource.addMethod('PUT', new LambdaIntegration(updateFunction));
   dataTable.grantWriteData(updateFunction);
