@@ -26,18 +26,19 @@ describe('the get handler', () => {
 
     jest.mocked(v4).mockReturnValue('my-uuid');
 
-    dynamodbMock
-      .on(PutCommand, {
-        TableName: 'foo-table',
-        Item: { id: 'my-uuid', inputItem }
-      })
-      .resolves({});
-
     const mockInput = mock<APIGatewayProxyEventV2>();
 
     mockInput.body = JSON.stringify(inputItem);
 
     const response = await handler(mockInput, mock(), mock());
+
+    const calls = dynamodbMock.commandCalls(PutCommand, {
+      TableName: 'foo-table',
+      Item: { id: 'my-uuid', ...inputItem },
+      ConditionExpression: 'attribute_not_exists(id)'
+    });
+
+    expect(calls).toHaveLength(1);
 
     expect(response).toStrictEqual({
       statusCode: 200,
