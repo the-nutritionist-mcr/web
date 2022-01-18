@@ -10,6 +10,7 @@ import path from 'node:path';
 import { getDomainName } from './get-domain-name';
 
 const entryName = (name: string) =>
+  // eslint-disable-next-line unicorn/prefer-module
   path.resolve(__dirname, '..', 'backend', 'lambdas', 'data-api', name);
 
 const makeDataApi = (
