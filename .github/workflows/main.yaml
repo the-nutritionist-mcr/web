@@ -102,6 +102,9 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
+      - name: Regenerate build from cache
+        run: yarn nx build web-app
+
       - name: Deploy
         run: yarn nx deploy:cypress web-app
         env:
