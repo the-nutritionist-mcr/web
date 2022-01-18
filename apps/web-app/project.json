@@ -3,9 +3,12 @@
   "sourceRoot": "apps/web-app",
   "projectType": "application",
   "targets": {
-    "deploy": {
-      "executor": "@codebrew/nx-aws-cdk:deploy",
-      "options": {}
+    "deploy:cypress": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "cdk deploy tnm-web-cypress-stack",
+        "cwd": "apps/web-app"
+      }
     },
     "destroy": {
       "executor": "@codebrew/nx-aws-cdk:destroy",
@@ -13,7 +16,10 @@
     },
     "build": {
       "executor": "@nrwl/next:build",
-      "outputs": ["{options.outputPath}", "dist/apps/web-app/out_lambda"],
+      "outputs": [
+        "{options.outputPath}",
+        "dist/apps/web-app/out_lambda"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "root": "apps/web-app",
@@ -44,7 +50,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/web-app"],
+      "outputs": [
+        "coverage/apps/web-app"
+      ],
       "options": {
         "jestConfig": "apps/web-app/jest.config.js",
         "passWithNoTests": true
@@ -52,9 +60,13 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/web-app/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "apps/web-app/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     }
   },
