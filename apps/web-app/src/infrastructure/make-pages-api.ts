@@ -1,4 +1,4 @@
-import * as os from "node:os"
+import * as os from 'node:os';
 import * as path from 'node:path';
 import { Cors, LambdaIntegration, RestApi } from '@aws-cdk/aws-apigateway';
 import { HttpOrigin } from '@aws-cdk/aws-cloudfront-origins';
@@ -16,21 +16,20 @@ export const makePagesApi = (
   dotNextFolder: string,
   pool: UserPool
 ) => {
-
   const awsNextLayer = new LayerVersion(context, 'aws-next-layer', {
-    code: Code.fromAsset(path.resolve(outLambda, 'layer')),
+    code: Code.fromAsset(path.resolve(outLambda, 'layer'))
   });
 
   const api = new RestApi(context, 'pages-api', {
     defaultCorsPreflightOptions: {
-      allowOrigins: Cors.ALL_ORIGINS,
+      allowOrigins: Cors.ALL_ORIGINS
     },
-    restApiName: `${envName}-app-render`,
+    restApiName: getResourceName(`app-render`, envName)
   });
 
   const pageNames = fs.readdirSync(path.resolve(outLambda, 'lambda'));
 
-  const functions = pageNames.map((name) => {
+  const functions = pageNames.map(name => {
     const parts = name.split('_');
     const pageName = parts[parts.length - 1];
 
@@ -51,8 +50,8 @@ export const makePagesApi = (
       code: Code.fromAsset(buildDir),
       layers: [awsNextLayer],
       environment: {
-        COGNITO_POOL_ID: pool.userPoolId,
-      },
+        COGNITO_POOL_ID: pool.userPoolId
+      }
     });
 
     const resource =
@@ -68,6 +67,6 @@ export const makePagesApi = (
   return {
     api,
     functions,
-    httpOrigin,
+    httpOrigin
   };
 };
