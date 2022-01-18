@@ -77,6 +77,40 @@ jobs:
       - name: Run
         run: yarn nx build web-app
 
+  deploy-for-cypress:
+    name: Deploy for Cypress
+    runs-on: ubuntu-latest
+    needs: [build-next-app]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure node 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
+      - name: Cache Nx
+        uses: actions/cache@v2
+        with:
+          path: node_modules/.cache/nx
+          key: cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
+          restore-keys: |
+            cache-nx-${{ hashFiles('yarn.lock') }}-
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Deploy
+        run: yarn nx deploy:cypress web-app
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: eu-west-2
+
+
+
   build-storybook:
     name: Build Storybook
     runs-on: ubuntu-latest
