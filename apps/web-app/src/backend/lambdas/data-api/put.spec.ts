@@ -1,12 +1,9 @@
 import { mock } from 'jest-mock-extended';
-import { handler } from './post';
+import { handler } from './put';
 
 import { mockClient } from 'aws-sdk-client-mock';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
-import { v4 } from 'uuid';
-import {APIGatewayProxyEventV2 } from 'aws-lambda';
-
-jest.mock('uuid');
+import { APIGatewayProxyEventV2 } from 'aws-lambda';
 
 const dynamodbMock = mockClient(DynamoDBDocumentClient);
 
@@ -17,14 +14,12 @@ beforeEach(() => {
 });
 
 describe('the get handler', () => {
-  it('calls dynamodb putItem with input object and a generated id and returns the id', async () => {
+  it('calls dynamodb putItem with input object and returns success', async () => {
     process.env['DYNAMODB_TABLE'] = 'foo-table';
 
     const inputItem = {
       foo: 'baz'
     };
-
-    jest.mocked(v4).mockReturnValue('my-uuid');
 
     const mockInput = mock<APIGatewayProxyEventV2>();
 
@@ -34,15 +29,15 @@ describe('the get handler', () => {
 
     const calls = dynamodbMock.commandCalls(PutCommand, {
       TableName: 'foo-table',
-      Item: { id: 'my-uuid', ...inputItem },
-      ConditionExpression: 'attribute_not_exists(id)'
+      Item: { ...inputItem },
+      ConditionExpression: 'attribute_exists(id)'
     });
 
     expect(calls).toHaveLength(1);
 
     expect(response).toStrictEqual({
       statusCode: 200,
-      body: JSON.stringify({ id: 'my-uuid' })
+      body: JSON.stringify({})
     });
   });
 });
