@@ -1,6 +1,11 @@
 import * as os from 'node:os';
 import * as path from 'node:path';
-import { Cors, LambdaIntegration, RestApi } from '@aws-cdk/aws-apigateway';
+import {
+  Cors,
+  IResource,
+  LambdaIntegration,
+  RestApi
+} from '@aws-cdk/aws-apigateway';
 import { HttpOrigin } from '@aws-cdk/aws-cloudfront-origins';
 import { UserPool } from '@aws-cdk/aws-cognito';
 import { Code, LayerVersion, Function, Runtime } from '@aws-cdk/aws-lambda';
@@ -27,12 +32,9 @@ export const makePagesApi = (
     restApiName: getResourceName(`app-render`, envName)
   });
 
-  const pageNames = fs.readdirSync(path.resolve(outLambda, 'lambda'));
-
-  const functions = pageNames.map(name => {
+  const buildPage = (name: string, parent: IResource, path: string) => {
     const parts = name.split('_');
     const pageName = parts[parts.length - 1];
-
     const buildDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tnm-cdk'));
 
     fs.copySync(path.resolve(dotNextFolder, 'serverless'), buildDir);
@@ -55,10 +57,26 @@ export const makePagesApi = (
     });
 
     const resource =
-      pageName === 'index' ? api.root : api.root.addResource(pageName);
+      pageName === 'index' ? parent : parent.addResource(pageName);
     resource.addMethod('GET', new LambdaIntegration(pageFunction));
+
     return pageFunction;
-  });
+  };
+
+  const buildPages = (root: string, resource: IResource) => {
+    const dirNames = fs.readdirSync(root);
+
+    return dirNames.flatMap(dir => {
+      const dirPath = path.resolve(root, dir);
+
+      if (fs.existsSync(path.resolve(dirPath, 'handler.js'))) {
+        return buildPage(dirPath, resource);
+      } else {
+        const subDirResource = resource.addResource(dir);
+        return buildPages(path.resolve(root, dir), subDirResource);
+      }
+    });
+  };
 
   const domainName = `${api.restApiId}.execute-api.${cdk.Aws.REGION}.amazonaws.com`;
 
