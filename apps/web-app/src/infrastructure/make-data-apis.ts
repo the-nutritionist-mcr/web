@@ -78,7 +78,7 @@ export const makeDataApis = (
     restApiName: getResourceName('data-api', envName)
   });
 
-  const domainName = api.addDomainName('data-api-domain-name', {
+  const apiDomainName = api.addDomainName('data-api-domain-name', {
     domainName,
     certificate
   });
@@ -86,7 +86,7 @@ export const makeDataApis = (
   new ARecord(this, 'ApiARecord', {
     zone: hostedZone,
     recordName: domainName,
-    target: RecordTarget.fromAlias(new ApiGatewayDomain(domainName))
+    target: RecordTarget.fromAlias(new ApiGatewayDomain(apiDomainName))
   });
 
   makeDataApi(context, 'recipe', envName, api);
