@@ -18,7 +18,7 @@
       "executor": "@nrwl/next:build",
       "outputs": [
         "{options.outputPath}",
-        "dist/apps/web-app/out_lambda"
+        "apps/web-app/out_lambda"
       ],
       "defaultConfiguration": "production",
       "options": {

@@ -41,9 +41,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules/.cache/nx
-          key: ${{ matrix.target }}-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
+          key: ${{ matrix.target }}-${{ matrix.project }}-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
           restore-keys: |
-            ${{ matrix.target }}-cache-nx-${{ hashFiles('yarn.lock') }}-
+            ${{ matrix.target }}-${{ matrix.project }}-cache-nx-${{ hashFiles('yarn.lock') }}-
 
       - name: Install Dependencies
         run: yarn install
