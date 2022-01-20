@@ -6,7 +6,7 @@
     "deploy:cypress": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "cdk deploy tnm-web-cypress-stack --require-approval never",
+        "command": "cdk deploy tnm-web-cypress-stack --require-approval never --outputs-file app-config.json",
         "cwd": "apps/web-app"
       }
     },
