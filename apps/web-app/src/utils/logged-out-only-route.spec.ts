@@ -4,7 +4,7 @@ import { mocked } from 'ts-jest/utils';
 import { verifyJwtToken } from '@tnmw/jwt-authorise';
 import { loggedOutOnlyRoute } from './logged-out-only-route';
 
-jest.mock('@tnmw/verify-jwt');
+jest.mock('@tnmw/jwt-authorise');
 
 describe('logged out only route', () => {
   it('redirects to the supplied route if there is an accessToken and verification is successful', async () => {
