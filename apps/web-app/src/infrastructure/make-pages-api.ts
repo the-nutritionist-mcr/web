@@ -37,9 +37,10 @@ export const makePagesApi = (
     parent: IResource,
     baseFolder: string
   ) => {
-    const subDirPath = path
-      .relative(baseFolder, path.dirname(handlerPath))
-      .replace(/\//g, '-');
+
+    const relative = path.relative(baseFolder, path.dirname(handlerPath))
+    const subDirPath = relative.replace(/\//g, '-');
+
     const parts = path.basename(handlerPath).split('_');
     const pageName = parts[parts.length -1]
     const fullPageName = `${subDirPath ? `${subDirPath}-` : ''}${
@@ -48,14 +49,19 @@ export const makePagesApi = (
     const buildDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tnm-cdk'));
 
     fs.copySync(path.resolve(dotNextFolder, 'serverless'), buildDir);
-    fs.copySync(handlerPath, path.resolve(buildDir, 'page'));
+
+    const buildPath = ['page', ...relative.split('/')]
+
+    const pagePath = [buildDir, ...buildPath]
+
+    fs.copySync(handlerPath, path.resolve(...pagePath));
 
     const pageFunction = new Function(context, `next-${fullPageName}-handler`, {
       functionName: getResourceName(`next-${fullPageName}-handler`, envName),
       runtime: Runtime.NODEJS_14_X,
       timeout: Duration.seconds(30),
       memorySize: 2048,
-      handler: 'page/handler.render',
+      handler: `${buildPath.join('/')}/handler.render`,
       code: Code.fromAsset(buildDir),
       layers: [awsNextLayer],
       environment: {
