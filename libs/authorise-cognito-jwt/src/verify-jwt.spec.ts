@@ -173,6 +173,15 @@ describe('verify JWT', () => {
     expect(result.isValid).toBeFalse();
   });
 
+  it("passes verification when passed a valid token that hasn't expired and the passed in group is included in the claim", async () => {
+    jest.setSystemTime(new Date('2021-09-14T12:20:00'));
+    const result = await verifyJwtToken({
+      token: validToken,
+      authorisedGroups: ['admin'],
+    });
+    expect(result.isValid).toBeTrue();
+  });
+
   it('fails verification when passed a valid token that has expired', async () => {
     jest.setSystemTime(new Date('2020-09-14T12:20:00'));
     const result = await verifyJwtToken({ token: validToken });

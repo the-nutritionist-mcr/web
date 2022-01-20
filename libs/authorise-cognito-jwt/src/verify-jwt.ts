@@ -50,15 +50,15 @@ export const verifyJwtToken = async (
 
     const { authorisedGroups } = config;
 
+    const returnVal = {
+      userName: claim.username,
+      groups: claim['cognito:groups'] ?? [],
+    };
+
     if (authorisedGroups && authorisedGroups.length > 0) {
       const isValid = (claim['cognito:groups'] ?? []).some((group) =>
         authorisedGroups?.includes(group)
       );
-      const returnVal = {
-        userName: claim.username,
-        groups: claim['cognito:groups'] ?? [],
-      };
-
       return isValid
         ? { ...returnVal, isValid: true }
         : {
@@ -69,9 +69,8 @@ export const verifyJwtToken = async (
     }
 
     return {
-      userName: claim.username,
+      ...returnVal,
       isValid: true,
-      groups: claim['cognito:groups'] ?? [],
     };
   } catch (error) {
     return {
