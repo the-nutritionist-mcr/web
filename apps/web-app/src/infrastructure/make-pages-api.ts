@@ -32,19 +32,26 @@ export const makePagesApi = (
     restApiName: getResourceName(`app-render`, envName)
   });
 
-  const buildPage = (name: string, parent: IResource, path: string) => {
-    const parts = name.split('_');
-    const pageName = parts[parts.length - 1];
+  const buildPage = (
+    handlerPath: string,
+    parent: IResource,
+    baseFolder: string
+  ) => {
+    const subDirPath = path
+      .relative(baseFolder, path.dirname(handlerPath))
+      .replace(/\//g, '-');
+    const parts = path.basename(handlerPath).split('_');
+    const pageName = parts[parts.length -1]
+    const fullPageName = `${subDirPath ? `${subDirPath}-` : ''}${
+      pageName
+    }`;
     const buildDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tnm-cdk'));
 
     fs.copySync(path.resolve(dotNextFolder, 'serverless'), buildDir);
-    fs.copySync(
-      path.resolve(outLambda, 'lambda', name),
-      path.resolve(buildDir, 'page')
-    );
+    fs.copySync(handlerPath, path.resolve(buildDir, 'page'));
 
-    const pageFunction = new Function(context, `next-${pageName}-handler`, {
-      functionName: getResourceName(`next-${pageName}-handler`, envName),
+    const pageFunction = new Function(context, `next-${fullPageName}-handler`, {
+      functionName: getResourceName(`next-${fullPageName}-handler`, envName),
       runtime: Runtime.NODEJS_14_X,
       timeout: Duration.seconds(30),
       memorySize: 2048,
@@ -56,24 +63,29 @@ export const makePagesApi = (
       }
     });
 
-    const resource =
-      pageName === 'index' ? parent : parent.addResource(pageName);
-    resource.addMethod('GET', new LambdaIntegration(pageFunction));
+    const resourceToAttachTo = pageName === 'index' ? parent : parent.addResource(pageName)
+
+    resourceToAttachTo.addMethod('GET', new LambdaIntegration(pageFunction));
 
     return pageFunction;
   };
 
-  const buildPages = (root: string, resource: IResource) => {
+  const buildPages = (
+    root: string,
+    resource: IResource,
+    baseFolder?: string
+  ) => {
     const dirNames = fs.readdirSync(root);
 
     return dirNames.flatMap(dir => {
       const dirPath = path.resolve(root, dir);
+      const base = baseFolder ? baseFolder : root;
 
       if (fs.existsSync(path.resolve(dirPath, 'handler.js'))) {
-        return buildPage(dirPath, resource);
+        return buildPage(dirPath, resource, base);
       } else {
         const subDirResource = resource.addResource(dir);
-        return buildPages(path.resolve(root, dir), subDirResource);
+        return buildPages(path.resolve(root, dir), subDirResource, base);
       }
     });
   };
@@ -81,6 +93,8 @@ export const makePagesApi = (
   const domainName = `${api.restApiId}.execute-api.${cdk.Aws.REGION}.amazonaws.com`;
 
   const httpOrigin = new HttpOrigin(domainName, { originPath: '/prod' });
+
+  const functions = buildPages(path.resolve(outLambda, 'lambda'), api.root);
 
   return {
     api,

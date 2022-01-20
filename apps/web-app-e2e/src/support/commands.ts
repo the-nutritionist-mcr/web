@@ -1,33 +1,97 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
+import { Auth } from "@aws-amplify/auth";
+import { getPoolConfig } from "../../src/aws/get-pool-config";
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
-declare namespace Cypress {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface Chainable<Subject> {
-    login(email: string, password: string): void;
+const configureCognitoAndSignIn = async (
+  username: string,
+  password: string
+) => {
+  const outputs = await getPoolConfig();
+
+  const REGION = "eu-west-2";
+
+  Auth.configure({
+    Auth: {
+      region: REGION,
+      userPoolId: outputs.UserPoolId,
+      userPoolWebClientId: outputs.ClientId
+    }
+  });
+  return Auth.signIn({ username, password });
+};
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      loginByCognitoApi(username: string, password: string): Chainable;
+      seed(): void;
+      addStubs(): void;
+    }
   }
 }
-//
-// -- This is a parent command --
-Cypress.Commands.add('login', (email, password) => {
-  console.log('Custom command example: Login', email, password);
+
+Cypress.Commands.add("seed", () => {
+  cy.task("seedCognito", {
+    poolId: Cypress.env("CYPRESS_POOL_ID"),
+    registerUser: Cypress.env("CYPRESS_TEST_REGISTER_USER"),
+    email: Cypress.env("CYPRESS_TEST_EMAIL"),
+    password: Cypress.env("CYPRESS_TEST_USER_INITIAL_PASSWORD"),
+    testUserEmail: Cypress.env("CYPRESS_INT_TEST_EMAIL"),
+    testUserPassword: Cypress.env("CYPRESS_INT_TEST_PASSWORD")
+  });
 });
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+// Taken from https://docs.cypress.io/guides/testing-strategies/amazon-cognito-authentication#Custom-Command-for-Amazon-Cognito-Authentication
+// Amazon Cognito
+Cypress.Commands.add("loginByCognitoApi", (username, password) => {
+  const log = Cypress.log({
+    displayName: "COGNITO LOGIN",
+    message: [`🔐 Authenticating | ${username}`],
+    // @ts-ignore
+    autoEnd: false
+  });
+
+  const signIn = configureCognitoAndSignIn(username, password);
+
+  log.snapshot("before");
+
+  cy.wrap(signIn, { log: false }).then((cognitoResponse: any) => {
+    const log = Cypress.log({
+      displayName: "Here",
+      message: [
+        `🔐 Authenticated, saving tokens: `,
+        JSON.stringify(cognitoResponse, null, 2)
+      ]
+    });
+
+    const keyPrefixWithUsername = `${cognitoResponse.keyPrefix}.${cognitoResponse.username}`;
+
+    cy.setCookie(
+      `${keyPrefixWithUsername}.idToken`,
+      cognitoResponse.signInUserSession.idToken.jwtToken
+    );
+
+    cy.setCookie(
+      `${keyPrefixWithUsername}.accessToken`,
+      cognitoResponse.signInUserSession.accessToken.jwtToken
+    );
+
+    cy.setCookie(
+      `${keyPrefixWithUsername}.refreshToken`,
+      cognitoResponse.signInUserSession.refreshToken.token
+    );
+
+    cy.setCookie(
+      `${keyPrefixWithUsername}.clockDrift`,
+      String(cognitoResponse.signInUserSession.clockDrift)
+    );
+
+    cy.setCookie(
+      `${cognitoResponse.keyPrefix}.LastAuthUser`,
+      cognitoResponse.username
+    );
+
+    cy.setCookie("amplify-authenticator-authState", "signedIn");
+    log.snapshot("after");
+    log.end();
+  });
+});
