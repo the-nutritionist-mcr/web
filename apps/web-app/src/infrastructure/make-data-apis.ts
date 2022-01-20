@@ -1,5 +1,7 @@
 import { Construct } from '@aws-cdk/core';
 import { DnsValidatedCertificate } from '@aws-cdk/aws-certificatemanager';
+import { ARecord, RecordTarget } from '@aws-cdk/aws-route53';
+import { ApiGatewayDomain } from '@aws-cdk/aws-route53-targets';
 import { Runtime } from '@aws-cdk/aws-lambda';
 import { IHostedZone } from '@aws-cdk/aws-route53';
 import { Table, AttributeType, BillingMode } from '@aws-cdk/aws-dynamodb';
@@ -47,7 +49,6 @@ const makeDataApi = (
   const getFunction = makeCrudFunction('get.ts', `get`);
 
   apiResource.addMethod('GET', new LambdaIntegration(getFunction));
-
   dataTable.grantReadData(getFunction);
 
   const createFunction = makeCrudFunction('post.ts', 'create');
@@ -77,9 +78,15 @@ export const makeDataApis = (
     restApiName: getResourceName('data-api', envName)
   });
 
-  api.addDomainName('data-api-domain-name', {
+  const domainName = api.addDomainName('data-api-domain-name', {
     domainName,
     certificate
+  });
+
+  new ARecord(this, 'ApiARecord', {
+    zone: hostedZone,
+    recordName: domainName,
+    target: RecordTarget.fromAlias(new ApiGatewayDomain(domainName))
   });
 
   makeDataApi(context, 'recipe', envName, api);
