@@ -18,18 +18,18 @@ export const deployStatics = (
     publicReadAccess: true,
     websiteIndexDocument: 'index.html',
     websiteErrorDocument: 'index.html',
-    removalPolicy: RemovalPolicy.DESTROY,
+    removalPolicy: RemovalPolicy.DESTROY
   });
 
   new CfnOutput(context, 'StaticsBucket', {
-    value: deploymentBucket.bucketName,
+    value: deploymentBucket.bucketName
   });
 
   const bucketOrigin = new S3Origin(deploymentBucket);
 
-  prefixes.forEach((prefix) => {
+  prefixes.forEach(prefix => {
     distribution.addBehavior(`/${prefix}/*`, bucketOrigin);
   });
 
-  distribution.addBehavior('/backend-config.json', bucketOrigin);
+  distribution.addBehavior('/app-config.json', bucketOrigin);
 };
