@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'jwt-authorise',
+  displayName: 'authorise-cognito-jwt',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['jest-extended/all'],
   globals: {
@@ -11,5 +11,5 @@ module.exports = {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/libs/jwt-authorise',
+  coverageDirectory: '../../coverage/libs/authorise-cognito-jwt',
 };

@@ -1,20 +1,20 @@
 {
-  "root": "libs/jwt-authorise",
-  "sourceRoot": "libs/jwt-authorise/src",
+  "root": "libs/authorise-cognito-jwt",
+  "sourceRoot": "libs/authorise-cognito-jwt/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/jwt-authorise/**/*.ts"]
+        "lintFilePatterns": ["libs/authorise-cognito-jwt/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/jwt-authorise"],
+      "outputs": ["coverage/libs/authorise-cognito-jwt"],
       "options": {
-        "jestConfig": "libs/jwt-authorise/jest.config.js",
+        "jestConfig": "libs/authorise-cognito-jwt/jest.config.js",
         "passWithNoTests": true
       }
     }

@@ -1,17 +1,17 @@
 import { mock } from 'jest-mock-extended';
 import { GetServerSidePropsContext } from 'next';
 import { mocked } from 'ts-jest/utils';
-import { verifyJwtToken } from '@tnmw/jwt-authorise';
+import { verifyJwtToken } from '@tnmw/authorise-cognito-jwt';
 import { loggedOutOnlyRoute } from './logged-out-only-route';
 
-jest.mock('@tnmw/jwt-authorise');
+jest.mock('@tnmw/authorise-cognito-jwt');
 
 describe('logged out only route', () => {
   it('redirects to the supplied route if there is an accessToken and verification is successful', async () => {
     mocked(verifyJwtToken).mockResolvedValue({
       userName: 'user',
       isValid: true,
-      groups: [],
+      groups: []
     });
 
     const mockContext = mock<GetServerSidePropsContext>();
@@ -22,7 +22,7 @@ describe('logged out only route', () => {
     const response = await serversidePropsCallback(mockContext);
 
     expect(response).toEqual({
-      redirect: { destination: '/home', permanent: false },
+      redirect: { destination: '/home', permanent: false }
     });
   });
 
@@ -30,7 +30,7 @@ describe('logged out only route', () => {
     mocked(verifyJwtToken).mockResolvedValue({
       userName: 'user',
       isValid: true,
-      groups: [],
+      groups: []
     });
 
     const mockContext = mock<GetServerSidePropsContext>();
@@ -41,7 +41,7 @@ describe('logged out only route', () => {
     const response = await serversidePropsCallback(mockContext);
 
     expect(response).toEqual({
-      props: {},
+      props: {}
     });
   });
 
@@ -49,7 +49,7 @@ describe('logged out only route', () => {
     mocked(verifyJwtToken).mockResolvedValue({
       userName: '',
       isValid: false,
-      groups: [],
+      groups: []
     });
 
     const mockContext = mock<GetServerSidePropsContext>();
@@ -60,7 +60,7 @@ describe('logged out only route', () => {
     const response = await serversidePropsCallback(mockContext);
 
     expect(response).toEqual({
-      props: {},
+      props: {}
     });
   });
 
@@ -68,7 +68,7 @@ describe('logged out only route', () => {
     mocked(verifyJwtToken).mockResolvedValue({
       userName: '',
       isValid: false,
-      groups: [],
+      groups: []
     });
 
     const mockContext = mock<GetServerSidePropsContext>();

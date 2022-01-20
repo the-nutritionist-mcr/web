@@ -1,10 +1,10 @@
 import { mock } from 'jest-mock-extended';
 import { GetServerSidePropsContext } from 'next';
 import { mocked } from 'ts-jest/utils';
-import { verifyJwtToken } from '@tnmw/jwt-authorise';
+import { verifyJwtToken } from '@tnmw/authorise-cognito-jwt';
 import { authorizedRoute } from './authorised-route';
 
-jest.mock('@tnmw/jwt-authorise');
+jest.mock('@tnmw/authorise-cognito-jwt');
 
 describe('authorised route', () => {
   it('redirects to the login route without trying to verify if there is no token cookie', async () => {
@@ -16,7 +16,7 @@ describe('authorised route', () => {
     const response = await serversidePropsCallback(mockContext);
 
     expect(response).toEqual({
-      redirect: { destination: '/login', permanent: false },
+      redirect: { destination: '/login', permanent: false }
     });
     expect(mocked(verifyJwtToken)).not.toHaveBeenCalled();
   });
@@ -25,7 +25,7 @@ describe('authorised route', () => {
     mocked(verifyJwtToken).mockResolvedValue({
       userName: '',
       isValid: false,
-      groups: [],
+      groups: []
     });
     const mockContext = mock<GetServerSidePropsContext>();
     mockContext.req = mock<GetServerSidePropsContext['req']>();
@@ -35,7 +35,7 @@ describe('authorised route', () => {
     const response = await serversidePropsCallback(mockContext);
 
     expect(response).toEqual({
-      redirect: { destination: '/login', permanent: false },
+      redirect: { destination: '/login', permanent: false }
     });
   });
 
@@ -43,7 +43,7 @@ describe('authorised route', () => {
     mocked(verifyJwtToken).mockResolvedValue({
       userName: 'user',
       isValid: true,
-      groups: ['a-different-group'],
+      groups: ['a-different-group']
     });
     const mockContext = mock<GetServerSidePropsContext>();
     mockContext.req = mock<GetServerSidePropsContext['req']>();
@@ -53,7 +53,7 @@ describe('authorised route', () => {
     const response = await serversidePropsCallback(mockContext);
 
     expect(response).toEqual({
-      redirect: { destination: '/login', permanent: false },
+      redirect: { destination: '/login', permanent: false }
     });
   });
 
@@ -61,7 +61,7 @@ describe('authorised route', () => {
     mocked(verifyJwtToken).mockResolvedValue({
       userName: 'user',
       isValid: true,
-      groups: ['a-different-group', 'a-group'],
+      groups: ['a-different-group', 'a-group']
     });
     const mockContext = mock<GetServerSidePropsContext>();
     mockContext.req = mock<GetServerSidePropsContext['req']>();
@@ -77,7 +77,7 @@ describe('authorised route', () => {
     mocked(verifyJwtToken).mockResolvedValue({
       userName: 'user',
       isValid: true,
-      groups: ['a-different-group', 'a-group'],
+      groups: ['a-different-group', 'a-group']
     });
     const mockContext = mock<GetServerSidePropsContext>();
     mockContext.req = mock<GetServerSidePropsContext['req']>();
@@ -93,7 +93,7 @@ describe('authorised route', () => {
     mocked(verifyJwtToken).mockResolvedValue({
       userName: 'user',
       isValid: true,
-      groups: ['a-different-group', 'a-group'],
+      groups: ['a-different-group', 'a-group']
     });
 
     const mockContext = mock<GetServerSidePropsContext>();

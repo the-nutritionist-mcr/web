@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { verifyJwtToken } from '@tnmw/jwt-authorise';
+import { verifyJwtToken } from '@tnmw/authorise-cognito-jwt';
 import { backendRedirect } from './backend-redirect';
 
 interface AuthorizedRouteWrapper {
