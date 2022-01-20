@@ -83,7 +83,7 @@ export const makeDataApis = (
     certificate
   });
 
-  new ARecord(this, 'ApiARecord', {
+  new ARecord(context, 'ApiARecord', {
     zone: hostedZone,
     recordName: domainName,
     target: RecordTarget.fromAlias(new ApiGatewayDomain(apiDomainName))
