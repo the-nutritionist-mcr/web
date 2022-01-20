@@ -134,6 +134,18 @@ jobs:
           source_dir: apps/web-app/public
           destination_dir: ''
 
+      - name: Get Cloudfront ID
+        run: echo "CLOUDFRONT_ID=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .CloudfrontId')" >> $GITHUB_ENV
+
+      - name: Invalidate Cloudfront
+        uses: chetan/invalidate-cloudfront-action@master
+        env:
+          DISTRIBUTION: ${{ env.CLOUDFRONT_ID }}
+          PATHS: /*
+          AWS_REGION: 'us-east-1'
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
 
 
   build-storybook:
