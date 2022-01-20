@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'verify-jwt',
+  displayName: 'jwt-authorise',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['jest-extended/all'],
   globals: {
@@ -11,5 +11,5 @@ module.exports = {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/libs/verify-jwt',
+  coverageDirectory: '../../coverage/libs/jwt-authorise',
 };

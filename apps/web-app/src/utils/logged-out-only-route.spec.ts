@@ -1,7 +1,7 @@
 import { mock } from 'jest-mock-extended';
 import { GetServerSidePropsContext } from 'next';
 import { mocked } from 'ts-jest/utils';
-import { verifyJwtToken } from '@tnmw/verify-jwt';
+import { verifyJwtToken } from '@tnmw/jwt-authorise';
 import { loggedOutOnlyRoute } from './logged-out-only-route';
 
 jest.mock('@tnmw/verify-jwt');

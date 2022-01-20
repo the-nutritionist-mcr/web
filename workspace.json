@@ -3,7 +3,7 @@
   "projects": {
     "admin-app": "libs/admin-app",
     "components": "libs/components",
-    "verify-jwt": "libs/verify-jwt",
+    "jwt-authorise": "libs/jwt-authorise",
     "web-app": "apps/web-app",
     "web-app-e2e": "apps/web-app-e2e"
   }
