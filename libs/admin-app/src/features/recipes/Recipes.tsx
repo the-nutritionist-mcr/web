@@ -12,12 +12,8 @@ import {
 } from "grommet";
 
 import {
-  allRecipesSelector,
   createRecipe,
-  errorSelector,
-  updateRecipe,
 } from "../recipes/recipesSlice";
-import { useDispatch, useSelector } from "react-redux";
 import EditRecipesDialog from "./EditRecipesDialog";
 import Recipe, { HotOrCold } from "../../domain/Recipe";
 import React from "react";
@@ -26,9 +22,8 @@ import { defaultDeliveryDays } from "../../lib/config";
 import PlanningModeSummary from "./PlanningModeSummary";
 
 const Recipes: React.FC = () => {
-  const dispatch = useDispatch();
-  const recipes = useSelector(allRecipesSelector);
-  const error = useSelector(errorSelector);
+  const recipes: Recipe[] = []
+  const error = ''
   const [planningMode, setPlanningMode] = React.useState(false);
   const [showCreate, setShowCreate] = React.useState(false);
   const [selectedDelivery, setSelectedDelivery] = React.useState(-1);
@@ -117,12 +112,14 @@ const Recipes: React.FC = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {recipes
+            {
+              /* eslint-disable fp/no-mutating-methods */
+              recipes
                 .slice()
-                // eslint-disable-next-line @typescript-eslint/no-magic-numbers
                 .sort((a, b) => (a.name < b.name ? 1 : -1))
                 .reverse()
                 .map((recipe) => (
+              /* eslint-enable fp/no-mutating-methods */
                   <RecipesRow
                     plannerSelection={plannerSelection}
                     selectedDeliveryDay={selectedDelivery}
@@ -133,8 +130,8 @@ const Recipes: React.FC = () => {
                     plannerMode={planningMode}
                     key={recipe.id}
                     recipe={recipe}
-                    onChange={(newRecipe): void => {
-                      dispatch(updateRecipe(newRecipe));
+                    onChange={(): void => {
+                      // Noop
                     }}
                   />
                 ))}
