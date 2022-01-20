@@ -114,7 +114,7 @@ jobs:
           AWS_REGION: eu-west-2
 
       - name: Get S3 Bucket
-        run: echo "UPLOAD_BUCKET=$(cat apps/web-app/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .StaticsBucket')" >> $GITHUB_ENV
+        run: echo "UPLOAD_BUCKET=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .StaticsBucket')" >> $GITHUB_ENV
 
       - name: Upload Next Statics
         uses: shallwefootball/s3-upload-action@master
@@ -131,7 +131,7 @@ jobs:
           aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_bucket: ${{ env.UPLOAD_BUCKET }}
-          source_dir: apps/web-app/app-config.json
+          source_dir: apps/web-app/public
           destination_dir: ''
 
 
