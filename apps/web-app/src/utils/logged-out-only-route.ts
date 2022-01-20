@@ -6,7 +6,7 @@ export const loggedOutOnlyRoute = (
   redirectTo: string,
   serverSidePropsCallback?: GetServerSideProps
 ): GetServerSideProps => {
-  return async (context) => {
+  return async context => {
     const tokenPair = Object.entries(context.req.cookies).find(([key]) =>
       key.endsWith('.accessToken')
     );
@@ -15,7 +15,7 @@ export const loggedOutOnlyRoute = (
       return (await serverSidePropsCallback?.(context)) ?? { props: {} };
     }
 
-    const verifyResult = await verifyJwtToken(tokenPair[1]);
+    const verifyResult = await verifyJwtToken({ token: tokenPair[1] });
 
     if (verifyResult.isValid) {
       return backendRedirect(
