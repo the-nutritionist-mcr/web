@@ -23,10 +23,17 @@ const getPublicKey = async (header: TokenHeader) => {
   return key;
 };
 
+interface VerifyConfig {
+  token: string,
+  authorisedGroups?: string[],
+  authorisedUser?: string[]
+}
+
 export const verifyJwtToken = async (
-  token: string
+  config: VerifyConfig
 ): Promise<VerifyJwtResult> => {
   try {
+    const { token } = config
     const header = parseHeader(token);
     const key = await getPublicKey(header);
     const claim = await verify(token, key);
