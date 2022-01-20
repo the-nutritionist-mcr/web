@@ -22,6 +22,7 @@ jobs:
           - web-app
           - components
           - authorise-cognito-jwt
+          - planner
 
         target:
           - test
