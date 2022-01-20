@@ -24,16 +24,16 @@ const getPublicKey = async (header: TokenHeader) => {
 };
 
 interface VerifyConfig {
-  token: string,
-  authorisedGroups?: string[],
-  authorisedUser?: string[]
+  token: string;
+  authorisedGroups?: string[];
+  authorisedUser?: string[];
 }
 
 export const verifyJwtToken = async (
   config: VerifyConfig
 ): Promise<VerifyJwtResult> => {
   try {
-    const { token } = config
+    const { token } = config;
     const header = parseHeader(token);
     const key = await getPublicKey(header);
     const claim = await verify(token, key);
@@ -47,6 +47,27 @@ export const verifyJwtToken = async (
     if (claim.tokenUse !== 'access') {
       throw new Error('claim use is not access');
     }
+
+    const { authorisedGroups } = config;
+
+    if (authorisedGroups && authorisedGroups.length > 0) {
+      const isValid = (claim['cognito:groups'] ?? []).some((group) =>
+        authorisedGroups?.includes(group)
+      );
+      const returnVal = {
+        userName: claim.username,
+        groups: claim['cognito:groups'] ?? [],
+      };
+
+      return isValid
+        ? { ...returnVal, isValid: true }
+        : {
+            ...returnVal,
+            isValid: false,
+            error: new Error(`User is not part of an authorised group`),
+          };
+    }
+
     return {
       userName: claim.username,
       isValid: true,

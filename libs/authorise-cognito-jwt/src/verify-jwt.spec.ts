@@ -28,8 +28,8 @@ describe('verify JWT', () => {
           kid: 'l5X/+tD2qmhRilvQ3wEGP5acorOHndbc2EYLmLo52vA=',
           kty: 'RSA',
           n: 'sHFwfCrcYLatCMvsbj2yXiC1ElCbC1RaGQeAL2OgLT3qg8mO45v1DV6W-Uw3vQ5DO2j4AHz6D7y2yYOXf3GbTmnMURWC4HrBfxIwJoZmzysGao2WSvFaFlE2pdE_X3i5HlnD_LGn1Fw-qgiQ6rpvcRMzh8a3InrDIOWQLvDyb97gyz7Q4G5MPLhVCj0XR_qEA0zBZO9Psl8YRq9SuzHlPT0w_OTL92NLu8DCjsuG0ZZPOdArIr-xcswb3JzBUTTNZWRkqbNsZ8XjNpZiyl8zm7PzdMqSeIpZT-syLH36sAMvddaxVylh2JuXremafa7FfC62-xfiHv4b-aSJO-j60Q',
-          use: 'sig'
-        }
+          use: 'sig',
+        },
       },
       'PGFywWnh66ZziZorBQnaffatlWNZhtvns7L9zyxH/dg=': {
         pem: 'foo',
@@ -39,16 +39,16 @@ describe('verify JWT', () => {
           kid: 'PGFywWnh66ZziZorBQnaffwtlWNZhtvns7L9zyxH/dg=',
           kty: 'RSA',
           n: '2xGuWUTFkFLl0uhJBR0CFLIJOWb_O4VNRLykuE2PkWA06JObwIzL1oDnLaUayCAAmUpMaOg3uKscX2sDtNQR1zG3GlP6xKlvb2gv5DsBC5Ny2XmGMdmjX9Itc3O_XSO44II0YB6vXbuwADkp0vOzzfD4OgTXRVCQ2I8rWhP0Lyx1E8EQxiRdP15P0Ol4rXLvhp5pB0dHy2NEQMG6StEMu69xATJG9GEe4Zj1IXo-ekk6ny_H18LPXrv1KjYXHT5vJ3NfjBP6FC_nYVuT1BpnM2WmczBKFraOYWtsVkFemSw1iFutg2DNknI6VigPrX4Rblbpbj860aeB_wrvbj8xAQ',
-          use: 'sig'
-        }
-      }
+          use: 'sig',
+        },
+      },
     });
 
     const { verifyJwtToken: verifyJwtTokenWithMockedPublicKeys } = await import(
       './verify-jwt'
     );
     const result = await verifyJwtTokenWithMockedPublicKeys({
-      token: validToken
+      token: validToken,
     });
 
     expect(result.isValid).toEqual(false);
@@ -68,7 +68,7 @@ describe('verify JWT', () => {
       exp: Math.floor(new Date('2021-09-14').getTime() / 1000) + 1000,
       'cognito:groups': [],
       username: 'ben',
-      clientId: 'bar'
+      clientId: 'bar',
     });
 
     const { verifyJwtToken: verifyWithMockedVerify } = await import(
@@ -92,7 +92,7 @@ describe('verify JWT', () => {
       iss: getIssuer(),
       exp: Math.floor(new Date('2021-09-14').getTime() / 1000) + 1000,
       username: 'ben',
-      clientId: 'bar'
+      clientId: 'bar',
     });
 
     const { verifyJwtToken: verifyWithMockedVerify } = await import(
@@ -115,7 +115,7 @@ describe('verify JWT', () => {
       exp: Math.floor(new Date('2021-09-14').getTime() / 1000) + 1000,
       'cognito:groups': [],
       username: 'ben',
-      clientId: 'bar'
+      clientId: 'bar',
     });
 
     const { verifyJwtToken: verifyWithMockedVerify } = await import(
@@ -162,6 +162,15 @@ describe('verify JWT', () => {
     jest.setSystemTime(new Date('2021-09-14T12:20:00'));
     const result = await verifyJwtToken({ token: validToken });
     expect(result.isValid).toBeTrue();
+  });
+
+  it("fails verification when passed a valid token that hasn't expired but the passed in group isn't included in the claim", async () => {
+    jest.setSystemTime(new Date('2021-09-14T12:20:00'));
+    const result = await verifyJwtToken({
+      token: validToken,
+      authorisedGroups: ['a-random-group'],
+    });
+    expect(result.isValid).toBeFalse();
   });
 
   it('fails verification when passed a valid token that has expired', async () => {
