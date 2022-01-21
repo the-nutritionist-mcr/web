@@ -9,19 +9,16 @@ import {
   Heading,
   Layer,
   Select,
-  TextInput,
-} from "grommet";
-import { Checkmark, Close } from "grommet-icons";
-import Recipe, { HotOrCold } from "../../domain/Recipe";
-import { useDispatch, useSelector } from "react-redux";
-import { ApiRequestFunction } from "../../lib/apiRequestCreator";
-import React from "react";
-import { allExclusionsSelector } from "../../features/exclusions/exclusionsSlice";
-import { debounce } from "lodash";
+  TextInput
+} from 'grommet';
+import { Checkmark, Close } from 'grommet-icons';
+import Recipe, { HotOrCold } from '../../domain/Recipe';
+import React from 'react';
+import { debounce } from 'lodash';
+import Exclusion from '../../domain/Exclusion';
 
 interface EditRecipesDialogProps {
   recipe: Recipe;
-  thunk: ApiRequestFunction<Recipe>;
   onOk: () => void;
   title: string;
   onCancel: () => void;
@@ -29,15 +26,13 @@ interface EditRecipesDialogProps {
 
 const ONSUBMIT_DEBOUNCE = 500;
 
-const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
+const EditRecipesDialog: React.FC<EditRecipesDialogProps> = props => {
   const [recipe, setRecipe] = React.useState(props.recipe);
-  const dispatch = useDispatch();
-  const exclusions = useSelector(allExclusionsSelector);
+  const exclusions: Exclusion[] = [];
 
   const onSubmit = debounce(async (): Promise<void> => {
     // eslint-disable-next-line no-console
-    console.log("SUBMITTING");
-    await dispatch(props.thunk(recipe));
+    console.log('SUBMITTING');
     props.onOk();
   }, ONSUBMIT_DEBOUNCE);
 
