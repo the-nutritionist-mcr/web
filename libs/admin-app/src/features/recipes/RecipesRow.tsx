@@ -1,12 +1,11 @@
-import { Button, CheckBox, TableCell, TableRow } from "grommet";
-import { Edit, Trash } from "grommet-icons";
-import { removeRecipe, updateRecipe } from "../recipes/recipesSlice";
+import { Button, CheckBox, TableCell, TableRow } from 'grommet';
+import { Edit, Trash } from 'grommet-icons';
 
-import EditRecipesDialog from "./EditRecipesDialog";
-import { OkCancelDialog } from "../../components";
-import React from "react";
-import Recipe from "../../domain/Recipe";
-import styled from "styled-components";
+import EditRecipesDialog from './EditRecipesDialog';
+import { OkCancelDialog } from '../../components';
+import React from 'react';
+import Recipe from '../../domain/Recipe';
+import styled from 'styled-components';
 
 const SlimButton = styled(Button)`
   padding: 0 5px 0 5px;
@@ -22,15 +21,15 @@ interface RecipesRowProps {
   onSelect: (plannerSelection: Recipe[][]) => void;
 }
 
-const RecipesRow: React.FC<RecipesRowProps> = (props) => {
+const RecipesRow: React.FC<RecipesRowProps> = props => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
 
   const selectedDelivery =
     props.plannerSelection[props.selectedDeliveryDay] ?? [];
 
-  const deliveryChecked = Boolean(
-    selectedDelivery.find((item) => item.id === props.recipe.id)
+  const deliveryChecked = selectedDelivery.some(
+    item => item.id === props.recipe.id
   );
 
   return (
@@ -40,20 +39,21 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
           {
             <CheckBox
               checked={deliveryChecked}
-              onChange={(event) => {
+              onChange={event => {
                 if (event.target.checked) {
-                  const newSelection = props.plannerSelection.map(
-                    (delivery) => [...delivery]
-                  );
+                  const newSelection = props.plannerSelection.map(delivery => [
+                    ...delivery
+                  ]);
+                  // eslint-disable-next-line fp/no-mutating-methods
                   newSelection[props.selectedDeliveryDay].push(props.recipe);
                   props.onSelect(newSelection);
                 } else {
-                  const newSelection = props.plannerSelection.map(
-                    (delivery) => [...delivery]
-                  );
+                  const newSelection = props.plannerSelection.map(delivery => [
+                    ...delivery
+                  ]);
                   newSelection[props.selectedDeliveryDay] = newSelection[
                     props.selectedDeliveryDay
-                  ].filter((item) => item.id !== props.recipe.id);
+                  ].filter(item => item.id !== props.recipe.id);
                   props.onSelect(newSelection);
                 }
               }}
@@ -68,9 +68,9 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
         <TableCell>
           {props.recipe.potentialExclusions.length > 0
             ? props.recipe.potentialExclusions
-                .map((exclusion) => exclusion.name)
-                .join(", ")
-            : "None"}
+                .map(exclusion => exclusion.name)
+                .join(', ')
+            : 'None'}
         </TableCell>
       )}
 
@@ -86,7 +86,6 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
             show={showDoDelete}
             header="Are you sure?"
             thing={props.recipe}
-            thunk={removeRecipe}
             onOk={(): void => {
               setShowDoDelete(false);
             }}
@@ -105,7 +104,6 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
             <EditRecipesDialog
               recipe={props.recipe}
               title="Edit Recipe"
-              thunk={updateRecipe}
               onOk={(): void => {
                 setShowEdit(false);
               }}

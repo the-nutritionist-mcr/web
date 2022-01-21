@@ -41,6 +41,7 @@
       "executor": "@nrwl/next:server",
       "options": {
         "buildTarget": "web-app:build",
+        "buildLibsFromSource": false,
         "dev": true
       },
       "configurations": {

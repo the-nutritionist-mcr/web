@@ -6,19 +6,17 @@ import {
   CardHeader,
   Form,
   Heading,
-  Layer,
-} from "grommet";
+  Layer
+} from 'grommet';
 
-import { Checkmark, Close } from "grommet-icons";
-import { ApiRequestFunction } from "../../lib/apiRequestCreator";
-import React from "react";
-import assertFC from "../../lib/assertFC";
-import { debounce } from "lodash";
-import { useDispatch } from "react-redux";
+import { Checkmark, Close } from 'grommet-icons';
+import React from 'react';
+import assertFC from '../../lib/assertFC';
+import { debounce } from 'lodash';
+import { useDispatch } from 'react-redux';
 
 interface OkCancelDialogProps<T = undefined> {
   thing?: T;
-  thunk?: ApiRequestFunction<T>;
   show?: boolean;
   header: string;
   onOk: () => void;
@@ -35,9 +33,6 @@ function OkCancelDialogContainer<T>(
   const [thing, setThing] = React.useState<T | undefined>(thingValue);
   const dispatch = useDispatch();
   const onSubmit = debounce(async (): Promise<void> => {
-    if (thing) {
-      await dispatch(props.thunk?.(thing));
-    }
     props.onOk();
   }, ON_SUBMIT_DEBOUNCE);
   const contents = (
@@ -52,7 +47,7 @@ function OkCancelDialogContainer<T>(
       </CardBody>
       <CardFooter pad="medium" alignSelf="center" justify="center">
         <Button
-          type={props.thing ? "submit" : undefined}
+          type={props.thing ? 'submit' : undefined}
           icon={<Checkmark color="brand" size="small" />}
           label="Ok"
           onClick={props.thing ? undefined : props.onOk}
@@ -93,6 +88,7 @@ function OkCancelDialogContainer<T>(
 function OkCancelDialog<T>(
   props: React.PropsWithChildren<OkCancelDialogProps<T>>
 ): React.ReactElement | null {
+  // eslint-disable-next-line unicorn/no-null
   return props?.show ? <OkCancelDialogContainer {...props} /> : null;
 }
 

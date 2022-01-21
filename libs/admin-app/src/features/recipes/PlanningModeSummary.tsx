@@ -8,14 +8,11 @@ import {
   DateInput,
   Header,
   Heading,
-  Paragraph,
-} from "grommet";
-import React from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Recipe from "../../domain/Recipe";
-import { defaultDeliveryDays } from "../../lib/config";
-import { generateCustomerMeals } from "../planner/planner-reducer";
+  Paragraph
+} from 'grommet';
+import React from 'react';
+import Recipe from '../../domain/Recipe';
+import { defaultDeliveryDays } from '../../lib/config';
 
 interface PlanningModeSummaryProps {
   selectedDelivery: number;
@@ -25,34 +22,26 @@ interface PlanningModeSummaryProps {
   plannerSelection: Recipe[][];
 }
 
-const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = (props) => {
-  const reset = () => {
-    props.setPlannerSelection(defaultDeliveryDays.map(() => []));
-    props.setSelectedDelivery(-1);
-  };
-
+const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = props => {
   const [cookDates, setCookDates] = React.useState(
     props.plannerSelection.map<string | undefined>(() => undefined)
   );
-
-  const dispatch = useDispatch();
-  const history = useHistory();
 
   return (
     <Box
       direction="column"
       style={{
-        padding: "10px",
-        maxWidth: "25rem",
-        alignItems: "flex-start",
+        padding: '10px',
+        maxWidth: '25rem',
+        alignItems: 'flex-start'
       }}
       gap="medium"
     >
       <Header direction="column">
-        <Heading level={3} margin={{ top: "0", bottom: "0" }}>
+        <Heading level={3} margin={{ top: '0', bottom: '0' }}>
           Planning Mode
         </Heading>
-        <Paragraph margin={{ top: "0", bottom: "0" }} fill>
+        <Paragraph margin={{ top: '0', bottom: '0' }} fill>
           You are in planning mode. To select meals for a delivery click one of
           the &apos;Pick Meals&apos; buttons below
         </Paragraph>
@@ -65,28 +54,36 @@ const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = (props) => {
           </CardHeader>
           <CardBody pad="medium" gap="medium">
             <ul>
-              {props.plannerSelection[index].length === 0 ? (
-                <li key="no-meals">No meals selected...</li>
-              ) : (
-                props.plannerSelection[index].map((recipe) => (
-                  <li
-                    key={`${recipe.id}-planner`}
-                    style={{ marginBottom: "0.5rem" }}
-                  >
-                    {recipe.name}
-                  </li>
-                ))
-              )}
+              {
+                // eslint-disable-next-line security/detect-object-injection
+                props.plannerSelection[index].length === 0 ? (
+                  <li key="no-meals">No meals selected...</li>
+                ) : (
+                  // eslint-disable-next-line security/detect-object-injection
+                  props.plannerSelection[index].map(recipe => (
+                    <li
+                      key={`${recipe.id}-planner`}
+                      style={{ marginBottom: '0.5rem' }}
+                    >
+                      {recipe.name}
+                    </li>
+                  ))
+                )
+              }
             </ul>
             <DateInput
-              value={cookDates[index]}
+              value={
+                // eslint-disable-next-line security/detect-object-injection
+                cookDates[index]
+              }
               format="mm/dd/yyyy"
               calendarProps={{
-                daysOfWeek: true,
+                daysOfWeek: true
               }}
-              onChange={(event) => {
+              onChange={event => {
                 const newCookDates = [...cookDates];
                 if (!Array.isArray(event.value)) {
+                  // eslint-disable-next-line security/detect-object-injection
                   newCookDates[index] = event.value;
                 }
                 setCookDates(newCookDates);
@@ -108,19 +105,14 @@ const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = (props) => {
           primary
           size="small"
           label="Send to Planner"
-          disabled={Boolean(cookDates.some((item) => item === undefined))}
+          disabled={
+            // eslint-disable-next-line unicorn/prefer-includes
+            Boolean(cookDates.some(item => item === undefined))
+          }
           a11yTitle="Send to Planner"
           style={{ flexGrow: 2 }}
           onClick={() => {
-            dispatch(
-              generateCustomerMeals({
-                deliveries: props.plannerSelection,
-                deliveryDates: cookDates.map((cook) => new Date(cook ?? "")),
-              })
-            );
-            history.push("/planner");
-            reset();
-            props.setPlanningMode(false);
+            // Noop
           }}
         />
         <Button
@@ -130,8 +122,7 @@ const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = (props) => {
           style={{ flexGrow: 2 }}
           a11yTitle="Cancel"
           onClick={() => {
-            reset();
-            props.setPlanningMode(false);
+            // Noop
           }}
         />
       </Box>

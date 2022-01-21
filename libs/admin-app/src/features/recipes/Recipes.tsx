@@ -8,22 +8,19 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-  Text,
-} from "grommet";
+  Text
+} from 'grommet';
 
-import {
-  createRecipe,
-} from "../recipes/recipesSlice";
-import EditRecipesDialog from "./EditRecipesDialog";
-import Recipe, { HotOrCold } from "../../domain/Recipe";
-import React from "react";
-import RecipesRow from "../recipes/RecipesRow";
-import { defaultDeliveryDays } from "../../lib/config";
-import PlanningModeSummary from "./PlanningModeSummary";
+import EditRecipesDialog from './EditRecipesDialog';
+import Recipe, { HotOrCold } from '../../domain/Recipe';
+import React from 'react';
+import RecipesRow from '../recipes/RecipesRow';
+import { defaultDeliveryDays } from '../../lib/config';
+import PlanningModeSummary from './PlanningModeSummary';
 
 const Recipes: React.FC = () => {
-  const recipes: Recipe[] = []
-  const error = ''
+  const recipes: Recipe[] = [];
+  const error = '';
   const [planningMode, setPlanningMode] = React.useState(false);
   const [showCreate, setShowCreate] = React.useState(false);
   const [selectedDelivery, setSelectedDelivery] = React.useState(-1);
@@ -59,15 +56,14 @@ const Recipes: React.FC = () => {
         {showCreate && (
           <EditRecipesDialog
             recipe={{
-              id: "0",
-              shortName: "",
+              id: '0',
+              shortName: '',
               hotOrCold: HotOrCold.Hot,
-              name: "",
-              description: "",
-              potentialExclusions: [],
+              name: '',
+              description: '',
+              potentialExclusions: []
             }}
             title="Create Recipe"
-            thunk={createRecipe}
             onOk={(): void => {
               setShowCreate(false);
             }}
@@ -112,29 +108,30 @@ const Recipes: React.FC = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-            {
-              /* eslint-disable fp/no-mutating-methods */
-              recipes
-                .slice()
-                .sort((a, b) => (a.name < b.name ? 1 : -1))
-                .reverse()
-                .map((recipe) => (
-              /* eslint-enable fp/no-mutating-methods */
-                  <RecipesRow
-                    plannerSelection={plannerSelection}
-                    selectedDeliveryDay={selectedDelivery}
-                    onSelect={(newPlannerSelection) =>
-                      setPlannerSelection(newPlannerSelection)
-                    }
-                    showCheckBoxes={showCheckBoxes}
-                    plannerMode={planningMode}
-                    key={recipe.id}
-                    recipe={recipe}
-                    onChange={(): void => {
-                      // Noop
-                    }}
-                  />
-                ))}
+              {
+                /* eslint-disable fp/no-mutating-methods */
+                recipes
+                  .slice()
+                  .sort((a, b) => (a.name < b.name ? 1 : -1))
+                  .reverse()
+                  .map(recipe => (
+                    /* eslint-enable fp/no-mutating-methods */
+                    <RecipesRow
+                      plannerSelection={plannerSelection}
+                      selectedDeliveryDay={selectedDelivery}
+                      onSelect={newPlannerSelection =>
+                        setPlannerSelection(newPlannerSelection)
+                      }
+                      showCheckBoxes={showCheckBoxes}
+                      plannerMode={planningMode}
+                      key={recipe.id}
+                      recipe={recipe}
+                      onChange={(): void => {
+                        // Noop
+                      }}
+                    />
+                  ))
+              }
             </TableBody>
           </Table>
           {planningMode && (

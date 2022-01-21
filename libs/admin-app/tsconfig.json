@@ -11,6 +11,17 @@
     }
   ],
   "compilerOptions": {
+    "jsxImportSource": "@emotion/react",
+    "esModuleInterop": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitReturns": true,

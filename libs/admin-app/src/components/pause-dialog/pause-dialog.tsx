@@ -4,14 +4,13 @@ import {
   FormField,
   Paragraph,
   Text,
-  ThemeContext,
-} from "grommet";
-import Customer from "../../domain/Customer";
-import { OkCancelDialog } from "..";
-import React from "react";
-import calendarFormat from "../../lib/calendarFormat";
-import moment from "moment";
-import { updateCustomer } from "../../features/customers/customersSlice";
+  ThemeContext
+} from 'grommet';
+import Customer from '../../domain/Customer';
+import { OkCancelDialog } from '..';
+import React from 'react';
+import calendarFormat from '../../lib/calendarFormat';
+import moment from 'moment';
 
 interface PauseDialogProps {
   show: boolean;
@@ -22,7 +21,7 @@ interface PauseDialogProps {
 
 const HUNDRED_YEARS_IN_FUTURE = 100;
 
-const PauseDialog: React.FC<PauseDialogProps> = (props) => {
+const PauseDialog: React.FC<PauseDialogProps> = props => {
   const [pauseStart, setPauseStart] = React.useState<string | undefined>(
     props.customer.pauseStart
   );
@@ -42,19 +41,20 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
 
   const friendlyStart = pauseStartToShow
     ? `from ${moment(new Date(pauseStartToShow)).calendar(
+        // eslint-disable-next-line unicorn/no-null
         null,
         calendarFormat
       )}`
-    : "No pause start";
+    : 'No pause start';
 
   const friendlyEnd = pauseEndToShow
-    ? `until ${moment(new Date(pauseEndToShow)).calendar(null, calendarFormat)}`
-    : "No pause end";
+    ? // eslint-disable-next-line unicorn/no-null
+      `until ${moment(new Date(pauseEndToShow)).calendar(null, calendarFormat)}`
+    : 'No pause end';
 
   return (
     <OkCancelDialog
       thing={props.customer}
-      thunk={updateCustomer}
       show={props.show}
       header="Add Pause"
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -70,7 +70,7 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
       onCancel={props.onCancel}
     >
       <ThemeContext.Extend
-        value={{ global: { control: { border: { width: "0" } } } }}
+        value={{ global: { control: { border: { width: '0' } } } }}
       >
         <Paragraph margin="none" textAlign="center">
           Use the calendars below to choose a pause start and end date. To pause
@@ -84,12 +84,12 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
                 defaultValue={todayIso}
                 name="pauseStart"
                 calendarProps={{
-                  a11yTitle: "Start Pause",
-                  size: "small",
+                  a11yTitle: 'Start Pause',
+                  size: 'small',
                   daysOfWeek: true
                 }}
               />
-              <Box pad={{ top: "small" }}>
+              <Box pad={{ top: 'small' }}>
                 <Text a11yTitle="Selected start date" alignSelf="center">
                   <strong>{friendlyStart}</strong>
                 </Text>
@@ -102,16 +102,16 @@ const PauseDialog: React.FC<PauseDialogProps> = (props) => {
                 inline={true}
                 name="pauseEnd"
                 calendarProps={{
-                  a11yTitle: "End Pause",
+                  a11yTitle: 'End Pause',
                   daysOfWeek: true,
-                  size: "small",
+                  size: 'small',
                   bounds: [
                     pauseEndStartBound,
-                    hundredYearsFromNow.toISOString(),
-                  ],
+                    hundredYearsFromNow.toISOString()
+                  ]
                 }}
               />
-              <Box pad={{ top: "small" }}>
+              <Box pad={{ top: 'small' }}>
                 <Text alignSelf="center" a11yTitle="Selected end date">
                   <strong>{friendlyEnd}</strong>
                 </Text>
