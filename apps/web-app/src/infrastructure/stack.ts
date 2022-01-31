@@ -32,11 +32,15 @@ class AppStack extends Stack {
       userPool
     );
 
-    const { distribution, hostedZone } = setupFrontDoor(this, props.envName, httpOrigin);
+    const { distribution, hostedZone } = setupFrontDoor(
+      this,
+      props.envName,
+      httpOrigin
+    );
 
     deployStatics(this, props.envName, distribution);
 
-    makeDataApis(this, hostedZone, props.envName)
+    makeDataApis(this, hostedZone, props.envName);
   }
 }
 
@@ -46,37 +50,37 @@ const account = process.env.IS_CDK_LOCAL ? '000000000000' : '568693217207';
 
 const env = {
   account,
-  region: 'eu-west-2'
+  region: 'eu-west-2',
 };
 
 new AppStack(app, 'tnm-web-int-stack', {
   stackProps: { env },
   envName: 'int',
-  transient: true
+  transient: true,
 });
 
 new AppStack(app, 'tnm-web-cypress-stack', {
   stackProps: { env },
   envName: 'cypress',
-  transient: true
+  transient: true,
 });
 
 new AppStack(app, 'tnm-web-dev-stack', {
   stackProps: { env },
   envName: 'dev',
-  transient: true
+  transient: true,
 });
 
 new AppStack(app, 'tnm-web-test-stack', {
   stackProps: { env },
   envName: 'test',
-  transient: true
+  transient: true,
 });
 
 new AppStack(app, 'tnm-web-prod-stack', {
   stackProps: { env },
   envName: 'prod',
-  transient: false
+  transient: false,
 });
 
 app.synth();

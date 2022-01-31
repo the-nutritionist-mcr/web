@@ -4,7 +4,7 @@ import {
   Cors,
   IResource,
   LambdaIntegration,
-  RestApi
+  RestApi,
 } from '@aws-cdk/aws-apigateway';
 import { HttpOrigin } from '@aws-cdk/aws-cloudfront-origins';
 import { UserPool } from '@aws-cdk/aws-cognito';
@@ -22,14 +22,14 @@ export const makePagesApi = (
   pool: UserPool
 ) => {
   const awsNextLayer = new LayerVersion(context, 'aws-next-layer', {
-    code: Code.fromAsset(path.resolve(outLambda, 'layer'))
+    code: Code.fromAsset(path.resolve(outLambda, 'layer')),
   });
 
   const api = new RestApi(context, 'pages-api', {
     defaultCorsPreflightOptions: {
-      allowOrigins: Cors.ALL_ORIGINS
+      allowOrigins: Cors.ALL_ORIGINS,
     },
-    restApiName: getResourceName(`app-render`, envName)
+    restApiName: getResourceName(`app-render`, envName),
   });
 
   const buildPage = (
@@ -37,22 +37,19 @@ export const makePagesApi = (
     parent: IResource,
     baseFolder: string
   ) => {
-
-    const relative = path.relative(baseFolder, path.dirname(handlerPath))
+    const relative = path.relative(baseFolder, path.dirname(handlerPath));
     const subDirPath = relative.replace(/\//g, '-');
 
     const parts = path.basename(handlerPath).split('_');
-    const pageName = parts[parts.length -1]
-    const fullPageName = `${subDirPath ? `${subDirPath}-` : ''}${
-      pageName
-    }`;
+    const pageName = parts[parts.length - 1];
+    const fullPageName = `${subDirPath ? `${subDirPath}-` : ''}${pageName}`;
     const buildDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tnm-cdk'));
 
     fs.copySync(path.resolve(dotNextFolder, 'serverless'), buildDir);
 
-    const buildPath = ['page', ...relative.split('/')]
+    const buildPath = ['page', ...relative.split('/')];
 
-    const pagePath = [buildDir, ...buildPath]
+    const pagePath = [buildDir, ...buildPath];
 
     fs.copySync(handlerPath, path.resolve(...pagePath));
 
@@ -65,11 +62,12 @@ export const makePagesApi = (
       code: Code.fromAsset(buildDir),
       layers: [awsNextLayer],
       environment: {
-        COGNITO_POOL_ID: pool.userPoolId
-      }
+        COGNITO_POOL_ID: pool.userPoolId,
+      },
     });
 
-    const resourceToAttachTo = pageName === 'index' ? parent : parent.addResource(pageName)
+    const resourceToAttachTo =
+      pageName === 'index' ? parent : parent.addResource(pageName);
 
     resourceToAttachTo.addMethod('GET', new LambdaIntegration(pageFunction));
 
@@ -83,7 +81,7 @@ export const makePagesApi = (
   ) => {
     const dirNames = fs.readdirSync(root);
 
-    return dirNames.flatMap(dir => {
+    return dirNames.flatMap((dir) => {
       const dirPath = path.resolve(root, dir);
       const base = baseFolder ? baseFolder : root;
 
@@ -105,6 +103,6 @@ export const makePagesApi = (
   return {
     api,
     functions,
-    httpOrigin
+    httpOrigin,
   };
 };
