@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { ParagraphText, Hero, Layout } from '@tnmw/components';
+import { ParagraphText, Hero } from '@tnmw/components';
 import styled from '@emotion/styled';
 
 const StyledDiv = styled.div`
@@ -9,7 +9,7 @@ const StyledDiv = styled.div`
 
 const IndexPage: FC = () => {
   return (
-    <Layout>
+    <>
       <Hero>
         <h1>Hi people</h1>
       </Hero>
@@ -66,7 +66,7 @@ const IndexPage: FC = () => {
           tortor. Suspendisse nec suscipit mauris.
         </ParagraphText>
       </StyledDiv>
-    </Layout>
+    </>
   );
 };
 

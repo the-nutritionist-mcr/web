@@ -25,7 +25,7 @@ const YourAccountHeader = styled('h1')`
 
 const Account: FC = () => {
   return (
-    <Layout>
+    <>
       <Hero>
         <YourAccountHeaderBox>
           <img
@@ -47,7 +47,7 @@ const Account: FC = () => {
       >
         Logout
       </Button>
-    </Layout>
+    </>
   );
 };
 

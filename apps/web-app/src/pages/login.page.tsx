@@ -22,7 +22,7 @@ const YourAccountHeader = styled('h1')`
 
 const Login: FC = () => {
   return (
-    <Layout>
+    <>
       <Hero>
         <YourAccountHeaderBox>
           <img src={AccountIcon} alt="" height="80" width="80" />
@@ -30,7 +30,7 @@ const Login: FC = () => {
         </YourAccountHeaderBox>
       </Hero>
       <LoginAndRegisterBox defaultTab="Login" />
-    </Layout>
+    </>
   );
 };
 
