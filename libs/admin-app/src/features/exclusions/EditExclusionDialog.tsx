@@ -1,5 +1,4 @@
 import { CheckBox, FormField, TextInput } from "grommet";
-import { ApiRequestFunction } from "../../lib/apiRequestCreator";
 import Exclusion from "../../domain/Exclusion";
 import { OkCancelDialog } from "../../components";
 import React from "react";
@@ -7,7 +6,6 @@ import React from "react";
 interface EditExclusionDialogProps {
   exclusion: Exclusion;
   // eslint-disable-next-line @typescript-eslint/ban-types
-  thunk: ApiRequestFunction<Exclusion>;
   onOk: () => void;
   title: string;
   onCancel: () => void;
@@ -22,7 +20,6 @@ const EditExclusionDialog: React.FC<EditExclusionDialogProps> = (props) => {
       onOk={props.onOk}
       onCancel={props.onCancel}
       thing={props.exclusion}
-      thunk={props.thunk}
     >
       <FormField name="name" label="Name" required>
         <TextInput name="name" />

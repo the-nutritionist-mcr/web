@@ -1,11 +1,10 @@
-import { Button, TableCell, TableRow } from "grommet";
-import { Edit, Trash } from "grommet-icons";
-import { removeExclusion, updateExclusion } from "./exclusionsSlice";
-import EditExclusionDialog from "./EditExclusionDialog";
-import Exclusion from "../../domain/Exclusion";
-import { OkCancelDialog } from "../../components";
-import React from "react";
-import styled from "styled-components";
+import { Button, TableCell, TableRow } from 'grommet';
+import { Edit, Trash } from 'grommet-icons';
+import EditExclusionDialog from './EditExclusionDialog';
+import Exclusion from '../../domain/Exclusion';
+import { OkCancelDialog } from '../../components';
+import React from 'react';
+import styled from 'styled-components';
 
 interface ExclusionRowProps {
   exclusion: Exclusion;
@@ -15,14 +14,14 @@ const SlimButton = styled(Button)`
   padding: 0 5px 0 5px;
 `;
 
-const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
+const ExclusionRow: React.FC<ExclusionRowProps> = props => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
   return (
     <TableRow>
       <TableCell scope="row">{props.exclusion.name}</TableCell>
       <TableCell scope="row">
-        {props.exclusion.allergen ? "Yes" : "No"}
+        {props.exclusion.allergen ? 'Yes' : 'No'}
       </TableCell>
       <TableCell scope="row">
         <SlimButton
@@ -35,7 +34,6 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
           show={showDoDelete}
           header="Are you sure?"
           thing={props.exclusion}
-          thunk={removeExclusion}
           onOk={() => {
             setShowDoDelete(false);
           }}
@@ -53,7 +51,6 @@ const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
         <EditExclusionDialog
           exclusion={props.exclusion}
           title="Edit Customisation"
-          thunk={updateExclusion}
           onOk={(): void => {
             setShowEdit(false);
           }}

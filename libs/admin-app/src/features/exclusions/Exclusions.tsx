@@ -12,11 +12,10 @@ import {
 import EditExclusionDialog from "./EditExclusionDialog";
 import ExclusionRow from "./ExclusionRow";
 import React from "react";
-import { allExclusionsSelector, createExclusion } from "./exclusionsSlice";
-import { useSelector } from "react-redux";
+import Exclusion from "../../domain/Exclusion";
 
 const Exclusions: React.FC = () => {
-  const exclusions = useSelector(allExclusionsSelector);
+  const exclusions: Exclusion[] = []
   const [showCreate, setShowCreate] = React.useState(false);
 
   return (
@@ -40,7 +39,6 @@ const Exclusions: React.FC = () => {
           }}
           show={showCreate}
           title="Create Customisation"
-          thunk={createExclusion}
           onOk={(): void => {
             setShowCreate(false);
           }}

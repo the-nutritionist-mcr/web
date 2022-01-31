@@ -13,7 +13,6 @@ import { Checkmark, Close } from 'grommet-icons';
 import React from 'react';
 import assertFC from '../../lib/assertFC';
 import { debounce } from 'lodash';
-import { useDispatch } from 'react-redux';
 
 interface OkCancelDialogProps<T = undefined> {
   thing?: T;
@@ -31,7 +30,6 @@ function OkCancelDialogContainer<T>(
 ): React.ReactElement | null {
   const thingValue = props.thing ? { ...props.thing } : props.thing;
   const [thing, setThing] = React.useState<T | undefined>(thingValue);
-  const dispatch = useDispatch();
   const onSubmit = debounce(async (): Promise<void> => {
     props.onOk();
   }, ON_SUBMIT_DEBOUNCE);
