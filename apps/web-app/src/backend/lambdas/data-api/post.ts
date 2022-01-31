@@ -12,7 +12,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
   const command = new PutCommand({
     TableName: process.env['DYNAMODB_TABLE'],
-    Item: { id, ...JSON.parse(event.body) },
+    Item: { ...JSON.parse(event.body), id },
     ConditionExpression: 'attribute_not_exists(id)',
   });
 

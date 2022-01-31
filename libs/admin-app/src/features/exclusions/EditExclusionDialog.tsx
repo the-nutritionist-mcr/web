@@ -6,7 +6,7 @@ import React from "react";
 interface EditExclusionDialogProps {
   exclusion: Exclusion;
   // eslint-disable-next-line @typescript-eslint/ban-types
-  onOk: () => void;
+  onOk: (thing: Exclusion | undefined) => void;
   title: string;
   onCancel: () => void;
   show: boolean;

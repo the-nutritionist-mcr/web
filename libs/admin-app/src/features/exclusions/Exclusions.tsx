@@ -16,6 +16,7 @@ import Exclusion from '../../domain/Exclusion';
 
 interface ExclusionsProps {
   exclusions?: Exclusion[];
+  create: (newExclusion: Exclusion) => Promise<void>;
 }
 
 const Exclusions: React.FC<ExclusionsProps> = props => {
@@ -43,8 +44,9 @@ const Exclusions: React.FC<ExclusionsProps> = props => {
           }}
           show={showCreate}
           title="Create Customisation"
-          onOk={(): void => {
+          onOk={(thing: Exclusion | undefined) => {
             setShowCreate(false);
+            thing && props.create(thing)
           }}
           onCancel={(): void => {
             setShowCreate(false);

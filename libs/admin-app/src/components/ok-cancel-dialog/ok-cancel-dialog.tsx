@@ -18,7 +18,7 @@ interface OkCancelDialogProps<T = undefined> {
   thing?: T;
   show?: boolean;
   header: string;
-  onOk: () => void;
+  onOk: (thing: T | undefined) => void;
   onChange?: (value: unknown) => void;
   onCancel: () => void;
 }
@@ -31,7 +31,7 @@ function OkCancelDialogContainer<T>(
   const thingValue = props.thing ? { ...props.thing } : props.thing;
   const [thing, setThing] = React.useState<T | undefined>(thingValue);
   const onSubmit = debounce(async (): Promise<void> => {
-    props.onOk();
+    props.onOk(thing);
   }, ON_SUBMIT_DEBOUNCE);
   const contents = (
     <React.Fragment>
@@ -48,7 +48,7 @@ function OkCancelDialogContainer<T>(
           type={props.thing ? 'submit' : undefined}
           icon={<Checkmark color="brand" size="small" />}
           label="Ok"
-          onClick={props.thing ? undefined : props.onOk}
+          onClick={props.thing ? undefined : () => props.onOk(thing)}
         />
         <Button
           icon={<Close color="brand" size="small" />}
