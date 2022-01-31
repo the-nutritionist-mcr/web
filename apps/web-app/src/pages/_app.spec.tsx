@@ -17,5 +17,5 @@ test('the app page renders the component that was passed to it', () => {
 
   render(<TnmApp router={mockRouter} pageProps={{}} Component={component} />);
 
-  expect(screen.queryByText('Hello!')).toBeInTheDocument();
+  expect(screen.queryByText('Hello!')).toBeTruthy();
 });

@@ -73,7 +73,7 @@ describe('The authenticate module', () => {
 
       const result = await authenticate.login('foo', 'bar');
 
-      expect(result.success).toBeFalse();
+      expect(result.success).toBeFalsy();
       expect(result.challengeName).toEqual('foo');
     });
 
@@ -98,7 +98,7 @@ describe('The authenticate module', () => {
 
       const result = await authenticate.login('foo', 'bar');
 
-      expect(result.success).toBeTrue();
+      expect(result.success).toBeTruthy();
     });
 
     it('doesnt change the type of the object returned from the login method', async () => {
@@ -169,7 +169,7 @@ describe('The authenticate module', () => {
         passwordValue
       );
 
-      expect(result.success).toBeFalse();
+      expect(result.success).toBeFalsy();
       expect(result.challengeName).toEqual('foo');
     });
 
@@ -198,7 +198,7 @@ describe('The authenticate module', () => {
         passwordValue
       );
 
-      expect(result.success).toBeTrue();
+      expect(result.success).toBeTruthy();
     });
   });
 
