@@ -1,14 +1,18 @@
 import { FC } from 'react';
-import { MenuPaddedContent} from "./menu-padded-content"
+import { MenuPaddedContent } from './menu-padded-content';
 
 import { Exclusions } from '@tnmw/admin-app';
+import { useCustomisations } from '../../hooks/use-customisations';
 
 const RecipesPage: FC = () => {
-  return (
-  <MenuPaddedContent>
-    <Exclusions />
-  </MenuPaddedContent>
-  )
+  const { data } = useCustomisations();
+  return data ? (
+    <MenuPaddedContent>
+      <Exclusions exclusions={data.items} />
+    </MenuPaddedContent>
+  ) : (
+    <>Loading</>
+  );
 };
 
 export default RecipesPage;

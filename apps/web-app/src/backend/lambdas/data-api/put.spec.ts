@@ -18,7 +18,7 @@ describe('the get handler', () => {
     process.env['DYNAMODB_TABLE'] = 'foo-table';
 
     const inputItem = {
-      foo: 'baz'
+      foo: 'baz',
     };
 
     const mockInput = mock<APIGatewayProxyEventV2>();
@@ -30,14 +30,19 @@ describe('the get handler', () => {
     const calls = dynamodbMock.commandCalls(PutCommand, {
       TableName: 'foo-table',
       Item: { ...inputItem },
-      ConditionExpression: 'attribute_exists(id)'
+      ConditionExpression: 'attribute_exists(id)',
     });
 
     expect(calls).toHaveLength(1);
 
     expect(response).toStrictEqual({
       statusCode: 200,
-      body: JSON.stringify({})
+      body: JSON.stringify({}),
+
+      headers: {
+        'access-control-allow-origin': '*',
+        'access-control-allow-headers': '*',
+      },
     });
   });
 });

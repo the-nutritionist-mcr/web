@@ -1,11 +1,13 @@
 import { Auth } from '@aws-amplify/auth';
-import { getPoolConfig, AuthDetails } from './get-pool-config';
+import { getPoolConfig } from './get-pool-config';
 
 const REGION = 'eu-west-2';
 
+type ExtractPromiseType<T> = T extends Promise<infer RT> ? RT : never;
+
 const getConfigurer = () => {
   // eslint-disable-next-line fp/no-let
-  let outputs: undefined | AuthDetails;
+  let outputs: undefined | ExtractPromiseType<ReturnType<typeof getPoolConfig>>;
   return async () => {
     if (!outputs) {
       // eslint-disable-next-line fp/no-mutation

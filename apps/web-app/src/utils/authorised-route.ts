@@ -11,9 +11,9 @@ interface AuthorizedRouteWrapper {
 
 export const authorizedRoute: AuthorizedRouteWrapper = ({
   groups,
-  getServerSideProps
+  getServerSideProps,
 } = {}): GetServerSideProps => {
-  return async context => {
+  return async (context) => {
     const tokenPair = Object.entries(context.req.cookies).find(([key]) =>
       key.endsWith('.accessToken')
     );
@@ -28,7 +28,7 @@ export const authorizedRoute: AuthorizedRouteWrapper = ({
       return backendRedirect('login', 'Token verification failed');
     }
 
-    if (groups?.some(group => !verifyResult.groups.includes(group))) {
+    if (groups?.some((group) => !verifyResult.groups.includes(group))) {
       return backendRedirect(
         'login',
         'Verification was successful, but user is not authorised to access this route'

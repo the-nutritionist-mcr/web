@@ -18,21 +18,28 @@ describe('the get handler', () => {
 
     const expectedItems = [
       {
-        foo: 'bar'
+        foo: 'bar',
       },
       {
-        foo: 'baz'
-      }
+        foo: 'baz',
+      },
     ];
 
     dynamodbMock
       .on(ScanCommand, {
-        TableName: 'foo-table'
+        TableName: 'foo-table',
       })
       .resolves({ Items: expectedItems });
 
     const response = await handler(mock(), mock(), mock());
 
-    expect(response).toStrictEqual({ statusCode: 200, body: JSON.stringify({ items: expectedItems })})
+    expect(response).toStrictEqual({
+      statusCode: 200,
+      body: JSON.stringify({ items: expectedItems }),
+      headers: {
+        'access-control-allow-origin': '*',
+        'access-control-allow-headers': '*',
+      },
+    });
   });
 });

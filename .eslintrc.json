@@ -25,6 +25,7 @@
         // Extremely slow
         "unicorn/better-regex": "off",
         "fp/no-class": "off",
+        "fp/no-rest-parameters": "off",
         "fp/no-nil": "off",
         "fp/no-throw": "off",
         "fp/no-mutation": "off",

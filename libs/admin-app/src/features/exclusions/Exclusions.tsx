@@ -7,15 +7,19 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-  Text,
-} from "grommet";
-import EditExclusionDialog from "./EditExclusionDialog";
-import ExclusionRow from "./ExclusionRow";
-import React from "react";
-import Exclusion from "../../domain/Exclusion";
+  Text
+} from 'grommet';
+import EditExclusionDialog from './EditExclusionDialog';
+import ExclusionRow from './ExclusionRow';
+import React from 'react';
+import Exclusion from '../../domain/Exclusion';
 
-const Exclusions: React.FC = () => {
-  const exclusions: Exclusion[] = []
+interface ExclusionsProps {
+  exclusions?: Exclusion[];
+}
+
+const Exclusions: React.FC<ExclusionsProps> = props => {
+  const exclusions = props.exclusions ?? [];
   const [showCreate, setShowCreate] = React.useState(false);
 
   return (
@@ -33,9 +37,9 @@ const Exclusions: React.FC = () => {
         />
         <EditExclusionDialog
           exclusion={{
-            id: "0",
-            name: "",
-            allergen: false,
+            id: '0',
+            name: '',
+            allergen: false
           }}
           show={showCreate}
           title="Create Customisation"
@@ -68,7 +72,7 @@ const Exclusions: React.FC = () => {
               // eslint-disable-next-line @typescript-eslint/no-magic-numbers
               .sort((a, b) => (a.name > b.name ? -1 : 1))
               .reverse()
-              .map((exclusion) => (
+              .map(exclusion => (
                 <ExclusionRow key={exclusion.id} exclusion={exclusion} />
               ))}
           </TableBody>

@@ -12,11 +12,15 @@ export const handler: APIGatewayProxyHandlerV2 = async () => {
   const { Items: items } = await client.send(command);
 
   const body = JSON.stringify({
-    items
+    items,
   });
 
   return {
     statusCode: 200,
-    body
+    body,
+    headers: {
+      'access-control-allow-origin': '*',
+      'access-control-allow-headers': '*',
+    },
   };
 };

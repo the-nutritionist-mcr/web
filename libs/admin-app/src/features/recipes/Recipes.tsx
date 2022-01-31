@@ -18,8 +18,12 @@ import RecipesRow from '../recipes/RecipesRow';
 import { defaultDeliveryDays } from '../../lib/config';
 import PlanningModeSummary from './PlanningModeSummary';
 
-const Recipes: React.FC = () => {
-  const recipes: Recipe[] = [];
+interface RecipesProps {
+  recipes?: Recipe[];
+}
+
+const Recipes: React.FC<RecipesProps> = props => {
+  const recipes = props.recipes ?? [];
   const error = '';
   const [planningMode, setPlanningMode] = React.useState(false);
   const [showCreate, setShowCreate] = React.useState(false);
