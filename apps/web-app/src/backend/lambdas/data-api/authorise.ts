@@ -7,6 +7,10 @@ export const authorise = async (
   event: APIGatewayProxyEventV2,
   groups: string[]
 ) => {
+  if (!event.cookies) {
+    throw new HttpError(403, "Request didn't contain any cookies");
+  }
+
   const tokenPair = Object.entries(event.cookies).find(([key]) =>
     key.endsWith('.accessToken')
   );
@@ -17,7 +21,7 @@ export const authorise = async (
 
   const verifyResult = await verifyJwtToken({
     token: tokenPair[1],
-    authorisedGroups: groups,
+    authorisedGroups: groups
   });
 
   if (!verifyResult.isValid) {
