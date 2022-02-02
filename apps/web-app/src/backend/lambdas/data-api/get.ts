@@ -1,9 +1,23 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
+import { verifyJwtToken } from "@tnmw/authorise-cognito-jwt"
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 
-export const handler: APIGatewayProxyHandlerV2 = async () => {
+export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+
+  const verificationResponse = await verifyJwtToken({
+    token: event.headers['authorization'],
+    authorisedGroups: ['admin']
+  })
+
+  if(!verificationResponse.isValid) {
+    return {
+      statusCode: 403,
+      body: JSON.stringify({ 'error': 'unauthorised' })
+    }
+  }
+
   const dynamodb = new DynamoDBClient({});
   const client = DynamoDBDocumentClient.from(dynamodb);
 
