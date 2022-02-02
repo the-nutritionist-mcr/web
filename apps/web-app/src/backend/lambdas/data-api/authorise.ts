@@ -7,7 +7,11 @@ export const authorise = async (
   event: APIGatewayProxyEventV2,
   groups: string[]
 ) => {
-  const authHeader = event.headers['authorization'];
+  const authHeader =
+    event.headers &&
+    Object.entries(event.headers).find(
+      (pair) => pair[0].toLowerCase() === 'authorization'
+    )[1];
 
   if (!authHeader) {
     throw new HttpError(403, "Request didn't contain an authorization header");
@@ -15,7 +19,7 @@ export const authorise = async (
 
   const verifyResult = await verifyJwtToken({
     token: authHeader,
-    authorisedGroups: groups
+    authorisedGroups: groups,
   });
 
   if (!verifyResult.isValid) {

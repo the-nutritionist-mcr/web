@@ -8,15 +8,21 @@ export const swrFetcher = async <T>(
   const { ApiDomainName: domainName } = await getOutputs();
 
   const user = await currentUser();
-  const { signInUserSession: { idToken: { jwtToken } } } = user
+  const {
+    signInUserSession: {
+      idToken: { jwtToken },
+    },
+  } = user;
 
   const withToken = {
     headers: {
-      "authorization": jwtToken
-    }
-  }
+      authorization: jwtToken,
+    },
+  };
 
-  const finalInit = init ? { ...init, ...withToken } : withToken
+  const finalInit = init ? { ...init, ...withToken } : withToken;
 
-  return fetch(`https://${domainName}/${path}`, finalInit).then(res => res.json());
+  return fetch(`https://${domainName}/${path}`, finalInit).then((res) =>
+    res.json()
+  );
 };

@@ -114,14 +114,17 @@ export const makeDataApis = (
   makeDataApi(context, 'customisation', envName, api, pool);
 
   const chargebeeAccessToken = new Secret(context, 'ChargeeAccessToken', {
-    secretName: getResourceName(`chargebee-access-token`, envName)
-  })
+    secretName: getResourceName(`chargebee-access-token`, envName),
+  });
 
   const customers = api.root.addResource('customers');
 
   const me = customers.addResource('me');
 
-  const individualAcccessFunction = new NodejsFunction(context, `chargebe-me-function`, {
+  const individualAcccessFunction = new NodejsFunction(
+    context,
+    `chargebe-me-function`,
+    {
       functionName: getResourceName(`chargebee-me-handler`, envName),
       entry: entryName('chargebee-api', 'me.ts'),
       runtime: Runtime.NODEJS_14_X,
@@ -129,12 +132,13 @@ export const makeDataApis = (
       environment: {
         ENVIRONMENT_NAME: envName,
         CHARGEBEE_TOKEN: chargebeeAccessToken.secretValue.toString(),
-        COGNITO_POOL_ID: pool.userPoolId
+        COGNITO_POOL_ID: pool.userPoolId,
       },
       bundling: {
         sourceMap: true,
       },
-    });
+    }
+  );
 
-    me.addMethod("GET", new LambdaIntegration(individualAcccessFunction));
+  me.addMethod('GET', new LambdaIntegration(individualAcccessFunction));
 };

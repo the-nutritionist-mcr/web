@@ -10371,6 +10371,13 @@ charenc@0.0.2:
   resolved "https://registry.npmjs.org/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
   integrity sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=
 
+chargebee-typescript@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.npmjs.org/chargebee-typescript/-/chargebee-typescript-2.5.0.tgz#9eb0f53674965c525654dc5fd4ef3461e69b1f06"
+  integrity sha512-s/S8omW+Ex+auKD2bCAVJUniLleY49S6VFMj2vZyH9S5ciggnPRRMTXKVGi9w+236Ili6suc7ypVaLo9V/N0ng==
+  dependencies:
+    q ">=1.0.1"
+
 chartjs@^0.3.24:
   version "0.3.24"
   resolved "https://registry.npmjs.org/chartjs/-/chartjs-0.3.24.tgz#3addeb5ae3606b3e89e346c27d52ca158416e93d"
@@ -20013,7 +20020,7 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.npmjs.org/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-q@^1.1.2:
+q@>=1.0.1, q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.npmjs.org/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
