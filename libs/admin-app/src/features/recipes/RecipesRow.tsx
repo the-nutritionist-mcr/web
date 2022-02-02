@@ -6,6 +6,7 @@ import { OkCancelDialog } from '../../components';
 import React from 'react';
 import Recipe from '../../domain/Recipe';
 import styled from 'styled-components';
+import Exclusion from '../../domain/Exclusion';
 
 const SlimButton = styled(Button)`
   padding: 0 5px 0 5px;
@@ -13,7 +14,10 @@ const SlimButton = styled(Button)`
 
 interface RecipesRowProps {
   recipe: Recipe;
+  exclusions?: Exclusion[];
   onChange: (newRecipe: Recipe) => void;
+  remove: (recipe: Recipe) => Promise<void>;
+  update: (recipe: Recipe) => Promise<void>;
   showCheckBoxes: boolean;
   plannerMode: boolean;
   selectedDeliveryDay: number;
@@ -88,6 +92,7 @@ const RecipesRow: React.FC<RecipesRowProps> = props => {
             thing={props.recipe}
             onOk={(): void => {
               setShowDoDelete(false);
+              props.remove(props.recipe);
             }}
             onCancel={(): void => setShowDoDelete(false)}
           >
@@ -103,9 +108,11 @@ const RecipesRow: React.FC<RecipesRowProps> = props => {
           {showEdit && (
             <EditRecipesDialog
               recipe={props.recipe}
+              exclusions={props.exclusions}
               title="Edit Recipe"
-              onOk={(): void => {
+              onOk={(recipe: Recipe): void => {
                 setShowEdit(false);
+                props.update(recipe);
               }}
               onCancel={(): void => {
                 setShowEdit(false);

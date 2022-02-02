@@ -17,9 +17,14 @@ import React from 'react';
 import RecipesRow from '../recipes/RecipesRow';
 import { defaultDeliveryDays } from '../../lib/config';
 import PlanningModeSummary from './PlanningModeSummary';
+import Exclusion from '../../domain/Exclusion';
 
 interface RecipesProps {
   recipes?: Recipe[];
+  customisations?: Exclusion[];
+  create: (newRecipe: Recipe) => Promise<void>;
+  remove: (recipeToRemove: Recipe) => Promise<void>;
+  update: (recipeToUpdate: Recipe) => Promise<void>;
 }
 
 const Recipes: React.FC<RecipesProps> = props => {
@@ -59,6 +64,7 @@ const Recipes: React.FC<RecipesProps> = props => {
 
         {showCreate && (
           <EditRecipesDialog
+            exclusions={props.customisations}
             recipe={{
               id: '0',
               shortName: '',
@@ -68,7 +74,8 @@ const Recipes: React.FC<RecipesProps> = props => {
               potentialExclusions: []
             }}
             title="Create Recipe"
-            onOk={(): void => {
+            onOk={(recipe: Recipe): void => {
+              props.create(recipe)
               setShowCreate(false);
             }}
             onCancel={(): void => {
@@ -121,6 +128,9 @@ const Recipes: React.FC<RecipesProps> = props => {
                   .map(recipe => (
                     /* eslint-enable fp/no-mutating-methods */
                     <RecipesRow
+                      exclusions={props.customisations}
+                      update={props.update}
+                      remove={props.remove}
                       plannerSelection={plannerSelection}
                       selectedDeliveryDay={selectedDelivery}
                       onSelect={newPlannerSelection =>

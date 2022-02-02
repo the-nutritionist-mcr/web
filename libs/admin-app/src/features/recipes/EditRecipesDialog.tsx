@@ -19,7 +19,8 @@ import Exclusion from '../../domain/Exclusion';
 
 interface EditRecipesDialogProps {
   recipe: Recipe;
-  onOk: () => void;
+  exclusions?: Exclusion[];
+  onOk: (recipe: Recipe) => void;
   title: string;
   onCancel: () => void;
 }
@@ -28,12 +29,10 @@ const ONSUBMIT_DEBOUNCE = 500;
 
 const EditRecipesDialog: React.FC<EditRecipesDialogProps> = props => {
   const [recipe, setRecipe] = React.useState(props.recipe);
-  const exclusions: Exclusion[] = [];
+  const exclusions = props.exclusions ?? [];
 
   const onSubmit = debounce(async (): Promise<void> => {
-    // eslint-disable-next-line no-console
-    console.log('SUBMITTING');
-    props.onOk();
+    props.onOk(recipe);
   }, ONSUBMIT_DEBOUNCE);
 
   const formRecipe = {
