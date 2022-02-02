@@ -11,6 +11,7 @@ import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
 import { IRestApi, LambdaIntegration, RestApi } from '@aws-cdk/aws-apigateway';
 import path from 'node:path';
 import { getDomainName } from './get-domain-name';
+import { IUserPool } from '@aws-cdk/aws-cognito';
 
 const entryName = (folder: string, name: string) =>
   // eslint-disable-next-line unicorn/prefer-module
@@ -20,7 +21,8 @@ const makeDataApi = (
   context: Construct,
   name: string,
   environment: string,
-  api: IRestApi
+  api: IRestApi,
+  pool: IUserPool
 ) => {
   const apiResource = api.root.addResource(name);
 
@@ -42,6 +44,7 @@ const makeDataApi = (
       environment: {
         ENVIRONMENT_NAME: environment,
         DYNAMODB_TABLE: dataTable.tableName,
+        COGNITO_POOL_ID: pool.userPoolId,
       },
       bundling: {
         sourceMap: true,
@@ -67,7 +70,8 @@ const makeDataApi = (
 export const makeDataApis = (
   context: Construct,
   hostedZone: IHostedZone,
-  envName: string
+  envName: string,
+  pool: IUserPool
 ) => {
   const domainName = getDomainName(envName, 'api');
 
@@ -106,8 +110,8 @@ export const makeDataApis = (
     target: RecordTarget.fromAlias(new ApiGatewayDomain(apiDomainName)),
   });
 
-  makeDataApi(context, 'recipe', envName, api);
-  makeDataApi(context, 'customisation', envName, api);
+  makeDataApi(context, 'recipe', envName, api, pool);
+  makeDataApi(context, 'customisation', envName, api, pool);
 
   const chargebeeAccessToken = new Secret(this, 'ChargeeAccessToken', {
     secretName: getResourceName(`chargebee-access-token`, envName)
@@ -124,7 +128,8 @@ export const makeDataApis = (
       memorySize: 2048,
       environment: {
         ENVIRONMENT_NAME: envName,
-        CHARGEBEE_TOKEN: chargebeeAccessToken.secretValue.toString()
+        CHARGEBEE_TOKEN: chargebeeAccessToken.secretValue.toString(),
+        COGNITO_POOL_ID: pool.userPoolId
       },
       bundling: {
         sourceMap: true,

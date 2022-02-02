@@ -40,7 +40,7 @@ class AppStack extends Stack {
 
     deployStatics(this, props.envName, distribution);
 
-    makeDataApis(this, hostedZone, props.envName);
+    makeDataApis(this, hostedZone, props.envName, userPool);
   }
 }
 
