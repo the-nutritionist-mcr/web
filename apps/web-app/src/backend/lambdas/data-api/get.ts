@@ -8,6 +8,7 @@ import { returnErrorResponse } from './return-error-response';
 
 export const handler: APIGatewayProxyHandlerV2 = async event => {
   try {
+    // eslint-disable-next-line unicorn/no-null
     console.log(JSON.stringify(event, null, 2));
     authorise(event, ['admin']);
 
