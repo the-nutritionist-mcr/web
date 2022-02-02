@@ -12,7 +12,7 @@ export const handler: APIGatewayProxyHandlerV2 = async () => {
   const { Items: items } = await client.send(command);
 
   const body = JSON.stringify({
-    items,
+    items: items.filter(item => !item.deleted)
   });
 
   return {
@@ -20,7 +20,7 @@ export const handler: APIGatewayProxyHandlerV2 = async () => {
     body,
     headers: {
       'access-control-allow-origin': '*',
-      'access-control-allow-headers': '*',
-    },
+      'access-control-allow-headers': '*'
+    }
   };
 };

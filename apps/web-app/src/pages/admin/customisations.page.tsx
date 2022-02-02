@@ -3,13 +3,13 @@ import { Exclusion } from '@tnmw/admin-app';
 import { MenuPaddedContent } from './menu-padded-content';
 
 import { Exclusions } from '@tnmw/admin-app';
-import { useResource } from '../../hooks/use-customisations';
+import { useResource } from '../../hooks/use-resource';
 
 const RecipesPage: FC = () => {
-  const { data, create } = useResource<Exclusion>('customisation');
+  const { data, create, remove } = useResource<Exclusion>('customisation');
   return data ? (
     <MenuPaddedContent>
-      <Exclusions exclusions={data.items} create={create} />
+      <Exclusions exclusions={data.items} create={create} remove={remove} />
     </MenuPaddedContent>
   ) : (
     <>Loading</>

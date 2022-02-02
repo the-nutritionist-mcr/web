@@ -7,6 +7,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface ExclusionRowProps {
+  remove: (exclusionToRemove: Exclusion) => Promise<void>;
   exclusion: Exclusion;
 }
 
@@ -36,6 +37,7 @@ const ExclusionRow: React.FC<ExclusionRowProps> = props => {
           thing={props.exclusion}
           onOk={() => {
             setShowDoDelete(false);
+            props.remove(props.exclusion);
           }}
           onCancel={(): void => setShowDoDelete(false)}
         >

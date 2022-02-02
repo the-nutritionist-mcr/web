@@ -17,6 +17,7 @@ import Exclusion from '../../domain/Exclusion';
 interface ExclusionsProps {
   exclusions?: Exclusion[];
   create: (newExclusion: Exclusion) => Promise<void>;
+  remove: (exclusionToRemove: Exclusion) => Promise<void>;
 }
 
 const Exclusions: React.FC<ExclusionsProps> = props => {
@@ -75,7 +76,7 @@ const Exclusions: React.FC<ExclusionsProps> = props => {
               .sort((a, b) => (a.name > b.name ? -1 : 1))
               .reverse()
               .map(exclusion => (
-                <ExclusionRow key={exclusion.id} exclusion={exclusion} />
+                <ExclusionRow key={exclusion.id} exclusion={exclusion} remove={props.remove}/>
               ))}
           </TableBody>
         </Table>
