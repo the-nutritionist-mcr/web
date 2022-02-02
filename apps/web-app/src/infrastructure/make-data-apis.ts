@@ -3,6 +3,7 @@ import { DnsValidatedCertificate } from '@aws-cdk/aws-certificatemanager';
 import { ARecord, RecordTarget } from '@aws-cdk/aws-route53';
 import { ApiGatewayDomain } from '@aws-cdk/aws-route53-targets';
 import { Runtime } from '@aws-cdk/aws-lambda';
+import { Secret } from '@aws-cdk/aws-secretsmanager';
 import { IHostedZone } from '@aws-cdk/aws-route53';
 import { Table, AttributeType, BillingMode } from '@aws-cdk/aws-dynamodb';
 import { getResourceName } from './get-resource-name';
@@ -11,9 +12,9 @@ import { IRestApi, LambdaIntegration, RestApi } from '@aws-cdk/aws-apigateway';
 import path from 'node:path';
 import { getDomainName } from './get-domain-name';
 
-const entryName = (name: string) =>
+const entryName = (folder: string, name: string) =>
   // eslint-disable-next-line unicorn/prefer-module
-  path.resolve(__dirname, '..', 'backend', 'lambdas', 'data-api', name);
+  path.resolve(__dirname, '..', 'backend', 'lambdas', folder, name);
 
 const makeDataApi = (
   context: Construct,
@@ -35,7 +36,7 @@ const makeDataApi = (
   const makeCrudFunction = (entry: string, opName: string) =>
     new NodejsFunction(context, `${opName}${name}`, {
       functionName: getResourceName(`${opName}-${name}-handler`, environment),
-      entry: entryName(entry),
+      entry: entryName('data-api', entry),
       runtime: Runtime.NODEJS_14_X,
       memorySize: 2048,
       environment: {
@@ -107,4 +108,28 @@ export const makeDataApis = (
 
   makeDataApi(context, 'recipe', envName, api);
   makeDataApi(context, 'customisation', envName, api);
+
+  const chargebeeAccessToken = new Secret(this, 'ChargeeAccessToken', {
+    secretName: getResourceName(`chargebee-access-token`, envName)
+  })
+
+  const customers = api.root.addResource('customers');
+
+  const me = customers.addResource('me');
+
+  const individualAcccessFunction = new NodejsFunction(context, `chargebe-me-function`, {
+      functionName: getResourceName(`chargebee-me-handler`, envName),
+      entry: entryName('chargebee-api', 'me.ts'),
+      runtime: Runtime.NODEJS_14_X,
+      memorySize: 2048,
+      environment: {
+        ENVIRONMENT_NAME: envName,
+        CHARGEBEE_TOKEN: chargebeeAccessToken.secretValue.toString()
+      },
+      bundling: {
+        sourceMap: true,
+      },
+    });
+
+    me.addMethod("GET", new LambdaIntegration(individualAcccessFunction));
 };
