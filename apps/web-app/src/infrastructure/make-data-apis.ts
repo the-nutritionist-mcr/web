@@ -28,8 +28,8 @@ const makeDataApi = (
     billingMode: BillingMode.PAY_PER_REQUEST,
     partitionKey: {
       name: 'id',
-      type: AttributeType.STRING,
-    },
+      type: AttributeType.STRING
+    }
   });
 
   const makeCrudFunction = (entry: string, opName: string) =>
@@ -39,11 +39,11 @@ const makeDataApi = (
       runtime: Runtime.NODEJS_14_X,
       memorySize: 2048,
       environment: {
-        DYNAMODB_TABLE: dataTable.tableName,
+        DYNAMODB_TABLE: dataTable.tableName
       },
       bundling: {
-        sourceMap: true,
-      },
+        sourceMap: true
+      }
     });
 
   const getFunction = makeCrudFunction('get.ts', `get`);
@@ -70,27 +70,38 @@ export const makeDataApis = (
   const domainName = getDomainName(envName, 'api');
 
   new CfnOutput(context, 'ApiDomainName', {
-    value: domainName,
+    value: domainName
   });
 
   const certificate = new DnsValidatedCertificate(context, 'apiCertificate', {
     domainName,
-    hostedZone,
+    hostedZone
   });
 
   const api = new RestApi(context, 'data-api', {
     restApiName: getResourceName('data-api', envName),
+    defaultCorsPreflightOptions: {
+      allowHeaders: [
+        'Content-Type',
+        'X-Amz-Date',
+        'Authorization',
+        'X-Api-Key'
+      ],
+      allowMethods: ['OPTIONS', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+      allowCredentials: true,
+      allowOrigins: ['*']
+    }
   });
 
   const apiDomainName = api.addDomainName('data-api-domain-name', {
     domainName,
-    certificate,
+    certificate
   });
 
   new ARecord(context, 'ApiARecord', {
     zone: hostedZone,
     recordName: domainName,
-    target: RecordTarget.fromAlias(new ApiGatewayDomain(apiDomainName)),
+    target: RecordTarget.fromAlias(new ApiGatewayDomain(apiDomainName))
   });
 
   makeDataApi(context, 'recipe', envName, api);

@@ -15,7 +15,7 @@ export const useResource = <T extends { id: string }>(type: string) => {
 
     const response = await swrFetcher<{ id: string }>(type, {
       method: 'POST',
-      body: JSON.stringify(item)
+      body: JSON.stringify(item),
     });
 
     item.id = response.id;
@@ -23,12 +23,12 @@ export const useResource = <T extends { id: string }>(type: string) => {
   };
 
   const remove = async (item: T) => {
-    const items = data.items.filter(dataItem => dataItem.id !== item.id);
+    const items = data.items.filter((dataItem) => dataItem.id !== item.id);
     mutate(type, { items }, false);
 
     await swrFetcher<{ id: string }>(type, {
       method: 'PUT',
-      body: JSON.stringify({ item, deleted: true })
+      body: JSON.stringify({ ...item, deleted: true }),
     });
   };
 
