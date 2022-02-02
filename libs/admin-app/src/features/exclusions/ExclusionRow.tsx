@@ -8,6 +8,7 @@ import styled from 'styled-components';
 
 interface ExclusionRowProps {
   remove: (exclusionToRemove: Exclusion) => Promise<void>;
+  update: (exclusionToUpdate: Exclusion) => Promise<void>;
   exclusion: Exclusion;
 }
 
@@ -53,8 +54,11 @@ const ExclusionRow: React.FC<ExclusionRowProps> = props => {
         <EditExclusionDialog
           exclusion={props.exclusion}
           title="Edit Customisation"
-          onOk={(): void => {
+          onOk={(newExclusion: Exclusion | undefined): void => {
             setShowEdit(false);
+            if(newExclusion) {
+              props.update(newExclusion)
+            }
           }}
           show={showEdit}
           onCancel={(): void => {

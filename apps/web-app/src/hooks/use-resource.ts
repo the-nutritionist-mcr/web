@@ -26,11 +26,21 @@ export const useResource = <T extends { id: string }>(type: string) => {
     const items = data.items.filter((dataItem) => dataItem.id !== item.id);
     mutate(type, { items }, false);
 
-    await swrFetcher<{ id: string }>(type, {
+    await swrFetcher(type, {
       method: 'PUT',
       body: JSON.stringify({ ...item, deleted: true }),
     });
   };
 
-  return { data, create, remove };
+  const update = async (item: T) => {
+    const items = data.items.map(mappedItem => item.id === mappedItem.id ? item : mappedItem)
+    mutate(type, { items }, false);
+
+    await swrFetcher(type, {
+      method: 'PUT',
+      body: JSON.stringify(item),
+    });
+  };
+
+  return { data, create, remove, update };
 };
