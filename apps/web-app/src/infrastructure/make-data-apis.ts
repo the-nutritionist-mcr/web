@@ -113,7 +113,7 @@ export const makeDataApis = (
   makeDataApi(context, 'recipe', envName, api, pool);
   makeDataApi(context, 'customisation', envName, api, pool);
 
-  const chargebeeAccessToken = new Secret(this, 'ChargeeAccessToken', {
+  const chargebeeAccessToken = new Secret(context, 'ChargeeAccessToken', {
     secretName: getResourceName(`chargebee-access-token`, envName)
   })
 
