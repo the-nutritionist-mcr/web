@@ -36,6 +36,7 @@ export const verifyJwtToken = async (
     const { token } = config;
     const header = parseHeader(token);
     const key = await getPublicKey(header);
+    console.log(key);
     const claim = await verify(token, key);
     const currentSeconds = Math.floor(new Date(Date.now()).valueOf() / 1000);
     if (currentSeconds > (claim.exp ?? 0) || currentSeconds < claim.authTime) {
@@ -52,11 +53,11 @@ export const verifyJwtToken = async (
 
     const returnVal = {
       userName: claim.username,
-      groups: claim['cognito:groups'] ?? [],
+      groups: claim['cognito:groups'] ?? []
     };
 
     if (authorisedGroups && authorisedGroups.length > 0) {
-      const isValid = (claim['cognito:groups'] ?? []).some((group) =>
+      const isValid = (claim['cognito:groups'] ?? []).some(group =>
         authorisedGroups?.includes(group)
       );
       return isValid
@@ -64,20 +65,20 @@ export const verifyJwtToken = async (
         : {
             ...returnVal,
             isValid: false,
-            error: new Error(`User is not part of an authorised group`),
+            error: new Error(`User is not part of an authorised group`)
           };
     }
 
     return {
       ...returnVal,
-      isValid: true,
+      isValid: true
     };
   } catch (error) {
     return {
       userName: '',
       error: error instanceof Error ? error : undefined,
       isValid: false,
-      groups: [],
+      groups: []
     };
   }
 };

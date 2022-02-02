@@ -7,20 +7,14 @@ export const authorise = async (
   event: APIGatewayProxyEventV2,
   groups: string[]
 ) => {
-  if (!event.cookies) {
-    throw new HttpError(403, "Request didn't contain any cookies");
-  }
+  const authHeader = event.headers['authorization'];
 
-  const tokenPair = Object.entries(event.cookies).find(([key]) =>
-    key.endsWith('.accessToken')
-  );
-
-  if (!tokenPair || tokenPair.length !== 2) {
-    throw new HttpError(403, 'No .accessToken found');
+  if (!authHeader) {
+    throw new HttpError(403, "Request didn't contain an authorization header");
   }
 
   const verifyResult = await verifyJwtToken({
-    token: tokenPair[1],
+    token: authHeader,
     authorisedGroups: groups
   });
 
