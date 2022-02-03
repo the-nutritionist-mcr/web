@@ -25,7 +25,7 @@ export const authorizedRoute: AuthorizedRouteWrapper = ({
     const verifyResult = await verifyJwtToken({ token: tokenPair[1] });
 
     if (!verifyResult.isValid) {
-      return backendRedirect('login', 'Token verification failed');
+      return backendRedirect('login', `Token verification failed: ${verifyResult.error?.message}`);
     }
 
     if (groups?.some((group) => !verifyResult.groups.includes(group))) {
