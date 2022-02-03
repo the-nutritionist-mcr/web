@@ -9,6 +9,7 @@ import { CfnOutput, RemovalPolicy, Construct } from '@aws-cdk/core';
 import { getResourceName } from './get-resource-name';
 import { USER_ATTRIBUTES } from './constants';
 import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
+import path from 'node:path';
 
 const entryName = (folder: string, name: string) =>
   // eslint-disable-next-line unicorn/prefer-module
