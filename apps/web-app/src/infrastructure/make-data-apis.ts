@@ -8,10 +8,12 @@ import { IHostedZone } from '@aws-cdk/aws-route53';
 import { Table, AttributeType, BillingMode } from '@aws-cdk/aws-dynamodb';
 import { getResourceName } from './get-resource-name';
 import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
+import { Effect, PolicyStatement } from '@aws-cdk/aws-iam';
 import { IRestApi, LambdaIntegration, RestApi } from '@aws-cdk/aws-apigateway';
 import path from 'node:path';
 import { getDomainName } from './get-domain-name';
 import { IUserPool } from '@aws-cdk/aws-cognito';
+import { IAM } from "./constants"
 
 const entryName = (folder: string, name: string) =>
   // eslint-disable-next-line unicorn/prefer-module
@@ -31,8 +33,8 @@ const makeDataApi = (
     billingMode: BillingMode.PAY_PER_REQUEST,
     partitionKey: {
       name: 'id',
-      type: AttributeType.STRING,
-    },
+      type: AttributeType.STRING
+    }
   });
 
   const makeCrudFunction = (entry: string, opName: string) =>
@@ -44,11 +46,11 @@ const makeDataApi = (
       environment: {
         ENVIRONMENT_NAME: environment,
         DYNAMODB_TABLE: dataTable.tableName,
-        COGNITO_POOL_ID: pool.userPoolId,
+        COGNITO_POOL_ID: pool.userPoolId
       },
       bundling: {
-        sourceMap: true,
-      },
+        sourceMap: true
+      }
     });
 
   const getFunction = makeCrudFunction('get.ts', `get`);
@@ -76,12 +78,12 @@ export const makeDataApis = (
   const domainName = getDomainName(envName, 'api');
 
   new CfnOutput(context, 'ApiDomainName', {
-    value: domainName,
+    value: domainName
   });
 
   const certificate = new DnsValidatedCertificate(context, 'apiCertificate', {
     domainName,
-    hostedZone,
+    hostedZone
   });
 
   const api = new RestApi(context, 'data-api', {
@@ -91,30 +93,31 @@ export const makeDataApis = (
         'Content-Type',
         'X-Amz-Date',
         'Authorization',
-        'X-Api-Key',
+        'X-Api-Key'
       ],
       allowMethods: ['OPTIONS', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
       allowCredentials: true,
-      allowOrigins: ['*'],
-    },
+      allowOrigins: ['*']
+    }
   });
 
   const apiDomainName = api.addDomainName('data-api-domain-name', {
     domainName,
-    certificate,
+    certificate
   });
 
   new ARecord(context, 'ApiARecord', {
     zone: hostedZone,
     recordName: domainName,
-    target: RecordTarget.fromAlias(new ApiGatewayDomain(apiDomainName)),
+    target: RecordTarget.fromAlias(new ApiGatewayDomain(apiDomainName))
   });
 
   makeDataApi(context, 'recipe', envName, api, pool);
   makeDataApi(context, 'customisation', envName, api, pool);
+  makeDataApi(context, 'cook-plan', envName, api, pool);
 
   const chargebeeAccessToken = new Secret(context, 'ChargeeAccessToken', {
-    secretName: getResourceName(`chargebee-access-token`, envName),
+    secretName: getResourceName(`chargebee-access-token`, envName)
   });
 
   const customers = api.root.addResource('customers');
@@ -132,13 +135,49 @@ export const makeDataApis = (
       environment: {
         ENVIRONMENT_NAME: envName,
         CHARGEBEE_TOKEN: chargebeeAccessToken.secretValue.toString(),
-        COGNITO_POOL_ID: pool.userPoolId,
+        COGNITO_POOL_ID: pool.userPoolId
       },
       bundling: {
-        sourceMap: true,
-      },
+        sourceMap: true
+      }
     }
   );
 
   me.addMethod('GET', new LambdaIntegration(individualAcccessFunction));
+
+  const receiveChargebeeWebhook = api.root.addResource(
+    'receive-chargebee-webook'
+  );
+
+  const chargeBeeWebhookFunction = new NodejsFunction(
+    context,
+    `chargebee-webhook-function`,
+    {
+      functionName: getResourceName(`chargebee-webhook-handler`, envName),
+      entry: entryName('chargebee-api', 'webhook.ts'),
+      runtime: Runtime.NODEJS_14_X,
+      memorySize: 2048,
+      environment: {
+        ENVIRONMENT_NAME: envName,
+        CHARGEBEE_TOKEN: chargebeeAccessToken.secretValue.toString(),
+        COGNITO_POOL_ID: pool.userPoolId
+      },
+      bundling: {
+        sourceMap: true
+      }
+    }
+  );
+
+  receiveChargebeeWebhook.addMethod(
+    'POST',
+    new LambdaIntegration(chargeBeeWebhookFunction)
+  );
+
+  chargeBeeWebhookFunction.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [IAM.actions.cognito.adminGetUser, IAM.actions.cognito.adminCreateUser],
+      resources: [pool.userPoolArn]
+    })
+  );
 };
