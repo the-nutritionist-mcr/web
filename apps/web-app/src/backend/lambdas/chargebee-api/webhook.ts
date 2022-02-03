@@ -73,7 +73,7 @@ export const handler: APIGatewayProxyHandlerV2 = async event => {
       await client.send(command);
 
       return {
-        statusCode: 200
+        statusCode: HTTP.statusCodes.Ok
       };
     }
   } catch (error) {

@@ -3,10 +3,14 @@ import { handler } from './post';
 
 import { mockClient } from 'aws-sdk-client-mock';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { authorise } from './authorise';
 import { v4 } from 'uuid';
 import { APIGatewayProxyEventV2 } from 'aws-lambda';
+import { HTTP } from '../../../infrastructure/constants';
+import { HttpError } from './http-error';
 
 jest.mock('uuid');
+jest.mock('./authorise');
 
 const dynamodbMock = mockClient(DynamoDBDocumentClient);
 
@@ -17,11 +21,35 @@ beforeEach(() => {
 });
 
 describe('the get handler', () => {
+  it('returns a response with the statuscode from the error when an httpError is thrown by authorise', async () => {
+    jest
+      .mocked(authorise)
+      .mockRejectedValue(new HttpError(HTTP.statusCodes.Forbidden, 'oh no!'));
+
+    process.env['DYNAMODB_TABLE'] = 'foo-table';
+
+    const inputItem = {
+      foo: 'baz'
+    };
+
+    jest.mocked(v4).mockReturnValue('my-uuid');
+
+    const mockInput = mock<APIGatewayProxyEventV2>();
+
+    mockInput.body = JSON.stringify(inputItem);
+
+    const response = await handler(mockInput, mock(), mock());
+
+    expect(response).toEqual(
+      expect.objectContaining({ statusCode: HTTP.statusCodes.Forbidden })
+    );
+  });
+
   it('calls dynamodb putItem with input object and a generated id and returns the id', async () => {
     process.env['DYNAMODB_TABLE'] = 'foo-table';
 
     const inputItem = {
-      foo: 'baz',
+      foo: 'baz'
     };
 
     jest.mocked(v4).mockReturnValue('my-uuid');
@@ -35,7 +63,7 @@ describe('the get handler', () => {
     const calls = dynamodbMock.commandCalls(PutCommand, {
       TableName: 'foo-table',
       Item: { id: 'my-uuid', ...inputItem },
-      ConditionExpression: 'attribute_not_exists(id)',
+      ConditionExpression: 'attribute_not_exists(id)'
     });
 
     expect(calls).toHaveLength(1);
@@ -46,8 +74,8 @@ describe('the get handler', () => {
 
       headers: {
         'access-control-allow-origin': '*',
-        'access-control-allow-headers': '*',
-      },
+        'access-control-allow-headers': '*'
+      }
     });
   });
 });

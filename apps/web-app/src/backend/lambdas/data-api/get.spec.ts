@@ -3,8 +3,13 @@ import { handler } from './get';
 
 import { mockClient } from 'aws-sdk-client-mock';
 import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
+import { authorise } from './authorise';
+import { HttpError } from './http-error';
+import { HTTP } from '../../../infrastructure/constants';
 
 const dynamodbMock = mockClient(DynamoDBDocumentClient);
+
+jest.mock('./authorise')
 
 beforeEach(() => {
   jest.resetAllMocks();
@@ -13,21 +18,51 @@ beforeEach(() => {
 });
 
 describe('the get handler', () => {
+  it('returns a response with the statuscode from the error when an httpError is thrown by authorise', async () => {
+    jest
+      .mocked(authorise)
+      .mockRejectedValue(new HttpError(HTTP.statusCodes.Forbidden, 'oh no!'));
+
+
+    process.env['DYNAMODB_TABLE'] = 'foo-table';
+
+    const expectedItems = [
+      {
+        foo: 'bar'
+      },
+      {
+        foo: 'baz'
+      }
+    ];
+
+    dynamodbMock
+      .on(ScanCommand, {
+        TableName: 'foo-table'
+      })
+      .resolves({ Items: expectedItems });
+
+    const response = await handler(mock(), mock(), mock());
+
+    expect(response).toEqual(
+      expect.objectContaining({ statusCode: HTTP.statusCodes.Forbidden })
+    );
+  });
+
   it('returns the response from a call to the dynmodb scan operation for a given table', async () => {
     process.env['DYNAMODB_TABLE'] = 'foo-table';
 
     const expectedItems = [
       {
-        foo: 'bar',
+        foo: 'bar'
       },
       {
-        foo: 'baz',
-      },
+        foo: 'baz'
+      }
     ];
 
     dynamodbMock
       .on(ScanCommand, {
-        TableName: 'foo-table',
+        TableName: 'foo-table'
       })
       .resolves({ Items: expectedItems });
 
@@ -38,8 +73,8 @@ describe('the get handler', () => {
       body: JSON.stringify({ items: expectedItems }),
       headers: {
         'access-control-allow-origin': '*',
-        'access-control-allow-headers': '*',
-      },
+        'access-control-allow-headers': '*'
+      }
     });
   });
 
@@ -49,16 +84,16 @@ describe('the get handler', () => {
     const expectedItems = [
       {
         foo: 'bar',
-        deleted: true,
+        deleted: true
       },
       {
-        foo: 'baz',
-      },
+        foo: 'baz'
+      }
     ];
 
     dynamodbMock
       .on(ScanCommand, {
-        TableName: 'foo-table',
+        TableName: 'foo-table'
       })
       .resolves({ Items: expectedItems });
 
@@ -69,8 +104,8 @@ describe('the get handler', () => {
       body: JSON.stringify({ items: [{ foo: 'baz' }] }),
       headers: {
         'access-control-allow-origin': '*',
-        'access-control-allow-headers': '*',
-      },
+        'access-control-allow-headers': '*'
+      }
     });
   });
 });
