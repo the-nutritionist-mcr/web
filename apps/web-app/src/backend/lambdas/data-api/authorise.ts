@@ -23,6 +23,6 @@ export const authorise = async (
   });
 
   if (!verifyResult.isValid) {
-    throw new HttpError(403, 'Token validation failed');
+    throw new HttpError(403, `Token validation failed: ${verifyResult.error?.message}`);
   }
 };
