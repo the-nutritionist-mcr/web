@@ -12,16 +12,18 @@ const getConfigurer = () => {
     if (!outputs) {
       // eslint-disable-next-line fp/no-mutation
       outputs = await getPoolConfig();
+
+      const domain = process.env.NEXT_PUBLIC_IS_LOCAL_DEV ? 'localhost' : outputs.DomainName
+      const secure = !process.env.NEXT_PUBLIC_IS_LOCAL_DEV
+
       Auth.configure({
         Auth: {
           region: REGION,
           userPoolId: outputs.UserPoolId,
           userPoolWebClientId: outputs.ClientId,
           cookieStorage: {
-            domain: process.env.NEXT_PUBLIC_IS_LOCAL_DEV
-              ? 'localhost'
-              : outputs.DomainName,
-            secure: !process.env.NEXT_PUBLIC_IS_LOCAL_DEV,
+            domain,
+            secure,
             path: '/',
             expires: 365,
             region: REGION,
