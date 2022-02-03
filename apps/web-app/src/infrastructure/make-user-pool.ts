@@ -2,7 +2,7 @@ import {
   UserPool,
   CfnUserPoolGroup,
   VerificationEmailStyle,
-  StringAttribute
+  StringAttribute,
 } from '@aws-cdk/aws-cognito';
 import { Runtime } from '@aws-cdk/aws-lambda';
 import { CfnOutput, RemovalPolicy, Construct } from '@aws-cdk/core';
@@ -28,13 +28,16 @@ export const makeUserPool = (
     context,
     `admin-create-user-email-sender`,
     {
-      functionName: getResourceName(`admin-create-user-email-sender`, environmentName),
+      functionName: getResourceName(
+        `admin-create-user-email-sender`,
+        environmentName
+      ),
       entry: entryName('chargebee-api', 'joining-email-sender.ts'),
       runtime: Runtime.NODEJS_14_X,
       memorySize: 2048,
       bundling: {
-        sourceMap: true
-      }
+        sourceMap: true,
+      },
     }
   );
 
@@ -51,48 +54,50 @@ export const makeUserPool = (
       emailBody: verificationString,
       emailSubject: 'TNM signup',
       emailStyle: VerificationEmailStyle.CODE,
-      smsMessage: verificationString
+      smsMessage: verificationString,
     },
 
     lambdaTriggers: {
-      preSignUp: adminCreateUserEmailSender
+      preSignUp: adminCreateUserEmailSender,
     },
 
     userInvitation: {
       emailSubject: 'TNM invite',
       emailBody: invitationString,
-      smsMessage: invitationString
+      smsMessage: invitationString,
     },
 
     customAttributes: {
       [USER_ATTRIBUTES.ChargebeeId]: new StringAttribute({ mutable: false }),
-      [USER_ATTRIBUTES.UserCustomisations]: new StringAttribute({ mutable: false })
+      [USER_ATTRIBUTES.UserCustomisations]: new StringAttribute({
+        mutable: false,
+      }),
     },
 
     signInAliases: {
       username: true,
       email: true,
-      phone: true
-    }
+      phone: true,
+    },
   });
 
   new CfnOutput(context, 'UserPoolId', {
-    value: userPool.userPoolId
+    value: userPool.userPoolId,
   });
 
   const client = userPool.addClient('Client', {
-    disableOAuth: true
+    disableOAuth: true,
   });
 
   new CfnOutput(context, 'ClientId', {
-    value: client.userPoolClientId
+    value: client.userPoolClientId,
   });
 
   new CfnUserPoolGroup(context, 'AdminGroup', {
     userPoolId: userPool.userPoolId,
     description: 'TNM Administrators',
     groupName: 'admin',
-    precedence: 0
+    precedence: 0,
   });
 
   return { userPool };

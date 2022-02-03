@@ -6,11 +6,11 @@ import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { APIGatewayProxyEventV2 } from 'aws-lambda';
 import { authorise } from './authorise';
 import { HttpError } from './http-error';
-import { HTTP } from "../../../infrastructure/constants"
+import { HTTP } from '../../../infrastructure/constants';
 
 const dynamodbMock = mockClient(DynamoDBDocumentClient);
 
-jest.mock('./authorise')
+jest.mock('./authorise');
 
 beforeEach(() => {
   jest.resetAllMocks();
@@ -20,7 +20,9 @@ beforeEach(() => {
 
 describe('the get handler', () => {
   it('returns a response with the statuscode from the error when an httpError is thrown by authorise', async () => {
-    jest.mocked(authorise).mockRejectedValue(new HttpError(HTTP.statusCodes.Forbidden, 'oh no!'))
+    jest
+      .mocked(authorise)
+      .mockRejectedValue(new HttpError(HTTP.statusCodes.Forbidden, 'oh no!'));
 
     process.env['DYNAMODB_TABLE'] = 'foo-table';
 
@@ -34,8 +36,10 @@ describe('the get handler', () => {
 
     const response = await handler(mockInput, mock(), mock());
 
-    expect(response).toEqual(expect.objectContaining({statusCode: HTTP.statusCodes.Forbidden}))
-  })
+    expect(response).toEqual(
+      expect.objectContaining({ statusCode: HTTP.statusCodes.Forbidden })
+    );
+  });
 
   it('calls dynamodb putItem with input object and returns success', async () => {
     process.env['DYNAMODB_TABLE'] = 'foo-table';

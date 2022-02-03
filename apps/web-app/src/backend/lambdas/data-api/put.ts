@@ -5,7 +5,7 @@ import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { returnErrorResponse } from './return-error-response';
 import { authorise } from './authorise';
 
-export const handler: APIGatewayProxyHandlerV2 = async event => {
+export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
     await authorise(event, ['admin']);
     const dynamodb = new DynamoDBClient({});
@@ -15,7 +15,7 @@ export const handler: APIGatewayProxyHandlerV2 = async event => {
     const command = new PutCommand({
       TableName: process.env['DYNAMODB_TABLE'],
       Item: { ...JSON.parse(event.body) },
-      ConditionExpression: 'attribute_exists(id)'
+      ConditionExpression: 'attribute_exists(id)',
     });
 
     await client.send(command);
@@ -26,8 +26,8 @@ export const handler: APIGatewayProxyHandlerV2 = async event => {
 
       headers: {
         'access-control-allow-origin': '*',
-        'access-control-allow-headers': '*'
-      }
+        'access-control-allow-headers': '*',
+      },
     };
   } catch (error) {
     return returnErrorResponse(error);

@@ -33,8 +33,8 @@ const makeDataApi = (
     billingMode: BillingMode.PAY_PER_REQUEST,
     partitionKey: {
       name: 'id',
-      type: AttributeType.STRING
-    }
+      type: AttributeType.STRING,
+    },
   });
 
   const makeCrudFunction = (entry: string, opName: string) =>
@@ -45,11 +45,11 @@ const makeDataApi = (
       memorySize: 2048,
       environment: {
         ...defaultEnvironmentVars,
-        [ENV.varNames.DynamoDBTable]: dataTable.tableName
+        [ENV.varNames.DynamoDBTable]: dataTable.tableName,
       },
       bundling: {
-        sourceMap: true
-      }
+        sourceMap: true,
+      },
     });
 
   const getFunction = makeCrudFunction('get.ts', `get`);
@@ -78,14 +78,14 @@ export const makeDataApis = (
   const domainName = getDomainName(envName, 'api');
 
   const chargebeeAccessToken = new Secret(context, 'ChargeeAccessToken', {
-    secretName: getResourceName(`chargebee-access-token`, envName)
+    secretName: getResourceName(`chargebee-access-token`, envName),
   });
 
   const chargeBeeWebhookUsername = new Secret(
     context,
     'ChargeBeeWebhookUsername',
     {
-      secretName: getResourceName(`chargebee-webhook-username`, envName)
+      secretName: getResourceName(`chargebee-webhook-username`, envName),
     }
   );
 
@@ -93,7 +93,7 @@ export const makeDataApis = (
     context,
     'ChargeBeeWebhookPassword',
     {
-      secretName: getResourceName(`chargebee-webhook-password`, envName)
+      secretName: getResourceName(`chargebee-webhook-password`, envName),
     }
   );
 
@@ -106,16 +106,16 @@ export const makeDataApis = (
     [ENV.varNames.ChargeBeeWebhookUsername]:
       chargeBeeWebhookUsername.secretValue.toString(),
     [ENV.varNames.ChargeBeeWebhookPasssword]:
-      chargeWebhookPassword.secretValue.toString()
+      chargeWebhookPassword.secretValue.toString(),
   };
 
   new CfnOutput(context, 'ApiDomainName', {
-    value: domainName
+    value: domainName,
   });
 
   const certificate = new DnsValidatedCertificate(context, 'apiCertificate', {
     domainName,
-    hostedZone
+    hostedZone,
   });
 
   const api = new RestApi(context, 'data-api', {
@@ -125,28 +125,28 @@ export const makeDataApis = (
         HTTP.headerNames.ContentType,
         HTTP.headerNames.XAmxDate,
         HTTP.headerNames.Authorization,
-        HTTP.headerNames.XApiKey
+        HTTP.headerNames.XApiKey,
       ],
       allowMethods: [
         HTTP.verbs.Get,
         HTTP.verbs.Put,
         HTTP.verbs.Post,
-        HTTP.verbs.Options
+        HTTP.verbs.Options,
       ],
       allowCredentials: true,
-      allowOrigins: ['*']
-    }
+      allowOrigins: ['*'],
+    },
   });
 
   const apiDomainName = api.addDomainName('data-api-domain-name', {
     domainName,
-    certificate
+    certificate,
   });
 
   new ARecord(context, 'ApiARecord', {
     zone: hostedZone,
     recordName: domainName,
-    target: RecordTarget.fromAlias(new ApiGatewayDomain(apiDomainName))
+    target: RecordTarget.fromAlias(new ApiGatewayDomain(apiDomainName)),
   });
 
   makeDataApi(context, RESOURCES.Recipe, envName, api, defaultEnvironmentVars);
@@ -181,8 +181,8 @@ export const makeDataApis = (
       memorySize: 2048,
       environment: defaultEnvironmentVars,
       bundling: {
-        sourceMap: true
-      }
+        sourceMap: true,
+      },
     }
   );
 
@@ -202,8 +202,8 @@ export const makeDataApis = (
       memorySize: 2048,
       environment: defaultEnvironmentVars,
       bundling: {
-        sourceMap: true
-      }
+        sourceMap: true,
+      },
     }
   );
 
@@ -217,9 +217,9 @@ export const makeDataApis = (
       effect: Effect.ALLOW,
       actions: [
         IAM.actions.cognito.adminGetUser,
-        IAM.actions.cognito.adminCreateUser
+        IAM.actions.cognito.adminCreateUser,
       ],
-      resources: [pool.userPoolArn]
+      resources: [pool.userPoolArn],
     })
   );
 };

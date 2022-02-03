@@ -28,9 +28,9 @@ const getConfigurer = () => {
             secure,
             path: '/',
             expires: 365,
-            region: REGION
-          }
-        }
+            region: REGION,
+          },
+        },
       });
     }
     return outputs;
@@ -84,8 +84,8 @@ export const register = async (
       given_name: firstname,
       family_name: surname,
       address: address,
-      phone_number: telephone
-    }
+      phone_number: telephone,
+    },
   });
 };
 
@@ -121,6 +121,6 @@ export const newPasswordChallengeResponse = async (
 
   return {
     challengeName,
-    success: Boolean(signInUserSession?.accessToken)
+    success: Boolean(signInUserSession?.accessToken),
   };
 };

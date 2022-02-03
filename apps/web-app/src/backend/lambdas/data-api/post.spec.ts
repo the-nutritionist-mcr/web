@@ -29,7 +29,7 @@ describe('the get handler', () => {
     process.env['DYNAMODB_TABLE'] = 'foo-table';
 
     const inputItem = {
-      foo: 'baz'
+      foo: 'baz',
     };
 
     jest.mocked(v4).mockReturnValue('my-uuid');
@@ -49,7 +49,7 @@ describe('the get handler', () => {
     process.env['DYNAMODB_TABLE'] = 'foo-table';
 
     const inputItem = {
-      foo: 'baz'
+      foo: 'baz',
     };
 
     jest.mocked(v4).mockReturnValue('my-uuid');
@@ -63,7 +63,7 @@ describe('the get handler', () => {
     const calls = dynamodbMock.commandCalls(PutCommand, {
       TableName: 'foo-table',
       Item: { id: 'my-uuid', ...inputItem },
-      ConditionExpression: 'attribute_not_exists(id)'
+      ConditionExpression: 'attribute_not_exists(id)',
     });
 
     expect(calls).toHaveLength(1);
@@ -74,8 +74,8 @@ describe('the get handler', () => {
 
       headers: {
         'access-control-allow-origin': '*',
-        'access-control-allow-headers': '*'
-      }
+        'access-control-allow-headers': '*',
+      },
     });
   });
 });

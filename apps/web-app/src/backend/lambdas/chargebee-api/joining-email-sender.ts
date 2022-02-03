@@ -1,6 +1,6 @@
-import { CustomMessageAdminCreateUserTriggerEvent, Handler } from "aws-lambda";
+import { CustomMessageAdminCreateUserTriggerEvent, Handler } from 'aws-lambda';
 
-  const template = (name: string, password: string) => 
+const template = (name: string, password: string) =>
   `
 <html>
   <body>
@@ -9,17 +9,21 @@ import { CustomMessageAdminCreateUserTriggerEvent, Handler } from "aws-lambda";
   </body>
 </html>
 
-  `
+  `;
 
-export const handler: Handler<CustomMessageAdminCreateUserTriggerEvent> = async event => {
-
-  if(event.triggerSource === 'CustomMessage_AdminCreateUser') {
+export const handler: Handler<
+  CustomMessageAdminCreateUserTriggerEvent
+> = async (event) => {
+  if (event.triggerSource === 'CustomMessage_AdminCreateUser') {
     event.response = {
       smsMessage: `TNM Invite`,
-      emailSubject: "TNM Invite",
-      emailMessage: template(event.request.userAttributes.name, event.request.codeParameter)
-    }
+      emailSubject: 'TNM Invite',
+      emailMessage: template(
+        event.request.userAttributes.name,
+        event.request.codeParameter
+      ),
+    };
   }
 
-  return  event
-}
+  return event;
+};

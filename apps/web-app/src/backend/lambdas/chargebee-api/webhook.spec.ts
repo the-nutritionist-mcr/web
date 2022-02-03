@@ -3,7 +3,7 @@ import { APIGatewayProxyEventV2 } from 'aws-lambda';
 import {
   CognitoIdentityProviderClient,
   AdminCreateUserCommand,
-  AdminCreateUserCommandInput
+  AdminCreateUserCommandInput,
 } from '@aws-sdk/client-cognito-identity-provider';
 
 import { mock } from 'jest-mock-extended';
@@ -76,7 +76,7 @@ describe('the webhook handler', () => {
             country: 'GB',
             zip: 'M3 6WD',
             validation_status: 'not_validated',
-            object: 'billing_address'
+            object: 'billing_address',
           },
           card_status: 'no_card',
           promotional_credits: 0,
@@ -84,11 +84,11 @@ describe('the webhook handler', () => {
           excess_payments: 0,
           unbilled_charges: 0,
           preferred_currency_code: 'GBP',
-          mrr: 0
-        }
+          mrr: 0,
+        },
       },
       event_type: 'customer_created',
-      webhook_status: 'not_configured'
+      webhook_status: 'not_configured',
     };
     /* eslint-enable/numeric-separators-style */
 
@@ -96,7 +96,7 @@ describe('the webhook handler', () => {
 
     mockEvent.body = JSON.stringify(webhookBody);
     mockEvent.headers = {
-      [HTTP.headerNames.Authorization]: `Basic ${encodedBasicAuth}`
+      [HTTP.headerNames.Authorization]: `Basic ${encodedBasicAuth}`,
     };
 
     process.env[ENV.varNames.CognitoPoolId] = 'test-pool-id';
@@ -108,7 +108,7 @@ describe('the webhook handler', () => {
     expect(calls).toHaveLength(0);
 
     expect(response).toStrictEqual({
-      statusCode: HTTP.statusCodes.Forbidden
+      statusCode: HTTP.statusCodes.Forbidden,
     });
   });
 
@@ -166,7 +166,7 @@ describe('the webhook handler', () => {
             country: 'GB',
             zip: 'M3 6WD',
             validation_status: 'not_validated',
-            object: 'billing_address'
+            object: 'billing_address',
           },
           card_status: 'no_card',
           promotional_credits: 0,
@@ -174,11 +174,11 @@ describe('the webhook handler', () => {
           excess_payments: 0,
           unbilled_charges: 0,
           preferred_currency_code: 'GBP',
-          mrr: 0
-        }
+          mrr: 0,
+        },
       },
       event_type: 'customer_created',
-      webhook_status: 'not_configured'
+      webhook_status: 'not_configured',
     };
     /* eslint-enable/numeric-separators-style */
 
@@ -186,7 +186,7 @@ describe('the webhook handler', () => {
 
     mockEvent.body = JSON.stringify(webhookBody);
     mockEvent.headers = {
-      [HTTP.headerNames.Authorization]: `Basic ${encodedBasicAuth}`
+      [HTTP.headerNames.Authorization]: `Basic ${encodedBasicAuth}`,
     };
 
     process.env[ENV.varNames.CognitoPoolId] = 'test-pool-id';
@@ -198,7 +198,7 @@ describe('the webhook handler', () => {
     expect(calls).toHaveLength(0);
 
     expect(response).toStrictEqual({
-      statusCode: 200
+      statusCode: 200,
     });
   });
 
@@ -256,7 +256,7 @@ describe('the webhook handler', () => {
             country: 'GB',
             zip: 'M3 6WD',
             validation_status: 'not_validated',
-            object: 'billing_address'
+            object: 'billing_address',
           },
           card_status: 'no_card',
           promotional_credits: 0,
@@ -264,11 +264,11 @@ describe('the webhook handler', () => {
           excess_payments: 0,
           unbilled_charges: 0,
           preferred_currency_code: 'GBP',
-          mrr: 0
-        }
+          mrr: 0,
+        },
       },
       event_type: 'customer_created',
-      webhook_status: 'not_configured'
+      webhook_status: 'not_configured',
     };
     /* eslint-enable/numeric-separators-style */
 
@@ -276,7 +276,7 @@ describe('the webhook handler', () => {
 
     mockEvent.body = JSON.stringify(webhookBody);
     mockEvent.headers = {
-      [HTTP.headerNames.Authorization]: `Basic ${encodedBasicAuth}`
+      [HTTP.headerNames.Authorization]: `Basic ${encodedBasicAuth}`,
     };
 
     process.env[ENV.varNames.CognitoPoolId] = 'test-pool-id';
@@ -290,25 +290,25 @@ describe('the webhook handler', () => {
       UserAttributes: [
         {
           Name: `custom:${USER_ATTRIBUTES.ChargebeeId}`,
-          Value: testCustomerId
+          Value: testCustomerId,
         },
         {
           Name: `email`,
-          Value: testEmail
+          Value: testEmail,
         },
         {
           Name: `email_verified`,
-          Value: `true`
+          Value: `true`,
         },
         {
           Name: `given_name`,
-          Value: `Scott`
+          Value: `Scott`,
         },
         {
           Name: `family_name`,
-          Value: `Dylan`
-        }
-      ]
+          Value: `Dylan`,
+        },
+      ],
     };
 
     const calls = cognitoMock.commandCalls(
@@ -321,7 +321,7 @@ describe('the webhook handler', () => {
     expect(calls).toHaveLength(1);
 
     expect(response).toStrictEqual({
-      statusCode: 200
+      statusCode: 200,
     });
   });
 
@@ -379,7 +379,7 @@ describe('the webhook handler', () => {
             country: 'GB',
             zip: 'M3 6WD',
             validation_status: 'not_validated',
-            object: 'billing_address'
+            object: 'billing_address',
           },
           card_status: 'no_card',
           promotional_credits: 0,
@@ -387,11 +387,11 @@ describe('the webhook handler', () => {
           excess_payments: 0,
           unbilled_charges: 0,
           preferred_currency_code: 'GBP',
-          mrr: 0
-        }
+          mrr: 0,
+        },
       },
       event_type: 'customer_created',
-      webhook_status: 'not_configured'
+      webhook_status: 'not_configured',
     };
     /* eslint-enable/numeric-separators-style */
 
@@ -399,7 +399,7 @@ describe('the webhook handler', () => {
 
     mockEvent.body = JSON.stringify(webhookBody);
     mockEvent.headers = {
-      [HTTP.headerNames.Authorization]: `Basic ${encodedBasicAuth}`
+      [HTTP.headerNames.Authorization]: `Basic ${encodedBasicAuth}`,
     };
 
     process.env[ENV.varNames.CognitoPoolId] = 'test-pool-id';
@@ -413,25 +413,25 @@ describe('the webhook handler', () => {
       UserAttributes: [
         {
           Name: `custom:${USER_ATTRIBUTES.ChargebeeId}`,
-          Value: testCustomerId
+          Value: testCustomerId,
         },
         {
           Name: `email`,
-          Value: testEmail
+          Value: testEmail,
         },
         {
           Name: `email_verified`,
-          Value: `true`
+          Value: `true`,
         },
         {
           Name: `given_name`,
-          Value: `Scott`
+          Value: `Scott`,
         },
         {
           Name: `family_name`,
-          Value: `Dylan`
-        }
-      ]
+          Value: `Dylan`,
+        },
+      ],
     };
 
     const calls = cognitoMock.commandCalls(
@@ -444,7 +444,7 @@ describe('the webhook handler', () => {
     expect(calls).toHaveLength(1);
 
     expect(response).toStrictEqual({
-      statusCode: 200
+      statusCode: 200,
     });
   });
 });

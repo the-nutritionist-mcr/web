@@ -6,7 +6,7 @@ import { authorise } from './authorise';
 
 import { returnErrorResponse } from './return-error-response';
 
-export const handler: APIGatewayProxyHandlerV2 = async event => {
+export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
     await authorise(event, ['admin']);
 
@@ -14,13 +14,13 @@ export const handler: APIGatewayProxyHandlerV2 = async event => {
     const client = DynamoDBDocumentClient.from(dynamodb);
 
     const command = new ScanCommand({
-      TableName: process.env['DYNAMODB_TABLE']
+      TableName: process.env['DYNAMODB_TABLE'],
     });
 
     const { Items: items } = await client.send(command);
 
     const body = JSON.stringify({
-      items: items.filter(item => !item.deleted)
+      items: items.filter((item) => !item.deleted),
     });
 
     return {
@@ -28,8 +28,8 @@ export const handler: APIGatewayProxyHandlerV2 = async event => {
       body,
       headers: {
         'access-control-allow-origin': '*',
-        'access-control-allow-headers': '*'
-      }
+        'access-control-allow-headers': '*',
+      },
     };
   } catch (error) {
     return returnErrorResponse(error);

@@ -9,8 +9,8 @@ export const returnErrorResponse = (error: Error) => {
     body: JSON.stringify({ error: error.message, ...stack }),
     headers: {
       'access-control-allow-origin': '*',
-      'access-control-allow-headers': '*'
+      'access-control-allow-headers': '*',
     },
-    ...statusCode
+    ...statusCode,
   };
 };
