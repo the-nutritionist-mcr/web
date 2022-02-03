@@ -13,7 +13,7 @@ import { IRestApi, LambdaIntegration, RestApi } from '@aws-cdk/aws-apigateway';
 import path from 'node:path';
 import { getDomainName } from './get-domain-name';
 import { IUserPool } from '@aws-cdk/aws-cognito';
-import { IAM } from './constants';
+import { IAM, ENV, HTTP } from './constants';
 
 const entryName = (folder: string, name: string) =>
   // eslint-disable-next-line unicorn/prefer-module
@@ -44,9 +44,9 @@ const makeDataApi = (
       runtime: Runtime.NODEJS_14_X,
       memorySize: 2048,
       environment: {
-        ENVIRONMENT_NAME: environment,
-        DYNAMODB_TABLE: dataTable.tableName,
-        COGNITO_POOL_ID: pool.userPoolId
+        [ENV.varNames.EnvironmentName]: environment,
+        [ENV.varNames.DynamoDBTable]: dataTable.tableName,
+        [ENV.varNames.CognitoPoolId]: pool.userPoolId
       },
       bundling: {
         sourceMap: true
@@ -55,17 +55,17 @@ const makeDataApi = (
 
   const getFunction = makeCrudFunction('get.ts', `get`);
 
-  apiResource.addMethod('GET', new LambdaIntegration(getFunction));
+  apiResource.addMethod(HTTP.verbs.Get, new LambdaIntegration(getFunction));
   dataTable.grantReadData(getFunction);
 
   const createFunction = makeCrudFunction('post.ts', 'create');
 
-  apiResource.addMethod('POST', new LambdaIntegration(createFunction));
+  apiResource.addMethod(HTTP.verbs.Post, new LambdaIntegration(createFunction));
   dataTable.grantWriteData(createFunction);
 
   const updateFunction = makeCrudFunction('put.ts', `update`);
 
-  apiResource.addMethod('PUT', new LambdaIntegration(updateFunction));
+  apiResource.addMethod(HTTP.verbs.Put, new LambdaIntegration(updateFunction));
   dataTable.grantWriteData(updateFunction);
 };
 
@@ -90,12 +90,16 @@ export const makeDataApis = (
     restApiName: getResourceName('data-api', envName),
     defaultCorsPreflightOptions: {
       allowHeaders: [
-        'Content-Type',
-        'X-Amz-Date',
-        'Authorization',
-        'X-Api-Key'
+        HTTP.headerNames.ContentType,
+        HTTP.headerNames.XAmxDate,
+        HTTP.headerNames.Authorization,
+        HTTP.headerNames.XApiKey
       ],
-      allowMethods: ['OPTIONS', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+      allowMethods: [
+        HTTP.verbs.Get,
+        HTTP.verbs.Options,
+        HTTP.verbs.Put,
+      ],
       allowCredentials: true,
       allowOrigins: ['*']
     }
@@ -133,9 +137,9 @@ export const makeDataApis = (
       runtime: Runtime.NODEJS_14_X,
       memorySize: 2048,
       environment: {
-        ENVIRONMENT_NAME: envName,
-        CHARGEBEE_TOKEN: chargebeeAccessToken.secretValue.toString(),
-        COGNITO_POOL_ID: pool.userPoolId
+        [ENV.varNames.EnvironmentName]: envName,
+        [ENV.varNames.ChargeBeeToken]: chargebeeAccessToken.secretValue.toString(),
+        [ENV.varNames.CognitoPoolId]: pool.userPoolId
       },
       bundling: {
         sourceMap: true
@@ -158,9 +162,9 @@ export const makeDataApis = (
       runtime: Runtime.NODEJS_14_X,
       memorySize: 2048,
       environment: {
-        ENVIRONMENT_NAME: envName,
-        CHARGEBEE_TOKEN: chargebeeAccessToken.secretValue.toString(),
-        COGNITO_POOL_ID: pool.userPoolId
+        [ENV.varNames.EnvironmentName]: envName,
+        [ENV.varNames.ChargeBeeToken]: chargebeeAccessToken.secretValue.toString(),
+        [ENV.varNames.CognitoPoolId]: pool.userPoolId
       },
       bundling: {
         sourceMap: true
