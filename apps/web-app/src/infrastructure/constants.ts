@@ -51,5 +51,5 @@ export const HTTP = {
 } as const;
 
 export const USER_ATTRIBUTES = {
-  ChargebeeId: 'ChargebeeId'
+  ChargebeeId: 'chargebeeId'
 } as const;
