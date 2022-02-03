@@ -299,6 +299,14 @@ describe('the webhook handler', () => {
         {
           Name: `email_verified`,
           Value: `true`
+        },
+        {
+          Name: `given_name`,
+          Value: `Scott`
+        },
+        {
+          Name: `family_name`,
+          Value: `Dylan`
         }
       ]
     };
@@ -414,6 +422,14 @@ describe('the webhook handler', () => {
         {
           Name: `email_verified`,
           Value: `true`
+        },
+        {
+          Name: `given_name`,
+          Value: `Scott`
+        },
+        {
+          Name: `family_name`,
+          Value: `Dylan`
         }
       ]
     };

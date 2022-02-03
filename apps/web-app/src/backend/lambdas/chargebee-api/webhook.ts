@@ -44,7 +44,7 @@ export const handler: APIGatewayProxyHandlerV2 = async event => {
     const chargebeeEvent = chargebee.event.deserialize(event.body);
     const poolId = process.env[ENV.varNames.CognitoPoolId];
 
-    const { id, email } = chargebeeEvent.content.customer;
+    const { id, email, first_name, last_name } = chargebeeEvent.content.customer;
 
     const environment = process.env[ENV.varNames.EnvironmentName]
 
@@ -70,6 +70,14 @@ export const handler: APIGatewayProxyHandlerV2 = async event => {
           {
             Name: `email_verified`,
             Value: `true`
+          },
+          {
+            Name: `given_name`,
+            Value: first_name
+          },
+          {
+            Name: `family_name`,
+            Value: last_name
           }
         ]
       };
