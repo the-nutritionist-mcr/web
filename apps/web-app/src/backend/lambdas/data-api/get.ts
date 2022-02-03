@@ -8,7 +8,7 @@ import { returnErrorResponse } from './return-error-response';
 
 export const handler: APIGatewayProxyHandlerV2 = async event => {
   try {
-    authorise(event, ['admin']);
+    await authorise(event, ['admin']);
 
     const dynamodb = new DynamoDBClient({});
     const client = DynamoDBDocumentClient.from(dynamodb);

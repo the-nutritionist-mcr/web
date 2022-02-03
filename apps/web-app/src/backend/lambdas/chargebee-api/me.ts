@@ -14,7 +14,7 @@ import { returnErrorResponse } from '../data-api/return-error-response';
 
 export const handler: APIGatewayProxyHandlerV2 = async event => {
   try {
-    authorise(event, ['admin']);
+    await authorise(event, ['admin']);
     return {
       statusCode: 200,
       body: JSON.stringify({}),
