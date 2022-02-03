@@ -13,7 +13,7 @@ import { IRestApi, LambdaIntegration, RestApi } from '@aws-cdk/aws-apigateway';
 import path from 'node:path';
 import { getDomainName } from './get-domain-name';
 import { IUserPool } from '@aws-cdk/aws-cognito';
-import { IAM } from "./constants"
+import { IAM } from './constants';
 
 const entryName = (folder: string, name: string) =>
   // eslint-disable-next-line unicorn/prefer-module
@@ -146,7 +146,7 @@ export const makeDataApis = (
   me.addMethod('GET', new LambdaIntegration(individualAcccessFunction));
 
   const receiveChargebeeWebhook = api.root.addResource(
-    'receive-chargebee-webook'
+    'receive-chargebee-webhook'
   );
 
   const chargeBeeWebhookFunction = new NodejsFunction(
@@ -176,7 +176,10 @@ export const makeDataApis = (
   chargeBeeWebhookFunction.addToRolePolicy(
     new PolicyStatement({
       effect: Effect.ALLOW,
-      actions: [IAM.actions.cognito.adminGetUser, IAM.actions.cognito.adminCreateUser],
+      actions: [
+        IAM.actions.cognito.adminGetUser,
+        IAM.actions.cognito.adminCreateUser
+      ],
       resources: [pool.userPoolArn]
     })
   );
