@@ -1302,6 +1302,45 @@
     "@aws-sdk/util-utf8-node" "3.6.1"
     tslib "^2.0.0"
 
+"@aws-sdk/client-cognito-identity-provider@3.47.0":
+  version "3.47.0"
+  resolved "https://registry.npmjs.org/@aws-sdk/client-cognito-identity-provider/-/client-cognito-identity-provider-3.47.0.tgz#9610f5d98a312b6eb86b55a4411b24b13f9fee0a"
+  integrity sha512-dNy4gXUjIP6l+ywwDxw6dL8/1IaPJETKiN2qpmkNEaF1n47hIG6wIK9BM5k57Qxcz7ED96nDEgEug/+ZJi6N9w==
+  dependencies:
+    "@aws-crypto/sha256-browser" "2.0.0"
+    "@aws-crypto/sha256-js" "2.0.0"
+    "@aws-sdk/client-sts" "3.47.0"
+    "@aws-sdk/config-resolver" "3.47.0"
+    "@aws-sdk/credential-provider-node" "3.47.0"
+    "@aws-sdk/fetch-http-handler" "3.47.0"
+    "@aws-sdk/hash-node" "3.47.0"
+    "@aws-sdk/invalid-dependency" "3.47.0"
+    "@aws-sdk/middleware-content-length" "3.47.0"
+    "@aws-sdk/middleware-host-header" "3.47.0"
+    "@aws-sdk/middleware-logger" "3.47.0"
+    "@aws-sdk/middleware-retry" "3.47.0"
+    "@aws-sdk/middleware-serde" "3.47.0"
+    "@aws-sdk/middleware-signing" "3.47.0"
+    "@aws-sdk/middleware-stack" "3.47.0"
+    "@aws-sdk/middleware-user-agent" "3.47.0"
+    "@aws-sdk/node-config-provider" "3.47.0"
+    "@aws-sdk/node-http-handler" "3.47.0"
+    "@aws-sdk/protocol-http" "3.47.0"
+    "@aws-sdk/smithy-client" "3.47.0"
+    "@aws-sdk/types" "3.47.0"
+    "@aws-sdk/url-parser" "3.47.0"
+    "@aws-sdk/util-base64-browser" "3.47.0"
+    "@aws-sdk/util-base64-node" "3.47.0"
+    "@aws-sdk/util-body-length-browser" "3.47.0"
+    "@aws-sdk/util-body-length-node" "3.47.0"
+    "@aws-sdk/util-defaults-mode-browser" "3.47.0"
+    "@aws-sdk/util-defaults-mode-node" "3.47.0"
+    "@aws-sdk/util-user-agent-browser" "3.47.0"
+    "@aws-sdk/util-user-agent-node" "3.47.0"
+    "@aws-sdk/util-utf8-browser" "3.47.0"
+    "@aws-sdk/util-utf8-node" "3.47.0"
+    tslib "^2.3.0"
+
 "@aws-sdk/client-cognito-identity@3.6.1":
   version "3.6.1"
   resolved "https://registry.npmjs.org/@aws-sdk/client-cognito-identity/-/client-cognito-identity-3.6.1.tgz#36992a4fef7eff1f2b1dbee30850e30ebdfc15bb"
@@ -1377,7 +1416,7 @@
     tslib "^2.0.0"
     uuid "^3.0.0"
 
-"@aws-sdk/client-dynamodb@^3.47.0":
+"@aws-sdk/client-dynamodb@3.47.0":
   version "3.47.0"
   resolved "https://registry.npmjs.org/@aws-sdk/client-dynamodb/-/client-dynamodb-3.47.0.tgz#29d5552931e1168aeae75aeee4720baa90882c06"
   integrity sha512-WqmHSbeuAA2UMv5j5oD1AQiTFOdx0H4nggpZLE0ijMwTCEWlzNPYBGYvz34sAwgcrUoFD+pH++ch55jOAiAtoA==
@@ -2435,7 +2474,7 @@
   dependencies:
     tslib "^1.8.0"
 
-"@aws-sdk/lib-dynamodb@^3.47.0":
+"@aws-sdk/lib-dynamodb@3.47.0":
   version "3.47.0"
   resolved "https://registry.npmjs.org/@aws-sdk/lib-dynamodb/-/lib-dynamodb-3.47.0.tgz#810d74549813985c81e8e17723195241c5812771"
   integrity sha512-rQZIDmkzOAjftoMWO2HueCUVseiOA6LjHdY/E6SgdxiOF36cS60P+WhnIjm31E82dcwARcI9FQeIDhMhj/nSnA==
@@ -22888,6 +22927,11 @@ ts-node@^9.1.1, ts-node@~9.1.1:
     make-error "^1.1.1"
     source-map-support "^0.5.17"
     yn "3.1.1"
+
+ts-pattern@^3.3.5:
+  version "3.3.5"
+  resolved "https://registry.npmjs.org/ts-pattern/-/ts-pattern-3.3.5.tgz#9a4bde1d44f9afe7e82409820f68790232c2544c"
+  integrity sha512-LD+wFR/RNckk1DrKV0LTH4KIT9wRqnnOjtEf77ovhKcVi8gf83Uf6U7OdywEua6KD9SbHadUdfolayfIUiPxzw==
 
 ts-pnp@^1.1.6:
   version "1.2.0"

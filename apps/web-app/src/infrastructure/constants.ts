@@ -12,9 +12,16 @@ export const ENV = {
     CognitoPoolId: 'COGNITO_POOL_ID',
     DynamoDBTable: 'DYNAMODB_TABLE',
     EnvironmentName: 'ENVIRONMENT_NAME',
-    ChargeBeeToken: 'CHARGEBEE_TOKEN'
+    ChargeBeeToken: 'CHARGEBEE_TOKEN',
+    ChargeBeeSite: 'CHARGEBEE_SITE',
+    ChargeBeeWebhookUsername: 'CHARGEBEE_WEBHOOK_USERNAME',
+    ChargeBeeWebhookPasssword: 'CHARGEBEE_WEBHOOK_PASSWORD'
   }
 } as const;
+
+export const CHARGEBEE_SITES = {
+  test: 'thenutritionist-test'
+};
 
 export const RESOURCES = {
   Recipe: 'recipe',
@@ -23,6 +30,10 @@ export const RESOURCES = {
 } as const;
 
 export const HTTP = {
+  statusCodes: {
+    Forbidden: 403,
+    Ok: 200
+  },
   headerNames: {
     ContentType: 'Content-Type',
     XAmxDate: 'X-Amz-Date',
@@ -37,4 +48,8 @@ export const HTTP = {
     Patch: 'PATCH',
     Delete: 'DELETE'
   }
+} as const;
+
+export const USER_ATTRIBUTES = {
+  ChargebeeId: 'ChargebeeId'
 } as const;

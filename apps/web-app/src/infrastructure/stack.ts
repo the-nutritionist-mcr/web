@@ -5,11 +5,13 @@ import { makePagesApi } from './make-pages-api';
 import { setupFrontDoor } from './setup-front-door';
 import { deployStatics } from './deploy-statics';
 import { makeDataApis } from './make-data-apis';
+import { CHARGEBEE_SITES} from './constants'
 
 interface TnmAppProps {
   stackProps: StackProps;
   envName: string;
   transient: boolean;
+  chargebeeSite: string;
 }
 
 // eslint-disable-next-line unicorn/prefer-module
@@ -40,7 +42,7 @@ class AppStack extends Stack {
 
     deployStatics(this, props.envName, distribution);
 
-    makeDataApis(this, hostedZone, props.envName, userPool);
+    makeDataApis(this, hostedZone, props.envName, userPool, props.chargebeeSite);
   }
 }
 
@@ -57,30 +59,35 @@ new AppStack(app, 'tnm-web-int-stack', {
   stackProps: { env },
   envName: 'int',
   transient: true,
+  chargebeeSite: CHARGEBEE_SITES.test
 });
 
 new AppStack(app, 'tnm-web-cypress-stack', {
   stackProps: { env },
   envName: 'cypress',
   transient: true,
+  chargebeeSite: CHARGEBEE_SITES.test
 });
 
 new AppStack(app, 'tnm-web-dev-stack', {
   stackProps: { env },
   envName: 'dev',
   transient: true,
+  chargebeeSite: CHARGEBEE_SITES.test
 });
 
 new AppStack(app, 'tnm-web-test-stack', {
   stackProps: { env },
   envName: 'test',
   transient: true,
+  chargebeeSite: CHARGEBEE_SITES.test
 });
 
 new AppStack(app, 'tnm-web-prod-stack', {
   stackProps: { env },
   envName: 'prod',
   transient: false,
+  chargebeeSite: CHARGEBEE_SITES.test
 });
 
 app.synth();

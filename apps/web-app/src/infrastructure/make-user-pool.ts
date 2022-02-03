@@ -5,6 +5,7 @@ import {
 } from '@aws-cdk/aws-cognito';
 import { CfnOutput, RemovalPolicy, Construct } from '@aws-cdk/core';
 import { getResourceName } from './get-resource-name';
+import { USER_ATTRIBUTES } from './constants';
 
 export const makeUserPool = (
   context: Construct,
@@ -38,7 +39,7 @@ export const makeUserPool = (
     },
 
     customAttributes: {
-      chargebeeId: new StringAttribute({ mutable: false })
+      [USER_ATTRIBUTES.ChargebeeId]: new StringAttribute({ mutable: false })
     },
 
     signInAliases: {

@@ -13,7 +13,7 @@ import { IRestApi, LambdaIntegration, RestApi } from '@aws-cdk/aws-apigateway';
 import path from 'node:path';
 import { getDomainName } from './get-domain-name';
 import { IUserPool } from '@aws-cdk/aws-cognito';
-import { IAM, ENV, HTTP } from './constants';
+import { IAM, ENV, HTTP, RESOURCES } from './constants';
 
 const entryName = (folder: string, name: string) =>
   // eslint-disable-next-line unicorn/prefer-module
@@ -24,7 +24,7 @@ const makeDataApi = (
   name: string,
   environment: string,
   api: IRestApi,
-  pool: IUserPool
+  defaultEnvironmentVars: { [key: string]: string }
 ) => {
   const apiResource = api.root.addResource(name);
 
@@ -44,9 +44,8 @@ const makeDataApi = (
       runtime: Runtime.NODEJS_14_X,
       memorySize: 2048,
       environment: {
-        [ENV.varNames.EnvironmentName]: environment,
-        [ENV.varNames.DynamoDBTable]: dataTable.tableName,
-        [ENV.varNames.CognitoPoolId]: pool.userPoolId
+        ...defaultEnvironmentVars,
+        [ENV.varNames.DynamoDBTable]: dataTable.tableName
       },
       bundling: {
         sourceMap: true
@@ -73,9 +72,41 @@ export const makeDataApis = (
   context: Construct,
   hostedZone: IHostedZone,
   envName: string,
-  pool: IUserPool
+  pool: IUserPool,
+  chargebeeSite: string
 ) => {
   const domainName = getDomainName(envName, 'api');
+
+  const chargebeeAccessToken = new Secret(context, 'ChargeeAccessToken', {
+    secretName: getResourceName(`chargebee-access-token`, envName)
+  });
+
+  const chargeBeeWebhookUsername = new Secret(
+    context,
+    'ChargeBeeWebhookUsername',
+    {
+      secretName: getResourceName(`chargebee-webhook-username`, envName)
+    }
+  );
+
+  const chargeWebhookPassword = new Secret(
+    context,
+    'ChargeBeeWebhookPassword',
+    {
+      secretName: getResourceName(`chargebee-webhook-password`, envName)
+    }
+  );
+
+  const defaultEnvironmentVars = {
+    [ENV.varNames.EnvironmentName]: envName,
+    [ENV.varNames.ChargeBeeToken]: chargebeeAccessToken.secretValue.toString(),
+    [ENV.varNames.CognitoPoolId]: pool.userPoolId,
+    [ENV.varNames.ChargeBeeSite]: chargebeeSite,
+    [ENV.varNames.ChargeBeeWebhookUsername]:
+      chargeBeeWebhookUsername.secretValue.toString(),
+    [ENV.varNames.ChargeBeeWebhookPasssword]:
+      chargeWebhookPassword.secretValue.toString()
+  };
 
   new CfnOutput(context, 'ApiDomainName', {
     value: domainName
@@ -95,11 +126,7 @@ export const makeDataApis = (
         HTTP.headerNames.Authorization,
         HTTP.headerNames.XApiKey
       ],
-      allowMethods: [
-        HTTP.verbs.Get,
-        HTTP.verbs.Options,
-        HTTP.verbs.Put,
-      ],
+      allowMethods: [HTTP.verbs.Get, HTTP.verbs.Options, HTTP.verbs.Put],
       allowCredentials: true,
       allowOrigins: ['*']
     }
@@ -116,13 +143,23 @@ export const makeDataApis = (
     target: RecordTarget.fromAlias(new ApiGatewayDomain(apiDomainName))
   });
 
-  makeDataApi(context, 'recipe', envName, api, pool);
-  makeDataApi(context, 'customisation', envName, api, pool);
-  makeDataApi(context, 'cook-plan', envName, api, pool);
+  makeDataApi(context, RESOURCES.Recipe, envName, api, defaultEnvironmentVars);
 
-  const chargebeeAccessToken = new Secret(context, 'ChargeeAccessToken', {
-    secretName: getResourceName(`chargebee-access-token`, envName)
-  });
+  makeDataApi(
+    context,
+    RESOURCES.Customisation,
+    envName,
+    api,
+    defaultEnvironmentVars
+  );
+
+  makeDataApi(
+    context,
+    RESOURCES.CookPlan,
+    envName,
+    api,
+    defaultEnvironmentVars
+  );
 
   const customers = api.root.addResource('customers');
 
@@ -136,11 +173,7 @@ export const makeDataApis = (
       entry: entryName('chargebee-api', 'me.ts'),
       runtime: Runtime.NODEJS_14_X,
       memorySize: 2048,
-      environment: {
-        [ENV.varNames.EnvironmentName]: envName,
-        [ENV.varNames.ChargeBeeToken]: chargebeeAccessToken.secretValue.toString(),
-        [ENV.varNames.CognitoPoolId]: pool.userPoolId
-      },
+      environment: defaultEnvironmentVars,
       bundling: {
         sourceMap: true
       }
@@ -161,11 +194,7 @@ export const makeDataApis = (
       entry: entryName('chargebee-api', 'webhook.ts'),
       runtime: Runtime.NODEJS_14_X,
       memorySize: 2048,
-      environment: {
-        [ENV.varNames.EnvironmentName]: envName,
-        [ENV.varNames.ChargeBeeToken]: chargebeeAccessToken.secretValue.toString(),
-        [ENV.varNames.CognitoPoolId]: pool.userPoolId
-      },
+      environment: defaultEnvironmentVars,
       bundling: {
         sourceMap: true
       }
