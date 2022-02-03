@@ -16,9 +16,9 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
     const { username } = await authorise(event, ['admin']);
 
-    const result = await chargebee.customer.retrieve(username).request()
+    const result = await chargebee.customer.retrieve(username).request();
 
-    const { first_name, last_name, email, billing_address } = result.customer
+    const { first_name, last_name, email, billing_address } = result.customer;
     const { line1, line2, line3, city, country } = billing_address;
 
     return {

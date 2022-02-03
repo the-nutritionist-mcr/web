@@ -6,7 +6,7 @@ import { signOut } from '../aws/authenticate';
 import AccountIcon from '../images/TNM_Icons_Final_Account.png';
 import styled from '@emotion/styled';
 import { authorizedRoute } from '../utils/authorised-route';
-import { useMe } from "../hooks/use-me"
+import { useMe } from '../hooks/use-me';
 
 const YourAccountHeaderBox = styled('div')`
   text-align: center;
@@ -25,7 +25,7 @@ const YourAccountHeader = styled('h1')`
 `;
 
 const Account: FC = () => {
-  const me = useMe()
+  const me = useMe();
   return (
     <>
       <Hero>
@@ -40,16 +40,18 @@ const Account: FC = () => {
         </YourAccountHeaderBox>
       </Hero>
       <h2>You are logged in</h2>
-      <ul>
-        <li>First Name: {me.first_name}</li>
-        <li>Last Name: {me.last_name}</li>
-        <li>Email: {me.email}</li>
-        <li>Address Line 1: {me.address_line1}</li>
-        <li>Address Line 2: {me.address_line2}</li>
-        <li>Address Line 3: {me.address_line3}</li>
-        <li>City: {me.city}</li>
-        <li>Country: {me.country}</li>
-      </ul>
+      {me && (
+        <ul>
+          <li>First Name: {me.first_name}</li>
+          <li>Last Name: {me.last_name}</li>
+          <li>Email: {me.email}</li>
+          <li>Address Line 1: {me.address_line1}</li>
+          <li>Address Line 2: {me.address_line2}</li>
+          <li>Address Line 3: {me.address_line3}</li>
+          <li>City: {me.city}</li>
+          <li>Country: {me.country}</li>
+        </ul>
+      )}
       <Button
         onClick={async () => {
           await signOut();
