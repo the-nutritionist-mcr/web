@@ -13,7 +13,7 @@ import { IRestApi, LambdaIntegration, RestApi } from '@aws-cdk/aws-apigateway';
 import path from 'node:path';
 import { getDomainName } from './get-domain-name';
 import { IUserPool } from '@aws-cdk/aws-cognito';
-import { IAM, ENV, HTTP, RESOURCES } from './constants';
+import { IAM, ENV, HTTP, RESOURCES, NODE_OPTS } from './constants';
 
 const entryName = (folder: string, name: string) =>
   // eslint-disable-next-line unicorn/prefer-module
@@ -98,6 +98,7 @@ export const makeDataApis = (
   );
 
   const defaultEnvironmentVars = {
+    [ENV.varNames.NodeOptions]: NODE_OPTS.EnableSourceMaps,
     [ENV.varNames.EnvironmentName]: envName,
     [ENV.varNames.ChargeBeeToken]: chargebeeAccessToken.secretValue.toString(),
     [ENV.varNames.CognitoPoolId]: pool.userPoolId,

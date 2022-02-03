@@ -10,7 +10,7 @@ export const swrFetcher = async <T>(
   const user = await currentUser();
   const {
     signInUserSession: {
-      idToken: { jwtToken },
+      accessToken: { jwtToken },
     },
   } = user;
 

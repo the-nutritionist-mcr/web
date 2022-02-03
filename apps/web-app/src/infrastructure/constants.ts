@@ -7,8 +7,13 @@ export const IAM = {
   }
 } as const;
 
+export const NODE_OPTS = {
+  EnableSourceMaps: '--enable-source-maps'
+};
+
 export const ENV = {
   varNames: {
+    NodeOptions: 'NODE_OPTIONS',
     CognitoPoolId: 'COGNITO_POOL_ID',
     DynamoDBTable: 'DYNAMODB_TABLE',
     EnvironmentName: 'ENVIRONMENT_NAME',
