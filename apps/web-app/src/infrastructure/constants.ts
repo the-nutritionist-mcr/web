@@ -56,5 +56,6 @@ export const HTTP = {
 } as const;
 
 export const USER_ATTRIBUTES = {
-  ChargebeeId: 'chargebeeId'
+  ChargebeeId: 'chargebeeId',
+  UserCustomisations: 'userCustomisations'
 } as const;
