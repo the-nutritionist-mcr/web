@@ -1,4 +1,8 @@
-import { UserPool, VerificationEmailStyle } from '@aws-cdk/aws-cognito';
+import {
+  UserPool,
+  VerificationEmailStyle,
+  StringAttribute
+} from '@aws-cdk/aws-cognito';
 import { CfnOutput, RemovalPolicy, Construct } from '@aws-cdk/core';
 import { getResourceName } from './get-resource-name';
 
@@ -24,32 +28,36 @@ export const makeUserPool = (
       emailBody: verificationString,
       emailSubject: 'TNM signup',
       emailStyle: VerificationEmailStyle.CODE,
-      smsMessage: verificationString,
+      smsMessage: verificationString
     },
 
     userInvitation: {
       emailSubject: 'TNM invite',
       emailBody: invitationString,
-      smsMessage: invitationString,
+      smsMessage: invitationString
+    },
+
+    customAttributes: {
+      chargebeeId: new StringAttribute({ mutable: false })
     },
 
     signInAliases: {
       username: true,
       email: true,
-      phone: true,
-    },
+      phone: true
+    }
   });
 
   new CfnOutput(context, 'UserPoolId', {
-    value: userPool.userPoolId,
+    value: userPool.userPoolId
   });
 
   const client = userPool.addClient('Client', {
-    disableOAuth: true,
+    disableOAuth: true
   });
 
   new CfnOutput(context, 'ClientId', {
-    value: client.userPoolClientId,
+    value: client.userPoolClientId
   });
 
   return { userPool };
