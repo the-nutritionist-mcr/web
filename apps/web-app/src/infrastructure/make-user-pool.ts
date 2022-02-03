@@ -1,5 +1,6 @@
 import {
   UserPool,
+  CfnUserPoolGroup,
   VerificationEmailStyle,
   StringAttribute
 } from '@aws-cdk/aws-cognito';
@@ -59,6 +60,14 @@ export const makeUserPool = (
 
   new CfnOutput(context, 'ClientId', {
     value: client.userPoolClientId
+  });
+
+  new CfnUserPoolGroup(context, 'AdminGroup', {
+    userPoolId: userPool.userPoolId,
+    description: 'TNM Administrators',
+    groupName: 'admin',
+    precedence: 0,
+    roleArn: 'roleArn'
   });
 
   return { userPool };
