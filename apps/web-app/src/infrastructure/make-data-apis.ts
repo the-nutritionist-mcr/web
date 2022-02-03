@@ -190,7 +190,7 @@ export const makeDataApis = (
     context,
     `chargebee-webhook-function`,
     {
-      functionName: getResourceName(`chargebee-webhook-handler`, envName),
+      functionName: getResourceName(`chargebee-event-handler`, envName),
       entry: entryName('chargebee-api', 'webhook.ts'),
       runtime: Runtime.NODEJS_14_X,
       memorySize: 2048,
