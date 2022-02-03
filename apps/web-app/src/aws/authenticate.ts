@@ -18,9 +18,6 @@ const getConfigurer = () => {
         : outputs.DomainName;
       const secure = !process.env.NEXT_PUBLIC_IS_LOCAL_DEV;
 
-      console.log(`domain`, domain);
-      console.log(`secure`, secure);
-
       Auth.configure({
         Auth: {
           region: REGION,
