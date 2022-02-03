@@ -13,8 +13,12 @@ const getConfigurer = () => {
       // eslint-disable-next-line fp/no-mutation
       outputs = await getPoolConfig();
 
-      const domain = process.env.NEXT_PUBLIC_IS_LOCAL_DEV ? 'localhost' : outputs.DomainName
-      const secure = !process.env.NEXT_PUBLIC_IS_LOCAL_DEV
+      const domain = process.env.NEXT_PUBLIC_IS_LOCAL_DEV
+        ? 'localhost'
+        : outputs.DomainName;
+      const secure = !process.env.NEXT_PUBLIC_IS_LOCAL_DEV;
+      console.log(domain);
+      console.log(secure);
 
       Auth.configure({
         Auth: {
@@ -26,9 +30,9 @@ const getConfigurer = () => {
             secure,
             path: '/',
             expires: 365,
-            region: REGION,
-          },
-        },
+            region: REGION
+          }
+        }
       });
     }
     return outputs;
@@ -82,8 +86,8 @@ export const register = async (
       given_name: firstname,
       family_name: surname,
       address: address,
-      phone_number: telephone,
-    },
+      phone_number: telephone
+    }
   });
 };
 
@@ -119,6 +123,6 @@ export const newPasswordChallengeResponse = async (
 
   return {
     challengeName,
-    success: Boolean(signInUserSession?.accessToken),
+    success: Boolean(signInUserSession?.accessToken)
   };
 };
