@@ -3,6 +3,7 @@ import { MenuPaddedContent } from './menu-padded-content';
 
 import { Recipes } from '@tnmw/admin-app';
 import { useCustomisations, useRecipes } from '../../hooks';
+import { AdminTemplate } from './admin-template';
 
 const RecipesPage: FC = () => {
   const { items, create, remove, update } = useRecipes();
@@ -10,13 +11,15 @@ const RecipesPage: FC = () => {
 
   return (
     <MenuPaddedContent>
-      <Recipes
-        customisations={customisations}
-        recipes={items}
-        create={create}
-        remove={remove}
-        update={update}
-      />
+      <AdminTemplate>
+        <Recipes
+          customisations={customisations}
+          recipes={items}
+          create={create}
+          remove={remove}
+          update={update}
+        />
+      </AdminTemplate>
     </MenuPaddedContent>
   );
 };
