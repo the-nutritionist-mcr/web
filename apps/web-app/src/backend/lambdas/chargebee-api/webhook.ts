@@ -46,6 +46,14 @@ export const handler: APIGatewayProxyHandlerV2 = async event => {
 
     const { id, email } = chargebeeEvent.content.customer;
 
+    const environment = process.env[ENV.varNames.EnvironmentName]
+
+    if(environment !== 'prod' && !email.trim().toLowerCase().endsWith('thenutritionistmcr.com')) {
+      return {
+        statusCode: HTTP.statusCodes.Ok
+      };
+    }
+
     if (chargebeeEvent.event_type === 'customer_created') {
       const input: AdminCreateUserCommandInput = {
         UserPoolId: poolId,
