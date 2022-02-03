@@ -126,7 +126,12 @@ export const makeDataApis = (
         HTTP.headerNames.Authorization,
         HTTP.headerNames.XApiKey
       ],
-      allowMethods: [HTTP.verbs.Get, HTTP.verbs.Options, HTTP.verbs.Put],
+      allowMethods: [
+        HTTP.verbs.Get,
+        HTTP.verbs.Put,
+        HTTP.verbs.Post,
+        HTTP.verbs.Options
+      ],
       allowCredentials: true,
       allowOrigins: ['*']
     }
