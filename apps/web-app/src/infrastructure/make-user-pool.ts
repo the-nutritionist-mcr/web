@@ -66,8 +66,7 @@ export const makeUserPool = (
     userPoolId: userPool.userPoolId,
     description: 'TNM Administrators',
     groupName: 'admin',
-    precedence: 0,
-    roleArn: 'roleArn'
+    precedence: 0
   });
 
   return { userPool };
