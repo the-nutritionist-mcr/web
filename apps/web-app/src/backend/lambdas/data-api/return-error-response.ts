@@ -7,6 +7,10 @@ export const returnErrorResponse = (error: Error) => {
     error instanceof HttpError ? { statusCode: error.statusCode } : {};
   return {
     body: JSON.stringify({ error: error.message, ...stack }),
+    headers: {
+      'access-control-allow-origin': '*',
+      'access-control-allow-headers': '*'
+    },
     ...statusCode
   };
 };
