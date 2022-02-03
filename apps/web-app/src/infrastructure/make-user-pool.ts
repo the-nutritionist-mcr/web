@@ -40,7 +40,8 @@ export const makeUserPool = (
     },
 
     customAttributes: {
-      [USER_ATTRIBUTES.ChargebeeId]: new StringAttribute({ mutable: false })
+      [USER_ATTRIBUTES.ChargebeeId]: new StringAttribute({ mutable: false }),
+      [USER_ATTRIBUTES.UserCustomisations]: new StringAttribute({ mutable: false })
     },
 
     signInAliases: {
