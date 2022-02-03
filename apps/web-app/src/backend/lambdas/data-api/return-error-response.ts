@@ -6,8 +6,7 @@ export const returnErrorResponse = (error: Error) => {
   const statusCode =
     error instanceof HttpError ? { statusCode: error.statusCode } : {};
   return {
-    body: JSON.stringify({ error: error.message }),
-    ...statusCode,
-    ...stack,
+    body: JSON.stringify({ error: error.message, ...stack }),
+    ...statusCode
   };
 };
