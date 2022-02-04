@@ -51,7 +51,8 @@ const AccountPage: FC = () => {
             addressLine2: me.address_line2,
             addressLine3: me.address_line3,
             city: me.city,
-            country: me.country
+            country: me.country,
+            postcode: me.postcode
           }}
         />
       )}

@@ -6,20 +6,21 @@ const chargebee = new ChargeBee();
 
 chargebee.configure({
   site: process.env[ENV.varNames.ChargeBeeSite],
-  api_key: process.env[ENV.varNames.ChargeBeeToken],
+  api_key: process.env[ENV.varNames.ChargeBeeToken]
 });
 
 import { authorise } from '../data-api/authorise';
 import { returnErrorResponse } from '../data-api/return-error-response';
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+export const handler: APIGatewayProxyHandlerV2 = async event => {
   try {
     const { username } = await authorise(event, ['admin']);
 
     const result = await chargebee.customer.retrieve(username).request();
 
-    const { first_name, last_name, email, billing_address, phone } = result.customer;
-    const { line1, line2, line3, city, country } = billing_address ?? {};
+    const { first_name, last_name, email, billing_address, phone } =
+      result.customer;
+    const { line1, line2, line3, city, country, zip: postcode } = billing_address ?? {};
 
     return {
       statusCode: 200,
@@ -33,11 +34,12 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         address_line3: line3,
         city,
         country,
+        postcode
       }),
       headers: {
         'access-control-allow-origin': '*',
-        'access-control-allow-headers': '*',
-      },
+        'access-control-allow-headers': '*'
+      }
     };
   } catch (error) {
     return returnErrorResponse(error);

@@ -11,6 +11,7 @@ interface Me {
   city: string;
   country: string;
   phone: string;
+  postcode: string;
 }
 
 export const useMe = () => {
