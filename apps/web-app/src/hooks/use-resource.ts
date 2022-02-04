@@ -31,11 +31,15 @@ const getFetchInit = async (init?: RequestInit) => {
 const swrFetcher = async <T>(path: string, init?: RequestInit): Promise<T> => {
   const { ApiDomainName: domainName } = await getOutputs();
 
+  console.log(domainName)
+
   const finalInit = await getFetchInit(init)
   const fullPath = `https://${domainName}/${path}`
   const response = await fetch(fullPath, finalInit)
 
   const data = await response.json()
+
+  console.log(data)
 
   if (!response.ok) {
     const error = new Error(`Tried to make a request to ${fullPath} but the server returned a ${response.status} status code with the message "${data.error}"`)
