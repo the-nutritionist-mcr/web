@@ -11,7 +11,7 @@ export const authorise = async (
     event.headers &&
     Object.entries(event.headers).find(
       (pair) => pair[0].toLowerCase() === 'authorization'
-    )[1];
+    )?.[1];
 
   if (!authHeader) {
     throw new HttpError(403, "Request didn't contain an authorization header");
