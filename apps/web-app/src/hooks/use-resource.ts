@@ -2,7 +2,6 @@ import useSWR, { useSWRConfig } from 'swr';
 import { getOutputs } from '../aws/get-outputs';
 import { currentUser } from '../aws/authenticate';
 import useMutation from 'use-mutation';
-import { HTTP } from '../infrastructure/constants';
 
 interface Response<T> {
   items: T[];
