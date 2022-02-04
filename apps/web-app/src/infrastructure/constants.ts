@@ -7,6 +7,8 @@ export const IAM = {
   },
 } as const;
 
+export const TNM_WEB_LOCALSTORAGE_KEY = 'tnm-web-cache'
+
 export const NODE_OPTS = {
   EnableSourceMaps: '--enable-source-maps',
 };
