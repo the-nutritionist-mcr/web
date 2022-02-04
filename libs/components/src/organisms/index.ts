@@ -5,10 +5,12 @@ export {
   Authenticated,
   Redirect,
   AuthenticationServiceContext,
-  NavigationContext,
+  NavigationContext
 } from './login-and-register-box';
+
+export { Account } from './account';
 
 export type {
   AuthenticationContextType,
-  NavigationContextType,
+  NavigationContextType
 } from './login-and-register-box';

@@ -10,6 +10,7 @@ interface Me {
   address_line3: string;
   city: string;
   country: string;
+  phone: string;
 }
 
 export const useMe = () => {

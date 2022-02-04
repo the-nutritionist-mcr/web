@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Hero, Layout, Button } from '@tnmw/components';
+import { Hero, Layout, Button, Account } from '@tnmw/components';
 import Router from 'next/router';
 import { signOut } from '../aws/authenticate';
 
@@ -24,7 +24,7 @@ const YourAccountHeader = styled('h1')`
   margin: 0.5rem 0 0 0;
 `;
 
-const Account: FC = () => {
+const AccountPage: FC = () => {
   const me = useMe();
   return (
     <>
@@ -41,16 +41,19 @@ const Account: FC = () => {
       </Hero>
       <h2>You are logged in</h2>
       {me && (
-        <ul>
-          <li>First Name: {me.first_name}</li>
-          <li>Last Name: {me.last_name}</li>
-          <li>Email: {me.email}</li>
-          <li>Address Line 1: {me.address_line1}</li>
-          <li>Address Line 2: {me.address_line2}</li>
-          <li>Address Line 3: {me.address_line3}</li>
-          <li>City: {me.city}</li>
-          <li>Country: {me.country}</li>
-        </ul>
+        <Account
+          userDetails={{
+            firstName: me.first_name,
+            lastName: me.last_name,
+            email: me.email,
+            contactNumber: me.phone,
+            addressLine1: me.address_line1,
+            addressLine2: me.address_line2,
+            addressLine3: me.address_line3,
+            city: me.city,
+            country: me.country
+          }}
+        />
       )}
       <Button
         onClick={async () => {
@@ -67,4 +70,4 @@ const Account: FC = () => {
 
 export const getServerSideProps = authorizedRoute();
 
-export default Account;
+export default AccountPage;

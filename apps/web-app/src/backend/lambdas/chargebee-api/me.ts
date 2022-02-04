@@ -18,12 +18,13 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const result = await chargebee.customer.retrieve(username).request();
 
-    const { first_name, last_name, email, billing_address } = result.customer;
+    const { first_name, last_name, email, billing_address, phone } = result.customer;
     const { line1, line2, line3, city, country } = billing_address ?? {};
 
     return {
       statusCode: 200,
       body: JSON.stringify({
+        phone,
         first_name,
         last_name,
         email,
