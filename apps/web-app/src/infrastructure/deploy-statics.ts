@@ -9,7 +9,7 @@ export const deployStatics = (
   envName: string,
   distribution: Distribution
 ) => {
-  const prefixes = ['_next', 'images', 'assets'];
+  const prefixes = ['_next', 'images', 'assets', 'storybook'];
 
   const bucketName = getDomainName(envName);
 
