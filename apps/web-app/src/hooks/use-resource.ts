@@ -2,6 +2,7 @@ import useSWR, { useSWRConfig } from 'swr';
 import { getOutputs } from '../aws/get-outputs';
 import { currentUser } from '../aws/authenticate';
 import useMutation from 'use-mutation';
+import { HTTP } from '../infrastructure/constants';
 
 interface Response<T> {
   items: T[];
@@ -31,13 +32,13 @@ const swrFetcher = async <T>(path: string, init?: RequestInit): Promise<T> => {
   const { ApiDomainName: domainName } = await getOutputs();
 
   const finalInit = await getFetchInit(init)
-
-  const response = await fetch(`https://${domainName}/${path}`, finalInit)
+  const fullPath = `https://${domainName}/${path}`
+  const response = await fetch(fullPath, finalInit)
 
   const data = await response.json()
 
   if (!response.ok) {
-    const error = new Error(`The server returned a ${response.status} status code with the message '${data.error}'`)
+    const error = new Error(`Tried to make a request to ${fullPath} but the server returned a ${response.status} status code with the message "${data.error}"`)
     throw error
   }
   return await response.json()

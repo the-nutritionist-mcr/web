@@ -1,5 +1,7 @@
 import Router from 'next/router';
 import { FC } from 'react';
+import Head from 'next/head'
+import { Hub } from 'aws-amplify';
 import { AppProps } from 'next/app';
 import toast, { Toaster } from 'react-hot-toast';
 import { Layout } from '@tnmw/components';
@@ -41,6 +43,18 @@ const authenticationService = {
 
 const provider = isClientSide() ? swrLocalstorageProvider : undefined;
 
+Hub.listen('auth', (data) => {
+  switch (data.payload.event) {
+    case 'signIn':
+      toast.success('Login successful!')
+        break;
+
+    case 'signOut':
+      toast.success('Successfully logged out')
+      break;
+  }
+})
+
 const TnmApp: FC<AppProps> = ({ Component, pageProps }) => (
   <SWRConfig
     value={{
@@ -52,13 +66,19 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => (
   >
     <AuthenticationServiceContext.Provider value={authenticationService}>
       <NavigationContext.Provider value={navigator}>
-        <ThemeProvider theme={theme}>
-          <Toaster 
 
+        <ThemeProvider theme={theme}>
+          <Head>
+            <link
+              rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
+            />
+          </Head>
+          <Toaster 
           toastOptions={{
             style: {
               fontFamily: 'Roboto',
-              fontSize: '14pt',
+              maxWidth: 700
             },
           }}/>
           <Layout>
