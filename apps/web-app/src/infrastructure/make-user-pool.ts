@@ -58,7 +58,7 @@ export const makeUserPool = (
     },
 
     lambdaTriggers: {
-      preSignUp: adminCreateUserEmailSender,
+      customMessage: adminCreateUserEmailSender,
     },
 
     userInvitation: {

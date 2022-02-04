@@ -1,4 +1,5 @@
 import { ThemeProvider } from '@emotion/react';
+
 import {
   AuthenticationServiceContext,
   NavigationContext
