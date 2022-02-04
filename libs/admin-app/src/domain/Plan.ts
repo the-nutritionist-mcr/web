@@ -1,4 +1,4 @@
-import { PlanCategory } from "../lib/config";
+import { PlanCategory } from '../lib/config';
 
 export default interface Plan {
   name: string;

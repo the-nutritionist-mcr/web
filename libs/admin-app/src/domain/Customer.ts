@@ -1,11 +1,11 @@
-import Exclusion from "./Exclusion";
-import Plan from "./Plan";
-import { CustomerPlan } from "../features/customers/types";
+import Exclusion from './Exclusion';
+import Plan from './Plan';
+import { CustomerPlan } from '../features/customers/types';
 
 export enum Snack {
-  None = "None",
-  Standard = "Standard",
-  Large = "Large",
+  None = 'None',
+  Standard = 'Standard',
+  Large = 'Large',
 }
 
 export default interface Customer {

@@ -1,5 +1,5 @@
-import { Customer, ICookDay, Recipe } from "@/entities";
-import { IMealSelector } from "./i-meal-selector";
+import { Customer, ICookDay, Recipe } from '@/entities';
+import { IMealSelector } from './i-meal-selector';
 
 export class SimpleDistributionEngine implements IMealSelector {
   public selectMeals(
@@ -8,20 +8,20 @@ export class SimpleDistributionEngine implements IMealSelector {
     customer: Customer
   ) {
     const delivery = customer.plan.deliveries.find(
-      delivery => delivery.cookDay === cookDay
+      (delivery) => delivery.cookDay === cookDay
     );
 
     if (!delivery) {
-      throw new Error("No delivery found!");
+      throw new Error('No delivery found!');
     }
 
-    const startingPoint = delivery.meals.flatMap(meal =>
+    const startingPoint = delivery.meals.flatMap((meal) =>
       [...new Array(meal.quantity)].map(() => meal.variant)
     );
 
     return startingPoint.map((variant, index) => ({
       recipe: SimpleDistributionEngine.pickRecipe(recipes, index),
-      variant
+      variant,
     }));
   }
 
@@ -29,7 +29,7 @@ export class SimpleDistributionEngine implements IMealSelector {
     const recipe = recipes[index % recipes.length];
 
     if (!recipe) {
-      throw new Error("Something went wrong");
+      throw new Error('Something went wrong');
     }
 
     return recipe;

@@ -1,4 +1,4 @@
-import { base } from "grommet";
+import { base } from 'grommet';
 
 interface FormattedPlanItem {
   bold: boolean;
@@ -16,12 +16,12 @@ const formatPlanItem = (
   }
 
   const color = planItem.customisation
-    ? base.global?.colors?.["status-error"]
-    : "#000000";
+    ? base.global?.colors?.['status-error']
+    : '#000000';
 
   const finalColor = planItem.allergen ? base.global?.colors?.brand : color;
 
-  const bold = finalColor !== "#000000";
+  const bold = finalColor !== '#000000';
 
   return {
     bold,

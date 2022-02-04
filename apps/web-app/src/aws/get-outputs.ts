@@ -12,7 +12,9 @@ type StackOutputs = {
 };
 
 export const getOutputs = async (): Promise<StackConfig> => {
-  const path = process.env.FETCH_BASE_URL ? `${process.env.FETCH_BASE_URL}/app-config.json` : `/app-config.json`
+  const path = process.env.FETCH_BASE_URL
+    ? `${process.env.FETCH_BASE_URL}/app-config.json`
+    : `/app-config.json`;
 
   const outputs = await fetch(path);
   const json: StackOutputs = await outputs.json();

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import "source-map-support/register";
+import 'source-map-support/register';
 
-import generateStacks from "./infrastructure/generate-stacks";
+import generateStacks from './infrastructure/generate-stacks';
 
 generateStacks();

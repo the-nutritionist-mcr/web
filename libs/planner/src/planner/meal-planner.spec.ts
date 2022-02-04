@@ -9,8 +9,8 @@ describe('The meal planner', () => {
       eatingDaysCovered: [
         DaysOfWeek.Monday,
         DaysOfWeek.Tuesday,
-        DaysOfWeek.Wednesday
-      ]
+        DaysOfWeek.Wednesday,
+      ],
     });
 
     const cookTwo = new CookDay({
@@ -18,8 +18,8 @@ describe('The meal planner', () => {
       eatingDaysCovered: [
         DaysOfWeek.Thursday,
         DaysOfWeek.Friday,
-        DaysOfWeek.Sunday
-      ]
+        DaysOfWeek.Sunday,
+      ],
     });
 
     expect(() => new MealPlanner([cookOne, cookTwo])).toThrow(
@@ -34,8 +34,8 @@ describe('The meal planner', () => {
         DaysOfWeek.Monday,
         DaysOfWeek.Tuesday,
         DaysOfWeek.Wednesday,
-        DaysOfWeek.Thursday
-      ]
+        DaysOfWeek.Thursday,
+      ],
     });
 
     const cookTwo = new CookDay({
@@ -44,8 +44,8 @@ describe('The meal planner', () => {
         DaysOfWeek.Thursday,
         DaysOfWeek.Friday,
         DaysOfWeek.Saturday,
-        DaysOfWeek.Sunday
-      ]
+        DaysOfWeek.Sunday,
+      ],
     });
 
     expect(() => new MealPlanner([cookOne, cookTwo])).toThrow(

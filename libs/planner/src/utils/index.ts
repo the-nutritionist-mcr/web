@@ -1,3 +1,3 @@
-import { ImmutableDate } from "./immutable-date";
+import { ImmutableDate } from './immutable-date';
 
 export { ImmutableDate };

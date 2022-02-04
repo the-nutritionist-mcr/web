@@ -7,13 +7,13 @@ import {
   DaysPerWeek,
   CustomerPlan,
   PlanConfiguration,
-} from "./types";
-import { curry, pipe } from "ramda";
+} from './types';
+import { curry, pipe } from 'ramda';
 import {
   extrasLabels,
   planLabels,
   defaultDeliveryDays,
-} from "../../lib/config";
+} from '../../lib/config';
 
 /*
  * Distribute a target item across an arbitrary number of deliveries
@@ -28,7 +28,7 @@ const distributeItems = curry(
   (
     daysPerWeek: DaysPerWeek,
     targetItem: string,
-    section: Exclude<keyof Delivery, "deliveryDay">,
+    section: Exclude<keyof Delivery, 'deliveryDay'>,
     inputPlan: Delivery[]
   ): Delivery[] =>
     [...new Array(daysPerWeek === DAYS_IN_WEEK ? daysPerWeek - 1 : daysPerWeek)]
@@ -54,7 +54,7 @@ const incrementFoundInDeliveries = curry(
   (
     deliveries: Delivery[],
     index: number,
-    section: Exclude<keyof Delivery, "deliveryDay">,
+    section: Exclude<keyof Delivery, 'deliveryDay'>,
     target: string
   ) =>
     deliveries.map((delivery, deliveryIndex) =>
@@ -66,7 +66,7 @@ const incrementFoundInDeliveries = curry(
 
 const incrementTarget = (
   delivery: Delivery,
-  section: Exclude<keyof Delivery, "deliveryDay">,
+  section: Exclude<keyof Delivery, 'deliveryDay'>,
   target: string
 ) => ({
   ...delivery,
@@ -79,7 +79,7 @@ const distributeAndMultiply = curry(
   (
     daysPerWeek: DaysPerWeek,
     target: string,
-    section: Exclude<keyof Delivery, "deliveryDay">,
+    section: Exclude<keyof Delivery, 'deliveryDay'>,
     multiple: number,
     inputPlan: Delivery[]
   ) =>
@@ -253,7 +253,7 @@ export const generateDistribution = (
     distributeAndMultiply(
       config.daysPerWeek,
       config.planType,
-      "items",
+      'items',
       config.mealsPerDay * config.totalPlans
     ),
 
@@ -264,7 +264,7 @@ export const generateDistribution = (
           distributeAndMultiply(
             config.daysPerWeek,
             extra,
-            "extras",
+            'extras',
             config.totalPlans
           )
         ),

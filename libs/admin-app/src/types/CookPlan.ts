@@ -1,5 +1,5 @@
-import Customer from "../domain/Customer";
-import Recipe from "../domain/Recipe";
+import Customer from '../domain/Customer';
+import Recipe from '../domain/Recipe';
 
 type CookPlan = {
   recipe: Recipe | string;

@@ -9,42 +9,44 @@ interface Response<T> {
 
 const getFetchInit = async (init?: RequestInit) => {
   const user = await currentUser();
-  if(!user) {
-    return {}
+  if (!user) {
+    return {};
   }
   const {
     signInUserSession: {
-      accessToken: { jwtToken }
-    }
+      accessToken: { jwtToken },
+    },
   } = user;
 
   const withToken = {
     headers: {
-      authorization: jwtToken
-    }
+      authorization: jwtToken,
+    },
   };
 
   return init ? { ...init, ...withToken } : withToken;
-}
+};
 
 const swrFetcher = async <T>(path: string, init?: RequestInit): Promise<T> => {
   const { ApiDomainName: domainName } = await getOutputs();
 
-  console.log(domainName)
+  console.log(domainName);
 
-  const finalInit = await getFetchInit(init)
-  const fullPath = `https://${domainName}/${path}`
-  const response = await fetch(fullPath, finalInit)
+  const finalInit = await getFetchInit(init);
+  const fullPath = `https://${domainName}/${path}`;
+  const response = await fetch(fullPath, finalInit);
 
-  const data = await response.json()
+  const data = await response.json();
 
-  console.log(data)
+  console.log(data);
 
   if (!response.ok) {
-    const error = new Error(`Tried to make a request to ${fullPath} but the server returned a ${response.status} status code with the message "${data.error}"`)
-    throw error
+    const error = new Error(
+      `Tried to make a request to ${fullPath} but the server returned a ${response.status} status code with the message "${data.error}"`
+    );
+    throw error;
   }
-  return await response.json()
+  return await response.json();
 };
 
 type ExtractPromiseType<T> = T extends Promise<infer P> ? P : never;
@@ -56,7 +58,7 @@ export const useResource = <T extends { id: string }>(type: string) => {
   const createItem = async <T extends { id: string }>(input: T): Promise<T> =>
     await swrFetcher<T>(type, {
       method: 'POST',
-      body: JSON.stringify(input)
+      body: JSON.stringify(input),
     });
 
   const [create] = useMutation(createItem, {
@@ -73,7 +75,7 @@ export const useResource = <T extends { id: string }>(type: string) => {
 
     onSuccess({
       input,
-      data
+      data,
     }: {
       input: T;
       data: ExtractPromiseType<ReturnType<typeof createItem>>;
@@ -83,13 +85,13 @@ export const useResource = <T extends { id: string }>(type: string) => {
         item.id === '0' ? { ...input, id: data.id } : item
       );
       mutate(type, newData, false);
-    }
+    },
   });
 
   const updateItem = async <T extends { id: string }>(input: T): Promise<T> =>
     await swrFetcher<T>(type, {
       method: 'PUT',
-      body: JSON.stringify(input)
+      body: JSON.stringify(input),
     });
 
   const [update] = useMutation(updateItem, {
@@ -103,7 +105,7 @@ export const useResource = <T extends { id: string }>(type: string) => {
       return () => {
         mutate(type, data, false);
       };
-    }
+    },
   });
 
   const removeItem = async <T extends { id: string }>(
@@ -111,7 +113,7 @@ export const useResource = <T extends { id: string }>(type: string) => {
   ): Promise<void> => {
     await swrFetcher<T>(type, {
       method: 'PUT',
-      body: JSON.stringify({ ...input, deleted: true })
+      body: JSON.stringify({ ...input, deleted: true }),
     });
   };
 
@@ -127,7 +129,7 @@ export const useResource = <T extends { id: string }>(type: string) => {
       return () => {
         mutate(type, data, false);
       };
-    }
+    },
   });
 
   return { items: getData?.items, create, remove, update };

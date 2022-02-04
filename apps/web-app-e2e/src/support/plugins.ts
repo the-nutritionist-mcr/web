@@ -1,14 +1,14 @@
- /* eslint-disable no-console */
-import { CognitoIdentityServiceProvider } from "aws-sdk"
- console.log('before')
-import * as seed from "./seed-cognito"
-console.log('after')
+/* eslint-disable no-console */
+import { CognitoIdentityServiceProvider } from 'aws-sdk';
+console.log('before');
+import * as seed from './seed-cognito';
+console.log('after');
 
-console.log(seed)
+console.log(seed);
 
-const { seedCognito } = seed
+const { seedCognito } = seed;
 
-const cognito = new CognitoIdentityServiceProvider({ region: "eu-west-2" })
+const cognito = new CognitoIdentityServiceProvider({ region: 'eu-west-2' });
 /// <reference types="cypress" />
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
@@ -25,23 +25,23 @@ const cognito = new CognitoIdentityServiceProvider({ region: "eu-west-2" })
 
 const plugins = (on, config) => {
   // eslint-disable-next-line unicorn/prefer-module
-  require("@cypress/code-coverage/task")(on, config)
+  require('@cypress/code-coverage/task')(on, config);
 
-  on("task", {
+  on('task', {
     async seedCognito({
       poolId,
       email,
       password,
       registerUser,
       testUserEmail,
-      testUserPassword
+      testUserPassword,
     }: {
-      poolId: string
-      email: string
-      password: string
-      registerUser: string
-      testUserEmail: string
-      testUserPassword: string
+      poolId: string;
+      email: string;
+      password: string;
+      registerUser: string;
+      testUserEmail: string;
+      testUserPassword: string;
     }) {
       await seedCognito(
         poolId,
@@ -50,21 +50,21 @@ const plugins = (on, config) => {
         registerUser,
         testUserEmail,
         testUserPassword
-      )
-      return null
+      );
+      return null;
     },
     async adminConfirmSignup({ user, pool }: { user: string; pool: string }) {
       await cognito
         .adminConfirmSignUp({
           UserPoolId: pool,
-          Username: user
+          Username: user,
         })
-        .promise()
+        .promise();
 
-      return null
-    }
-  })
-  return config
-}
+      return null;
+    },
+  });
+  return config;
+};
 
-export default plugins
+export default plugins;

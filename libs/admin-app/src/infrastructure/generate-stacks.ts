@@ -1,48 +1,48 @@
 #!/usr/bin/env node
-import "source-map-support/register";
-import * as cdk from "@aws-cdk/core";
+import 'source-map-support/register';
+import * as cdk from '@aws-cdk/core';
 
-import BackendStack from "./backend-stack";
-import ProductionFrontendStack from "./production-frontend-stack";
+import BackendStack from './backend-stack';
+import ProductionFrontendStack from './production-frontend-stack';
 
 const generateStacks = (): void => {
   const app = new cdk.App();
 
-  const account = process.env.IS_LOCALSTACK ? "000000000000" : "661272765443";
+  const account = process.env.IS_LOCALSTACK ? '000000000000' : '661272765443';
 
   const defaults = {
     env: {
-      region: "us-east-1",
+      region: 'us-east-1',
       account,
     },
-    appName: "tnm-admin",
-    domainName: "tnm-admin.com",
-    friendlyName: "The TNM Admin app",
+    appName: 'tnm-admin',
+    domainName: 'tnm-admin.com',
+    friendlyName: 'The TNM Admin app',
   };
 
   const details = {
     prod: {
       ...defaults,
-      stackLabel: "ProductionFrontendStackProd",
-      envName: "prod",
-      subdomain: "www",
-      url: "https://www.tnm-admin.com",
+      stackLabel: 'ProductionFrontendStackProd',
+      envName: 'prod',
+      subdomain: 'www',
+      url: 'https://www.tnm-admin.com',
       transient: false,
     },
     test: {
       ...defaults,
-      stackLabel: "ProductionFrontendStackTest",
-      envName: "test",
-      subdomain: "test",
-      url: "https://test.tnm-admin.com",
+      stackLabel: 'ProductionFrontendStackTest',
+      envName: 'test',
+      subdomain: 'test',
+      url: 'https://test.tnm-admin.com',
       transient: false,
     },
     dev: {
-      stackLabel: "ProductionFrontendStackDev",
+      stackLabel: 'ProductionFrontendStackDev',
       ...defaults,
-      envName: "dev",
-      subdomain: "dev",
-      url: "https://dev.tnm-admin.com",
+      envName: 'dev',
+      subdomain: 'dev',
+      url: 'https://dev.tnm-admin.com',
       transient: false,
     },
   };
@@ -53,23 +53,23 @@ const generateStacks = (): void => {
   });
 
   new BackendStack(app, `tnm-ci-backend-stack`, {
-    envName: "ci",
+    envName: 'ci',
     ...defaults,
-    url: "https://ci.tnm-admin.com",
+    url: 'https://ci.tnm-admin.com',
     transient: true,
   });
 
   new BackendStack(app, `tnm-int-backend-stack`, {
-    envName: "int",
+    envName: 'int',
     ...defaults,
-    url: "https://int.tnm-admin.com",
+    url: 'https://int.tnm-admin.com',
     transient: true,
   });
 
   new BackendStack(app, `tnm-local-backend-stack`, {
-    envName: "local",
+    envName: 'local',
     ...defaults,
-    url: "https://local.tnm-admin.com",
+    url: 'https://local.tnm-admin.com',
     transient: true,
   });
 };

@@ -12,12 +12,12 @@ describe('customer distribution', () => {
     const selections = [
       {
         recipe: recipeOne,
-        variant: { name: 'EQ' }
+        variant: { name: 'EQ' },
       },
       {
         recipe: recipeTwo,
-        variant: { name: 'EQ' }
-      }
+        variant: { name: 'EQ' },
+      },
     ];
 
     const customerOne = mock<NotReadonly<Customer>>();
@@ -41,31 +41,31 @@ describe('customer distribution', () => {
     const tagOne: Tag = {
       id: '1',
       name: 'foo',
-      attributes: []
+      attributes: [],
     };
 
     const tagTwo: Tag = {
       id: '2',
       name: 'bar',
-      attributes: []
+      attributes: [],
     };
 
     const tagThree: Tag = {
       id: '3',
       name: 'baz',
-      attributes: []
+      attributes: [],
     };
 
     const tagFour: Tag = {
       id: '4',
       name: 'bap',
-      attributes: []
+      attributes: [],
     };
 
     const tagFive: Tag = {
       id: '5',
       name: 'bapz',
-      attributes: []
+      attributes: [],
     };
 
     const recipeOne = mock<NotReadonly<Recipe>>();
@@ -76,12 +76,12 @@ describe('customer distribution', () => {
     const selections = [
       {
         recipe: recipeOne,
-        variant: { name: 'EQ' }
+        variant: { name: 'EQ' },
       },
       {
         recipe: recipeTwo,
-        variant: { name: 'EQ' }
-      }
+        variant: { name: 'EQ' },
+      },
     ];
 
     const customerOne = mock<NotReadonly<Customer>>();

@@ -1,5 +1,5 @@
-import { CustomerMealPlan } from "./customer-meal-plan";
-import { Tag } from "./tag";
+import { CustomerMealPlan } from './customer-meal-plan';
+import { Tag } from './tag';
 
 export interface Customer {
   readonly id: string;

@@ -1,19 +1,19 @@
-import * as fs from "fs-extra";
+import * as fs from 'fs-extra';
 import clearDatabaseTables, {
   TRYING_TO_CLEAR_PROD_TABLES_ERROR,
-} from "./clear-database";
-import clearTable from "./clear-table";
-import execa from "execa";
-import { mocked } from "ts-jest/utils";
+} from './clear-database';
+import clearTable from './clear-table';
+import execa from 'execa';
+import { mocked } from 'ts-jest/utils';
 
-jest.mock("./clear-table");
+jest.mock('./clear-table');
 
-describe("ClearDatabaseTables", () => {
+describe('ClearDatabaseTables', () => {
   const oldCwd = process.cwd();
   let tempDir: string | undefined;
 
   beforeEach(async () => {
-    const { stdout } = await execa.command("mktemp -d");
+    const { stdout } = await execa.command('mktemp -d');
     process.chdir(stdout);
     tempDir = stdout;
   });
@@ -23,16 +23,16 @@ describe("ClearDatabaseTables", () => {
     process.chdir(oldCwd);
   });
 
-  it("Rejects the promise if the file is not found", async () => {
-    await expect(clearDatabaseTables("./file.json")).rejects.toThrow(
-      new Error("Outputs file was not present")
+  it('Rejects the promise if the file is not found', async () => {
+    await expect(clearDatabaseTables('./file.json')).rejects.toThrow(
+      new Error('Outputs file was not present')
     );
   });
 
-  it("Rejects the promise if file is not valid JSON", async () => {
-    await fs.writeFile("./file.json", "asdads;a\n");
-    await expect(clearDatabaseTables("./file.json")).rejects.toThrow(
-      new Error("Outputs file was not valid JSON")
+  it('Rejects the promise if file is not valid JSON', async () => {
+    await fs.writeFile('./file.json', 'asdads;a\n');
+    await expect(clearDatabaseTables('./file.json')).rejects.toThrow(
+      new Error('Outputs file was not valid JSON')
     );
   });
 
@@ -53,9 +53,9 @@ describe("ClearDatabaseTables", () => {
       }
     }
     `;
-    await fs.writeFile("./file.json", outputs);
+    await fs.writeFile('./file.json', outputs);
 
-    await expect(clearDatabaseTables("./file.json")).rejects.toThrow(
+    await expect(clearDatabaseTables('./file.json')).rejects.toThrow(
       new Error(TRYING_TO_CLEAR_PROD_TABLES_ERROR)
     );
   });
@@ -77,9 +77,9 @@ describe("ClearDatabaseTables", () => {
       }
     }
     `;
-    await fs.writeFile("./file.json", outputs);
+    await fs.writeFile('./file.json', outputs);
 
-    await expect(clearDatabaseTables("./file.json")).rejects.toThrow(
+    await expect(clearDatabaseTables('./file.json')).rejects.toThrow(
       new Error(TRYING_TO_CLEAR_PROD_TABLES_ERROR)
     );
   });
@@ -102,17 +102,17 @@ describe("ClearDatabaseTables", () => {
     }
     `;
 
-    await fs.writeFile("./file.json", outputs);
-    await clearDatabaseTables("./file.json");
+    await fs.writeFile('./file.json', outputs);
+    await clearDatabaseTables('./file.json');
     expect(mocked(clearTable, true)).toHaveBeenCalledTimes(5);
-    expect(mocked(clearTable, true)).toHaveBeenCalledWith("recipes-table");
+    expect(mocked(clearTable, true)).toHaveBeenCalledWith('recipes-table');
     expect(mocked(clearTable, true)).toHaveBeenCalledWith(
-      "recipe-exclusions-table"
+      'recipe-exclusions-table'
     );
-    expect(mocked(clearTable, true)).toHaveBeenCalledWith("exclusions-table");
-    expect(mocked(clearTable, true)).toHaveBeenCalledWith("customers-table");
+    expect(mocked(clearTable, true)).toHaveBeenCalledWith('exclusions-table');
+    expect(mocked(clearTable, true)).toHaveBeenCalledWith('customers-table');
     expect(mocked(clearTable, true)).toHaveBeenCalledWith(
-      "customer-exclusions-table"
+      'customer-exclusions-table'
     );
   });
 });

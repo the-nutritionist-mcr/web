@@ -1,19 +1,19 @@
-import convertNullsToUndefined from "./convertNullsToUndefined";
+import convertNullsToUndefined from './convertNullsToUndefined';
 
-describe("convert nulls to undefined", () => {
-  it("Returns an empty object unchanged", () => {
+describe('convert nulls to undefined', () => {
+  it('Returns an empty object unchanged', () => {
     const actual = convertNullsToUndefined({});
 
     expect(actual).toEqual({});
   });
 
-  it("Returns a moderately complex object without nulls unchanged", () => {
+  it('Returns a moderately complex object without nulls unchanged', () => {
     const input = {
-      foo: "foo",
+      foo: 'foo',
       bar: undefined,
       baz: {
-        bash: "bof",
-        bop: "bip",
+        bash: 'bof',
+        bop: 'bip',
       },
     };
     const actual = convertNullsToUndefined(input);
@@ -21,31 +21,31 @@ describe("convert nulls to undefined", () => {
     expect(actual).toEqual(input);
   });
 
-  it("Returns a single layer object with nulls converted to undefineds", () => {
+  it('Returns a single layer object with nulls converted to undefineds', () => {
     const input = {
-      foo: "foo",
+      foo: 'foo',
       bar: null,
     };
     const actual = convertNullsToUndefined(input);
 
     const expected = {
-      foo: "foo",
+      foo: 'foo',
       bar: undefined,
     };
     expect(actual).toEqual(expected);
   });
 
-  it("Returns a more complex object with nulls converted to undefined", () => {
+  it('Returns a more complex object with nulls converted to undefined', () => {
     const input = {
-      foo: "foo",
+      foo: 'foo',
       bar: null,
 
       baz: {
-        foo: "foo",
+        foo: 'foo',
         barz: null,
         bar: {
-          blop: "bloop",
-          blif: "blah",
+          blop: 'bloop',
+          blif: 'blah',
           baz: null,
         },
       },
@@ -54,15 +54,15 @@ describe("convert nulls to undefined", () => {
     const actual = convertNullsToUndefined(input);
 
     const expected = {
-      foo: "foo",
+      foo: 'foo',
       bar: undefined,
 
       baz: {
-        foo: "foo",
+        foo: 'foo',
         barz: undefined,
         bar: {
-          blop: "bloop",
-          blif: "blah",
+          blop: 'bloop',
+          blif: 'blah',
           baz: undefined,
         },
       },

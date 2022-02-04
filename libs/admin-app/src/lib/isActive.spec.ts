@@ -1,7 +1,7 @@
-import Customer, { Snack } from "../domain/Customer";
-import isActive from "./isActive";
+import Customer, { Snack } from '../domain/Customer';
+import isActive from './isActive';
 
-describe("isActive", () => {
+describe('isActive', () => {
   const oldDateNow = Date.now.bind(global.Date);
   beforeEach(() => {
     // 17th November 2020
@@ -13,19 +13,19 @@ describe("isActive", () => {
     global.Date.now = oldDateNow;
   });
 
-  it("Should return true if there is no pause start or end", () => {
+  it('Should return true if there is no pause start or end', () => {
     const customer: Customer = {
-      address: "",
-      telephone: "",
-      salutation: "",
-      firstName: "",
-      surname: "",
-      id: "0",
-      email: "",
+      address: '',
+      telephone: '',
+      salutation: '',
+      firstName: '',
+      surname: '',
+      id: '0',
+      email: '',
       daysPerWeek: 1,
       plan: {
-        name: "Mass 1",
-        category: "Mass",
+        name: 'Mass 1',
+        category: 'Mass',
         mealsPerDay: 1,
         costPerMeal: 1,
       },
@@ -39,19 +39,19 @@ describe("isActive", () => {
     expect(active).toEqual(true);
   });
 
-  it("Should be active if there is a pause start date that is in the future", () => {
+  it('Should be active if there is a pause start date that is in the future', () => {
     const customer: Customer = {
-      address: "",
-      telephone: "",
-      salutation: "",
-      firstName: "",
-      surname: "",
-      id: "0",
-      email: "",
+      address: '',
+      telephone: '',
+      salutation: '',
+      firstName: '',
+      surname: '',
+      id: '0',
+      email: '',
       daysPerWeek: 1,
       plan: {
-        name: "Mass 1",
-        category: "Mass",
+        name: 'Mass 1',
+        category: 'Mass',
         mealsPerDay: 1,
         costPerMeal: 1,
       },
@@ -67,19 +67,19 @@ describe("isActive", () => {
     expect(active).toEqual(true);
   });
 
-  it("Should be inactive if there is a pause start date that is in the past and no pause end", () => {
+  it('Should be inactive if there is a pause start date that is in the past and no pause end', () => {
     const customer: Customer = {
-      id: "0",
-      firstName: "",
-      surname: "",
-      salutation: "mr",
-      address: "",
-      telephone: "",
-      email: "",
+      id: '0',
+      firstName: '',
+      surname: '',
+      salutation: 'mr',
+      address: '',
+      telephone: '',
+      email: '',
       daysPerWeek: 1,
       plan: {
-        name: "Mass 1",
-        category: "Mass",
+        name: 'Mass 1',
+        category: 'Mass',
         mealsPerDay: 1,
         costPerMeal: 1,
       },
@@ -95,19 +95,19 @@ describe("isActive", () => {
     expect(active).toEqual(false);
   });
 
-  it("Should be inactive if there is a pause end date that is in the future and no pause start", () => {
+  it('Should be inactive if there is a pause end date that is in the future and no pause start', () => {
     const customer: Customer = {
-      id: "0",
-      firstName: "",
-      surname: "",
-      address: "",
-      telephone: "",
-      email: "",
-      salutation: "",
+      id: '0',
+      firstName: '',
+      surname: '',
+      address: '',
+      telephone: '',
+      email: '',
+      salutation: '',
       daysPerWeek: 1,
       plan: {
-        name: "Mass 1",
-        category: "Mass",
+        name: 'Mass 1',
+        category: 'Mass',
         mealsPerDay: 1,
         costPerMeal: 1,
       },
@@ -123,19 +123,19 @@ describe("isActive", () => {
     expect(active).toEqual(false);
   });
 
-  it("Should be active if the pause has expired", () => {
+  it('Should be active if the pause has expired', () => {
     const customer: Customer = {
-      id: "0",
-      firstName: "",
-      address: "",
-      telephone: "",
-      surname: "",
-      salutation: "",
-      email: "",
+      id: '0',
+      firstName: '',
+      address: '',
+      telephone: '',
+      surname: '',
+      salutation: '',
+      email: '',
       daysPerWeek: 1,
       plan: {
-        name: "Mass 1",
-        category: "Mass",
+        name: 'Mass 1',
+        category: 'Mass',
         mealsPerDay: 1,
         costPerMeal: 1,
       },
@@ -154,19 +154,19 @@ describe("isActive", () => {
     expect(active).toEqual(true);
   });
 
-  it("Should be inactive if the current date is between the pause start and end dates", () => {
+  it('Should be inactive if the current date is between the pause start and end dates', () => {
     const customer: Customer = {
-      id: "0",
-      address: "",
-      salutation: "",
-      surname: "",
-      firstName: "",
-      telephone: "",
-      email: "",
+      id: '0',
+      address: '',
+      salutation: '',
+      surname: '',
+      firstName: '',
+      telephone: '',
+      email: '',
       daysPerWeek: 1,
       plan: {
-        name: "Mass 1",
-        category: "Mass",
+        name: 'Mass 1',
+        category: 'Mass',
         mealsPerDay: 1,
         costPerMeal: 1,
       },

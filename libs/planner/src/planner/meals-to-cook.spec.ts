@@ -34,7 +34,7 @@ describe('meals to cook', () => {
 
       const cookOne = new CookDay({
         dayOfWeek: DaysOfWeek.Sunday,
-        eatingDaysCovered: [DaysOfWeek.Thursday, DaysOfWeek.Friday]
+        eatingDaysCovered: [DaysOfWeek.Thursday, DaysOfWeek.Friday],
       });
 
       const customers = [customerOne, customerTwo];
@@ -43,7 +43,7 @@ describe('meals to cook', () => {
       const mockCustomerDistribution = mock<CustomerMealsDistribution>();
       const distributionFactory = {
         getCustomerDistribution: jest.fn(() => mockDistribution),
-        getCustomerMealsDistribution: jest.fn(() => mockCustomerDistribution)
+        getCustomerMealsDistribution: jest.fn(() => mockCustomerDistribution),
       };
 
       const meals = new MealsToCook(
@@ -67,19 +67,19 @@ describe('meals to cook', () => {
       selectMeals
         .mockImplementationOnce(() => [
           mockPreparedMealOne,
-          mockPreparedMealTwo
+          mockPreparedMealTwo,
         ])
         .mockImplementationOnce(() => [
           mockPreparedMealThree,
-          mockPreparedMealFour
+          mockPreparedMealFour,
         ]);
 
       const distribution = meals.distribute(
         {
-          active
+          active,
         },
         {
-          selectMeals
+          selectMeals,
         }
       );
 
@@ -112,7 +112,7 @@ describe('meals to cook', () => {
 
       const cookOne = new CookDay({
         dayOfWeek: DaysOfWeek.Sunday,
-        eatingDaysCovered: [DaysOfWeek.Thursday, DaysOfWeek.Friday]
+        eatingDaysCovered: [DaysOfWeek.Thursday, DaysOfWeek.Friday],
       });
 
       const customers = [customerOne, customerTwo];
@@ -121,7 +121,7 @@ describe('meals to cook', () => {
       const mockCustomerDistribution = mock<CustomerMealsDistribution>();
       const distributionFactory = {
         getCustomerDistribution: jest.fn(() => mockDistribution),
-        getCustomerMealsDistribution: jest.fn(() => mockCustomerDistribution)
+        getCustomerMealsDistribution: jest.fn(() => mockCustomerDistribution),
       };
 
       const meals = new MealsToCook(
@@ -143,10 +143,10 @@ describe('meals to cook', () => {
 
       meals.distribute(
         {
-          active
+          active,
         },
         {
-          selectMeals
+          selectMeals,
         }
       );
 
@@ -175,7 +175,7 @@ describe('meals to cook', () => {
 
       const cookOne = new CookDay({
         dayOfWeek: DaysOfWeek.Sunday,
-        eatingDaysCovered: [DaysOfWeek.Thursday, DaysOfWeek.Friday]
+        eatingDaysCovered: [DaysOfWeek.Thursday, DaysOfWeek.Friday],
       });
 
       const customers = [customerOne, customerTwo];
@@ -184,7 +184,7 @@ describe('meals to cook', () => {
       const mockCustomerDistribution = mock<CustomerMealsDistribution>();
       const distributionFactory = {
         getCustomerDistribution: jest.fn(() => mockDistribution),
-        getCustomerMealsDistribution: jest.fn(() => mockCustomerDistribution)
+        getCustomerMealsDistribution: jest.fn(() => mockCustomerDistribution),
       };
 
       const meals = new MealsToCook(
@@ -206,10 +206,10 @@ describe('meals to cook', () => {
 
       meals.distribute(
         {
-          active
+          active,
         },
         {
-          selectMeals
+          selectMeals,
         }
       );
 

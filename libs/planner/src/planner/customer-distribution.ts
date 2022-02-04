@@ -10,10 +10,10 @@ export class CustomerDistribution {
     public readonly active: boolean,
     public readonly reason?: string
   ) {
-    this.meals = selectedMeals.map(meal => ({
+    this.meals = selectedMeals.map((meal) => ({
       customer,
       ...meal,
-      tags: customer.tags.filter(tag => meal.recipe.tags.includes(tag))
+      tags: customer.tags.filter((tag) => meal.recipe.tags.includes(tag)),
     }));
   }
 }

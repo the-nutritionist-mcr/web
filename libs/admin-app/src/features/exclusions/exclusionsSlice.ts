@@ -1,25 +1,25 @@
-import API, { graphqlOperation } from "@aws-amplify/api";
+import API, { graphqlOperation } from '@aws-amplify/api';
 
 import {
   CreateExclusionMutationVariables,
   DeleteExclusionMutationVariables,
   UpdateExclusionMutationVariables,
-} from "../../backend/query-variables-types";
+} from '../../backend/query-variables-types';
 
 import {
   createExclusionMutation,
   deleteExclusionMutation,
   listExclusionsQuery,
   updateExclusionMutation,
-} from "./graphql";
+} from './graphql';
 
-import type AppState from "../../types/AppState";
+import type AppState from '../../types/AppState';
 
-import Exclusion from "../../domain/Exclusion";
-import LoadingState from "../../types/LoadingState";
+import Exclusion from '../../domain/Exclusion';
+import LoadingState from '../../types/LoadingState';
 
-import apiRequestCreator from "../../lib/apiRequestCreator";
-import { createSlice } from "@reduxjs/toolkit";
+import apiRequestCreator from '../../lib/apiRequestCreator';
+import { createSlice } from '@reduxjs/toolkit';
 
 interface ExclusionsState {
   items: Exclusion[];
@@ -34,10 +34,10 @@ const initialState: ExclusionsState = {
   loadingState: LoadingState.Idle,
 };
 
-const MALFORMED_RESPONSE = "Response from the server was malformed";
+const MALFORMED_RESPONSE = 'Response from the server was malformed';
 
 export const updateExclusion = apiRequestCreator(
-  "exclusions/update",
+  'exclusions/update',
   async (exclusion: Exclusion): Promise<Exclusion> => {
     const updateExclusionVariables: UpdateExclusionMutationVariables = {
       input: exclusion,
@@ -54,7 +54,7 @@ export const updateExclusion = apiRequestCreator(
 );
 
 export const createExclusion = apiRequestCreator(
-  "exclusions/create",
+  'exclusions/create',
   async (exclusion: Exclusion): Promise<Exclusion> => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, ...exclusionWithoutId } = exclusion;
@@ -67,7 +67,7 @@ export const createExclusion = apiRequestCreator(
       graphqlOperation(createExclusionMutation, createExclusionVariables)
     )) as {
       data: {
-        createExclusion: Pick<Exclusion, "id">;
+        createExclusion: Pick<Exclusion, 'id'>;
       };
     };
 
@@ -78,7 +78,7 @@ export const createExclusion = apiRequestCreator(
 );
 
 export const fetchExclusions = apiRequestCreator(
-  "exclusions/fetch",
+  'exclusions/fetch',
   async (): Promise<Exclusion[]> => {
     const listExclusionsResult = (await API.graphql(
       graphqlOperation(listExclusionsQuery)
@@ -89,7 +89,7 @@ export const fetchExclusions = apiRequestCreator(
 );
 
 export const removeExclusion = apiRequestCreator(
-  "exclusions/remove",
+  'exclusions/remove',
   async (exclusion: Exclusion): Promise<string> => {
     const deleteExclusionVariables: DeleteExclusionMutationVariables = {
       input: {
@@ -106,7 +106,7 @@ export const removeExclusion = apiRequestCreator(
 );
 
 const exclusionsSlice = createSlice({
-  name: "exclusions",
+  name: 'exclusions',
   initialState,
   reducers: {
     clearError: (state): void => {

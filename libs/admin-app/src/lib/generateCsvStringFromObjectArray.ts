@@ -1,4 +1,4 @@
-import { curry, pipe } from "ramda";
+import { curry, pipe } from 'ramda';
 /**
  * Implementation is based on https://tools.ietf.org/html/rfc4180#section-2
  */
@@ -6,7 +6,7 @@ import { curry, pipe } from "ramda";
 type ValueType = string | number | boolean | undefined;
 
 const containsStringOf = (field: string, chars: string[]) =>
-  chars.some(char => field.includes(char));
+  chars.some((char) => field.includes(char));
 
 const convertTypeToString = curry(
   (type: ValueType, field: string): ValueType =>
@@ -19,17 +19,17 @@ const surroundFieldsWithSpecialCharactersInQuotes = curry(
 );
 
 const escapeQuotes = (field: string | undefined) =>
-  field?.replace(/"/gu, '""') ?? "";
+  field?.replace(/"/gu, '""') ?? '';
 
 const processField = pipe(
-  convertTypeToString("number"),
-  convertTypeToString("boolean"),
+  convertTypeToString('number'),
+  convertTypeToString('boolean'),
   escapeQuotes,
-  surroundFieldsWithSpecialCharactersInQuotes([",", '"', "\n", "\r"])
+  surroundFieldsWithSpecialCharactersInQuotes([',', '"', '\n', '\r'])
 );
 
 const createCsvRowString = (fields: ValueType[]) =>
-  fields.map(processField).join(",");
+  fields.map(processField).join(',');
 
 interface ArbitraryObjectType {
   [key: string]: ValueType;
@@ -40,17 +40,17 @@ const generateCsvStringFromObjectArray = (
 ): string => {
   if (inputObjectArray.length === 0) {
     throw new Error(
-      "inputObjectArray.length must have a length greater than zero"
+      'inputObjectArray.length must have a length greater than zero'
     );
   }
 
   const columnHeaders = Object.keys(inputObjectArray[0]);
 
   const rows = inputObjectArray
-    .map(row =>
-      createCsvRowString(columnHeaders.map(columnHeader => row[columnHeader]))
+    .map((row) =>
+      createCsvRowString(columnHeaders.map((columnHeader) => row[columnHeader]))
     )
-    .join("\r\n");
+    .join('\r\n');
 
   const headerRow = createCsvRowString(columnHeaders);
 

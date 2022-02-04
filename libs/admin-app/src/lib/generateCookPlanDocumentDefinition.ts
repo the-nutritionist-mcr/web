@@ -1,20 +1,20 @@
-import Customer from "../domain/Customer";
-import { RecipeVariantMap } from "../types/CookPlan";
-import { DocumentDefinition } from "./downloadPdf";
-import formatPlanItem from "./formatPlanItem";
-import { PdfBuilder } from "./pdf-builder";
+import Customer from '../domain/Customer';
+import { RecipeVariantMap } from '../types/CookPlan';
+import { DocumentDefinition } from './downloadPdf';
+import formatPlanItem from './formatPlanItem';
+import { PdfBuilder } from './pdf-builder';
 
 const getCountString = (count: number) => (count > 1 ? ` x ${count}` : ``);
-const mainPartOfPlan = (thing: string) => thing.split(" ")[0];
+const mainPartOfPlan = (thing: string) => thing.split(' ')[0];
 
 const generateCookPlanDocumentDefinition = (
   cookPlan: Map<string, RecipeVariantMap>[]
 ): DocumentDefinition => {
   const options = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric"
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   };
 
   const date = new Date(Date.now());
@@ -29,13 +29,13 @@ const generateCookPlanDocumentDefinition = (
     const items = Object.keys(map)
       .slice()
       // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-      .filter(key => map[key].customisation)
-      .flatMap(key =>
-        map[key].customers.map(customer => ({
+      .filter((key) => map[key].customisation)
+      .flatMap((key) =>
+        map[key].customers.map((customer) => ({
           string: `${key} - ${customer.surname}, ${customer.firstName}`,
           customer,
           item: map[key],
-          key
+          key,
         }))
       )
       .reduce<
@@ -48,7 +48,7 @@ const generateCookPlanDocumentDefinition = (
         }[]
       >((accum, item) => {
         const found = accum.find(
-          reducedItem => reducedItem.string === item.string
+          (reducedItem) => reducedItem.string === item.string
         );
         if (found) {
           found.count++;
@@ -58,8 +58,8 @@ const generateCookPlanDocumentDefinition = (
             ...accum,
             {
               count: 1,
-              ...item
-            }
+              ...item,
+            },
           ];
         }
       }, [])
@@ -69,7 +69,7 @@ const generateCookPlanDocumentDefinition = (
         }
         return a.string > b.string ? 1 : -1;
       })
-      .map(item =>
+      .map((item) =>
         formatPlanItem(
           `${item.key}${getCountString(item.count)} - ${
             item.customer.surname
@@ -78,7 +78,7 @@ const generateCookPlanDocumentDefinition = (
         )
       );
     return {
-      ul: items
+      ul: items,
     };
   };
 
@@ -91,16 +91,16 @@ const generateCookPlanDocumentDefinition = (
     ul: Object.keys(map)
       .slice()
       // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-      .filter(key => !map[key].customisation)
+      .filter((key) => !map[key].customisation)
       .sort((a, b) => (a > b ? 1 : -1))
-      .map(key => formatPlanItem(`${key} x ${map[key].count}`, map[key]))
+      .map((key) => formatPlanItem(`${key} x ${map[key].count}`, map[key])),
   });
 
   const makeLabelCell = (name: string, map: RecipeVariantMap) => [
     {
       text: `${name} (x ${totalMeals(map)})`,
-      style: "rowHeader"
-    }
+      style: 'rowHeader',
+    },
   ];
 
   const convertPlanToRows = (
@@ -110,7 +110,7 @@ const generateCookPlanDocumentDefinition = (
     return all.map(([recipeName, value]) => [
       makeLabelCell(recipeName, value),
       formatRecipeVariantMapNoCustomisationsCell(value),
-      formatRecipeVariantMapCustomisationsCell(value)
+      formatRecipeVariantMapCustomisationsCell(value),
     ]);
   };
 
@@ -118,7 +118,7 @@ const generateCookPlanDocumentDefinition = (
     (builder, plan, index) =>
       builder
         .header(`Cook ${index + 1}`)
-        .table(convertPlanToRows(plan), 2, [200, "*", "*"])
+        .table(convertPlanToRows(plan), 2, [200, '*', '*'])
         .pageBreak(),
     new PdfBuilder(title, true)
   );

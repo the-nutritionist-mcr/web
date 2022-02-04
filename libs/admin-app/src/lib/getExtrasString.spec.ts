@@ -1,8 +1,8 @@
-import Customer, { Snack } from "../domain/Customer";
-import getExtrasString from "./getExtrasString";
-import { mock } from "jest-mock-extended";
+import Customer, { Snack } from '../domain/Customer';
+import getExtrasString from './getExtrasString';
+import { mock } from 'jest-mock-extended';
 
-describe("getExtrasString", () => {
+describe('getExtrasString', () => {
   it("Returns 'breakfast' if only the breakfast flag is set", () => {
     const customer = mock<Customer>();
 
@@ -11,7 +11,7 @@ describe("getExtrasString", () => {
 
     const actual = getExtrasString(customer);
 
-    expect(actual).toEqual("Breakfast");
+    expect(actual).toEqual('Breakfast');
   });
 
   it("Returns 'None' if nothing is set", () => {
@@ -22,7 +22,7 @@ describe("getExtrasString", () => {
 
     const actual = getExtrasString(customer);
 
-    expect(actual).toEqual("None");
+    expect(actual).toEqual('None');
   });
 
   it("Returns 'Large Snack' if just a large snack is set", () => {
@@ -33,7 +33,7 @@ describe("getExtrasString", () => {
 
     const actual = getExtrasString(customer);
 
-    expect(actual).toEqual("Large Snack");
+    expect(actual).toEqual('Large Snack');
   });
 
   it("Returns 'Breakfast, Standard Snack' if both are set", () => {
@@ -44,6 +44,6 @@ describe("getExtrasString", () => {
 
     const actual = getExtrasString(customer);
 
-    expect(actual).toEqual("Breakfast, Standard Snack");
+    expect(actual).toEqual('Breakfast, Standard Snack');
   });
 });

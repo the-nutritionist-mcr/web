@@ -1,5 +1,5 @@
-import { Customer, ICookDay, Recipe } from "@/entities";
-import { ISelectedMeal } from "./i-selected-meal";
+import { Customer, ICookDay, Recipe } from '@/entities';
+import { ISelectedMeal } from './i-selected-meal';
 
 export interface IMealSelector {
   selectMeals: (

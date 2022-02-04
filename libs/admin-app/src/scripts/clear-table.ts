@@ -1,5 +1,5 @@
-import * as database from "../backend/database";
-import log from "loglevel";
+import * as database from '../backend/database';
+import log from 'loglevel';
 
 const clearTable = async (table: string): Promise<void> => {
   log.info(`Clearing table '${table}'`);

@@ -17,7 +17,7 @@ export interface BackendOutputs {
 export const isBackendOutputs = (thing: unknown): thing is BackendOutputs =>
   Object.entries(thing as BackendOutputs).length === 0 ||
   Object.values(thing as BackendOutputs).every((config) =>
-    Object.hasOwnProperty.call(config, "UserPoolId")
+    Object.hasOwnProperty.call(config, 'UserPoolId')
   );
 
 export const assertIsBackendOutputs: (

@@ -1,6 +1,6 @@
-import Amplify from "@aws-amplify/core";
-import { Auth } from "@aws-amplify/auth";
-import { assertIsBackendOutputs } from "../types/backend-outputs";
+import Amplify from '@aws-amplify/core';
+import { Auth } from '@aws-amplify/auth';
+import { assertIsBackendOutputs } from '../types/backend-outputs';
 
 export const configAmplify = async (): Promise<void> => {
   const configResponse = await fetch(
@@ -12,9 +12,9 @@ export const configAmplify = async (): Promise<void> => {
   assertIsBackendOutputs(backendConfig);
 
   const stackConfigKey =
-    Object.keys(backendConfig).find((key) => key.includes("BackendStack")) ??
-    Object.keys(backendConfig).find((key) => key.includes("backend-stack")) ??
-    "";
+    Object.keys(backendConfig).find((key) => key.includes('BackendStack')) ??
+    Object.keys(backendConfig).find((key) => key.includes('backend-stack')) ??
+    '';
 
   const configObject = backendConfig[stackConfigKey];
 
@@ -22,13 +22,13 @@ export const configAmplify = async (): Promise<void> => {
     /* eslint-disable @typescript-eslint/naming-convention */
     Auth: {
       mandatorySignIn: true,
-      region: "us-east-1",
+      region: 'us-east-1',
       userPoolId: configObject.UserPoolId,
       userPoolWebClientId: configObject.ClientId,
     },
     aws_appsync_graphqlEndpoint: configObject.GraphQlQpiUrl,
-    aws_appsync_authenticationType: "AMAZON_COGNITO_USER_POOLS",
-    graphql_endpoint_iam_region: "us-east-1",
+    aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
+    graphql_endpoint_iam_region: 'us-east-1',
     /* eslint-enable @typescript-eslint/naming-convention */
   };
 

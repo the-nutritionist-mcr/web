@@ -3,23 +3,23 @@ import {
   loadingFailed,
   loadingStart,
   loadingSucceeded,
-} from "./apiRequestCreator";
+} from './apiRequestCreator';
 
-import AppState from "../types/AppState";
-import LoadingState from "../types/LoadingState";
-import { Reducer } from "@reduxjs/toolkit";
+import AppState from '../types/AppState';
+import LoadingState from '../types/LoadingState';
+import { Reducer } from '@reduxjs/toolkit';
 
-import customersSlice from "../features/customers/customersSlice";
-import exclusionsSlice from "../features/exclusions/exclusionsSlice";
-import plannerReducer from "../features/planner/planner-reducer";
-import recipesSlice from "../features/recipes/recipesSlice";
+import customersSlice from '../features/customers/customersSlice';
+import exclusionsSlice from '../features/exclusions/exclusionsSlice';
+import plannerReducer from '../features/planner/planner-reducer';
+import recipesSlice from '../features/recipes/recipesSlice';
 
 const rootReducer: Reducer<AppState> = (state, action): AppState => {
   const customers = customersSlice.reducer(state?.customers, action);
   const exclusions = exclusionsSlice.reducer(state?.exclusions, action);
   const recipes = recipesSlice.reducer(state?.recipes, action);
 
-  const newState: Omit<AppState, "planner"> = {
+  const newState: Omit<AppState, 'planner'> = {
     ...state,
     customers,
     exclusions,

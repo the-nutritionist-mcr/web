@@ -1,1 +1,1 @@
-export * from "./printable-table";
+export * from './printable-table';

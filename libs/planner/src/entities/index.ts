@@ -1,9 +1,9 @@
-import { Attribute } from "./attribute";
-import { Customer } from "./customer";
-import { CustomerDelivery, ICookDay, ISelection } from "./customer-delivery";
-import { Recipe } from "./recipe";
-import { Tag } from "./tag";
-import { Variant } from "./variant";
+import { Attribute } from './attribute';
+import { Customer } from './customer';
+import { CustomerDelivery, ICookDay, ISelection } from './customer-delivery';
+import { Recipe } from './recipe';
+import { Tag } from './tag';
+import { Variant } from './variant';
 
 export {
   Attribute,
@@ -13,5 +13,5 @@ export {
   Variant,
   ICookDay,
   ISelection,
-  CustomerDelivery
+  CustomerDelivery,
 };

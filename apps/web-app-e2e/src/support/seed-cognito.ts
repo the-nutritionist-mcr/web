@@ -22,8 +22,8 @@ export const seedCognito = async (
     region: 'eu-west-2',
     credentials: {
       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-    }
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    },
   });
 
   if (!email) {
@@ -47,7 +47,7 @@ export const seedCognito = async (
     await cognito
       .adminDeleteUser({
         UserPoolId: poolId,
-        Username: TEST_USER
+        Username: TEST_USER,
       })
       .promise();
   } catch (error) {
@@ -61,7 +61,7 @@ export const seedCognito = async (
     await cognito
       .adminDeleteUser({
         UserPoolId: poolId,
-        Username: registerUser
+        Username: registerUser,
       })
       .promise();
   } catch (error) {
@@ -77,7 +77,7 @@ export const seedCognito = async (
     await cognito
       .adminDeleteUser({
         UserPoolId: poolId,
-        Username: TEST_USER_2
+        Username: TEST_USER_2,
       })
       .promise();
   } catch (error) {
@@ -97,21 +97,21 @@ export const seedCognito = async (
     UserAttributes: [
       {
         Name: 'email_verified',
-        Value: 'True'
+        Value: 'True',
       },
       {
         Name: 'phone_number_verified',
-        Value: 'True'
+        Value: 'True',
       },
       {
         Name: 'email',
-        Value: email
+        Value: email,
       },
       {
         Name: 'phone_number',
-        Value: '+447732432435'
-      }
-    ]
+        Value: '+447732432435',
+      },
+    ],
   };
 
   console.log(`Seeding ${poolId} with:`, JSON.stringify(params, null, 2));
@@ -126,21 +126,21 @@ export const seedCognito = async (
     UserAttributes: [
       {
         Name: 'email_verified',
-        Value: 'True'
+        Value: 'True',
       },
       {
         Name: 'phone_number_verified',
-        Value: 'True'
+        Value: 'True',
       },
       {
         Name: 'email',
-        Value: testUserEmail
+        Value: testUserEmail,
       },
       {
         Name: 'phone_number',
-        Value: '+447732432439'
-      }
-    ]
+        Value: '+447732432439',
+      },
+    ],
   };
 
   console.log(`Seeding ${poolId} with:`, JSON.stringify(params2, null, 2));
@@ -152,7 +152,7 @@ export const seedCognito = async (
     Password: testPassword,
     Permanent: true,
     Username: TEST_USER_2,
-    UserPoolId: poolId
+    UserPoolId: poolId,
   };
 
   console.log(`Changing password with params:`, params4);

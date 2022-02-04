@@ -42,57 +42,57 @@ export default class BackendStack extends cdk.Stack {
         emailBody: verificationString,
         emailSubject: `${props.friendlyName} signup`,
         emailStyle: cognito.VerificationEmailStyle.CODE,
-        smsMessage: verificationString
+        smsMessage: verificationString,
       },
 
       userInvitation: {
         emailSubject: `${props.friendlyName} invite`,
         emailBody: invitationString,
-        smsMessage: invitationString
+        smsMessage: invitationString,
       },
 
       customAttributes: {
-        chargebeeId: new cognito.StringAttribute({ mutable: false })
+        chargebeeId: new cognito.StringAttribute({ mutable: false }),
       },
 
       signInAliases: {
         username: true,
         email: true,
-        phone: true
-      }
+        phone: true,
+      },
     });
     new cdk.CfnOutput(this, 'UserPoolId', {
-      value: pool.userPoolId
+      value: pool.userPoolId,
     });
 
     const client = pool.addClient('Client', {
       oAuth: {
-        callbackUrls: [props.url]
-      }
+        callbackUrls: [props.url],
+      },
     });
 
     new cdk.CfnOutput(this, 'ClientId', {
-      value: client.userPoolClientId
+      value: client.userPoolClientId,
     });
 
     const domain = pool.addDomain('Domain', {
       cognitoDomain: {
-        domainPrefix: `${name}-auth`
-      }
+        domainPrefix: `${name}-auth`,
+      },
     });
 
     const signInUrl = domain.signInUrl(client, {
-      redirectUri: props.url
+      redirectUri: props.url,
     });
 
     const url = domain.baseUrl();
 
     new cdk.CfnOutput(this, 'Auth Url', {
-      value: url
+      value: url,
     });
 
     new cdk.CfnOutput(this, 'Redirect Url', {
-      value: signInUrl
+      value: signInUrl,
     });
 
     const api = new appsync.GraphqlApi(this, 'Api', {
@@ -104,14 +104,14 @@ export default class BackendStack extends cdk.Stack {
         defaultAuthorization: {
           authorizationType: appsync.AuthorizationType.USER_POOL,
           userPoolConfig: {
-            userPool: pool
-          }
-        }
-      }
+            userPool: pool,
+          },
+        },
+      },
     });
 
     new cdk.CfnOutput(this, 'GraphQlQpiUrl', {
-      value: api.graphqlUrl
+      value: api.graphqlUrl,
     });
 
     const bundlePath = process.env.IS_LOCAL_DEPLOY
@@ -123,7 +123,7 @@ export default class BackendStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_14_X,
       handler: 'index.handler',
       code: lambda.Code.fromAsset(bundlePath),
-      memorySize: 1024
+      memorySize: 1024,
     });
 
     const lambdaDataSource = api.addLambdaDataSource(
@@ -133,77 +133,77 @@ export default class BackendStack extends cdk.Stack {
 
     lambdaDataSource.createResolver({
       typeName: 'Query',
-      fieldName: 'getExclusionById'
+      fieldName: 'getExclusionById',
     });
 
     lambdaDataSource.createResolver({
       typeName: 'Query',
-      fieldName: 'listExclusions'
+      fieldName: 'listExclusions',
     });
 
     lambdaDataSource.createResolver({
       typeName: 'Query',
-      fieldName: 'getRecipeById'
+      fieldName: 'getRecipeById',
     });
 
     lambdaDataSource.createResolver({
       typeName: 'Query',
-      fieldName: 'listRecipes'
+      fieldName: 'listRecipes',
     });
 
     lambdaDataSource.createResolver({
       typeName: 'Query',
-      fieldName: 'getCustomerById'
+      fieldName: 'getCustomerById',
     });
 
     lambdaDataSource.createResolver({
       typeName: 'Query',
-      fieldName: 'listCustomers'
+      fieldName: 'listCustomers',
     });
 
     lambdaDataSource.createResolver({
       typeName: 'Mutation',
-      fieldName: 'updateRecipe'
+      fieldName: 'updateRecipe',
     });
 
     lambdaDataSource.createResolver({
       typeName: 'Mutation',
-      fieldName: 'deleteRecipe'
+      fieldName: 'deleteRecipe',
     });
 
     lambdaDataSource.createResolver({
       typeName: 'Mutation',
-      fieldName: 'createRecipe'
+      fieldName: 'createRecipe',
     });
 
     lambdaDataSource.createResolver({
       typeName: 'Mutation',
-      fieldName: 'updateCustomer'
+      fieldName: 'updateCustomer',
     });
 
     lambdaDataSource.createResolver({
       typeName: 'Mutation',
-      fieldName: 'createCustomer'
+      fieldName: 'createCustomer',
     });
 
     lambdaDataSource.createResolver({
       typeName: 'Mutation',
-      fieldName: 'deleteCustomer'
+      fieldName: 'deleteCustomer',
     });
 
     lambdaDataSource.createResolver({
       typeName: 'Mutation',
-      fieldName: 'updateExclusion'
+      fieldName: 'updateExclusion',
     });
 
     lambdaDataSource.createResolver({
       typeName: 'Mutation',
-      fieldName: 'createExclusion'
+      fieldName: 'createExclusion',
     });
 
     lambdaDataSource.createResolver({
       typeName: 'Mutation',
-      fieldName: 'deleteExclusion'
+      fieldName: 'deleteExclusion',
     });
 
     const customersTable = new ddb.Table(this, 'CustomersTable', {
@@ -212,15 +212,15 @@ export default class BackendStack extends cdk.Stack {
       billingMode: ddb.BillingMode.PAY_PER_REQUEST,
       partitionKey: {
         name: 'id',
-        type: ddb.AttributeType.STRING
-      }
+        type: ddb.AttributeType.STRING,
+      },
     });
 
     const restApi = new apiGateway.RestApi(this, 'DataApi', {
       defaultCorsPreflightOptions: {
-        allowOrigins: apiGateway.Cors.ALL_ORIGINS
+        allowOrigins: apiGateway.Cors.ALL_ORIGINS,
       },
-      restApiName: `${name}RestApi`
+      restApiName: `${name}RestApi`,
     });
 
     const customersResource = restApi.root.addResource('customers');
@@ -230,13 +230,13 @@ export default class BackendStack extends cdk.Stack {
         new iam.PolicyStatement({
           actions: ['dynamodb:Scan'],
           effect: iam.Effect.ALLOW,
-          resources: [customersTable.tableArn]
-        })
-      ]
+          resources: [customersTable.tableArn],
+        }),
+      ],
     });
 
     const scanCustomersRole = new iam.Role(this, 'ScanCustomersRole', {
-      assumedBy: new iam.ServicePrincipal('apigateway.amazonaws.com')
+      assumedBy: new iam.ServicePrincipal('apigateway.amazonaws.com'),
     });
 
     scanCustomersRole.attachInlinePolicy(getCustomersPolicy);
@@ -248,8 +248,8 @@ export default class BackendStack extends cdk.Stack {
         responseTemplates: {
           'application/json': `{
             "error": "Bad input!"
-          }`
-        }
+          }`,
+        },
       },
       {
         selectionPattern: '5\\d{2}',
@@ -257,16 +257,16 @@ export default class BackendStack extends cdk.Stack {
         responseTemplates: {
           'application/json': `{
             "error": "Internal Service Error!"
-          }`
-        }
-      }
+          }`,
+        },
+      },
     ];
 
     const integrationResponses = [
       {
-        statusCode: '200'
+        statusCode: '200',
       },
-      ...errorResponses
+      ...errorResponses,
     ];
 
     const scanCustomersIntegration = new apiGateway.AwsIntegration({
@@ -278,29 +278,29 @@ export default class BackendStack extends cdk.Stack {
         requestTemplates: {
           'application/json': `{
             "TableName": "${customersTable.tableName}"
-          }`
-        }
-      }
+          }`,
+        },
+      },
     });
 
     const methodOptions: apiGateway.MethodOptions = {
       methodResponses: [
         { statusCode: '200' },
         { statusCode: '400' },
-        { statusCode: '500' }
+        { statusCode: '500' },
       ],
-      apiKeyRequired: true
+      apiKeyRequired: true,
     };
 
     customersResource.addMethod('GET', scanCustomersIntegration, methodOptions);
 
     const apiKey = restApi.addApiKey('RestApiKey', {
-      apiKeyName: `${name}-rest-api-key`
+      apiKeyName: `${name}-rest-api-key`,
     });
 
     const plan = restApi.addUsagePlan('UsagePlan', {
       name: `${name}-website-usage`,
-      apiKey
+      apiKey,
     });
 
     plan.addApiStage({ stage: restApi.deploymentStage });
@@ -308,7 +308,7 @@ export default class BackendStack extends cdk.Stack {
     customersTable.grantFullAccess(resolverLambda);
     resolverLambda.addEnvironment('CUSTOMERS_TABLE', customersTable.tableName);
     new cdk.CfnOutput(this, 'CustomersTableName', {
-      value: customersTable.tableName
+      value: customersTable.tableName,
     });
 
     const exclusionsTable = new ddb.Table(this, 'ExclusionsTable', {
@@ -317,8 +317,8 @@ export default class BackendStack extends cdk.Stack {
       billingMode: ddb.BillingMode.PAY_PER_REQUEST,
       partitionKey: {
         name: 'id',
-        type: ddb.AttributeType.STRING
-      }
+        type: ddb.AttributeType.STRING,
+      },
     });
 
     exclusionsTable.grantFullAccess(resolverLambda);
@@ -327,7 +327,7 @@ export default class BackendStack extends cdk.Stack {
       exclusionsTable.tableName
     );
     new cdk.CfnOutput(this, 'ExclusionsTableName', {
-      value: exclusionsTable.tableName
+      value: exclusionsTable.tableName,
     });
 
     const recipesTable = new ddb.Table(this, 'RecipesTable', {
@@ -336,14 +336,14 @@ export default class BackendStack extends cdk.Stack {
       billingMode: ddb.BillingMode.PAY_PER_REQUEST,
       partitionKey: {
         name: 'id',
-        type: ddb.AttributeType.STRING
-      }
+        type: ddb.AttributeType.STRING,
+      },
     });
 
     recipesTable.grantFullAccess(resolverLambda);
     resolverLambda.addEnvironment('RECIPES_TABLE', recipesTable.tableName);
     new cdk.CfnOutput(this, 'RecipesTableName', {
-      value: recipesTable.tableName
+      value: recipesTable.tableName,
     });
 
     const customerExclusionsTable = new ddb.Table(
@@ -355,29 +355,29 @@ export default class BackendStack extends cdk.Stack {
         billingMode: ddb.BillingMode.PAY_PER_REQUEST,
         partitionKey: {
           name: 'id',
-          type: ddb.AttributeType.STRING
-        }
+          type: ddb.AttributeType.STRING,
+        },
       }
     );
 
     new cdk.CfnOutput(this, 'CustomerExclusionsTableName', {
-      value: customerExclusionsTable.tableName
+      value: customerExclusionsTable.tableName,
     });
 
     customerExclusionsTable.addGlobalSecondaryIndex({
       indexName: 'customerId',
       partitionKey: {
         name: 'customerId',
-        type: ddb.AttributeType.STRING
-      }
+        type: ddb.AttributeType.STRING,
+      },
     });
 
     customerExclusionsTable.addGlobalSecondaryIndex({
       indexName: 'exclusionId',
       partitionKey: {
         name: 'exclusionId',
-        type: ddb.AttributeType.STRING
-      }
+        type: ddb.AttributeType.STRING,
+      },
     });
 
     const recipeExclusionsTable = new ddb.Table(this, 'RecipeExclusionsTable', {
@@ -386,12 +386,12 @@ export default class BackendStack extends cdk.Stack {
       billingMode: ddb.BillingMode.PAY_PER_REQUEST,
       partitionKey: {
         name: 'id',
-        type: ddb.AttributeType.STRING
-      }
+        type: ddb.AttributeType.STRING,
+      },
     });
 
     new cdk.CfnOutput(this, 'RecipeExclusionsTableName', {
-      value: recipeExclusionsTable.tableName
+      value: recipeExclusionsTable.tableName,
     });
 
     recipeExclusionsTable.grantFullAccess(resolverLambda);
@@ -400,16 +400,16 @@ export default class BackendStack extends cdk.Stack {
       indexName: 'recipeId',
       partitionKey: {
         name: 'recipeId',
-        type: ddb.AttributeType.STRING
-      }
+        type: ddb.AttributeType.STRING,
+      },
     });
 
     recipeExclusionsTable.addGlobalSecondaryIndex({
       indexName: 'exclusionId',
       partitionKey: {
         name: 'exclusionId',
-        type: ddb.AttributeType.STRING
-      }
+        type: ddb.AttributeType.STRING,
+      },
     });
 
     customerExclusionsTable.grantFullAccess(resolverLambda);
@@ -433,7 +433,7 @@ export default class BackendStack extends cdk.Stack {
       exclusionsTable,
       lambdaDataSource,
       api,
-      pool
+      pool,
     ]);
   }
 }

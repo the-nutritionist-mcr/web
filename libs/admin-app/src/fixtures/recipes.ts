@@ -1,76 +1,76 @@
-import Recipe, { HotOrCold } from "../domain/Recipe";
+import Recipe, { HotOrCold } from '../domain/Recipe';
 
 const nutsExclusion = {
-  id: "0",
-  name: "nuts",
+  id: '0',
+  name: 'nuts',
   allergen: true,
 };
 
 const fishExclusion = {
-  id: "1",
-  name: "fish",
+  id: '1',
+  name: 'fish',
   allergen: false,
 };
 
 const mustardExclusion = {
-  id: "2",
-  name: "mustard",
+  id: '2',
+  name: 'mustard',
   allergen: true,
 };
 
 const riceExclusion = {
-  id: "3",
-  name: "rice",
+  id: '3',
+  name: 'rice',
   allergen: false,
 };
 
 const recipes: Recipe[] = [
   {
-    id: "0",
-    name: "Stew",
-    shortName: "",
+    id: '0',
+    name: 'Stew',
+    shortName: '',
     hotOrCold: HotOrCold.Hot,
     potentialExclusions: [nutsExclusion],
   },
   {
-    id: "1",
+    id: '1',
     hotOrCold: HotOrCold.Hot,
-    shortName: "",
-    name: "Fish",
+    shortName: '',
+    name: 'Fish',
     potentialExclusions: [fishExclusion],
   },
   {
-    id: "2",
+    id: '2',
     hotOrCold: HotOrCold.Hot,
-    shortName: "",
-    name: "Beef Stroganof",
+    shortName: '',
+    name: 'Beef Stroganof',
     potentialExclusions: [],
   },
   {
-    id: "3",
+    id: '3',
     hotOrCold: HotOrCold.Hot,
-    shortName: "",
-    name: "Salad",
+    shortName: '',
+    name: 'Salad',
     potentialExclusions: [nutsExclusion, mustardExclusion],
   },
   {
-    id: "4",
+    id: '4',
     hotOrCold: HotOrCold.Hot,
-    shortName: "",
-    name: "Sandwich",
+    shortName: '',
+    name: 'Sandwich',
     potentialExclusions: [],
   },
   {
-    id: "5",
-    shortName: "",
-    name: "Casserole",
+    id: '5',
+    shortName: '',
+    name: 'Casserole',
     hotOrCold: HotOrCold.Hot,
     potentialExclusions: [mustardExclusion],
   },
   {
-    id: "6",
-    shortName: "",
-    name: "Risotto",
+    id: '6',
+    shortName: '',
+    name: 'Risotto',
     hotOrCold: HotOrCold.Hot,
     potentialExclusions: [riceExclusion],
   },

@@ -1,4 +1,4 @@
-import Customer from "../domain/Customer";
+import Customer from '../domain/Customer';
 
 const isActive = (customer: Customer, date?: Date): boolean => {
   const now = date ?? new Date(Date.now());

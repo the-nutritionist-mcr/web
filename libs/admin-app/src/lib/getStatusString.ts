@@ -1,8 +1,8 @@
-import Customer from "../domain/Customer";
+import Customer from '../domain/Customer';
 
-import calendarFormat from "../lib/calendarFormat";
-import isActive from "./isActive";
-import moment from "moment";
+import calendarFormat from '../lib/calendarFormat';
+import isActive from './isActive';
+import moment from 'moment';
 
 const getStatusString = (customer: Customer, date?: Date): string => {
   const now = date ?? new Date(Date.now());
@@ -13,14 +13,14 @@ const getStatusString = (customer: Customer, date?: Date): string => {
           null,
           calendarFormat
         )}`
-      : "";
+      : '';
 
   const untilString = customer.pauseEnd
     ? ` until ${moment(new Date(customer.pauseEnd)).calendar(
         null,
         calendarFormat
       )}`
-    : "";
+    : '';
 
   return isActive(customer) ? `Active${activeString}` : `Paused${untilString}`;
 };

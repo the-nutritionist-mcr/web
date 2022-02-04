@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export type DynamicComponent = Promise<{
   default: React.FC<LoadableRouteProps>;

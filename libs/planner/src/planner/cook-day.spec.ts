@@ -12,7 +12,7 @@ describe('cook day', () => {
   it('allows you to access the dayOfWeek property', () => {
     const cookOne = new CookDay({
       dayOfWeek: DaysOfWeek.Sunday,
-      eatingDaysCovered: []
+      eatingDaysCovered: [],
     });
 
     expect(cookOne.dayOfWeek).toEqual(DaysOfWeek.Sunday);
@@ -21,12 +21,12 @@ describe('cook day', () => {
   it('allows you to access the eatingDaysCovered property', () => {
     const cookOne = new CookDay({
       dayOfWeek: DaysOfWeek.Sunday,
-      eatingDaysCovered: [DaysOfWeek.Thursday, DaysOfWeek.Friday]
+      eatingDaysCovered: [DaysOfWeek.Thursday, DaysOfWeek.Friday],
     });
 
     expect(cookOne.eatingDaysCovered).toEqual([
       DaysOfWeek.Thursday,
-      DaysOfWeek.Friday
+      DaysOfWeek.Friday,
     ]);
   });
 
@@ -38,7 +38,7 @@ describe('cook day', () => {
 
       const cookOne = new CookDay({
         dayOfWeek: DaysOfWeek.Sunday,
-        eatingDaysCovered: [DaysOfWeek.Thursday, DaysOfWeek.Friday]
+        eatingDaysCovered: [DaysOfWeek.Thursday, DaysOfWeek.Friday],
       });
 
       const date = new ImmutableDate(new Date());

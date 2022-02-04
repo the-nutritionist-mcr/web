@@ -36,7 +36,7 @@ export class MealsToCook {
     activator: ICustomerActivator,
     generator: IMealSelector
   ): CustomerMealsDistribution {
-    const distributions = this.customers.map(customer => {
+    const distributions = this.customers.map((customer) => {
       const meals = generator.selectMeals(this.cookDay, this.recipes, customer);
 
       const activeResponse = activator.active(

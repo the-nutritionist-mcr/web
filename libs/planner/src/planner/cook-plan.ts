@@ -1,5 +1,5 @@
-import { DaysOfWeek } from "@/types";
-import { PreparedMeal } from "./prepared-meal";
+import { DaysOfWeek } from '@/types';
+import { PreparedMeal } from './prepared-meal';
 
 export class CookPlan {
   public constructor(

@@ -1,6 +1,6 @@
 import Router from 'next/router';
 import { FC } from 'react';
-import Head from 'next/head'
+import Head from 'next/head';
 import { Hub } from 'aws-amplify';
 import { AppProps } from 'next/app';
 import toast, { Toaster } from 'react-hot-toast';
@@ -11,7 +11,7 @@ import { isClientSide } from '../utils/is-client-side';
 import { swrLocalstorageProvider } from '../utils/swr-localstorage-provider';
 import {
   AuthenticationServiceContext,
-  NavigationContext
+  NavigationContext,
 } from '@tnmw/components';
 
 import { theme } from '../theme';
@@ -21,7 +21,7 @@ import {
   login,
   newPasswordChallengeResponse,
   register,
-  signOut
+  signOut,
 } from '../aws/authenticate';
 
 import '../assets/global.css';
@@ -30,7 +30,7 @@ const navigator = {
   navigate: async (path: string) => {
     // eslint-disable-next-line fp/no-mutating-methods
     await Router.push(path);
-  }
+  },
 };
 
 const authenticationService = {
@@ -38,7 +38,7 @@ const authenticationService = {
   register,
   signOut,
   confirmSignup,
-  newPasswordChallengeResponse
+  newPasswordChallengeResponse,
 };
 
 const provider = isClientSide() ? swrLocalstorageProvider : undefined;
@@ -46,14 +46,14 @@ const provider = isClientSide() ? swrLocalstorageProvider : undefined;
 Hub.listen('auth', (data) => {
   switch (data.payload.event) {
     case 'signIn':
-      toast.success('Login successful!')
-        break;
+      toast.success('Login successful!');
+      break;
 
     case 'signOut':
-      toast.success('Successfully logged out')
+      toast.success('Successfully logged out');
       break;
   }
-})
+});
 
 const TnmApp: FC<AppProps> = ({ Component, pageProps }) => (
   <SWRConfig
@@ -61,12 +61,11 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => (
       provider,
       onError: (error: Error) => {
         toast.error(error.message);
-      }
+      },
     }}
   >
     <AuthenticationServiceContext.Provider value={authenticationService}>
       <NavigationContext.Provider value={navigator}>
-
         <ThemeProvider theme={theme}>
           <Head>
             <link
@@ -74,13 +73,14 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => (
               href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
             />
           </Head>
-          <Toaster 
-          toastOptions={{
-            style: {
-              fontFamily: 'Roboto',
-              maxWidth: 700
-            },
-          }}/>
+          <Toaster
+            toastOptions={{
+              style: {
+                fontFamily: 'Roboto',
+                maxWidth: 700,
+              },
+            }}
+          />
           <Layout>
             <Component {...pageProps} />
           </Layout>

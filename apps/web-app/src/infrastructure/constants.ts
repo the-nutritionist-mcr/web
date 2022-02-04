@@ -7,7 +7,7 @@ export const IAM = {
   },
 } as const;
 
-export const TNM_WEB_LOCALSTORAGE_KEY = 'tnm-web-cache'
+export const TNM_WEB_LOCALSTORAGE_KEY = 'tnm-web-cache';
 
 export const NODE_OPTS = {
   EnableSourceMaps: '--enable-source-maps',
@@ -40,7 +40,7 @@ export const HTTP = {
   statusCodes: {
     Forbidden: 403,
     Ok: 200,
-    InternalServerError: 500
+    InternalServerError: 500,
   },
   headerNames: {
     ContentType: 'Content-Type',

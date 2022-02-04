@@ -1,4 +1,4 @@
-import { Recipe, Variant } from "@/entities";
+import { Recipe, Variant } from '@/entities';
 
 export interface ISelectedMeal {
   readonly recipe: Recipe;

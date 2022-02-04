@@ -1,4 +1,4 @@
-import { ISelection, Variant } from "@/entities";
+import { ISelection, Variant } from '@/entities';
 
 export class IndividualMealSelection implements ISelection {
   public constructor(

@@ -1,4 +1,4 @@
-import { extrasLabels, planLabels } from "../../lib/config";
+import { extrasLabels, planLabels } from '../../lib/config';
 
 export interface Item<
   T extends typeof extrasLabels[number] | typeof planLabels[number]

@@ -1,9 +1,9 @@
-import Exclusion from "./Exclusion";
+import Exclusion from './Exclusion';
 
 export enum HotOrCold {
-  Hot = "Hot",
-  Cold = "Cold",
-  Both = "Both",
+  Hot = 'Hot',
+  Cold = 'Cold',
+  Both = 'Both',
 }
 
 export default interface Recipe {

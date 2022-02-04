@@ -1,5 +1,5 @@
-import { Tag } from "./tag";
-import { Variant } from "./variant";
+import { Tag } from './tag';
+import { Variant } from './variant';
 
 export interface Recipe {
   readonly id: string;

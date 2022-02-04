@@ -1,4 +1,4 @@
-import Recipe from "../domain/Recipe";
+import Recipe from '../domain/Recipe';
 
 type DeliveryMealsSelection = Recipe[];
 

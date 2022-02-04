@@ -2,7 +2,7 @@ import {
   PrintableTableCell,
   PrintableTableRow,
   PrintableTbody,
-  PrintableThead
+  PrintableThead,
 } from './printable-table';
 import { ExtendedParagraph } from './extended-paragraph';
 import { OkCancelDialog } from './ok-cancel-dialog';
@@ -21,5 +21,5 @@ export {
   PrintableTableCell,
   TableCellCheckbox,
   TableCellInputField,
-  TabsWithoutGaps
+  TabsWithoutGaps,
 };

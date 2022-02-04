@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-unresolved
-import { Content, Size } from "pdfmake/interfaces";
-import { DocumentDefinition, makePdf } from "./downloadPdf";
-import { PdfTable } from "./pdf-table";
+import { Content, Size } from 'pdfmake/interfaces';
+import { DocumentDefinition, makePdf } from './downloadPdf';
+import { PdfTable } from './pdf-table';
 
 export class PdfBuilder {
   private content: Content[] = [];
@@ -18,25 +18,25 @@ export class PdfBuilder {
   }
 
   public header(text: string): this {
-    this.content.push({ text, style: "header" });
+    this.content.push({ text, style: 'header' });
     return this;
   }
 
   private coverPage(text: string): void {
     this.content.push({
       text,
-      style: "coverPage",
-      pageBreak: "after",
-      alignment: "center"
+      style: 'coverPage',
+      pageBreak: 'after',
+      alignment: 'center',
     });
   }
 
   public pageBreak(): this {
     const lastContent = this.content[this.content.length - 1];
-    if (typeof lastContent === "object") {
+    if (typeof lastContent === 'object') {
       this.content[this.content.length - 1] = {
         ...lastContent,
-        pageBreak: "after"
+        pageBreak: 'after',
       };
     }
     return this;
@@ -44,7 +44,7 @@ export class PdfBuilder {
 
   private removeLastPageBreak() {
     const lastContent = this.content[this.content.length - 1];
-    if (typeof lastContent === "object" && "pageBreak" in lastContent) {
+    if (typeof lastContent === 'object' && 'pageBreak' in lastContent) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { pageBreak, ...rest } = lastContent;
       this.content[this.content.length - 1] = rest;

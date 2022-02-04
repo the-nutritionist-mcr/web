@@ -15,7 +15,7 @@ export const convertNullsToUndefined = <T extends { [key: string]: any }>(
       thing[key] === null
         ? undefined
         : // eslint-disable-next-line unicorn/no-nested-ternary
-        typeof thing[key] === "object"
+        typeof thing[key] === 'object'
         ? convertNullsToUndefined(thing[key])
         : thing[key];
     return {

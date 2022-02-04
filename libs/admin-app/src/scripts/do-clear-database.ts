@@ -1,8 +1,8 @@
-import clearDatabaseTables from "./clear-database";
-import log from "loglevel";
-import path from "path";
+import clearDatabaseTables from './clear-database';
+import log from 'loglevel';
+import path from 'path';
 
-log.setDefaultLevel("info");
+log.setDefaultLevel('info');
 
-const outputs = path.resolve(__dirname, "..", "backend-outputs.json");
+const outputs = path.resolve(__dirname, '..', 'backend-outputs.json');
 clearDatabaseTables(outputs);

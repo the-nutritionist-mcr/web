@@ -1,11 +1,11 @@
-import * as cdk from "@aws-cdk/core";
-import * as certificateManager from "@aws-cdk/aws-certificatemanager";
-import * as cloudfront from "@aws-cdk/aws-cloudfront";
-import * as route53 from "@aws-cdk/aws-route53";
-import * as route53Targets from "@aws-cdk/aws-route53-targets";
-import * as s3 from "@aws-cdk/aws-s3";
-import * as s3Deploy from "@aws-cdk/aws-s3-deployment";
-import addProjectTags from "./addProjectTags";
+import * as cdk from '@aws-cdk/core';
+import * as certificateManager from '@aws-cdk/aws-certificatemanager';
+import * as cloudfront from '@aws-cdk/aws-cloudfront';
+import * as route53 from '@aws-cdk/aws-route53';
+import * as route53Targets from '@aws-cdk/aws-route53-targets';
+import * as s3 from '@aws-cdk/aws-s3';
+import * as s3Deploy from '@aws-cdk/aws-s3-deployment';
+import addProjectTags from './addProjectTags';
 
 interface ProductionFrontendStackProps {
   subdomain: string;
@@ -20,30 +20,30 @@ export default class ProductionFrontendStack extends cdk.Stack {
   ) {
     super(scope, id, props);
 
-    const fullUrl = [props.subdomain, props.domainName].join(".");
+    const fullUrl = [props.subdomain, props.domainName].join('.');
 
-    const bucket = new s3.Bucket(this, "ProductionFrontendStackBucket", {
+    const bucket = new s3.Bucket(this, 'ProductionFrontendStackBucket', {
       bucketName: fullUrl,
       publicReadAccess: true,
-      websiteIndexDocument: "index.html",
-      websiteErrorDocument: "index.html",
+      websiteIndexDocument: 'index.html',
+      websiteErrorDocument: 'index.html',
     });
 
     const zone = route53.HostedZone.fromLookup(
       this,
-      "ProductionFrontendStackHostedZone",
+      'ProductionFrontendStackHostedZone',
       {
         domainName: props.domainName,
       }
     );
 
-    const domainName = props.subdomain === "www" ? props.domainName : fullUrl;
+    const domainName = props.subdomain === 'www' ? props.domainName : fullUrl;
     const subjectAlternativeNames =
-      props.subdomain === "www" ? [fullUrl] : undefined;
+      props.subdomain === 'www' ? [fullUrl] : undefined;
 
     const certificate = new certificateManager.DnsValidatedCertificate(
       this,
-      "ProductionFrontendStackCertificate",
+      'ProductionFrontendStackCertificate',
       {
         domainName,
         hostedZone: zone,
@@ -52,11 +52,11 @@ export default class ProductionFrontendStack extends cdk.Stack {
     );
 
     const aliases =
-      props.subdomain === "www" ? [props.domainName, fullUrl] : [fullUrl];
+      props.subdomain === 'www' ? [props.domainName, fullUrl] : [fullUrl];
 
     const distribution = new cloudfront.CloudFrontWebDistribution(
       this,
-      "ProductionFrontendStackDistro",
+      'ProductionFrontendStackDistro',
       {
         originConfigs: [
           {
@@ -69,7 +69,7 @@ export default class ProductionFrontendStack extends cdk.Stack {
         errorConfigurations: [
           {
             errorCode: 403,
-            responsePagePath: "/index.html",
+            responsePagePath: '/index.html',
             responseCode: 200,
           },
         ],
@@ -80,19 +80,19 @@ export default class ProductionFrontendStack extends cdk.Stack {
       }
     );
 
-    new s3Deploy.BucketDeployment(this, "ProductionFrontendStackDeployment", {
-      sources: [s3Deploy.Source.asset("./build")],
+    new s3Deploy.BucketDeployment(this, 'ProductionFrontendStackDeployment', {
+      sources: [s3Deploy.Source.asset('./build')],
       destinationBucket: bucket,
       distribution,
     });
 
-    new cdk.CfnOutput(this, "CloudFrontDistributionId", {
+    new cdk.CfnOutput(this, 'CloudFrontDistributionId', {
       value: distribution.distributionId,
     });
 
     const aRecord = new route53.ARecord(
       this,
-      "ProductionFrontendStackARecord",
+      'ProductionFrontendStackARecord',
       {
         zone,
         recordName: fullUrl,
@@ -110,7 +110,7 @@ export default class ProductionFrontendStack extends cdk.Stack {
     //   });
     // }
 
-    addProjectTags("TnmAdmin", [
+    addProjectTags('TnmAdmin', [
       bucket,
       aRecord,
       distribution,

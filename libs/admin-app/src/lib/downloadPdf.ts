@@ -1,5 +1,5 @@
-import * as PdfMake from "pdfmake/build/pdfmake";
-import { pdfMake } from "pdfmake/build/vfs_fonts";
+import * as PdfMake from 'pdfmake/build/pdfmake';
+import { pdfMake } from 'pdfmake/build/vfs_fonts';
 
 export type DocumentDefinition = Parameters<typeof PdfMake.createPdf>[0];
 
@@ -14,29 +14,29 @@ const downloadPdf = (
 };
 
 export const makePdf = (
-  content: DocumentDefinition["content"],
+  content: DocumentDefinition['content'],
   pageTitle?: string
 ): DocumentDefinition => ({
   content,
-  pageOrientation: "landscape",
+  pageOrientation: 'landscape',
   defaultStyle: {
     fontSize: 8,
   },
   footer: (currentPage, pageCount) => {
     return {
       text: `${
-        pageTitle ? `${pageTitle} - ` : ""
+        pageTitle ? `${pageTitle} - ` : ''
       }page ${currentPage} of ${pageCount}`,
-      style: "footer",
+      style: 'footer',
     };
   },
   styles: {
     footer: {
-      alignment: "center",
+      alignment: 'center',
     },
     rowHeader: {
       fontSize: 15,
-      alignment: "center",
+      alignment: 'center',
       bold: true,
     },
     coverPage: {

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 function assertFC<P>(
   // eslint-disable-next-line @typescript-eslint/naming-convention
