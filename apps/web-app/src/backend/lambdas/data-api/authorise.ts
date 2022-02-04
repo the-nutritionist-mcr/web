@@ -1,6 +1,7 @@
 import { verifyJwtToken } from '@tnmw/authorise-cognito-jwt';
 import { APIGatewayProxyEventV2 } from 'aws-lambda';
 
+import { HTTP } from "../../../infrastructure/constants"
 import { HttpError } from './http-error';
 
 export const authorise = async (
@@ -14,7 +15,7 @@ export const authorise = async (
     )?.[1];
 
   if (!authHeader) {
-    throw new HttpError(403, "Request didn't contain an authorization header");
+    throw new HttpError(HTTP.statusCodes.Forbidden, "Request didn't contain an authorization header");
   }
 
   const verifyResult = await verifyJwtToken({
@@ -24,7 +25,7 @@ export const authorise = async (
 
   if (!verifyResult.isValid) {
     throw new HttpError(
-      403,
+      HTTP.statusCodes.Forbidden,
       `Token validation failed: ${verifyResult.error?.message}`
     );
   }

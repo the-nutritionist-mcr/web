@@ -32,17 +32,22 @@ const swrFetcher = async <T>(path: string, init?: RequestInit): Promise<T> => {
 
   const finalInit = await getFetchInit(init)
 
-  const response = await fetch(`https://${domainName}/${path}`, finalInit).then(
-    res => res.json()
-  );
-  return response;
+  const response = await fetch(`https://${domainName}/${path}`, finalInit)
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    const error = new Error(`The server returned a ${response.status} status code with the message '${data.error}'`)
+    throw error
+  }
+  return await response.json()
 };
 
 type ExtractPromiseType<T> = T extends Promise<infer P> ? P : never;
 
 export const useResource = <T extends { id: string }>(type: string) => {
   const { mutate, cache } = useSWRConfig();
-  const { data: getData, error: getError } = useSWR<Response<T>>(type, swrFetcher);
+  const { data: getData } = useSWR<Response<T>>(type, swrFetcher);
 
   const createItem = async <T extends { id: string }>(input: T): Promise<T> =>
     await swrFetcher<T>(type, {
@@ -50,7 +55,7 @@ export const useResource = <T extends { id: string }>(type: string) => {
       body: JSON.stringify(input)
     });
 
-  const [create, createError] = useMutation(createItem, {
+  const [create] = useMutation(createItem, {
     onMutate({ input }: { input: T }) {
       console.log(input);
       const data = cache.get(type);
@@ -83,7 +88,7 @@ export const useResource = <T extends { id: string }>(type: string) => {
       body: JSON.stringify(input)
     });
 
-  const [update, updateError] = useMutation(updateItem, {
+  const [update] = useMutation(updateItem, {
     onMutate({ input }: { input: T }) {
       const data = cache.get(type);
       const items = data.items.filter(
@@ -106,7 +111,7 @@ export const useResource = <T extends { id: string }>(type: string) => {
     });
   };
 
-  const [remove, removeError] = useMutation(removeItem, {
+  const [remove] = useMutation(removeItem, {
     onMutate({ input }: { input: T }) {
       console.log(input);
       const data = cache.get(type);
@@ -120,11 +125,6 @@ export const useResource = <T extends { id: string }>(type: string) => {
       };
     }
   });
-
-  console.log('createError', createError)
-  console.log('updateError', updateError)
-  console.log('removeError', removeError)
-  console.log('getError', getError)
 
   return { items: getData?.items, create, remove, update };
 };

@@ -11,7 +11,7 @@ export const TNM_WEB_LOCALSTORAGE_KEY = 'tnm-web-cache'
 
 export const NODE_OPTS = {
   EnableSourceMaps: '--enable-source-maps',
-};
+} as const;
 
 export const ENV = {
   varNames: {
@@ -28,7 +28,7 @@ export const ENV = {
 
 export const CHARGEBEE_SITES = {
   test: 'thenutritionist-test',
-};
+} as const;
 
 export const RESOURCES = {
   Recipe: 'recipe',
