@@ -1,15 +1,14 @@
 import { CustomMessageAdminCreateUserTriggerEvent, Handler } from 'aws-lambda';
 
-const template = (name: string, password: string) =>
+const template = (username: string, name: string, password: string) =>
   `
 <html>
   <body>
-    <h1>Welcome</h1>
-    <p>${name}! you have been invited to join The Nutritionist Manchester. Your temporary password is ${password}</p>
+    <h1>Welcome ${name}</h1>
+    <p>You have been invited to join The Nutritionist Manchester. Your temporary password is ${password}</p>
+    <p style='display:none'>username: ${username}</p>
   </body>
-</html>
-
-  `;
+</html>`;
 
 export const handler: Handler<
   CustomMessageAdminCreateUserTriggerEvent
@@ -19,7 +18,8 @@ export const handler: Handler<
       smsMessage: `TNM Invite`,
       emailSubject: 'TNM Invite',
       emailMessage: template(
-        event.request.userAttributes.name,
+        event.request.usernameParameter,
+        event.request.userAttributes.given_name,
         event.request.codeParameter
       ),
     };
