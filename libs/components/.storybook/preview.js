@@ -1,4 +1,8 @@
 import { ThemeProvider } from '@emotion/react';
+import {
+  AuthenticationServiceContext,
+  NavigationContext
+} from '../src/organisms';
 
 export const theme = {
   colors: {
@@ -20,10 +24,26 @@ export const theme = {
   },
 };
 
+const mockAuthenticationService = {
+  confirmSignup: () => {},
+  login: () => {},
+  newPasswordChallengeResponse: () => {},
+  register: () => {},
+  signOut: () => {}
+}
+
+const mockNavigationService = {
+  navigate: () => {}
+}
+
 export const decorators = [
   (Story) => (
-    <ThemeProvider theme={theme}>
-      <Story />
-    </ThemeProvider>
+    <AuthenticationServiceContext.Provider value={mockAuthenticationService}>
+      <NavigationContext.Provider value={mockNavigationService}>
+        <ThemeProvider theme={theme}>
+          <Story />
+        </ThemeProvider>
+      </NavigationContext.Provider>
+    </AuthenticationServiceContext.Provider>
   ),
 ];
