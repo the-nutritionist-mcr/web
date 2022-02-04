@@ -24072,6 +24072,18 @@ use-latest@^1.0.0:
   dependencies:
     use-isomorphic-layout-effect "^1.0.0"
 
+use-mutation@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmjs.org/use-mutation/-/use-mutation-2.2.1.tgz#bfc057cc1e659ff53fd2a353c2c2cb0af58f7d34"
+  integrity sha512-qGvtQpVgj2Ekcrrykiq4rOlOhUrlebaO/sVVGpXjrb0IEOBtZqNzq8hKJwrYGkyUWqu3pBPpOEyss8OHRhS3Ow==
+  dependencies:
+    use-safe-callback "^1.0.2"
+
+use-safe-callback@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/use-safe-callback/-/use-safe-callback-1.0.2.tgz#1e112c144bccccb39d308ac983f4589ea113bed5"
+  integrity sha512-RVeoyxgjJNfu9baNwulBM+HuPQGlcE1MJtrA1w50B5Hd0tyeKvrBIPdCfRx4Trrrxe34M6qRTys/bfpqsKRcyA==
+
 use-subscription@1.5.1:
   version "1.5.1"
   resolved "https://registry.npmjs.org/use-subscription/-/use-subscription-1.5.1.tgz#73501107f02fad84c6dd57965beb0b75c68c42d1"

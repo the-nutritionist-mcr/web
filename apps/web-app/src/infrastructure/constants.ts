@@ -40,6 +40,7 @@ export const HTTP = {
   statusCodes: {
     Forbidden: 403,
     Ok: 200,
+    InternalServerError: 500
   },
   headerNames: {
     ContentType: 'Content-Type',
