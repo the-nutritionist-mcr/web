@@ -14,7 +14,7 @@ import { returnErrorResponse } from '../data-api/return-error-response';
 
 export const handler: APIGatewayProxyHandlerV2 = async event => {
   try {
-    const { username } = await authorise(event, ['admin']);
+    const { username } = await authorise(event);
 
     const result = await chargebee.customer.retrieve(username).request();
 
