@@ -4,7 +4,9 @@
     "admin-app": "libs/admin-app",
     "authorise-cognito-jwt": "libs/authorise-cognito-jwt",
     "components": "libs/components",
+    "constants": "libs/constants",
     "planner": "libs/planner",
+    "seed-cognito": "libs/seed-cognito",
     "web-app": "apps/web-app",
     "web-app-e2e": "apps/web-app-e2e"
   }

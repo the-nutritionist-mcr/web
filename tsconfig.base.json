@@ -22,7 +22,9 @@
         "libs/authorise-cognito-jwt/src/index.ts"
       ],
       "@tnmw/components": ["libs/components/src/index.ts"],
-      "@tnmw/planner": ["libs/planner/src/index.ts"]
+      "@tnmw/constants": ["libs/constants/src/index.ts"],
+      "@tnmw/planner": ["libs/planner/src/index.ts"],
+      "@tnmw/seed-cognito": ["libs/seed-cognito/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

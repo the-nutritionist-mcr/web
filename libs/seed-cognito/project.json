@@ -1,0 +1,23 @@
+{
+  "root": "libs/seed-cognito",
+  "sourceRoot": "libs/seed-cognito/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/seed-cognito/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/seed-cognito"],
+      "options": {
+        "jestConfig": "libs/seed-cognito/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
