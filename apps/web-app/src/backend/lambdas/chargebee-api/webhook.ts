@@ -9,8 +9,8 @@ import {
   AdminCreateUserCommand,
   AdminCreateUserCommandInput
 } from '@aws-sdk/client-cognito-identity-provider';
-
 import { ENV, HTTP, USER_ATTRIBUTES, E2E } from '@tnmw/constants';
+import { createUser } from './create-user';
 
 const chargebee = new ChargeBee();
 
@@ -67,43 +67,20 @@ export const handler: APIGatewayProxyHandlerV2 = async event => {
     }
 
     if (chargebeeEvent.event_type === 'customer_created') {
-      const input: AdminCreateUserCommandInput = {
-        UserPoolId: poolId,
-        Username: id,
-        UserAttributes: [
-          {
-            Name: `custom:${USER_ATTRIBUTES.ChargebeeId}`,
-            Value: id
-          },
-          {
-            Name: `email`,
-            Value: email
-          },
-          {
-            Name: `email_verified`,
-            Value: `true`
-          },
-          {
-            Name: `given_name`,
-            Value: first_name
-          },
-          {
-            Name: `family_name`,
-            Value: last_name
-          }
-        ]
-      };
-
-      const command = new AdminCreateUserCommand(input);
-
-      const client = new CognitoIdentityProviderClient({});
-
-      await client.send(command);
+      await createUser({
+        first_name,
+        last_name,
+        username: id,
+        poolId,
+        email
+      });
 
       if (
         environment !== 'prod' &&
         email.trim().toLowerCase() === E2E.testEmail
       ) {
+        const client = new CognitoIdentityProviderClient({});
+
         const params = {
           Password: E2E.testPassword,
           Permanent: true,
