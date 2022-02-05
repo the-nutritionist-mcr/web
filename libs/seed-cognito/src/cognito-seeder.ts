@@ -1,4 +1,4 @@
-import { Construct } from '@aws-cdk/core';
+import { Construct, CustomResource } from '@aws-cdk/core';
 import path from 'node:path';
 import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
 import { Runtime } from '@aws-cdk/aws-lambda';
@@ -7,10 +7,12 @@ import { IUserPool } from '@aws-cdk/aws-cognito';
 import { Provider } from '@aws-cdk/custom-resources';
 import { Effect, PolicyStatement } from '@aws-cdk/aws-iam';
 import { IAM } from '@tnmw/constants';
-import { USER_POOL_ID_ENV_KEY_STRING } from "./constants"
+import { USER_POOL_ID_ENV_KEY_STRING, SEED_USERS_ENV_KEY_STRING } from "./constants"
+import { SeedUser } from "./types"
 
 interface CognitoSeederProps {
   userpool: IUserPool;
+  users: SeedUser[]
 }
 
 export class CognitoSeeder extends Construct {
@@ -28,15 +30,22 @@ export class CognitoSeeder extends Construct {
           sourceMap: true
         },
         environment: {
-          [USER_POOL_ID_ENV_KEY_STRING]: props.userpool.userPoolId
+          [USER_POOL_ID_ENV_KEY_STRING]: props.userpool.userPoolId,
+          [SEED_USERS_ENV_KEY_STRING]: JSON.stringify(props.users)
         }
       }
     );
 
-    new Provider(context, 'cognito-seeder-provider', {
+    const provider = new Provider(context, 'cognito-seeder-provider', {
       onEventHandler: seederFunction,
       logRetention: RetentionDays.ONE_DAY
     });
+
+    const seederResource = new CustomResource(context, `cognito-seeder-custom-resource`, {
+      serviceToken: provider.serviceToken,
+    })
+
+    seederResource.node.addDependency(props.userpool)
 
     seederFunction.addToRolePolicy(
       new PolicyStatement({

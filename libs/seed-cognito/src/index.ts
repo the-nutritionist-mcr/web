@@ -1,1 +1,2 @@
-export * from './lib/seed-cognito';
+export { CognitoSeeder } from './cognito-seeder';
+export { SeedUser } from './types';
