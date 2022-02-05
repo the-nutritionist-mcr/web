@@ -8,20 +8,23 @@ const getFetchInit = async (init?: RequestInit) => {
   }
   const {
     signInUserSession: {
-      accessToken: { jwtToken },
-    },
+      accessToken: { jwtToken }
+    }
   } = user;
 
   const withToken = {
     headers: {
-      authorization: jwtToken,
-    },
+      authorization: jwtToken
+    }
   };
 
   return init ? { ...init, ...withToken } : withToken;
 };
 
-export const swrFetcher = async <T>(path: string, init?: RequestInit): Promise<T> => {
+export const swrFetcher = async <T>(
+  path: string,
+  init?: RequestInit
+): Promise<T> => {
   const { ApiDomainName: domainName } = await getOutputs();
 
   console.log(domainName);
@@ -32,13 +35,11 @@ export const swrFetcher = async <T>(path: string, init?: RequestInit): Promise<T
 
   const data = await response.json();
 
-  console.log(data);
-
   if (!response.ok) {
     const error = new Error(
       `Tried to make a request to ${fullPath} but the server returned a ${response.status} status code with the message "${data.error}"`
     );
     throw error;
   }
-  return await response.json();
+  return data;
 };
