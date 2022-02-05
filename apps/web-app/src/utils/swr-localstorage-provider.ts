@@ -11,9 +11,10 @@ export const swrLocalstorageProvider = () => {
     localStorage.setItem(TNM_WEB_LOCALSTORAGE_KEY, appCache);
   });
 
-  Hub.listen('auth', (data) => {
+  Hub.listen('auth', data => {
     if (data.payload.event === 'signOut') {
       localStorage.removeItem(TNM_WEB_LOCALSTORAGE_KEY);
+      map.clear();
     }
   });
 
