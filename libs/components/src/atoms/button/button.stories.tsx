@@ -9,7 +9,7 @@ export default {
     primary: { name: 'Primary', type: 'boolean', defaultValue: false },
     color: { name: 'Color', type: 'string', defaultValue: undefined },
   },
-} as Meta;
+};
 
 const Template: Story<ButtonProps> = (args) => (
   <ButtonComponent {...args}>Click Me</ButtonComponent>

@@ -52,7 +52,7 @@ const AccountPage: FC = () => {
             addressLine3: me.address_line3,
             city: me.city,
             country: me.country,
-            postcode: me.postcode
+            postcode: me.postcode,
           }}
         />
       )}

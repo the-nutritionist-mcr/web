@@ -1,6 +1,7 @@
 export const IAM = {
   actions: {
     cognito: {
+      adminDeleteUser: 'cognito-idp:AdminDeleteUser',
       adminGetUser: 'cognito-idp:AdminGetUser',
       adminCreateUser: 'cognito-idp:AdminCreateUser',
     },

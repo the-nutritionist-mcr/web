@@ -6,14 +6,13 @@ const theme = {
     font: {
       family: 'Roboto',
       size: '14pt',
-      height: '20px'
-    }
-  }
+      height: '20px',
+    },
+  },
 };
 
-export const AdminTemplate: FC = props => (
-  <Grommet theme={theme}>
-  {props.children}</Grommet>
+export const AdminTemplate: FC = (props) => (
+  <Grommet theme={theme}>{props.children}</Grommet>
 );
 
 export default AdminTemplate;

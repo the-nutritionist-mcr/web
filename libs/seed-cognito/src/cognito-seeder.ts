@@ -1,4 +1,4 @@
-import { Construct, CustomResource } from '@aws-cdk/core';
+import { Construct, CustomResource, CfnParameter } from '@aws-cdk/core';
 import path from 'node:path';
 import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
 import { Runtime } from '@aws-cdk/aws-lambda';
@@ -7,17 +7,24 @@ import { IUserPool } from '@aws-cdk/aws-cognito';
 import { Provider } from '@aws-cdk/custom-resources';
 import { Effect, PolicyStatement } from '@aws-cdk/aws-iam';
 import { IAM } from '@tnmw/constants';
-import { USER_POOL_ID_ENV_KEY_STRING, SEED_USERS_ENV_KEY_STRING } from "./constants"
-import { SeedUser } from "./types"
+import {
+  USER_POOL_ID_ENV_KEY_STRING,
+  SEED_USERS_ENV_KEY_STRING,
+} from './constants';
+import { SeedUser } from './types';
 
 interface CognitoSeederProps {
   userpool: IUserPool;
-  users: SeedUser[]
+  users: SeedUser[];
 }
 
 export class CognitoSeeder extends Construct {
   constructor(context: Construct, id: string, props: CognitoSeederProps) {
     super(context, id);
+
+    const deployTime = new CfnParameter(this, 'deploy-time', {
+      default: Date.now(),
+    });
 
     const seederFunction = new NodejsFunction(
       context,
@@ -27,25 +34,32 @@ export class CognitoSeeder extends Construct {
         entry: path.resolve(__dirname, 'handler.ts'),
         runtime: Runtime.NODEJS_14_X,
         bundling: {
-          sourceMap: true
+          sourceMap: true,
         },
         environment: {
           [USER_POOL_ID_ENV_KEY_STRING]: props.userpool.userPoolId,
-          [SEED_USERS_ENV_KEY_STRING]: JSON.stringify(props.users)
-        }
+          [SEED_USERS_ENV_KEY_STRING]: JSON.stringify(props.users),
+        },
       }
     );
 
-    const provider = new Provider(context, 'cognito-seeder-provider', {
+    const provider = new Provider(this, 'cognito-seeder-provider', {
       onEventHandler: seederFunction,
-      logRetention: RetentionDays.ONE_DAY
+      logRetention: RetentionDays.ONE_DAY,
     });
 
-    const seederResource = new CustomResource(context, `cognito-seeder-custom-resource`, {
-      serviceToken: provider.serviceToken,
-    })
+    const seederResource = new CustomResource(
+      this,
+      `cognito-seeder-custom-resource`,
+      {
+        serviceToken: provider.serviceToken,
+        properties: {
+          deployTime: deployTime.valueAsString,
+        },
+      }
+    );
 
-    seederResource.node.addDependency(props.userpool)
+    seederResource.node.addDependency(props.userpool);
 
     seederFunction.addToRolePolicy(
       new PolicyStatement({
@@ -54,9 +68,9 @@ export class CognitoSeeder extends Construct {
           IAM.actions.cognito.adminSetUserPassword,
           IAM.actions.cognito.adminGetUser,
           IAM.actions.cognito.adminCreateUser,
-          IAM.actions.cognito.adminDeleteUser
+          IAM.actions.cognito.adminDeleteUser,
         ],
-        resources: [props.userpool.userPoolArn]
+        resources: [props.userpool.userPoolArn],
       })
     );
   }
