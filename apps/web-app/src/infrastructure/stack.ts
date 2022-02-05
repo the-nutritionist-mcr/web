@@ -6,6 +6,7 @@ import { setupFrontDoor } from './setup-front-door';
 import { deployStatics } from './deploy-statics';
 import { makeDataApis } from './make-data-apis';
 import { CHARGEBEE_SITES } from './constants';
+import { CognitoSeeder } from '@tnmw/seed-cognito';
 
 interface TnmAppProps {
   stackProps: StackProps;
@@ -25,6 +26,26 @@ class AppStack extends Stack {
     const transient = props.envName !== 'prod';
 
     const { userPool } = makeUserPool(this, transient, props.envName);
+
+    if (transient) {
+      new CognitoSeeder(this, `cognito-seeder`, {
+        userpool: userPool,
+        users: [
+          {
+            username: 'cypress-test-user',
+            password: 'Cypress-test-password-1',
+            email: 'cypress@test.com',
+            state: 'Complete'
+          },
+          {
+            username: 'cypress-test-user-two',
+            password: 'Cypress-test-password-2',
+            email: 'cypress2@test.com',
+            state: 'Complete'
+          }
+        ]
+      });
+    }
 
     const { httpOrigin } = makePagesApi(
       this,
@@ -58,42 +79,42 @@ const account = process.env.IS_CDK_LOCAL ? '000000000000' : '568693217207';
 
 const env = {
   account,
-  region: 'eu-west-2',
+  region: 'eu-west-2'
 };
 
 new AppStack(app, 'tnm-web-int-stack', {
   stackProps: { env },
   envName: 'int',
   transient: true,
-  chargebeeSite: CHARGEBEE_SITES.test,
+  chargebeeSite: CHARGEBEE_SITES.test
 });
 
 new AppStack(app, 'tnm-web-cypress-stack', {
   stackProps: { env },
   envName: 'cypress',
   transient: true,
-  chargebeeSite: CHARGEBEE_SITES.test,
+  chargebeeSite: CHARGEBEE_SITES.test
 });
 
 new AppStack(app, 'tnm-web-dev-stack', {
   stackProps: { env },
   envName: 'dev',
   transient: true,
-  chargebeeSite: CHARGEBEE_SITES.test,
+  chargebeeSite: CHARGEBEE_SITES.test
 });
 
 new AppStack(app, 'tnm-web-test-stack', {
   stackProps: { env },
   envName: 'test',
   transient: true,
-  chargebeeSite: CHARGEBEE_SITES.test,
+  chargebeeSite: CHARGEBEE_SITES.test
 });
 
 new AppStack(app, 'tnm-web-prod-stack', {
   stackProps: { env },
   envName: 'prod',
   transient: false,
-  chargebeeSite: CHARGEBEE_SITES.test,
+  chargebeeSite: CHARGEBEE_SITES.test
 });
 
 app.synth();

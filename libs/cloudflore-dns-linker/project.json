@@ -1,0 +1,23 @@
+{
+  "root": "libs/cloudflore-dns-linker",
+  "sourceRoot": "libs/cloudflore-dns-linker/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/cloudflore-dns-linker/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/cloudflore-dns-linker"],
+      "options": {
+        "jestConfig": "libs/cloudflore-dns-linker/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

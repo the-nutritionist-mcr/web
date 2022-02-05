@@ -21,6 +21,9 @@
       "@tnmw/authorise-cognito-jwt": [
         "libs/authorise-cognito-jwt/src/index.ts"
       ],
+      "@tnmw/cloudflore-dns-linker": [
+        "libs/cloudflore-dns-linker/src/index.ts"
+      ],
       "@tnmw/components": ["libs/components/src/index.ts"],
       "@tnmw/constants": ["libs/constants/src/index.ts"],
       "@tnmw/planner": ["libs/planner/src/index.ts"],

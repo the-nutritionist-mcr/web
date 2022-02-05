@@ -3,6 +3,7 @@
   "projects": {
     "admin-app": "libs/admin-app",
     "authorise-cognito-jwt": "libs/authorise-cognito-jwt",
+    "cloudflore-dns-linker": "libs/cloudflore-dns-linker",
     "components": "libs/components",
     "constants": "libs/constants",
     "planner": "libs/planner",

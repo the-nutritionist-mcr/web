@@ -1,2 +1,2 @@
 export { CognitoSeeder } from './cognito-seeder';
-export { SeedUser } from './types';
+export type { SeedUser } from './types';

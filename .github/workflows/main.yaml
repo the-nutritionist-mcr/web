@@ -23,6 +23,7 @@ jobs:
           - components
           - authorise-cognito-jwt
           - planner
+          - seed-cognito
 
         target:
           - test
