@@ -4,7 +4,7 @@
   "plugins": ["@nrwl/nx", "fp", "unicorn", "security"],
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx", "*.d.ts"],
       "extends": [
         "plugin:fp/recommended",
         "plugin:unicorn/recommended",

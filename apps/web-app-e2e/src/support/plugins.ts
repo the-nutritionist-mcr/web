@@ -28,6 +28,9 @@ const plugins = (on, config) => {
   require('@cypress/code-coverage/task')(on, config);
 
   on('task', {
+    async seedUsers() {
+      return null
+    },
     async seedCognito({
       poolId,
       email,

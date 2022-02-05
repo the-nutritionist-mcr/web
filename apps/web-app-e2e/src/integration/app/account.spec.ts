@@ -1,6 +1,6 @@
 describe('The account page', () => {
   before(() => {
-    cy.seed();
+    cy.task('seedUsers')
   });
 
   describe('when logged out', () => {

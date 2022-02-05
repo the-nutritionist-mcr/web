@@ -3,6 +3,7 @@ import { currentUser } from '../aws/authenticate';
 
 const getFetchInit = async (init?: RequestInit) => {
   const user = await currentUser();
+  console.log(user);
   if (!user) {
     return {};
   }
