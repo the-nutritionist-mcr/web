@@ -67,6 +67,7 @@
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-security": "^1.4.0",
     "eslint-plugin-unicorn": "^40.0.0",
+    "googleapis": "^95.0.0",
     "grommet": "^2.20.0",
     "grommet-controls": "^3.0.2",
     "imap-simple": "^5.1.0",

@@ -5,17 +5,18 @@ import { returnErrorResponse } from '../data-api/return-error-response';
 
 import {
   CognitoIdentityProviderClient,
+  AdminSetUserPasswordCommand,
   AdminCreateUserCommand,
-  AdminCreateUserCommandInput,
+  AdminCreateUserCommandInput
 } from '@aws-sdk/client-cognito-identity-provider';
 
-import { ENV, HTTP, USER_ATTRIBUTES } from '../../../infrastructure/constants';
+import { ENV, HTTP, USER_ATTRIBUTES, E2E } from '@tnmw/constants';
 
 const chargebee = new ChargeBee();
 
 chargebee.configure({
   site: process.env[ENV.varNames.ChargeBeeSite],
-  api_key: process.env[ENV.varNames.ChargeBeeToken],
+  api_key: process.env[ENV.varNames.ChargeBeeToken]
 });
 
 const decodeBasicAuth = (authHeaderValue: string) => {
@@ -26,11 +27,11 @@ const decodeBasicAuth = (authHeaderValue: string) => {
 
   return {
     username: parts[0],
-    password: parts[1],
+    password: parts[1]
   };
 };
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+export const handler: APIGatewayProxyHandlerV2 = async event => {
   try {
     const credentials = decodeBasicAuth(
       event.headers[HTTP.headerNames.Authorization]
@@ -44,7 +45,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       credentials.password !== basicPassword
     ) {
       return {
-        statusCode: HTTP.statusCodes.Forbidden,
+        statusCode: HTTP.statusCodes.Forbidden
       };
     }
 
@@ -61,7 +62,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       !email.trim().toLowerCase().endsWith('thenutritionistmcr.com')
     ) {
       return {
-        statusCode: HTTP.statusCodes.Ok,
+        statusCode: HTTP.statusCodes.Ok
       };
     }
 
@@ -72,25 +73,25 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         UserAttributes: [
           {
             Name: `custom:${USER_ATTRIBUTES.ChargebeeId}`,
-            Value: id,
+            Value: id
           },
           {
             Name: `email`,
-            Value: email,
+            Value: email
           },
           {
             Name: `email_verified`,
-            Value: `true`,
+            Value: `true`
           },
           {
             Name: `given_name`,
-            Value: first_name,
+            Value: first_name
           },
           {
             Name: `family_name`,
-            Value: last_name,
-          },
-        ],
+            Value: last_name
+          }
+        ]
       };
 
       const command = new AdminCreateUserCommand(input);
@@ -99,8 +100,22 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
       await client.send(command);
 
+      if (
+        environment !== 'prod' &&
+        email.trim().toLowerCase() === E2E.testEmail
+      ) {
+        const params = {
+          Password: E2E.testPassword,
+          Permanent: true,
+          Username: id,
+          UserPoolId: poolId
+        };
+        const changeCommand = new AdminSetUserPasswordCommand(params);
+        await client.send(changeCommand);
+      }
+
       return {
-        statusCode: HTTP.statusCodes.Ok,
+        statusCode: HTTP.statusCodes.Ok
       };
     }
   } catch (error) {

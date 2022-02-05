@@ -1,3 +1,8 @@
+export const E2E = {
+  testEmail: 'ben+e2etesting@thenutritionistmcr.com',
+  testPassword: 'the-cypress-test-password'
+};
+
 export const IAM = {
   actions: {
     cognito: {
@@ -15,7 +20,8 @@ export const NODE_OPTS = {
   EnableSourceMaps: '--enable-source-maps'
 } as const;
 
-export const MAILSLURP_INBOX = "435b553b-88bc-4f3e-b3be-1d73253d54f3@mailslurp.com"
+export const MAILSLURP_INBOX =
+  '435b553b-88bc-4f3e-b3be-1d73253d54f3@mailslurp.com';
 
 export const ENV = {
   varNames: {

@@ -1,35 +1,18 @@
-import { connect } from "imap-simple"
+import { google } from "googleapis"
 
 export const getEmail = async (username: string, password: string, server: string, port: number, subject: string) => {
 
-  const config = {
-      imap: {
-          user: username,
-          password,
-          host: server,
-          port,
-          tls: true,
-          authTimeout: 3000
-      }
-  };
+  const gmail = google.gmail({
+    version: 'v1',
+    auth: "AIzaSyD40KK9d76DDAREj4EMBCr5P9sHE8W3nCo"
+  })
 
-  const connection = await connect(config)
+  const response = await gmail.users.messages.list({
+    userId: 'me'
+  })
 
-  await connection.openBox('INBOX')
+  console.log(response)
 
-  const searchCriteria = [
-      'UNSEEN'
-  ];
-
-  const fetchOptions = {
-      bodies: ['HEADER', 'TEXT'],
-      markSeen: false
-  };
-
-
-  const results = await connection.search(searchCriteria, fetchOptions)
-
-  console.log(results)
 }
 
 getEmail(

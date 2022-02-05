@@ -1,4 +1,4 @@
-import { ENV, CHARGEBEE_SITES, MAILSLURP_INBOX } from '@tnmw/constants';
+import { ENV, CHARGEBEE_SITES, MAILSLURP_INBOX, E2E } from '@tnmw/constants';
 import { ChargeBee } from 'chargebee-typescript';
 import { TEST_USER } from './constants';
 import MailSlurp from "mailslurp-client"
@@ -26,7 +26,7 @@ const plugins = (on, config) => {
             id: TEST_USER,
             first_name: 'John',
             last_name: 'Doe',
-            email: MAILSLURP_INBOX,
+            email: E2E.testEmail,
             locale: 'fr-CA',
             billing_address: {
               first_name: 'John',
@@ -50,14 +50,8 @@ const plugins = (on, config) => {
       return null;
     },
 
-    async getPaswordFromMailslurpEmail() {
-
-      const mailslurp = new MailSlurp({ apiKey: process.env[`NX_${ENV.varNames.MailSlurpToken}`]});
-
-      const inboxes = await jmailslurp.getInboxes()
-    },
-
     async removeTestCustomer() {
+
       chargebee.configure({
         site: CHARGEBEE_SITES.test,
         api_key: process.env[`NX_${ENV.varNames.ChargeBeeToken}`]
