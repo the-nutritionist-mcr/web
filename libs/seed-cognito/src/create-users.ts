@@ -1,7 +1,7 @@
 import {
   AdminCreateUserCommand,
   AdminSetUserPasswordCommand,
-  CognitoIdentityProviderClient
+  CognitoIdentityProviderClient,
 } from '@aws-sdk/client-cognito-identity-provider';
 import { SeedUser } from './types';
 
@@ -10,7 +10,7 @@ export const createUsers = async (
   poolId: string,
   users: SeedUser[]
 ) => {
-  const userPromises = users.map(async user => {
+  const userPromises = users.map(async (user) => {
     const initialPassword =
       user.state === 'Complete' ? '^2Y.AD`5`$A!&pS\\' : user.password;
     const command = new AdminCreateUserCommand({
@@ -22,13 +22,13 @@ export const createUsers = async (
       UserAttributes: [
         {
           Name: 'email',
-          Value: user.email
+          Value: user.email,
         },
         {
           Name: 'email_verified',
-          Value: 'True'
-        }
-      ]
+          Value: 'True',
+        },
+      ],
     });
 
     await cognito.send(command);
@@ -38,7 +38,7 @@ export const createUsers = async (
         Password: user.password,
         Permanent: true,
         Username: user.username,
-        UserPoolId: poolId
+        UserPoolId: poolId,
       });
 
       await cognito.send(changeCommand);

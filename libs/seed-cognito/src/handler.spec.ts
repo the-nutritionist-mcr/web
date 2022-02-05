@@ -5,7 +5,7 @@ import {
   AdminCreateUserCommandInput,
   AdminSetUserPasswordCommand,
   AdminDeleteUserCommandInput,
-  AdminDeleteUserCommand
+  AdminDeleteUserCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
 
 import { mock } from 'jest-mock-extended';
@@ -14,7 +14,7 @@ import { handler } from './handler';
 import { mockClient } from 'aws-sdk-client-mock';
 import {
   USER_POOL_ID_ENV_KEY_STRING,
-  SEED_USERS_ENV_KEY_STRING
+  SEED_USERS_ENV_KEY_STRING,
 } from './constants';
 import { SeedUser } from './types';
 
@@ -35,14 +35,14 @@ describe('the webhook handler', () => {
         username: 'foo',
         email: 'foo@bar.com',
         password: 'bar',
-        state: 'ForceChangePassword'
+        state: 'ForceChangePassword',
       },
       {
         username: 'foo-two',
         email: 'footwo@bar.com',
         password: 'bar-two',
-        state: 'Complete'
-      }
+        state: 'Complete',
+      },
     ];
 
     process.env[SEED_USERS_ENV_KEY_STRING] = JSON.stringify(users);
@@ -64,12 +64,12 @@ describe('the webhook handler', () => {
       Password: 'bar-two',
       Permanent: true,
       Username: 'foo-two',
-      UserPoolId: 'test-pool-id'
+      UserPoolId: 'test-pool-id',
     };
 
     const changePasswordCalls = cognitoMock.commandCalls(
-    // TODO raise bug report on aws-sdk-client-mock repo for this type error
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // TODO raise bug report on aws-sdk-client-mock repo for this type error
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       AdminSetUserPasswordCommand as any,
       changePasswordParams
     );
@@ -83,14 +83,14 @@ describe('the webhook handler', () => {
         username: 'foo',
         email: 'foo@bar.com',
         password: 'bar',
-        state: 'ForceChangePassword'
+        state: 'ForceChangePassword',
       },
       {
         username: 'foo-two',
         email: 'footwo@bar.com',
         password: 'bar-two',
-        state: 'ForceChangePassword'
-      }
+        state: 'ForceChangePassword',
+      },
     ];
 
     process.env[SEED_USERS_ENV_KEY_STRING] = JSON.stringify(users);
@@ -104,7 +104,7 @@ describe('the webhook handler', () => {
 
     const deleteInput: AdminDeleteUserCommandInput = {
       UserPoolId: 'test-pool-id',
-      Username: 'foo'
+      Username: 'foo',
     };
 
     const deleteCommandCall = cognitoMock.commandCalls(
@@ -118,7 +118,7 @@ describe('the webhook handler', () => {
 
     const deleteInputTwo: AdminDeleteUserCommandInput = {
       UserPoolId: 'test-pool-id',
-      Username: 'foo-two'
+      Username: 'foo-two',
     };
 
     const deleteCommandCall2 = cognitoMock.commandCalls(
@@ -139,13 +139,13 @@ describe('the webhook handler', () => {
       UserAttributes: [
         {
           Name: `email`,
-          Value: 'foo@bar.com'
+          Value: 'foo@bar.com',
         },
         {
           Name: 'email_verified',
-          Value: 'True'
-        }
-      ]
+          Value: 'True',
+        },
+      ],
     };
 
     const userOneCall = cognitoMock.commandCalls(
@@ -166,13 +166,13 @@ describe('the webhook handler', () => {
       UserAttributes: [
         {
           Name: `email`,
-          Value: 'footwo@bar.com'
+          Value: 'footwo@bar.com',
         },
         {
           Name: 'email_verified',
-          Value: 'True'
-        }
-      ]
+          Value: 'True',
+        },
+      ],
     };
 
     const userTwoCall = cognitoMock.commandCalls(
@@ -191,14 +191,14 @@ describe('the webhook handler', () => {
         username: 'foo',
         email: 'foo@bar.com',
         password: 'bar',
-        state: 'ForceChangePassword'
+        state: 'ForceChangePassword',
       },
       {
         username: 'foo-two',
         email: 'footwo@bar.com',
         password: 'bar-two',
-        state: 'Complete'
-      }
+        state: 'Complete',
+      },
     ];
 
     process.env[SEED_USERS_ENV_KEY_STRING] = JSON.stringify(users);
@@ -220,12 +220,12 @@ describe('the webhook handler', () => {
       Password: 'bar-two',
       Permanent: true,
       Username: 'foo-two',
-      UserPoolId: 'test-pool-id'
+      UserPoolId: 'test-pool-id',
     };
 
     const changePasswordCalls = cognitoMock.commandCalls(
-    // TODO raise bug report on aws-sdk-client-mock repo for this type error
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // TODO raise bug report on aws-sdk-client-mock repo for this type error
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       AdminSetUserPasswordCommand as any,
       changePasswordParams
     );
@@ -239,14 +239,14 @@ describe('the webhook handler', () => {
         username: 'foo',
         email: 'foo@bar.com',
         password: 'bar',
-        state: 'ForceChangePassword'
+        state: 'ForceChangePassword',
       },
       {
         username: 'foo-two',
         email: 'footwo@bar.com',
         password: 'bar-two',
-        state: 'ForceChangePassword'
-      }
+        state: 'ForceChangePassword',
+      },
     ];
 
     process.env[SEED_USERS_ENV_KEY_STRING] = JSON.stringify(users);
@@ -260,7 +260,7 @@ describe('the webhook handler', () => {
 
     const deleteInput: AdminDeleteUserCommandInput = {
       UserPoolId: 'test-pool-id',
-      Username: 'foo'
+      Username: 'foo',
     };
 
     const deleteCommandCall = cognitoMock.commandCalls(
@@ -274,7 +274,7 @@ describe('the webhook handler', () => {
 
     const deleteInputTwo: AdminDeleteUserCommandInput = {
       UserPoolId: 'test-pool-id',
-      Username: 'foo-two'
+      Username: 'foo-two',
     };
 
     const deleteCommandCall2 = cognitoMock.commandCalls(
@@ -295,13 +295,13 @@ describe('the webhook handler', () => {
       UserAttributes: [
         {
           Name: `email`,
-          Value: 'foo@bar.com'
+          Value: 'foo@bar.com',
         },
         {
           Name: 'email_verified',
-          Value: 'True'
-        }
-      ]
+          Value: 'True',
+        },
+      ],
     };
 
     const userOneCall = cognitoMock.commandCalls(
@@ -322,13 +322,13 @@ describe('the webhook handler', () => {
       UserAttributes: [
         {
           Name: `email`,
-          Value: 'footwo@bar.com'
+          Value: 'footwo@bar.com',
         },
         {
           Name: 'email_verified',
-          Value: 'True'
-        }
-      ]
+          Value: 'True',
+        },
+      ],
     };
 
     const userTwoCall = cognitoMock.commandCalls(

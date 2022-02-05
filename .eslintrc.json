@@ -11,7 +11,7 @@
         "plugin:security/recommended"
       ],
       "rules": {
-
+        "unicorn/no-null": "off",
         "security/detect-non-literal-fs-filename": "off",
         "unicorn/no-array-for-each": "off",
         "unicorn/no-useless-undefined": "off",

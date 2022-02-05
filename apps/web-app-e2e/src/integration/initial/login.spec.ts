@@ -1,6 +1,6 @@
 describe('The login page', () => {
-  before(() => {
-    cy.seed();
+  after(() => {
+    cy.task('removeTestCustomer');
   });
 
   it('Should load a page with a login form', () => {
@@ -23,13 +23,13 @@ describe('The login page', () => {
     cy.get('form')
       .find("input[name='email']")
       .clear()
-      .type(Cypress.env('CYPRESS_TEST_EMAIL'));
+      .type(Cypress.env('email'));
     cy.get('form').find("input[name='password']").clear().type('asdsdfasd');
     cy.get('form').find('button').contains('Login').click();
     cy.get('form').contains('Incorrect username or password');
   });
 
-  it('Should ask you to change your password and redirect you to account page when done on first login', () => {
+  it('Should ask you to change your password and redirect you to account page when ', () => {
     cy.visit('/login/');
     cy.get('form').should('be.visible');
 
@@ -74,7 +74,8 @@ describe('The login page', () => {
     cy.location('pathname').should('eq', '/account');
   });
 
-  it('Should redirect you to the account page if you try to visit the login page after login', () => {
+  it('Creating an account on ChargeBee should provide an account that I can log in with', () => {
+    cy.task('createChargebeeCustomer');
     cy.visit('/login/');
     cy.get('form').should('be.visible');
     cy.get('form')
