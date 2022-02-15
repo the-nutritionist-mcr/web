@@ -20,7 +20,7 @@ const getPlansForCustomer = async (id: string) => {
   const plans = await Promise.all(
     list.map(async (entry) => {
       const planSubscriptionItem = entry.subscription.subscription_items.filter(
-        (item) => item.item_type === 'plan'
+        (item) => item.item_type === CHARGEBEE.itemTypes.plan
       );
 
       if (planSubscriptionItem.length !== 1) {
