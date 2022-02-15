@@ -7,7 +7,7 @@ import {
   CognitoIdentityProviderClient,
   AdminSetUserPasswordCommand,
   AdminCreateUserCommand,
-  AdminCreateUserCommandInput
+  AdminCreateUserCommandInput,
 } from '@aws-sdk/client-cognito-identity-provider';
 import { ENV, HTTP, USER_ATTRIBUTES, E2E } from '@tnmw/constants';
 import { createUser } from './create-user';
@@ -16,7 +16,7 @@ const chargebee = new ChargeBee();
 
 chargebee.configure({
   site: process.env[ENV.varNames.ChargeBeeSite],
-  api_key: process.env[ENV.varNames.ChargeBeeToken]
+  api_key: process.env[ENV.varNames.ChargeBeeToken],
 });
 
 const decodeBasicAuth = (authHeaderValue: string) => {
@@ -27,11 +27,11 @@ const decodeBasicAuth = (authHeaderValue: string) => {
 
   return {
     username: parts[0],
-    password: parts[1]
+    password: parts[1],
   };
 };
 
-export const handler: APIGatewayProxyHandlerV2 = async event => {
+export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
     const credentials = decodeBasicAuth(
       event.headers[HTTP.headerNames.Authorization]
@@ -45,7 +45,7 @@ export const handler: APIGatewayProxyHandlerV2 = async event => {
       credentials.password !== basicPassword
     ) {
       return {
-        statusCode: HTTP.statusCodes.Forbidden
+        statusCode: HTTP.statusCodes.Forbidden,
       };
     }
 
@@ -62,7 +62,7 @@ export const handler: APIGatewayProxyHandlerV2 = async event => {
       !email.trim().toLowerCase().endsWith('thenutritionistmcr.com')
     ) {
       return {
-        statusCode: HTTP.statusCodes.Ok
+        statusCode: HTTP.statusCodes.Ok,
       };
     }
 
@@ -72,7 +72,7 @@ export const handler: APIGatewayProxyHandlerV2 = async event => {
         last_name,
         username: id,
         poolId,
-        email
+        email,
       });
 
       if (
@@ -85,14 +85,14 @@ export const handler: APIGatewayProxyHandlerV2 = async event => {
           Password: E2E.testPassword,
           Permanent: true,
           Username: id,
-          UserPoolId: poolId
+          UserPoolId: poolId,
         };
         const changeCommand = new AdminSetUserPasswordCommand(params);
         await client.send(changeCommand);
       }
 
       return {
-        statusCode: HTTP.statusCodes.Ok
+        statusCode: HTTP.statusCodes.Ok,
       };
     }
   } catch (error) {

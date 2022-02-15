@@ -1,11 +1,11 @@
 import { ENV, CHARGEBEE_SITES, MAILSLURP_INBOX, E2E } from '@tnmw/constants';
 import { ChargeBee } from 'chargebee-typescript';
 import { TEST_USER } from './constants';
-import MailSlurp from "mailslurp-client"
+import MailSlurp from 'mailslurp-client';
 
 import {
   AdminDeleteUserCommand,
-  CognitoIdentityProviderClient
+  CognitoIdentityProviderClient,
 } from '@aws-sdk/client-cognito-identity-provider';
 
 const chargebee = new ChargeBee();
@@ -13,12 +13,10 @@ const chargebee = new ChargeBee();
 const plugins = (on, config) => {
   on('task', {
     async createChargebeeCustomer() {
-
       chargebee.configure({
         site: CHARGEBEE_SITES.test,
-        api_key: process.env[`NX_${ENV.varNames.ChargeBeeToken}`]
+        api_key: process.env[`NX_${ENV.varNames.ChargeBeeToken}`],
       });
-
 
       await new Promise((accept, reject) => {
         chargebee.customer
@@ -35,8 +33,8 @@ const plugins = (on, config) => {
               city: 'Walnut',
               state: 'California',
               zip: '91789',
-              country: 'US'
-            }
+              country: 'US',
+            },
           })
           .request(function (error, result) {
             if (error) {
@@ -51,10 +49,9 @@ const plugins = (on, config) => {
     },
 
     async removeTestCustomer() {
-
       chargebee.configure({
         site: CHARGEBEE_SITES.test,
-        api_key: process.env[`NX_${ENV.varNames.ChargeBeeToken}`]
+        api_key: process.env[`NX_${ENV.varNames.ChargeBeeToken}`],
       });
 
       await new Promise((accept, reject) => {
@@ -70,11 +67,11 @@ const plugins = (on, config) => {
 
       const deleteCommand = new AdminDeleteUserCommand({
         UserPoolId: process.env[`NX_${ENV.varNames.CognitoPoolId}`],
-        Username: TEST_USER 
+        Username: TEST_USER,
       });
 
       await cognito.send(deleteCommand);
-    }
+    },
   });
   return config;
 };

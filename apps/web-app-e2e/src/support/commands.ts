@@ -14,8 +14,8 @@ const configureCognitoAndSignIn = async (
     Auth: {
       region: REGION,
       userPoolId: outputs.UserPoolId,
-      userPoolWebClientId: outputs.ClientId
-    }
+      userPoolWebClientId: outputs.ClientId,
+    },
   });
   return Auth.signIn({ username, password });
 };
@@ -38,7 +38,7 @@ Cypress.Commands.add('seed', () => {
     email: Cypress.env('TEST_EMAIL'),
     password: Cypress.env('TEST_USER_INITIAL_PASSWORD'),
     testUserEmail: Cypress.env('INT_TEST_EMAIL'),
-    testUserPassword: Cypress.env('INT_TEST_PASSWORD')
+    testUserPassword: Cypress.env('INT_TEST_PASSWORD'),
   });
 });
 
@@ -48,7 +48,7 @@ Cypress.Commands.add('loginByCognitoApi', () => {
   const log = Cypress.log({
     displayName: 'COGNITO LOGIN',
     message: [],
-    autoEnd: false
+    autoEnd: false,
   });
 
   const signIn = configureCognitoAndSignIn(TEST_USER, TEST_USER_PASSWORD);
@@ -64,8 +64,8 @@ Cypress.Commands.add('loginByCognitoApi', () => {
         message: [
           `🔐 Authenticated, saving tokens: `,
           // eslint-disable-next-line unicorn/no-null
-          JSON.stringify(cognitoResponse, null, 2)
-        ]
+          JSON.stringify(cognitoResponse, null, 2),
+        ],
       });
 
       const keyPrefixWithUsername = `${cognitoResponse.keyPrefix}.${cognitoResponse.username}`;

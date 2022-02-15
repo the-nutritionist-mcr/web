@@ -8,14 +8,14 @@ const getFetchInit = async (init?: RequestInit) => {
   }
   const {
     signInUserSession: {
-      accessToken: { jwtToken }
-    }
+      accessToken: { jwtToken },
+    },
   } = user;
 
   const withToken = {
     headers: {
-      authorization: jwtToken
-    }
+      authorization: jwtToken,
+    },
   };
 
   return init ? { ...init, ...withToken } : withToken;
