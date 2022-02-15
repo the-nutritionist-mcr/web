@@ -27,9 +27,14 @@ const getPlansForCustomer = async (id: string) => {
         return;
       }
 
+      console.log('plan id', entry.subscription.plan_id);
+
       const plan = await chargebee.plan
         .retrieve(entry.subscription.plan_id)
         .request();
+
+      console.log('item price id', planSubscriptionItem[0].item_price_id);
+
       const itemPrice = chargebee.item_price
         .retrieve(planSubscriptionItem[0].item_price_id)
         .request();
@@ -37,7 +42,7 @@ const getPlansForCustomer = async (id: string) => {
       const daysPerWeek = Number(plan[CHARGEBEE.customFields.plan.daysPerWeek]);
       const itemsPerDay = Number(plan[CHARGEBEE.customFields.plan.itemsPerDay]);
       const totalMeals = daysPerWeek * itemsPerDay;
-
+      // eslint-disable-next-line unicorn/no-await-expression-member
       const { name } = (await itemPrice).item_family;
       return {
         name,
@@ -55,9 +60,9 @@ const getCustomerByid = async (id: string) => {
   const customerPromise = chargebee.customer.retrieve(id).request();
   const plans = await getPlansForCustomer(id);
 
-  const { first_name, last_name, email, billing_address, phone } = (
-    await customerPromise
-  ).customer;
+  const { first_name, last_name, email, billing_address, phone } =
+    // eslint-disable-next-line unicorn/no-await-expression-member
+    (await customerPromise).customer;
   const {
     line1,
     line2,
