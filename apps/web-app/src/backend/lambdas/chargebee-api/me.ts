@@ -1,7 +1,6 @@
-import { ENV } from '../../../infrastructure/constants';
+import { ENV, CHARGEBEE } from '../../../infrastructure/constants';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { ChargeBee } from 'chargebee-typescript';
-import { CHARGEBEE } from '@tnmw/constants';
 
 const chargebee = new ChargeBee();
 
@@ -21,31 +20,37 @@ const getPlansForCustomer = async (id: string) => {
   const plans = await Promise.all(
     list.map(async (entry) => {
       const planSubscriptionItem = entry.subscription.subscription_items.filter(
-        (item) => item.item_type === CHARGEBEE.itemTypes.plan
+        (item) => item.item_type === 'plan'
       );
+
       if (planSubscriptionItem.length !== 1) {
         return;
       }
 
-      console.log('plan id', entry.subscription.plan_id);
-
-      const plan = await chargebee.plan
-        .retrieve(entry.subscription.plan_id)
-        .request();
-
-      console.log('item price id', planSubscriptionItem[0].item_price_id);
-
-      const itemPrice = chargebee.item_price
+      const itemPriceResult = await chargebee.item_price
         .retrieve(planSubscriptionItem[0].item_price_id)
         .request();
 
+      const itemPrice = itemPriceResult.item_price
+
+      const itemResult = await chargebee.item
+        .retrieve(itemPrice.item_id)
+        .request();
+
+      const plan = itemResult.item
+
       const daysPerWeek = Number(plan[CHARGEBEE.customFields.plan.daysPerWeek]);
       const itemsPerDay = Number(plan[CHARGEBEE.customFields.plan.itemsPerDay]);
+
+      const itemFamilyResult = await chargebee.item_family.retrieve(itemPrice.item_family_id).request()
+
+      const itemFamily = itemFamilyResult.item_family
+
+
       const totalMeals = daysPerWeek * itemsPerDay;
       // eslint-disable-next-line unicorn/no-await-expression-member
-      const { name } = (await itemPrice).item_family;
       return {
-        name,
+        name: itemFamily.name,
         daysPerWeek,
         itemsPerDay,
         totalMeals,
