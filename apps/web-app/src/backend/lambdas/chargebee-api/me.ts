@@ -1,6 +1,6 @@
-import { ENV, CHARGEBEE } from '../../../infrastructure/constants';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { ChargeBee } from 'chargebee-typescript';
+import { ENV, CHARGEBEE } from '@tnmw/constants';
 
 const chargebee = new ChargeBee();
 
@@ -31,21 +31,22 @@ const getPlansForCustomer = async (id: string) => {
         .retrieve(planSubscriptionItem[0].item_price_id)
         .request();
 
-      const itemPrice = itemPriceResult.item_price
+      const itemPrice = itemPriceResult.item_price;
 
       const itemResult = await chargebee.item
         .retrieve(itemPrice.item_id)
         .request();
 
-      const plan = itemResult.item
+      const plan = itemResult.item;
 
       const daysPerWeek = Number(plan[CHARGEBEE.customFields.plan.daysPerWeek]);
       const itemsPerDay = Number(plan[CHARGEBEE.customFields.plan.itemsPerDay]);
 
-      const itemFamilyResult = await chargebee.item_family.retrieve(itemPrice.item_family_id).request()
+      const itemFamilyResult = await chargebee.item_family
+        .retrieve(itemPrice.item_family_id)
+        .request();
 
-      const itemFamily = itemFamilyResult.item_family
-
+      const itemFamily = itemFamilyResult.item_family;
 
       const totalMeals = daysPerWeek * itemsPerDay;
       // eslint-disable-next-line unicorn/no-await-expression-member
