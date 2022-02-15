@@ -1,6 +1,6 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { ChargeBee } from 'chargebee-typescript';
-import { ENV, CHARGEBEE } from '@tnmw/constants';
+import { ENV, CHARGEBEE, HTTP } from '@tnmw/constants';
 
 const chargebee = new ChargeBee();
 
@@ -99,11 +99,11 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const customer = await getCustomerByid(username);
 
     return {
-      statusCode: 200,
+      statusCode: HTTP.statusCodes.Ok,
       body: JSON.stringify(customer),
       headers: {
-        'access-control-allow-origin': '*',
-        'access-control-allow-headers': '*',
+        [HTTP.headerNames.AccessControlAllowOrigin]: '*',
+        [HTTP.headerNames.AccessControlAllowHeaders]: '*',
       },
     };
   } catch (error) {
