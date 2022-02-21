@@ -66,15 +66,16 @@ const getCustomerByid = async (id: string) => {
   const customerPromise = chargebee.customer.retrieve(id).request();
   const plans = await getPlansForCustomer(id);
 
-    // eslint-disable-next-line unicorn/no-await-expression-member
-  const customer = (await customerPromise).customer
+  // eslint-disable-next-line unicorn/no-await-expression-member
+  const customer = (await customerPromise).customer;
 
-  const profileNotes = customer[CHARGEBEE.customFields.customer.customerProfileNotes]
-  const deliveryDay1 = customer[CHARGEBEE.customFields.customer.deliveryDay1]
-  const deliveryDay2 = customer[CHARGEBEE.customFields.customer.deliveryDay2]
-  const deliveryDay3 = customer[CHARGEBEE.customFields.customer.deliveryDay3]
+  const profileNotes =
+    customer[CHARGEBEE.customFields.customer.customerProfileNotes];
+  const deliveryDay1 = customer[CHARGEBEE.customFields.customer.deliveryDay1];
+  const deliveryDay2 = customer[CHARGEBEE.customFields.customer.deliveryDay2];
+  const deliveryDay3 = customer[CHARGEBEE.customFields.customer.deliveryDay3];
 
-  const { first_name, last_name, email, billing_address, phone } = customer
+  const { first_name, last_name, email, billing_address, phone } = customer;
 
   const {
     line1,

@@ -1,4 +1,4 @@
-import { DaysOfWeek } from '@/types';
+import { DaysOfWeek } from '../types';
 import { Variant } from './variant';
 
 export interface ICookDay {

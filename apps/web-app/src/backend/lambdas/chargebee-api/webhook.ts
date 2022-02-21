@@ -6,11 +6,11 @@ import { returnErrorResponse } from '../data-api/return-error-response';
 import {
   CognitoIdentityProviderClient,
   AdminSetUserPasswordCommand,
-  AdminCreateUserCommand,
-  AdminCreateUserCommandInput,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { ENV, HTTP, USER_ATTRIBUTES, E2E } from '@tnmw/constants';
+import { ENV, HTTP, E2E, CHARGEBEE } from '@tnmw/constants';
 import { createUser } from './create-user';
+import { handleCustomerCreatedEvent } from './event-handlers/customer-created';
+import { handleSubscriptionCreatedEvent } from './event-handlers/subscription-created';
 
 const chargebee = new ChargeBee();
 
@@ -50,9 +50,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     }
 
     const chargebeeEvent = chargebee.event.deserialize(event.body);
-    const poolId = process.env[ENV.varNames.CognitoPoolId];
 
-    const { id, email, first_name, last_name } =
+    const { email } =
       chargebeeEvent.content.customer;
 
     const environment = process.env[ENV.varNames.EnvironmentName];
@@ -66,35 +65,13 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       };
     }
 
-    if (chargebeeEvent.event_type === 'customer_created') {
-      await createUser({
-        first_name,
-        last_name,
-        username: id,
-        poolId,
-        email,
-      });
-
-      if (
-        environment !== 'prod' &&
-        email.trim().toLowerCase() === E2E.testEmail
-      ) {
-        const client = new CognitoIdentityProviderClient({});
-
-        const params = {
-          Password: E2E.testPassword,
-          Permanent: true,
-          Username: id,
-          UserPoolId: poolId,
-        };
-        const changeCommand = new AdminSetUserPasswordCommand(params);
-        await client.send(changeCommand);
-      }
-
-      return {
-        statusCode: HTTP.statusCodes.Ok,
-      };
+    switch(chargebeeEvent.event_type) {
+      case 'customer_created': 
+        return handleCustomerCreatedEvent(chargebee, chargebeeEvent)
+      case 'subscription_created':
+        return handleSubscriptionCreatedEvent(chargebee, chargebeeEvent)
     }
+
   } catch (error) {
     return returnErrorResponse(error);
   }
