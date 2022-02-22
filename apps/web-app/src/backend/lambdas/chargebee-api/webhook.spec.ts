@@ -224,18 +224,16 @@ describe('the webhook handler', () => {
         daysPerWeek: 2,
         itemsPerDay: 4,
         isExtra: true,
-        totalMeals: 8
-      }
-    ]
+        totalMeals: 8,
+      },
+    ];
     when(jest.mocked(getPlans))
-      .calledWith(expect.anything(), 
-          [
-            {
-              item_type: 'plan',
-              item_price_id: mockItemPriceId,
-            },
-          ],
-      )
+      .calledWith(expect.anything(), [
+        {
+          item_type: 'plan',
+          item_price_id: mockItemPriceId,
+        },
+      ])
       .mockResolvedValue(mockPlans);
 
     const testCustomerId = 'test-customer-id';
@@ -448,7 +446,6 @@ describe('the webhook handler', () => {
       UserPoolId: 'test-pool-id',
       Username: testCustomerId,
       UserAttributes: [
-
         {
           Name: `custom:${DYNAMO.customAttributes.Plans}`,
           Value: JSON.stringify(mockPlans),
@@ -457,9 +454,8 @@ describe('the webhook handler', () => {
           Name: `custom:${DYNAMO.customAttributes.SubscriptionUpdateTimestamp}`,
           Value: String(now / 1000),
         },
-      ]
-
-    }
+      ],
+    };
 
     const basicAuthUser = 'test-user';
     const basicAuthPassword = 'test-password';

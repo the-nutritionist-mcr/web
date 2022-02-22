@@ -3,12 +3,7 @@ import { ChargeBee } from 'chargebee-typescript';
 
 import { returnErrorResponse } from '../data-api/return-error-response';
 
-import {
-  CognitoIdentityProviderClient,
-  AdminSetUserPasswordCommand,
-} from '@aws-sdk/client-cognito-identity-provider';
-import { ENV, HTTP, E2E, CHARGEBEE } from '@tnmw/constants';
-import { createUser } from './create-user';
+import { ENV, HTTP } from '@tnmw/constants';
 import { handleCustomerCreatedEvent } from './event-handlers/customer-created';
 import { handleSubscriptionCreatedEvent } from './event-handlers/subscription-created';
 
@@ -51,8 +46,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const chargebeeEvent = chargebee.event.deserialize(event.body);
 
-    const { email } =
-      chargebeeEvent.content.customer;
+    const { email } = chargebeeEvent.content.customer;
 
     const environment = process.env[ENV.varNames.EnvironmentName];
 
@@ -65,13 +59,12 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       };
     }
 
-    switch(chargebeeEvent.event_type) {
-      case 'customer_created': 
-        return handleCustomerCreatedEvent(chargebee, chargebeeEvent)
+    switch (chargebeeEvent.event_type) {
+      case 'customer_created':
+        return handleCustomerCreatedEvent(chargebee, chargebeeEvent);
       case 'subscription_created':
-        return handleSubscriptionCreatedEvent(chargebee, chargebeeEvent)
+        return handleSubscriptionCreatedEvent(chargebee, chargebeeEvent);
     }
-
   } catch (error) {
     return returnErrorResponse(error);
   }
