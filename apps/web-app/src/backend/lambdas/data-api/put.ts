@@ -3,11 +3,11 @@ import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { returnErrorResponse } from './return-error-response';
-import { authorise } from './authorise';
+import { authoriseJwt } from './authorise';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
-    await authorise(event, ['admin']);
+    await authoriseJwt(event, ['admin']);
     const dynamodb = new DynamoDBClient({});
 
     const client = DynamoDBDocumentClient.from(dynamodb);

@@ -9,7 +9,7 @@ chargebee.configure({
   api_key: process.env[ENV.varNames.ChargeBeeToken],
 });
 
-import { authorise } from '../data-api/authorise';
+import { authoriseJwt } from '../data-api/authorise';
 import { returnErrorResponse } from '../data-api/return-error-response';
 
 const getPlansForCustomer = async (id: string) => {
@@ -107,7 +107,7 @@ const getCustomerByid = async (id: string) => {
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
-    const { username } = await authorise(event);
+    const { username } = await authoriseJwt(event);
     const customer = await getCustomerByid(username);
 
     return {

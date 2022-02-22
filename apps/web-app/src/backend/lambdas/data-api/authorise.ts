@@ -4,7 +4,7 @@ import { APIGatewayProxyEventV2 } from 'aws-lambda';
 import { HTTP } from '../../../infrastructure/constants';
 import { HttpError } from './http-error';
 
-export const authorise = async (
+export const authoriseJwt = async (
   event: APIGatewayProxyEventV2,
   groups?: string[]
 ) => {
@@ -35,3 +35,37 @@ export const authorise = async (
 
   return { username: verifyResult.userName };
 };
+
+const decodeBasicAuth = (authHeaderValue: string) => {
+  const base64Encoded = authHeaderValue.split(' ')[1];
+  const parts = Buffer.from(base64Encoded, 'base64')
+    .toString('utf8')
+    .split(':');
+
+  return {
+    username: parts[0],
+    password: parts[1],
+  };
+};
+
+export const authoriseBasic = (
+  event: APIGatewayProxyEventV2,
+  username: string,
+  password: string
+) =>  {
+    const credentials = decodeBasicAuth(
+      event.headers[HTTP.headerNames.Authorization]
+    );
+
+    if (
+      credentials.username !== username ||
+      credentials.password !== password
+    ) {
+
+    throw new HttpError(
+      HTTP.statusCodes.Forbidden,
+      `Basic authentication failed`
+    );
+  }
+}
+

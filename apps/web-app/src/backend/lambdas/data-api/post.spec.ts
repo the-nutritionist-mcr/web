@@ -3,7 +3,7 @@ import { handler } from './post';
 
 import { mockClient } from 'aws-sdk-client-mock';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
-import { authorise } from './authorise';
+import { authoriseJwt } from './authorise';
 import { v4 } from 'uuid';
 import { APIGatewayProxyEventV2 } from 'aws-lambda';
 import { HTTP } from '../../../infrastructure/constants';
@@ -23,7 +23,7 @@ beforeEach(() => {
 describe('the get handler', () => {
   it('returns a response with the statuscode from the error when an httpError is thrown by authorise', async () => {
     jest
-      .mocked(authorise)
+      .mocked(authoriseJwt)
       .mockRejectedValue(new HttpError(HTTP.statusCodes.Forbidden, 'oh no!'));
 
     process.env['DYNAMODB_TABLE'] = 'foo-table';

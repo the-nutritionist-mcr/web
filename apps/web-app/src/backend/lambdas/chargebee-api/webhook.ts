@@ -6,6 +6,8 @@ import { returnErrorResponse } from '../data-api/return-error-response';
 import { ENV, HTTP } from '@tnmw/constants';
 import { handleCustomerCreatedEvent } from './event-handlers/customer-created';
 import { handleSubscriptionCreatedEvent } from './event-handlers/subscription-created';
+import { authoriseBasic } from '../data-api/authorise';
+import { getEnv } from './get-env';
 
 const chargebee = new ChargeBee();
 
@@ -14,35 +16,13 @@ chargebee.configure({
   api_key: process.env[ENV.varNames.ChargeBeeToken],
 });
 
-const decodeBasicAuth = (authHeaderValue: string) => {
-  const base64Encoded = authHeaderValue.split(' ')[1];
-  const parts = Buffer.from(base64Encoded, 'base64')
-    .toString('utf8')
-    .split(':');
-
-  return {
-    username: parts[0],
-    password: parts[1],
-  };
-};
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
-    const credentials = decodeBasicAuth(
-      event.headers[HTTP.headerNames.Authorization]
-    );
+    const username = getEnv(ENV.varNames.ChargeBeeWebhookUsername)
+    const password = getEnv(ENV.varNames.ChargeBeeWebhookPasssword)
 
-    const basicUsername = process.env[ENV.varNames.ChargeBeeWebhookUsername];
-    const basicPassword = process.env[ENV.varNames.ChargeBeeWebhookPasssword];
-
-    if (
-      credentials.username !== basicUsername ||
-      credentials.password !== basicPassword
-    ) {
-      return {
-        statusCode: HTTP.statusCodes.Forbidden,
-      };
-    }
+    authoriseBasic(event, username, password)
 
     const chargebeeEvent = chargebee.event.deserialize(event.body);
 
@@ -61,10 +41,18 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     switch (chargebeeEvent.event_type) {
       case 'customer_created':
-        return handleCustomerCreatedEvent(chargebee, chargebeeEvent);
+        await handleCustomerCreatedEvent(chargebee, chargebeeEvent);
+        break;
+
       case 'subscription_created':
-        return handleSubscriptionCreatedEvent(chargebee, chargebeeEvent);
+        await handleSubscriptionCreatedEvent(chargebee, chargebeeEvent);
+        break;
     }
+
+    return {
+      statusCode: HTTP.statusCodes.Ok,
+    };
+
   } catch (error) {
     return returnErrorResponse(error);
   }

@@ -119,9 +119,9 @@ describe('the webhook handler', () => {
 
     expect(calls).toHaveLength(0);
 
-    expect(response).toStrictEqual({
+    expect(response).toStrictEqual(expect.objectContaining({
       statusCode: HTTP.statusCodes.Forbidden,
-    });
+    }));
   });
 
   it('returns 200 but does nothing if non production and not @thenutritionistmcr.com', async () => {

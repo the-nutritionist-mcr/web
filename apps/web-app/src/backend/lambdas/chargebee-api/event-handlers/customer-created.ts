@@ -67,8 +67,4 @@ export const handleCustomerCreatedEvent = async (
     const changeCommand = new AdminSetUserPasswordCommand(params);
     await client.send(changeCommand);
   }
-
-  return {
-    statusCode: HTTP.statusCodes.Ok,
-  };
 };

@@ -3,7 +3,7 @@ import {
   AdminUpdateUserAttributesCommandInput,
   CognitoIdentityProviderClient,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { DYNAMO, ENV, HTTP } from '@tnmw/constants';
+import { DYNAMO, ENV } from '@tnmw/constants';
 import { ChargeBee } from 'chargebee-typescript';
 import { getPlans } from '../get-plans';
 
@@ -43,8 +43,4 @@ export const handleSubscriptionCreatedEvent = async (
   const cognito = new CognitoIdentityProviderClient({});
 
   await cognito.send(command);
-
-  return {
-    statusCode: HTTP.statusCodes.Ok,
-  };
 };

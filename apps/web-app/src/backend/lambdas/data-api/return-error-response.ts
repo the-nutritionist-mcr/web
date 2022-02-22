@@ -2,8 +2,7 @@ import { HTTP } from '../../../infrastructure/constants';
 import { HttpError } from './http-error';
 
 export const returnErrorResponse = (error: Error) => {
-  const stack =
-    process.env['ENVIRONMENT_NAME'] === 'prod' ? {} : { stack: error.stack };
+  const stack = false ? {} : { stack: error.stack };
 
   const statusCode =
     error instanceof HttpError
