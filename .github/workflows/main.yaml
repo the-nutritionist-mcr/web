@@ -24,6 +24,7 @@ jobs:
           - authorise-cognito-jwt
           - planner
           - seed-cognito
+          - constants
 
         target:
           - test
