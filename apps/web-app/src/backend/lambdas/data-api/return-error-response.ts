@@ -1,4 +1,4 @@
-import { HTTP } from '../../../infrastructure/constants';
+import { HTTP } from "@tnmw/constants"
 import { HttpError } from './http-error';
 
 export const returnErrorResponse = (error: Error) => {
@@ -14,8 +14,8 @@ export const returnErrorResponse = (error: Error) => {
     body: JSON.stringify({ error: error.message, ...stack }),
     statusCode,
     headers: {
-      'access-control-allow-origin': '*',
-      'access-control-allow-headers': '*',
+      [HTTP.headerNames.AccessControlAllowOrigin]: '*',
+      [HTTP.headerNames.AccessControlAllowHeaders]: '*',
     },
   };
 };

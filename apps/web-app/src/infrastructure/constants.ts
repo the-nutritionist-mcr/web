@@ -48,6 +48,8 @@ export const HTTP = {
     XAmxDate: 'X-Amz-Date',
     Authorization: 'Authorization',
     XApiKey: 'X-Api-Key',
+    AccessControlAllowOrigin: 'access-control-allow-origin',
+    AccessControlAllowHeaders: 'access-control-allow-headers',
   },
   verbs: {
     Post: 'POST',
