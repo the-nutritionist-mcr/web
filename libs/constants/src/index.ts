@@ -107,8 +107,8 @@ export const DYNAMO = {
     City: 'city',
     Postcode: 'postcode',
     Country: 'country',
-    CustomerUpdateTimestamp: 'customerUpdateTimestamp',
-    SubscriptionUpdateTimestamp: 'subscriptionUpdateTimestamp',
+    CustomerUpdateTimestamp: 'cxUpdateTime',
+    SubscriptionUpdateTimestamp: 'subUpdateTime',
   },
 
   standardAttributes: {
