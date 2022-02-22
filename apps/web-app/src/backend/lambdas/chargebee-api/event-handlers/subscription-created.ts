@@ -33,7 +33,7 @@ export const handleSubscriptionCreatedEvent = async (
       },
       {
         Name: `custom:${DYNAMO.customAttributes.SubscriptionUpdateTimestamp}`,
-        Value: String(new Date().getTime() / 1000),
+        Value: String(Date.now() / 1000),
       },
     ],
   };

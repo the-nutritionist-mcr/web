@@ -91,7 +91,7 @@ export const createUser = async ({
       },
       {
         Name: `custom:${DYNAMO.customAttributes.CustomerUpdateTimestamp}`,
-        Value: String(new Date().getTime() / 1000),
+        Value: String(Date.now() / 1000),
       },
       {
         Name: `custom:${DYNAMO.customAttributes.ChargebeeId}`,
