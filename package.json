@@ -153,7 +153,7 @@
     "eslint-plugin-react": "7.26.1",
     "eslint-plugin-react-hooks": "4.3.0",
     "jest": "27.4.7",
-    "prettier": "^2.3.1",
+    "prettier": "^2.5.1",
     "react-test-renderer": "17.0.2",
     "ts-jest": "27.0.5",
     "tsconfig-paths": "^3.12.0",

@@ -47,47 +47,47 @@ export const createUser = async ({
     UserAttributes: [
       {
         Name: `custom:${DYNAMO.customAttributes.City}`,
-        Value: city,
+        Value: city ?? '',
       },
       {
         Name: `custom:${DYNAMO.customAttributes.Country}`,
-        Value: country,
+        Value: country ?? '',
       },
       {
         Name: `custom:${DYNAMO.customAttributes.Postcode}`,
-        Value: postcode,
+        Value: postcode ?? '',
       },
       {
         Name: DYNAMO.standardAttributes.phone,
-        Value: phone,
+        Value: phone ?? '',
       },
       {
         Name: `custom:${DYNAMO.customAttributes.AddressLine1}`,
-        Value: address1,
+        Value: address1 ?? '',
       },
       {
         Name: `custom:${DYNAMO.customAttributes.AddressLine2}`,
-        Value: address2,
+        Value: address2 ?? '',
       },
       {
         Name: `custom:${DYNAMO.customAttributes.AddressLine3}`,
-        Value: address3,
+        Value: address3 ?? '',
       },
       {
         Name: `custom:${DYNAMO.customAttributes.ProfileNotes}`,
-        Value: profileNotes,
+        Value: profileNotes ?? '',
       },
       {
         Name: `custom:${DYNAMO.customAttributes.DeliveryDay1}`,
-        Value: delivery1,
+        Value: delivery1 ?? '',
       },
       {
         Name: `custom:${DYNAMO.customAttributes.DeliveryDay2}`,
-        Value: delivery2,
+        Value: delivery2 ?? '',
       },
       {
         Name: `custom:${DYNAMO.customAttributes.DeliveryDay3}`,
-        Value: delivery3,
+        Value: delivery3 ?? '',
       },
       {
         Name: `custom:${DYNAMO.customAttributes.CustomerUpdateTimestamp}`,
