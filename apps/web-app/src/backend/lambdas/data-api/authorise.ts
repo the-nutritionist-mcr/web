@@ -52,20 +52,15 @@ export const authoriseBasic = (
   event: APIGatewayProxyEventV2,
   username: string,
   password: string
-) =>  {
-    const credentials = decodeBasicAuth(
-      event.headers[HTTP.headerNames.Authorization]
-    );
+) => {
+  const credentials = decodeBasicAuth(
+    event.headers[HTTP.headerNames.Authorization]
+  );
 
-    if (
-      credentials.username !== username ||
-      credentials.password !== password
-    ) {
-
+  if (credentials.username !== username || credentials.password !== password) {
     throw new HttpError(
       HTTP.statusCodes.Forbidden,
       `Basic authentication failed`
     );
   }
-}
-
+};

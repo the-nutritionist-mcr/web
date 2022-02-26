@@ -5,7 +5,7 @@ import {
   AdminCreateUserCommand,
   AdminCreateUserCommandInput,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { transformPhoneNumberToCognitoFormat } from "../transform-phone-number"
+import { transformPhoneNumberToCognitoFormat } from '../transform-phone-number';
 
 export const createUser = async ({
   phone,

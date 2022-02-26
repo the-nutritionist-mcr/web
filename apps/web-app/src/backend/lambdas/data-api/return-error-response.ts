@@ -1,4 +1,4 @@
-import { HTTP } from "@tnmw/constants"
+import { HTTP } from '@tnmw/constants';
 import { HttpError } from './http-error';
 
 export const returnErrorResponse = (error: Error) => {
@@ -10,7 +10,7 @@ export const returnErrorResponse = (error: Error) => {
       ? error.statusCode
       : HTTP.statusCodes.InternalServerError;
 
-  console.log(error)
+  console.log(error);
 
   return {
     body: JSON.stringify({ error: error.message, ...stack }),

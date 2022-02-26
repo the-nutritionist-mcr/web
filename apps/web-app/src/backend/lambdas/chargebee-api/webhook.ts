@@ -16,17 +16,16 @@ chargebee.configure({
   api_key: process.env[ENV.varNames.ChargeBeeToken],
 });
 
-
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
-    const username = getEnv(ENV.varNames.ChargeBeeWebhookUsername)
-    const password = getEnv(ENV.varNames.ChargeBeeWebhookPasssword)
+    const username = getEnv(ENV.varNames.ChargeBeeWebhookUsername);
+    const password = getEnv(ENV.varNames.ChargeBeeWebhookPasssword);
 
-    authoriseBasic(event, username, password)
+    authoriseBasic(event, username, password);
 
     const chargebeeEvent = chargebee.event.deserialize(event.body);
 
-    const { email } = chargebeeEvent.content.customer;
+    const { email } = chargebeeEvent.content['customer'];
 
     const environment = process.env[ENV.varNames.EnvironmentName];
 
@@ -45,6 +44,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         break;
 
       case 'subscription_created':
+      case 'subscription_changed':
         await handleSubscriptionCreatedEvent(chargebee, chargebeeEvent);
         break;
     }
@@ -52,7 +52,6 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     return {
       statusCode: HTTP.statusCodes.Ok,
     };
-
   } catch (error) {
     return returnErrorResponse(error);
   }

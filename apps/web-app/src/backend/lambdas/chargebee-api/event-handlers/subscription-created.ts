@@ -14,14 +14,9 @@ export const handleSubscriptionCreatedEvent = async (
   const poolId = process.env[ENV.varNames.CognitoPoolId];
   const { id } = event.content.customer;
 
-  const subItems = event.content.subscription.subscription_items.map(
-    ({ item_type, item_price_id }) => ({
-      item_type,
-      item_price_id,
-    })
-  );
+  const subscription = event.content.subscription
 
-  const plans = await getPlans(client, subItems);
+  const plans = await getPlans(client, subscription);
 
   const input: AdminUpdateUserAttributesCommandInput = {
     UserPoolId: poolId,
