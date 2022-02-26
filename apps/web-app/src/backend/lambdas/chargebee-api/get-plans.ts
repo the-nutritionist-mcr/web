@@ -19,7 +19,7 @@ export const getPlans = async (
       .filter((item) => item.item_type === CHARGEBEE.itemTypes.plan)
       .map(async (item) => {
         const itemPriceResult = await client.item_price
-          .retrieve(item[0].item_price_id)
+          .retrieve(item.item_price_id)
           .request();
 
         const itemPrice = itemPriceResult.item_price;
