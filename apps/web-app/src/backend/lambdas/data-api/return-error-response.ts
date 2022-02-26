@@ -10,6 +10,8 @@ export const returnErrorResponse = (error: Error) => {
       ? error.statusCode
       : HTTP.statusCodes.InternalServerError;
 
+  console.log(error)
+
   return {
     body: JSON.stringify({ error: error.message, ...stack }),
     statusCode,
