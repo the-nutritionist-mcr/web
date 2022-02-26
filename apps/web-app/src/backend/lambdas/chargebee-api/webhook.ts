@@ -44,6 +44,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         break;
 
       case 'subscription_created':
+      case 'subscription_started':
       case 'subscription_renewed':
       case 'subscription_deleted':
       case 'subscription_resumed':
