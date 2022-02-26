@@ -601,7 +601,7 @@ describe('the webhook handler', () => {
         },
         {
           Name: DYNAMO.standardAttributes.phone,
-          Value: `07462699468`,
+          Value: `+447462699468`,
         },
         {
           Name: `custom:${DYNAMO.customAttributes.AddressLine1}`,
@@ -782,7 +782,7 @@ describe('the webhook handler', () => {
         },
         {
           Name: DYNAMO.standardAttributes.phone,
-          Value: `07462699468`,
+          Value: `+447462699468`,
         },
         {
           Name: `custom:${DYNAMO.customAttributes.AddressLine1}`,

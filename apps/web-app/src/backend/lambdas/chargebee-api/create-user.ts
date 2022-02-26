@@ -5,6 +5,7 @@ import {
   AdminCreateUserCommand,
   AdminCreateUserCommandInput,
 } from '@aws-sdk/client-cognito-identity-provider';
+import { transformPhoneNumberToCognitoFormat } from "../transform-phone-number"
 
 export const createUser = async ({
   phone,
@@ -59,7 +60,7 @@ export const createUser = async ({
       },
       {
         Name: DYNAMO.standardAttributes.phone,
-        Value: phone ?? '',
+        Value: transformPhoneNumberToCognitoFormat(phone ?? ''),
       },
       {
         Name: `custom:${DYNAMO.customAttributes.AddressLine1}`,
