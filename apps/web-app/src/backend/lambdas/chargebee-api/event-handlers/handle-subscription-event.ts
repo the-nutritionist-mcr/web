@@ -7,7 +7,7 @@ import { DYNAMO, ENV } from '@tnmw/constants';
 import { ChargeBee } from 'chargebee-typescript';
 import { getPlans } from '../get-plans';
 
-export const handleSubscriptionCreatedEvent = async (
+export const handleSubscriptionEvent = async (
   client: ChargeBee,
   event: ReturnType<typeof client.event.deserialize>
 ) => {

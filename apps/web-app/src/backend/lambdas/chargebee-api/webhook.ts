@@ -4,8 +4,8 @@ import { ChargeBee } from 'chargebee-typescript';
 import { returnErrorResponse } from '../data-api/return-error-response';
 
 import { ENV, HTTP } from '@tnmw/constants';
-import { handleCustomerCreatedEvent } from './event-handlers/customer-created';
-import { handleSubscriptionCreatedEvent } from './event-handlers/subscription-created';
+import { handleCustomerCreatedEvent } from './event-handlers/handle-customer-created-event';
+import { handleSubscriptionEvent } from './event-handlers/handle-subscription-event';
 import { authoriseBasic } from '../data-api/authorise';
 import { getEnv } from './get-env';
 
@@ -51,7 +51,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       case 'subscription_activated':
       case 'subscription_cancelled':
       case 'subscription_changed':
-        await handleSubscriptionCreatedEvent(chargebee, chargebeeEvent);
+        await handleSubscriptionEvent(chargebee, chargebeeEvent);
         break;
     }
 
