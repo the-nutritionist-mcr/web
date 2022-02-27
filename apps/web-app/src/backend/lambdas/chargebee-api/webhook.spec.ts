@@ -1019,10 +1019,6 @@ describe('the webhook handler', () => {
           Value: String(now / 1000),
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.ChargebeeId}`,
-          Value: testCustomerId,
-        },
-        {
           Name: DYNAMO.standardAttributes.email,
           Value: testEmail,
         },

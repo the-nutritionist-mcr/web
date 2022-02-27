@@ -10,6 +10,7 @@ export const IAM = {
 } as const;
 
 export const TNM_WEB_LOCALSTORAGE_KEY = 'tnm-web-cache';
+export const TNM_WEB_SIGNED_IN_USER_KEY = 'tnm-web-signed-in-user';
 
 export const NODE_OPTS = {
   EnableSourceMaps: '--enable-source-maps',

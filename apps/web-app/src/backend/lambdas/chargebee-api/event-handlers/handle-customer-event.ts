@@ -39,6 +39,12 @@ export const handleCustomerEvent = async (
     zip: postcode,
   } = billing_address ?? {};
 
+  const hasChargebeeId = event.event_type === "customer_created" ? 
+      [{
+        Name: `custom:${DYNAMO.customAttributes.ChargebeeId}`,
+        Value: id,
+      }] : []
+
   const input: AdminUpdateUserAttributesCommandInput = {
     UserPoolId: poolId,
     Username: id,
@@ -91,10 +97,7 @@ export const handleCustomerEvent = async (
         Name: `custom:${DYNAMO.customAttributes.CustomerUpdateTimestamp}`,
         Value: String(Date.now() / 1000),
       },
-      {
-        Name: `custom:${DYNAMO.customAttributes.ChargebeeId}`,
-        Value: id,
-      },
+      ...hasChargebeeId,
       {
         Name: DYNAMO.standardAttributes.email,
         Value: email,

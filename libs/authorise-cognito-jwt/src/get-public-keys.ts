@@ -24,7 +24,9 @@ interface MapOfKidToPublicKey {
 let cacheKeys: MapOfKidToPublicKey | undefined;
 export const getPublicKeys = async (): Promise<MapOfKidToPublicKey> => {
   if (!cacheKeys) {
-    const url = `${getIssuer()}/.well-known/jwks.json`;
+    const issuer = getIssuer();
+    const url = `${issuer}/.well-known/jwks.json`;
+    console.log(url);
     const publicKeys = await Axios.default.get<PublicKeys>(url);
     // eslint-disable-next-line fp/no-mutation
     cacheKeys = publicKeys.data.keys.reduce<MapOfKidToPublicKey>(
