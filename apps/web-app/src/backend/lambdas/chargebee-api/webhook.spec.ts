@@ -229,16 +229,19 @@ describe('the webhook handler', () => {
         totalMeals: 32,
       },
     ];
-    when(jest.mocked(getPlans))
-      .calledWith(expect.anything(), [
-        {
-          item_type: 'plan',
-          item_price_id: mockItemPriceId,
-        },
-      ])
-      .mockResolvedValue(mockPlans);
-
     const testCustomerId = 'test-customer-id';
+    when(jest.mocked(getPlans))
+      .calledWith(expect.anything(), expect.objectContaining({
+        customer_id: testCustomerId,
+        subscription_items: expect.arrayContaining([
+          expect.objectContaining(
+          {
+            item_type: 'plan',
+            item_price_id: mockItemPriceId,
+          }),
+        ]),
+      }))
+      .mockResolvedValue(mockPlans);
 
     const webhookBody = {
       id: 'ev_19ACW8Srxbe2l3cp',
@@ -569,16 +572,20 @@ describe('the webhook handler', () => {
         totalMeals: 8,
       },
     ];
+    const testCustomerId = 'test-customer-id';
     when(jest.mocked(getPlans))
-      .calledWith(expect.anything(), [
-        {
-          item_type: 'plan',
-          item_price_id: mockItemPriceId,
-        },
-      ])
+      .calledWith(expect.anything(), expect.objectContaining({
+        customer_id: testCustomerId,
+        subscription_items: expect.arrayContaining([
+          expect.objectContaining(
+          {
+            item_type: 'plan',
+            item_price_id: mockItemPriceId,
+          }),
+        ]),
+      }))
       .mockResolvedValue(mockPlans);
 
-    const testCustomerId = 'test-customer-id';
     const webhookBody = {
       id: 'ev_19ACW8Srxbe2l3cp',
       occurred_at: 1639842412,

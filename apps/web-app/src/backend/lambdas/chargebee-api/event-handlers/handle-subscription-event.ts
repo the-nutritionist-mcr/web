@@ -14,7 +14,7 @@ export const handleSubscriptionEvent = async (
   const poolId = process.env[ENV.varNames.CognitoPoolId];
   const { id } = event.content.customer;
 
-  const subscription = event.content.subscription
+  const subscription = event.content.subscription;
 
   const plans = await getPlans(client, subscription);
 
