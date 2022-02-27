@@ -231,16 +231,18 @@ describe('the webhook handler', () => {
     ];
     const testCustomerId = 'test-customer-id';
     when(jest.mocked(getPlans))
-      .calledWith(expect.anything(), expect.objectContaining({
-        customer_id: testCustomerId,
-        subscription_items: expect.arrayContaining([
-          expect.objectContaining(
-          {
-            item_type: 'plan',
-            item_price_id: mockItemPriceId,
-          }),
-        ]),
-      }))
+      .calledWith(
+        expect.anything(),
+        expect.objectContaining({
+          customer_id: testCustomerId,
+          subscription_items: expect.arrayContaining([
+            expect.objectContaining({
+              item_type: 'plan',
+              item_price_id: mockItemPriceId,
+            }),
+          ]),
+        })
+      )
       .mockResolvedValue(mockPlans);
 
     const webhookBody = {
@@ -574,16 +576,18 @@ describe('the webhook handler', () => {
     ];
     const testCustomerId = 'test-customer-id';
     when(jest.mocked(getPlans))
-      .calledWith(expect.anything(), expect.objectContaining({
-        customer_id: testCustomerId,
-        subscription_items: expect.arrayContaining([
-          expect.objectContaining(
-          {
-            item_type: 'plan',
-            item_price_id: mockItemPriceId,
-          }),
-        ]),
-      }))
+      .calledWith(
+        expect.anything(),
+        expect.objectContaining({
+          customer_id: testCustomerId,
+          subscription_items: expect.arrayContaining([
+            expect.objectContaining({
+              item_type: 'plan',
+              item_price_id: mockItemPriceId,
+            }),
+          ]),
+        })
+      )
       .mockResolvedValue(mockPlans);
 
     const webhookBody = {
@@ -825,6 +829,217 @@ describe('the webhook handler', () => {
     };
 
     const response = await handler(mockEvent, mock(), mock());
+
+    const calls = cognitoMock.commandCalls(
+      // TODO raise bug report on aws-sdk-client-mock repo for this type error
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      AdminUpdateUserAttributesCommand as any,
+      input
+    );
+
+    expect(calls).toHaveLength(1);
+
+    expect(response).toStrictEqual({
+      statusCode: 200,
+    });
+  });
+
+  it('updates the customer when customer is changed', async () => {
+    /* eslint-disable unicorn/numeric-separators-style */
+
+    const testCustomerId = 'test-customer-id';
+    const testEmail = 'ben+test@thenutritionistmcr.com';
+
+    const basicAuthUser = 'test-user';
+    const basicAuthPassword = 'test-password';
+
+    process.env[ENV.varNames.ChargeBeeWebhookUsername] = basicAuthUser;
+    process.env[ENV.varNames.ChargeBeeWebhookPasssword] = basicAuthPassword;
+    process.env[ENV.varNames.EnvironmentName] = 'prod';
+
+    const encodedBasicAuth = Buffer.from(
+      `${basicAuthUser}:${basicAuthPassword}`
+    ).toString('base64');
+
+    // Webhook sample comes from pressing the 'test webhook' button in the console
+    const webhookBody = {
+      id: 'ev_19ACW8Srxbe2l3cp',
+      occurred_at: 1639842412,
+      source: 'admin_console',
+      user: 'lawrence@thenutritionistmcr.com',
+      object: 'event',
+      api_version: 'v2',
+      content: {
+        customer: {
+          id: testCustomerId,
+          first_name: 'Ben',
+          last_name: 'Wainwright',
+          email: testEmail,
+          phone: '07462699468',
+          company: 'Company',
+          auto_collection: 'on',
+          net_term_days: 0,
+          allow_direct_debit: false,
+          created_at: 1645895214,
+          taxability: 'taxable',
+          updated_at: 1645957670,
+          pii_cleared: 'active',
+          channel: 'web',
+          resource_version: 1645957670144,
+          deleted: false,
+          object: 'customer',
+          billing_address: {
+            first_name: 'Ben',
+            last_name: 'Wainwright',
+            email: testEmail,
+            company: 'The Nutritionist Manchester',
+            phone: '+4407462699468',
+            line1: '14 Wadlow Close',
+            line2: 'another line',
+            line3: 'final line',
+            city: 'Salford',
+            country: 'GB',
+            zip: 'M3 6WD',
+            validation_status: 'not_validated',
+            object: 'billing_address',
+          },
+          card_status: 'valid',
+          promotional_credits: 0,
+          refundable_credits: 0,
+          excess_payments: 0,
+          unbilled_charges: 0,
+          preferred_currency_code: 'GBP',
+          mrr: 0,
+          primary_payment_source_id: 'pm_19ACbkSyZT5Lx4SY',
+          payment_method: {
+            object: 'payment_method',
+            type: 'card',
+            reference_id: 'tok_19ACbkSyZT5Ll4SX',
+            gateway: 'chargebee',
+            gateway_account_id: 'gw_199LVfSrH8SXXo',
+            status: 'valid',
+          },
+          cf_customer_profile_notes: 'some notes',
+          cf_cook_1_delivery_day: 'Thursday',
+          cf_cook_2_delivery_day: 'Tuesday',
+          cf_cook_3_delivery_day: 'Wednesday',
+        },
+        card: {
+          status: 'valid',
+          gateway: 'chargebee',
+          gateway_account_id: 'gw_199LVfSrH8SXXo',
+          first_name: 'Ben',
+          last_name: 'Wainwright',
+          iin: '411111',
+          last4: '1111',
+          card_type: 'visa',
+          funding_type: 'credit',
+          expiry_month: 12,
+          expiry_year: 2023,
+          created_at: 1645898670,
+          updated_at: 1645898670,
+          resource_version: 1645898670130,
+          object: 'card',
+          masked_number: '************1111',
+          customer_id: 'test',
+          payment_source_id: 'pm_19ACbkSyZT5Lx4SY',
+        },
+      },
+      event_type: 'customer_changed',
+      webhook_status: 'not_configured',
+    };
+    /* eslint-enable/numeric-separators-style */
+
+    const now = new Date('2020-01-01').getTime();
+
+    jest.useFakeTimers().setSystemTime(now);
+
+    const mockEvent = mock<APIGatewayProxyEventV2>();
+
+    mockEvent.body = JSON.stringify(webhookBody);
+    mockEvent.headers = {
+      [HTTP.headerNames.Authorization]: `Basic ${encodedBasicAuth}`,
+    };
+
+    process.env[ENV.varNames.CognitoPoolId] = 'test-pool-id';
+
+    const response = await handler(mockEvent, mock(), mock());
+
+    const input: AdminUpdateUserAttributesCommandInput = {
+      UserPoolId: 'test-pool-id',
+      Username: testCustomerId,
+
+      UserAttributes: [
+        {
+          Name: `custom:${DYNAMO.customAttributes.City}`,
+          Value: `Salford`,
+        },
+        {
+          Name: `custom:${DYNAMO.customAttributes.Country}`,
+          Value: `GB`,
+        },
+        {
+          Name: `custom:${DYNAMO.customAttributes.Postcode}`,
+          Value: `M3 6WD`,
+        },
+        {
+          Name: DYNAMO.standardAttributes.phone,
+          Value: `+447462699468`,
+        },
+        {
+          Name: `custom:${DYNAMO.customAttributes.AddressLine1}`,
+          Value: `14 Wadlow Close`,
+        },
+        {
+          Name: `custom:${DYNAMO.customAttributes.AddressLine2}`,
+          Value: `another line`,
+        },
+        {
+          Name: `custom:${DYNAMO.customAttributes.AddressLine3}`,
+          Value: `final line`,
+        },
+        {
+          Name: `custom:${DYNAMO.customAttributes.ProfileNotes}`,
+          Value: `some notes`,
+        },
+        {
+          Name: `custom:${DYNAMO.customAttributes.DeliveryDay1}`,
+          Value: `Thursday`,
+        },
+        {
+          Name: `custom:${DYNAMO.customAttributes.DeliveryDay2}`,
+          Value: `Tuesday`,
+        },
+        {
+          Name: `custom:${DYNAMO.customAttributes.DeliveryDay3}`,
+          Value: `Wednesday`,
+        },
+        {
+          Name: `custom:${DYNAMO.customAttributes.CustomerUpdateTimestamp}`,
+          Value: String(now / 1000),
+        },
+        {
+          Name: `custom:${DYNAMO.customAttributes.ChargebeeId}`,
+          Value: testCustomerId,
+        },
+        {
+          Name: DYNAMO.standardAttributes.email,
+          Value: testEmail,
+        },
+        {
+          Name: DYNAMO.standardAttributes.emailVerified,
+          Value: `true`,
+        },
+        {
+          Name: DYNAMO.standardAttributes.firstName,
+          Value: `Ben`,
+        },
+        {
+          Name: DYNAMO.standardAttributes.surname,
+          Value: `Wainwright`,
+        },
+      ],
+    };
 
     const calls = cognitoMock.commandCalls(
       // TODO raise bug report on aws-sdk-client-mock repo for this type error

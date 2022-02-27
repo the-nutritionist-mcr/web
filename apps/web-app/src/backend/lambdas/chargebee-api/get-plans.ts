@@ -15,7 +15,6 @@ export const getPlans = async (
   client: ChargeBee,
   subscription: Subscription
 ) => {
-
   const response = await client.subscription
     .list({
       customer_id: { is: subscription.customer_id },
