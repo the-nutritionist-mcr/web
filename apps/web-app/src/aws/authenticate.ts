@@ -3,6 +3,7 @@ import { getPoolConfig } from './get-pool-config';
 
 const REGION = 'eu-west-2';
 
+
 type ExtractPromiseType<T> = T extends Promise<infer RT> ? RT : never;
 
 const getConfigurer = () => {

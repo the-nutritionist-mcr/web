@@ -7,7 +7,7 @@ import { Hub } from 'aws-amplify';
 
 import AccountIcon from '../images/TNM_Icons_Final_Account.png';
 import styled from '@emotion/styled';
-import { authorizedRoute } from '../utils/authorised-route';
+import { authorizedRoute, AuthorizedRouteProps } from '../utils/authorised-route';
 
 const YourAccountHeaderBox = styled('div')`
   text-align: center;
@@ -40,33 +40,7 @@ interface Me {
   postcode: string;
 }
 
-const AccountPage: FC = () => {
-  const [me, setMe] = useState<Me | undefined>()
-
-  useEffect(() => {
-    (async () => {
-      const user = await currentUser()
-      setMe({
-        first_name: user.attributes[DYNAMO.standardAttributes.firstName],
-        last_name: user.attributes[DYNAMO.standardAttributes.surname],
-        email: user.attributes[DYNAMO.standardAttributes.email],
-        address_line1: user.attributes[DYNAMO.customAttributes.AddressLine1],
-        address_line2: user.attributes[DYNAMO.customAttributes.AddressLine2],
-        address_line3: user.attributes[DYNAMO.customAttributes.AddressLine3],
-        city: user.attributes[DYNAMO.customAttributes.City],
-        country: user.attributes[DYNAMO.customAttributes.Country],
-        phone: user.attributes[DYNAMO.standardAttributes.phone],
-        postcode: user.attributes[DYNAMO.customAttributes.Postcode],
-      });
-
-    Hub.listen('auth', (data) => {
-      if(data.payload.event === "signOut") {
-        setMe(undefined)
-      }
-    })
-    })()
-});
-
+const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
 
   return (
     <>
@@ -82,22 +56,9 @@ const AccountPage: FC = () => {
         </YourAccountHeaderBox>
       </Hero>
       <h2>You are logged in</h2>
-      {me && (
-        <Account
-          userDetails={{
-            firstName: me.first_name,
-            lastName: me.last_name,
-            email: me.email,
-            contactNumber: me.phone,
-            addressLine1: me.address_line1,
-            addressLine2: me.address_line2,
-            addressLine3: me.address_line3,
-            city: me.city,
-            country: me.country,
-            postcode: me.postcode,
-          }}
-        />
-      )}
+      <Account
+        userDetails={user}
+      />
       <Button
         onClick={async () => {
           await signOut();

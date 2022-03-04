@@ -1,4 +1,4 @@
-export const DYNAMO = {
+export const COGNITO = {
   customAttributes: {
     ChargebeeId: 'chargebeeId',
     UserCustomisations: 'userCustomisations',

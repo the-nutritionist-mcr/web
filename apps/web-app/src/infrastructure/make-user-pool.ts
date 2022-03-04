@@ -155,5 +155,5 @@ export const makeUserPool = (
     precedence: 0,
   });
 
-  return { userPool };
+  return { userPool, client };
 };

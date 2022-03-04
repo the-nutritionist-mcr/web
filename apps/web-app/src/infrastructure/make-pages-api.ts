@@ -7,7 +7,7 @@ import {
   RestApi,
 } from '@aws-cdk/aws-apigateway';
 import { HttpOrigin } from '@aws-cdk/aws-cloudfront-origins';
-import { UserPool } from '@aws-cdk/aws-cognito';
+import { IUserPoolClient, IUserPool } from '@aws-cdk/aws-cognito';
 import { Code, LayerVersion, Function, Runtime } from '@aws-cdk/aws-lambda';
 import * as cdk from '@aws-cdk/core';
 import * as fs from 'fs-extra';
@@ -19,7 +19,8 @@ export const makePagesApi = (
   outLambda: string,
   envName: string,
   dotNextFolder: string,
-  pool: UserPool
+  pool: IUserPool,
+  poolClient: IUserPoolClient
 ) => {
   const awsNextLayer = new LayerVersion(context, 'aws-next-layer', {
     code: Code.fromAsset(path.resolve(outLambda, 'layer')),
@@ -62,6 +63,7 @@ export const makePagesApi = (
       code: Code.fromAsset(buildDir),
       layers: [awsNextLayer],
       environment: {
+        COGNITO_POOL_CLIENT_ID: poolClient.userPoolClientId,
         COGNITO_POOL_ID: pool.userPoolId,
       },
     });

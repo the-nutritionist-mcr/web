@@ -2,7 +2,7 @@ export { CHARGEBEE } from "./lib/chargebee"
 export { IAM } from "./lib/iam"
 export { ENV } from "./lib/env"
 export { HTTP } from "./lib/http"
-export { DYNAMO } from "./lib/dynamo"
+export { COGNITO } from "./lib/cognito"
 
 export const E2E = {
   testEmail: 'ben+e2etesting@thenutritionistmcr.com',

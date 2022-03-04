@@ -25,7 +25,7 @@ class AppStack extends Stack {
 
     const transient = props.envName !== 'prod';
 
-    const { userPool } = makeUserPool(this, transient, props.envName);
+    const { userPool, client } = makeUserPool(this, transient, props.envName);
 
     if (transient) {
       new CognitoSeeder(this, `cognito-seeder`, {
