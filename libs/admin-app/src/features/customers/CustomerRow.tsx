@@ -1,7 +1,6 @@
 import { Box, Button, TableCell, TableRow } from "grommet";
 import { Pause, Play, Trash } from "grommet-icons";
 import { OkCancelDialog, PauseDialog } from "../../components";
-import { removeCustomer, updateCustomer } from "./customersSlice";
 import { Link } from "react-router-dom";
 import Customer from "../../domain/Customer";
 import EditCustomerDialog from "./EditCustomerDialog";
@@ -9,7 +8,6 @@ import React from "react";
 import getExtrasString from "../../lib/getExtrasString";
 import getStatusString from "../../lib/getStatusString";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
 import {
   defaultDeliveryDays,
   planLabels,
@@ -30,7 +28,6 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = props => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showPause, setShowPause] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
-  const dispatch = useDispatch();
 
   const nameString = `${props.customer.surname} ${props.customer.firstName} (${props.customer.salutation})`;
   const statusString = React.useMemo(
@@ -75,7 +72,6 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = props => {
             show={showDoDelete}
             header="Are you sure?"
             thing={props.customer}
-            thunk={removeCustomer}
             onOk={(): void => {
               setShowDoDelete(false);
             }}
@@ -109,14 +105,12 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = props => {
                 pauseStart: undefined,
                 pauseEnd: undefined
               };
-              dispatch(updateCustomer(customer));
             }}
           />
           <EditCustomerDialog
             title="Edit Customer"
             customer={props.customer}
             show={showEdit}
-            thunk={updateCustomer}
             onOk={(): void => {
               setShowEdit(false);
             }}

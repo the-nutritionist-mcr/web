@@ -8,27 +8,17 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-  Text,
 } from "grommet";
 import Customer, { Snack } from "../../domain/Customer";
 
 import { daysPerWeekOptions, plans } from "../../lib/config";
 import CustomerRow from "./CustomerRow";
 import EditCustomerDialog from "./EditCustomerDialog";
-import LoadingState from "../../types/LoadingState";
 import React from "react";
-import { Spinning } from "grommet-controls";
-import {
-  allCustomersSelector,
-  createCustomer,
-  currentltActiveCustomersSelector,
-  pausedCustomersSelector,
-} from "./customersSlice";
 import fileDownload from "js-file-download";
 import generateCsvStringFromObjectArray from "../../lib/generateCsvStringFromObjectArray";
-import { loadingSelector } from "../../lib/rootReducer";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Exclusion from "../../domain/Exclusion";
 
 const convertCustomerToSimpleObject = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -39,14 +29,16 @@ const convertCustomerToSimpleObject = (
   exclusions: customer.exclusions.map((exclusion) => exclusion.name).join(","),
 });
 
-const Customers: React.FC = () => {
+interface CustomersProps {
+  customers: Customer[]
+  customisations: Exclusion[]
+}
+
+const Customers: React.FC<CustomersProps> = ({customers, customisations}) => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
 
-  const customers = useSelector(allCustomersSelector);
-  const pausedCustomers = useSelector(pausedCustomersSelector);
-  const activeCustomers = useSelector(currentltActiveCustomersSelector);
+  const exclusions = customisations
 
-  const loading = useSelector(loadingSelector);
   const history = useHistory();
 
   return (
@@ -74,8 +66,8 @@ const Customers: React.FC = () => {
           />
           {showCreateCustomer && (
             <EditCustomerDialog
+              exclusions={exclusions}
               title="Create New Customer"
-              thunk={createCustomer}
               customer={{
                 id: "0",
                 firstName: "",
@@ -101,19 +93,7 @@ const Customers: React.FC = () => {
             />
           )}
         </Box>
-        <Box direction="column" style={{ fontSize: "0.9rem" }}>
-          <Box direction="row" gap="small">
-            Total <strong>{customers.length}</strong>
-          </Box>
-          <Box direction="row" gap="small">
-            Active <strong>{activeCustomers.length}</strong>
-          </Box>
-          <Box direction="row" gap="small">
-            Paused <strong>{pausedCustomers.length}</strong>
-          </Box>
-        </Box>
       </Header>
-      {customers.length > 0 ? (
         <Table alignSelf="start">
           <TableHeader>
             <TableRow>
@@ -150,18 +130,6 @@ const Customers: React.FC = () => {
               ))}
           </TableBody>
         </Table>
-      ) : (
-        <Text>
-          {loading === LoadingState.Loading ? (
-            <Box pad="small">
-              <Spinning size="large" />
-            </Box>
-          ) : (
-            `you've not added any customers yet... Click the 'new'
-          button above to get started!`
-          )}
-        </Text>
-      )}
     </React.Fragment>
   );
 };

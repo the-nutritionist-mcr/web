@@ -14,59 +14,39 @@ import {
   TextArea,
   TextInput,
   ThemeContext,
-} from "grommet";
-import { Checkmark, Close } from "grommet-icons";
-import Customer, { Snack } from "../../domain/Customer";
-import {
-  allExclusionsSelector,
-  fetchExclusions,
-} from "../../features/exclusions/exclusionsSlice";
-import { daysPerWeekOptions, plans } from "../../lib/config";
-import { useDispatch, useSelector } from "react-redux";
-import { ApiRequestFunction } from "../../lib/apiRequestCreator";
-import LoadingState from "../../types/LoadingState";
-import React from "react";
-import { Spinning } from "grommet-controls";
-import { debounce } from "lodash";
-import { loadingSelector } from "../../lib/rootReducer";
+} from 'grommet';
+import { Checkmark, Close } from 'grommet-icons';
+import Customer, { Snack } from '../../domain/Customer';
+import { daysPerWeekOptions, plans } from '../../lib/config';
+import React from 'react';
+import { debounce } from 'lodash';
+import Exclusion from '../../domain/Exclusion';
 
 interface EditCustomerDialogProps {
   customer: Customer;
   show?: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
-  thunk: ApiRequestFunction<Customer>;
   onOk: () => void;
   title: string;
   onCancel: () => void;
+  exclusions: Exclusion[]
 }
 
 const SUBMIT_DEBOUNCE = 500;
 
 const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
-  const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    dispatch(fetchExclusions());
-  }, [dispatch]);
 
   const propsCustomer = {
     ...props.customer,
-    breakfast: props.customer.breakfast ? "Yes" : "No",
+    breakfast: props.customer.breakfast ? 'Yes' : 'No',
   };
 
   const [customer, setCustomer] = React.useState(propsCustomer);
-  const exclusions = useSelector(allExclusionsSelector);
 
-  const isLoading = useSelector(loadingSelector) === LoadingState.Loading;
-  const onSubmit = debounce(async (): Promise<void> => {
-    const submittingCustomer = {
-      ...customer,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      breakfast: (customer.breakfast as any) === "Yes",
-    };
-    await dispatch(props.thunk(submittingCustomer));
-    props.onOk();
-  }, SUBMIT_DEBOUNCE);
+  const isLoading = false;
+
+  const onSubmit = debounce(async (): Promise<void> => {}, SUBMIT_DEBOUNCE);
 
   return props?.show ? (
     <Layer>
@@ -86,7 +66,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
                 nextCustomerData.startDate &&
                 new Date(nextCustomerData.startDate),
               paymentDayOfMonth:
-                nextCustomerData.paymentDayOfMonth === ""
+                nextCustomerData.paymentDayOfMonth === ''
                   ? undefined
                   : nextCustomerData.paymentDayOfMonth,
             };
@@ -106,15 +86,15 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
                 <FormField name="salutation" label="Salutation" required>
                   <Select
                     options={[
-                      "Mr",
-                      "Mrs",
-                      "Miss",
-                      "Ms",
-                      "Mx",
-                      "Master",
-                      "Dr",
-                      "Prof",
-                      "Other",
+                      'Mr',
+                      'Mrs',
+                      'Miss',
+                      'Ms',
+                      'Mx',
+                      'Master',
+                      'Dr',
+                      'Prof',
+                      'Other',
                     ]}
                     name="salutation"
                   />
@@ -164,7 +144,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
                 </FormField>
 
                 <FormField name="breakfast" label="Breakfast">
-                  <Select name="breakfast" options={["Yes", "No"]} />
+                  <Select name="breakfast" options={['Yes', 'No']} />
                 </FormField>
 
                 <FormField name="exclusions" label="Customisations">
@@ -172,7 +152,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
                     multiple
                     closeOnChange={false}
                     name="exclusions"
-                    options={exclusions}
+                    options={props.exclusions}
                     labelKey="name"
                     valueKey="name"
                   />
@@ -224,11 +204,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
           <CardFooter pad="medium" alignSelf="center" justify="center">
             <Button
               icon={
-                isLoading ? (
-                  <Spinning size="small" />
-                ) : (
                   <Checkmark size="small" color="brand" />
-                )
               }
               disabled={isLoading}
               label="Ok"
