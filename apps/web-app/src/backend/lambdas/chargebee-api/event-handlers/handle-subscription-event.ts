@@ -3,7 +3,7 @@ import {
   AdminUpdateUserAttributesCommandInput,
   CognitoIdentityProviderClient,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { DYNAMO, ENV } from '@tnmw/constants';
+import { COGNITO, ENV } from '@tnmw/constants';
 import { ChargeBee } from 'chargebee-typescript';
 import { getPlans } from '../get-plans';
 
@@ -23,11 +23,11 @@ export const handleSubscriptionEvent = async (
     Username: id,
     UserAttributes: [
       {
-        Name: `custom:${DYNAMO.customAttributes.Plans}`,
+        Name: `custom:${COGNITO.customAttributes.Plans}`,
         Value: JSON.stringify(plans),
       },
       {
-        Name: `custom:${DYNAMO.customAttributes.SubscriptionUpdateTimestamp}`,
+        Name: `custom:${COGNITO.customAttributes.SubscriptionUpdateTimestamp}`,
         Value: String(Date.now() / 1000),
       },
     ],

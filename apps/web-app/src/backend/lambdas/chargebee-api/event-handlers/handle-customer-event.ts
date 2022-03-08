@@ -1,11 +1,11 @@
 import {
-    AdminCreateUserCommand,
+  AdminCreateUserCommand,
   AdminSetUserPasswordCommand,
   AdminUpdateUserAttributesCommand,
   AdminUpdateUserAttributesCommandInput,
   CognitoIdentityProviderClient,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { CHARGEBEE, DYNAMO, E2E, ENV } from '@tnmw/constants';
+import { CHARGEBEE, COGNITO, E2E, ENV } from '@tnmw/constants';
 import { ChargeBee, _event } from 'chargebee-typescript';
 import { transformPhoneNumberToCognitoFormat } from '../../transform-phone-number';
 
@@ -39,85 +39,92 @@ export const handleCustomerEvent = async (
     zip: postcode,
   } = billing_address ?? {};
 
-  const hasChargebeeId = event.event_type === "customer_created" ? 
-      [{
-        Name: `custom:${DYNAMO.customAttributes.ChargebeeId}`,
-        Value: id,
-      }] : []
+  const hasChargebeeId =
+    event.event_type === 'customer_created'
+      ? [
+          {
+            Name: `custom:${COGNITO.customAttributes.ChargebeeId}`,
+            Value: id,
+          },
+        ]
+      : [];
 
   const input: AdminUpdateUserAttributesCommandInput = {
     UserPoolId: poolId,
     Username: id,
     UserAttributes: [
       {
-        Name: `custom:${DYNAMO.customAttributes.City}`,
+        Name: `custom:${COGNITO.customAttributes.City}`,
         Value: city ?? '',
       },
       {
-        Name: `custom:${DYNAMO.customAttributes.Country}`,
+        Name: `custom:${COGNITO.customAttributes.Country}`,
         Value: country ?? '',
       },
       {
-        Name: `custom:${DYNAMO.customAttributes.Postcode}`,
+        Name: `custom:${COGNITO.customAttributes.Postcode}`,
         Value: postcode ?? '',
       },
       {
-        Name: DYNAMO.standardAttributes.phone,
+        Name: COGNITO.standardAttributes.phone,
         Value: transformPhoneNumberToCognitoFormat(phone ?? ''),
       },
       {
-        Name: `custom:${DYNAMO.customAttributes.AddressLine1}`,
+        Name: `custom:${COGNITO.customAttributes.AddressLine1}`,
         Value: line1 ?? '',
       },
       {
-        Name: `custom:${DYNAMO.customAttributes.AddressLine2}`,
+        Name: `custom:${COGNITO.customAttributes.AddressLine2}`,
         Value: line2 ?? '',
       },
       {
-        Name: `custom:${DYNAMO.customAttributes.AddressLine3}`,
+        Name: `custom:${COGNITO.customAttributes.AddressLine3}`,
         Value: line3 ?? '',
       },
       {
-        Name: `custom:${DYNAMO.customAttributes.ProfileNotes}`,
+        Name: `custom:${COGNITO.customAttributes.ProfileNotes}`,
         Value: profileNotes ?? '',
       },
       {
-        Name: `custom:${DYNAMO.customAttributes.DeliveryDay1}`,
+        Name: `custom:${COGNITO.customAttributes.DeliveryDay1}`,
         Value: delivery1 ?? '',
       },
       {
-        Name: `custom:${DYNAMO.customAttributes.DeliveryDay2}`,
+        Name: `custom:${COGNITO.customAttributes.DeliveryDay2}`,
         Value: delivery2 ?? '',
       },
       {
-        Name: `custom:${DYNAMO.customAttributes.DeliveryDay3}`,
+        Name: `custom:${COGNITO.customAttributes.DeliveryDay3}`,
         Value: delivery3 ?? '',
       },
       {
-        Name: `custom:${DYNAMO.customAttributes.CustomerUpdateTimestamp}`,
+        Name: `custom:${COGNITO.customAttributes.CustomerUpdateTimestamp}`,
         Value: String(Date.now() / 1000),
       },
       ...hasChargebeeId,
       {
-        Name: DYNAMO.standardAttributes.email,
+        Name: COGNITO.standardAttributes.email,
         Value: email,
       },
       {
-        Name: DYNAMO.standardAttributes.emailVerified,
+        Name: COGNITO.standardAttributes.emailVerified,
         Value: `true`,
       },
       {
-        Name: DYNAMO.standardAttributes.firstName,
+        Name: COGNITO.standardAttributes.firstName,
         Value: first_name,
       },
       {
-        Name: DYNAMO.standardAttributes.surname,
+        Name: COGNITO.standardAttributes.surname,
         Value: last_name,
       },
     ],
   };
 
-  const command = event.event_type === "customer_created" ? new AdminCreateUserCommand(input) : new AdminUpdateUserAttributesCommand(input)
+  const command =
+    event.event_type === 'customer_created'
+      ? new AdminCreateUserCommand(input)
+      : new AdminUpdateUserAttributesCommand(input);
 
   const cognito = new CognitoIdentityProviderClient({});
 

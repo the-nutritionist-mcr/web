@@ -7,7 +7,7 @@ import {
 import { Runtime } from '@aws-cdk/aws-lambda';
 import { CfnOutput, RemovalPolicy, Construct } from '@aws-cdk/core';
 import { getResourceName } from './get-resource-name';
-import { DYNAMO } from '@tnmw/constants';
+import { COGNITO } from '@tnmw/constants';
 import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
 import path from 'node:path';
 
@@ -68,62 +68,62 @@ export const makeUserPool = (
     },
 
     customAttributes: {
-      [DYNAMO.customAttributes.ChargebeeId]: new StringAttribute({
+      [COGNITO.customAttributes.ChargebeeId]: new StringAttribute({
         mutable: false,
       }),
-      [DYNAMO.customAttributes.UserCustomisations]: new StringAttribute({
+      [COGNITO.customAttributes.UserCustomisations]: new StringAttribute({
         mutable: true,
       }),
 
-      [DYNAMO.customAttributes.DeliveryDay1]: new StringAttribute({
+      [COGNITO.customAttributes.DeliveryDay1]: new StringAttribute({
         mutable: true,
       }),
 
-      [DYNAMO.customAttributes.DeliveryDay2]: new StringAttribute({
+      [COGNITO.customAttributes.DeliveryDay2]: new StringAttribute({
         mutable: true,
       }),
 
-      [DYNAMO.customAttributes.DeliveryDay3]: new StringAttribute({
+      [COGNITO.customAttributes.DeliveryDay3]: new StringAttribute({
         mutable: true,
       }),
 
-      [DYNAMO.customAttributes.ProfileNotes]: new StringAttribute({
+      [COGNITO.customAttributes.ProfileNotes]: new StringAttribute({
         mutable: true,
       }),
 
-      [DYNAMO.customAttributes.Plans]: new StringAttribute({
+      [COGNITO.customAttributes.Plans]: new StringAttribute({
         mutable: true,
       }),
 
-      [DYNAMO.customAttributes.AddressLine1]: new StringAttribute({
+      [COGNITO.customAttributes.AddressLine1]: new StringAttribute({
         mutable: true,
       }),
 
-      [DYNAMO.customAttributes.AddressLine2]: new StringAttribute({
+      [COGNITO.customAttributes.AddressLine2]: new StringAttribute({
         mutable: true,
       }),
 
-      [DYNAMO.customAttributes.AddressLine3]: new StringAttribute({
+      [COGNITO.customAttributes.AddressLine3]: new StringAttribute({
         mutable: true,
       }),
 
-      [DYNAMO.customAttributes.City]: new StringAttribute({
+      [COGNITO.customAttributes.City]: new StringAttribute({
         mutable: true,
       }),
 
-      [DYNAMO.customAttributes.Country]: new StringAttribute({
+      [COGNITO.customAttributes.Country]: new StringAttribute({
         mutable: true,
       }),
 
-      [DYNAMO.customAttributes.Postcode]: new StringAttribute({
+      [COGNITO.customAttributes.Postcode]: new StringAttribute({
         mutable: true,
       }),
 
-      [DYNAMO.customAttributes.CustomerUpdateTimestamp]: new StringAttribute({
+      [COGNITO.customAttributes.CustomerUpdateTimestamp]: new StringAttribute({
         mutable: true,
       }),
 
-      [DYNAMO.customAttributes.SubscriptionUpdateTimestamp]:
+      [COGNITO.customAttributes.SubscriptionUpdateTimestamp]:
         new StringAttribute({
           mutable: true,
         }),
