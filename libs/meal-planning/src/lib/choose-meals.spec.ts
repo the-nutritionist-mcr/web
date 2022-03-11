@@ -238,7 +238,7 @@ describe('Choose Meals', () => {
     ];
 
     const customers: Customer[] = [customerOne, customerTwo, customerThree];
-    const dates = [new Date(1630702130000), new Date(1630702130000)];
+    const dates = [new Date(1_630_702_130_000), new Date(1_630_702_130_000)];
     const result = chooseMeals(selection, dates, customers);
 
     expect(result[0].customer).toBe(customerOne);
@@ -262,10 +262,10 @@ describe('Choose Meals', () => {
     const inActiveCustomerTwo = {
       ...customerTwo,
       // 1st of March 2020
-      pauseStart: new Date(1583020800000).toISOString(),
+      pauseStart: new Date(1_583_020_800_000).toISOString(),
 
       // Oct 05 2036
-      pauseEnd: new Date(2106780800000).toISOString(),
+      pauseEnd: new Date(2_106_780_800_000).toISOString(),
     };
 
     const customers: Customer[] = [
@@ -273,7 +273,7 @@ describe('Choose Meals', () => {
       inActiveCustomerTwo,
       customerThree,
     ];
-    const dates = [new Date(1582922930000), new Date(1588103330000)];
+    const dates = [new Date(1_582_922_930_000), new Date(1_588_103_330_000)];
     const result = chooseMeals(selection, dates, customers);
 
     expect(result).toHaveLength(3);
@@ -298,7 +298,7 @@ describe('Choose Meals', () => {
     ];
 
     const customers: Customer[] = [customerOne, customerTwo, customerThree];
-    const dates = [new Date(1630702130000), new Date(1630702130000)];
+    const dates = [new Date(1_630_702_130_000), new Date(1_630_702_130_000)];
     const result = chooseMeals(selection, dates, customers);
 
     expect(
@@ -327,7 +327,7 @@ describe('Choose Meals', () => {
     ];
 
     const customers: Customer[] = [customerOne, customerTwo, customerThree];
-    const dates = [new Date(1630702130000), new Date(1630702130000)];
+    const dates = [new Date(1_630_702_130_000), new Date(1_630_702_130_000)];
     const result = chooseMeals(selection, dates, customers);
 
     expect(
@@ -382,7 +382,7 @@ describe('Choose Meals', () => {
     ];
 
     const customers: Customer[] = [customerOne, customerTwo, customerThree];
-    const dates = [new Date(1630702130000), new Date(1630702130000)];
+    const dates = [new Date(1_630_702_130_000), new Date(1_630_702_130_000)];
     const result = chooseMeals(selection, dates, customers);
 
     const variants =
@@ -462,7 +462,7 @@ describe('Choose Meals', () => {
       customerTwoWithExclusion,
       customerThree,
     ];
-    const dates = [new Date(1630702130000), new Date(1630702130000)];
+    const dates = [new Date(1_630_702_130_000), new Date(1_630_702_130_000)];
     const result = chooseMeals(selection, dates, customers);
 
     const foundExcludedMeal = result[1].deliveries.find((delivery) =>
@@ -511,7 +511,7 @@ describe('Choose Meals', () => {
 
     const customers: Customer[] = [sparseCustomerOne, sparseCustomerTwo];
 
-    const dates = [new Date(1630702130000), new Date(1630702130000)];
+    const dates = [new Date(1_630_702_130_000), new Date(1_630_702_130_000)];
     const result = chooseMeals(selection, dates, customers);
 
     expect(
