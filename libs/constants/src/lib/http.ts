@@ -1,5 +1,6 @@
 export const HTTP = {
   statusCodes: {
+    BadRequest: 400,
     Forbidden: 403,
     Ok: 200,
     InternalServerError: 500,
@@ -21,4 +22,3 @@ export const HTTP = {
     Delete: 'DELETE',
   },
 } as const;
-

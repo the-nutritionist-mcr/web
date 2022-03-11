@@ -1,4 +1,4 @@
-import { HTTP } from '../../../infrastructure/constants';
+import { HTTP } from '@tnmw/constants';
 
 type Codes = typeof HTTP['statusCodes'][keyof typeof HTTP['statusCodes']];
 
