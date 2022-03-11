@@ -5,6 +5,7 @@ export const IAM = {
       adminCreateUser: 'cognito-idp:AdminCreateUser',
       adminDeleteUser: 'cognito-idp:AdminDeleteUser',
       adminSetUserPassword: 'cognito-idp:AdminSetUserPassword',
+      adminUpdateUserAttributes: 'cognito-idp:AdminUpdateUserAttributes',
     },
   },
 } as const;

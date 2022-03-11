@@ -1,13 +1,14 @@
-import { FC, useEffect, useState } from 'react';
-import { Hero, Layout, Button, Account } from '@tnmw/components';
+import { FC } from 'react';
+import { Hero, Button, Account } from '@tnmw/components';
 import Router from 'next/router';
-import {DYNAMO} from "@tnmw/constants"
 import { currentUser, signOut } from '../aws/authenticate';
-import { Hub } from 'aws-amplify';
 
 import AccountIcon from '../images/TNM_Icons_Final_Account.png';
 import styled from '@emotion/styled';
-import { authorizedRoute, AuthorizedRouteProps } from '../utils/authorised-route';
+import {
+  authorizedRoute,
+  AuthorizedRouteProps,
+} from '../utils/authorised-route';
 
 const YourAccountHeaderBox = styled('div')`
   text-align: center;
@@ -24,8 +25,8 @@ const YourAccountHeader = styled('h1')`
   display: auto;
   margin: 0.5rem 0 0 0;
 `;
-const user = currentUser()
-console.log(user)
+const user = currentUser();
+console.log(user);
 
 interface Me {
   first_name: string;
@@ -41,7 +42,6 @@ interface Me {
 }
 
 const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
-
   return (
     <>
       <Hero>
@@ -56,9 +56,7 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
         </YourAccountHeaderBox>
       </Hero>
       <h2>You are logged in</h2>
-      <Account
-        userDetails={user}
-      />
+      <Account userDetails={user} />
       <Button
         onClick={async () => {
           await signOut();

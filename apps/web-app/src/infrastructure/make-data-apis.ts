@@ -5,68 +5,15 @@ import { ApiGatewayDomain } from '@aws-cdk/aws-route53-targets';
 import { Runtime } from '@aws-cdk/aws-lambda';
 import { Secret } from '@aws-cdk/aws-secretsmanager';
 import { IHostedZone } from '@aws-cdk/aws-route53';
-import { Table, AttributeType, BillingMode } from '@aws-cdk/aws-dynamodb';
 import { getResourceName } from './get-resource-name';
 import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
 import { Effect, PolicyStatement } from '@aws-cdk/aws-iam';
-import { IRestApi, LambdaIntegration, RestApi } from '@aws-cdk/aws-apigateway';
-import path from 'node:path';
+import { LambdaIntegration, RestApi } from '@aws-cdk/aws-apigateway';
 import { getDomainName } from './get-domain-name';
 import { IUserPool } from '@aws-cdk/aws-cognito';
-import { IAM, ENV, HTTP, RESOURCES, NODE_OPTS } from './constants';
-
-const entryName = (folder: string, name: string) =>
-  // eslint-disable-next-line unicorn/prefer-module
-  path.resolve(__dirname, '..', 'backend', 'lambdas', folder, name);
-
-const makeDataApi = (
-  context: Construct,
-  name: string,
-  environment: string,
-  api: IRestApi,
-  defaultEnvironmentVars: { [key: string]: string }
-) => {
-  const apiResource = api.root.addResource(name);
-
-  const dataTable = new Table(context, `${name}Table`, {
-    tableName: getResourceName(`${name}-table`, environment),
-    billingMode: BillingMode.PAY_PER_REQUEST,
-    partitionKey: {
-      name: 'id',
-      type: AttributeType.STRING,
-    },
-  });
-
-  const makeCrudFunction = (entry: string, opName: string) =>
-    new NodejsFunction(context, `${opName}${name}`, {
-      functionName: getResourceName(`${opName}-${name}-handler`, environment),
-      entry: entryName('data-api', entry),
-      runtime: Runtime.NODEJS_14_X,
-      memorySize: 2048,
-      environment: {
-        ...defaultEnvironmentVars,
-        [ENV.varNames.DynamoDBTable]: dataTable.tableName,
-      },
-      bundling: {
-        sourceMap: true,
-      },
-    });
-
-  const getFunction = makeCrudFunction('get.ts', `get`);
-
-  apiResource.addMethod(HTTP.verbs.Get, new LambdaIntegration(getFunction));
-  dataTable.grantReadData(getFunction);
-
-  const createFunction = makeCrudFunction('post.ts', 'create');
-
-  apiResource.addMethod(HTTP.verbs.Post, new LambdaIntegration(createFunction));
-  dataTable.grantWriteData(createFunction);
-
-  const updateFunction = makeCrudFunction('put.ts', `update`);
-
-  apiResource.addMethod(HTTP.verbs.Put, new LambdaIntegration(updateFunction));
-  dataTable.grantWriteData(updateFunction);
-};
+import { IAM, ENV, HTTP, RESOURCES, NODE_OPTS } from '@tnmw/constants';
+import { makeDataApi } from './make-data-api';
+import { entryName } from './entry-name';
 
 export const makeDataApis = (
   context: Construct,
@@ -164,7 +111,10 @@ export const makeDataApis = (
     RESOURCES.CookPlan,
     envName,
     api,
-    defaultEnvironmentVars
+    defaultEnvironmentVars,
+    {
+      post: 'planner.ts',
+    }
   );
 
   const customers = api.root.addResource('customers');
