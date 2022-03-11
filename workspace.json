@@ -5,9 +5,12 @@
     "authorise-cognito-jwt": "libs/authorise-cognito-jwt",
     "cloudflore-dns-linker": "libs/cloudflore-dns-linker",
     "components": "libs/components",
+    "config": "libs/config",
     "constants": "libs/constants",
+    "meal-planning": "libs/meal-planning",
     "planner": "libs/planner",
     "seed-cognito": "libs/seed-cognito",
+    "types": "libs/types",
     "web-app": "apps/web-app",
     "web-app-e2e": "apps/web-app-e2e"
   }

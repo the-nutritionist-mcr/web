@@ -1,0 +1,23 @@
+{
+  "root": "libs/meal-planning",
+  "sourceRoot": "libs/meal-planning/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/meal-planning/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/meal-planning"],
+      "options": {
+        "jestConfig": "libs/meal-planning/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
