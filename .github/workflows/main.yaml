@@ -25,6 +25,7 @@ jobs:
           - planner
           - seed-cognito
           - constants
+          - meal-planning
 
         target:
           - test

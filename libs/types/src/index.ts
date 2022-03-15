@@ -15,4 +15,8 @@ export {
   PlannerConfig,
 } from './lib/customer-plan';
 
+export { CustomerMealsSelection } from './lib/customer-meal-selection';
+
 export { default as CookPlan, RecipeVariantMap } from './lib/cook-plan';
+
+export { StoredPlan } from './lib/stored-plan';
