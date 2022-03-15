@@ -66,9 +66,9 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const command = new ListUsersCommand(input);
 
-    const response = parseCustomerList(await cognito.send(command));
+    const customers = parseCustomerList(await cognito.send(command));
 
-    const meals = chooseMeals(payload.cooks, dates, response);
+    const meals = chooseMeals(payload.cooks, dates, customers);
 
     const item: StoredPlan = {
       timestamp: Date.now(),
