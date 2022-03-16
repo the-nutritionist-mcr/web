@@ -12,7 +12,7 @@ import { mock } from 'jest-mock-extended';
 import { handler } from './webhook';
 import { mockClient } from 'aws-sdk-client-mock';
 import { when } from 'jest-when';
-import { ENV, HTTP, DYNAMO, CHARGEBEE } from '@tnmw/constants';
+import { ENV, HTTP, COGNITO, CHARGEBEE } from '@tnmw/constants';
 import { getPlans } from './get-plans';
 
 const cognitoMock = mockClient(CognitoIdentityProviderClient);
@@ -517,11 +517,11 @@ describe('the webhook handler', () => {
       Username: testCustomerId,
       UserAttributes: [
         {
-          Name: `custom:${DYNAMO.customAttributes.Plans}`,
+          Name: `custom:${COGNITO.customAttributes.Plans}`,
           Value: JSON.stringify(mockPlans),
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.SubscriptionUpdateTimestamp}`,
+          Name: `custom:${COGNITO.customAttributes.SubscriptionUpdateTimestamp}`,
           Value: String(now / 1000),
         },
       ],
@@ -800,11 +800,11 @@ describe('the webhook handler', () => {
       Username: testCustomerId,
       UserAttributes: [
         {
-          Name: `custom:${DYNAMO.customAttributes.Plans}`,
+          Name: `custom:${COGNITO.customAttributes.Plans}`,
           Value: JSON.stringify(mockPlans),
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.SubscriptionUpdateTimestamp}`,
+          Name: `custom:${COGNITO.customAttributes.SubscriptionUpdateTimestamp}`,
           Value: String(now / 1000),
         },
       ],
@@ -971,67 +971,67 @@ describe('the webhook handler', () => {
 
       UserAttributes: [
         {
-          Name: `custom:${DYNAMO.customAttributes.City}`,
+          Name: `custom:${COGNITO.customAttributes.City}`,
           Value: `Salford`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.Country}`,
+          Name: `custom:${COGNITO.customAttributes.Country}`,
           Value: `GB`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.Postcode}`,
+          Name: `custom:${COGNITO.customAttributes.Postcode}`,
           Value: `M3 6WD`,
         },
         {
-          Name: DYNAMO.standardAttributes.phone,
+          Name: COGNITO.standardAttributes.phone,
           Value: `+447462699468`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.AddressLine1}`,
+          Name: `custom:${COGNITO.customAttributes.AddressLine1}`,
           Value: `14 Wadlow Close`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.AddressLine2}`,
+          Name: `custom:${COGNITO.customAttributes.AddressLine2}`,
           Value: `another line`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.AddressLine3}`,
+          Name: `custom:${COGNITO.customAttributes.AddressLine3}`,
           Value: `final line`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.ProfileNotes}`,
+          Name: `custom:${COGNITO.customAttributes.ProfileNotes}`,
           Value: `some notes`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.DeliveryDay1}`,
+          Name: `custom:${COGNITO.customAttributes.DeliveryDay1}`,
           Value: `Thursday`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.DeliveryDay2}`,
+          Name: `custom:${COGNITO.customAttributes.DeliveryDay2}`,
           Value: `Tuesday`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.DeliveryDay3}`,
+          Name: `custom:${COGNITO.customAttributes.DeliveryDay3}`,
           Value: `Wednesday`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.CustomerUpdateTimestamp}`,
+          Name: `custom:${COGNITO.customAttributes.CustomerUpdateTimestamp}`,
           Value: String(now / 1000),
         },
         {
-          Name: DYNAMO.standardAttributes.email,
+          Name: COGNITO.standardAttributes.email,
           Value: testEmail,
         },
         {
-          Name: DYNAMO.standardAttributes.emailVerified,
+          Name: COGNITO.standardAttributes.emailVerified,
           Value: `true`,
         },
         {
-          Name: DYNAMO.standardAttributes.firstName,
+          Name: COGNITO.standardAttributes.firstName,
           Value: `Ben`,
         },
         {
-          Name: DYNAMO.standardAttributes.surname,
+          Name: COGNITO.standardAttributes.surname,
           Value: `Wainwright`,
         },
       ],
@@ -1148,71 +1148,71 @@ describe('the webhook handler', () => {
 
       UserAttributes: [
         {
-          Name: `custom:${DYNAMO.customAttributes.City}`,
+          Name: `custom:${COGNITO.customAttributes.City}`,
           Value: `Salford`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.Country}`,
+          Name: `custom:${COGNITO.customAttributes.Country}`,
           Value: `GB`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.Postcode}`,
+          Name: `custom:${COGNITO.customAttributes.Postcode}`,
           Value: `M3 6WD`,
         },
         {
-          Name: DYNAMO.standardAttributes.phone,
+          Name: COGNITO.standardAttributes.phone,
           Value: `+447462699468`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.AddressLine1}`,
+          Name: `custom:${COGNITO.customAttributes.AddressLine1}`,
           Value: `14 Wadlow Close`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.AddressLine2}`,
+          Name: `custom:${COGNITO.customAttributes.AddressLine2}`,
           Value: `another line`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.AddressLine3}`,
+          Name: `custom:${COGNITO.customAttributes.AddressLine3}`,
           Value: `final line`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.ProfileNotes}`,
+          Name: `custom:${COGNITO.customAttributes.ProfileNotes}`,
           Value: `some notes`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.DeliveryDay1}`,
+          Name: `custom:${COGNITO.customAttributes.DeliveryDay1}`,
           Value: `Monday`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.DeliveryDay2}`,
+          Name: `custom:${COGNITO.customAttributes.DeliveryDay2}`,
           Value: `Tuesday`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.DeliveryDay3}`,
+          Name: `custom:${COGNITO.customAttributes.DeliveryDay3}`,
           Value: `Thursday`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.CustomerUpdateTimestamp}`,
+          Name: `custom:${COGNITO.customAttributes.CustomerUpdateTimestamp}`,
           Value: String(now / 1000),
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.ChargebeeId}`,
+          Name: `custom:${COGNITO.customAttributes.ChargebeeId}`,
           Value: testCustomerId,
         },
         {
-          Name: DYNAMO.standardAttributes.email,
+          Name: COGNITO.standardAttributes.email,
           Value: testEmail,
         },
         {
-          Name: DYNAMO.standardAttributes.emailVerified,
+          Name: COGNITO.standardAttributes.emailVerified,
           Value: `true`,
         },
         {
-          Name: DYNAMO.standardAttributes.firstName,
+          Name: COGNITO.standardAttributes.firstName,
           Value: `Scott`,
         },
         {
-          Name: DYNAMO.standardAttributes.surname,
+          Name: COGNITO.standardAttributes.surname,
           Value: `Dylan`,
         },
       ],
@@ -1329,71 +1329,71 @@ describe('the webhook handler', () => {
 
       UserAttributes: [
         {
-          Name: `custom:${DYNAMO.customAttributes.City}`,
+          Name: `custom:${COGNITO.customAttributes.City}`,
           Value: `Salford`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.Country}`,
+          Name: `custom:${COGNITO.customAttributes.Country}`,
           Value: `GB`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.Postcode}`,
+          Name: `custom:${COGNITO.customAttributes.Postcode}`,
           Value: `M3 6WD`,
         },
         {
-          Name: DYNAMO.standardAttributes.phone,
+          Name: COGNITO.standardAttributes.phone,
           Value: `+447462699468`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.AddressLine1}`,
+          Name: `custom:${COGNITO.customAttributes.AddressLine1}`,
           Value: `14 Wadlow Close`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.AddressLine2}`,
+          Name: `custom:${COGNITO.customAttributes.AddressLine2}`,
           Value: `another line`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.AddressLine3}`,
+          Name: `custom:${COGNITO.customAttributes.AddressLine3}`,
           Value: `final line`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.ProfileNotes}`,
+          Name: `custom:${COGNITO.customAttributes.ProfileNotes}`,
           Value: `some notes`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.DeliveryDay1}`,
+          Name: `custom:${COGNITO.customAttributes.DeliveryDay1}`,
           Value: `Monday`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.DeliveryDay2}`,
+          Name: `custom:${COGNITO.customAttributes.DeliveryDay2}`,
           Value: `Tuesday`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.DeliveryDay3}`,
+          Name: `custom:${COGNITO.customAttributes.DeliveryDay3}`,
           Value: `Thursday`,
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.CustomerUpdateTimestamp}`,
+          Name: `custom:${COGNITO.customAttributes.CustomerUpdateTimestamp}`,
           Value: String(now / 1000),
         },
         {
-          Name: `custom:${DYNAMO.customAttributes.ChargebeeId}`,
+          Name: `custom:${COGNITO.customAttributes.ChargebeeId}`,
           Value: testCustomerId,
         },
         {
-          Name: DYNAMO.standardAttributes.email,
+          Name: COGNITO.standardAttributes.email,
           Value: testEmail,
         },
         {
-          Name: DYNAMO.standardAttributes.emailVerified,
+          Name: COGNITO.standardAttributes.emailVerified,
           Value: `true`,
         },
         {
-          Name: DYNAMO.standardAttributes.firstName,
+          Name: COGNITO.standardAttributes.firstName,
           Value: `Scott`,
         },
         {
-          Name: DYNAMO.standardAttributes.surname,
+          Name: COGNITO.standardAttributes.surname,
           Value: `Dylan`,
         },
       ],
