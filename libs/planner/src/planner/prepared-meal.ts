@@ -1,4 +1,4 @@
-import { Customer, Recipe, Tag, Variant } from '@/entities';
+import { Customer, Recipe, Tag, Variant } from '../entities';
 
 export interface PreparedMeal {
   readonly customer: Customer;

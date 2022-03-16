@@ -23,11 +23,31 @@ export default interface Customer {
   email: string;
   pauseStart?: string;
   pauseEnd?: string;
+
+  /**
+   * @deprecated
+   */
   daysPerWeek: number;
+
+  /**
+   * @deprecated
+   */
   plan: Plan;
   newPlan?: CustomerPlan;
+
+  /**
+   * @deprecated
+   */
   legacyPrice?: number;
+
+  /**
+   * @deprecated
+   */
   snack: Snack;
+
+  /**
+   * @deprecated
+   */
   breakfast: boolean;
   exclusions: Exclusion[];
 }

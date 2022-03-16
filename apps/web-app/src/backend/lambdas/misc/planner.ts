@@ -1,9 +1,17 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
-import { Recipe, isRecipe, Customer } from '@tnmw/types';
-import { chooseMeals } from '@tnmw/meal-planning';
-import { ENV } from '@tnmw/constants';
+import {
+  Recipe,
+  isRecipe,
+  Customer,
+  CustomerPlan,
+  PlanLabels,
+  DaysPerWeek,
+} from '@tnmw/types';
+import { chooseMeals, makeNewPlan } from '@tnmw/meal-planning';
+import { COGNITO, ENV } from '@tnmw/constants';
+import { defaultDeliveryDays, planLabels, extrasLabels } from '@tnmw/config';
 import { authoriseJwt } from '../data-api/authorise';
-import { StoredPlan } from '@tnmw/types';
+import { StoredPlan, StandardPlan } from '@tnmw/types';
 import { returnErrorResponse } from '../data-api/return-error-response';
 import { HttpError } from '../data-api/http-error';
 
@@ -40,8 +48,98 @@ const isWeeklyPlan = (plan: unknown): plan is WeeklyPlan => {
   );
 };
 
-const parseCustomerList = (output: ListUsersCommandOutput): Customer[] => {
-  return [];
+const getAttributeValue = (
+  attributes: ListUsersCommandOutput['Users'][number]['Attributes'],
+  key: string
+): string | undefined =>
+  attributes.find((attribute) => attribute.Name === key)?.Value ?? '';
+
+const convertPlanFormat = (
+  plans: StandardPlan[]
+): Omit<CustomerPlan, 'configuration'> =>
+  plans
+    .map((plan) =>
+      makeNewPlan(
+        {
+          defaultDeliveryDays,
+          planLabels: [...planLabels],
+          extrasLabels: [...extrasLabels],
+        },
+        {
+          planType: plan.name as PlanLabels,
+          daysPerWeek: plan.daysPerWeek as DaysPerWeek,
+          mealsPerDay: plan.itemsPerDay,
+        }
+      )
+    )
+    .reduce<Omit<CustomerPlan, 'configuration'>>(
+      (accum, item) => ({
+        deliveries: accum.deliveries.map((delivery, index) => ({
+          items: delivery.items.concat(item.deliveries[index].items),
+          extras: [],
+        })),
+      }),
+      {
+        deliveries: [],
+      }
+    );
+
+const parseCustomerList = (
+  output: ListUsersCommandOutput
+): Omit<Customer, 'plan' | 'snack' | 'breakfast' | 'daysPerWeek'>[] => {
+  return output.Users.map((user) => ({
+    exclusions: JSON.parse(
+      getAttributeValue(
+        user.Attributes,
+        `custom:${COGNITO.customAttributes.UserCustomisations}`
+      )
+    ),
+    newPlan:
+      getAttributeValue(
+        user.Attributes,
+        `custom:${COGNITO.customAttributes.Plans}`
+      ) &&
+      (convertPlanFormat(
+        JSON.parse(
+          getAttributeValue(
+            user.Attributes,
+            `custom:${COGNITO.customAttributes.Plans}`
+          )
+        )
+      ) as CustomerPlan),
+    id: user.Username,
+    salutation: getAttributeValue(
+      user.Attributes,
+      `custom:${COGNITO.customAttributes.Salutation}`
+    ),
+    firstName: getAttributeValue(
+      user.Attributes,
+      COGNITO.standardAttributes.firstName
+    ),
+    surname: getAttributeValue(
+      user.Attributes,
+      COGNITO.standardAttributes.surname
+    ),
+    address: [
+      getAttributeValue(
+        user.Attributes,
+        `custom:${COGNITO.customAttributes.AddressLine1}`
+      ),
+      getAttributeValue(
+        user.Attributes,
+        `custom:${COGNITO.customAttributes.AddressLine2}`
+      ),
+    ].join('\n'),
+    email: getAttributeValue(user.Attributes, COGNITO.standardAttributes.email),
+    addressLine3: getAttributeValue(
+      user.Attributes,
+      `custom:${COGNITO.customAttributes.AddressLine3}`
+    ),
+    telephone: getAttributeValue(
+      user.Attributes,
+      COGNITO.standardAttributes.phone
+    ),
+  }));
 };
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
@@ -71,7 +169,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const meals = chooseMeals(payload.cooks, dates, customers);
 
     const item: StoredPlan = {
-      timestamp: Date.now(),
+      timestamp: new Date(Date.now()),
       selections: meals,
       menus: dates.map((date, index) => ({ date, menu: payload.cooks[index] })),
       username,

@@ -3,14 +3,16 @@ import {
   DeliveryMealsSelection,
   Recipe,
   CustomerPlan,
+  CustomerWithNewPlan,
+  CustomerMealsSelection,
+  SelectedItem,
   Item,
 } from '@tnmw/types';
 import { extrasLabels, planLabels } from '@tnmw/config';
 import getStatusString from './get-status-string';
 import isActive from './is-active';
-import { CustomerMealsSelection, SelectedItem } from './types';
 
-const isExcluded = (recipe: Recipe, customer: Customer) => {
+const isExcluded = (recipe: Recipe, customer: CustomerWithNewPlan) => {
   return recipe.invalidExclusions?.some((invalidExclusion) =>
     customer.exclusions
       .map((customerExclusion) => customerExclusion.id)
@@ -20,7 +22,7 @@ const isExcluded = (recipe: Recipe, customer: Customer) => {
 
 const getRecipeFromSelection = (
   index: number,
-  customer: Customer,
+  customer: CustomerWithNewPlan,
   deliverySelection: DeliveryMealsSelection
 ): Recipe => {
   const actualDeliverySelection = deliverySelection.filter(
@@ -46,7 +48,7 @@ const generateDeliveryListFromItem = <
   }));
 
 const generateDeliveries = (
-  customer: Customer,
+  customer: CustomerWithNewPlan,
   plan: CustomerPlan,
   deliverySelections: DeliveryMealsSelection[],
   startPositions: number[]
@@ -79,14 +81,14 @@ const generateDeliveries = (
 };
 
 const hasPlan = (
-  customer: Customer
-): customer is Omit<Customer, 'newPlan'> &
+  customer: CustomerWithNewPlan
+): customer is Omit<CustomerWithNewPlan, 'newPlan'> &
   Required<Pick<Customer, 'newPlan'>> => Boolean(customer.newPlan);
 
 export const chooseMeals = (
   deliverySelection: DeliveryMealsSelection[],
   cookDates: Date[],
-  customers: Customer[]
+  customers: CustomerWithNewPlan[]
 ): CustomerMealsSelection =>
   customers
     .filter(hasPlan)
@@ -96,7 +98,7 @@ export const chooseMeals = (
     }))
     .reduce<
       {
-        customer: Customer;
+        customer: CustomerWithNewPlan;
         deliveries: SelectedItem[][];
         startPositions?: number[];
       }[]

@@ -44,7 +44,7 @@
     "@types/jwk-to-pem": "^2.0.1",
     "@types/lodash": "^4.14.178",
     "@types/pdfmake": "^0.1.20",
-    "@types/ramda": "0.27.1",
+    "@types/ramda": "0.27.44",
     "@types/react-router-dom": "5.1.8",
     "@types/redux-localstorage": "^1.0.8",
     "@types/styled-components": "^5.1.20",

@@ -71,6 +71,9 @@ export const makeUserPool = (
       [COGNITO.customAttributes.ChargebeeId]: new StringAttribute({
         mutable: false,
       }),
+      [COGNITO.customAttributes.Salutation]: new StringAttribute({
+        mutable: true,
+      }),
       [COGNITO.customAttributes.UserCustomisations]: new StringAttribute({
         mutable: true,
       }),

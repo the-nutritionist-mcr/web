@@ -5,7 +5,7 @@ import { Recipe } from './recipe';
 import { Tag } from './tag';
 import { Variant } from './variant';
 
-export {
+export type {
   Attribute,
   Customer,
   Recipe,

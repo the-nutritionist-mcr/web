@@ -30,6 +30,7 @@ export interface User {
   subscriptionUpdateTime: string;
   firstName: string;
   surname: string;
+  salutation: string;
   email: string;
   city: string;
   postcode: string;
@@ -38,6 +39,10 @@ export interface User {
 
 const parseCognitoResponse = (output: AdminGetUserCommandOutput): User => ({
   username: output.Username,
+  salutation: getAttributeValue(
+    output.UserAttributes,
+    `custom:${COGNITO.customAttributes.Salutation}`
+  ),
   country: getAttributeValue(
     output.UserAttributes,
     `custom:${COGNITO.customAttributes.Country}`
@@ -62,7 +67,10 @@ const parseCognitoResponse = (output: AdminGetUserCommandOutput): User => ({
     output.UserAttributes,
     COGNITO.standardAttributes.firstName
   ),
-  city: getAttributeValue(output.UserAttributes, `custom:${COGNITO.customAttributes.City}`),
+  city: getAttributeValue(
+    output.UserAttributes,
+    `custom:${COGNITO.customAttributes.City}`
+  ),
   postcode: getAttributeValue(
     output.UserAttributes,
     `custom:${COGNITO.customAttributes.Postcode}`
@@ -104,7 +112,7 @@ const parseCognitoResponse = (output: AdminGetUserCommandOutput): User => ({
 });
 
 export interface AuthorizedRouteProps {
-  user: User
+  user: User;
 }
 
 interface AuthorizedRouteWrapper {
@@ -118,8 +126,6 @@ const getAttributeValue = (
   attributes: AdminGetUserCommandOutput['UserAttributes'],
   key: string
 ) => attributes.find((attribute) => attribute.Name === key)?.Value ?? '';
-
-
 
 export const authorizedRoute: AuthorizedRouteWrapper = ({
   groups,

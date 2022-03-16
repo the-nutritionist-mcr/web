@@ -1,4 +1,4 @@
-import { isCustomDeliveryPlan } from '../features/customers/distribution-generator';
+import { isCustomDeliveryPlan } from '@tnmw/meal-planning';
 import { CustomerPlan, PlannerConfig } from '../features/customers/types';
 
 export const getPlanString = (

@@ -1,10 +1,11 @@
-export { default as Customer, Snack } from './lib/Customer';
-export { default as Exclusion, isExclusion } from './lib/Exclusion';
-export { default as Plan } from './lib/Plan';
-export { default as Recipe, HotOrCold, isRecipe } from './lib/Recipe';
-export { default as DeliveryMealsSelection } from './lib/delivery-meal-selection';
-export { PlanCategory } from './lib/plan-category';
-export {
+export type { default as Customer, Snack } from './lib/Customer';
+export type { default as Exclusion, isExclusion } from './lib/Exclusion';
+export type { default as Plan } from './lib/Plan';
+export type { default as Recipe, HotOrCold } from './lib/Recipe';
+export { isRecipe } from './lib/Recipe';
+export type { default as DeliveryMealsSelection } from './lib/delivery-meal-selection';
+export type { PlanCategory } from './lib/plan-category';
+export type {
   PlanLabels,
   ExtrasLabels,
   DaysPerWeek,
@@ -15,8 +16,13 @@ export {
   PlannerConfig,
 } from './lib/customer-plan';
 
-export { CustomerMealsSelection } from './lib/customer-meal-selection';
+export type {
+  CustomerMealsSelection,
+  SelectedItem,
+  CustomerWithNewPlan,
+} from './lib/customer-meal-selection';
 
-export { default as CookPlan, RecipeVariantMap } from './lib/cook-plan';
+export type { default as CookPlan, RecipeVariantMap } from './lib/cook-plan';
 
-export { StoredPlan } from './lib/stored-plan';
+export type { StoredPlan } from './lib/stored-plan';
+export type { StandardPlan } from './lib/standard-plan';

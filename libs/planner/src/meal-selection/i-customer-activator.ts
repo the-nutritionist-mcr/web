@@ -1,5 +1,5 @@
-import { Customer, ICookDay } from '@/entities';
-import { ImmutableDate } from '@/utils';
+import { Customer, ICookDay } from '../entities';
+import { ImmutableDate } from '../utils';
 
 export interface ICustomerActivator {
   active: (

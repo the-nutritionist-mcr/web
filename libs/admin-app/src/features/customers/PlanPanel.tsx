@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 import {
   Box,
   FormField,
@@ -8,12 +8,12 @@ import {
   Header,
   Button,
   Paragraph,
-} from "grommet";
-import MealDeliveriesTable from "./MealDeliveriesTable";
-import { makeNewPlan, isCustomDeliveryPlan } from "./distribution-generator";
-import { PlannerConfig, DaysPerWeek, CustomerPlan } from "./types";
-import Exclusion from "../../domain/Exclusion";
-import { daysOfWeek } from "../../lib/config";
+} from 'grommet';
+import MealDeliveriesTable from './MealDeliveriesTable';
+import { makeNewPlan, isCustomDeliveryPlan } from '@tnmw/meal-planning';
+import { PlannerConfig, DaysPerWeek, CustomerPlan } from './types';
+import Exclusion from '../../domain/Exclusion';
+import { daysOfWeek } from '../../lib/config';
 
 interface PlanPanelProps {
   plannerConfig: PlannerConfig;
@@ -63,7 +63,7 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
         <FormField label="Days per week">
           <Select
             data-testid="daysPerWeek"
-            options={["1", "2", "3", "4", "5", "6", "7"]}
+            options={['1', '2', '3', '4', '5', '6', '7']}
             value={String(customerPlan.configuration.daysPerWeek)}
             disabled={customDeliveryPlan}
             onChange={(event) => {
@@ -81,7 +81,7 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
           <Select
             data-testid="mealsPerDay"
             disabled={customDeliveryPlan}
-            options={["1", "2", "3", "4"]}
+            options={['1', '2', '3', '4']}
             value={String(customerPlan.configuration.mealsPerDay)}
             onChange={(event) =>
               updatePlan(
@@ -95,7 +95,7 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
         <FormField label="Total Plans">
           <Select
             data-testid="totalPlans"
-            options={["1", "2", "3", "4"]}
+            options={['1', '2', '3', '4']}
             value={String(customerPlan.configuration.totalPlans)}
             disabled={customDeliveryPlan}
             onChange={(event) =>
@@ -185,7 +185,7 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
         <Box direction="row" align="center">
           <Paragraph color="red" data-testid="summary" fill>
             This customer is on a <strong>custom plan</strong>. Click the above
-            button to reset the plan to the default distribution.{" "}
+            button to reset the plan to the default distribution.{' '}
           </Paragraph>
         </Box>
       )}

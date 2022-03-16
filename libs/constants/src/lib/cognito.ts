@@ -1,5 +1,6 @@
 export const COGNITO = {
   customAttributes: {
+    Salutation: 'salutation',
     ChargebeeId: 'chargebeeId',
     UserCustomisations: 'userCustomisations',
     DeliveryDay1: 'deliveryDay1',

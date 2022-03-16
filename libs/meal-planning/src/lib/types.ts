@@ -18,7 +18,12 @@ export type SelectedItem = SelectedMeal | SelectedExtra;
 
 export type Delivery = SelectedItem[] | string;
 
+type CustomerWithNewPlan = Omit<
+  Customer,
+  'plan' | 'snack' | 'breakfast' | 'daysPerWeek'
+>;
+
 export type CustomerMealsSelection = {
-  customer: Customer;
+  customer: CustomerWithNewPlan;
   deliveries: Delivery[];
 }[];
