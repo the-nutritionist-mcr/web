@@ -182,6 +182,9 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     });
 
     await dynamo.send(putCommand);
+    return {
+      statusCode: HTTP.statusCodes.Ok,
+    };
   } catch (error) {
     return returnErrorResponse(error);
   }
