@@ -1,12 +1,6 @@
 import { FC } from 'react';
 
-interface StandardPlan {
-  name: string;
-  daysPerWeek: number;
-  itemsPerDay: number;
-  isExtra: false;
-  totalMeals: number;
-}
+import { StandardPlan } from '@tnmw/types';
 
 export interface User {
   username: string;

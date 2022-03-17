@@ -2,6 +2,6 @@ export interface StandardPlan {
   name: string;
   daysPerWeek: number;
   itemsPerDay: number;
-  isExtra: false;
+  isExtra: boolean;
   totalMeals: number;
 }
