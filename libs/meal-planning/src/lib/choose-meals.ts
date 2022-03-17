@@ -91,7 +91,8 @@ export const chooseMeals = (
   customers: CustomerWithNewPlan[]
 ): CustomerMealsSelection =>
   customers
-    .filter((customer) => hasPlan(customer))
+    // eslint-disable-next-line unicorn/no-array-callback-reference
+    .filter(hasPlan)
     .map((customer) => ({
       customer,
       startPositions: deliverySelection.map(() => 0),
