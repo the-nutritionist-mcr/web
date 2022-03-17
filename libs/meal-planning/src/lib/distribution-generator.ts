@@ -192,7 +192,7 @@ const deliveriesAreEqual = (first: Delivery[], second: Delivery[]) => {
     return false;
   }
 
-  const result = first.find((delivery, deliveryIndex) => {
+  const result = first.some((delivery, deliveryIndex) => {
     if (
       first[deliveryIndex].items.length !== second[deliveryIndex].items.length
     ) {
@@ -222,7 +222,7 @@ const deliveriesAreEqual = (first: Delivery[], second: Delivery[]) => {
     );
   });
 
-  return Boolean(!result);
+  return !result;
 };
 
 /**
