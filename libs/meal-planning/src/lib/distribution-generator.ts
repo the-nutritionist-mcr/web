@@ -27,7 +27,11 @@ const distributeItems = curry(
     section: Exclude<keyof Delivery, 'deliveryDay'>,
     inputPlan: Delivery[]
   ): Delivery[] =>
-    [...new Array(daysPerWeek === DAYS_IN_WEEK ? daysPerWeek - 1 : daysPerWeek)]
+    [
+      ...Array.from({
+        length: daysPerWeek === DAYS_IN_WEEK ? daysPerWeek - 1 : daysPerWeek,
+      }),
+    ]
       .map(() => targetItem)
       .reduce<Delivery[]>(
         (deliveries, item, index) =>
@@ -156,7 +160,7 @@ export const makeNewPlan = (
 ): CustomerPlan => {
   const newConfig: PlanConfiguration = {
     ...getDefaultConfig(defaultSettings),
-    ...(currentPlan?.configuration ?? {}),
+    ...currentPlan?.configuration,
     ...configuration,
   };
   return {
@@ -201,7 +205,7 @@ const deliveriesAreEqual = (first: Delivery[], second: Delivery[]) => {
       return true;
     }
 
-    const items = delivery.items.find(
+    const items = delivery.items.some(
       (item, itemIndex) =>
         !itemsAreEqual(second[deliveryIndex].items[itemIndex], item)
     );

@@ -20,6 +20,7 @@ const isValueString = (
 const removeNonStringValues = (
   thing: Record<string, unknown>
 ): Record<string, string> =>
+  // eslint-disable-next-line unicorn/no-array-callback-reference
   Object.fromEntries(Object.entries(thing).filter(isValueString));
 
 const normalize = <T extends Record<string, unknown>>(
@@ -98,4 +99,4 @@ export const generateLabelData = (
         };
       });
     })
-    .map(normalize);
+    .map((thing) => normalize(thing));

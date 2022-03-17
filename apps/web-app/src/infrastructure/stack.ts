@@ -52,7 +52,8 @@ class AppStack extends Stack {
       path.resolve(packageRoot, 'out_lambda'),
       props.envName,
       path.resolve(repoRoot, 'dist', 'apps', 'web-app', '.next'),
-      userPool
+      userPool,
+      client
     );
 
     const { distribution, hostedZone } = setupFrontDoor(

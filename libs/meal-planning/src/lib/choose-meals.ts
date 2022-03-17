@@ -43,7 +43,7 @@ const generateDeliveryListFromItem = <
 >(
   item: Item<T>
 ) =>
-  [...new Array(item.quantity)].map(() => ({
+  [...Array.from({ length: item.quantity })].map(() => ({
     chosenVariant: item.name,
   }));
 
@@ -91,7 +91,7 @@ export const chooseMeals = (
   customers: CustomerWithNewPlan[]
 ): CustomerMealsSelection =>
   customers
-    .filter(hasPlan)
+    .filter((customer) => hasPlan(customer))
     .map((customer) => ({
       customer,
       startPositions: deliverySelection.map(() => 0),

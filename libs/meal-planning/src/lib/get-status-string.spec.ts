@@ -13,7 +13,7 @@ describe('Get status string', () => {
 
   beforeEach(() => {
     // 17th November 2020
-    const dateNowStub = jest.fn(() => 1605635814000);
+    const dateNowStub = jest.fn(() => 1_605_635_814_000);
     global.Date.now = dateNowStub;
   });
 
@@ -74,7 +74,7 @@ describe('Get status string', () => {
         costPerMeal: 1,
       },
       // 1st of June 2020
-      pauseStart: new Date(1590969600000).toISOString(),
+      pauseStart: new Date(1_590_969_600_000).toISOString(),
       snack: Snack.None,
       breakfast: false,
       exclusions: [],
@@ -107,7 +107,7 @@ describe('Get status string', () => {
       },
 
       // 1st February 2021
-      pauseStart: new Date(1612137600000).toISOString(),
+      pauseStart: new Date(1_612_137_600_000).toISOString(),
       snack: Snack.None,
       breakfast: false,
       exclusions: [],
@@ -170,7 +170,7 @@ describe('Get status string', () => {
         costPerMeal: 1,
       },
       // 1st February 2021
-      pauseEnd: new Date(1612137600000).toISOString(),
+      pauseEnd: new Date(1_612_137_600_000).toISOString(),
       snack: Snack.None,
       breakfast: false,
       exclusions: [],
