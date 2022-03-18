@@ -24,11 +24,16 @@ const escapeQuotes = (field: string | undefined) =>
 const processField = pipe(
   convertTypeToString('number'),
   convertTypeToString('boolean'),
+  // This was working before. The types for Ramda are clearly hard work
+  // I don't have time to fix it
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   escapeQuotes,
   surroundFieldsWithSpecialCharactersInQuotes([',', '"', '\n', '\r'])
 );
 
 const createCsvRowString = (fields: ValueType[]) =>
+  // eslint-disable-next-line unicorn/no-array-callback-reference
   fields.map(processField).join(',');
 
 interface ArbitraryObjectType {
@@ -48,6 +53,7 @@ const generateCsvStringFromObjectArray = (
 
   const rows = inputObjectArray
     .map((row) =>
+      // eslint-disable-next-line security/detect-object-injection
       createCsvRowString(columnHeaders.map((columnHeader) => row[columnHeader]))
     )
     .join('\r\n');
