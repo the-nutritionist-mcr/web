@@ -23,6 +23,14 @@ module.exports = withNx(
     },
     ...nextConfig,
     target: 'serverless',
+
+    typescript: {
+      // !! WARN !!
+      // Dangerously allow production builds to successfully complete even if
+      // your project has type errors.
+      // !! WARN !!
+      ignoreBuildErrors: true,
+    },
     productionBrowserSourceMaps: true,
     webpack: (config, nextConfig) => {
       // eslint-disable-next-line fp/no-mutating-methods

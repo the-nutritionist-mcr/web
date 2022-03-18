@@ -75,6 +75,7 @@ const convertPlanFormat = (
     .reduce<Omit<CustomerPlan, 'configuration'>>(
       (accum, item) => ({
         deliveries: accum.deliveries.map((delivery, index) => ({
+          // eslint-disable-next-line security/detect-object-injection
           items: delivery.items.concat(item.deliveries[index].items),
           extras: [],
         })),
@@ -171,6 +172,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const item: StoredPlan = {
       timestamp: new Date(Date.now()),
       selections: meals,
+      // eslint-disable-next-line security/detect-object-injection
       menus: dates.map((date, index) => ({ date, menu: payload.cooks[index] })),
       username,
       id: v4(),
