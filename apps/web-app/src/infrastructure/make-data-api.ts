@@ -44,7 +44,11 @@ export const makeDataApi = (
   Object.entries(extraFunctions ?? {}).forEach(([verb, entry]) => {
     const opName = entry.split('.')[0];
     const extraFunction = makeCrudFunction(entryName('misc', entry), opName);
-    apiResource.addMethod(verb, new LambdaIntegration(extraFunction));
+
+    const resource =
+      apiResource.getResource(opName) ?? apiResource.addResource(opName);
+
+    resource.addMethod(verb, new LambdaIntegration(extraFunction));
     dataTable.grantReadWriteData(extraFunction);
   });
 
