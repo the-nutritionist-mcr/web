@@ -9,10 +9,11 @@ export {
   makeNewPlan,
 } from './lib/distribution-generator';
 
-export {
+export type {
   SelectedMeal,
   CustomerMealsSelection,
   Delivery,
   SelectedItem,
-  isSelectedMeal,
 } from './lib/types';
+
+export { isSelectedMeal } from './lib/types';
