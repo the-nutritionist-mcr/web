@@ -41,7 +41,7 @@ export const makeDataApi = (
       },
     });
 
-  Object.entries(extraFunctions).forEach(([verb, entry]) => {
+  Object.entries(extraFunctions ?? {}).forEach(([verb, entry]) => {
     const opName = entry.split('.')[0];
     const extraFunction = makeCrudFunction(entryName('misc', entry), opName);
     apiResource.addMethod(verb, new LambdaIntegration(extraFunction));
