@@ -3,10 +3,16 @@ import { GetServerSidePropsContext } from 'next';
 import { mocked } from 'ts-jest/utils';
 import { verifyJwtToken } from '@tnmw/authorise-cognito-jwt';
 import { authorizedRoute } from './authorised-route';
+import { getUserFromAws, User } from './get-user-from-aws';
 
 jest.mock('@tnmw/authorise-cognito-jwt');
+jest.mock('./get-user-from-aws');
 
 describe('authorised route', () => {
+  beforeEach(() => {
+    jest.mocked(getUserFromAws).mockResolvedValue({} as User);
+  });
+
   it('redirects to the login route without trying to verify if there is no token cookie', async () => {
     const mockContext = mock<GetServerSidePropsContext>();
     mockContext.req = mock<GetServerSidePropsContext['req']>();
@@ -57,7 +63,7 @@ describe('authorised route', () => {
     });
   });
 
-  it('does not redirect to login if verify is successful and a group is returned by the claim that was passed in', async () => {
+  it('eoes not redirect to login if verify is successful and a group is returned by the claim that was passed in', async () => {
     mocked(verifyJwtToken).mockResolvedValue({
       userName: 'user',
       isValid: true,
@@ -70,7 +76,7 @@ describe('authorised route', () => {
     const serversidePropsCallback = authorizedRoute({ groups: ['a-group'] });
     const response = await serversidePropsCallback(mockContext);
 
-    expect(response).toEqual({ props: {} });
+    expect(response).toEqual({ props: { user: {} } });
   });
 
   it('does not redirect to login if no groups were passed in regardless of what groups were returned by the claim', async () => {
@@ -86,7 +92,7 @@ describe('authorised route', () => {
     const serversidePropsCallback = authorizedRoute();
     const response = await serversidePropsCallback(mockContext);
 
-    expect(response).toEqual({ props: {} });
+    expect(response).toEqual({ props: { user: {} } });
   });
 
   it('calls the supplied serversideprops callback and returns the result if verify is successful', async () => {
