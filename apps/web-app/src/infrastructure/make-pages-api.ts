@@ -20,7 +20,8 @@ export const makePagesApi = (
   envName: string,
   dotNextFolder: string,
   pool: IUserPool,
-  poolClient: IUserPoolClient
+  poolClient: IUserPoolClient,
+  forceUpdateKey: string
 ) => {
   const awsNextLayer = new LayerVersion(context, 'aws-next-layer', {
     code: Code.fromAsset(path.resolve(outLambda, 'layer')),
@@ -63,6 +64,7 @@ export const makePagesApi = (
       code: Code.fromAsset(buildDir),
       layers: [awsNextLayer],
       environment: {
+        FORCE_UPDATE_KEY: forceUpdateKey,
         COGNITO_POOL_CLIENT_ID: poolClient.userPoolClientId,
         COGNITO_POOL_ID: pool.userPoolId,
       },

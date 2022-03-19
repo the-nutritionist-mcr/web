@@ -9,6 +9,7 @@ import { CHARGEBEE_SITES } from './constants';
 import { CognitoSeeder } from '@tnmw/seed-cognito';
 
 interface TnmAppProps {
+  forceUpdateKey: string;
   stackProps: StackProps;
   envName: string;
   transient: boolean;
@@ -53,7 +54,8 @@ class AppStack extends Stack {
       props.envName,
       path.resolve(repoRoot, 'dist', 'apps', 'web-app', '.next'),
       userPool,
-      client
+      client,
+      props.forceUpdateKey
     );
 
     const { distribution, hostedZone } = setupFrontDoor(
@@ -69,7 +71,8 @@ class AppStack extends Stack {
       hostedZone,
       props.envName,
       userPool,
-      props.chargebeeSite
+      props.chargebeeSite,
+      props.forceUpdateKey
     );
   }
 }
@@ -83,11 +86,14 @@ const env = {
   region: 'eu-west-2',
 };
 
+const forceUpdateKey = 'force-update-key';
+
 new AppStack(app, 'tnm-web-int-stack', {
   stackProps: { env },
   envName: 'int',
   transient: true,
   chargebeeSite: CHARGEBEE_SITES.test,
+  forceUpdateKey,
 });
 
 new AppStack(app, 'tnm-web-cypress-stack', {
@@ -95,6 +101,7 @@ new AppStack(app, 'tnm-web-cypress-stack', {
   envName: 'cypress',
   transient: true,
   chargebeeSite: CHARGEBEE_SITES.test,
+  forceUpdateKey,
 });
 
 new AppStack(app, 'tnm-web-dev-stack', {
@@ -102,6 +109,7 @@ new AppStack(app, 'tnm-web-dev-stack', {
   envName: 'dev',
   transient: true,
   chargebeeSite: CHARGEBEE_SITES.test,
+  forceUpdateKey,
 });
 
 new AppStack(app, 'tnm-web-test-stack', {
@@ -109,6 +117,7 @@ new AppStack(app, 'tnm-web-test-stack', {
   envName: 'test',
   transient: true,
   chargebeeSite: CHARGEBEE_SITES.test,
+  forceUpdateKey,
 });
 
 new AppStack(app, 'tnm-web-prod-stack', {
@@ -116,6 +125,7 @@ new AppStack(app, 'tnm-web-prod-stack', {
   envName: 'prod',
   transient: false,
   chargebeeSite: CHARGEBEE_SITES.test,
+  forceUpdateKey,
 });
 
 app.synth();

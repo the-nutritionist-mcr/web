@@ -20,7 +20,8 @@ export const makeDataApis = (
   hostedZone: IHostedZone,
   envName: string,
   pool: IUserPool,
-  chargebeeSite: string
+  chargebeeSite: string,
+  forceUpdateKey: string
 ) => {
   const domainName = getDomainName(envName, 'api');
 
@@ -96,14 +97,22 @@ export const makeDataApis = (
     target: RecordTarget.fromAlias(new ApiGatewayDomain(apiDomainName)),
   });
 
-  makeDataApi(context, RESOURCES.Recipe, envName, api, defaultEnvironmentVars);
+  makeDataApi(
+    context,
+    RESOURCES.Recipe,
+    envName,
+    api,
+    defaultEnvironmentVars,
+    forceUpdateKey
+  );
 
   makeDataApi(
     context,
     RESOURCES.Customisation,
     envName,
     api,
-    defaultEnvironmentVars
+    defaultEnvironmentVars,
+    forceUpdateKey
   );
 
   makeDataApi(
@@ -112,6 +121,7 @@ export const makeDataApis = (
     envName,
     api,
     defaultEnvironmentVars,
+    forceUpdateKey,
     {
       post: 'submit-full-plan.ts',
     }

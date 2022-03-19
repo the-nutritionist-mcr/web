@@ -13,6 +13,7 @@ export const makeDataApi = (
   environment: string,
   api: IRestApi,
   defaultEnvironmentVars: { [key: string]: string },
+  forceUpdateKey: string,
   extraFunctions?: Record<string, string>
 ) => {
   const apiResource = api.root.addResource(name);
@@ -35,6 +36,7 @@ export const makeDataApi = (
       environment: {
         ...defaultEnvironmentVars,
         [ENV.varNames.DynamoDBTable]: dataTable.tableName,
+        FORCE_UPDATE_KEY: forceUpdateKey,
       },
       bundling: {
         sourceMap: true,
