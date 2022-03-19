@@ -113,7 +113,7 @@ export const makeDataApis = (
     api,
     defaultEnvironmentVars,
     {
-      post: 'make-full-plan.ts',
+      post: 'submit-full-plan.ts',
     }
   );
 
