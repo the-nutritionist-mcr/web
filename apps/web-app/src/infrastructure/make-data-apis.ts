@@ -55,6 +55,7 @@ export const makeDataApis = (
       chargeBeeWebhookUsername.secretValue.toString(),
     [ENV.varNames.ChargeBeeWebhookPasssword]:
       chargeWebhookPassword.secretValue.toString(),
+    FORCE_UPDATE_KEY: forceUpdateKey,
   };
 
   new CfnOutput(context, 'ApiDomainName', {
@@ -97,22 +98,14 @@ export const makeDataApis = (
     target: RecordTarget.fromAlias(new ApiGatewayDomain(apiDomainName)),
   });
 
-  makeDataApi(
-    context,
-    RESOURCES.Recipe,
-    envName,
-    api,
-    defaultEnvironmentVars,
-    forceUpdateKey
-  );
+  makeDataApi(context, RESOURCES.Recipe, envName, api, defaultEnvironmentVars);
 
   makeDataApi(
     context,
     RESOURCES.Customisation,
     envName,
     api,
-    defaultEnvironmentVars,
-    forceUpdateKey
+    defaultEnvironmentVars
   );
 
   makeDataApi(
@@ -121,7 +114,6 @@ export const makeDataApis = (
     envName,
     api,
     defaultEnvironmentVars,
-    forceUpdateKey,
     {
       post: 'submit-full-plan.ts',
     }
