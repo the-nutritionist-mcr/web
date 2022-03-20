@@ -152,12 +152,14 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const command = new ListUsersCommand(input);
     const customers = parseCustomerList(await cognito.send(command));
     const meals = chooseMeals(payload.cooks, dates, customers);
-    const id = v4();
+
+    const planTimestamp = String(Date.now());
+    const planId = v4();
 
     const plan: StoredPlan = {
-      id,
-      sort: 'plan',
-      timestamp: new Date(Date.now()).toString(),
+      id: 'plan',
+      sort: planTimestamp,
+      planId,
       menus: dates.map((date, index) => ({
         date: date.toString(),
         // eslint-disable-next-line security/detect-object-injection
@@ -167,8 +169,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     };
 
     const selections: StoredMealSelection[] = meals.map((meal) => ({
-      id,
-      sort: `selection-${meal.customer.id}`,
+      id: `selection`,
+      sort: `plan-${planId}`,
       selectionId: v4(),
       selection: meal,
     }));

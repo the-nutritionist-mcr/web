@@ -7,16 +7,16 @@ interface Cook {
 }
 
 export interface StoredPlan {
-  id: string;
-  sort: 'plan';
-  timestamp: string;
+  id: 'plan';
+  sort: string;
+  planId: string;
   menus: Cook[];
   username: string;
 }
 
 export interface StoredMealSelection {
-  id: string;
-  sort: `selection-${string}`;
+  id: `selection`;
+  sort: `plan-${string}`;
   selectionId: string;
   selection: CustomerMealsSelection[number];
 }
