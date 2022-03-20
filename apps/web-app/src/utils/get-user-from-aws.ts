@@ -34,79 +34,80 @@ const getAttributeValue = (
 
 export const parseCognitoResponse = (
   output: AdminGetUserCommandOutput
-): User => ({
-  username: output.Username,
-  salutation: getAttributeValue(
+): User => {
+  const plansValue = getAttributeValue(
     output.UserAttributes,
-    `custom:${COGNITO.customAttributes.Salutation}`
-  ),
-  country: getAttributeValue(
-    output.UserAttributes,
-    `custom:${COGNITO.customAttributes.Country}`
-  ),
-  deliveryDay1: getAttributeValue(
-    output.UserAttributes,
-    `custom:${COGNITO.customAttributes.DeliveryDay1}`
-  ),
-  deliveryDay2: getAttributeValue(
-    output.UserAttributes,
-    `custom:${COGNITO.customAttributes.DeliveryDay2}`
-  ),
-  deliveryDay3: getAttributeValue(
-    output.UserAttributes,
-    `custom:${COGNITO.customAttributes.DeliveryDay3}`
-  ),
-  subscriptionUpdateTime: getAttributeValue(
-    output.UserAttributes,
-    `custom:${COGNITO.customAttributes.SubscriptionUpdateTimestamp}`
-  ),
-  firstName: getAttributeValue(
-    output.UserAttributes,
-    COGNITO.standardAttributes.firstName
-  ),
-  city: getAttributeValue(
-    output.UserAttributes,
-    `custom:${COGNITO.customAttributes.City}`
-  ),
-  postcode: getAttributeValue(
-    output.UserAttributes,
-    `custom:${COGNITO.customAttributes.Postcode}`
-  ),
-  plans: JSON.parse(
-    getAttributeValue(
+    `custom:${COGNITO.customAttributes.Plans}`
+  );
+  return {
+    username: output.Username,
+    salutation: getAttributeValue(
       output.UserAttributes,
-      `custom:${COGNITO.customAttributes.Plans}`
-    ) ?? '[]'
-  ),
-  customerUpdateTime: getAttributeValue(
-    output.UserAttributes,
-    `custom:${COGNITO.customAttributes.CustomerUpdateTimestamp}`
-  ),
-  addressLine1: getAttributeValue(
-    output.UserAttributes,
-    `custom:${COGNITO.customAttributes.AddressLine1}`
-  ),
-  addressLine2: getAttributeValue(
-    output.UserAttributes,
-    `custom:${COGNITO.customAttributes.AddressLine2}`
-  ),
-  surname: getAttributeValue(
-    output.UserAttributes,
-    COGNITO.standardAttributes.surname
-  ),
-  email: getAttributeValue(
-    output.UserAttributes,
-    COGNITO.standardAttributes.email
-  ),
-  addressLine3: getAttributeValue(
-    output.UserAttributes,
-    `custom:${COGNITO.customAttributes.AddressLine3}`
-  ),
-  phoneNumber: getAttributeValue(
-    output.UserAttributes,
-    COGNITO.standardAttributes.phone
-  ),
-});
+      `custom:${COGNITO.customAttributes.Salutation}`
+    ),
+    country: getAttributeValue(
+      output.UserAttributes,
+      `custom:${COGNITO.customAttributes.Country}`
+    ),
+    deliveryDay1: getAttributeValue(
+      output.UserAttributes,
+      `custom:${COGNITO.customAttributes.DeliveryDay1}`
+    ),
+    deliveryDay2: getAttributeValue(
+      output.UserAttributes,
+      `custom:${COGNITO.customAttributes.DeliveryDay2}`
+    ),
+    deliveryDay3: getAttributeValue(
+      output.UserAttributes,
+      `custom:${COGNITO.customAttributes.DeliveryDay3}`
+    ),
+    subscriptionUpdateTime: getAttributeValue(
+      output.UserAttributes,
+      `custom:${COGNITO.customAttributes.SubscriptionUpdateTimestamp}`
+    ),
+    firstName: getAttributeValue(
+      output.UserAttributes,
+      COGNITO.standardAttributes.firstName
+    ),
+    city: getAttributeValue(
+      output.UserAttributes,
+      `custom:${COGNITO.customAttributes.City}`
+    ),
+    postcode: getAttributeValue(
+      output.UserAttributes,
+      `custom:${COGNITO.customAttributes.Postcode}`
+    ),
+    plans: JSON.parse(plansValue ? plansValue : '[]'),
+    customerUpdateTime: getAttributeValue(
+      output.UserAttributes,
+      `custom:${COGNITO.customAttributes.CustomerUpdateTimestamp}`
+    ),
+    addressLine1: getAttributeValue(
+      output.UserAttributes,
+      `custom:${COGNITO.customAttributes.AddressLine1}`
+    ),
+    addressLine2: getAttributeValue(
+      output.UserAttributes,
+      `custom:${COGNITO.customAttributes.AddressLine2}`
+    ),
+    surname: getAttributeValue(
+      output.UserAttributes,
+      COGNITO.standardAttributes.surname
+    ),
+    email: getAttributeValue(
+      output.UserAttributes,
+      COGNITO.standardAttributes.email
+    ),
+    addressLine3: getAttributeValue(
+      output.UserAttributes,
+      `custom:${COGNITO.customAttributes.AddressLine3}`
+    ),
+    phoneNumber: getAttributeValue(
+      output.UserAttributes,
+      COGNITO.standardAttributes.phone
+    ),
+  };
+};
 
 export const getUserFromAws = async (username: string) => {
   const cognito = new CognitoIdentityProviderClient({});
