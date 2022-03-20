@@ -15,7 +15,7 @@ const RecipesPage: FC = () => {
       <AdminTemplate>
         <Recipes
           onSubmitPlan={async (plan) => {
-            await swrFetcher('cook-plan/submit-full-plan', {
+            await swrFetcher('plan', {
               method: 'POST',
               body: JSON.stringify(plan),
             });
