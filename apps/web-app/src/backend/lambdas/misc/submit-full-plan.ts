@@ -19,14 +19,13 @@ import { HTTP } from '@tnmw/constants';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
   DynamoDBDocumentClient,
-  PutCommand,
   BatchWriteCommandInput,
   BatchWriteCommand,
 } from '@aws-sdk/lib-dynamodb';
 import { v4 } from 'uuid';
 import { isWeeklyPlan } from '@tnmw/types';
-import { StoredMealSelection } from 'libs/types/src/lib/stored-plan';
-import { batchArray } from 'apps/web-app/src/utils/batch-array';
+import { StoredMealSelection } from '@tnmw/types';
+import { batchArray } from '../../../utils/batch-array';
 
 const getAttributeValue = (
   attributes: ListUsersCommandOutput['Users'][number]['Attributes'],
