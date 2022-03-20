@@ -136,7 +136,9 @@ export const makeDataApis = (
     },
   });
 
-  api.root.addMethod(HTTP.verbs.Post, new LambdaIntegration(planFunction));
+  const planResource = api.root.addResource('plan');
+
+  planResource.addMethod(HTTP.verbs.Post, new LambdaIntegration(planFunction));
   planDataTable.grantReadWriteData(planFunction);
 
   planFunction.addToRolePolicy(

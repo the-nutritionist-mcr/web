@@ -192,8 +192,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     return {
       statusCode: HTTP.statusCodes.Ok,
       headers: {
-        'access-control-allow-origin': '*',
-        'access-control-allow-headers': '*',
+        [HTTP.headerNames.AccessControlAllowOrigin]: '*',
+        [HTTP.headerNames.AccessControlAllowHeaders]: '*',
       },
     };
   } catch (error) {
