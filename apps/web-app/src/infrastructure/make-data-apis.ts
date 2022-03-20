@@ -12,8 +12,9 @@ import { LambdaIntegration, RestApi } from '@aws-cdk/aws-apigateway';
 import { getDomainName } from './get-domain-name';
 import { IUserPool } from '@aws-cdk/aws-cognito';
 import { IAM, ENV, HTTP, RESOURCES, NODE_OPTS } from '@tnmw/constants';
-import { makeDataApi } from './make-data-api';
+import { makeDataApi, ReadWriteMode } from './make-data-api';
 import { entryName } from './entry-name';
+import { AttributeType, BillingMode, Table } from '@aws-cdk/aws-dynamodb';
 
 export const makeDataApis = (
   context: Construct,
@@ -108,16 +109,42 @@ export const makeDataApis = (
     defaultEnvironmentVars
   );
 
-  makeDataApi(
-    context,
-    RESOURCES.CookPlan,
-    envName,
-    api,
-    defaultEnvironmentVars,
-    {
-      post: 'submit-full-plan.ts',
+  const planDataTable = new Table(context, `plan-table`, {
+    tableName: getResourceName(`plan-table-table`, envName),
+    billingMode: BillingMode.PAY_PER_REQUEST,
+    partitionKey: {
+      name: 'id',
+      type: AttributeType.STRING,
     },
-    pool
+    sortKey: {
+      name: 'sort',
+      type: AttributeType.STRING,
+    },
+  });
+
+  const planFunction = new NodejsFunction(context, `plan-function`, {
+    functionName: getResourceName(`plan-function`, envName),
+    entry: entryName('misc', 'submit-full-plan.ts'),
+    runtime: Runtime.NODEJS_14_X,
+    memorySize: 2048,
+    environment: {
+      ...defaultEnvironmentVars,
+      [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
+    },
+    bundling: {
+      sourceMap: true,
+    },
+  });
+
+  api.root.addMethod(HTTP.verbs.Post, new LambdaIntegration(planFunction));
+  planDataTable.grantReadWriteData(planFunction);
+
+  planFunction.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [IAM.actions.cognito.listUsers],
+      resources: [pool.userPoolArn],
+    })
   );
 
   const customers = api.root.addResource('customers');

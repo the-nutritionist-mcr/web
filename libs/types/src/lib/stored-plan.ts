@@ -8,8 +8,15 @@ interface Cook {
 
 export interface StoredPlan {
   id: string;
+  sort: 'plan';
   timestamp: string;
-  selections: CustomerMealsSelection;
   menus: Cook[];
   username: string;
+}
+
+export interface StoredMealSelection {
+  id: string;
+  sort: `selection-${string}`;
+  selectionId: string;
+  selection: CustomerMealsSelection[number];
 }

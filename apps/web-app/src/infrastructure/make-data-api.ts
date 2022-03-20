@@ -9,14 +9,19 @@ import { getResourceName } from './get-resource-name';
 import { entryName } from './entry-name';
 import { IUserPool } from '@aws-cdk/aws-cognito';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export enum ReadWriteMode {
+  ReadOnly = 'ReadOnly',
+  ReadWrite = 'ReadWrite',
+}
+
 export const makeDataApi = (
   context: Construct,
   name: string,
   environment: string,
   api: IRestApi,
   defaultEnvironmentVars: { [key: string]: string },
-  extraFunctions?: Record<string, string>,
-  userPool?: IUserPool
+  readWrite: ReadWriteMode = ReadWriteMode.ReadWrite
 ) => {
   const apiResource = api.root.addResource(name);
 
@@ -44,29 +49,8 @@ export const makeDataApi = (
       },
     });
 
-    if (userPool) {
-      crudFunction.addToRolePolicy(
-        new PolicyStatement({
-          effect: Effect.ALLOW,
-          actions: [IAM.actions.cognito.listUsers],
-          resources: [userPool.userPoolArn],
-        })
-      );
-    }
-
     return crudFunction;
   };
-
-  Object.entries(extraFunctions ?? {}).forEach(([verb, entry]) => {
-    const opName = entry.split('.')[0];
-    const extraFunction = makeCrudFunction(entryName('misc', entry), opName);
-
-    const resource =
-      apiResource.getResource(opName) ?? apiResource.addResource(opName);
-
-    resource.addMethod(verb, new LambdaIntegration(extraFunction));
-    dataTable.grantReadWriteData(extraFunction);
-  });
 
   const getFunction = makeCrudFunction(entryName('data-api', 'get.ts'), `get`);
 
@@ -78,16 +62,24 @@ export const makeDataApi = (
     'create'
   );
 
-  apiResource.addMethod(HTTP.verbs.Post, new LambdaIntegration(createFunction));
-  dataTable.grantWriteData(createFunction);
+  if (readWrite !== ReadWriteMode.ReadOnly) {
+    apiResource.addMethod(
+      HTTP.verbs.Post,
+      new LambdaIntegration(createFunction)
+    );
+    dataTable.grantWriteData(createFunction);
 
-  const updateFunction = makeCrudFunction(
-    entryName('data-api', 'put.ts'),
-    `update`
-  );
+    const updateFunction = makeCrudFunction(
+      entryName('data-api', 'put.ts'),
+      `update`
+    );
 
-  apiResource.addMethod(HTTP.verbs.Put, new LambdaIntegration(updateFunction));
-  dataTable.grantWriteData(updateFunction);
+    apiResource.addMethod(
+      HTTP.verbs.Put,
+      new LambdaIntegration(updateFunction)
+    );
+    dataTable.grantWriteData(updateFunction);
+  }
 
   return { table: dataTable };
 };

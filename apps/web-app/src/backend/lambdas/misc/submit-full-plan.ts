@@ -17,9 +17,16 @@ import {
 
 import { HTTP } from '@tnmw/constants';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
+import {
+  DynamoDBDocumentClient,
+  PutCommand,
+  BatchWriteCommandInput,
+  BatchWriteCommand,
+} from '@aws-sdk/lib-dynamodb';
 import { v4 } from 'uuid';
 import { isWeeklyPlan } from '@tnmw/types';
+import { StoredMealSelection } from 'libs/types/src/lib/stored-plan';
+import { batchArray } from 'apps/web-app/src/utils/batch-array';
 
 const getAttributeValue = (
   attributes: ListUsersCommandOutput['Users'][number]['Attributes'],
@@ -144,31 +151,51 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     };
 
     const command = new ListUsersCommand(input);
-
     const customers = parseCustomerList(await cognito.send(command));
-
     const meals = chooseMeals(payload.cooks, dates, customers);
+    const id = v4();
 
-    const item: StoredPlan = {
+    const plan: StoredPlan = {
+      id,
+      sort: 'plan',
       timestamp: new Date(Date.now()).toString(),
-      selections: meals,
       menus: dates.map((date, index) => ({
         date: date.toString(),
         // eslint-disable-next-line security/detect-object-injection
         menu: payload.cooks[index],
       })),
       username,
-      id: v4(),
     };
 
-    const putCommand = new PutCommand({
-      TableName: process.env[ENV.varNames.DynamoDBTable],
-      Item: item,
-    });
+    const selections: StoredMealSelection[] = meals.map((meal) => ({
+      id,
+      sort: `selection-${meal.customer.id}`,
+      selectionId: v4(),
+      selection: meal,
+    }));
 
-    await dynamo.send(putCommand);
+    const batches = batchArray([plan, ...selections], 25);
+    const tableName = process.env[ENV.varNames.DynamoDBTable];
+
+    await Promise.all(
+      batches.map(async (batch) => {
+        const input: BatchWriteCommandInput = {
+          RequestItems: {
+            [tableName]: batch.map((item) => ({ PutRequest: { Item: item } })),
+          },
+        };
+
+        const batchWriteCommand = new BatchWriteCommand(input);
+        await dynamo.send(batchWriteCommand);
+      })
+    );
+
     return {
       statusCode: HTTP.statusCodes.Ok,
+      headers: {
+        'access-control-allow-origin': '*',
+        'access-control-allow-headers': '*',
+      },
     };
   } catch (error) {
     return returnErrorResponse(error);
