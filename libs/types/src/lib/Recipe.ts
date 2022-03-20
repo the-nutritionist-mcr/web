@@ -26,21 +26,59 @@ export const isRecipe = (recipe: unknown): recipe is Recipe => {
 
   const asRecipe = recipe as Recipe;
 
-  return (
-    typeof asRecipe.id === 'string' &&
-    typeof asRecipe.name === 'string' &&
-    typeof asRecipe.shortName === 'string' &&
-    typeof asRecipe.hotOrCold === 'string' &&
-    (!asRecipe.description || typeof asRecipe.description === 'string') &&
-    (!asRecipe.allergens || typeof asRecipe.allergens === 'string') &&
-    Array.isArray(asRecipe.potentialExclusions) &&
-    asRecipe.potentialExclusions.every((item) => isExclusion(item)) &&
-    (!asRecipe.invalidExclusions ||
-      (Array.isArray(asRecipe.invalidExclusions) &&
-        asRecipe.invalidExclusions.every(
-          (item) => typeof item === 'string'
-        ))) &&
-    (!asRecipe.createdAt || typeof asRecipe.createdAt === 'string') &&
-    (!asRecipe.updatedAt || typeof asRecipe.updatedAt === 'string')
-  );
+  if (typeof asRecipe.id !== 'string') {
+    return false;
+  }
+
+  if (typeof asRecipe.name !== 'string') {
+    return false;
+  }
+
+  if (typeof asRecipe.shortName !== 'string') {
+    return false;
+  }
+
+  if (typeof asRecipe.hotOrCold !== 'string') {
+    return false;
+  }
+
+  if (
+    !Array.isArray(asRecipe.invalidExclusions) ||
+    !asRecipe.invalidExclusions.every((item) => typeof item === 'string')
+  ) {
+    return false;
+  }
+
+  if (asRecipe.description && typeof asRecipe.description !== 'string') {
+    return false;
+  }
+
+  if (asRecipe.allergens && typeof asRecipe.allergens == 'string') {
+    return false;
+  }
+
+  if (
+    !Array.isArray(asRecipe.potentialExclusions) ||
+    !asRecipe.potentialExclusions.every((item) => isExclusion(item))
+  ) {
+    return false;
+  }
+
+  if (
+    asRecipe.invalidExclusions &&
+    (!Array.isArray(asRecipe.invalidExclusions) ||
+      !asRecipe.invalidExclusions.every((item) => typeof item === 'string'))
+  ) {
+    return false;
+  }
+
+  if (asRecipe.createdAt && typeof asRecipe.createdAt !== 'string') {
+    return false;
+  }
+
+  if (asRecipe.updatedAt && typeof asRecipe.createdAt !== 'string') {
+    return false;
+  }
+
+  return true;
 };
