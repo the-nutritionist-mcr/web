@@ -2,10 +2,12 @@ import { IRestApi, LambdaIntegration } from '@aws-cdk/aws-apigateway';
 import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
 import { Table, AttributeType, BillingMode } from '@aws-cdk/aws-dynamodb';
 import { Runtime } from '@aws-cdk/aws-lambda';
-import { ENV, HTTP } from '@tnmw/constants';
+import { Effect, IGrantable, PolicyStatement } from '@aws-cdk/aws-iam';
+import { ENV, HTTP, IAM } from '@tnmw/constants';
 import { Construct } from '@aws-cdk/core';
 import { getResourceName } from './get-resource-name';
 import { entryName } from './entry-name';
+import { IUserPool } from '@aws-cdk/aws-cognito';
 
 export const makeDataApi = (
   context: Construct,
@@ -13,7 +15,8 @@ export const makeDataApi = (
   environment: string,
   api: IRestApi,
   defaultEnvironmentVars: { [key: string]: string },
-  extraFunctions?: Record<string, string>
+  extraFunctions?: Record<string, string>,
+  userPool: IUserPool
 ) => {
   const apiResource = api.root.addResource(name);
 
@@ -26,8 +29,8 @@ export const makeDataApi = (
     },
   });
 
-  const makeCrudFunction = (entry: string, opName: string) =>
-    new NodejsFunction(context, `${opName}${name}`, {
+  const makeCrudFunction = (entry: string, opName: string) => {
+    const crudFunction = new NodejsFunction(context, `${opName}${name}`, {
       functionName: getResourceName(`${opName}-${name}-handler`, environment),
       entry,
       runtime: Runtime.NODEJS_14_X,
@@ -40,6 +43,17 @@ export const makeDataApi = (
         sourceMap: true,
       },
     });
+
+    crudFunction.addToRolePolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: [IAM.actions.cognito.listUsers],
+        resources: [userPool.userPoolArn],
+      })
+    );
+
+    return crudFunction;
+  };
 
   Object.entries(extraFunctions ?? {}).forEach(([verb, entry]) => {
     const opName = entry.split('.')[0];
