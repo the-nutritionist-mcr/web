@@ -34,6 +34,20 @@ const getAttributeValue = (
 ): string | undefined =>
   attributes.find((attribute) => attribute.Name === key)?.Value ?? '';
 
+const getJsonAttributeValue = <T>(
+  attributes: ListUsersCommandOutput['Users'][number]['Attributes'],
+  key: string,
+  defaultValue: T
+) => {
+  try {
+    const rawValue = getAttributeValue(attributes, key);
+
+    return JSON.parse(rawValue);
+  } catch {
+    return defaultValue;
+  }
+};
+
 const convertPlanFormat = (
   plans: StandardPlan[]
 ): Omit<CustomerPlan, 'configuration'> =>
@@ -69,25 +83,18 @@ const parseCustomerList = (
   output: ListUsersCommandOutput
 ): Omit<Customer, 'plan' | 'snack' | 'breakfast' | 'daysPerWeek'>[] => {
   return output.Users.map((user) => ({
-    exclusions: JSON.parse(
-      getAttributeValue(
-        user.Attributes,
-        `custom:${COGNITO.customAttributes.UserCustomisations}`
-      )
+    exclusions: getJsonAttributeValue(
+      user.Attributes,
+      `custom:${COGNITO.customAttributes.UserCustomisations}`,
+      []
     ),
-    newPlan:
-      getAttributeValue(
+    newPlan: convertPlanFormat(
+      getJsonAttributeValue(
         user.Attributes,
-        `custom:${COGNITO.customAttributes.Plans}`
-      ) &&
-      (convertPlanFormat(
-        JSON.parse(
-          getAttributeValue(
-            user.Attributes,
-            `custom:${COGNITO.customAttributes.Plans}`
-          )
-        )
-      ) as CustomerPlan),
+        `custom:${COGNITO.customAttributes.Plans}`,
+        []
+      )
+    ) as CustomerPlan,
     id: user.Username,
     salutation: getAttributeValue(
       user.Attributes,
