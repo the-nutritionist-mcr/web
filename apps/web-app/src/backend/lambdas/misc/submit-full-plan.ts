@@ -150,10 +150,13 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const meals = chooseMeals(payload.cooks, dates, customers);
 
     const item: StoredPlan = {
-      timestamp: new Date(Date.now()),
+      timestamp: new Date(Date.now()).toString(),
       selections: meals,
-      // eslint-disable-next-line security/detect-object-injection
-      menus: dates.map((date, index) => ({ date, menu: payload.cooks[index] })),
+      menus: dates.map((date, index) => ({
+        date: date.toString(),
+        // eslint-disable-next-line security/detect-object-injection
+        menu: payload.cooks[index],
+      })),
       username,
       id: v4(),
     };
