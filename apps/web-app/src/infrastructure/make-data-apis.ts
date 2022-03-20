@@ -116,7 +116,8 @@ export const makeDataApis = (
     defaultEnvironmentVars,
     {
       post: 'submit-full-plan.ts',
-    }
+    },
+    pool
   );
 
   const customers = api.root.addResource('customers');
