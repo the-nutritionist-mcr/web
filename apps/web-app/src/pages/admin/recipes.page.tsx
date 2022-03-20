@@ -4,6 +4,7 @@ import { MenuPaddedContent } from './menu-padded-content';
 import { Recipes } from '@tnmw/admin-app';
 import { useCustomisations, useRecipes } from '../../hooks';
 import { AdminTemplate } from './admin-template';
+import { swrFetcher } from '../../utils/swr-fetcher';
 
 const RecipesPage: FC = () => {
   const { items, create, remove, update } = useRecipes();
@@ -13,6 +14,12 @@ const RecipesPage: FC = () => {
     <MenuPaddedContent>
       <AdminTemplate>
         <Recipes
+          onSubmitPlan={async (plan) => {
+            await swrFetcher('cook-plan/submit-full-plan', {
+              method: 'POST',
+              body: JSON.stringify(plan),
+            });
+          }}
           customisations={customisations}
           recipes={items}
           create={create}

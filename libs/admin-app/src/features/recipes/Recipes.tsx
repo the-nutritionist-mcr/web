@@ -8,7 +8,7 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-  Text
+  Text,
 } from 'grommet';
 
 import EditRecipesDialog from './EditRecipesDialog';
@@ -18,16 +18,18 @@ import RecipesRow from '../recipes/RecipesRow';
 import { defaultDeliveryDays } from '../../lib/config';
 import PlanningModeSummary from './PlanningModeSummary';
 import Exclusion from '../../domain/Exclusion';
+import { WeeklyPlan } from '@tnmw/types';
 
 interface RecipesProps {
   recipes?: Recipe[];
   customisations?: Exclusion[];
+  onSubmitPlan: (plan: WeeklyPlan) => void;
   create: (newRecipe: Recipe) => Promise<void>;
   remove: (recipeToRemove: Recipe) => Promise<void>;
   update: (recipeToUpdate: Recipe) => Promise<void>;
 }
 
-const Recipes: React.FC<RecipesProps> = props => {
+const Recipes: React.FC<RecipesProps> = (props) => {
   const recipes = props.recipes ?? [];
   const error = '';
   const [planningMode, setPlanningMode] = React.useState(false);
@@ -71,11 +73,11 @@ const Recipes: React.FC<RecipesProps> = props => {
               hotOrCold: HotOrCold.Hot,
               name: '',
               description: '',
-              potentialExclusions: []
+              potentialExclusions: [],
             }}
             title="Create Recipe"
             onOk={(recipe: Recipe): void => {
-              props.create(recipe)
+              props.create(recipe);
               setShowCreate(false);
             }}
             onCancel={(): void => {
@@ -125,7 +127,7 @@ const Recipes: React.FC<RecipesProps> = props => {
                   .slice()
                   .sort((a, b) => (a.name < b.name ? 1 : -1))
                   .reverse()
-                  .map(recipe => (
+                  .map((recipe) => (
                     /* eslint-enable fp/no-mutating-methods */
                     <RecipesRow
                       exclusions={props.customisations}
@@ -133,7 +135,7 @@ const Recipes: React.FC<RecipesProps> = props => {
                       remove={props.remove}
                       plannerSelection={plannerSelection}
                       selectedDeliveryDay={selectedDelivery}
-                      onSelect={newPlannerSelection =>
+                      onSelect={(newPlannerSelection) =>
                         setPlannerSelection(newPlannerSelection)
                       }
                       showCheckBoxes={showCheckBoxes}
@@ -150,6 +152,7 @@ const Recipes: React.FC<RecipesProps> = props => {
           </Table>
           {planningMode && (
             <PlanningModeSummary
+              onSubmit={props.onSubmitPlan}
               selectedDelivery={selectedDelivery}
               setPlanningMode={setPlanningMode}
               setPlannerSelection={setPlannerSelection}

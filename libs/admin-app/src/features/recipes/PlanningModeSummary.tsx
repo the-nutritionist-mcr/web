@@ -1,3 +1,4 @@
+import { WeeklyPlan } from '@tnmw/types';
 import {
   Box,
   Button,
@@ -8,7 +9,7 @@ import {
   DateInput,
   Header,
   Heading,
-  Paragraph
+  Paragraph,
 } from 'grommet';
 import React from 'react';
 import Recipe from '../../domain/Recipe';
@@ -20,12 +21,19 @@ interface PlanningModeSummaryProps {
   setPlanningMode: React.Dispatch<React.SetStateAction<boolean>>;
   setPlannerSelection: React.Dispatch<React.SetStateAction<Recipe[][]>>;
   plannerSelection: Recipe[][];
+  onSubmit: (plan: WeeklyPlan) => void;
 }
 
-const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = props => {
+const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = (props) => {
   const [cookDates, setCookDates] = React.useState(
     props.plannerSelection.map<string | undefined>(() => undefined)
   );
+
+  // eslint-disable-next-line unicorn/prefer-includes
+  const disableSubmit = Boolean(cookDates.some((item) => item === undefined));
+
+  const hasNoEmpties = (_dates: (string | undefined)[]): _dates is string[] =>
+    !disableSubmit;
 
   return (
     <Box
@@ -33,7 +41,7 @@ const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = props => {
       style={{
         padding: '10px',
         maxWidth: '25rem',
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
       }}
       gap="medium"
     >
@@ -60,7 +68,7 @@ const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = props => {
                   <li key="no-meals">No meals selected...</li>
                 ) : (
                   // eslint-disable-next-line security/detect-object-injection
-                  props.plannerSelection[index].map(recipe => (
+                  props.plannerSelection[index].map((recipe) => (
                     <li
                       key={`${recipe.id}-planner`}
                       style={{ marginBottom: '0.5rem' }}
@@ -78,9 +86,9 @@ const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = props => {
               }
               format="mm/dd/yyyy"
               calendarProps={{
-                daysOfWeek: true
+                daysOfWeek: true,
               }}
-              onChange={event => {
+              onChange={(event) => {
                 const newCookDates = [...cookDates];
                 if (!Array.isArray(event.value)) {
                   // eslint-disable-next-line security/detect-object-injection
@@ -105,14 +113,16 @@ const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = props => {
           primary
           size="small"
           label="Send to Planner"
-          disabled={
-            // eslint-disable-next-line unicorn/prefer-includes
-            Boolean(cookDates.some(item => item === undefined))
-          }
+          disabled={disableSubmit}
           a11yTitle="Send to Planner"
           style={{ flexGrow: 2 }}
           onClick={() => {
-            // Noop
+            if (hasNoEmpties(cookDates)) {
+              props.onSubmit({
+                cooks: props.plannerSelection,
+                dates: cookDates,
+              });
+            }
           }}
         />
         <Button
@@ -121,9 +131,7 @@ const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = props => {
           label="Cancel"
           style={{ flexGrow: 2 }}
           a11yTitle="Cancel"
-          onClick={() => {
-            // Noop
-          }}
+          onClick={() => {}}
         />
       </Box>
     </Box>

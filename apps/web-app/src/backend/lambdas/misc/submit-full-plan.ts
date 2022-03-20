@@ -26,27 +26,7 @@ import { HTTP } from '@tnmw/constants';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 } from 'uuid';
-
-interface WeeklyPlan {
-  cooks: Recipe[][];
-  dates: string[];
-}
-
-const isWeeklyPlan = (plan: unknown): plan is WeeklyPlan => {
-  if (typeof plan !== 'object') {
-    return false;
-  }
-
-  const asPlan = plan as WeeklyPlan;
-
-  return (
-    Array.isArray(asPlan.cooks) &&
-    asPlan.cooks.every(
-      (item) => Array.isArray(item) && item.every((recipe) => isRecipe(recipe))
-    ) &&
-    typeof asPlan.dates === 'string'
-  );
-};
+import { isWeeklyPlan } from '@tnmw/types';
 
 const getAttributeValue = (
   attributes: ListUsersCommandOutput['Users'][number]['Attributes'],

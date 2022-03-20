@@ -32,6 +32,7 @@ export const getPublicKeys = async (): Promise<MapOfKidToPublicKey> => {
     cacheKeys = publicKeys.data.keys.reduce<MapOfKidToPublicKey>(
       (agg: MapOfKidToPublicKey, current: PublicKey) => {
         const pem = jwkToPem(current);
+        console.log('here');
         // eslint-disable-next-line fp/no-mutation
         agg[current.kid] = { instance: current, pem };
         return agg;
