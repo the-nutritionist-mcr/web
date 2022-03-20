@@ -1,12 +1,5 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
-import {
-  Recipe,
-  isRecipe,
-  Customer,
-  CustomerPlan,
-  PlanLabels,
-  DaysPerWeek,
-} from '@tnmw/types';
+import { Customer, CustomerPlan, PlanLabels, DaysPerWeek } from '@tnmw/types';
 import { chooseMeals, makeNewPlan } from '@tnmw/meal-planning';
 import { COGNITO, ENV } from '@tnmw/constants';
 import { defaultDeliveryDays, planLabels, extrasLabels } from '@tnmw/config';
