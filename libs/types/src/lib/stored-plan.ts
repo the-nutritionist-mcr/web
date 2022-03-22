@@ -15,8 +15,7 @@ export interface StoredPlan {
 }
 
 export interface StoredMealSelection {
-  id: `selection`;
-  sort: `plan-${string}`;
-  selectionId: string;
+  id: `plan-${string}`;
+  sort: string;
   selection: CustomerMealsSelection[number];
 }

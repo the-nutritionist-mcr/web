@@ -169,9 +169,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     };
 
     const selections: StoredMealSelection[] = meals.map((meal) => ({
-      id: `selection`,
-      sort: `plan-${planId}`,
-      selectionId: v4(),
+      id: `plan-${planId}-selection`,
+      sort: v4(),
       selection: meal,
     }));
 
