@@ -41,9 +41,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         '#sort': 'sort',
       },
       ExpressionAttributeValues: {
-        ExpressionAttributeValues: {
-          ':id': 'plan',
-        },
+        ':id': 'plan',
       },
       FilterExpression: `#sort GE ${ONE_MONTH_AGO}`,
     };
@@ -67,9 +65,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         '#id': 'id',
       },
       ExpressionAttributeValues: {
-        ExpressionAttributeValues: {
-          ':id': planId,
-        },
+        ':id': planId,
       },
     };
     const selectionResponse = await dynamo.send(
