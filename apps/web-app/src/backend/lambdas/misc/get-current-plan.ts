@@ -42,8 +42,9 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       },
       ExpressionAttributeValues: {
         ':id': 'plan',
+        ':oneMonth': ONE_MONTH_AGO,
       },
-      FilterExpression: `#sort >= ${ONE_MONTH_AGO}`,
+      FilterExpression: `#sort >= :oneMonth`,
     };
 
     const response = await dynamo.send(new QueryCommand(input));
