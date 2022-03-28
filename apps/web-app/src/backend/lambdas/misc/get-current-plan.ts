@@ -2,7 +2,7 @@ import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { returnErrorResponse } from '../data-api/return-error-response';
 import { StoredPlan } from '@tnmw/types';
 import { ENV, HTTP } from '@tnmw/constants';
-// import { authoriseJwt } from '../data-api/authorise';
+import { authoriseJwt } from '../data-api/authorise';
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
@@ -14,7 +14,7 @@ import { HttpError } from '../data-api/http-error';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
-    // await authoriseJwt(event, ['admin']);
+    await authoriseJwt(event, ['admin']);
 
     const dynamodbClient = new DynamoDBClient({});
     const dynamo = DynamoDBDocumentClient.from(dynamodbClient);
