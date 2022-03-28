@@ -12,11 +12,6 @@ import {
 } from '@aws-sdk/lib-dynamodb';
 import { HttpError } from '../data-api/http-error';
 
-const MINUTES_IN_HOUR = 60;
-const HOURS_IN_DAY = 24;
-const SECONDS_IN_MINUTE = 60;
-const MS_IN_SECOND = 1000;
-
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
     // await authoriseJwt(event, ['admin']);
@@ -26,23 +21,14 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const tableName = process.env[ENV.varNames.DynamoDBTable];
 
-    const ONE_MONTH_AGO =
-      Math.floor(Date.now() / MS_IN_SECOND) *
-      MINUTES_IN_HOUR *
-      SECONDS_IN_MINUTE *
-      HOURS_IN_DAY *
-      30;
-
     const input: QueryCommandInput = {
       TableName: tableName,
-      KeyConditionExpression: `#id = :id and #sort >= :oneMonth`,
+      KeyConditionExpression: `#id = :id`,
       ExpressionAttributeNames: {
         '#id': 'id',
-        '#sort': 'sort',
       },
       ExpressionAttributeValues: {
         ':id': 'plan',
-        ':oneMonth': ONE_MONTH_AGO,
       },
     };
 
@@ -55,7 +41,12 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       );
     }
 
-    const plan = response.Items[0] as StoredPlan;
+    const plans = response.Items as StoredPlan[] | undefined;
+
+    const plan = plans
+      ?.slice()
+      .sort((a, b) => (Number(a.sort) > Number(b.sort) ? 1 : -1))?.[0];
+
     const { planId } = plan;
 
     const selectionQueryInput: QueryCommandInput = {
