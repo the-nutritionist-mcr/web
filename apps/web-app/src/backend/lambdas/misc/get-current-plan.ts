@@ -56,7 +56,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         '#id': 'id',
       },
       ExpressionAttributeValues: {
-        ':id': planId,
+        ':id': `plan-${planId}-selection`,
       },
     };
     const selectionResponse = await dynamo.send(
