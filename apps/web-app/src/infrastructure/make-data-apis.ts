@@ -149,6 +149,26 @@ export const makeDataApis = (
     })
   );
 
+  const getPlanFunction = new NodejsFunction(context, `get-plan-function`, {
+    functionName: getResourceName(`get-plan-function`, envName),
+    entry: entryName('misc', 'get-current-plan.ts'),
+    runtime: Runtime.NODEJS_14_X,
+    memorySize: 2048,
+    environment: {
+      ...defaultEnvironmentVars,
+      [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
+    },
+    bundling: {
+      sourceMap: true,
+    },
+  });
+
+  planResource.addMethod(
+    HTTP.verbs.Get,
+    new LambdaIntegration(getPlanFunction)
+  );
+  planDataTable.grantReadData(getPlanFunction);
+
   const customers = api.root.addResource('customers');
 
   const me = customers.addResource('me');
