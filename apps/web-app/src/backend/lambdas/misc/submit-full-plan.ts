@@ -74,7 +74,12 @@ const convertPlanFormat = (
         })),
       }),
       {
-        deliveries: [],
+        deliveries: Array.from({ length: defaultDeliveryDays.length }).map(
+          () => ({
+            items: [],
+            extras: [],
+          })
+        ),
       }
     );
 
