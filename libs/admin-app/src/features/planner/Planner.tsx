@@ -1,15 +1,15 @@
-import { Heading, Header, Button } from "grommet";
+import { Heading, Header, Button } from 'grommet';
 
-import React from "react";
-import Finalize from "./Finalize";
-import generateDeliveryPlanDocumentDefinition from "../../lib/generateDeliveryPlanDocumentDefinition";
-import downloadPdf from "../../lib/downloadPdf";
-import { defaultDeliveryDays } from "../../lib/config";
-import  Recipe from "../../domain/Recipe"
+import React from 'react';
+import Finalize from './Finalize';
+import generateDeliveryPlanDocumentDefinition from '../../lib/generateDeliveryPlanDocumentDefinition';
+import downloadPdf from '../../lib/downloadPdf';
+import { defaultDeliveryDays } from '@tnmw/config';
+import Recipe from '@tnmw/types';
 
 const Planner: React.FC = () => {
-  const customerMeals: Recipe[] = []
-  const recipes: Recipe[] = []
+  const customerMeals: Recipe[] = [];
+  const recipes: Recipe[] = [];
 
   return (
     <>
@@ -25,7 +25,7 @@ const Planner: React.FC = () => {
               customerMeals ?? [],
               recipes
             );
-            downloadPdf(plan, "pack-plan.pdf");
+            downloadPdf(plan, 'pack-plan.pdf');
           }}
         />
         <Button

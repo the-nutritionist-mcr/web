@@ -1,4 +1,4 @@
-import { WeeklyPlan } from '@tnmw/types';
+import { WeeklyPlan, Recipe } from '@tnmw/types';
 import {
   Box,
   Button,
@@ -12,8 +12,7 @@ import {
   Paragraph,
 } from 'grommet';
 import React from 'react';
-import Recipe from '../../domain/Recipe';
-import { defaultDeliveryDays } from '../../lib/config';
+import { defaultDeliveryDays } from '@tnmw/config';
 
 interface PlanningModeSummaryProps {
   selectedDelivery: number;

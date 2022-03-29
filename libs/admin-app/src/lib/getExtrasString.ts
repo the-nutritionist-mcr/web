@@ -1,4 +1,4 @@
-import Customer, { Snack } from '../domain/Customer';
+import { Customer, Snack } from '@tnmw/types';
 
 const getExtrasString = (customer: Customer): string => {
   const returnVal = [];

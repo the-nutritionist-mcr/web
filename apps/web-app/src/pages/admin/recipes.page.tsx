@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { MenuPaddedContent } from './menu-padded-content';
+import { AdminTemplate } from './admin-template';
 
 import { Recipes } from '@tnmw/admin-app';
 import { useCustomisations, useRecipes } from '../../hooks';
-import { AdminTemplate } from './admin-template';
 import { swrFetcher } from '../../utils/swr-fetcher';
 
 const RecipesPage: FC = () => {

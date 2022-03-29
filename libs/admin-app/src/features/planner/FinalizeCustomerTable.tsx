@@ -7,26 +7,20 @@ import {
   TableBody,
   TableHeader,
   Button,
-  Box
-} from "grommet";
-import { FormAdd } from "grommet-icons";
-import { CustomerMealsSelection } from "../../meal-planning";
-import React from "react";
-import Recipe from "../../domain/Recipe";
-import deepMemo from "../../lib/deepMemo";
-import styled from "styled-components";
-import { batchArray } from "../../lib/batch-array";
-import FinalizeCell from "./FinalizeCell";
-import DeliveryMealsSelection from "../../types/DeliveryMealsSelection";
-import { Link } from "react-router-dom";
-import { addAdHoc } from "./planner-reducer";
-import { useDispatch } from "react-redux";
-import { getPlanString } from "../../lib/get-plan-string";
-import {
-  defaultDeliveryDays,
-  extrasLabels,
-  planLabels
-} from "../../lib/config";
+  Box,
+} from 'grommet';
+import { FormAdd } from 'grommet-icons';
+import React from 'react';
+import Recipe from '../../domain/Recipe';
+import deepMemo from '../../lib/deepMemo';
+import styled from 'styled-components';
+import { batchArray } from '../../lib/batch-array';
+import FinalizeCell from './FinalizeCell';
+import DeliveryMealsSelection from '../../types/DeliveryMealsSelection';
+import { Link } from 'react-router-dom';
+import { getPlanString } from '../../lib/get-plan-string';
+import { defaultDeliveryDays, extrasLabels, planLabels } from '@tnmw/config';
+import { CustomerMealsSelection } from '@tnmw/types';
 
 interface FinalizeRowProps {
   customerSelection: CustomerMealsSelection[number];
@@ -38,11 +32,11 @@ interface FinalizeRowProps {
 const AlternatingTableRow = styled(TableRow)`
   box-sizing: border-box;
   &:hover {
-    outline: 1px solid ${base.global?.colors?.["brand"]};
+    outline: 1px solid ${base.global?.colors?.['brand']};
   }
 `;
 
-const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = props => {
+const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
   const name = `${props.customerSelection.customer.firstName} ${props.customerSelection.customer.surname}`;
 
   const deliveries = props.customerSelection.deliveries ?? [];
@@ -52,15 +46,13 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = props => {
       getPlanString(props.customerSelection.customer.newPlan, {
         planLabels: [...planLabels],
         extrasLabels: [...extrasLabels],
-        defaultDeliveryDays: [...defaultDeliveryDays]
+        defaultDeliveryDays: [...defaultDeliveryDays],
       }),
     [props.customerSelection.customer.newPlan]
   );
 
-  const dispatch = useDispatch();
-
   return (
-    <Table alignSelf="start" style={{ marginTop: "1rem" }}>
+    <Table alignSelf="start" style={{ marginTop: '1rem' }}>
       <TableHeader>
         <TableRow>
           <TableCell colSpan={7}>
@@ -68,11 +60,11 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = props => {
               <Text>
                 <strong>
                   <Link
-                    style={{ color: "black", textDecoration: "none" }}
+                    style={{ color: 'black', textDecoration: 'none' }}
                     to={`/edit-customer/${props.customerSelection.customer.id}`}
                   >
                     {name}
-                  </Link>{" "}
+                  </Link>{' '}
                 </strong>
                 / {planString}
               </Text>
@@ -82,7 +74,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = props => {
       </TableHeader>
       <TableBody>
         {deliveries.flatMap((delivery, deliveryIndex) =>
-          typeof delivery === "string" ? (
+          typeof delivery === 'string' ? (
             <AlternatingTableRow>
               <TableCell scope="row">
                 <Text>
@@ -111,20 +103,13 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = props => {
                   key={`${props.customerSelection.customer.id}-${deliveryIndex}-add-button`}
                   icon={<FormAdd />}
                   hoverIndicator={true}
-                  onClick={() =>
-                    dispatch(
-                      addAdHoc({
-                        customer: props.customerSelection.customer,
-                        deliveryIndex
-                      })
-                    )
-                  }
-                />
+                  onClick={() => {}}
+                />,
               ],
               props.columns
             ).map((row, batchIndex) => (
               <AlternatingTableRow
-                style={{ width: "100%" }}
+                style={{ width: '100%' }}
                 key={`${props.customerSelection.customer.id}-${deliveryIndex}-${batchIndex}}-row`}
               >
                 <TableCell scope="row">

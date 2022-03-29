@@ -2,17 +2,13 @@ import { Box, Button, TableCell, TableRow } from 'grommet';
 import { Pause, Play, Trash } from 'grommet-icons';
 import { OkCancelDialog, PauseDialog } from '../../components';
 import { Link } from 'react-router-dom';
-import Customer from '../../domain/Customer';
+import { Customer } from '@tnmw/types';
 import EditCustomerDialog from './EditCustomerDialog';
 import React from 'react';
 import getExtrasString from '../../lib/getExtrasString';
 import getStatusString from '../../lib/getStatusString';
 import styled from 'styled-components';
-import {
-  defaultDeliveryDays,
-  planLabels,
-  extrasLabels,
-} from '../../lib/config';
+import { defaultDeliveryDays, planLabels, extrasLabels } from '@tnmw/config';
 import deepMemo from '../../lib/deepMemo';
 import { getPlanString } from '../../lib/get-plan-string';
 

@@ -9,13 +9,12 @@ import {
   Heading,
   Layer,
   Select,
-  TextInput
+  TextInput,
 } from 'grommet';
 import { Checkmark, Close } from 'grommet-icons';
-import Recipe, { HotOrCold } from '../../domain/Recipe';
+import { HotOrCold, Recipe, Exclusion } from '@tnmw/types';
 import React from 'react';
 import { debounce } from 'lodash';
-import Exclusion from '../../domain/Exclusion';
 
 interface EditRecipesDialogProps {
   recipe: Recipe;
@@ -27,7 +26,7 @@ interface EditRecipesDialogProps {
 
 const ONSUBMIT_DEBOUNCE = 500;
 
-const EditRecipesDialog: React.FC<EditRecipesDialogProps> = props => {
+const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
   const [recipe, setRecipe] = React.useState(props.recipe);
   const exclusions = props.exclusions ?? [];
 
@@ -37,9 +36,9 @@ const EditRecipesDialog: React.FC<EditRecipesDialogProps> = props => {
 
   const formRecipe = {
     ...recipe,
-    invalidExclusions: recipe.invalidExclusions?.map(exclusionId =>
-      exclusions.find(otherExclusion => otherExclusion.id === exclusionId)
-    )
+    invalidExclusions: recipe.invalidExclusions?.map((exclusionId) =>
+      exclusions.find((otherExclusion) => otherExclusion.id === exclusionId)
+    ),
   };
 
   return (
@@ -58,7 +57,7 @@ const EditRecipesDialog: React.FC<EditRecipesDialogProps> = props => {
                 nextRecipeData.invalidExclusions?.map(
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   (exclusion: any) => exclusion.id
-                ) ?? []
+                ) ?? [],
             };
             setRecipe(stateRecipe);
           }}

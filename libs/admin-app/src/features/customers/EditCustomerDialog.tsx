@@ -16,11 +16,10 @@ import {
   ThemeContext,
 } from 'grommet';
 import { Checkmark, Close } from 'grommet-icons';
-import Customer, { Snack } from '../../domain/Customer';
-import { daysPerWeekOptions, plans } from '../../lib/config';
 import React from 'react';
 import { debounce } from 'lodash';
-import Exclusion from '../../domain/Exclusion';
+import { Customer, Exclusion, Snack } from '@tnmw/types';
+import { daysPerWeekOptions, plans } from '@tnmw/config';
 
 interface EditCustomerDialogProps {
   customer: Customer;
@@ -29,14 +28,12 @@ interface EditCustomerDialogProps {
   onOk: () => void;
   title: string;
   onCancel: () => void;
-  exclusions: Exclusion[]
+  exclusions: Exclusion[];
 }
 
 const SUBMIT_DEBOUNCE = 500;
 
 const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
-
-
   const propsCustomer = {
     ...props.customer,
     breakfast: props.customer.breakfast ? 'Yes' : 'No',
@@ -203,9 +200,7 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
 
           <CardFooter pad="medium" alignSelf="center" justify="center">
             <Button
-              icon={
-                  <Checkmark size="small" color="brand" />
-              }
+              icon={<Checkmark size="small" color="brand" />}
               disabled={isLoading}
               label="Ok"
               type="submit"

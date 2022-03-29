@@ -1,19 +1,15 @@
-import Customer from '../domain/Customer';
 import { DocumentDefinition } from './downloadPdf';
 import Recipe from '../domain/Recipe';
-import {
-  createVariant,
-  CustomerMealsSelection,
-  Delivery,
-} from '../meal-planning';
-import { defaultDeliveryDays } from './config';
 import formatPlanItem from './formatPlanItem';
 import { PdfBuilder } from './pdf-builder';
+import { createVariant, Delivery } from '@tnmw/meal-planning';
+import { defaultDeliveryDays } from '@tnmw/config';
+import { CustomerMealsSelection, CustomerWithNewPlan } from '@tnmw/types';
 
 const COLUMNS = 6;
 
 interface CustomerMealDaySelection {
-  customer: Customer;
+  customer: CustomerWithNewPlan;
   delivery: Delivery;
 }
 
@@ -58,7 +54,7 @@ const makeRowsFromSelections = (
             .map((item) => formatPlanItem(item.mealWithVariantString, item))),
     ]);
 
-const generateNameString = (customer: Customer) =>
+const generateNameString = (customer: CustomerWithNewPlan) =>
   `${customer.surname}, ${customer.firstName}`;
 
 const options = {

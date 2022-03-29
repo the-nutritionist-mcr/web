@@ -8,17 +8,16 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-} from "grommet";
-import Customer, { Snack } from "../../domain/Customer";
+} from 'grommet';
+import { Customer, Snack, Exclusion } from '@tnmw/types';
 
-import { daysPerWeekOptions, plans } from "../../lib/config";
-import CustomerRow from "./CustomerRow";
-import EditCustomerDialog from "./EditCustomerDialog";
-import React from "react";
-import fileDownload from "js-file-download";
-import generateCsvStringFromObjectArray from "../../lib/generateCsvStringFromObjectArray";
-import { useHistory } from "react-router-dom";
-import Exclusion from "../../domain/Exclusion";
+import { daysPerWeekOptions, plans } from '@tnmw/config';
+import CustomerRow from './CustomerRow';
+import EditCustomerDialog from './EditCustomerDialog';
+import React from 'react';
+import fileDownload from 'js-file-download';
+import generateCsvStringFromObjectArray from '../../lib/generateCsvStringFromObjectArray';
+import { useHistory } from 'react-router-dom';
 
 const convertCustomerToSimpleObject = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -26,18 +25,18 @@ const convertCustomerToSimpleObject = (
 ): { [key: string]: string | number | boolean | undefined } => ({
   ...customer,
   plan: customer.plan.name,
-  exclusions: customer.exclusions.map((exclusion) => exclusion.name).join(","),
+  exclusions: customer.exclusions.map((exclusion) => exclusion.name).join(','),
 });
 
 interface CustomersProps {
-  customers: Customer[]
-  customisations: Exclusion[]
+  customers: Customer[];
+  customisations: Exclusion[];
 }
 
-const Customers: React.FC<CustomersProps> = ({customers, customisations}) => {
+const Customers: React.FC<CustomersProps> = ({ customers, customisations }) => {
   const [showCreateCustomer, setShowCreateCustomer] = React.useState(false);
 
-  const exclusions = customisations
+  const exclusions = customisations;
 
   const history = useHistory();
 
@@ -49,7 +48,7 @@ const Customers: React.FC<CustomersProps> = ({customers, customisations}) => {
           <Button
             primary
             size="small"
-            onClick={() => history.push("/new-customer")}
+            onClick={() => history.push('/new-customer')}
             label="New"
             a11yTitle="New Customer"
           />
@@ -61,7 +60,7 @@ const Customers: React.FC<CustomersProps> = ({customers, customisations}) => {
               const string = generateCsvStringFromObjectArray(
                 customers.map(convertCustomerToSimpleObject)
               );
-              fileDownload(string, "customers.csv");
+              fileDownload(string, 'customers.csv');
             }}
           />
           {showCreateCustomer && (
@@ -69,14 +68,14 @@ const Customers: React.FC<CustomersProps> = ({customers, customisations}) => {
               exclusions={exclusions}
               title="Create New Customer"
               customer={{
-                id: "0",
-                firstName: "",
-                surname: "",
-                salutation: "",
-                telephone: "",
-                address: "",
-                notes: "",
-                email: "",
+                id: '0',
+                firstName: '',
+                surname: '',
+                salutation: '',
+                telephone: '',
+                address: '',
+                notes: '',
+                email: '',
                 daysPerWeek: daysPerWeekOptions[0],
                 plan: plans[0],
                 snack: Snack.None,
@@ -94,42 +93,42 @@ const Customers: React.FC<CustomersProps> = ({customers, customisations}) => {
           )}
         </Box>
       </Header>
-        <Table alignSelf="start">
-          <TableHeader>
-            <TableRow>
-              <TableCell scope="col">
-                <strong>Name</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Status</strong>
-              </TableCell>
-              <TableCell scope="col">
-                <strong>Plan</strong>
-              </TableCell>
-              <TableCell scope="col">
-                <strong>Extras</strong>
-              </TableCell>
-              <TableCell scope="col">
-                <strong>Customisations</strong>
-              </TableCell>
-              <TableCell scope="col">
-                <strong>Actions</strong>
-              </TableCell>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {customers
-              .slice()
-              .reverse()
-              .sort((a: Customer, b: Customer) =>
-                // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-                a.surname > b.surname ? 1 : -1
-              )
-              .map((customer) => (
-                <CustomerRow key={customer.id} customer={customer} />
-              ))}
-          </TableBody>
-        </Table>
+      <Table alignSelf="start">
+        <TableHeader>
+          <TableRow>
+            <TableCell scope="col">
+              <strong>Name</strong>
+            </TableCell>
+            <TableCell>
+              <strong>Status</strong>
+            </TableCell>
+            <TableCell scope="col">
+              <strong>Plan</strong>
+            </TableCell>
+            <TableCell scope="col">
+              <strong>Extras</strong>
+            </TableCell>
+            <TableCell scope="col">
+              <strong>Customisations</strong>
+            </TableCell>
+            <TableCell scope="col">
+              <strong>Actions</strong>
+            </TableCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {customers
+            .slice()
+            .reverse()
+            .sort((a: Customer, b: Customer) =>
+              // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+              a.surname > b.surname ? 1 : -1
+            )
+            .map((customer) => (
+              <CustomerRow key={customer.id} customer={customer} />
+            ))}
+        </TableBody>
+      </Table>
     </React.Fragment>
   );
 };

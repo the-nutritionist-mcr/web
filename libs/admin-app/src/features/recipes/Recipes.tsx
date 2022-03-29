@@ -12,13 +12,11 @@ import {
 } from 'grommet';
 
 import EditRecipesDialog from './EditRecipesDialog';
-import Recipe, { HotOrCold } from '../../domain/Recipe';
 import React from 'react';
 import RecipesRow from '../recipes/RecipesRow';
-import { defaultDeliveryDays } from '../../lib/config';
+import { defaultDeliveryDays } from '@tnmw/config';
 import PlanningModeSummary from './PlanningModeSummary';
-import Exclusion from '../../domain/Exclusion';
-import { WeeklyPlan } from '@tnmw/types';
+import { Recipe, Exclusion, WeeklyPlan } from '@tnmw/types';
 
 interface RecipesProps {
   recipes?: Recipe[];

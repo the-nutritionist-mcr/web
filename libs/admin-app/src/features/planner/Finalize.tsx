@@ -1,17 +1,16 @@
-import { Paragraph } from "grommet";
-import React from "react";
-import { useSelector } from "react-redux";
-import { allRecipesSelector } from "../recipes/recipesSlice";
-import FinalizeCustomerTable from "./FinalizeCustomerTable";
 import {
-  customerSelectionsSelector,
-  plannedMealsSelector
-} from "./planner-reducer";
+  CustomerMealsSelection,
+  DeliveryMealsSelection,
+  Recipe,
+} from '@tnmw/types';
+import { Paragraph } from 'grommet';
+import React from 'react';
+import FinalizeCustomerTable from './FinalizeCustomerTable';
 
 const Finalize: React.FC = () => {
-  const customerMeals = useSelector(customerSelectionsSelector);
-  const planned = useSelector(plannedMealsSelector);
-  const recipes = useSelector(allRecipesSelector);
+  let customerMeals: CustomerMealsSelection | undefined;
+  let planned: DeliveryMealsSelection[] | undefined;
+  let recipes: Recipe[] | undefined;
 
   if (!customerMeals) {
     return (
@@ -29,7 +28,7 @@ const Finalize: React.FC = () => {
         adjustments. If you are happy with this plan, you can use the buttons
         above to download PDFs for the cook and delivery plan. Please note that
         if you make any changes to anything outside this page (such as recipes
-        and customers), they will{" "}
+        and customers), they will{' '}
         <strong>not automatically be reflected in this plan</strong> until you
         generate a new one via planning mode on the Recipes page.
       </Paragraph>
@@ -41,7 +40,7 @@ const Finalize: React.FC = () => {
             : // eslint-disable-next-line @typescript-eslint/no-magic-numbers
               -1
         )
-        .map(customerPlan => (
+        .map((customerPlan) => (
           <FinalizeCustomerTable
             key={`${customerPlan.customer.id}-finalize-table`}
             customerSelection={customerPlan}
