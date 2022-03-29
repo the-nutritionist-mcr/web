@@ -1,6 +1,6 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { returnErrorResponse } from '../data-api/return-error-response';
-import { StoredPlan } from '@tnmw/types';
+import { StoredMealSelection, StoredPlan, GetPlanResponse } from '@tnmw/types';
 import { ENV, HTTP } from '@tnmw/constants';
 import { authoriseJwt } from '../data-api/authorise';
 
@@ -33,9 +33,19 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const selectionResponse = await doQuery(tableName, `id = #id`, [
       `plan-${planId}-selection`,
     ]);
+
+    const selections = selectionResponse.Items as
+      | StoredMealSelection[]
+      | undefined;
+
+    const finalResponse: GetPlanResponse = {
+      cooks: plan.menus,
+      selections: selections.map((selection) => selection.selection),
+    };
+
     return {
       statusCode: HTTP.statusCodes.Ok,
-      body: JSON.stringify(selectionResponse.Items),
+      body: JSON.stringify(finalResponse),
       headers: {
         [HTTP.headerNames.AccessControlAllowOrigin]: '*',
         [HTTP.headerNames.AccessControlAllowHeaders]: '*',

@@ -5,9 +5,10 @@ import Finalize from './Finalize';
 import generateDeliveryPlanDocumentDefinition from '../../lib/generateDeliveryPlanDocumentDefinition';
 import downloadPdf from '../../lib/downloadPdf';
 import { defaultDeliveryDays } from '@tnmw/config';
-import { CustomerMealsSelection, Recipe } from '@tnmw/types';
+import { Cook, CustomerMealsSelection, Recipe } from '@tnmw/types';
 
 interface PlannerProps {
+  cooks: Cook[];
   selections: CustomerMealsSelection;
   recipes: Recipe[];
 }

@@ -30,7 +30,12 @@ export type {
 
 export type { default as CookPlan, RecipeVariantMap } from './lib/cook-plan';
 
-export type { StoredPlan, StoredMealSelection } from './lib/stored-plan';
+export type {
+  StoredPlan,
+  StoredMealSelection,
+  GetPlanResponse,
+  Cook,
+} from './lib/stored-plan';
 export type { StandardPlan } from './lib/standard-plan';
 
 export { isWeeklyPlan } from './lib/weekly-plan';

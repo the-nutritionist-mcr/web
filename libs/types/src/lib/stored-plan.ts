@@ -1,7 +1,7 @@
 import { CustomerMealsSelection } from './customer-meal-selection';
 import Recipe from './Recipe';
 
-interface Cook {
+export interface Cook {
   date: string;
   menu: Recipe[];
 }
@@ -18,4 +18,9 @@ export interface StoredMealSelection {
   id: `plan-${string}-selection`;
   sort: string;
   selection: CustomerMealsSelection[number];
+}
+
+export interface GetPlanResponse {
+  cooks: Cook[];
+  selections: CustomerMealsSelection;
 }
