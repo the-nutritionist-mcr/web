@@ -7,9 +7,14 @@ import downloadPdf from '../../lib/downloadPdf';
 import { defaultDeliveryDays } from '@tnmw/config';
 import { CustomerMealsSelection, Recipe } from '@tnmw/types';
 
-const Planner: React.FC = () => {
-  const customerMeals: CustomerMealsSelection = [];
-  const recipes: Recipe[] = [];
+interface PlannerProps {
+  selections: CustomerMealsSelection;
+  recipes: Recipe[];
+}
+
+const Planner: React.FC<PlannerProps> = (props) => {
+  const customerMeals = props.selections;
+  const recipes = props.recipes;
 
   return (
     <>
