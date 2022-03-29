@@ -13,7 +13,7 @@ export const planLabels: ReadonlyArray<PlanLabels> = [
   'Seasonal Soup',
 ];
 
-export const defaultDeliveryDays = ['Monday', 'Wednesday'];
+export const defaultDeliveryDays = ['Monday', 'Wednesday', 'Friday'];
 
 export const daysOfWeek = [
   'Sunday',
