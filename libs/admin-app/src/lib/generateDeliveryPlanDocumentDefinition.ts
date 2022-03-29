@@ -1,10 +1,14 @@
 import { DocumentDefinition } from './downloadPdf';
-import Recipe from '../domain/Recipe';
 import formatPlanItem from './formatPlanItem';
 import { PdfBuilder } from './pdf-builder';
 import { createVariant, Delivery } from '@tnmw/meal-planning';
 import { defaultDeliveryDays } from '@tnmw/config';
-import { CustomerMealsSelection, CustomerWithNewPlan } from '@tnmw/types';
+
+import {
+  Recipe,
+  CustomerMealsSelection,
+  CustomerWithNewPlan,
+} from '@tnmw/types';
 
 const COLUMNS = 6;
 

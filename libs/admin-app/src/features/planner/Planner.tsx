@@ -5,7 +5,7 @@ import Finalize from './Finalize';
 import generateDeliveryPlanDocumentDefinition from '../../lib/generateDeliveryPlanDocumentDefinition';
 import downloadPdf from '../../lib/downloadPdf';
 import { defaultDeliveryDays } from '@tnmw/config';
-import Recipe from '@tnmw/types';
+import { Recipe } from '@tnmw/types';
 
 const Planner: React.FC = () => {
   const customerMeals: Recipe[] = [];
