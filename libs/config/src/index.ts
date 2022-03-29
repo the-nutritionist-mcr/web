@@ -4,11 +4,13 @@ import { ExtrasLabels, Plan, PlanLabels } from '@tnmw/types';
 export const daysPerWeekOptions = [7, 6, 5];
 
 export const planLabels: ReadonlyArray<PlanLabels> = [
-  'EQ',
+  'Seasonal Soup',
+  'Equilibrium',
   'Mass',
   'Micro',
-  'Ultra-Micro',
-  'Carb Free',
+  'Ultra Micro',
+  'Low-CHO',
+  'Seasonal Soup',
 ];
 
 export const defaultDeliveryDays = ['Monday', 'Wednesday'];

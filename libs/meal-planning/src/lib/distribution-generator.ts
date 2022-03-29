@@ -214,7 +214,7 @@ const deliveriesAreEqual = (first: Delivery[], second: Delivery[]) => {
       return true;
     }
 
-    delivery.extras.some(
+    return delivery.extras.some(
       (extra, extraIndex) =>
         !itemsAreEqual(second[deliveryIndex].extras[extraIndex], extra)
     );

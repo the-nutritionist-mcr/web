@@ -4,35 +4,16 @@ import { StoredPlan } from '@tnmw/types';
 import { ENV, HTTP } from '@tnmw/constants';
 import { authoriseJwt } from '../data-api/authorise';
 
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import {
-  DynamoDBDocumentClient,
-  QueryCommandInput,
-  QueryCommand,
-} from '@aws-sdk/lib-dynamodb';
 import { HttpError } from '../data-api/http-error';
+import { doQuery } from '../create-query-params';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
     await authoriseJwt(event, ['admin']);
 
-    const dynamodbClient = new DynamoDBClient({});
-    const dynamo = DynamoDBDocumentClient.from(dynamodbClient);
-
     const tableName = process.env[ENV.varNames.DynamoDBTable];
 
-    const input: QueryCommandInput = {
-      TableName: tableName,
-      KeyConditionExpression: `#id = :id`,
-      ExpressionAttributeNames: {
-        '#id': 'id',
-      },
-      ExpressionAttributeValues: {
-        ':id': 'plan',
-      },
-    };
-
-    const response = await dynamo.send(new QueryCommand(input));
+    const response = await doQuery(tableName, 'id = #id', ['plan']);
 
     if (!response.Items?.length) {
       throw new HttpError(
@@ -49,19 +30,9 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const { planId } = plan;
 
-    const selectionQueryInput: QueryCommandInput = {
-      TableName: tableName,
-      KeyConditionExpression: `#id = :id`,
-      ExpressionAttributeNames: {
-        '#id': 'id',
-      },
-      ExpressionAttributeValues: {
-        ':id': `plan-${planId}-selection`,
-      },
-    };
-    const selectionResponse = await dynamo.send(
-      new QueryCommand(selectionQueryInput)
-    );
+    const selectionResponse = await doQuery(tableName, `id = #id`, [
+      `plan-${planId}-selection`,
+    ]);
     return {
       statusCode: HTTP.statusCodes.Ok,
       body: JSON.stringify(selectionResponse.Items),

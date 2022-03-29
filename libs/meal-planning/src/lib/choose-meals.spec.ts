@@ -126,14 +126,14 @@ const customerOne: Customer = {
     deliveries: [
       {
         items: [
-          { name: 'EQ', quantity: 5 },
+          { name: 'Equilibrium', quantity: 5 },
           { name: 'Mass', quantity: 3 },
         ],
         extras: [],
       },
       {
         items: [
-          { name: 'EQ', quantity: 3 },
+          { name: 'Equilibrium', quantity: 3 },
           { name: 'Mass', quantity: 5 },
         ],
         extras: [],
@@ -166,14 +166,14 @@ const customerTwo: Customer = {
     deliveries: [
       {
         items: [
-          { name: 'EQ', quantity: 5 },
+          { name: 'Equilibrium', quantity: 5 },
           { name: 'Micro', quantity: 5 },
         ],
         extras: [{ name: 'Breakfast', quantity: 5 }],
       },
       {
         items: [
-          { name: 'EQ', quantity: 5 },
+          { name: 'Equilibrium', quantity: 5 },
           { name: 'Mass', quantity: 5 },
         ],
         extras: [{ name: 'Breakfast', quantity: 5 }],
@@ -206,14 +206,14 @@ const customerThree: Customer = {
     deliveries: [
       {
         items: [
-          { name: 'EQ', quantity: 5 },
+          { name: 'Equilibrium', quantity: 5 },
           { name: 'Micro', quantity: 5 },
         ],
         extras: [{ name: 'Breakfast', quantity: 5 }],
       },
       {
         items: [
-          { name: 'EQ', quantity: 5 },
+          { name: 'Equilibrium', quantity: 5 },
           { name: 'Mass', quantity: 5 },
         ],
         extras: [{ name: 'Large Snack', quantity: 4 }],
@@ -389,11 +389,11 @@ describe('Choose Meals', () => {
       Array.isArray(result[0].deliveries[0]) &&
       result[0].deliveries[0].map((item) => item.chosenVariant);
     expect(variants).toEqual([
-      'EQ',
-      'EQ',
-      'EQ',
-      'EQ',
-      'EQ',
+      'Equilibrium',
+      'Equilibrium',
+      'Equilibrium',
+      'Equilibrium',
+      'Equilibrium',
       'Mass',
       'Mass',
       'Mass',
@@ -403,11 +403,11 @@ describe('Choose Meals', () => {
       Array.isArray(result[2].deliveries[1]) &&
       result[2].deliveries[1].map((item) => item.chosenVariant);
     expect(variants2).toEqual([
-      'EQ',
-      'EQ',
-      'EQ',
-      'EQ',
-      'EQ',
+      'Equilibrium',
+      'Equilibrium',
+      'Equilibrium',
+      'Equilibrium',
+      'Equilibrium',
       'Mass',
       'Mass',
       'Mass',
@@ -487,7 +487,7 @@ describe('Choose Meals', () => {
       newPlan: {
         deliveries: [
           {
-            items: [{ name: 'EQ', quantity: 2 }],
+            items: [{ name: 'Equilibrium', quantity: 2 }],
             extras: [],
           },
         ],
@@ -501,7 +501,7 @@ describe('Choose Meals', () => {
       newPlan: {
         deliveries: [
           {
-            items: [{ name: 'EQ', quantity: 2 }],
+            items: [{ name: 'Equilibrium', quantity: 2 }],
             extras: [],
           },
         ],

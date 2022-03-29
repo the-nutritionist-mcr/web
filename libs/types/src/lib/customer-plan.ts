@@ -1,4 +1,11 @@
-export type PlanLabels = 'EQ' | 'Mass' | 'Micro' | 'Ultra-Micro' | 'Carb Free';
+export type PlanLabels =
+  | 'Equilibrium'
+  | 'Mass'
+  | 'Micro'
+  | 'Ultra Micro'
+  | 'Low-CHO'
+  | 'Seasonal Soup'
+  | 'Breakfast';
 
 export type ExtrasLabels = 'Breakfast' | 'Snack' | 'Large Snack';
 
