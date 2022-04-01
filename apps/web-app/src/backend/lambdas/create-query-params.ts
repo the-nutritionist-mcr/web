@@ -577,7 +577,14 @@ const reserved = new Set([
   'ZONE',
 ]);
 
-export const createQueryParams = (queryString: string, ...values: string[]) => {
+export const createQueryParams = (
+  queryString: string,
+  ...values: string[]
+): {
+  KeyConditionExpression: string;
+  ExpressionAttributeValues: { [key: string]: string };
+  ExpressionAttributeNames?: { [key: string]: string };
+} => {
   const found = queryString
     .split(' ')
     .filter((word) => reserved.has(word.trim().toLocaleUpperCase()))
@@ -585,7 +592,7 @@ export const createQueryParams = (queryString: string, ...values: string[]) => {
 
   const valueTokens = queryString
     .split(' ')
-    .filter((word) => word.trim().startsWith('#'));
+    .filter((word) => word.trim().startsWith(':'));
 
   if (valueTokens.length !== values.length) {
     throw new Error(
@@ -604,14 +611,14 @@ export const createQueryParams = (queryString: string, ...values: string[]) => {
       found
         .map((foundWord) => foundWord.trim().toLocaleUpperCase())
         .includes(word.toLocaleUpperCase().trim()) &&
-      !word.trim().startsWith('#')
-        ? `:${word.toLocaleLowerCase()}`
+      !word.trim().startsWith(':')
+        ? `#${word.toLocaleLowerCase()}`
         : word
     )
     .join(' ');
 
   const names = Object.fromEntries(
-    found.map((foundWord) => [`:${foundWord.toLocaleLowerCase()}`, foundWord])
+    found.map((foundWord) => [`#${foundWord.toLocaleLowerCase()}`, foundWord])
   );
 
   const returnVal = {
