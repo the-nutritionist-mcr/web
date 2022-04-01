@@ -5,7 +5,7 @@ import { ENV, HTTP } from '@tnmw/constants';
 import { authoriseJwt } from '../data-api/authorise';
 
 import { HttpError } from '../data-api/http-error';
-import { doQuery } from '../create-query-params';
+import { doQuery } from '../dynamodb';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -24,11 +24,12 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const plans = response.Items as StoredPlan[] | undefined;
 
+    // eslint-disable-next-line fp/no-mutating-methods
     const plan = plans
       ?.slice()
       .sort((a, b) => (Number(a.sort) > Number(b.sort) ? 1 : -1))?.[0];
 
-    const { planId } = plan;
+    const { planId, menus } = plan;
 
     const selectionResponse = await doQuery(tableName, `id = #id`, [
       `plan-${planId}-selection`,
@@ -39,7 +40,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       | undefined;
 
     const finalResponse: GetPlanResponse = {
-      cooks: plan.menus,
+      cooks: menus,
       selections: selections.map((selection) => selection.selection),
     };
 
