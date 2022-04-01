@@ -13,7 +13,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const tableName = process.env[ENV.varNames.DynamoDBTable];
 
-    const response = await doQuery(tableName, 'id = #id', ['plan']);
+    const response = await doQuery(tableName, 'id = :id', ['plan']);
 
     if (!response.Items?.length) {
       throw new HttpError(
@@ -31,7 +31,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const { planId, menus } = plan;
 
-    const selectionResponse = await doQuery(tableName, `id = #id`, [
+    const selectionResponse = await doQuery(tableName, `id = :id`, [
       `plan-${planId}-selection`,
     ]);
 
