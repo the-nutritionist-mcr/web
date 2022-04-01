@@ -614,11 +614,14 @@ export const createQueryParams = (queryString: string, ...values: string[]) => {
     found.map((foundWord) => [`:${foundWord.toLocaleLowerCase()}`, foundWord])
   );
 
-  return {
+  const returnVal = {
     KeyConditionExpression: string,
     ExpressionAttributeValues: attributeValues,
-    ExpressionAttributeNames: names,
   };
+
+  return Object.entries(names).length > 0
+    ? { ...returnVal, ExpressionAttributeNames: names }
+    : returnVal;
 };
 
 export const doQuery = async (

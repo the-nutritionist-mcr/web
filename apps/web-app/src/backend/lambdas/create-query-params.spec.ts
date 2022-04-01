@@ -4,7 +4,7 @@ describe('creat query params', () => {
   it('creates the correct set of query params when not using a reserved word', () => {
     const results = createQueryParams(`id = #id`, '2');
     expect(results.KeyConditionExpression).toEqual(`id = #id`);
-    expect(results.ExpressionAttributeNames).toEqual({});
+    expect(results.ExpressionAttributeNames).toBeUndefined();
     expect(results.ExpressionAttributeValues).toEqual({
       '#id': '2',
     });

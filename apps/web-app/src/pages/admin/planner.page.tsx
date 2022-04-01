@@ -11,11 +11,13 @@ const PlannerPage: FC = () => {
   return (
     <MenuPaddedContent>
       <AdminTemplate>
-        <Planner
-          recipes={items}
-          cooks={data.cooks}
-          selections={data.selections}
-        />
+        {data && (
+          <Planner
+            recipes={items}
+            cooks={data.cooks}
+            selections={data.selections}
+          />
+        )}
       </AdminTemplate>
     </MenuPaddedContent>
   );
