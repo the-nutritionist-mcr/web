@@ -42,7 +42,12 @@ export const usePlan = () => {
                       typeof delivery === 'string'
                         ? delivery
                         : delivery.map((item, itemIndex) =>
-                            itemIndex !== input.itemIndex ? item : input.recipe
+                            itemIndex !== input.itemIndex
+                              ? item
+                              : {
+                                  recipe: input.recipe,
+                                  chosenVariant: input.chosenVariant,
+                                }
                           )
                   ),
                 }
