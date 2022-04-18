@@ -1,4 +1,4 @@
-import { HTTP } from '@tnnmw/constants';
+import { HTTP } from '@tnmw/constants';
 
 export const returnOkResponse = <T>(body: T) => {
   return {
