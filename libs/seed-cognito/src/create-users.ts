@@ -14,6 +14,7 @@ export const createUsers = async (
   const userPromises = users.map(async (user) => {
     const initialPassword =
       user.state === 'Complete' ? '^2Y.AD`5`$A!&pS\\' : user.password;
+
     const command = new AdminCreateUserCommand({
       UserPoolId: poolId,
       Username: user.username,
@@ -29,6 +30,7 @@ export const createUsers = async (
           Name: 'email_verified',
           Value: 'True',
         },
+        ...(user.otherAttributes ?? []),
       ],
     });
 
