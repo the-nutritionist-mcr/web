@@ -1,4 +1,4 @@
-import { CustomerWithNewPlan, Exclusion, Recipe } from '@tnmw/types';
+import { CustomerWithChargebeePlan, Exclusion, Recipe } from '@tnmw/types';
 import { isSelectedMeal } from './is-selected-meal';
 import { SelectedItem, SelectedMeal } from './types';
 
@@ -6,7 +6,7 @@ const hasExclusions = (exclusion: Exclusion, meal: Recipe | undefined) =>
   meal?.potentialExclusions.some((value) => value.id === exclusion.id);
 
 const createVariantString = (
-  customer: CustomerWithNewPlan,
+  customer: CustomerWithChargebeePlan,
   item: SelectedItem,
   allMeals: Recipe[]
 ): string => {
@@ -30,14 +30,14 @@ const createVariantString = (
 };
 
 const createMealWithVariantString = (
-  customer: CustomerWithNewPlan,
+  customer: CustomerWithChargebeePlan,
   meal: SelectedMeal,
   allMeals: Recipe[]
 ): string =>
   `${meal.recipe.shortName}/${createVariantString(customer, meal, allMeals)}`;
 
 export const createVariant = (
-  customer: CustomerWithNewPlan,
+  customer: CustomerWithChargebeePlan,
   meal: SelectedItem,
   allMeals: Recipe[]
 ): {

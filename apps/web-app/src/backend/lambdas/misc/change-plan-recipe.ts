@@ -15,7 +15,7 @@ import {
 import { HttpError } from '../data-api/http-error';
 import { ENV, HTTP } from '@tnmw/constants';
 
-interface ChangePlanRecipeBody {
+export interface ChangePlanRecipeBody {
   recipe: Recipe;
   selectionId: string;
   selectionSort: string;

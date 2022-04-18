@@ -3,10 +3,10 @@ import React from 'react';
 import deepMemo from '../../lib/deepMemo';
 import { extrasLabels, planLabels } from '@tnmw/config';
 import {
-  CustomerMealsSelection,
   SelectedItem,
   Recipe,
   DeliveryMealsSelection,
+  CustomerMealsSelectionWithChargebeeCustomer,
 } from '@tnmw/types';
 import { SelectedMeal } from '@tnmw/meal-planning';
 
@@ -15,7 +15,7 @@ interface FinalizeCellProps {
   deliveryMeals: DeliveryMealsSelection[];
   deliveryIndex: number;
   allRecipes: Recipe[];
-  customerSelection: CustomerMealsSelection[number];
+  customerSelection: CustomerMealsSelectionWithChargebeeCustomer[number];
   selectedItem: SelectedItem;
 }
 

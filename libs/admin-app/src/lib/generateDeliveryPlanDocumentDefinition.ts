@@ -7,13 +7,13 @@ import { defaultDeliveryDays } from '@tnmw/config';
 import {
   Recipe,
   CustomerMealsSelection,
-  CustomerWithNewPlan,
+  CustomerWithChargebeePlan,
 } from '@tnmw/types';
 
 const COLUMNS = 6;
 
 interface CustomerMealDaySelection {
-  customer: CustomerWithNewPlan;
+  customer: CustomerWithChargebeePlan;
   delivery: Delivery;
 }
 
