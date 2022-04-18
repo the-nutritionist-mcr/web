@@ -24,7 +24,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       Key: {
         id: publishPlanBody.id,
       },
-      UpdateExpression: `SET 'published = :published`,
+      UpdateExpression: `SET published = :published`,
       ExpressionAttributeValues: {
         ':published': true,
       },

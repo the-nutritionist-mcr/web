@@ -63,7 +63,7 @@ const Planner: React.FC<PlannerProps> = (props) => {
             }}
           />
         ))}
-        {props.published ? (
+        {!props.published ? (
           <Button
             primary
             size="small"
