@@ -177,6 +177,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const plan: StoredPlan = {
       id: 'plan',
       sort: planTimestamp,
+      published: false;
       planId,
       menus: dates.map((date, index) => ({
         date: date.toString(),

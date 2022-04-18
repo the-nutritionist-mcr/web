@@ -7,6 +7,7 @@ export interface Cook {
 }
 
 export interface StoredPlan {
+  published: boolean;
   id: 'plan';
   sort: string;
   planId: string;
