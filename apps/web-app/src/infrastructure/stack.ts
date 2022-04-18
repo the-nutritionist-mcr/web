@@ -37,6 +37,7 @@ class AppStack extends Stack {
             password: 'Cypress-test-password-1',
             email: 'cypress@test.com',
             state: 'Complete',
+            groups: ['admin'],
           },
           {
             username: 'cypress-test-user-two',
