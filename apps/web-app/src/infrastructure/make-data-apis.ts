@@ -195,7 +195,7 @@ export const makeDataApis = (
 
   const publishPlanFunction = new NodejsFunction(
     context,
-    `change-plan-function`,
+    `publish-plan-function`,
     {
       functionName: getResourceName(`publish-plan`, envName),
       entry: entryName('misc', 'publish-plan.ts'),
