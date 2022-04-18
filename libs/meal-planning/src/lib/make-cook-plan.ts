@@ -1,12 +1,17 @@
-import { CustomerMealsSelection, SelectedItem } from './types';
+import { SelectedItem } from './types';
 import { createVariant } from './create-variant';
 import { defaultDeliveryDays } from '@tnmw/config';
 import { isSelectedMeal } from './is-selected-meal';
-import { CustomerWithNewPlan, Recipe, RecipeVariantMap } from '@tnmw/types';
+import {
+  CustomerMealsSelectionWithChargebeeCustomer,
+  CustomerWithChargebeePlan,
+  Recipe,
+  RecipeVariantMap,
+} from '@tnmw/types';
 
 const updateVariantMap = (
   map: Map<string, RecipeVariantMap>,
-  customer: CustomerWithNewPlan,
+  customer: CustomerWithChargebeePlan,
   item: SelectedItem,
   allMeals: Recipe[]
 ) => {
@@ -32,7 +37,7 @@ const updateVariantMap = (
 };
 
 export const makeCookPlan = (
-  selections: CustomerMealsSelection,
+  selections: CustomerMealsSelectionWithChargebeeCustomer,
   allMeals: Recipe[]
 ): Map<string, RecipeVariantMap>[] => {
   return defaultDeliveryDays.map((day, deliveryIndex) =>
