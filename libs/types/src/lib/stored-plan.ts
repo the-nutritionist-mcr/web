@@ -1,7 +1,4 @@
-import {
-  CustomerMealsSelection,
-  CustomerMealsSelectionWithChargebeeCustomer,
-} from './customer-meal-selection';
+import { CustomerMealsSelectionWithChargebeeCustomer } from './customer-meal-selection';
 import Recipe from './Recipe';
 
 export interface Cook {
@@ -20,7 +17,7 @@ export interface StoredPlan {
 export interface StoredMealSelection {
   id: `plan-${string}-selection`;
   sort: string;
-  selection: CustomerMealsSelection[number];
+  selection: CustomerMealsSelectionWithChargebeeCustomer[number];
 }
 
 export interface GetPlanResponse {
