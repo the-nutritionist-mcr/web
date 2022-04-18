@@ -22,6 +22,7 @@ export interface StoredMealSelection {
 }
 
 export interface GetPlanResponse {
+  planId: string;
   cooks: Cook[];
   selections?: PlanResponseSelections;
   createdBy: string;

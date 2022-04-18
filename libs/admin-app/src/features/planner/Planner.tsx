@@ -17,6 +17,8 @@ interface PlannerProps {
   selections: PlanResponseSelections;
   recipes: Recipe[];
   update: (item: ChangePlanRecipeBody) => Promise<void>;
+  publish: () => Promise<void>;
+  published: boolean;
 }
 
 const Planner: React.FC<PlannerProps> = (props) => {
@@ -61,14 +63,16 @@ const Planner: React.FC<PlannerProps> = (props) => {
             }}
           />
         ))}
-        <Button
-          primary
-          size="small"
-          label="Reset"
-          onClick={(): void => {
-            // Noop
-          }}
-        />
+        {props.published ? (
+          <Button
+            primary
+            size="small"
+            label="Publish"
+            onClick={props.publish}
+          />
+        ) : (
+          <>This plan has been published</>
+        )}
       </Header>
       {props.cooks && (
         <Finalize

@@ -12,10 +12,31 @@ import { HTTP } from '@tnmw/constants';
 import useSWR, { useSWRConfig } from 'swr';
 export const usePlan = () => {
   const { mutate, cache } = useSWRConfig();
+
   const { data } = useSWR<GetPlanResponse | NotYetPublishedResponse>(
     'plan',
     swrFetcher
   );
+
+  const publishPlan = async (): Promise<void> =>
+    await swrFetcher('plan/publish', {
+      method: HTTP.verbs.Post,
+      body: JSON.stringify({ id: data.available && data.planId }),
+    });
+
+  const [publish] = useMutation(publishPlan, {
+    onMutate() {
+      const data: GetPlanResponse = cache.get('plan');
+      const newData = {
+        ...data,
+        published: true,
+      };
+      mutate('plan', newData, false);
+      return () => {
+        mutate('plan', data, false);
+      };
+    },
+  });
 
   const changePlanItem = async (newItem: ChangePlanRecipeBody): Promise<void> =>
     await swrFetcher('plan', {
@@ -65,5 +86,5 @@ export const usePlan = () => {
     },
   });
 
-  return { data, update };
+  return { data, update, publish };
 };
