@@ -45,6 +45,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
           selections: selections.map((selection) => ({
             ...selection.selection,
             id: selection.id,
+            sort: selection.sort,
           })),
         }
       : { cooks: menus };

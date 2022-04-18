@@ -169,6 +169,31 @@ export const makeDataApis = (
   );
   planDataTable.grantReadData(getPlanFunction);
 
+  const changePlanFunction = new NodejsFunction(
+    context,
+    `change-plan-function`,
+    {
+      functionName: getResourceName(`change-plan-function`, envName),
+      entry: entryName('misc', 'change-plan-recipe.ts'),
+      runtime: Runtime.NODEJS_14_X,
+      memorySize: 2048,
+      environment: {
+        ...defaultEnvironmentVars,
+        [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
+      },
+      bundling: {
+        sourceMap: true,
+      },
+    }
+  );
+
+  planResource.addMethod(
+    HTTP.verbs.Put,
+    new LambdaIntegration(changePlanFunction)
+  );
+
+  planDataTable.grantReadWriteData(changePlanFunction);
+
   const customers = api.root.addResource('customers');
 
   const me = customers.addResource('me');

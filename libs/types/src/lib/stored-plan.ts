@@ -25,5 +25,6 @@ export interface GetPlanResponse {
   selections?: CustomerMealsSelectionWithChargebeeCustomer &
     {
       id: StoredMealSelection['id'];
+      sort: StoredMealSelection['sort'];
     }[];
 }
