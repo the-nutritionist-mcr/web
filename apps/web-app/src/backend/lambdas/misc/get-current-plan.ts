@@ -45,6 +45,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       | undefined;
 
     const defaultResponse = {
+      planId,
       cooks: menus,
       createdBy: username,
       date: sort,

@@ -24,7 +24,7 @@ export const usePlan = () => {
       body: JSON.stringify({ id: data.available && data.planId }),
     });
 
-  const [publish] = useMutation(publishPlan, {
+  const [publish] = useMutation<void>(publishPlan, {
     onMutate() {
       const data: GetPlanResponse = cache.get('plan');
       const newData = {
