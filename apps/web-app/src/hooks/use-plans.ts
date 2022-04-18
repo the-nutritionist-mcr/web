@@ -1,5 +1,6 @@
 import { swrFetcher } from '../utils/swr-fetcher';
 import {
+  ChangePlanRecipeBody,
   CustomerMealsSelectionWithChargebeeCustomer,
   GetPlanResponse,
   StoredMealSelection,
@@ -8,8 +9,6 @@ import useMutation from 'use-mutation';
 import { HTTP } from '@tnmw/constants';
 
 import useSWR, { useSWRConfig } from 'swr';
-import { ChangePlanRecipeBody } from '../backend/lambdas/misc/change-plan-recipe';
-
 export const usePlan = () => {
   const { mutate, cache } = useSWRConfig();
   const { data } = useSWR<GetPlanResponse>('plan', swrFetcher);
@@ -49,6 +48,8 @@ export const usePlan = () => {
                 }
         ),
       };
+
+      console.log(newData);
 
       mutate('plan', newData, false);
       return () => {
