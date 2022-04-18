@@ -22,5 +22,6 @@ export interface StoredMealSelection {
 
 export interface GetPlanResponse {
   cooks: Cook[];
-  selections?: CustomerMealsSelectionWithChargebeeCustomer;
+  selections?: CustomerMealsSelectionWithChargebeeCustomer &
+    StoredMealSelection['id'];
 }

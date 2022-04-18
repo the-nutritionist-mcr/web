@@ -42,7 +42,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const finalResponse: GetPlanResponse = groups.includes('admin')
       ? {
           cooks: menus,
-          selections: selections.map((selection) => selection.selection),
+          selections: selections.map((selection) => ({
+            ...selection.selection,
+            id: selection.id,
+          })),
         }
       : { cooks: menus };
 
