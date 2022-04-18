@@ -3,7 +3,7 @@ import getStatusString from './get-status-string';
 import isActive from './is-active';
 import { mock } from 'jest-mock-extended';
 import { mocked } from 'ts-jest/utils';
-import { Customer, Snack } from '@tnmw/types';
+import { CustomerWithChargebeePlan } from '@tnmw/types';
 
 jest.mock('./is-active');
 jest.mock('moment');
@@ -28,7 +28,7 @@ describe('Get status string', () => {
     mocked(moment, true).mockReturnValue(mockMoment);
     mocked(isActive, true).mockReturnValue(true);
 
-    const customer: Customer = {
+    const customer: CustomerWithChargebeePlan = {
       id: '0',
       firstName: '',
       surname: '',
@@ -36,15 +36,14 @@ describe('Get status string', () => {
       salutation: '',
       telephone: '',
       email: '',
-      daysPerWeek: 1,
-      plan: {
-        name: 'Mass 1',
-        category: 'Mass',
-        mealsPerDay: 1,
-        costPerMeal: 1,
+      newPlan: { deliveries: [] },
+      chargebeePlan: {
+        name: 'Mass',
+        daysPerWeek: 1,
+        itemsPerDay: 5,
+        isExtra: false,
+        totalMeals: 30,
       },
-      snack: Snack.None,
-      breakfast: false,
       exclusions: [],
     };
 
@@ -58,7 +57,7 @@ describe('Get status string', () => {
     mocked(moment, true).mockReturnValue(mockMoment);
     mocked(isActive, true).mockReturnValue(true);
 
-    const customer: Customer = {
+    const customer: CustomerWithChargebeePlan = {
       id: '0',
       surname: '',
       firstName: '',
@@ -66,17 +65,16 @@ describe('Get status string', () => {
       telephone: '',
       salutation: '',
       email: '',
-      daysPerWeek: 1,
-      plan: {
-        name: 'Mass 1',
-        category: 'Mass',
-        mealsPerDay: 1,
-        costPerMeal: 1,
+      newPlan: { deliveries: [] },
+      chargebeePlan: {
+        name: 'Equilibrium',
+        daysPerWeek: 6,
+        itemsPerDay: 5,
+        isExtra: false,
+        totalMeals: 30,
       },
       // 1st of June 2020
       pauseStart: new Date(1_590_969_600_000).toISOString(),
-      snack: Snack.None,
-      breakfast: false,
       exclusions: [],
     };
 
@@ -90,7 +88,7 @@ describe('Get status string', () => {
     mocked(moment, true).mockReturnValue(mockMoment);
     mocked(isActive, true).mockReturnValue(true);
 
-    const customer: Customer = {
+    const customer: CustomerWithChargebeePlan = {
       id: '0',
       firstName: '',
       surname: '',
@@ -98,18 +96,19 @@ describe('Get status string', () => {
       salutation: '',
       telephone: '',
       email: '',
-      daysPerWeek: 1,
-      plan: {
-        name: 'Mass 1',
-        category: 'Mass',
-        mealsPerDay: 1,
-        costPerMeal: 1,
+
+      chargebeePlan: {
+        name: 'Equilibrium',
+        daysPerWeek: 6,
+        itemsPerDay: 5,
+        isExtra: false,
+        totalMeals: 30,
       },
+
+      newPlan: { deliveries: [] },
 
       // 1st February 2021
       pauseStart: new Date(1_612_137_600_000).toISOString(),
-      snack: Snack.None,
-      breakfast: false,
       exclusions: [],
     };
 
@@ -123,7 +122,7 @@ describe('Get status string', () => {
     mocked(moment, true).mockReturnValue(mockMoment);
     mocked(isActive, true).mockReturnValue(false);
 
-    const customer: Customer = {
+    const customer: CustomerWithChargebeePlan = {
       id: '0',
       firstName: '',
       surname: '',
@@ -131,16 +130,14 @@ describe('Get status string', () => {
       address: '',
       email: '',
       salutation: '',
-      daysPerWeek: 1,
-      plan: {
-        name: 'Mass 1',
-        category: 'Mass',
-        mealsPerDay: 1,
-        costPerMeal: 1,
+      chargebeePlan: {
+        name: 'Equilibrium',
+        daysPerWeek: 6,
+        itemsPerDay: 5,
+        isExtra: false,
+        totalMeals: 30,
       },
-
-      snack: Snack.None,
-      breakfast: false,
+      newPlan: { deliveries: [] },
       exclusions: [],
     };
 
@@ -154,7 +151,7 @@ describe('Get status string', () => {
     mocked(moment, true).mockReturnValue(mockMoment);
     mocked(isActive, true).mockReturnValue(false);
 
-    const customer: Customer = {
+    const customer: CustomerWithChargebeePlan = {
       id: '0',
       firstName: '',
       surname: '',
@@ -162,17 +159,16 @@ describe('Get status string', () => {
       address: '',
       telephone: '',
       email: '',
-      daysPerWeek: 1,
-      plan: {
-        name: 'Mass 1',
-        category: 'Mass',
-        mealsPerDay: 1,
-        costPerMeal: 1,
+      newPlan: { deliveries: [] },
+      chargebeePlan: {
+        name: 'Equilibrium',
+        daysPerWeek: 6,
+        itemsPerDay: 5,
+        isExtra: false,
+        totalMeals: 30,
       },
       // 1st February 2021
       pauseEnd: new Date(1_612_137_600_000).toISOString(),
-      snack: Snack.None,
-      breakfast: false,
       exclusions: [],
     };
 

@@ -1,12 +1,9 @@
 import {
-  PlanConfiguration,
-  Customer,
   DeliveryMealsSelection,
-  Snack,
   Recipe,
   HotOrCold,
+  CustomerWithChargebeePlan,
 } from '@tnmw/types';
-import { mock } from 'jest-mock-extended';
 import { chooseMeals } from './choose-meals';
 
 const recipeOne: Recipe = {
@@ -105,7 +102,7 @@ const recipeTwelve: Recipe = {
   potentialExclusions: [],
 };
 
-const customerOne: Customer = {
+const customerOne: CustomerWithChargebeePlan = {
   telephone: '123123',
   id: '1',
   salutation: 'Mr',
@@ -113,14 +110,12 @@ const customerOne: Customer = {
   firstName: 'Ben',
   surname: 'Wainwright',
   email: 'foo-email',
-  daysPerWeek: 6,
-  snack: Snack.None,
-  breakfast: false,
-  plan: {
-    name: 'Mass 5',
-    category: 'Mass',
-    mealsPerDay: 5,
-    costPerMeal: 885,
+  chargebeePlan: {
+    name: 'Equilibrium',
+    daysPerWeek: 6,
+    itemsPerDay: 5,
+    isExtra: false,
+    totalMeals: 30,
   },
   newPlan: {
     deliveries: [
@@ -139,12 +134,11 @@ const customerOne: Customer = {
         extras: [],
       },
     ],
-    configuration: mock<PlanConfiguration>(),
   },
   exclusions: [],
 };
 
-const customerTwo: Customer = {
+const customerTwo: CustomerWithChargebeePlan = {
   id: '2',
   salutation: 'mr',
   address: 'Somewhere',
@@ -152,15 +146,12 @@ const customerTwo: Customer = {
   firstName: 'bar-customer',
   surname: 'baz',
   email: 'bar-email',
-  daysPerWeek: 1,
-  snack: Snack.None,
-  breakfast: true,
-
-  plan: {
-    name: 'Mass 5',
-    category: 'Mass',
-    mealsPerDay: 5,
-    costPerMeal: 885,
+  chargebeePlan: {
+    name: 'Mass',
+    daysPerWeek: 1,
+    itemsPerDay: 5,
+    isExtra: false,
+    totalMeals: 5,
   },
   newPlan: {
     deliveries: [
@@ -179,12 +170,11 @@ const customerTwo: Customer = {
         extras: [{ name: 'Breakfast', quantity: 5 }],
       },
     ],
-    configuration: mock<PlanConfiguration>(),
   },
   exclusions: [],
 };
 
-const customerThree: Customer = {
+const customerThree: CustomerWithChargebeePlan = {
   exclusions: [],
   id: '3',
   salutation: 'Mr',
@@ -193,21 +183,19 @@ const customerThree: Customer = {
   firstName: 'baz-customer',
   surname: 'bash',
   email: 'baz-email',
-  daysPerWeek: 6,
-  snack: Snack.None,
-  breakfast: true,
-  plan: {
-    name: 'Mass 2',
-    category: 'Mass',
-    mealsPerDay: 2,
-    costPerMeal: 885,
+  chargebeePlan: {
+    name: 'Mass',
+    daysPerWeek: 6,
+    itemsPerDay: 2,
+    isExtra: false,
+    totalMeals: 30,
   },
   newPlan: {
     deliveries: [
       {
         items: [
           { name: 'Equilibrium', quantity: 5 },
-          { name: 'Micro', quantity: 5 },
+          { name: 'Micro', quantity: 4 },
         ],
         extras: [{ name: 'Breakfast', quantity: 5 }],
       },
@@ -219,7 +207,6 @@ const customerThree: Customer = {
         extras: [{ name: 'Large Snack', quantity: 4 }],
       },
     ],
-    configuration: mock<PlanConfiguration>(),
   },
 };
 
@@ -237,7 +224,11 @@ describe('Choose Meals', () => {
       ],
     ];
 
-    const customers: Customer[] = [customerOne, customerTwo, customerThree];
+    const customers: CustomerWithChargebeePlan[] = [
+      customerOne,
+      customerTwo,
+      customerThree,
+    ];
     const dates = [new Date(1_630_702_130_000), new Date(1_630_702_130_000)];
     const result = chooseMeals(selection, dates, customers);
 
@@ -268,7 +259,7 @@ describe('Choose Meals', () => {
       pauseEnd: new Date(2_106_780_800_000).toISOString(),
     };
 
-    const customers: Customer[] = [
+    const customers: CustomerWithChargebeePlan[] = [
       customerOne,
       inActiveCustomerTwo,
       customerThree,
@@ -297,7 +288,11 @@ describe('Choose Meals', () => {
       ],
     ];
 
-    const customers: Customer[] = [customerOne, customerTwo, customerThree];
+    const customers: CustomerWithChargebeePlan[] = [
+      customerOne,
+      customerTwo,
+      customerThree,
+    ];
     const dates = [new Date(1_630_702_130_000), new Date(1_630_702_130_000)];
     const result = chooseMeals(selection, dates, customers);
 
@@ -309,7 +304,7 @@ describe('Choose Meals', () => {
     ).toHaveLength(8);
     expect(result[1].deliveries[1]).toHaveLength(15);
     expect(result[1].deliveries[1]).toHaveLength(15);
-    expect(result[2].deliveries[0]).toHaveLength(15);
+    expect(result[2].deliveries[0]).toHaveLength(14);
     expect(result[2].deliveries[1]).toHaveLength(14);
   });
 
@@ -326,7 +321,11 @@ describe('Choose Meals', () => {
       ],
     ];
 
-    const customers: Customer[] = [customerOne, customerTwo, customerThree];
+    const customers: CustomerWithChargebeePlan[] = [
+      customerOne,
+      customerTwo,
+      customerThree,
+    ];
     const dates = [new Date(1_630_702_130_000), new Date(1_630_702_130_000)];
     const result = chooseMeals(selection, dates, customers);
 
@@ -381,7 +380,11 @@ describe('Choose Meals', () => {
       ],
     ];
 
-    const customers: Customer[] = [customerOne, customerTwo, customerThree];
+    const customers: CustomerWithChargebeePlan[] = [
+      customerOne,
+      customerTwo,
+      customerThree,
+    ];
     const dates = [new Date(1_630_702_130_000), new Date(1_630_702_130_000)];
     const result = chooseMeals(selection, dates, customers);
 
@@ -457,7 +460,7 @@ describe('Choose Meals', () => {
       ],
     ];
 
-    const customers: Customer[] = [
+    const customers: CustomerWithChargebeePlan[] = [
       customerOne,
       customerTwoWithExclusion,
       customerThree,
@@ -481,7 +484,7 @@ describe('Choose Meals', () => {
       [recipeOne, recipeTwo, recipeThree, recipeFour, recipeFive, recipeSix],
     ];
 
-    const sparseCustomerOne: Customer = {
+    const sparseCustomerOne: CustomerWithChargebeePlan = {
       ...customerOne,
 
       newPlan: {
@@ -491,11 +494,10 @@ describe('Choose Meals', () => {
             extras: [],
           },
         ],
-        configuration: mock<PlanConfiguration>(),
       },
     };
 
-    const sparseCustomerTwo: Customer = {
+    const sparseCustomerTwo: CustomerWithChargebeePlan = {
       ...customerTwo,
 
       newPlan: {
@@ -505,11 +507,13 @@ describe('Choose Meals', () => {
             extras: [],
           },
         ],
-        configuration: mock<PlanConfiguration>(),
       },
     };
 
-    const customers: Customer[] = [sparseCustomerOne, sparseCustomerTwo];
+    const customers: CustomerWithChargebeePlan[] = [
+      sparseCustomerOne,
+      sparseCustomerTwo,
+    ];
 
     const dates = [new Date(1_630_702_130_000), new Date(1_630_702_130_000)];
     const result = chooseMeals(selection, dates, customers);
