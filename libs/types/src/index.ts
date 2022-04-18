@@ -10,6 +10,7 @@ export type { default as Recipe } from './lib/Recipe';
 export { isRecipe } from './lib/Recipe';
 
 export { isChangePlanRecipeBody } from './lib/change-plan-recipe-body';
+export { isPublishPlanBody } from './lib/publish-plan-body';
 
 export type { default as DeliveryMealsSelection } from './lib/delivery-meal-selection';
 export type { PlanCategory } from './lib/plan-category';

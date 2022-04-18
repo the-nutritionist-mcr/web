@@ -191,8 +191,34 @@ export const makeDataApis = (
     HTTP.verbs.Put,
     new LambdaIntegration(changePlanFunction)
   );
-
   planDataTable.grantReadWriteData(changePlanFunction);
+
+  const publishPlanFunction = new NodejsFunction(
+    context,
+    `change-plan-function`,
+    {
+      functionName: getResourceName(`publish-plan`, envName),
+      entry: entryName('misc', 'publish-plan.ts'),
+      runtime: Runtime.NODEJS_14_X,
+      memorySize: 2048,
+      environment: {
+        ...defaultEnvironmentVars,
+        [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
+      },
+      bundling: {
+        sourceMap: true,
+      },
+    }
+  );
+
+  const publishResource = planResource.addResource('publish');
+
+  publishResource.addMethod(
+    HTTP.verbs.Post,
+    new LambdaIntegration(publishPlanFunction)
+  );
+
+  planDataTable.grantWriteData(publishPlanFunction);
 
   const customers = api.root.addResource('customers');
 

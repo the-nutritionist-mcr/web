@@ -7,10 +7,12 @@ import {
   QueryCommand,
   PutCommand,
 } from '@aws-sdk/lib-dynamodb';
-import { CustomerMealsSelectionWithChargebeeCustomer } from '@tnmw/types';
+import {
+  CustomerMealsSelectionWithChargebeeCustomer,
+  isChangePlanRecipeBody,
+} from '@tnmw/types';
 import { HttpError } from '../data-api/http-error';
 import { ENV, HTTP } from '@tnmw/constants';
-import { isChangePlanRecipeBody } from 'libs/types/src/lib/change-plan-recipe-body';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
