@@ -1,5 +1,7 @@
 import Customer from './Customer';
+import { CustomerPlan } from './customer-plan';
 import Recipe from './Recipe';
+import { StandardPlan } from './standard-plan';
 
 export interface SelectedMeal {
   recipe: Recipe;
@@ -24,7 +26,22 @@ export type CustomerWithNewPlan = Omit<
   'plan' | 'snack' | 'breakfast' | 'daysPerWeek'
 >;
 
+export type CustomerPlanWithoutConfiguration = Omit<
+  CustomerPlan,
+  'configuration'
+>;
+
+export type CustomerWithChargebeePlan = Omit<Customer, 'newPlan'> & {
+  newPlan: CustomerPlanWithoutConfiguration;
+  chargebeePlan: StandardPlan;
+};
+
 export type CustomerMealsSelection = {
   customer: CustomerWithNewPlan;
+  deliveries: Delivery[];
+}[];
+
+export type CustomerMealsSelectionWithChargebeeCustomer = {
+  customer: CustomerWithChargebeePlan;
   deliveries: Delivery[];
 }[];

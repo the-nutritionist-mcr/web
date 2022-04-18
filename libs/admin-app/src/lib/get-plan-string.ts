@@ -1,8 +1,8 @@
 import { isCustomDeliveryPlan } from '@tnmw/meal-planning';
-import { CustomerPlan, PlannerConfig } from '@tnmw/types';
+import { CustomerPlanWithoutConfiguration, PlannerConfig } from '@tnmw/types';
 
 export const getPlanString = (
-  plan: CustomerPlan | undefined,
+  plan: CustomerPlanWithoutConfiguration | undefined,
   config: PlannerConfig
 ): string => {
   if (!plan) {

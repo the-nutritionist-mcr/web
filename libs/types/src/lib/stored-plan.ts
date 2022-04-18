@@ -1,4 +1,7 @@
-import { CustomerMealsSelection } from './customer-meal-selection';
+import {
+  CustomerMealsSelection,
+  CustomerMealsSelectionWithChargebeeCustomer,
+} from './customer-meal-selection';
 import Recipe from './Recipe';
 
 export interface Cook {
@@ -22,5 +25,5 @@ export interface StoredMealSelection {
 
 export interface GetPlanResponse {
   cooks: Cook[];
-  selections?: CustomerMealsSelection;
+  selections?: CustomerMealsSelectionWithChargebeeCustomer;
 }

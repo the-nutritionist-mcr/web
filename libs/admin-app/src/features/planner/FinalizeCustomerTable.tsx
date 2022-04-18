@@ -11,19 +11,18 @@ import {
 } from 'grommet';
 import { FormAdd } from 'grommet-icons';
 import React from 'react';
-import Recipe from '../../domain/Recipe';
 import deepMemo from '../../lib/deepMemo';
 import styled from 'styled-components';
 import { batchArray } from '../../lib/batch-array';
 import FinalizeCell from './FinalizeCell';
 import DeliveryMealsSelection from '../../types/DeliveryMealsSelection';
-import { Link } from 'react-router-dom';
-import { getPlanString } from '../../lib/get-plan-string';
-import { defaultDeliveryDays, extrasLabels, planLabels } from '@tnmw/config';
-import { CustomerMealsSelection } from '@tnmw/types';
+import {
+  CustomerMealsSelectionWithChargebeeCustomer,
+  Recipe,
+} from '@tnmw/types';
 
 interface FinalizeRowProps {
-  customerSelection: CustomerMealsSelection[number];
+  customerSelection: CustomerMealsSelectionWithChargebeeCustomer[number];
   deliveryMeals: DeliveryMealsSelection[];
   allRecipes: Recipe[];
   columns: number;
@@ -41,16 +40,6 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
 
   const deliveries = props.customerSelection.deliveries ?? [];
 
-  const planString = React.useMemo(
-    () =>
-      getPlanString(props.customerSelection.customer.newPlan, {
-        planLabels: [...planLabels],
-        extrasLabels: [...extrasLabels],
-        defaultDeliveryDays: [...defaultDeliveryDays],
-      }),
-    [props.customerSelection.customer.newPlan]
-  );
-
   return (
     <Table alignSelf="start" style={{ marginTop: '1rem' }}>
       <TableHeader>
@@ -58,15 +47,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
           <TableCell colSpan={7}>
             <Box direction="row" align="end">
               <Text>
-                <strong>
-                  <Link
-                    style={{ color: 'black', textDecoration: 'none' }}
-                    to={`/edit-customer/${props.customerSelection.customer.id}`}
-                  >
-                    {name}
-                  </Link>{' '}
-                </strong>
-                / {planString}
+                <strong>{name}</strong>
               </Text>
             </Box>
           </TableCell>

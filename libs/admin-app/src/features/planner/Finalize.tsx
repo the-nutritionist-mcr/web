@@ -1,16 +1,24 @@
 import {
-  CustomerMealsSelection,
-  DeliveryMealsSelection,
+  Cook,
+  CustomerMealsSelectionWithChargebeeCustomer,
   Recipe,
 } from '@tnmw/types';
 import { Paragraph } from 'grommet';
 import React from 'react';
 import FinalizeCustomerTable from './FinalizeCustomerTable';
 
-const Finalize: React.FC = () => {
-  let customerMeals: CustomerMealsSelection | undefined;
-  let planned: DeliveryMealsSelection[] | undefined;
-  let recipes: Recipe[] | undefined;
+interface FinalizeProps {
+  customerMeals: CustomerMealsSelectionWithChargebeeCustomer;
+  recipes: Recipe[];
+  cooks: Cook[];
+}
+
+const Finalize: React.FC<FinalizeProps> = ({
+  customerMeals,
+  recipes,
+  cooks,
+}) => {
+  const planned = cooks.map((cook) => cook.menu);
 
   if (!customerMeals) {
     return (
@@ -32,23 +40,26 @@ const Finalize: React.FC = () => {
         <strong>not automatically be reflected in this plan</strong> until you
         generate a new one via planning mode on the Recipes page.
       </Paragraph>
-      {customerMeals
-        .slice()
-        .sort((a, b) =>
-          a.customer.surname.toLowerCase() > b.customer.surname.toLowerCase()
-            ? 1
-            : // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-              -1
-        )
-        .map((customerPlan) => (
-          <FinalizeCustomerTable
-            key={`${customerPlan.customer.id}-finalize-table`}
-            customerSelection={customerPlan}
-            deliveryMeals={planned}
-            allRecipes={recipes}
-            columns={6}
-          />
-        ))}
+      {
+        // eslint-disable-next-line fp/no-mutating-methods
+        customerMeals
+          .slice()
+          .sort((a, b) =>
+            a.customer.surname.toLowerCase() > b.customer.surname.toLowerCase()
+              ? 1
+              : // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+                -1
+          )
+          .map((customerPlan) => (
+            <FinalizeCustomerTable
+              key={`${customerPlan.customer.id}-finalize-table`}
+              customerSelection={customerPlan}
+              deliveryMeals={planned}
+              allRecipes={recipes}
+              columns={6}
+            />
+          ))
+      }
     </>
   );
 };

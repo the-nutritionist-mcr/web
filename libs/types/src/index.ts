@@ -24,8 +24,10 @@ export type {
 
 export type {
   CustomerMealsSelection,
+  CustomerMealsSelectionWithChargebeeCustomer,
   SelectedItem,
   CustomerWithNewPlan,
+  CustomerPlanWithoutConfiguration,
 } from './lib/customer-meal-selection';
 
 export type { default as CookPlan, RecipeVariantMap } from './lib/cook-plan';

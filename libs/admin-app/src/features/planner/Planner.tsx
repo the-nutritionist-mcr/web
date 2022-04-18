@@ -64,7 +64,11 @@ const Planner: React.FC<PlannerProps> = (props) => {
           }}
         />
       </Header>
-      <Finalize />
+      <Finalize
+        cooks={props.cooks}
+        recipes={props.recipes}
+        customerMeals={props.selections}
+      />
     </>
   );
 };

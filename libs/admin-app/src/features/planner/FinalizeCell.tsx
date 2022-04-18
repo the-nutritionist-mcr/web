@@ -1,7 +1,6 @@
 import { Select, TableCell, ThemeContext } from 'grommet';
 import React from 'react';
 import deepMemo from '../../lib/deepMemo';
-import { useDispatch } from 'react-redux';
 import { extrasLabels, planLabels } from '@tnmw/config';
 import {
   CustomerMealsSelection,
@@ -33,19 +32,12 @@ const getSelectedItemString = (selectedItem: SelectedItem) => {
 };
 
 const UnMemoizedFinalizeCell: React.FC<FinalizeCellProps> = (props) => {
-  const dispatch = useDispatch();
-
   const onChange = React.useCallback(
     (event) => {
       // eslint-disable-next-line no-console
       console.log(event);
     },
-    [
-      dispatch,
-      props.customerSelection.customer,
-      props.index,
-      props.deliveryIndex,
-    ]
+    [props.customerSelection.customer, props.index, props.deliveryIndex]
   );
 
   const options = (delivery: number) => [

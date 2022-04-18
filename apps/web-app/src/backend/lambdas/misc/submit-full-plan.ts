@@ -1,5 +1,11 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
-import { Customer, CustomerPlan, PlanLabels, DaysPerWeek } from '@tnmw/types';
+import {
+  Customer,
+  CustomerPlan,
+  PlanLabels,
+  DaysPerWeek,
+  PlanConfiguration,
+} from '@tnmw/types';
 import { chooseMeals, makeNewPlan } from '@tnmw/meal-planning';
 import { COGNITO, ENV } from '@tnmw/constants';
 import { defaultDeliveryDays, planLabels, extrasLabels } from '@tnmw/config';
@@ -47,9 +53,7 @@ const getJsonAttributeValue = <T>(
   }
 };
 
-const convertPlanFormat = (
-  plans: StandardPlan[]
-): Omit<CustomerPlan, 'configuration'> =>
+const convertPlanFormat = (plans: StandardPlan[]): CustomerPlan =>
   plans
     .map((plan) =>
       makeNewPlan(
@@ -65,15 +69,31 @@ const convertPlanFormat = (
         }
       )
     )
-    .reduce<Omit<CustomerPlan, 'configuration'>>(
+    .reduce<CustomerPlan>(
       (accum, item) => ({
         deliveries: accum.deliveries.map((delivery, index) => ({
           // eslint-disable-next-line security/detect-object-injection
           items: delivery.items.concat(item.deliveries[index].items),
           extras: [],
         })),
+        configuration: {
+          planType: 'Equilibrium',
+          daysPerWeek: 1,
+          mealsPerDay: 0,
+          totalPlans: 0,
+          deliveryDays: [],
+          extrasChosen: [],
+        },
       }),
       {
+        configuration: {
+          planType: 'Equilibrium',
+          daysPerWeek: 1,
+          mealsPerDay: 0,
+          totalPlans: 0,
+          deliveryDays: [],
+          extrasChosen: [],
+        },
         deliveries: Array.from({ length: defaultDeliveryDays.length }).map(
           () => ({
             items: [],
