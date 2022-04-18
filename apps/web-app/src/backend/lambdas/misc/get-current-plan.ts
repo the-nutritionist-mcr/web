@@ -30,13 +30,13 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       ?.slice()
       .sort((a, b) => (Number(a.sort) > Number(b.sort) ? 1 : -1))?.[0];
 
-    const { planId, menus } = plan;
+    const { planId, menus, published, username, sort } = plan;
 
     const selectionResponse = await doQuery(tableName, `id = :id`, [
       `plan-${planId}-selection`,
     ]);
 
-    if (!plan.published) {
+    if (!published) {
       return returnOkResponse({ available: false });
     }
 
@@ -46,8 +46,9 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const defaultResponse = {
       cooks: menus,
-      createdBy: plan.username,
-      date: plan.sort,
+      createdBy: username,
+      date: sort,
+      published,
     };
 
     const finalResponse: GetPlanResponse = groups.includes('admin')

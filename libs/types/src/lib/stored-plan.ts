@@ -26,6 +26,7 @@ export interface GetPlanResponse {
   selections?: PlanResponseSelections;
   createdBy: string;
   date: string;
+  published: boolean;
   available: true;
 }
 

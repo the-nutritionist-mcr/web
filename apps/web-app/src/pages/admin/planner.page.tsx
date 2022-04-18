@@ -8,11 +8,10 @@ import { useRecipes, usePlan } from '../../hooks';
 const PlannerPage: FC = () => {
   const { items } = useRecipes();
   const { data, update } = usePlan();
-  console.log(`page`, data);
   return (
     <MenuPaddedContent>
       <AdminTemplate>
-        {data && (
+        {data && data.available && (
           <Planner
             update={update}
             recipes={items}

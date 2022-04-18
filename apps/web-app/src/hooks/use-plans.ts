@@ -3,6 +3,7 @@ import {
   ChangePlanRecipeBody,
   CustomerMealsSelectionWithChargebeeCustomer,
   GetPlanResponse,
+  NotYetPublishedResponse,
   StoredMealSelection,
 } from '@tnmw/types';
 import useMutation from 'use-mutation';
@@ -11,7 +12,10 @@ import { HTTP } from '@tnmw/constants';
 import useSWR, { useSWRConfig } from 'swr';
 export const usePlan = () => {
   const { mutate, cache } = useSWRConfig();
-  const { data } = useSWR<GetPlanResponse>('plan', swrFetcher);
+  const { data } = useSWR<GetPlanResponse | NotYetPublishedResponse>(
+    'plan',
+    swrFetcher
+  );
 
   const changePlanItem = async (newItem: ChangePlanRecipeBody): Promise<void> =>
     await swrFetcher('plan', {

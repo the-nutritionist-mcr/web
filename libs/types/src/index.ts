@@ -40,6 +40,7 @@ export type {
   StoredPlan,
   StoredMealSelection,
   GetPlanResponse,
+  NotYetPublishedResponse,
   PlanResponseSelections,
   Cook,
 } from './lib/stored-plan';
