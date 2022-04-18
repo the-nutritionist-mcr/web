@@ -23,28 +23,32 @@ export const usePlan = () => {
   const [update] = useMutation(changePlanItem, {
     onMutate({ input }) {
       const data: GetPlanResponse = cache.get('plan');
-      const newData = data.selections.map(
-        (
-          dataRow: CustomerMealsSelectionWithChargebeeCustomer[number] & {
-            id: StoredMealSelection['id'];
-            sort: StoredMealSelection['sort'];
-          }
-        ) =>
-          dataRow.id !== input.selectionId ||
-          dataRow.sort !== input.selectionSort
-            ? dataRow
-            : {
-                ...dataRow,
-                deliveries: dataRow.deliveries.map((delivery, deliveryIndex) =>
-                  input.deliveryIndex !== deliveryIndex ||
-                  typeof delivery === 'string'
-                    ? delivery
-                    : delivery.map((item, itemIndex) =>
-                        itemIndex !== input.itemIndex ? item : input.recipe
-                      )
-                ),
-              }
-      );
+      const newData = {
+        ...data,
+        selections: data.selections.map(
+          (
+            dataRow: CustomerMealsSelectionWithChargebeeCustomer[number] & {
+              id: StoredMealSelection['id'];
+              sort: StoredMealSelection['sort'];
+            }
+          ) =>
+            dataRow.id !== input.selectionId ||
+            dataRow.sort !== input.selectionSort
+              ? dataRow
+              : {
+                  ...dataRow,
+                  deliveries: dataRow.deliveries.map(
+                    (delivery, deliveryIndex) =>
+                      input.deliveryIndex !== deliveryIndex ||
+                      typeof delivery === 'string'
+                        ? delivery
+                        : delivery.map((item, itemIndex) =>
+                            itemIndex !== input.itemIndex ? item : input.recipe
+                          )
+                  ),
+                }
+        ),
+      };
 
       mutate('plan', newData, false);
       return () => {
