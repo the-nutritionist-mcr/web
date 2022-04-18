@@ -31,7 +31,7 @@ export type CustomerPlanWithoutConfiguration = Omit<
   'configuration'
 >;
 
-export type CustomerWithChargebeePlan = Omit<Customer, 'newPlan'> & {
+export type CustomerWithChargebeePlan = Omit<CustomerWithNewPlan, 'newPlan'> & {
   newPlan: CustomerPlanWithoutConfiguration;
   chargebeePlan: StandardPlan;
 };

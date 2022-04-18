@@ -1,6 +1,9 @@
-import { CustomerWithNewPlan } from '@tnmw/types';
+import { CustomerWithChargebeePlan } from '@tnmw/types';
 
-const isActive = (customer: CustomerWithNewPlan, date?: Date): boolean => {
+const isActive = (
+  customer: CustomerWithChargebeePlan,
+  date?: Date
+): boolean => {
   const now = date ?? new Date(Date.now());
 
   if (customer.pauseEnd && now > new Date(customer.pauseEnd)) {

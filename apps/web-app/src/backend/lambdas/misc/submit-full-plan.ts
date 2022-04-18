@@ -1,10 +1,11 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import {
-  Customer,
+  CustomerWithChargebeePlan,
   CustomerPlan,
   PlanLabels,
   DaysPerWeek,
   PlanConfiguration,
+  CustomerPlanWithoutConfiguration,
 } from '@tnmw/types';
 import { chooseMeals, makeNewPlan } from '@tnmw/meal-planning';
 import { COGNITO, ENV } from '@tnmw/constants';
@@ -53,7 +54,9 @@ const getJsonAttributeValue = <T>(
   }
 };
 
-const convertPlanFormat = (plans: StandardPlan[]): CustomerPlan =>
+const convertPlanFormat = (
+  plans: StandardPlan[]
+): CustomerPlanWithoutConfiguration =>
   plans
     .map((plan) =>
       makeNewPlan(
@@ -69,31 +72,16 @@ const convertPlanFormat = (plans: StandardPlan[]): CustomerPlan =>
         }
       )
     )
-    .reduce<CustomerPlan>(
+    .reduce<Omit<CustomerPlan, 'configuration'>>(
       (accum, item) => ({
         deliveries: accum.deliveries.map((delivery, index) => ({
           // eslint-disable-next-line security/detect-object-injection
           items: delivery.items.concat(item.deliveries[index].items),
           extras: [],
         })),
-        configuration: {
-          planType: 'Equilibrium',
-          daysPerWeek: 1,
-          mealsPerDay: 0,
-          totalPlans: 0,
-          deliveryDays: [],
-          extrasChosen: [],
-        },
+        configuration: {} as PlanConfiguration,
       }),
       {
-        configuration: {
-          planType: 'Equilibrium',
-          daysPerWeek: 1,
-          mealsPerDay: 0,
-          totalPlans: 0,
-          deliveryDays: [],
-          extrasChosen: [],
-        },
         deliveries: Array.from({ length: defaultDeliveryDays.length }).map(
           () => ({
             items: [],
@@ -105,11 +93,16 @@ const convertPlanFormat = (plans: StandardPlan[]): CustomerPlan =>
 
 const parseCustomerList = (
   output: ListUsersCommandOutput
-): Omit<Customer, 'plan' | 'snack' | 'breakfast' | 'daysPerWeek'>[] => {
+): CustomerWithChargebeePlan[] => {
   return output.Users.map((user) => ({
     exclusions: getJsonAttributeValue(
       user.Attributes,
       `custom:${COGNITO.customAttributes.UserCustomisations}`,
+      []
+    ),
+    chargebeePlan: getJsonAttributeValue(
+      user.Attributes,
+      `custom:${COGNITO.customAttributes.Plans}`,
       []
     ),
     newPlan: convertPlanFormat(

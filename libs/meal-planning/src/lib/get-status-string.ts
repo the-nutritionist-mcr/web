@@ -1,11 +1,11 @@
-import { CustomerWithNewPlan } from '@tnmw/types';
+import { CustomerWithChargebeePlan } from '@tnmw/types';
 
 import { calendarFormat } from '@tnmw/config';
 import isActive from './is-active';
 import moment from 'moment';
 
 const getStatusString = (
-  customer: CustomerWithNewPlan,
+  customer: CustomerWithChargebeePlan,
   date?: Date
 ): string => {
   const now = date ?? new Date(Date.now());

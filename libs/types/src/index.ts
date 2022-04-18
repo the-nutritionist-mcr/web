@@ -27,6 +27,7 @@ export type {
   CustomerMealsSelectionWithChargebeeCustomer,
   SelectedItem,
   CustomerWithNewPlan,
+  CustomerWithChargebeePlan,
   CustomerPlanWithoutConfiguration,
 } from './lib/customer-meal-selection';
 

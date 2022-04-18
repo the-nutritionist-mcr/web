@@ -3,16 +3,16 @@ import {
   DeliveryMealsSelection,
   Recipe,
   CustomerPlan,
-  CustomerWithNewPlan,
-  CustomerMealsSelection,
   SelectedItem,
   Item,
+  CustomerWithChargebeePlan,
+  CustomerMealsSelectionWithChargebeeCustomer,
 } from '@tnmw/types';
 import { extrasLabels, planLabels } from '@tnmw/config';
 import getStatusString from './get-status-string';
 import isActive from './is-active';
 
-const isExcluded = (recipe: Recipe, customer: CustomerWithNewPlan) => {
+const isExcluded = (recipe: Recipe, customer: CustomerWithChargebeePlan) => {
   return recipe.invalidExclusions?.some((invalidExclusion) =>
     customer.exclusions
       .map((customerExclusion) => customerExclusion.id)
@@ -22,7 +22,7 @@ const isExcluded = (recipe: Recipe, customer: CustomerWithNewPlan) => {
 
 const getRecipeFromSelection = (
   index: number,
-  customer: CustomerWithNewPlan,
+  customer: CustomerWithChargebeePlan,
   deliverySelection: DeliveryMealsSelection
 ): Recipe => {
   const actualDeliverySelection = deliverySelection.filter(
@@ -48,7 +48,7 @@ const generateDeliveryListFromItem = <
   }));
 
 const generateDeliveries = (
-  customer: CustomerWithNewPlan,
+  customer: CustomerWithChargebeePlan,
   plan: CustomerPlan,
   deliverySelections: DeliveryMealsSelection[],
   startPositions: number[]
@@ -81,15 +81,15 @@ const generateDeliveries = (
 };
 
 const hasPlan = (
-  customer: CustomerWithNewPlan
-): customer is Omit<CustomerWithNewPlan, 'newPlan'> &
+  customer: CustomerWithChargebeePlan
+): customer is Omit<CustomerWithChargebeePlan, 'newPlan'> &
   Required<Pick<Customer, 'newPlan'>> => Boolean(customer.newPlan);
 
 export const chooseMeals = (
   deliverySelection: DeliveryMealsSelection[],
   cookDates: Date[],
-  customers: CustomerWithNewPlan[]
-): CustomerMealsSelection =>
+  customers: CustomerWithChargebeePlan[]
+): CustomerMealsSelectionWithChargebeeCustomer =>
   customers
     // eslint-disable-next-line unicorn/no-array-callback-reference
     .filter(hasPlan)
@@ -99,7 +99,7 @@ export const chooseMeals = (
     }))
     .reduce<
       {
-        customer: CustomerWithNewPlan;
+        customer: CustomerWithChargebeePlan;
         deliveries: SelectedItem[][];
         startPositions?: number[];
       }[]
