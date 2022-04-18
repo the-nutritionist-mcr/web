@@ -58,8 +58,6 @@ export const usePlan = () => {
         ),
       };
 
-      console.log(newData);
-
       mutate('plan', newData, false);
       return () => {
         mutate('plan', data, false);

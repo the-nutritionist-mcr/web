@@ -36,7 +36,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       `plan-${planId}-selection`,
     ]);
 
-    if (!published) {
+    if (!published && !groups.includes('admin')) {
       return returnOkResponse({ available: false });
     }
 
