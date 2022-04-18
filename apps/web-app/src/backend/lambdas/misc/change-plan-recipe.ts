@@ -72,7 +72,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const result = await dynamo.send(queryCommand);
 
     const selections: CustomerMealsSelectionWithChargebeeCustomer = JSON.parse(
-      result.Items[0].selections
+      result.Items[0].selection
     );
 
     const newSelections = selections.map((delivery, index) =>

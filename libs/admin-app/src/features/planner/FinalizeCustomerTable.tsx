@@ -17,15 +17,17 @@ import { batchArray } from '../../lib/batch-array';
 import FinalizeCell from './FinalizeCell';
 import DeliveryMealsSelection from '../../types/DeliveryMealsSelection';
 import {
-  CustomerMealsSelectionWithChargebeeCustomer,
+  ChangePlanRecipeBody,
+  PlanResponseSelections,
   Recipe,
 } from '@tnmw/types';
 
 interface FinalizeRowProps {
-  customerSelection: CustomerMealsSelectionWithChargebeeCustomer[number];
+  customerSelection: PlanResponseSelections[number];
   deliveryMeals: DeliveryMealsSelection[];
   allRecipes: Recipe[];
   columns: number;
+  update: (item: ChangePlanRecipeBody) => Promise<void>;
 }
 
 const AlternatingTableRow = styled(TableRow)`
@@ -39,6 +41,20 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
   const name = `${props.customerSelection.customer.firstName} ${props.customerSelection.customer.surname}`;
 
   const deliveries = props.customerSelection.deliveries ?? [];
+
+  const onUpdate = (
+    deliveryIndex: number,
+    itemIndex: number,
+    recipe: Recipe
+  ) => {
+    props.update({
+      selectionId: props.customerSelection.id,
+      selectionSort: props.customerSelection.sort,
+      recipe,
+      deliveryIndex,
+      itemIndex,
+    });
+  };
 
   return (
     <Table alignSelf="start" style={{ marginTop: '1rem' }}>
@@ -78,6 +94,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                     allRecipes={props.allRecipes}
                     selectedItem={item}
                     customerSelection={props.customerSelection}
+                    onUpdate={onUpdate}
                   />
                 )),
                 <Button

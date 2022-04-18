@@ -22,9 +22,9 @@ export interface StoredMealSelection {
 
 export interface GetPlanResponse {
   cooks: Cook[];
-  selections?: CustomerMealsSelectionWithChargebeeCustomer &
-    {
-      id: StoredMealSelection['id'];
-      sort: StoredMealSelection['sort'];
-    }[];
+  selections?: PlanResponseSelections;
 }
+
+export type PlanResponseSelections =
+  CustomerMealsSelectionWithChargebeeCustomer &
+    { id: StoredMealSelection['id']; sort: StoredMealSelection['sort'] }[];

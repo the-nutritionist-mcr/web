@@ -6,7 +6,7 @@ import { defaultDeliveryDays } from '@tnmw/config';
 
 import {
   Recipe,
-  CustomerMealsSelection,
+  CustomerMealsSelectionWithChargebeeCustomer,
   CustomerWithChargebeePlan,
 } from '@tnmw/types';
 
@@ -58,7 +58,7 @@ const makeRowsFromSelections = (
             .map((item) => formatPlanItem(item.mealWithVariantString, item))),
     ]);
 
-const generateNameString = (customer: CustomerWithNewPlan) =>
+const generateNameString = (customer: CustomerWithChargebeePlan) =>
   `${customer.surname}, ${customer.firstName}`;
 
 const options = {
@@ -69,7 +69,7 @@ const options = {
 };
 
 const generateDeliveryPlanDocumentDefinition = (
-  selections: CustomerMealsSelection,
+  selections: CustomerMealsSelectionWithChargebeeCustomer,
   allMeals: Recipe[]
 ): DocumentDefinition => {
   const date = new Date(Date.now());

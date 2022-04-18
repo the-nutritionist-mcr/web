@@ -1,6 +1,7 @@
 import {
+  ChangePlanRecipeBody,
   Cook,
-  CustomerMealsSelectionWithChargebeeCustomer,
+  PlanResponseSelections,
   Recipe,
 } from '@tnmw/types';
 import { Paragraph } from 'grommet';
@@ -8,15 +9,17 @@ import React from 'react';
 import FinalizeCustomerTable from './FinalizeCustomerTable';
 
 interface FinalizeProps {
-  customerMeals: CustomerMealsSelectionWithChargebeeCustomer;
+  customerMeals: PlanResponseSelections;
   recipes: Recipe[];
   cooks: Cook[];
+  update: (item: ChangePlanRecipeBody) => Promise<void>;
 }
 
 const Finalize: React.FC<FinalizeProps> = ({
   customerMeals,
   recipes,
   cooks,
+  update,
 }) => {
   const planned = cooks.map((cook) => cook.menu);
 
@@ -57,6 +60,7 @@ const Finalize: React.FC<FinalizeProps> = ({
               deliveryMeals={planned}
               allRecipes={recipes}
               columns={6}
+              update={update}
             />
           ))
       }

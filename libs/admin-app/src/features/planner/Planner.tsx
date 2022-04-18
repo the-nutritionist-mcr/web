@@ -7,14 +7,16 @@ import downloadPdf from '../../lib/downloadPdf';
 import { defaultDeliveryDays } from '@tnmw/config';
 import {
   Cook,
-  CustomerMealsSelectionWithChargebeeCustomer,
   Recipe,
+  ChangePlanRecipeBody,
+  PlanResponseSelections,
 } from '@tnmw/types';
 
 interface PlannerProps {
   cooks: Cook[];
-  selections: CustomerMealsSelectionWithChargebeeCustomer;
+  selections: PlanResponseSelections;
   recipes: Recipe[];
+  update: (item: ChangePlanRecipeBody) => Promise<void>;
 }
 
 const Planner: React.FC<PlannerProps> = (props) => {
@@ -68,11 +70,14 @@ const Planner: React.FC<PlannerProps> = (props) => {
           }}
         />
       </Header>
-      <Finalize
-        cooks={props.cooks}
-        recipes={props.recipes}
-        customerMeals={props.selections}
-      />
+      {props.cooks && (
+        <Finalize
+          cooks={props.cooks}
+          recipes={props.recipes}
+          customerMeals={props.selections}
+          update={props.update}
+        />
+      )}
     </>
   );
 };

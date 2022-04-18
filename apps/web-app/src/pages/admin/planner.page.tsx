@@ -7,13 +7,14 @@ import { useRecipes, usePlan } from '../../hooks';
 
 const PlannerPage: FC = () => {
   const { items } = useRecipes();
-  const { data } = usePlan();
-  console.log(data);
+  const { data, update } = usePlan();
+  console.log(`page`, data);
   return (
     <MenuPaddedContent>
       <AdminTemplate>
         {data && (
           <Planner
+            update={update}
             recipes={items}
             cooks={data.cooks}
             selections={data.selections}

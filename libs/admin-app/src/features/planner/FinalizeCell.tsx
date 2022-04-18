@@ -17,6 +17,11 @@ interface FinalizeCellProps {
   allRecipes: Recipe[];
   customerSelection: CustomerMealsSelectionWithChargebeeCustomer[number];
   selectedItem: SelectedItem;
+  onUpdate: (
+    deliveryIndex: number,
+    itemIndex: number,
+    newRecipe: Recipe
+  ) => void;
 }
 
 const isSelectedMeal = (
@@ -34,8 +39,7 @@ const getSelectedItemString = (selectedItem: SelectedItem) => {
 const UnMemoizedFinalizeCell: React.FC<FinalizeCellProps> = (props) => {
   const onChange = React.useCallback(
     (event) => {
-      // eslint-disable-next-line no-console
-      console.log(event);
+      props.onUpdate(props.deliveryIndex, props.index, event.value.recipe);
     },
     [props.customerSelection.customer, props.index, props.deliveryIndex]
   );
