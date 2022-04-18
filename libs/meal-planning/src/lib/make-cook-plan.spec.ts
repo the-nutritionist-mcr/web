@@ -156,6 +156,24 @@ describe('make cook plan', () => {
               chosenVariant: 'EQ',
             },
           ],
+          [
+            {
+              recipe: recipeOne,
+              chosenVariant: 'EQ',
+            },
+            {
+              recipe: recipeTwo,
+              chosenVariant: 'EQ',
+            },
+            {
+              recipe: recipeThree,
+              chosenVariant: 'Mass',
+            },
+            {
+              recipe: recipeFour,
+              chosenVariant: 'EQ',
+            },
+          ],
         ],
       },
       {
@@ -173,6 +191,27 @@ describe('make cook plan', () => {
             {
               recipe: recipeFive,
               chosenVariant: 'EQ',
+            },
+            {
+              recipe: recipeSix,
+              chosenVariant: 'EQ',
+            },
+          ],
+          [
+            {
+              recipe: recipeThree,
+              chosenVariant: 'Micro',
+            },
+            {
+              recipe: recipeFour,
+              chosenVariant: 'EQ',
+            },
+            {
+              recipe: recipeFive,
+              chosenVariant: 'EQ',
+            },
+            {
+              chosenVariant: 'Breakfast',
             },
             {
               recipe: recipeSix,
@@ -239,6 +278,23 @@ describe('make cook plan', () => {
               chosenVariant: 'Breakfast',
             },
           ],
+          [
+            {
+              recipe: recipeThree,
+              chosenVariant: 'EQ',
+            },
+            {
+              recipe: recipeSeven,
+              chosenVariant: 'Mass',
+            },
+            {
+              recipe: recipeEight,
+              chosenVariant: 'EQ',
+            },
+            {
+              chosenVariant: 'Breakfast',
+            },
+          ],
         ],
       },
     ];
@@ -278,7 +334,7 @@ describe('make cook plan', () => {
     ]);
   });
 
-  it.only('should correctly count extras', () => {
+  it.skip('should correctly count extras', () => {
     const noCheese = mock<Exclusion>();
     noCheese.name = 'No cheese';
     noCheese.id = '1';
