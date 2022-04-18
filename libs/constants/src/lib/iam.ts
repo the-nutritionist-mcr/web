@@ -7,6 +7,7 @@ export const IAM = {
       adminDeleteUser: 'cognito-idp:AdminDeleteUser',
       adminSetUserPassword: 'cognito-idp:AdminSetUserPassword',
       adminUpdateUserAttributes: 'cognito-idp:AdminUpdateUserAttributes',
+      adminAddUserToGroup: 'cognito-idp:AdminAddUserToGroup',
     },
   },
 } as const;

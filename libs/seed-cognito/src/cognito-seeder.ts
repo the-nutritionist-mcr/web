@@ -65,6 +65,7 @@ export class CognitoSeeder extends Construct {
           IAM.actions.cognito.adminGetUser,
           IAM.actions.cognito.adminCreateUser,
           IAM.actions.cognito.adminDeleteUser,
+          IAM.actions.cognito.adminAddUserToGroup,
         ],
         resources: [props.userpool.userPoolArn],
       })
