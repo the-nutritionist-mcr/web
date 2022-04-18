@@ -24,6 +24,13 @@ export interface StoredMealSelection {
 export interface GetPlanResponse {
   cooks: Cook[];
   selections?: PlanResponseSelections;
+  createdBy: string;
+  date: string;
+  available: true;
+}
+
+export interface NotYetPublishedResponse {
+  available: false;
 }
 
 export type PlanResponseSelections =

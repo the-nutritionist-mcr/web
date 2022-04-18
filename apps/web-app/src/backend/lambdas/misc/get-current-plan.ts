@@ -1,5 +1,6 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { returnErrorResponse } from '../data-api/return-error-response';
+import { returnOkResponse } from '../data-api/return-ok-response';
 import { StoredMealSelection, StoredPlan, GetPlanResponse } from '@tnmw/types';
 import { ENV, HTTP } from '@tnmw/constants';
 import { authoriseJwt } from '../data-api/authorise';
@@ -35,29 +36,33 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       `plan-${planId}-selection`,
     ]);
 
+    if (!plan.published) {
+      return returnOkResponse({ available: false });
+    }
+
     const selections = selectionResponse.Items as
       | StoredMealSelection[]
       | undefined;
 
+    const defaultResponse = {
+      cooks: menus,
+      createdBy: plan.username,
+      date: plan.sort,
+    };
+
     const finalResponse: GetPlanResponse = groups.includes('admin')
       ? {
-          cooks: menus,
+          ...defaultResponse,
+          available: true,
           selections: selections.map((selection) => ({
             ...selection.selection,
             id: selection.id,
             sort: selection.sort,
           })),
         }
-      : { cooks: menus };
+      : { ...defaultResponse, available: true };
 
-    return {
-      statusCode: HTTP.statusCodes.Ok,
-      body: JSON.stringify(finalResponse),
-      headers: {
-        [HTTP.headerNames.AccessControlAllowOrigin]: '*',
-        [HTTP.headerNames.AccessControlAllowHeaders]: '*',
-      },
-    };
+    return returnOkResponse(finalResponse);
   } catch (error) {
     return returnErrorResponse(error);
   }
