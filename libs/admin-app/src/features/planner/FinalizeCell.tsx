@@ -7,6 +7,7 @@ import {
   Recipe,
   DeliveryMealsSelection,
   CustomerMealsSelectionWithChargebeeCustomer,
+  PlanLabels,
 } from '@tnmw/types';
 import { SelectedMeal } from '@tnmw/meal-planning';
 
@@ -20,7 +21,8 @@ interface FinalizeCellProps {
   onUpdate: (
     deliveryIndex: number,
     itemIndex: number,
-    newRecipe: Recipe
+    newRecipe: Recipe,
+    chosenVariant: PlanLabels
   ) => void;
 }
 
@@ -39,7 +41,12 @@ const getSelectedItemString = (selectedItem: SelectedItem) => {
 const UnMemoizedFinalizeCell: React.FC<FinalizeCellProps> = (props) => {
   const onChange = React.useCallback(
     (event) => {
-      props.onUpdate(props.deliveryIndex, props.index, event.value.recipe);
+      props.onUpdate(
+        props.deliveryIndex,
+        props.index,
+        event.value.recipe,
+        event.value.chosenVariant
+      );
     },
     [props.customerSelection.customer, props.index, props.deliveryIndex]
   );

@@ -7,45 +7,10 @@ import {
   QueryCommand,
   PutCommand,
 } from '@aws-sdk/lib-dynamodb';
-import {
-  CustomerMealsSelectionWithChargebeeCustomer,
-  isRecipe,
-  Recipe,
-} from '@tnmw/types';
+import { CustomerMealsSelectionWithChargebeeCustomer } from '@tnmw/types';
 import { HttpError } from '../data-api/http-error';
 import { ENV, HTTP } from '@tnmw/constants';
-
-export interface ChangePlanRecipeBody {
-  recipe: Recipe;
-  selectionId: string;
-  selectionSort: string;
-  deliveryIndex: number;
-  itemIndex: number;
-}
-
-const isChangePlanRecipeBody = (
-  body: unknown
-): body is ChangePlanRecipeBody => {
-  const bodyAsAny = body as any;
-
-  if (!isRecipe(bodyAsAny.recipe)) {
-    return false;
-  }
-
-  if (typeof bodyAsAny.selectionId !== 'string') {
-    return false;
-  }
-
-  if (typeof bodyAsAny.deliveryIndex !== 'number') {
-    return false;
-  }
-
-  if (typeof bodyAsAny.itemIndex !== 'number') {
-    return false;
-  }
-
-  return true;
-};
+import { isChangePlanRecipeBody } from 'libs/types/src/lib/change-plan-recipe-body';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -71,29 +36,31 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const result = await dynamo.send(queryCommand);
 
-    const selections: CustomerMealsSelectionWithChargebeeCustomer = JSON.parse(
-      result.Items[0].selection
-    );
+    const selection: CustomerMealsSelectionWithChargebeeCustomer[number] =
+      result.Items[0].selection;
 
-    const newSelections = selections.map((delivery, index) =>
-      index !== changePlanData.deliveryIndex
-        ? delivery
-        : {
-            ...delivery,
-            deliveries: delivery.deliveries.map((item, itemIndex) =>
+    const newSelection: CustomerMealsSelectionWithChargebeeCustomer[number] = {
+      customer: selection.customer,
+      deliveries: selection.deliveries.map((delivery, index) =>
+        index !== changePlanData.deliveryIndex || typeof delivery === 'string'
+          ? delivery
+          : delivery.map((item, itemIndex) =>
               itemIndex !== changePlanData.itemIndex
                 ? item
-                : changePlanData.recipe
-            ),
-          }
-    );
+                : {
+                    recipe: changePlanData.recipe,
+                    chosenVariant: changePlanData.chosenVariant,
+                  }
+            )
+      ),
+    };
 
     const putCommand = new PutCommand({
       TableName: tableName,
       Item: {
         id: changePlanData.selectionId,
         sort: changePlanData.selectionSort,
-        selection: newSelections,
+        selection: newSelection,
       },
     });
 

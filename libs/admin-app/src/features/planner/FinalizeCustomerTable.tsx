@@ -18,6 +18,7 @@ import FinalizeCell from './FinalizeCell';
 import DeliveryMealsSelection from '../../types/DeliveryMealsSelection';
 import {
   ChangePlanRecipeBody,
+  PlanLabels,
   PlanResponseSelections,
   Recipe,
 } from '@tnmw/types';
@@ -45,11 +46,13 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
   const onUpdate = (
     deliveryIndex: number,
     itemIndex: number,
-    recipe: Recipe
+    recipe: Recipe,
+    chosenVariant: PlanLabels
   ) => {
     props.update({
       selectionId: props.customerSelection.id,
       selectionSort: props.customerSelection.sort,
+      chosenVariant,
       recipe,
       deliveryIndex,
       itemIndex,
