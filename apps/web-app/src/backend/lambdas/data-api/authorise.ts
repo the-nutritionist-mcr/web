@@ -4,10 +4,15 @@ import { APIGatewayProxyEventV2 } from 'aws-lambda';
 import { HTTP } from '../../../infrastructure/constants';
 import { HttpError } from './http-error';
 
+interface AuthoriseResponse {
+  username: string;
+  groups: ReadonlyArray<string>;
+}
+
 export const authoriseJwt = async (
   event: APIGatewayProxyEventV2,
   groups?: string[]
-) => {
+): Promise<AuthoriseResponse> => {
   const authHeader =
     event.headers &&
     Object.entries(event.headers).find(
@@ -33,7 +38,7 @@ export const authoriseJwt = async (
     );
   }
 
-  return { username: verifyResult.userName };
+  return { username: verifyResult.userName, groups: verifyResult.groups };
 };
 
 const decodeBasicAuth = (authHeaderValue: string) => {

@@ -9,7 +9,7 @@ import { doQuery } from '../dynamodb';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
-    await authoriseJwt(event, ['admin']);
+    const { groups } = await authoriseJwt(event);
 
     const tableName = process.env[ENV.varNames.DynamoDBTable];
 
@@ -39,10 +39,12 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       | StoredMealSelection[]
       | undefined;
 
-    const finalResponse: GetPlanResponse = {
-      cooks: menus,
-      selections: selections.map((selection) => selection.selection),
-    };
+    const finalResponse: GetPlanResponse = groups.includes('admin')
+      ? {
+          cooks: menus,
+          selections: selections.map((selection) => selection.selection),
+        }
+      : { cooks: menus };
 
     return {
       statusCode: HTTP.statusCodes.Ok,
