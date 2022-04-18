@@ -21,7 +21,10 @@ export const usePlan = () => {
   const publishPlan = async (): Promise<void> =>
     await swrFetcher('plan/publish', {
       method: HTTP.verbs.Post,
-      body: JSON.stringify({ id: data.available && data.planId }),
+      body: JSON.stringify({
+        id: data.available && data.planId,
+        sort: data.available && data.date,
+      }),
     });
 
   const [publish] = useMutation<void>(publishPlan, {

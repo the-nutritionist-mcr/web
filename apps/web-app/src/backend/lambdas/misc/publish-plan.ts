@@ -23,6 +23,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       TableName: tableName,
       Key: {
         id: publishPlanBody.id,
+        sort: publishPlanBody.sort,
       },
       UpdateExpression: `SET published = :published`,
       ExpressionAttributeValues: {
