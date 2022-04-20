@@ -3,18 +3,13 @@ import { Meal } from './meal';
 import { SelectedThings } from './selected-things';
 import Basket from './basket';
 import styled from '@emotion/styled';
+import { MealCategory } from './meal-category';
 
 interface BasketProps {
+  availableMeals: MealCategory[];
   available: Meal[];
-  selectedMeals: SelectedThings;
-  maxMeals: number;
-  setMeals: Dispatch<SetStateAction<SelectedThings>>;
-  selectedSnacks: SelectedThings;
-  maxSnacks: number;
-  setSnacks: Dispatch<SetStateAction<SelectedThings>>;
-  selectedBreakfasts: SelectedThings;
-  maxBreakfasts: number;
-  setBreakfasts: Dispatch<SetStateAction<SelectedThings>>;
+  selectedMeals: SelectedThings[][];
+  setMeals: Dispatch<SetStateAction<SelectedThings[][]>>;
 }
 
 const SelectedBox = styled.div`

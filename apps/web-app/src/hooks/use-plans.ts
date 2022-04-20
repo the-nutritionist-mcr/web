@@ -22,7 +22,7 @@ export const usePlan = () => {
     await swrFetcher('plan/publish', {
       method: HTTP.verbs.Post,
       body: JSON.stringify({
-        id: data.available && data.planId,
+        id: 'plan',
         sort: data.available && data.date,
       }),
     });

@@ -25,8 +25,6 @@ const YourAccountHeader = styled('h1')`
   display: auto;
   margin: 0.5rem 0 0 0;
 `;
-const user = currentUser();
-console.log(user);
 
 interface Me {
   first_name: string;
@@ -56,7 +54,8 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
         </YourAccountHeaderBox>
       </Hero>
       <h2>You are logged in</h2>
-      <Account userDetails={user} />
+      <Account userDetails={user} showChooseButton={true} />
+
       <Button
         onClick={async () => {
           await signOut();

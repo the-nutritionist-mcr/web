@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { StandardPlan } from '@tnmw/types';
+import { Button } from '../../atoms';
 
 export interface User {
   username: string;
@@ -24,9 +25,13 @@ export interface User {
 
 interface AccountProps {
   userDetails: User;
+  showChooseButton: boolean;
 }
 
-export const Account: FC<AccountProps> = ({ userDetails }) => (
+export const Account: FC<AccountProps> = ({
+  userDetails,
+  showChooseButton,
+}) => (
   <>
     <h2>User Details</h2>
     <ul>
@@ -40,7 +45,6 @@ export const Account: FC<AccountProps> = ({ userDetails }) => (
       <li>City: {userDetails.city}</li>
       <li>Country: {userDetails.country}</li>
     </ul>
-
     <h2>User Plans</h2>
     <ul>
       {userDetails.plans.map((plan) => (
@@ -49,5 +53,6 @@ export const Account: FC<AccountProps> = ({ userDetails }) => (
         </li>
       ))}
     </ul>
+    {showChooseButton && <Button>Choose Meals</Button>}
   </>
 );

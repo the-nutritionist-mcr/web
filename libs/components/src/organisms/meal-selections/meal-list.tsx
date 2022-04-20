@@ -7,7 +7,7 @@ import styled from '@emotion/styled';
 interface MealListProps {
   things: Meal[];
   selected: SelectedThings;
-  setSelected: Dispatch<SetStateAction<SelectedThings>>;
+  setSelected: (things: SelectedThings) => void;
   max: number;
 }
 

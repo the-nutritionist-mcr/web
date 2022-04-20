@@ -12,6 +12,7 @@ type StackOutputs = {
 };
 
 export const getOutputs = async (): Promise<StackConfig> => {
+  // TODO need to set FETCH_BASE_URL in deployed build
   const path = process.env.FETCH_BASE_URL
     ? `${process.env.FETCH_BASE_URL}/app-config.json`
     : `/app-config.json`;
