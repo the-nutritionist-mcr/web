@@ -6,6 +6,9 @@ import styled from '@emotion/styled';
 import { Meal } from './meal';
 import { defaultDeliveryDays } from '@tnmw/config';
 import { MealCategory } from './meal-category';
+import CombinedBasket from './combined-basket';
+import { totalOtherSelected } from './total-other-selected';
+import { setSelected } from './set-selected';
 
 export interface MealSelectionsProps {
   availableMeals: MealCategory[];
@@ -41,37 +44,36 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
       <GridParent>
         <TabBox tabButton={TabButton}>
           {props.availableMeals.flatMap((category, categoryIndex) => {
-            return defaultDeliveryDays.map((day, dayIndex) => {
-              const totalOtherSelected = selectedMeals[categoryIndex]
-                .filter((day, index) => dayIndex !== index)
-                .reduce((accum, entry) => {
-                  return (
-                    Object.entries(entry).reduce((pairAccum, pairEntry) => {
-                      return pairEntry[1] + pairAccum;
-                    }, 0) + accum
-                  );
-                }, 0);
+            return defaultDeliveryDays.map((_, dayIndex) => {
               return (
                 <Tab tabTitle={`Delivery ${dayIndex + 1} ${category.title}`}>
                   <MealList
                     things={category.options[dayIndex]}
                     selected={selectedMeals[categoryIndex][dayIndex]}
                     setSelected={(selected) => {
-                      const newSelectedMeals = [
-                        ...selectedMeals[categoryIndex],
-                      ];
-                      newSelectedMeals[dayIndex] = selected;
-                      const finalSelected = [...selectedMeals];
-                      finalSelected[categoryIndex] = newSelectedMeals;
-                      setSelectedMeals(finalSelected);
+                      setSelected(
+                        selected,
+                        selectedMeals,
+                        categoryIndex,
+                        dayIndex,
+                        setSelectedMeals
+                      );
                     }}
-                    max={category.maxMeals - totalOtherSelected}
+                    max={
+                      category.maxMeals -
+                      totalOtherSelected(selectedMeals, categoryIndex, dayIndex)
+                    }
                   />
                 </Tab>
               );
             });
           })}
         </TabBox>
+        <CombinedBasket
+          availableMeals={props.availableMeals}
+          selectedMeals={selectedMeals}
+          setSelectedMeals={setSelectedMeals}
+        />
       </GridParent>
     </DivContainer>
   );

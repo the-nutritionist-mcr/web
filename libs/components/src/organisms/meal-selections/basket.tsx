@@ -6,10 +6,11 @@ import styled from '@emotion/styled';
 
 interface BasketProps {
   available: Meal[];
+  title: string;
   itemWord: string;
   itemWordPlural: string;
   selectedMeals: SelectedThings;
-  setSelected: Dispatch<SetStateAction<SelectedThings>>;
+  setSelected: (selected: SelectedThings) => void;
   max: number;
 }
 
@@ -28,7 +29,7 @@ const BasketContainer = styled.div`
 const makeBasketItems = (
   selectedThings: SelectedThings,
   available: Meal[],
-  setSelected: Dispatch<SetStateAction<SelectedThings>>,
+  setSelected: (things: SelectedThings) => void,
   max: number,
   total: number
 ) =>
@@ -77,10 +78,9 @@ const Basket: FC<BasketProps> = (props) => {
   `;
 
   const itemWord = totalSelected > 1 ? props.itemWordPlural : props.itemWord;
-  const header = toTitleCase(`${totalSelected} ${itemWord} Selected`);
   return (
     <BasketContainer>
-      <BasketHeader>{header}</BasketHeader>
+      <BasketHeader>{toTitleCase(props.title)}</BasketHeader>
       <BasketRemaining>
         {remaining} {itemWord} remaining
       </BasketRemaining>

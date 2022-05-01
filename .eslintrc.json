@@ -13,6 +13,7 @@
       "rules": {
         "unicorn/no-null": "off",
         "security/detect-non-literal-fs-filename": "off",
+        "security/detect-object-injection": "off",
         "unicorn/no-array-for-each": "off",
         "unicorn/no-useless-undefined": "off",
         "unicorn/no-reduce": "off",

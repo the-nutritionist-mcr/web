@@ -5,9 +5,9 @@
   "scripts": {},
   "private": true,
   "dependencies": {
-    "@aws-amplify/api": "^4.0.30",
-    "@aws-amplify/auth": "^4.3.20",
-    "@aws-amplify/core": "^4.3.12",
+    "@aws-amplify/api": "4.0.30",
+    "@aws-amplify/auth": "4.5.2",
+    "@aws-amplify/core": "4.3.12",
     "@aws-amplify/ui-react": "1.2.9",
     "@aws-cdk/assert": "1.143.0",
     "@aws-cdk/aws-apigateway": "1.143.0",

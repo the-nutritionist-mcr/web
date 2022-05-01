@@ -1,18 +1,20 @@
 import { FC, Dispatch, SetStateAction } from 'react';
-import { Meal } from './meal';
 import { SelectedThings } from './selected-things';
 import Basket from './basket';
 import styled from '@emotion/styled';
 import { MealCategory } from './meal-category';
+import { defaultDeliveryDays } from '@tnmw/config';
+import { totalOtherSelected } from './total-other-selected';
+import { setSelected } from './set-selected';
 
 interface BasketProps {
   availableMeals: MealCategory[];
-  available: Meal[];
   selectedMeals: SelectedThings[][];
-  setMeals: Dispatch<SetStateAction<SelectedThings[][]>>;
+  setSelectedMeals: Dispatch<SetStateAction<SelectedThings[][]>>;
 }
 
 const SelectedBox = styled.div`
+  margin: 1rem;
   padding: 1rem;
   border: 1px solid black;
   display: flex;
@@ -36,36 +38,41 @@ const Divider = styled.hr`
   border: 0;
 `;
 
-const CombinedBasket: FC<BasketProps> = (props) => {
+const CombinedBasket: FC<BasketProps> = ({
+  availableMeals,
+  selectedMeals,
+  setSelectedMeals,
+}) => {
   return (
     <SelectedBox>
       <BasketHeader>YOUR SELECTIONS</BasketHeader>
       <Divider />
-      <Basket
-        max={props.maxMeals}
-        itemWord="meal"
-        itemWordPlural="meals"
-        selectedMeals={props.selectedMeals}
-        available={props.available}
-        setSelected={props.setMeals}
-      />
-
-      <Basket
-        max={props.maxSnacks}
-        itemWord="snack"
-        itemWordPlural="snacks"
-        selectedMeals={props.selectedSnacks}
-        available={props.available}
-        setSelected={props.setSnacks}
-      />
-      <Basket
-        max={props.maxBreakfasts}
-        itemWord="breakfast"
-        itemWordPlural="breakfasts"
-        selectedMeals={props.selectedBreakfasts}
-        available={props.available}
-        setSelected={props.setBreakfasts}
-      />
+      {availableMeals.flatMap((category, categoryIndex) => {
+        return defaultDeliveryDays.map((_, dayIndex) => {
+          return (
+            <Basket
+              itemWord="meal"
+              title={`${category.title} - Delivery ${dayIndex + 1}`}
+              itemWordPlural="meals"
+              available={availableMeals[categoryIndex].options[dayIndex]}
+              setSelected={(selected) =>
+                setSelected(
+                  selected,
+                  selectedMeals,
+                  categoryIndex,
+                  dayIndex,
+                  setSelectedMeals
+                )
+              }
+              selectedMeals={selectedMeals[categoryIndex][dayIndex]}
+              max={
+                category.maxMeals -
+                totalOtherSelected(selectedMeals, categoryIndex, dayIndex)
+              }
+            />
+          );
+        });
+      })}
     </SelectedBox>
   );
 };
