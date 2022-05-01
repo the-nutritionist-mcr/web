@@ -7,6 +7,7 @@ const ProviderWrapper: FC = ({ children }) => {
     colors: {
       buttonBlack: 'black',
       labelText: 'black',
+      callToAction: 'black',
     },
     menubarHeight: 100,
     breakpoints: {
