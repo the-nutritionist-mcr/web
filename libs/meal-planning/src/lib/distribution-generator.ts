@@ -7,6 +7,7 @@ import {
   DaysPerWeek,
   CustomerPlan,
   PlanConfiguration,
+  CustomerPlanWithoutConfiguration,
 } from '@tnmw/types';
 import { curry, pipe } from 'ramda';
 import { extrasLabels, planLabels, defaultDeliveryDays } from '@tnmw/config';
@@ -228,7 +229,7 @@ const deliveriesAreEqual = (first: Delivery[], second: Delivery[]) => {
  * a custom delivery plan or not
  */
 export const isCustomDeliveryPlan = (
-  plan: CustomerPlan,
+  plan: CustomerPlanWithoutConfiguration,
   defaultSettings: PlannerConfig
 ): boolean =>
   !deliveriesAreEqual(

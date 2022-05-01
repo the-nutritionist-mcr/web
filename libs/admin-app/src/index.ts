@@ -1,6 +1,6 @@
 export { Recipes } from './features/recipes';
 export { Exclusions } from './features/exclusions';
-export { Customers } from './features/customers';
+export { Customers, EditCustomerPage } from './features/customers';
 export { Planner } from './features/planner';
 
 export type { default as Exclusion } from './domain/Exclusion';

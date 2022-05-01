@@ -1,6 +1,6 @@
-import { Customer, Snack } from '@tnmw/types';
+import { Customer, CustomerWithChargebeePlan, Snack } from '@tnmw/types';
 
-const getExtrasString = (customer: Customer): string => {
+const getExtrasString = (customer: CustomerWithChargebeePlan): string => {
   const returnVal = [];
 
   if (customer.breakfast) {

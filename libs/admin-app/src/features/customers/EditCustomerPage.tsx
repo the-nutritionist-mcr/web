@@ -1,66 +1,43 @@
-import { Form, Header, Heading, Button, Paragraph } from "grommet";
-import React, { FC } from "react";
-import { ThunkDispatch } from "redux-thunk";
-import { Prompt, RouteComponentProps, useHistory } from "react-router-dom";
-import {
-  planLabels,
-  extrasLabels,
-  defaultDeliveryDays,
-} from "../../lib/config";
-import Customer from "../../domain/Customer";
-import { debounce } from "lodash";
-import { useDispatch, useSelector } from "react-redux";
-import PlanPanel from "./PlanPanel";
-import { updateCustomer, customerByIdSelector } from "./customersSlice";
+import { Form, Header, Heading, Button, Paragraph } from 'grommet';
+import React, { FC } from 'react';
+import { Prompt, RouteComponentProps, useHistory } from 'react-router-dom';
+import { planLabels, extrasLabels, defaultDeliveryDays } from '@tnmw/config';
+import { debounce } from 'lodash';
+import PlanPanel from './PlanPanel';
 
-import { allExclusionsSelector } from "../exclusions/exclusionsSlice";
-import AppState from "../../types/AppState";
-import { AnyAction } from "redux";
-import { OkCancelDialog } from "../../components";
-import EditCustomerDetailsPanel from "./EditCustomerDetailsPanel";
-import { NotFound } from "../../components/not-found";
+import { OkCancelDialog } from '../../components';
+import EditCustomerDetailsPanel from './EditCustomerDetailsPanel';
+import { CustomerWithChargebeePlan, Exclusion } from '@tnmw/types';
 
 const SUBMIT_DEBOUNCE = 500;
 
 export interface EditCustomerPathParams {
-  id?: string;
+  customer: CustomerWithChargebeePlan;
+  customisations: Exclusion[];
 }
 
-const EditCustomerPage: FC<RouteComponentProps<EditCustomerPathParams>> = (
-  props
-) => {
-  const exclusions = useSelector(allExclusionsSelector);
-  const idCustomer = useSelector(
-    customerByIdSelector(props.match.params.id ?? "")
-  );
-
-  const [customer, setCustomer] = React.useState<Customer | undefined>(
-    idCustomer
-  );
+const EditCustomerPage: FC<RouteComponentProps<EditCustomerPathParams>> = ({
+  customisations: exclusions,
+  customer,
+}) => {
   const [dirty, setDirty] = React.useState(false);
   const [planChanged, setPlanChanged] = React.useState(false);
   const [showPlanChangedDialog, setShowPlanChangedDialog] =
     React.useState(false);
 
-  const dispatch = useDispatch<ThunkDispatch<AppState, Customer, AnyAction>>();
   const history = useHistory();
-
-  if (!customer) {
-    return <NotFound />;
-  }
 
   const onSubmit = debounce(async () => {
     const submittingCustomer = {
       ...customer,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      breakfast: (customer.breakfast as any) === "Yes",
+      breakfast: (customer.breakfast as any) === 'Yes',
     };
 
-    await dispatch(updateCustomer(submittingCustomer));
     setDirty(false);
     setPlanChanged(false);
     setShowPlanChangedDialog(false);
-    history.push("/customers");
+    history.push('/customers');
   }, SUBMIT_DEBOUNCE);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -69,16 +46,14 @@ const EditCustomerPage: FC<RouteComponentProps<EditCustomerPathParams>> = (
     const nextCustomer = {
       ...nextCustomerData,
       startDate:
-        nextCustomerData.startDate === "string" && nextCustomerData.startDate
+        nextCustomerData.startDate === 'string' && nextCustomerData.startDate
           ? new Date(nextCustomerData.startDate)
           : nextCustomerData.startDate,
       paymentDayOfMonth:
-        nextCustomerData.paymentDayOfMonth === ""
+        nextCustomerData.paymentDayOfMonth === ''
           ? undefined
           : nextCustomerData.paymentDayOfMonth,
     };
-
-    setCustomer(nextCustomer);
   };
   return (
     <>

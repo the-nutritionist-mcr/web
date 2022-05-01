@@ -18,11 +18,11 @@ import {
 import { Checkmark, Close } from 'grommet-icons';
 import React from 'react';
 import { debounce } from 'lodash';
-import { Customer, Exclusion, Snack } from '@tnmw/types';
+import { CustomerWithChargebeePlan, Exclusion, Snack } from '@tnmw/types';
 import { daysPerWeekOptions, plans } from '@tnmw/config';
 
 interface EditCustomerDialogProps {
-  customer: Customer;
+  customer: CustomerWithChargebeePlan;
   show?: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
   onOk: () => void;
@@ -36,7 +36,6 @@ const SUBMIT_DEBOUNCE = 500;
 const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
   const propsCustomer = {
     ...props.customer,
-    breakfast: props.customer.breakfast ? 'Yes' : 'No',
   };
 
   const [customer, setCustomer] = React.useState(propsCustomer);

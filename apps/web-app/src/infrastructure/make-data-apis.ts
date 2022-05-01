@@ -12,7 +12,7 @@ import { LambdaIntegration, RestApi } from '@aws-cdk/aws-apigateway';
 import { getDomainName } from './get-domain-name';
 import { IUserPool } from '@aws-cdk/aws-cognito';
 import { IAM, ENV, HTTP, RESOURCES, NODE_OPTS } from '@tnmw/constants';
-import { makeDataApi, ReadWriteMode } from './make-data-api';
+import { makeDataApi } from './make-data-api';
 import { entryName } from './entry-name';
 import { AttributeType, BillingMode, Table } from '@aws-cdk/aws-dynamodb';
 

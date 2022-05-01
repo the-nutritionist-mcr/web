@@ -11,9 +11,13 @@ import {
 } from 'grommet';
 import MealDeliveriesTable from './MealDeliveriesTable';
 import { makeNewPlan, isCustomDeliveryPlan } from '@tnmw/meal-planning';
-import { PlannerConfig, DaysPerWeek, CustomerPlan } from './types';
-import Exclusion from '../../domain/Exclusion';
-import { daysOfWeek } from '../../lib/config';
+import {
+  PlannerConfig,
+  DaysPerWeek,
+  CustomerPlan,
+  Exclusion,
+} from '@tnmw/types';
+import { daysOfWeek } from '@tnmw/config';
 
 interface PlanPanelProps {
   plannerConfig: PlannerConfig;
@@ -47,7 +51,7 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
   };
 
   return (
-    <Box direction="column" gap="small">
+    <Box gap="small">
       <Header justify="start" gap="small">
         <Heading level={3}>Customer Plan</Heading>
         {customDeliveryPlan ? (
