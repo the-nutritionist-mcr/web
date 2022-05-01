@@ -9,7 +9,7 @@ import { MealCategory } from './meal-category';
 import CombinedBasket from './combined-basket';
 import { totalOtherSelected } from './total-other-selected';
 import { setSelected } from './set-selected';
-import { Button } from '@tnmw/components';
+import { Button } from '../../atoms';
 
 export interface MealSelectionsProps {
   availableMeals: MealCategory[];
