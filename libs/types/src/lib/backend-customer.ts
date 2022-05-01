@@ -1,0 +1,22 @@
+import type { StandardPlan } from './standard-plan';
+
+export interface BackendCustomer {
+  username: string;
+  country: string;
+  deliveryDay1: string;
+  deliveryDay2: string;
+  deliveryDay3: string;
+  customerUpdateTime: string;
+  addressLine1: string;
+  addressLine2: string;
+  phoneNumber: string;
+  addressLine3: string;
+  subscriptionUpdateTime: string;
+  firstName: string;
+  surname: string;
+  salutation: string;
+  email: string;
+  city: string;
+  postcode: string;
+  plans: StandardPlan[];
+}

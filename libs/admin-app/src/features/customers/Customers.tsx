@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Header,
   Heading,
   Table,
@@ -15,18 +14,6 @@ import { daysPerWeekOptions, plans } from '@tnmw/config';
 import CustomerRow from './CustomerRow';
 import EditCustomerDialog from './EditCustomerDialog';
 import React from 'react';
-import fileDownload from 'js-file-download';
-import generateCsvStringFromObjectArray from '../../lib/generateCsvStringFromObjectArray';
-import { useHistory } from 'react-router-dom';
-
-const convertCustomerToSimpleObject = (
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  { newPlan, ...customer }: Customer
-): { [key: string]: string | number | boolean | undefined } => ({
-  ...customer,
-  plan: customer.plan.name,
-  exclusions: customer.exclusions.map((exclusion) => exclusion.name).join(','),
-});
 
 interface CustomersProps {
   customers: Customer[];
@@ -38,31 +25,11 @@ const Customers: React.FC<CustomersProps> = ({ customers, customisations }) => {
 
   const exclusions = customisations;
 
-  const history = useHistory();
-
   return (
     <React.Fragment>
       <Header align="center" justify="start" gap="small">
         <Box direction="row" flex="grow" align="center" gap="small">
           <Heading level={2}>Customers</Heading>
-          <Button
-            primary
-            size="small"
-            onClick={() => history.push('/new-customer')}
-            label="New"
-            a11yTitle="New Customer"
-          />
-          <Button
-            primary
-            size="small"
-            label="Download CSV"
-            onClick={(): void => {
-              const string = generateCsvStringFromObjectArray(
-                customers.map(convertCustomerToSimpleObject)
-              );
-              fileDownload(string, 'customers.csv');
-            }}
-          />
           {showCreateCustomer && (
             <EditCustomerDialog
               exclusions={exclusions}

@@ -3,33 +3,12 @@ import {
   UserType,
 } from '@aws-sdk/client-cognito-identity-provider';
 import { COGNITO } from '@tnmw/constants';
-import { StandardPlan } from '@tnmw/types';
-
-export interface User {
-  username: string;
-  country: string;
-  deliveryDay1: string;
-  deliveryDay2: string;
-  deliveryDay3: string;
-  customerUpdateTime: string;
-  addressLine1: string;
-  addressLine2: string;
-  phoneNumber: string;
-  addressLine3: string;
-  subscriptionUpdateTime: string;
-  firstName: string;
-  surname: string;
-  salutation: string;
-  email: string;
-  city: string;
-  postcode: string;
-  plans: StandardPlan[];
-}
+import { BackendCustomer } from '@tnmw/types';
 
 const getAttributeValue = (attributes: AttributeType[], key: string) =>
   attributes.find((attribute) => attribute.Name === key)?.Value ?? '';
 
-export const parseCognitoResponse = (output: UserType): User => {
+export const parseCognitoResponse = (output: UserType): BackendCustomer => {
   const plansValue = getAttributeValue(
     output.Attributes,
     `custom:${COGNITO.customAttributes.Plans}`

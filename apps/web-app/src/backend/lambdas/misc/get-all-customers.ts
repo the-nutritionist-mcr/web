@@ -7,8 +7,8 @@ import { ENV } from '@tnmw/constants';
 import { authoriseJwt } from '../data-api/authorise';
 import { returnOkResponse } from '../data-api/return-ok-response';
 import { returnErrorResponse } from '../data-api/return-error-response';
-import { parseCognitoResponse } from '../../../utils/parse-cognito-response';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
+import { parseCustomerList } from '../../../utils/parse-customer-list';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -21,7 +21,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     };
     const response = await cognito.send(new ListUsersCommand(input));
 
-    const users = response.Users?.map((user) => parseCognitoResponse(user));
+    const users = parseCustomerList(response);
 
     return returnOkResponse({
       users,

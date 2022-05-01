@@ -1,17 +1,9 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
-import {
-  CustomerWithChargebeePlan,
-  CustomerPlan,
-  PlanLabels,
-  DaysPerWeek,
-  PlanConfiguration,
-  CustomerPlanWithoutConfiguration,
-} from '@tnmw/types';
-import { chooseMeals, makeNewPlan } from '@tnmw/meal-planning';
-import { COGNITO, ENV } from '@tnmw/constants';
-import { defaultDeliveryDays, planLabels, extrasLabels } from '@tnmw/config';
+import { chooseMeals } from '@tnmw/meal-planning';
+import { ENV } from '@tnmw/constants';
 import { authoriseJwt } from '../data-api/authorise';
-import { StoredPlan, StandardPlan } from '@tnmw/types';
+import { parseCustomerList } from '../../../utils/parse-customer-list';
+import { StoredPlan } from '@tnmw/types';
 import { returnErrorResponse } from '../data-api/return-error-response';
 import { HttpError } from '../data-api/http-error';
 
@@ -19,7 +11,6 @@ import {
   CognitoIdentityProviderClient,
   ListUsersCommand,
   ListUsersCommandInput,
-  ListUsersCommandOutput,
 } from '@aws-sdk/client-cognito-identity-provider';
 
 import { HTTP } from '@tnmw/constants';
@@ -33,119 +24,6 @@ import { v4 } from 'uuid';
 import { isWeeklyPlan } from '@tnmw/types';
 import { StoredMealSelection } from '@tnmw/types';
 import { batchArray } from '../../../utils/batch-array';
-
-const getAttributeValue = (
-  attributes: ListUsersCommandOutput['Users'][number]['Attributes'],
-  key: string
-): string | undefined =>
-  attributes.find((attribute) => attribute.Name === key)?.Value ?? '';
-
-const getJsonAttributeValue = <T>(
-  attributes: ListUsersCommandOutput['Users'][number]['Attributes'],
-  key: string,
-  defaultValue: T
-) => {
-  try {
-    const rawValue = getAttributeValue(attributes, key);
-
-    return JSON.parse(rawValue);
-  } catch {
-    return defaultValue;
-  }
-};
-
-const convertPlanFormat = (
-  plans: StandardPlan[]
-): CustomerPlanWithoutConfiguration =>
-  plans
-    .map((plan) =>
-      makeNewPlan(
-        {
-          defaultDeliveryDays,
-          planLabels: [...planLabels],
-          extrasLabels: [...extrasLabels],
-        },
-        {
-          planType: plan.name as PlanLabels,
-          daysPerWeek: plan.daysPerWeek as DaysPerWeek,
-          mealsPerDay: plan.itemsPerDay,
-        }
-      )
-    )
-    .reduce<Omit<CustomerPlan, 'configuration'>>(
-      (accum, item) => ({
-        deliveries: accum.deliveries.map((delivery, index) => ({
-          // eslint-disable-next-line security/detect-object-injection
-          items: delivery.items.concat(item.deliveries[index].items),
-          extras: [],
-        })),
-        configuration: {} as PlanConfiguration,
-      }),
-      {
-        deliveries: Array.from({ length: defaultDeliveryDays.length }).map(
-          () => ({
-            items: [],
-            extras: [],
-          })
-        ),
-      }
-    );
-
-const parseCustomerList = (
-  output: ListUsersCommandOutput
-): CustomerWithChargebeePlan[] => {
-  return output.Users.map((user) => ({
-    exclusions: getJsonAttributeValue(
-      user.Attributes,
-      `custom:${COGNITO.customAttributes.UserCustomisations}`,
-      []
-    ),
-    chargebeePlan: getJsonAttributeValue(
-      user.Attributes,
-      `custom:${COGNITO.customAttributes.Plans}`,
-      []
-    ),
-    newPlan: convertPlanFormat(
-      getJsonAttributeValue(
-        user.Attributes,
-        `custom:${COGNITO.customAttributes.Plans}`,
-        []
-      )
-    ) as CustomerPlan,
-    id: user.Username,
-    salutation: getAttributeValue(
-      user.Attributes,
-      `custom:${COGNITO.customAttributes.Salutation}`
-    ),
-    firstName: getAttributeValue(
-      user.Attributes,
-      COGNITO.standardAttributes.firstName
-    ),
-    surname: getAttributeValue(
-      user.Attributes,
-      COGNITO.standardAttributes.surname
-    ),
-    address: [
-      getAttributeValue(
-        user.Attributes,
-        `custom:${COGNITO.customAttributes.AddressLine1}`
-      ),
-      getAttributeValue(
-        user.Attributes,
-        `custom:${COGNITO.customAttributes.AddressLine2}`
-      ),
-    ].join('\n'),
-    email: getAttributeValue(user.Attributes, COGNITO.standardAttributes.email),
-    addressLine3: getAttributeValue(
-      user.Attributes,
-      `custom:${COGNITO.customAttributes.AddressLine3}`
-    ),
-    telephone: getAttributeValue(
-      user.Attributes,
-      COGNITO.standardAttributes.phone
-    ),
-  }));
-};
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {

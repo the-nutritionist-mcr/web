@@ -1,5 +1,6 @@
 export { Snack } from './lib/Customer';
 export type { default as Customer } from './lib/Customer';
+export type { BackendCustomer } from './lib/backend-customer';
 export type { default as Exclusion } from './lib/Exclusion';
 
 export { isExclusion } from './lib/Exclusion';
