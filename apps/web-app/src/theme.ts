@@ -2,6 +2,7 @@ import { Theme } from '@tnmw/components';
 
 export const theme: Theme = {
   colors: {
+    callToAction: '#3b7d7a',
     buttonBlack: '#292929',
     labelText: '#141414',
   },

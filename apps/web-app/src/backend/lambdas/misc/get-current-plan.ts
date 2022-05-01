@@ -28,7 +28,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     // eslint-disable-next-line fp/no-mutating-methods
     const plan = plans
       ?.slice()
-      .sort((a, b) => (Number(a.sort) > Number(b.sort) ? 1 : -1))?.[0];
+      .sort((a, b) => (Number(a.sort) < Number(b.sort) ? 1 : -1))?.[0];
 
     const { planId, menus, published, username, sort } = plan;
 

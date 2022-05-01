@@ -14,7 +14,7 @@ interface MealListProps {
 const FlexBox = styled.div`
   display: flex;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 2rem;
   flex-wrap: wrap;
   width: 100%;

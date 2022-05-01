@@ -7,6 +7,7 @@ export interface TabProps {
 
 const TabContents = styled.div`
   width: 100%;
+  text-align: right;
 `;
 
 const Tab: FC<TabProps> = (props) => {

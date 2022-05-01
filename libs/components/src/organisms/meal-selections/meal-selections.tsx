@@ -9,6 +9,7 @@ import { MealCategory } from './meal-category';
 import CombinedBasket from './combined-basket';
 import { totalOtherSelected } from './total-other-selected';
 import { setSelected } from './set-selected';
+import { Button } from '@tnmw/components';
 
 export interface MealSelectionsProps {
   availableMeals: MealCategory[];
@@ -27,6 +28,18 @@ const DivContainer = styled.div`
   flex-wrap: wrap;
   align-items: flex-end;
   gap: 2rem;
+`;
+
+const ButtonBox = styled.div`
+  width: 100%;
+  gap: 1rem;
+  display: grid;
+  margin-top: 3rem;
+  grid-template-columns: 4fr 2fr;
+  & > * {
+    grid-column-start: 2;
+    grid-column-end: 2;
+  }
 `;
 
 const createDefaultSelectedThings = (things: Meal[][]) =>
@@ -64,6 +77,12 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
                       totalOtherSelected(selectedMeals, categoryIndex, dayIndex)
                     }
                   />
+                  <ButtonBox>
+                    <Button size="large" primary color="callToAction">
+                      Continue
+                    </Button>
+                    <Button size="large">Go Back</Button>
+                  </ButtonBox>
                 </Tab>
               );
             });

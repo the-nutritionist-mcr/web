@@ -26,19 +26,6 @@ const YourAccountHeader = styled('h1')`
   margin: 0.5rem 0 0 0;
 `;
 
-interface Me {
-  first_name: string;
-  last_name: string;
-  email: string;
-  address_line1: string;
-  address_line2: string;
-  address_line3: string;
-  city: string;
-  country: string;
-  phone: string;
-  postcode: string;
-}
-
 const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
   return (
     <>

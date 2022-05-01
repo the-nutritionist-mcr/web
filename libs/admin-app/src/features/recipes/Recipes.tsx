@@ -16,7 +16,7 @@ import React from 'react';
 import RecipesRow from '../recipes/RecipesRow';
 import { defaultDeliveryDays } from '@tnmw/config';
 import PlanningModeSummary from './PlanningModeSummary';
-import { Recipe, Exclusion, WeeklyPlan } from '@tnmw/types';
+import { Recipe, Exclusion, WeeklyPlan, HotOrCold } from '@tnmw/types';
 
 interface RecipesProps {
   recipes?: Recipe[];
