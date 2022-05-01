@@ -1,6 +1,6 @@
-import React, { FC } from "react";
-import { TableRow, TableCell, Select, ThemeContext, base } from "grommet";
-import styled from "styled-components";
+import { FC } from 'react';
+import { TableRow, TableCell, Select, ThemeContext, base } from 'grommet';
+import styled from 'styled-components';
 
 const SELECT_RANGE = 50;
 
@@ -15,11 +15,11 @@ const selectRange = [...new Array(SELECT_RANGE)].map((_, index) => index);
 
 const AlternatingTableRow = styled(TableRow)`
   &:nth-child(2n) {
-    background-color: ${base.global?.colors?.["light-3"]};
+    background-color: ${base.global?.colors?.['light-3']};
   }
   box-sizing: border-box;
   &:hover {
-    outline: 1px solid ${base.global?.colors?.["brand"]};
+    outline: 1px solid ${base.global?.colors?.['brand']};
   }
 `;
 
@@ -34,7 +34,7 @@ const PlanRow: FC<PlanRowProps> = (props) => {
             value={{
               global: {
                 input: {
-                  padding: "0",
+                  padding: '0',
                   font: {
                     weight: 400,
                   },

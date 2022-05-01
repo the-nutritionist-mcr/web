@@ -1,5 +1,6 @@
 import { getOutputs } from '../aws/get-outputs';
 import { currentUser } from '../aws/authenticate';
+import { Codes, HttpError } from '../backend/lambdas/data-api/http-error';
 
 const getFetchInit = async (init?: RequestInit) => {
   const user = await currentUser();
@@ -36,7 +37,8 @@ export const swrFetcher = async <T>(
   const data = await response.json();
 
   if (!response.ok) {
-    const error = new Error(
+    const error = new HttpError(
+      response.status as Codes,
       `Tried to make a request to ${fullPath} but the server returned a ${response.status} status code with the message "${data.error}"`
     );
     throw error;

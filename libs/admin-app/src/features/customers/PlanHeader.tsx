@@ -1,12 +1,12 @@
-import React, { FC } from "react";
-import { TableRow, TableCell, TableHeader } from "grommet";
-import { defaultDeliveryDays } from "../../lib/config";
+import { FC } from 'react';
+import { TableRow, TableCell, TableHeader } from 'grommet';
+import { defaultDeliveryDays } from '@tnmw/config';
 
 interface PlanHeaderProps {
   deliveryDays: string[];
 }
 
-const PlanHeader: FC<PlanHeaderProps> = props => (
+const PlanHeader: FC<PlanHeaderProps> = (props) => (
   <TableHeader>
     <TableRow>
       <TableCell scope="col">
@@ -16,7 +16,7 @@ const PlanHeader: FC<PlanHeaderProps> = props => (
         const day =
           index < props.deliveryDays.length
             ? props.deliveryDays[index]
-            : "(Not chosen)";
+            : '(Not chosen)';
 
         return (
           <TableCell key={`day-${index + 1}-header`} scope="col">

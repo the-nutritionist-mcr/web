@@ -25,6 +25,8 @@ import {
 } from '../aws/authenticate';
 
 import '../assets/global.css';
+import { HttpError } from '../backend/lambdas/data-api/http-error';
+import { HTTP } from '@tnmw/constants';
 
 const navigator = {
   navigate: async (path: string) => {
@@ -60,7 +62,14 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => (
     value={{
       provider,
       onError: (error: Error) => {
-        toast.error(error.message);
+        if (
+          error instanceof HttpError &&
+          error.statusCode === HTTP.statusCodes.Forbidden
+        ) {
+          Router.push('/login');
+        } else {
+          toast.error(error.message);
+        }
       },
     }}
   >
