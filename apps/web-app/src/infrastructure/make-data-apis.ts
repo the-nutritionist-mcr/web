@@ -222,6 +222,31 @@ export const makeDataApis = (
 
   const customers = api.root.addResource('customers');
 
+  const getAllCustomersFunction = new NodejsFunction(
+    context,
+    `get-all-customers-function`,
+    {
+      functionName: getResourceName(`get-all-customers-function`, envName),
+      entry: entryName('misc', 'get-all-customers.ts'),
+      runtime: Runtime.NODEJS_14_X,
+      memorySize: 2048,
+      environment: defaultEnvironmentVars,
+      bundling: {
+        sourceMap: true,
+      },
+    }
+  );
+
+  customers.addMethod('GET', new LambdaIntegration(getAllCustomersFunction));
+
+  getAllCustomersFunction.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [IAM.actions.cognito.listUsers],
+      resources: [pool.userPoolArn],
+    })
+  );
+
   const me = customers.addResource('me');
 
   const individualAcccessFunction = new NodejsFunction(
