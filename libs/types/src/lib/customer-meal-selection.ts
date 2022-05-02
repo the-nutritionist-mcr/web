@@ -33,7 +33,7 @@ export type CustomerPlanWithoutConfiguration = Omit<
 
 export type CustomerWithChargebeePlan = Omit<CustomerWithNewPlan, 'newPlan'> & {
   newPlan: CustomerPlanWithoutConfiguration;
-  chargebeePlan: StandardPlan;
+  chargebeePlan: StandardPlan[];
 };
 
 export type CustomerMealsSelection = {

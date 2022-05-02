@@ -3,12 +3,13 @@ import {
   CognitoIdentityProviderClient,
   AdminGetUserCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
+import { CustomerWithChargebeePlan } from '@tnmw/types';
 import { ENV, HTTP } from '@tnmw/constants';
 import { authoriseJwt } from '../data-api/authorise';
 import { returnOkResponse } from '../data-api/return-ok-response';
 import { returnErrorResponse } from '../data-api/return-error-response';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
-import { parseUserType } from '../../../utils/parse-customer-list';
+import { parseAttributes } from '../../../utils/parse-customer-list';
 import { HttpError } from '../data-api/http-error';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
@@ -29,7 +30,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     };
     const response = await cognito.send(new AdminGetUserCommand(input));
 
-    const user = parseUserType(response);
+    const user: CustomerWithChargebeePlan = {
+      id: response.Username,
+      ...parseAttributes(response.UserAttributes),
+    };
 
     return returnOkResponse(user);
   } catch (error) {
