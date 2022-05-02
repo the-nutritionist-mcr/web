@@ -222,6 +222,8 @@ export const makeDataApis = (
 
   const customer = api.root.addResource('customer');
 
+  const username = customer.api.root.addResource('{username}');
+
   const getCustomerFunction = new NodejsFunction(
     context,
     `get-customer-function`,
@@ -237,7 +239,7 @@ export const makeDataApis = (
     }
   );
 
-  customer.addMethod('GET', new LambdaIntegration(getCustomerFunction));
+  username.addMethod('GET', new LambdaIntegration(getCustomerFunction));
 
   getCustomerFunction.addToRolePolicy(
     new PolicyStatement({

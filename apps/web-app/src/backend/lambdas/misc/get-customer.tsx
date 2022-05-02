@@ -11,20 +11,6 @@ import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { parseUserType } from '../../../utils/parse-customer-list';
 import { HttpError } from '../data-api/http-error';
 
-interface GetUserBody {
-  username: string;
-}
-
-const isGetUserBody = (thing: unknown): thing is GetUserBody => {
-  const thingAs = thing as GetUserBody;
-
-  if (typeof thingAs !== 'object') {
-    return false;
-  }
-
-  return typeof thingAs.username === 'string';
-};
-
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
     await authoriseJwt(event, ['admin']);
@@ -33,7 +19,9 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const getUserBody = JSON.parse(event.body);
 
-    if (!isGetUserBody(getUserBody)) {
+    const username = event.pathParameters.username;
+
+    if (!username) {
       throw new HttpError(HTTP.statusCodes.BadRequest, 'Request was invalid');
     }
 
