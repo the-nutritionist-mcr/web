@@ -1,6 +1,5 @@
 import { Form, Header, Heading, Button, Paragraph } from 'grommet';
 import React, { FC } from 'react';
-import { Prompt, RouteComponentProps, useHistory } from 'react-router-dom';
 import { planLabels, extrasLabels, defaultDeliveryDays } from '@tnmw/config';
 import { debounce } from 'lodash';
 import PlanPanel from './PlanPanel';
@@ -16,7 +15,7 @@ export interface EditCustomerPathParams {
   customisations: Exclusion[];
 }
 
-const EditCustomerPage: FC<RouteComponentProps<EditCustomerPathParams>> = ({
+const EditCustomerPage: FC<EditCustomerPathParams> = ({
   customisations: exclusions,
   customer,
 }) => {
@@ -25,19 +24,14 @@ const EditCustomerPage: FC<RouteComponentProps<EditCustomerPathParams>> = ({
   const [showPlanChangedDialog, setShowPlanChangedDialog] =
     React.useState(false);
 
-  const history = useHistory();
-
   const onSubmit = debounce(async () => {
     const submittingCustomer = {
       ...customer,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      breakfast: (customer.breakfast as any) === 'Yes',
     };
 
     setDirty(false);
     setPlanChanged(false);
     setShowPlanChangedDialog(false);
-    history.push('/customers');
   }, SUBMIT_DEBOUNCE);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -71,10 +65,6 @@ const EditCustomerPage: FC<RouteComponentProps<EditCustomerPathParams>> = ({
           You have made an update to this Customer&apos;s plan. This will result
           in the meals they receive changing. Are you sure you want to do this?
         </OkCancelDialog>
-        <Prompt
-          when={dirty}
-          message="You have unsaved changes. Are you sure you want to leave?"
-        />
         <Header justify="start" gap="small">
           <Heading level={2}>Update Customer</Heading>
 
@@ -89,15 +79,6 @@ const EditCustomerPage: FC<RouteComponentProps<EditCustomerPathParams>> = ({
 
         <Heading level={3}>Personal Details</Heading>
         <EditCustomerDetailsPanel />
-        {!customer.newPlan && (
-          <>
-            <Heading level={3}>Legacy Plan</Heading>
-            <Paragraph fill>
-              {customer.plan.category} {customer.plan.mealsPerDay} (
-              {customer.daysPerWeek} days)
-            </Paragraph>
-          </>
-        )}
         <PlanPanel
           plan={customer.newPlan}
           plannerConfig={{

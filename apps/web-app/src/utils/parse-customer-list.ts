@@ -57,7 +57,7 @@ const convertPlanFormat = (
     );
 
 const getJsonAttributeValue = <T>(
-  attributes: ListUsersCommandOutput['Users'][number]['Attributes'],
+  attributes: AttributeType[],
   key: string,
   defaultValue: T
 ): T => {
@@ -71,7 +71,7 @@ const getJsonAttributeValue = <T>(
 };
 
 const getAttributeValue = (
-  attributes: ListUsersCommandOutput['Users'][number]['Attributes'],
+  attributes: AttributeType[],
   key: string
 ): string | undefined =>
   attributes.find((attribute) => attribute.Name === key)?.Value ?? '';
