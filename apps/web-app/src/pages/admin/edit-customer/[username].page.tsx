@@ -6,19 +6,25 @@ import { EditCustomerPage } from '@tnmw/admin-app';
 
 import { useRouter } from 'next/router';
 import { useCustomer } from '../../../hooks/use-customer';
+import { useCustomisations } from '../../../hooks';
 
-const PlannerPage: FC = () => {
+const EditCustomer: FC = () => {
   const router = useRouter();
-  const { data } = useCustomer();
   const { username } = router.query;
+  const { items: customisations } = useCustomisations();
+  const { data } = useCustomer(
+    Array.isArray(username) ? username[0] : username
+  );
 
   return (
     <MenuPaddedContent>
       <AdminTemplate>
-        <EditCustomerPage />
+        {data && (
+          <EditCustomerPage customer={data} customisations={customisations} />
+        )}
       </AdminTemplate>
     </MenuPaddedContent>
   );
 };
 
-export default PlannerPage;
+export default EditCustomer;
