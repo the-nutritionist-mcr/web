@@ -220,6 +220,33 @@ export const makeDataApis = (
 
   planDataTable.grantWriteData(publishPlanFunction);
 
+  const customer = api.root.addResource('customer');
+
+  const getCustomerFunction = new NodejsFunction(
+    context,
+    `get-customer-function`,
+    {
+      functionName: getResourceName(`get-customer-function`, envName),
+      entry: entryName('misc', 'get-customer.ts'),
+      runtime: Runtime.NODEJS_14_X,
+      memorySize: 2048,
+      environment: defaultEnvironmentVars,
+      bundling: {
+        sourceMap: true,
+      },
+    }
+  );
+
+  customer.addMethod('GET', new LambdaIntegration(getCustomerFunction));
+
+  getCustomerFunction.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [IAM.actions.cognito.adminGetUser],
+      resources: [pool.userPoolArn],
+    })
+  );
+
   const customers = api.root.addResource('customers');
 
   const getAllCustomersFunction = new NodejsFunction(

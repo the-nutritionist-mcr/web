@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import { MenuPaddedContent } from './menu-padded-content';
-import { AdminTemplate } from './admin-template';
+import { MenuPaddedContent } from '../menu-padded-content';
+import { AdminTemplate } from '../admin-template';
 import { EditCustomerPage } from '@tnmw/admin-app';
 
 const PlannerPage: FC = () => {

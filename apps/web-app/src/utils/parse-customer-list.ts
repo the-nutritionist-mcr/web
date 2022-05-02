@@ -6,12 +6,16 @@ import {
   PlanLabels,
   DaysPerWeek,
   PlanConfiguration,
+  Exclusion,
 } from '@tnmw/types';
 
 import { COGNITO } from '@tnmw/constants';
 import { makeNewPlan } from '@tnmw/meal-planning';
 
-import { ListUsersCommandOutput } from '@aws-sdk/client-cognito-identity-provider';
+import {
+  ListUsersCommandOutput,
+  UserType,
+} from '@aws-sdk/client-cognito-identity-provider';
 import { defaultDeliveryDays, extrasLabels, planLabels } from '@tnmw/config';
 
 const convertPlanFormat = (
@@ -55,7 +59,7 @@ const getJsonAttributeValue = <T>(
   attributes: ListUsersCommandOutput['Users'][number]['Attributes'],
   key: string,
   defaultValue: T
-) => {
+): T => {
   try {
     const rawValue = getAttributeValue(attributes, key);
 
@@ -71,58 +75,60 @@ const getAttributeValue = (
 ): string | undefined =>
   attributes.find((attribute) => attribute.Name === key)?.Value ?? '';
 
-export const parseCustomerList = (
-  output: ListUsersCommandOutput
-): CustomerWithChargebeePlan[] => {
-  return output.Users.map((user) => ({
-    exclusions: getJsonAttributeValue(
-      user.Attributes,
-      `custom:${COGNITO.customAttributes.UserCustomisations}`,
-      []
-    ),
-    chargebeePlan: getJsonAttributeValue(
+export const parseUserType = (user: UserType) => ({
+  exclusions: getJsonAttributeValue<Exclusion[]>(
+    user.Attributes,
+    `custom:${COGNITO.customAttributes.UserCustomisations}`,
+    []
+  ),
+  chargebeePlan: getJsonAttributeValue(
+    user.Attributes,
+    `custom:${COGNITO.customAttributes.Plans}`,
+    []
+  ),
+  newPlan: convertPlanFormat(
+    getJsonAttributeValue(
       user.Attributes,
       `custom:${COGNITO.customAttributes.Plans}`,
       []
-    ),
-    newPlan: convertPlanFormat(
-      getJsonAttributeValue(
-        user.Attributes,
-        `custom:${COGNITO.customAttributes.Plans}`,
-        []
-      )
-    ) as CustomerPlan,
-    id: user.Username,
-    salutation: getAttributeValue(
+    )
+  ) as CustomerPlanWithoutConfiguration,
+  id: user.Username,
+  salutation: getAttributeValue(
+    user.Attributes,
+    `custom:${COGNITO.customAttributes.Salutation}`
+  ),
+  firstName: getAttributeValue(
+    user.Attributes,
+    COGNITO.standardAttributes.firstName
+  ),
+  surname: getAttributeValue(
+    user.Attributes,
+    COGNITO.standardAttributes.surname
+  ),
+  address: [
+    getAttributeValue(
       user.Attributes,
-      `custom:${COGNITO.customAttributes.Salutation}`
+      `custom:${COGNITO.customAttributes.AddressLine1}`
     ),
-    firstName: getAttributeValue(
+    getAttributeValue(
       user.Attributes,
-      COGNITO.standardAttributes.firstName
+      `custom:${COGNITO.customAttributes.AddressLine2}`
     ),
-    surname: getAttributeValue(
-      user.Attributes,
-      COGNITO.standardAttributes.surname
-    ),
-    address: [
-      getAttributeValue(
-        user.Attributes,
-        `custom:${COGNITO.customAttributes.AddressLine1}`
-      ),
-      getAttributeValue(
-        user.Attributes,
-        `custom:${COGNITO.customAttributes.AddressLine2}`
-      ),
-    ].join('\n'),
-    email: getAttributeValue(user.Attributes, COGNITO.standardAttributes.email),
-    addressLine3: getAttributeValue(
-      user.Attributes,
-      `custom:${COGNITO.customAttributes.AddressLine3}`
-    ),
-    telephone: getAttributeValue(
-      user.Attributes,
-      COGNITO.standardAttributes.phone
-    ),
-  }));
+  ].join('\n'),
+  email: getAttributeValue(user.Attributes, COGNITO.standardAttributes.email),
+  addressLine3: getAttributeValue(
+    user.Attributes,
+    `custom:${COGNITO.customAttributes.AddressLine3}`
+  ),
+  telephone: getAttributeValue(
+    user.Attributes,
+    COGNITO.standardAttributes.phone
+  ),
+});
+
+export const parseCustomerList = (
+  output: ListUsersCommandOutput
+): CustomerWithChargebeePlan[] => {
+  return output.Users.map((user) => parseUserType(user));
 };
