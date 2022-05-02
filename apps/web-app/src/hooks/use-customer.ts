@@ -2,9 +2,9 @@ import { CustomerWithChargebeePlan } from '@tnmw/types';
 import useSWR from 'swr';
 import { swrFetcher } from '../utils/swr-fetcher';
 
-export const useCustomer = (id: string) => {
+export const useCustomer = (username: string) => {
   const { data } = useSWR<CustomerWithChargebeePlan>(
-    `customer/${id}`,
+    `customer/${username}`,
     swrFetcher
   );
 

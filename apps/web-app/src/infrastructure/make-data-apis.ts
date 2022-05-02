@@ -222,7 +222,7 @@ export const makeDataApis = (
 
   const customer = api.root.addResource('customer');
 
-  const username = customer.api.root.addResource('{username}');
+  const username = customer.addResource('{username}');
 
   const getCustomerFunction = new NodejsFunction(
     context,
