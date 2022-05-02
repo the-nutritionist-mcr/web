@@ -43,7 +43,10 @@ export const makePagesApi = (
     const subDirPath = relative.replace(/\//g, '-');
 
     const parts = path.basename(handlerPath).split('_');
-    const pageName = parts[parts.length - 1];
+    const pageName = parts[parts.length - 1]
+      .replace(/\[/g, '{')
+      .replace(/\]/g, '}');
+
     const fullPageName = `${subDirPath ? `${subDirPath}-` : ''}${pageName}`;
     const buildDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tnm-cdk'));
 
@@ -55,20 +58,30 @@ export const makePagesApi = (
 
     fs.copySync(handlerPath, path.resolve(...pagePath));
 
-    const pageFunction = new Function(context, `next-${fullPageName}-handler`, {
-      functionName: getResourceName(`next-${fullPageName}-handler`, envName),
-      runtime: Runtime.NODEJS_14_X,
-      timeout: Duration.seconds(30),
-      memorySize: 2048,
-      handler: `${buildPath.join('/')}/handler.render`,
-      code: Code.fromAsset(buildDir),
-      layers: [awsNextLayer],
-      environment: {
-        FORCE_UPDATE_KEY: forceUpdateKey,
-        COGNITO_POOL_CLIENT_ID: poolClient.userPoolClientId,
-        COGNITO_POOL_ID: pool.userPoolId,
-      },
-    });
+    const removeBraces = (thing: string) =>
+      thing.replace(/\{/g, '').replace(/\}/g, '');
+
+    const pageFunction = new Function(
+      context,
+      `next-${removeBraces(fullPageName)}-handler`,
+      {
+        functionName: getResourceName(
+          `next-${removeBraces(fullPageName)}-handler`,
+          envName
+        ),
+        runtime: Runtime.NODEJS_14_X,
+        timeout: Duration.seconds(30),
+        memorySize: 2048,
+        handler: `${buildPath.join('/')}/handler.render`,
+        code: Code.fromAsset(buildDir),
+        layers: [awsNextLayer],
+        environment: {
+          FORCE_UPDATE_KEY: forceUpdateKey,
+          COGNITO_POOL_CLIENT_ID: poolClient.userPoolClientId,
+          COGNITO_POOL_ID: pool.userPoolId,
+        },
+      }
+    );
 
     const resourceToAttachTo =
       pageName === 'index' ? parent : parent.addResource(pageName);
