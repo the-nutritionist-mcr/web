@@ -17,8 +17,6 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const cognito = new CognitoIdentityProviderClient({});
     const poolId = process.env[ENV.varNames.CognitoPoolId];
 
-    const getUserBody = JSON.parse(event.body);
-
     const username = event.pathParameters.username;
 
     if (!username) {
@@ -27,7 +25,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const input: AdminGetUserCommandInput = {
       UserPoolId: poolId,
-      Username: getUserBody.username,
+      Username: username,
     };
     const response = await cognito.send(new AdminGetUserCommand(input));
 
