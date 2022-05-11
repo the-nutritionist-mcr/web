@@ -1,17 +1,23 @@
 import { Form, Header, Heading, Button, Paragraph } from 'grommet';
 import React, { FC } from 'react';
 import { planLabels, extrasLabels, defaultDeliveryDays } from '@tnmw/config';
+import { convertPlanFormat } from '@tnmw/utils';
 import { debounce } from 'lodash';
 import PlanPanel from './PlanPanel';
 
 import { OkCancelDialog } from '../../components';
 import EditCustomerDetailsPanel from './EditCustomerDetailsPanel';
-import { CustomerWithChargebeePlan, Exclusion } from '@tnmw/types';
+import {
+  BackendCustomer,
+  CustomerWithChargebeePlan,
+  Delivery,
+  Exclusion,
+} from '@tnmw/types';
 
 const SUBMIT_DEBOUNCE = 500;
 
 export interface EditCustomerPathParams {
-  customer: CustomerWithChargebeePlan;
+  customer: BackendCustomer;
   customisations: Exclusion[];
 }
 
@@ -20,6 +26,9 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
   customer,
 }) => {
   const [dirty, setDirty] = React.useState(false);
+  const [customPlan, setCustomPlan] = React.useState<undefined | Delivery[]>(
+    customer.customPlan
+  );
   const [planChanged, setPlanChanged] = React.useState(false);
   const [showPlanChangedDialog, setShowPlanChangedDialog] =
     React.useState(false);
@@ -77,22 +86,44 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
           />
         </Header>
 
-        <Paragraph fill><em>Please note that most customer personal details are <strong>read only</strong> from this page. If you wish to make changes, you will need to do so within ChargeBee</em></Paragraph>
+        <Paragraph fill>
+          <em>
+            Please note that most customer personal details are{' '}
+            <strong>read only</strong> from this page. If you wish to make
+            changes, you will need to do so within ChargeBee
+          </em>
+        </Paragraph>
         <Heading level={3}>Personal Details</Heading>
         <EditCustomerDetailsPanel exclusions={exclusions} />
-        <PlanPanel
-        customPlan={customer.newPlan.deliveries}
-          plannerConfig={{
-            planLabels: [...planLabels],
-            extrasLabels: [...extrasLabels],
-            defaultDeliveryDays,
-          }}
-          deliveryDays={[]}
-          onChange={(plan) => {
-            setPlanChanged(true);
-          }}
-          exclusions={exclusions}
-        />
+        {customPlan ? (
+          <PlanPanel
+            customPlan={customPlan}
+            plannerConfig={{
+              planLabels: [...planLabels],
+              extrasLabels: [...extrasLabels],
+              defaultDeliveryDays,
+            }}
+            deliveryDays={[
+              customer.deliveryDay1,
+              customer.deliveryDay2,
+              customer.deliveryDay3,
+            ]}
+            onChange={(plan) => {
+              setPlanChanged(true);
+            }}
+            exclusions={exclusions}
+          />
+        ) : (
+          <Button
+            primary
+            onClick={() => {
+              const deliveries = convertPlanFormat(customer.plans).deliveries;
+              setCustomPlan(deliveries);
+            }}
+          >
+            Create Custom Plan
+          </Button>
+        )}
       </Form>
     </>
   );

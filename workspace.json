@@ -11,6 +11,7 @@
     "planner": "libs/planner",
     "seed-cognito": "libs/seed-cognito",
     "types": "libs/types",
+    "utils": "libs/utils",
     "web-app": "apps/web-app",
     "web-app-e2e": "apps/web-app-e2e"
   }

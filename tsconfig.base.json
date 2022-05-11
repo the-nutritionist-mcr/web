@@ -30,7 +30,8 @@
       "@tnmw/meal-planning": ["libs/meal-planning/src/index.ts"],
       "@tnmw/planner": ["libs/planner/src/index.ts"],
       "@tnmw/seed-cognito": ["libs/seed-cognito/src/index.ts"],
-      "@tnmw/types": ["libs/types/src/index.ts"]
+      "@tnmw/types": ["libs/types/src/index.ts"],
+      "@tnmw/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
