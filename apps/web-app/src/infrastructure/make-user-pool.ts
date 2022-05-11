@@ -98,6 +98,10 @@ export const makeUserPool = (
         mutable: true,
       }),
 
+      [COGNITO.customAttributes.CustomPlan]: new StringAttribute({
+        mutable: true,
+      }),
+
       [COGNITO.customAttributes.AddressLine1]: new StringAttribute({
         mutable: true,
       }),

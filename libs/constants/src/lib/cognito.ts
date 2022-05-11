@@ -8,6 +8,7 @@ export const COGNITO = {
     DeliveryDay3: 'deliveryDay3',
     ProfileNotes: 'profileNotes',
     Plans: 'plans',
+    CustomPlan: 'customPlan',
     AddressLine1: 'addressLine1',
     AddressLine2: 'addressLine2',
     AddressLine3: 'addressLine3',

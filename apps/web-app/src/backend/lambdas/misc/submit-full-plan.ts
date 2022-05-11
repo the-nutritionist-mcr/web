@@ -24,6 +24,7 @@ import { v4 } from 'uuid';
 import { isWeeklyPlan } from '@tnmw/types';
 import { StoredMealSelection } from '@tnmw/types';
 import { batchArray } from '../../../utils/batch-array';
+import { convertPlanFormat } from '../../../utils/convert-plan-format';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -46,8 +47,17 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     };
 
     const command = new ListUsersCommand(input);
-    const customers = parseCustomerList(await cognito.send(command));
-    const meals = chooseMeals(payload.cooks, dates, customers);
+
+    const list = parseCustomerList(await cognito.send(command)).map(item => ({
+      ...item,
+      newPlan: convertPlanFormat(item.plans),
+      address: '',
+      telephone: '',
+      exclusions: [],
+      chargebeePlan: item.plans
+    }))
+
+    const meals = chooseMeals(payload.cooks, dates, list);
 
     const planTimestamp = String(Date.now());
     const planId = v4();

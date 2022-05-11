@@ -33,14 +33,11 @@ export const verifyJwtToken = async (
   config: VerifyConfig
 ): Promise<VerifyJwtResult> => {
   try {
-    console.log('verifying');
     const { token } = config;
     const header = parseHeader(token);
     const key = await getPublicKey(header);
     const claim = await verify(token, key);
-    console.log('got claim');
     const currentSeconds = Math.floor(new Date(Date.now()).valueOf() / 1000);
-    console.log(claim);
     if (currentSeconds > (claim.exp ?? 0) || currentSeconds < claim.authTime) {
       throw new Error('Token has expired');
     }

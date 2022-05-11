@@ -1,10 +1,11 @@
 import { GetServerSideProps } from 'next';
 import { verifyJwtToken } from '@tnmw/authorise-cognito-jwt';
 import { backendRedirect } from './backend-redirect';
-import { User, getUserFromAws } from './get-user-from-aws';
+import { getUserFromAws } from './get-user-from-aws';
+import { BackendCustomer } from '@tnmw/types';
 
 export interface AuthorizedRouteProps {
-  user: User;
+  user: BackendCustomer;
 }
 
 interface AuthorizedRouteWrapper {

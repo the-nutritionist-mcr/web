@@ -77,17 +77,18 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
           />
         </Header>
 
+        <Paragraph fill><em>Please note that most customer personal details are <strong>read only</strong> from this page. If you wish to make changes, you will need to do so within ChargeBee</em></Paragraph>
         <Heading level={3}>Personal Details</Heading>
-        <EditCustomerDetailsPanel />
+        <EditCustomerDetailsPanel exclusions={exclusions} />
         <PlanPanel
-          plan={customer.newPlan}
+        customPlan={customer.newPlan.deliveries}
           plannerConfig={{
             planLabels: [...planLabels],
             extrasLabels: [...extrasLabels],
             defaultDeliveryDays,
           }}
+          deliveryDays={[]}
           onChange={(plan) => {
-            onChange({ ...customer, newPlan: plan });
             setPlanChanged(true);
           }}
           exclusions={exclusions}

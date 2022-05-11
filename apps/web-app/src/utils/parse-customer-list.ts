@@ -7,6 +7,7 @@ import {
   DaysPerWeek,
   PlanConfiguration,
   Exclusion,
+  BackendCustomer,
 } from '@tnmw/types';
 
 import { COGNITO } from '@tnmw/constants';
@@ -18,6 +19,7 @@ import {
   UserType,
 } from '@aws-sdk/client-cognito-identity-provider';
 import { defaultDeliveryDays, extrasLabels, planLabels } from '@tnmw/config';
+import { parseCognitoResponse } from './parse-cognito-response';
 
 const convertPlanFormat = (
   plans: StandardPlan[]
@@ -87,6 +89,26 @@ export const parseAttributes = (attributes: AttributeType[]) => ({
     `custom:${COGNITO.customAttributes.Plans}`,
     []
   ),
+  country: getAttributeValue(
+    attributes,
+    `custom:${COGNITO.customAttributes.Country}`
+  ),
+  deliveryDay1: getAttributeValue(
+    attributes,
+    `custom:${COGNITO.customAttributes.DeliveryDay1}`
+  ),
+  deliveryDay2: getAttributeValue(
+    attributes,
+    `custom:${COGNITO.customAttributes.DeliveryDay2}`
+  ),
+  deliveryDay3: getAttributeValue(
+    attributes,
+    `custom:${COGNITO.customAttributes.DeliveryDay3}`
+  ),
+  subscriptionUpdateTime: getAttributeValue(
+    attributes,
+    `custom:${COGNITO.customAttributes.SubscriptionUpdateTimestamp}`
+  ),
   newPlan: convertPlanFormat(
     getJsonAttributeValue(
       attributes,
@@ -123,9 +145,10 @@ export const parseAttributes = (attributes: AttributeType[]) => ({
 
 export const parseCustomerList = (
   output: ListUsersCommandOutput
-): CustomerWithChargebeePlan[] => {
+): (BackendCustomer & { id: string })[] => {
   return output.Users.map((user) => ({
     id: user.Username,
-    ...parseAttributes(user.Attributes),
+    username: user.Username,
+    ...parseCognitoResponse(user.Attributes)
   }));
 };

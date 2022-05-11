@@ -3,14 +3,18 @@ import {
   CognitoIdentityProviderClient,
   AdminGetUserCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { BackendCustomer, CustomerWithChargebeePlan } from '@tnmw/types';
+import { BackendCustomer, CustomerWithChargebeePlan, Delivery } from '@tnmw/types';
 import { ENV, HTTP } from '@tnmw/constants';
 import { authoriseJwt } from '../data-api/authorise';
 import { returnOkResponse } from '../data-api/return-ok-response';
 import { returnErrorResponse } from '../data-api/return-error-response';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
-import { HttpError } from '../data-api/http-error';
 import { parseCognitoResponse } from '../../../utils/parse-cognito-response';
+import { HttpError } from '../data-api/http-error';
+
+interface UpdateCustomerBody {
+  plan: Delivery[]
+}
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {

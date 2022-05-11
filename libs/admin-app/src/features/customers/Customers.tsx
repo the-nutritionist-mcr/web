@@ -35,7 +35,9 @@ const Customers: React.FC<CustomersProps> = ({ customers }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {customers
+          {
+          // eslint-disable-next-line fp/no-mutating-methods
+          customers
             .slice()
             .reverse()
             .sort(
