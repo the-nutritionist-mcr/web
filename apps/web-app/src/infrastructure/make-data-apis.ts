@@ -238,8 +238,24 @@ export const makeDataApis = (
       },
     }
   );
-
   username.addMethod('GET', new LambdaIntegration(getCustomerFunction));
+
+  const updateCustomerFunction = new NodejsFunction(
+    context,
+    `update-customer-function`,
+    {
+      functionName: getResourceName(`update-customer`, envName),
+      entry: entryName('misc', 'update-customer.ts'),
+      runtime: Runtime.NODEJS_14_X,
+      memorySize: 2048,
+      environment: defaultEnvironmentVars,
+      bundling: {
+        sourceMap: true,
+      },
+    }
+  );
+
+  username.addMethod('POST', new LambdaIntegration(updateCustomerFunction));
 
   getCustomerFunction.addToRolePolicy(
     new PolicyStatement({

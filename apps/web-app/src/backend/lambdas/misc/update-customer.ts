@@ -3,24 +3,13 @@ import {
   CognitoIdentityProviderClient,
   AdminUpdateUserAttributesCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { Delivery, Exclusion } from '@tnmw/types';
+import { isUpdateCustomerBody } from '@tnmw/types';
 import { ENV, HTTP, COGNITO } from '@tnmw/constants';
 import { authoriseJwt } from '../data-api/authorise';
 import { returnOkResponse } from '../data-api/return-ok-response';
 import { returnErrorResponse } from '../data-api/return-error-response';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { HttpError } from '../data-api/http-error';
-
-interface UpdateCustomerBody {
-  customPlan: Delivery[]
-  customisations: Exclusion[]
-}
-
-const isUpdateCustomerBody = (thing: unknown): thing is UpdateCustomerBody => {
-  const thingAs = thing as UpdateCustomerBody
-
-  return Array.isArray(thingAs.customPlan) && Array.isArray(thingAs.customisations)
-}
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -36,7 +25,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       throw new HttpError(HTTP.statusCodes.BadRequest, 'Request was invalid');
     }
 
-    const input: AdminUpdateUserAttributesCommandInput= {
+    const input: AdminUpdateUserAttributesCommandInput = {
       UserPoolId: poolId,
       Username: username,
       UserAttributes: [
@@ -50,6 +39,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         }
       ]
     };
+
     await cognito.send(new AdminUpdateUserAttributesCommand(input));
 
     return returnOkResponse({});

@@ -10,20 +10,23 @@ import { useCustomisations } from '../../../hooks';
 
 const EditCustomer: FC = () => {
   const router = useRouter();
-  console.log(router.query)
+  console.log(router.query);
   const { username } = router.query;
   const { items: customisations } = useCustomisations();
-  const { data } = useCustomer(
+
+  const { data, update } = useCustomer(
     Array.isArray(username) ? username[0] : username
   );
-
-  console.log(data)
 
   return (
     <MenuPaddedContent>
       <AdminTemplate>
         {data && (
-          <EditCustomerPage customer={data} customisations={customisations} />
+          <EditCustomerPage
+            customer={data}
+            customisations={customisations}
+            updateCustomer={update}
+          />
         )}
       </AdminTemplate>
     </MenuPaddedContent>

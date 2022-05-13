@@ -9,9 +9,9 @@ import { OkCancelDialog } from '../../components';
 import EditCustomerDetailsPanel from './EditCustomerDetailsPanel';
 import {
   BackendCustomer,
-  CustomerWithChargebeePlan,
   Delivery,
   Exclusion,
+  UpdateCustomerBody,
 } from '@tnmw/types';
 
 const SUBMIT_DEBOUNCE = 500;
@@ -19,11 +19,13 @@ const SUBMIT_DEBOUNCE = 500;
 export interface EditCustomerPathParams {
   customer: BackendCustomer;
   customisations: Exclusion[];
+  updateCustomer: (details: UpdateCustomerBody) => void;
 }
 
 const EditCustomerPage: FC<EditCustomerPathParams> = ({
   customisations: exclusions,
   customer,
+  updateCustomer,
 }) => {
   const [dirty, setDirty] = React.useState(false);
   const [customPlan, setCustomPlan] = React.useState<undefined | Delivery[]>(
@@ -37,6 +39,8 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
     const submittingCustomer = {
       ...customer,
     };
+
+    updateCustomer(customer);
 
     setDirty(false);
     setPlanChanged(false);

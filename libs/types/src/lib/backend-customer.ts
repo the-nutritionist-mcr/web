@@ -1,4 +1,5 @@
 import { Delivery } from './customer-plan';
+import Exclusion from './Exclusion';
 import type { StandardPlan } from './standard-plan';
 
 export interface BackendCustomer {
@@ -20,5 +21,6 @@ export interface BackendCustomer {
   city: string;
   postcode: string;
   plans: StandardPlan[];
-  customPlan: Delivery[];
+  customisations: Exclusion[];
+  customPlan?: Delivery[];
 }

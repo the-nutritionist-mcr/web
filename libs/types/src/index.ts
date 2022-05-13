@@ -50,3 +50,6 @@ export type { StandardPlan } from './lib/standard-plan';
 
 export { isWeeklyPlan } from './lib/weekly-plan';
 export type { WeeklyPlan } from './lib/weekly-plan';
+
+export { isUpdateCustomerBody } from "./lib/update-customer-body"
+export type { UpdateCustomerBody } from "./lib/update-customer-body"
