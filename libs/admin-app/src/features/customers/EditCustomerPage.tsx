@@ -110,6 +110,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
             ]}
             onChange={(plan) => {
               setPlanChanged(true);
+              setDirty(true);
             }}
             exclusions={exclusions}
           />
