@@ -47,11 +47,11 @@ const EditCustomerDetailsPanel: React.FC<EditCustomerDetailsPanelProps> = ({
       <StyledFormField name="email" label="Email">
         <TextInput disabled name="email" type="email" />
       </StyledFormField>
-      <FormField name="exclusions" label="Customisations">
+      <FormField name="customisations" label="Customisations">
         <Select
           multiple
           closeOnChange={false}
-          name="exclusions"
+          name="customisations"
           options={exclusions}
           labelKey="name"
           valueKey="name"
