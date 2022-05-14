@@ -1,16 +1,24 @@
-import {
-  AttributeType,
-} from '@aws-sdk/client-cognito-identity-provider';
+import { AttributeType } from '@aws-sdk/client-cognito-identity-provider';
 import { COGNITO } from '@tnmw/constants';
 import { BackendCustomer } from '@tnmw/types';
 
 const getAttributeValue = (attributes: AttributeType[], key: string) =>
   attributes.find((attribute) => attribute.Name === key)?.Value ?? '';
 
-export const parseCognitoResponse = (attributes: AttributeType[]): Omit<BackendCustomer, "username"> => {
+export const parseCognitoResponse = (
+  attributes: AttributeType[]
+): Omit<BackendCustomer, 'username'> => {
   const plansValue = getAttributeValue(
     attributes,
     `custom:${COGNITO.customAttributes.Plans}`
+  );
+  const customPlansValue = getAttributeValue(
+    attributes,
+    `custom:${COGNITO.customAttributes.CustomPlan}`
+  );
+  const customisationsValue = getAttributeValue(
+    attributes,
+    `custom:${COGNITO.customAttributes.UserCustomisations}`
   );
   return {
     salutation: getAttributeValue(
@@ -29,6 +37,9 @@ export const parseCognitoResponse = (attributes: AttributeType[]): Omit<BackendC
       attributes,
       `custom:${COGNITO.customAttributes.DeliveryDay2}`
     ),
+    customPlan: customPlansValue && JSON.parse(customPlansValue),
+    customisations:
+      (customisationsValue && JSON.parse(customisationsValue)) ?? [],
     deliveryDay3: getAttributeValue(
       attributes,
       `custom:${COGNITO.customAttributes.DeliveryDay3}`
@@ -62,14 +73,8 @@ export const parseCognitoResponse = (attributes: AttributeType[]): Omit<BackendC
       attributes,
       `custom:${COGNITO.customAttributes.AddressLine2}`
     ),
-    surname: getAttributeValue(
-      attributes,
-      COGNITO.standardAttributes.surname
-    ),
-    email: getAttributeValue(
-      attributes,
-      COGNITO.standardAttributes.email
-    ),
+    surname: getAttributeValue(attributes, COGNITO.standardAttributes.surname),
+    email: getAttributeValue(attributes, COGNITO.standardAttributes.email),
     addressLine3: getAttributeValue(
       attributes,
       `custom:${COGNITO.customAttributes.AddressLine3}`
