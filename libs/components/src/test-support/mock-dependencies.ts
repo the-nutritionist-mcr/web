@@ -1,14 +1,11 @@
 import { when } from 'jest-when';
 import {
-  NavigationContextType,
-  NavigationContext,
-} from '../organisms/login-and-register-box/navigation-context';
-import {
   AuthenticationServiceContext,
   AuthenticationContextType,
 } from '../organisms/login-and-register-box/authentication-service-context';
 
 import React from 'react';
+import { NavigationContext, NavigationContextType } from '@tnmw/utils';
 
 export const mockDependencies = (
   dependencies?: AuthenticationContextType & NavigationContextType

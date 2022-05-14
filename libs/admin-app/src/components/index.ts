@@ -1,25 +1,13 @@
-import {
+export { ExtendedParagraph } from './extended-paragraph';
+export { OkCancelDialog } from './ok-cancel-dialog';
+export { PauseDialog } from './pause-dialog';
+export {
+  PrintableTbody,
   PrintableTableCell,
   PrintableTableRow,
-  PrintableTbody,
   PrintableThead,
 } from './printable-table';
-import { ExtendedParagraph } from './extended-paragraph';
-import { OkCancelDialog } from './ok-cancel-dialog';
-import { PauseDialog } from './pause-dialog';
-import { TableCellCheckbox } from './table-cell-checkbox';
-import { TableCellInputField } from './table-cell-input-field';
-import { TabsWithoutGaps } from './tabs-without-gap';
-
-export {
-  ExtendedParagraph,
-  OkCancelDialog,
-  PauseDialog,
-  PrintableTbody,
-  PrintableThead,
-  PrintableTableRow,
-  PrintableTableCell,
-  TableCellCheckbox,
-  TableCellInputField,
-  TabsWithoutGaps,
-};
+export { TableCellCheckbox } from './table-cell-checkbox';
+export { TableCellInputField } from './table-cell-input-field';
+export { TabsWithoutGaps } from './tabs-without-gap';
+export { Link } from './link/link';

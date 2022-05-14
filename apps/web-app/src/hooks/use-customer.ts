@@ -5,17 +5,16 @@ import useMutation from 'use-mutation';
 import { swrFetcher } from '../utils/swr-fetcher';
 
 export const useCustomer = (username: string) => {
-  const key = `customer/${username}`
+  const key = `customer/${username}`;
   const { mutate, cache } = useSWRConfig();
 
-  const updateCustomer = async (): Promise<void> =>
+  const updateCustomer = async (input: UpdateCustomerBody): Promise<void> => {
+    console.log(input);
     await swrFetcher(key, {
       method: HTTP.verbs.Post,
-      body: JSON.stringify({
-        id: 'plan',
-        sort: data
-      }),
+      body: JSON.stringify(input),
     });
+  };
 
   const [update] = useMutation(updateCustomer, {
     onMutate({ input }: { input: UpdateCustomerBody }) {
@@ -24,8 +23,8 @@ export const useCustomer = (username: string) => {
       const newCustomer: BackendCustomer = {
         ...data,
         customPlan: input.customPlan,
-        customisations: input.customisations
-      }
+        customisations: input.customisations,
+      };
 
       mutate(key, newCustomer, false);
 

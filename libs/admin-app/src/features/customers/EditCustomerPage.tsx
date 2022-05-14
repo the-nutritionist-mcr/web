@@ -40,7 +40,10 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
       ...customer,
     };
 
-    updateCustomer(customer);
+    updateCustomer({
+      customisations: customer.customisations,
+      customPlan: customPlan,
+    });
 
     setDirty(false);
     setPlanChanged(false);

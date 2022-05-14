@@ -1,6 +1,6 @@
 import { FC, useContext, useEffect } from 'react';
 import { User } from '../../contexts';
-import { NavigationContext } from './navigation-context';
+import { NavigationContext } from '@tnmw/utils';
 
 export enum Redirect {
   IfLoggedIn,

@@ -3,7 +3,7 @@ import { MfaFormData, RegisterFormData, SrpData } from './types/srp-data';
 import { useContext, useState } from 'react';
 import { AuthenticationServiceContext } from './authentication-service-context';
 import { RegisterFunc } from './types/register';
-import { NavigationContext } from './navigation-context';
+import { NavigationContext } from '@tnmw/utils';
 
 export enum RegisterState {
   DoRegister = 'DoRegister',

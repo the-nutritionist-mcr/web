@@ -9,10 +9,9 @@ import { ThemeProvider } from '@emotion/react';
 import { SWRConfig } from 'swr';
 import { isClientSide } from '../utils/is-client-side';
 import { swrLocalstorageProvider } from '../utils/swr-localstorage-provider';
-import {
-  AuthenticationServiceContext,
-  NavigationContext,
-} from '@tnmw/components';
+import { AuthenticationServiceContext } from '@tnmw/components';
+
+import { NavigationContext } from '@tnmw/utils';
 
 import { theme } from '../theme';
 
@@ -66,6 +65,7 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => (
           error instanceof HttpError &&
           error.statusCode === HTTP.statusCodes.Forbidden
         ) {
+          // eslint-disable-next-line fp/no-mutating-methods
           Router.push('/login');
         } else {
           toast.error(error.message);

@@ -6,8 +6,8 @@ import {
 } from './types/srp-data';
 import { useContext, useState } from 'react';
 import { AuthenticationServiceContext } from './authentication-service-context';
-import { NavigationContext } from './navigation-context';
 import { LoginResponse } from './types/login';
+import { NavigationContext } from '@tnmw/utils';
 
 export enum LoginState {
   DoLogin = 'DoLogin',

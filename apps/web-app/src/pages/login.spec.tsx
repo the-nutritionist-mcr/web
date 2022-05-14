@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react';
 import {
-  NavigationContext,
   AuthenticationServiceContext,
   NavigationContextType,
   AuthenticationContextType,
@@ -9,6 +8,7 @@ import { ThemeProvider } from '@emotion/react';
 import Login from './login.page';
 import { theme } from '../theme';
 import { mock } from 'jest-mock-extended';
+import { NavigationContext } from '@tnmw/utils';
 
 const mockNavigation = mock<NavigationContextType>();
 const mockAuthService = mock<AuthenticationContextType>();

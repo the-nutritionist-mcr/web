@@ -1,14 +1,13 @@
 import { render } from '@testing-library/react';
 import {
-  NavigationContext,
   AuthenticationServiceContext,
-  NavigationContextType,
   AuthenticationContextType,
 } from '@tnmw/components';
 import { ThemeProvider } from '@emotion/react';
 import Register from './register.page';
 import { theme } from '../theme';
 import { mock } from 'jest-mock-extended';
+import { NavigationContext, NavigationContextType } from '@tnmw/utils';
 
 const mockNavigation = mock<NavigationContextType>();
 const mockAuthService = mock<AuthenticationContextType>();
