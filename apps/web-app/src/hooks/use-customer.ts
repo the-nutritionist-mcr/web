@@ -17,7 +17,8 @@ export const useCustomer = (username: string) => {
   };
 
   const [update] = useMutation(updateCustomer, {
-    onMutate({ input }: { input: UpdateCustomerBody }) {
+    onSettled({ input, status }) {
+      console.log(status);
       const data = cache.get(key);
 
       const newCustomer: BackendCustomer = {
@@ -26,11 +27,14 @@ export const useCustomer = (username: string) => {
         customisations: input.customisations,
       };
 
-      mutate(key, newCustomer, false);
-
-      return () => {
-        mutate(key, data, false);
-      };
+      switch (status) {
+        case 'success':
+          mutate(key, newCustomer, false);
+          break;
+        case 'failure':
+          mutate(key, data, false);
+          break;
+      }
     },
   });
 

@@ -10,7 +10,6 @@ import { useCustomisations } from '../../../hooks';
 
 const EditCustomer: FC = () => {
   const router = useRouter();
-  console.log(router.query);
   const { username } = router.query;
   const { items: customisations } = useCustomisations();
 

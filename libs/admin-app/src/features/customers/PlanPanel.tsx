@@ -18,8 +18,6 @@ const PlanPanel: FC<PlanPanelProps> = (props) => {
       defaultDeliveryDays.map(() => ({ items: [], extras: [] }))
   );
 
-  console.log(customerPlan)
-
   const updatePlan = (deliveryPlan: Delivery[]) => {
     props.onChange?.(deliveryPlan);
     setCustomerPlan(deliveryPlan);

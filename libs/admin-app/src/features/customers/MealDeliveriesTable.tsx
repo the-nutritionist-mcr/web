@@ -43,7 +43,6 @@ const MealDeliveriesTable: FC<PlanTableProps> = (props) => {
 
     props.onChange(newDeliveries);
   };
-  console.log(props.plannerConfig)
 
   return (
     <Table>

@@ -19,7 +19,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const username = event.pathParameters.username;
 
-    const body = JSON.parse(event.body)
+    const body = JSON.parse(event.body);
 
     if (!username || !isUpdateCustomerBody(body)) {
       throw new HttpError(HTTP.statusCodes.BadRequest, 'Request was invalid');
@@ -31,13 +31,13 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       UserAttributes: [
         {
           Name: `custom:${COGNITO.customAttributes.CustomPlan}`,
-          Value: JSON.stringify(body.customPlan)
+          Value: JSON.stringify(body.customPlan) ?? '',
         },
         {
           Name: `custom:${COGNITO.customAttributes.UserCustomisations}`,
-          Value: JSON.stringify(body.customisations)
-        }
-      ]
+          Value: JSON.stringify(body.customisations),
+        },
+      ],
     };
 
     await cognito.send(new AdminUpdateUserAttributesCommand(input));

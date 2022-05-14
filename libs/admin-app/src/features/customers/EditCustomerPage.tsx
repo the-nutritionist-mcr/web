@@ -28,6 +28,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
   customer,
   updateCustomer,
 }) => {
+  console.log('render');
   const [dirty, setDirty] = React.useState(false);
   const [customPlan, setCustomPlan] = React.useState<undefined | Delivery[]>(
     customer.customPlan
@@ -40,10 +41,6 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
     React.useState(false);
 
   const onSubmit = debounce(async () => {
-    const submittingCustomer = {
-      ...customer,
-    };
-
     updateCustomer({
       customisations: customisations,
       customPlan: customPlan,
@@ -100,6 +97,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
       <Select
         multiple
         closeOnChange={false}
+        value={customisations}
         name="customisations"
         options={exclusions}
         labelKey="name"
@@ -123,6 +121,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
             customer.deliveryDay3,
           ]}
           onChange={(plan) => {
+            setCustomPlan(plan);
             setPlanChanged(true);
             setDirty(true);
           }}

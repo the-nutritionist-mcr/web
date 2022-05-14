@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavigationContext } from './navigation-context';
 import { AuthenticationServiceContext } from './authentication-service-context';
 
 import { render, act, screen } from '@testing-library/react';
@@ -7,6 +6,7 @@ import { ThemeProvider, Theme } from '@emotion/react';
 
 import userEvent from '@testing-library/user-event';
 import LoginAndRegisterBox from './login-and-register-box';
+import { NavigationContext } from '@tnmw/utils';
 
 const theme: Theme = {
   colors: {
