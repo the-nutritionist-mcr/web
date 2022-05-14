@@ -41,7 +41,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
     };
 
     updateCustomer({
-      customisations: customer.customisations,
+      customisations: customer.customisations ?? [],
       customPlan: customPlan,
     });
 

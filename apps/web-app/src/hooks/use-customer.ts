@@ -9,7 +9,7 @@ export const useCustomer = (username: string) => {
   const { mutate, cache } = useSWRConfig();
 
   const updateCustomer = async (input: UpdateCustomerBody): Promise<void> => {
-    console.log(input);
+    console.log(JSON.stringify(input));
     await swrFetcher(key, {
       method: HTTP.verbs.Post,
       body: JSON.stringify(input),

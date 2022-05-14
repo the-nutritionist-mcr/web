@@ -240,6 +240,14 @@ export const makeDataApis = (
   );
   username.addMethod('GET', new LambdaIntegration(getCustomerFunction));
 
+  getCustomerFunction.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [IAM.actions.cognito.adminGetUser],
+      resources: [pool.userPoolArn],
+    })
+  );
+
   const updateCustomerFunction = new NodejsFunction(
     context,
     `update-customer-function`,
@@ -255,15 +263,15 @@ export const makeDataApis = (
     }
   );
 
-  username.addMethod('POST', new LambdaIntegration(updateCustomerFunction));
-
-  getCustomerFunction.addToRolePolicy(
+  updateCustomerFunction.addToRolePolicy(
     new PolicyStatement({
       effect: Effect.ALLOW,
-      actions: [IAM.actions.cognito.adminGetUser],
+      actions: [IAM.actions.cognito.adminUpdateUserAttributes],
       resources: [pool.userPoolArn],
     })
   );
+
+  username.addMethod('POST', new LambdaIntegration(updateCustomerFunction));
 
   const customers = api.root.addResource('customers');
 
