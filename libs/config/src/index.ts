@@ -13,7 +13,6 @@ export const planLabels: ReadonlyArray<PlanLabels> = [
   'Breakfast',
   'Snack',
   'Large Snack',
-  'Seasonal Soup',
 ];
 
 export const defaultDeliveryDays = ['Monday', 'Wednesday', 'Friday'];

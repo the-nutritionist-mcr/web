@@ -48,14 +48,20 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const command = new ListUsersCommand(input);
 
-    const list = parseCustomerList(await cognito.send(command)).map(item => ({
-      ...item,
-      newPlan: convertPlanFormat(item.plans),
-      address: '',
-      telephone: '',
-      exclusions: [],
-      chargebeePlan: item.plans
-    }))
+    const list = parseCustomerList(await cognito.send(command)).map((item) => {
+      const mealsForPlan = item.customPlan
+        ? { deliveries: item.customPlan }
+        : convertPlanFormat(item.plans);
+
+      return {
+        ...item,
+        newPlan: mealsForPlan,
+        address: '',
+        telephone: '',
+        exclusions: [],
+        chargebeePlan: item.plans,
+      };
+    });
 
     const meals = chooseMeals(payload.cooks, dates, list);
 
