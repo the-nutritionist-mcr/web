@@ -5,16 +5,22 @@ export type PlanLabels =
   | 'Ultra Micro'
   | 'Low-CHO'
   | 'Seasonal Soup'
-  | 'Breakfast';
+  | 'Breakfast'
+  | 'Snack'
+  | 'Large Snack'
+  | 'Seasonal Soup';
 
-export type ExtrasLabels = 'Breakfast' | 'Snack' | 'Large Snack';
+export type ExtrasLabels =
+  | 'Breakfast'
+  | 'Snack'
+  | 'Large Snack'
+  | 'Seasonal Soup';
 
 export interface Item<T extends PlanLabels | ExtrasLabels> {
   name: T;
   quantity: number;
+  isExtra?: boolean;
 }
-
-
 
 export interface Delivery {
   items: Item<PlanLabels>[];

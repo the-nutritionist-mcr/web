@@ -1,9 +1,9 @@
 import { Form, Header, Heading, Button, Paragraph, Select, Box } from 'grommet';
 import React, { FC } from 'react';
-import { FormField } from 'grommet';
+import { FormField, Text } from 'grommet';
 import { planLabels, extrasLabels, defaultDeliveryDays } from '@tnmw/config';
 import { convertPlanFormat } from '@tnmw/utils';
-import { debounce } from 'lodash';
+import { debounce, update } from 'lodash';
 import PlanPanel from './PlanPanel';
 
 import { OkCancelDialog } from '../../components';
@@ -20,30 +20,26 @@ const SUBMIT_DEBOUNCE = 500;
 export interface EditCustomerPathParams {
   customer: BackendCustomer;
   customisations: Exclusion[];
+  dirty: boolean;
   updateCustomer: (details: UpdateCustomerBody) => void;
+  saveCustomer: (details: UpdateCustomerBody) => void;
 }
 
 const EditCustomerPage: FC<EditCustomerPathParams> = ({
   customisations: exclusions,
   customer,
   updateCustomer,
+  saveCustomer,
 }) => {
-  console.log('render');
   const [dirty, setDirty] = React.useState(false);
-  const [customPlan, setCustomPlan] = React.useState<undefined | Delivery[]>(
-    customer.customPlan
-  );
-  const [customisations, setCustomisations] = React.useState<Exclusion[]>(
-    customer.customisations ?? []
-  );
   const [planChanged, setPlanChanged] = React.useState(false);
   const [showPlanChangedDialog, setShowPlanChangedDialog] =
     React.useState(false);
 
   const onSubmit = debounce(async () => {
-    updateCustomer({
-      customisations: customisations,
-      customPlan: customPlan,
+    saveCustomer({
+      customisations: customer.customisations,
+      customPlan: customer.customPlan,
     });
 
     setDirty(false);
@@ -71,14 +67,18 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
           name="submit"
           onClick={() => setShowPlanChangedDialog(true)}
         />
-        {!customPlan ? (
+        {!customer.customPlan ? (
           <Button
             primary
             label="Create custom plan"
             type="submit"
             onClick={() => {
               const deliveries = convertPlanFormat(customer.plans).deliveries;
-              setCustomPlan(deliveries);
+              console.log(deliveries);
+              updateCustomer({
+                ...customer,
+                customPlan: deliveries,
+              });
               setDirty(true);
             }}
           />
@@ -86,30 +86,50 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
           <Button
             primary
             onClick={() => {
-              setCustomPlan(undefined);
+              updateCustomer({
+                ...customer,
+                customPlan: undefined,
+              });
               setDirty(true);
             }}
             label="Remove custom plan"
           />
         )}
       </Header>
+      <Text>
+        <strong>Name:</strong> {customer.firstName} {customer.surname}
+      </Text>
+      <Text>
+        <strong>Email:</strong> {customer.email}
+      </Text>
+      {customer.plans?.map((plan, index) => {
+        return (
+          <Text>
+            <strong>Plan {index + 1}:</strong> {plan.name} - {plan.daysPerWeek}{' '}
+            days per week x {plan.itemsPerDay} meals per day = {plan.totalMeals}
+          </Text>
+        );
+      })}
       <Heading level={3}>Customisations</Heading>
       <Select
         multiple
         closeOnChange={false}
-        value={customisations}
+        value={customer.customisations}
         name="customisations"
         options={exclusions}
         labelKey="name"
         valueKey="name"
         onChange={(event) => {
-          setCustomisations(event.value);
+          updateCustomer({
+            ...customer,
+            customisations: event.value,
+          });
           setDirty(true);
         }}
       />
-      {customPlan && (
+      {customer.customPlan && (
         <PlanPanel
-          customPlan={customPlan}
+          customPlan={customer.customPlan}
           plannerConfig={{
             planLabels: [...planLabels],
             extrasLabels: [...extrasLabels],
@@ -121,7 +141,10 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
             customer.deliveryDay3,
           ]}
           onChange={(plan) => {
-            setCustomPlan(plan);
+            updateCustomer({
+              ...customer,
+              customPlan: plan,
+            });
             setPlanChanged(true);
             setDirty(true);
           }}

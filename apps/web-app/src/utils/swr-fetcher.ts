@@ -36,8 +36,6 @@ export const swrFetcher = async <T>(
 
   const data = await response.json();
 
-  console.log(response);
-
   if (!response.ok) {
     const error = new HttpError(
       response.status as Codes,

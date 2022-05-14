@@ -4,12 +4,15 @@ import { ExtrasLabels, Plan, PlanLabels } from '@tnmw/types';
 export const daysPerWeekOptions = [7, 6, 5];
 
 export const planLabels: ReadonlyArray<PlanLabels> = [
-  'Seasonal Soup',
   'Equilibrium',
   'Mass',
   'Micro',
   'Ultra Micro',
   'Low-CHO',
+  'Seasonal Soup',
+  'Breakfast',
+  'Snack',
+  'Large Snack',
   'Seasonal Soup',
 ];
 
@@ -29,6 +32,7 @@ export const extrasLabels: ReadonlyArray<ExtrasLabels> = [
   'Breakfast',
   'Snack',
   'Large Snack',
+  'Seasonal Soup',
 ];
 
 export const plans: Plan[] = [

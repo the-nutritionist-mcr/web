@@ -228,14 +228,14 @@ const deliveriesAreEqual = (first: Delivery[], second: Delivery[]) => {
  * Check a given customer plan to see whether they are on
  * a custom delivery plan or not
  */
-export const isCustomDeliveryPlan = (
-  plan: CustomerPlanWithoutConfiguration,
-  defaultSettings: PlannerConfig
-): boolean =>
-  !deliveriesAreEqual(
-    plan.deliveries,
-    generateDistribution(plan.configuration, defaultSettings)
-  );
+// export const isCustomDeliveryPlan = (
+//   plan: CustomerPlanWithoutConfiguration,
+//   defaultSettings: PlannerConfig
+// ): boolean =>
+//   !deliveriesAreEqual(
+//     plan.deliveries,
+//     generateDistribution(plan.configuration, defaultSettings)
+//   );
 
 /**
  * Generate the meal delivery distribution based on the plan

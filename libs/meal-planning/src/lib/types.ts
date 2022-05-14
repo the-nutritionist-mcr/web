@@ -1,4 +1,4 @@
-import { Customer, Recipe } from '@tnmw/types';
+import { Customer, CustomerWithChargebeePlan, Recipe } from '@tnmw/types';
 
 export interface SelectedMeal {
   recipe: Recipe;
@@ -24,6 +24,6 @@ type CustomerWithNewPlan = Omit<
 >;
 
 export type CustomerMealsSelection = {
-  customer: CustomerWithNewPlan;
+  customer: CustomerWithChargebeePlan;
   deliveries: Delivery[];
 }[];

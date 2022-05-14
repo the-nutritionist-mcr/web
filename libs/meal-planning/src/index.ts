@@ -4,7 +4,6 @@ export { createVariant } from './lib/create-variant';
 export { generateLabelData } from './lib/generate-label-data';
 
 export {
-  isCustomDeliveryPlan,
   generateDistribution,
   makeNewPlan,
 } from './lib/distribution-generator';

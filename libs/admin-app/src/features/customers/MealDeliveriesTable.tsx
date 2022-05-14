@@ -61,19 +61,6 @@ const MealDeliveriesTable: FC<PlanTableProps> = (props) => {
             defaultDeliveryDays={props.plannerConfig.defaultDeliveryDays}
           />
         ))}
-        {props.plannerConfig.extrasLabels.map((extra) => (
-          <PlanRow
-            onChange={changeExtrasQuantities}
-            key={extra}
-            plan={extra}
-            quantities={props.deliveries.map(
-              (delivery) =>
-                delivery.extras.find((extras) => extras.name === extra)
-                  ?.quantity ?? 0
-            )}
-            defaultDeliveryDays={props.plannerConfig.defaultDeliveryDays}
-          />
-        ))}
       </TableBody>
     </Table>
   );

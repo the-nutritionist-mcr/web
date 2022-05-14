@@ -13,7 +13,7 @@ const EditCustomer: FC = () => {
   const { username } = router.query;
   const { items: customisations } = useCustomisations();
 
-  const { data, update } = useCustomer(
+  const { data, update, save, dirty } = useCustomer(
     Array.isArray(username) ? username[0] : username
   );
 
@@ -22,6 +22,8 @@ const EditCustomer: FC = () => {
       <AdminTemplate>
         {data && (
           <EditCustomerPage
+            saveCustomer={save}
+            dirty={dirty}
             customer={data}
             customisations={customisations}
             updateCustomer={update}
