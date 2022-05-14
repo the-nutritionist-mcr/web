@@ -58,7 +58,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         newPlan: mealsForPlan,
         address: '',
         telephone: '',
-        exclusions: [],
+        exclusions: item.customisations,
         chargebeePlan: item.plans,
       };
     });
