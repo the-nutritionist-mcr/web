@@ -3,6 +3,7 @@ import { createContext, Dispatch, SetStateAction } from 'react';
 export interface User {
   name: string;
   email: string;
+  admin: boolean;
 }
 
 export interface UserContextType {

@@ -1,5 +1,5 @@
 import Router from 'next/router';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import Head from 'next/head';
 import { Hub } from 'aws-amplify';
 import { AppProps } from 'next/app';
@@ -26,6 +26,8 @@ import {
 import '../assets/global.css';
 import { HttpError } from '../backend/lambdas/data-api/http-error';
 import { HTTP } from '@tnmw/constants';
+import { ListUserPoolsResponse } from '@aws-sdk/client-cognito-identity-provider';
+import { BackendCustomer } from '@tnmw/types';
 
 const navigator = {
   navigate: async (path: string) => {
@@ -56,47 +58,49 @@ Hub.listen('auth', (data) => {
   }
 });
 
-const TnmApp: FC<AppProps> = ({ Component, pageProps }) => (
-  <SWRConfig
-    value={{
-      provider,
-      onError: (error: Error) => {
-        if (
-          error instanceof HttpError &&
-          error.statusCode === HTTP.statusCodes.Forbidden
-        ) {
-          // eslint-disable-next-line fp/no-mutating-methods
-          Router.push('/login');
-        } else {
-          toast.error(error.message);
-        }
-      },
-    }}
-  >
-    <AuthenticationServiceContext.Provider value={authenticationService}>
-      <NavigationContext.Provider value={navigator}>
-        <ThemeProvider theme={theme}>
-          <Head>
-            <link
-              rel="stylesheet"
-              href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
+const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
+  return (
+    <SWRConfig
+      value={{
+        provider,
+        onError: (error: Error) => {
+          if (
+            error instanceof HttpError &&
+            error.statusCode === HTTP.statusCodes.Forbidden
+          ) {
+            // eslint-disable-next-line fp/no-mutating-methods
+            Router.push('/login');
+          } else {
+            toast.error(error.message);
+          }
+        },
+      }}
+    >
+      <AuthenticationServiceContext.Provider value={authenticationService}>
+        <NavigationContext.Provider value={navigator}>
+          <ThemeProvider theme={theme}>
+            <Head>
+              <link
+                rel="stylesheet"
+                href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
+              />
+            </Head>
+            <Toaster
+              toastOptions={{
+                style: {
+                  fontFamily: 'Roboto',
+                  maxWidth: 700,
+                },
+              }}
             />
-          </Head>
-          <Toaster
-            toastOptions={{
-              style: {
-                fontFamily: 'Roboto',
-                maxWidth: 700,
-              },
-            }}
-          />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ThemeProvider>
-      </NavigationContext.Provider>
-    </AuthenticationServiceContext.Provider>
-  </SWRConfig>
-);
+            <Layout user={pageProps.user}>
+              <Component {...pageProps} />
+            </Layout>
+          </ThemeProvider>
+        </NavigationContext.Provider>
+      </AuthenticationServiceContext.Provider>
+    </SWRConfig>
+  );
+};
 
 export default TnmApp;

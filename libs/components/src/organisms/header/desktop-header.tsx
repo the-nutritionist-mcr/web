@@ -37,19 +37,21 @@ const MenuAnchor = styled('a')`
 MenuAnchor.displayName = 'a';
 
 const DesktopHeader: FC = () => (
-  <HeaderUnorderedList>
-    <HeaderListItem>
-      <MenuAnchor href="/our-story/">Our Story</MenuAnchor>
-    </HeaderListItem>
-    <HeaderListItem>Why Choose Us</HeaderListItem>
-    <HeaderListItem>
-      <TheNutritionistLogo href="/">The Nutritionist MCR</TheNutritionistLogo>
-    </HeaderListItem>
-    <HeaderListItem>The Plans</HeaderListItem>
-    <HeaderListItem>
-      <Button primary>Get Started</Button>
-    </HeaderListItem>
-  </HeaderUnorderedList>
+  <>
+    <HeaderUnorderedList>
+      <HeaderListItem>
+        <MenuAnchor href="/our-story/">Our Story</MenuAnchor>
+      </HeaderListItem>
+      <HeaderListItem>Why Choose Us</HeaderListItem>
+      <HeaderListItem>
+        <TheNutritionistLogo href="/">The Nutritionist MCR</TheNutritionistLogo>
+      </HeaderListItem>
+      <HeaderListItem>The Plans</HeaderListItem>
+      <HeaderListItem>
+        <Button primary>Get Started</Button>
+      </HeaderListItem>
+    </HeaderUnorderedList>
+  </>
 );
 
 export default DesktopHeader;

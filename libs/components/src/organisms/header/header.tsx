@@ -5,10 +5,11 @@ import { FC } from 'react';
 
 import DesktopHeader from './desktop-header';
 import MobileHeader from './mobile-header';
+import { AdminNav } from './admin-nav';
 
 const SiteNavbar = styled('nav')`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   font-family: 'Acumin Pro', Arial, sans-serif;
   font-weight: 700;
   height: ${(props) => props.theme.menubarHeight}px;
@@ -19,12 +20,23 @@ const SiteNavbar = styled('nav')`
   background-color: white;
 `;
 
-const Header: FC = () => {
+interface HeaderProps {
+  admin?: boolean;
+}
+
+const Header = (props: HeaderProps) => {
   const theme = useTheme();
   const currentBreakpoint = useBreakpoints(theme.breakpoints);
   return (
     <SiteNavbar>
-      {currentBreakpoint === 'large' ? <DesktopHeader /> : <MobileHeader />}
+      {currentBreakpoint === 'large' ? (
+        <>
+          <DesktopHeader />
+          {props.admin && <AdminNav />}
+        </>
+      ) : (
+        <MobileHeader />
+      )}
     </SiteNavbar>
   );
 };

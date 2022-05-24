@@ -1,5 +1,6 @@
 import { Grommet } from 'grommet';
 import { FC } from 'react';
+import styled from '@emotion/styled';
 
 const theme = {
   global: {
@@ -11,8 +12,14 @@ const theme = {
   },
 };
 
+const Padding = styled.div`
+  padding: 0 1rem;
+`;
+
 export const AdminTemplate: FC = (props) => (
-  <Grommet theme={theme}>{props.children}</Grommet>
+  <Grommet theme={theme}>
+    <Padding>{props.children}</Padding>
+  </Grommet>
 );
 
 export default AdminTemplate;

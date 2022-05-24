@@ -17,7 +17,7 @@ export const isExclusion = (exclusion: unknown): exclusion is Exclusion => {
     typeof asExclusion.id === 'string' &&
     typeof asExclusion.name === 'string' &&
     typeof asExclusion.allergen === 'boolean' &&
-    typeof asExclusion.createdAt === 'string' &&
-    typeof asExclusion.updatedAt === 'string'
+    (!asExclusion.createdAt || typeof asExclusion.createdAt === 'string') &&
+    (!asExclusion.updatedAt || typeof asExclusion.updatedAt === 'string')
   );
 };

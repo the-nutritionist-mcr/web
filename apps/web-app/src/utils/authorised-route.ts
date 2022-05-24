@@ -46,7 +46,12 @@ export const authorizedRoute: AuthorizedRouteWrapper = ({
 
     return (
       (await getServerSideProps?.(context)) ?? {
-        props: { user: await getUserFromAws(verifyResult.userName) },
+        props: {
+          user: {
+            ...(await getUserFromAws(verifyResult.userName)),
+            admin: verifyResult.groups.includes('admin'),
+          },
+        },
       }
     );
   };

@@ -23,4 +23,5 @@ export interface BackendCustomer {
   plans: StandardPlan[];
   customisations: Exclusion[];
   customPlan?: Delivery[];
+  admin: boolean;
 }
