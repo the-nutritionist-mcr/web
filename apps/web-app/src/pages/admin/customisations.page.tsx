@@ -4,6 +4,7 @@ import { AdminTemplate } from './admin-template';
 
 import { Exclusions } from '@tnmw/admin-app';
 import { useCustomisations } from '../../hooks';
+import { authorizedRoute } from '../../utils/authorised-route';
 
 const CustomisationsPage: FC = () => {
   const { items, create, remove, update } = useCustomisations();
@@ -22,3 +23,5 @@ const CustomisationsPage: FC = () => {
 };
 
 export default CustomisationsPage;
+
+export const getServerSideProps = authorizedRoute({ groups: ['admin'] });

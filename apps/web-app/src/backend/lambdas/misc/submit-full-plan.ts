@@ -30,7 +30,11 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
     const cognito = new CognitoIdentityProviderClient({});
     const dynamodbClient = new DynamoDBClient({});
-    const dynamo = DynamoDBDocumentClient.from(dynamodbClient);
+    const dynamo = DynamoDBDocumentClient.from(dynamodbClient, {
+      marshallOptions: {
+        removeUndefinedValues: true,
+      },
+    });
 
     const { username } = await authoriseJwt(event, ['admin']);
 

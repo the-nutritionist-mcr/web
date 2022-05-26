@@ -5,6 +5,7 @@ import { AdminTemplate } from './admin-template';
 import { Recipes } from '@tnmw/admin-app';
 import { useCustomisations, useRecipes } from '../../hooks';
 import { swrFetcher } from '../../utils/swr-fetcher';
+import { authorizedRoute } from '../../utils/authorised-route';
 
 const RecipesPage: FC = () => {
   const { items, create, remove, update } = useRecipes();
@@ -32,3 +33,5 @@ const RecipesPage: FC = () => {
 };
 
 export default RecipesPage;
+
+export const getServerSideProps = authorizedRoute({ groups: ['admin'] });

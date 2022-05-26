@@ -5,3 +5,5 @@ export { usePlan } from './use-plans';
 export const useCustomisations = () => useResource<Exclusion>('customisation');
 
 export const useRecipes = () => useResource<Recipe>('recipe');
+
+export { useAuthorisation } from './use-authorisation';

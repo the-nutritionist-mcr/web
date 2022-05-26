@@ -7,6 +7,7 @@ import { EditCustomerPage } from '@tnmw/admin-app';
 import { useRouter } from 'next/router';
 import { useCustomer } from '../../../hooks/use-customer';
 import { useCustomisations } from '../../../hooks';
+import { authorizedRoute } from '../../../utils/authorised-route';
 
 const EditCustomer: FC = () => {
   const router = useRouter();
@@ -35,3 +36,5 @@ const EditCustomer: FC = () => {
 };
 
 export default EditCustomer;
+
+export const getServerSideProps = authorizedRoute({ groups: ['admin'] });

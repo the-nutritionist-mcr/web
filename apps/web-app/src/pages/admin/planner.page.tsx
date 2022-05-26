@@ -4,6 +4,7 @@ import { MenuPaddedContent } from './menu-padded-content';
 import { AdminTemplate } from './admin-template';
 import { Planner } from '@tnmw/admin-app';
 import { useRecipes, usePlan } from '../../hooks';
+import { authorizedRoute } from '../../utils/authorised-route';
 
 const PlannerPage: FC = () => {
   const { items } = useRecipes();
@@ -27,3 +28,5 @@ const PlannerPage: FC = () => {
 };
 
 export default PlannerPage;
+
+export const getServerSideProps = authorizedRoute({ groups: ['admin'] });

@@ -3,7 +3,6 @@ import { getPoolConfig } from './get-pool-config';
 
 const REGION = 'eu-west-2';
 
-
 type ExtractPromiseType<T> = T extends Promise<infer RT> ? RT : never;
 
 const getConfigurer = () => {
@@ -100,7 +99,17 @@ export const confirmSignup = async (username: string, code: string) => {
   return Auth.confirmSignUp(username, code);
 };
 
-export const currentUser = async () => {
+interface CognitoUser {
+  signInUserSession: {
+    accessToken: {
+      payload: {
+        'cognito:groups': string[];
+      };
+    };
+  };
+}
+
+export const currentUser = async (): Promise<CognitoUser | undefined> => {
   await configureAuth();
   try {
     return await Auth.currentAuthenticatedUser();
