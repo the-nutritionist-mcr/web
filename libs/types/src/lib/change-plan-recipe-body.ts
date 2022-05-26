@@ -28,7 +28,7 @@ export const isChangePlanRecipeBody = (
   }
 
   if (
-    typeof bodyAsAny.itemIndex === 'undefined' ||
+    typeof bodyAsAny.itemIndex !== 'undefined' &&
     typeof bodyAsAny.itemIndex !== 'number'
   ) {
     return false;
