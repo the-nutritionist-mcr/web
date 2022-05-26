@@ -22,6 +22,9 @@ import {
   PlanResponseSelections,
   Recipe,
 } from '@tnmw/types';
+import { update } from 'lodash';
+import recipes from '../../fixtures/recipes';
+import { defaultDeliveryDays, planLabels } from '@tnmw/config';
 
 interface FinalizeRowProps {
   customerSelection: PlanResponseSelections[number];
@@ -45,9 +48,9 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
 
   const onUpdate = (
     deliveryIndex: number,
-    itemIndex: number,
     recipe: Recipe,
-    chosenVariant: PlanLabels
+    chosenVariant: PlanLabels,
+    itemIndex?: number
   ) => {
     props.update({
       selectionId: props.customerSelection.id,
@@ -104,7 +107,13 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                   key={`${props.customerSelection.customer.id}-${deliveryIndex}-add-button`}
                   icon={<FormAdd />}
                   hoverIndicator={true}
-                  onClick={() => {}}
+                  onClick={() => {
+                    onUpdate(
+                      deliveryIndex,
+                      props.deliveryMeals[deliveryIndex][0],
+                      planLabels[0]
+                    );
+                  }}
                 />,
               ],
               props.columns

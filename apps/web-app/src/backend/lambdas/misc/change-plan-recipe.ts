@@ -43,18 +43,32 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const newSelection: CustomerMealsSelectionWithChargebeeCustomer[number] = {
       customer: selection.customer,
-      deliveries: selection.deliveries.map((delivery, index) =>
-        index !== changePlanData.deliveryIndex || typeof delivery === 'string'
-          ? delivery
-          : delivery.map((item, itemIndex) =>
-              itemIndex !== changePlanData.itemIndex
-                ? item
-                : {
-                    recipe: changePlanData.recipe,
-                    chosenVariant: changePlanData.chosenVariant,
-                  }
-            )
-      ),
+      deliveries: selection.deliveries
+        .map((delivery, index) =>
+          index !== changePlanData.deliveryIndex || typeof delivery === 'string'
+            ? delivery
+            : delivery.map((item, itemIndex) =>
+                itemIndex !== changePlanData.itemIndex
+                  ? item
+                  : {
+                      recipe: changePlanData.recipe,
+                      chosenVariant: changePlanData.chosenVariant,
+                    }
+              )
+        )
+        .map((delivery, index) =>
+          index !== changePlanData.deliveryIndex ||
+          typeof delivery === 'string' ||
+          changePlanData.itemIndex !== undefined
+            ? delivery
+            : [
+                ...delivery,
+                {
+                  recipe: changePlanData.recipe,
+                  chosenVariant: changePlanData.chosenVariant,
+                },
+              ]
+        ),
     };
 
     const putCommand = new PutCommand({

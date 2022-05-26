@@ -47,48 +47,6 @@ export const usePlan = () => {
       body: JSON.stringify(newItem),
     });
 
-  const [addAdHoc] = useMutation(changePlanItem, {
-    onMutate({ input }) {
-      const data: GetPlanResponse = cache.get('plan');
-      const newData = {
-        ...data,
-        selections: data.selections.map(
-          (
-            dataRow: CustomerMealsSelectionWithChargebeeCustomer[number] & {
-              id: StoredMealSelection['id'];
-              sort: StoredMealSelection['sort'];
-            }
-          ) =>
-            dataRow.id !== input.selectionId ||
-            dataRow.sort !== input.selectionSort
-              ? dataRow
-              : {
-                  ...dataRow,
-                  deliveries: dataRow.deliveries.map(
-                    (delivery, deliveryIndex) =>
-                      input.deliveryIndex !== deliveryIndex ||
-                      typeof delivery === 'string'
-                        ? delivery
-                        : delivery.map((item, itemIndex) =>
-                            itemIndex !== input.itemIndex
-                              ? item
-                              : {
-                                  recipe: input.recipe,
-                                  chosenVariant: input.chosenVariant,
-                                }
-                          )
-                  ),
-                }
-        ),
-      };
-
-      mutate('plan', newData, false);
-      return () => {
-        mutate('plan', data, false);
-      };
-    },
-  });
-
   const [update] = useMutation(changePlanItem, {
     onMutate({ input }) {
       const data: GetPlanResponse = cache.get('plan');
@@ -106,8 +64,8 @@ export const usePlan = () => {
               ? dataRow
               : {
                   ...dataRow,
-                  deliveries: dataRow.deliveries.map(
-                    (delivery, deliveryIndex) =>
+                  deliveries: dataRow.deliveries
+                    .map((delivery, deliveryIndex) =>
                       input.deliveryIndex !== deliveryIndex ||
                       typeof delivery === 'string'
                         ? delivery
@@ -119,7 +77,20 @@ export const usePlan = () => {
                                   chosenVariant: input.chosenVariant,
                                 }
                           )
-                  ),
+                    )
+                    .map((delivery, deliveryIndex) =>
+                      input.deliveryIndex !== deliveryIndex ||
+                      typeof delivery === 'string' ||
+                      input.itemIndex !== undefined
+                        ? delivery
+                        : [
+                            ...delivery,
+                            {
+                              recipe: input.recipe,
+                              chosenVariant: input.chosenVariant,
+                            },
+                          ]
+                    ),
                 }
         ),
       };

@@ -20,9 +20,9 @@ interface FinalizeCellProps {
   selectedItem: SelectedItem;
   onUpdate: (
     deliveryIndex: number,
-    itemIndex: number,
     newRecipe: Recipe,
-    chosenVariant: PlanLabels
+    chosenVariant: PlanLabels,
+    itemIndex?: number
   ) => void;
 }
 
@@ -43,9 +43,9 @@ const UnMemoizedFinalizeCell: React.FC<FinalizeCellProps> = (props) => {
     (event) => {
       props.onUpdate(
         props.deliveryIndex,
-        props.index,
         event.value.recipe,
-        event.value.chosenVariant
+        event.value.chosenVariant,
+        props.index
       );
     },
     [props.customerSelection.customer, props.index, props.deliveryIndex]
