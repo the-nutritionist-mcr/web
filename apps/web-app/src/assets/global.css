@@ -48,6 +48,10 @@ body {
   box-sizing: inherit;
 }
 
+li {
+    margin-bottom: 10px;
+}
+
 *::before {
   box-sizing: inherit;
 }

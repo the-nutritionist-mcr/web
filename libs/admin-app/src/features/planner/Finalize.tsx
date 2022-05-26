@@ -4,7 +4,9 @@ import {
   PlanResponseSelections,
   Recipe,
 } from '@tnmw/types';
+import { calendarFormat } from '@tnmw/config';
 import { Paragraph } from 'grommet';
+import moment from 'moment';
 import React from 'react';
 import FinalizeCustomerTable from './FinalizeCustomerTable';
 
@@ -12,6 +14,9 @@ interface FinalizeProps {
   customerMeals: PlanResponseSelections;
   recipes: Recipe[];
   cooks: Cook[];
+  published: boolean;
+  generatedBy: string;
+  creationDate: Date;
   update: (item: ChangePlanRecipeBody) => Promise<void>;
 }
 
@@ -20,6 +25,9 @@ const Finalize: React.FC<FinalizeProps> = ({
   recipes,
   cooks,
   update,
+  creationDate,
+  generatedBy,
+  published,
 }) => {
   const planned = cooks.map((cook) => cook.menu);
 
@@ -34,15 +42,16 @@ const Finalize: React.FC<FinalizeProps> = ({
   }
   return (
     <>
-      <Paragraph fill>
-        Please check the selections generated below and make any necessary
-        adjustments. If you are happy with this plan, you can use the buttons
-        above to download PDFs for the cook and delivery plan. Please note that
-        if you make any changes to anything outside this page (such as recipes
-        and customers), they will{' '}
-        <strong>not automatically be reflected in this plan</strong> until you
-        generate a new one via planning mode on the Recipes page.
-      </Paragraph>
+      <ul>
+        <li>
+          Plan generated on{' '}
+          <strong>{moment(creationDate).calendar(null, calendarFormat)}</strong>{' '}
+          by <strong>{generatedBy}</strong>
+        </li>
+        <li>
+          This plan {published ? 'has' : 'has not'} been published to customers
+        </li>
+      </ul>
       {
         // eslint-disable-next-line fp/no-mutating-methods
         customerMeals

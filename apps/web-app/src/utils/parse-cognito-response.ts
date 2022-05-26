@@ -39,7 +39,7 @@ export const parseCognitoResponse = (
     ),
     customPlan: customPlansValue && JSON.parse(customPlansValue),
     customisations:
-      (customisationsValue && JSON.parse(customisationsValue)) ?? [],
+      (customisationsValue && JSON.parse(customisationsValue)) || [],
     deliveryDay3: getAttributeValue(
       attributes,
       `custom:${COGNITO.customAttributes.DeliveryDay3}`

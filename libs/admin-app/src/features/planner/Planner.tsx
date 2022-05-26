@@ -19,6 +19,8 @@ import generateCookPlanDocumentDefinition from '../../lib/generateCookPlanDocume
 
 interface PlannerProps {
   cooks: Cook[];
+  createdBy: string;
+  creationDate: Date;
   selections: PlanResponseSelections;
   recipes: Recipe[];
   update: (item: ChangePlanRecipeBody) => Promise<void>;
@@ -91,23 +93,24 @@ const Planner: React.FC<PlannerProps> = (props) => {
           }}
         />
 
-        {!props.published ? (
+        {!props.published && (
           <Button
             primary
             size="small"
             label="Publish"
             onClick={props.publish}
           />
-        ) : (
-          <>This plan has been published</>
         )}
       </Header>
       {props.cooks && (
         <Finalize
           cooks={props.cooks}
+          published={props.published}
           recipes={props.recipes}
           customerMeals={props.selections}
           update={props.update}
+          creationDate={props.creationDate}
+          generatedBy={props.createdBy}
         />
       )}
     </>

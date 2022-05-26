@@ -5,7 +5,7 @@ import { getUserFromAws } from './get-user-from-aws';
 import { BackendCustomer } from '@tnmw/types';
 
 export interface AuthorizedRouteProps {
-  user: BackendCustomer;
+  user: BackendCustomer & { admin: boolean };
 }
 
 interface AuthorizedRouteWrapper {

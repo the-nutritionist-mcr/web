@@ -77,5 +77,9 @@ export const usePlan = () => {
     },
   });
 
-  return { data, update, publish };
+  const finalData = data?.available
+    ? { ...data, date: new Date(Number(data.date)) }
+    : data;
+
+  return { data: finalData, update, publish };
 };

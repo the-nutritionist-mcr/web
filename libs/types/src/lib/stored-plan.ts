@@ -26,7 +26,7 @@ export interface GetPlanResponse {
   cooks: Cook[];
   selections?: PlanResponseSelections;
   createdBy: string;
-  date: string;
+  date: Date;
   published: boolean;
   available: true;
 }
