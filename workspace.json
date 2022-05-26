@@ -8,6 +8,7 @@
     "config": "libs/config",
     "constants": "libs/constants",
     "meal-planning": "libs/meal-planning",
+    "pdf": "libs/pdf",
     "planner": "libs/planner",
     "seed-cognito": "libs/seed-cognito",
     "types": "libs/types",

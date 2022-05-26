@@ -21,7 +21,7 @@ const SiteNavbar = styled('nav')`
 `;
 
 interface HeaderProps {
-  admin?: boolean;
+  admin: boolean;
 }
 
 const Header = (props: HeaderProps) => {

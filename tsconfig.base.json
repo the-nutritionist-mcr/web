@@ -28,6 +28,7 @@
       "@tnmw/config": ["libs/config/src/index.ts"],
       "@tnmw/constants": ["libs/constants/src/index.ts"],
       "@tnmw/meal-planning": ["libs/meal-planning/src/index.ts"],
+      "@tnmw/pdf": ["libs/pdf/src/index.ts"],
       "@tnmw/planner": ["libs/planner/src/index.ts"],
       "@tnmw/seed-cognito": ["libs/seed-cognito/src/index.ts"],
       "@tnmw/types": ["libs/types/src/index.ts"],

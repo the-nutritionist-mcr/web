@@ -1,16 +1,21 @@
 import { Heading, Header, Button } from 'grommet';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Finalize from './Finalize';
 import generateDeliveryPlanDocumentDefinition from '../../lib/generateDeliveryPlanDocumentDefinition';
-import downloadPdf from '../../lib/downloadPdf';
-import { defaultDeliveryDays } from '@tnmw/config';
+import fileDownload from 'js-file-download';
+import { generateDatestampedFilename } from '@tnmw/utils';
 import {
   Cook,
   Recipe,
   ChangePlanRecipeBody,
   PlanResponseSelections,
 } from '@tnmw/types';
+import { DownloadLabelsDialog } from '@tnmw/components';
+import { generateLabelData, makeCookPlan } from '@tnmw/meal-planning';
+import generateCsvStringFromObjectArray from '../../lib/generateCsvStringFromObjectArray';
+import { downloadPdf } from '@tnmw/pdf';
+import generateCookPlanDocumentDefinition from '../../lib/generateCookPlanDocumentDefinition';
 
 interface PlannerProps {
   cooks: Cook[];
@@ -24,11 +29,33 @@ interface PlannerProps {
 const Planner: React.FC<PlannerProps> = (props) => {
   const customerMeals = props.selections;
   const recipes = props.recipes;
+  const [showLabelsDialog, setShowLabelDialog] = useState(false);
 
   return (
     <>
       <Header align="center" justify="start" gap="small">
         <Heading level={2}>Planner</Heading>
+        {showLabelsDialog && (
+          <DownloadLabelsDialog
+            onClose={() => setShowLabelDialog(false)}
+            onDownload={(useBy, cook) => {
+              const data = generateLabelData(
+                customerMeals ?? [],
+                useBy,
+                recipes,
+                cook
+              );
+              // eslint-disable-next-line no-console
+              console.log(data);
+              setShowLabelDialog(false);
+              fileDownload(
+                generateCsvStringFromObjectArray(data),
+                generateDatestampedFilename('labels', 'csv')
+              );
+            }}
+          />
+        )}
+
         <Button
           primary
           size="small"
@@ -48,21 +75,24 @@ const Planner: React.FC<PlannerProps> = (props) => {
           label="Cook Plan"
           disabled={Boolean(!customerMeals || !recipes)}
           onClick={() => {
+            const plan = makeCookPlan(customerMeals ?? [], recipes);
+            downloadPdf(
+              generateCookPlanDocumentDefinition(plan),
+              generateDatestampedFilename('cook-plan', 'pdf')
+            );
             // Noop
           }}
         />
-        {defaultDeliveryDays.map((_, deliveryIndex) => (
-          <Button
-            key={`delivery-${deliveryIndex}-labels-button`}
-            primary
-            size="small"
-            label={`Labels ${deliveryIndex + 1}`}
-            disabled={Boolean(!customerMeals || !recipes)}
-            onClick={() => {
-              // Noop
-            }}
-          />
-        ))}
+        <Button
+          primary
+          size="small"
+          label="Download Label Data"
+          disabled={Boolean(!customerMeals || !recipes)}
+          onClick={() => {
+            setShowLabelDialog(true);
+          }}
+        />
+
         {!props.published ? (
           <Button
             primary

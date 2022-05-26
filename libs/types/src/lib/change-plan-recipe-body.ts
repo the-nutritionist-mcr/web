@@ -6,7 +6,7 @@ export interface ChangePlanRecipeBody {
   selectionId: string;
   selectionSort: string;
   deliveryIndex: number;
-  itemIndex: number;
+  itemIndex?: number;
   chosenVariant: PlanLabels;
 }
 
@@ -27,7 +27,10 @@ export const isChangePlanRecipeBody = (
     return false;
   }
 
-  if (typeof bodyAsAny.itemIndex !== 'number') {
+  if (
+    typeof bodyAsAny.itemIndex === 'undefined' ||
+    typeof bodyAsAny.itemIndex !== 'number'
+  ) {
     return false;
   }
 

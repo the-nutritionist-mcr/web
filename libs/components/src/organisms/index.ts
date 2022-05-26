@@ -5,14 +5,12 @@ export {
   Authenticated,
   Redirect,
   AuthenticationServiceContext,
-  NavigationContext,
 } from './login-and-register-box';
 
 export { MealSelections } from './meal-selections';
 
 export { Account } from './account';
 
-export type {
-  AuthenticationContextType,
-  NavigationContextType,
-} from './login-and-register-box';
+export { default as DownloadLabelsDialog } from './download-labels-dialog/download-labels-dialog';
+
+export type { AuthenticationContextType } from './login-and-register-box';
