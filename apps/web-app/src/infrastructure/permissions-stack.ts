@@ -1,5 +1,5 @@
 import { Construct, Stack, StackProps } from '@aws-cdk/core';
-import { ManagedPolicy, User } from '@aws-cdk/aws-iam';
+import { ManagedPolicy, User, Group } from '@aws-cdk/aws-iam';
 
 interface PermsStackProps {
   stackProps: StackProps;
@@ -46,6 +46,9 @@ export class UsersStack extends Stack {
       'AmazonAPIGatewayAdministrator'
     );
 
+    const readOnlyAccess =
+      ManagedPolicy.fromAwsManagedPolicyName('ReadOnlyAccess');
+
     new User(this, 'ben', {
       managedPolicies: [
         apiGateway,
@@ -60,6 +63,16 @@ export class UsersStack extends Stack {
         s3,
       ],
       userName: 'ben',
+    });
+
+    const businessOwnerGroup = new Group(this, 'tnm-business-owner-group', {
+      groupName: 'tnm-business-owner',
+      managedPolicies: [billing, readOnlyAccess],
+    });
+
+    new User(this, 'lawrence-user', {
+      groups: [businessOwnerGroup],
+      userName: 'lawrence',
     });
   }
 }
