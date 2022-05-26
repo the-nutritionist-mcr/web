@@ -53,6 +53,9 @@ const Finalize: React.FC<FinalizeProps> = ({
               : // eslint-disable-next-line @typescript-eslint/no-magic-numbers
                 -1
           )
+          .filter(
+            (customerPlan) => customerPlan.customer.chargebeePlan.length > 0
+          )
           .map((customerPlan) => (
             <FinalizeCustomerTable
               key={`${customerPlan.customer.id}-finalize-table`}

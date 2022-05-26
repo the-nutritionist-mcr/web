@@ -9,6 +9,7 @@ import {
   Button,
   Box,
 } from 'grommet';
+import { Link } from '@tnmw/components';
 import { FormAdd } from 'grommet-icons';
 import React from 'react';
 import deepMemo from '../../lib/deepMemo';
@@ -22,9 +23,7 @@ import {
   PlanResponseSelections,
   Recipe,
 } from '@tnmw/types';
-import { update } from 'lodash';
-import recipes from '../../fixtures/recipes';
-import { defaultDeliveryDays, planLabels } from '@tnmw/config';
+import { planLabels } from '@tnmw/config';
 
 interface FinalizeRowProps {
   customerSelection: PlanResponseSelections[number];
@@ -45,6 +44,12 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
   const name = `${props.customerSelection.customer.firstName} ${props.customerSelection.customer.surname}`;
 
   const deliveries = props.customerSelection.deliveries ?? [];
+
+  const customisationsTags =
+    props.customerSelection.customer?.exclusions
+      .map((exclusion) => exclusion.name)
+      .join(', ') ?? '';
+  ('');
 
   const onUpdate = (
     deliveryIndex: number,
@@ -69,7 +74,22 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
           <TableCell colSpan={7}>
             <Box direction="row" align="end">
               <Text>
-                <strong>{name}</strong>
+                <strong>
+                  <Link
+                    path={`/admin/edit-customer/${props.customerSelection.customer.id}`}
+                  >
+                    {name}
+                  </Link>
+                </strong>{' '}
+                /{' '}
+                {props.customerSelection.customer.chargebeePlan
+                  .map(
+                    (plan) =>
+                      `${plan.name} ${plan.itemsPerDay} (${plan.daysPerWeek} days)`
+                  )
+                  .join(', ')}
+                {customisationsTags.length > 0 ? ' / ' : ''}
+                <strong>{customisationsTags}</strong>
               </Text>
             </Box>
           </TableCell>

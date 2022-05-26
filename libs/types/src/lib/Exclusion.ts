@@ -7,7 +7,7 @@ export default interface Exclusion {
 }
 
 export const isExclusion = (exclusion: unknown): exclusion is Exclusion => {
-  if (typeof exclusion == 'object') {
+  if (typeof exclusion !== 'object') {
     return false;
   }
 

@@ -45,8 +45,6 @@ const Planner: React.FC<PlannerProps> = (props) => {
                 recipes,
                 cook
               );
-              // eslint-disable-next-line no-console
-              console.log(data);
               setShowLabelDialog(false);
               fileDownload(
                 generateCsvStringFromObjectArray(data),
