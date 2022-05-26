@@ -13,6 +13,7 @@ import {
 } from '@tnmw/types';
 import { HttpError } from '../data-api/http-error';
 import { ENV, HTTP } from '@tnmw/constants';
+import { updateDelivery } from '@tnmw/utils';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -43,32 +44,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const newSelection: CustomerMealsSelectionWithChargebeeCustomer[number] = {
       customer: selection.customer,
-      deliveries: selection.deliveries
-        .map((delivery, index) =>
-          index !== changePlanData.deliveryIndex || typeof delivery === 'string'
-            ? delivery
-            : delivery.map((item, itemIndex) =>
-                itemIndex !== changePlanData.itemIndex
-                  ? item
-                  : {
-                      recipe: changePlanData.recipe,
-                      chosenVariant: changePlanData.chosenVariant,
-                    }
-              )
-        )
-        .map((delivery, index) =>
-          index !== changePlanData.deliveryIndex ||
-          typeof delivery === 'string' ||
-          changePlanData.itemIndex !== undefined
-            ? delivery
-            : [
-                ...delivery,
-                {
-                  recipe: changePlanData.recipe,
-                  chosenVariant: changePlanData.chosenVariant,
-                },
-              ]
-        ),
+      deliveries: updateDelivery(selection.deliveries, changePlanData),
     };
 
     const putCommand = new PutCommand({

@@ -48,8 +48,8 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
 
   const onUpdate = (
     deliveryIndex: number,
-    recipe: Recipe,
-    chosenVariant: PlanLabels,
+    recipe?: Recipe,
+    chosenVariant?: PlanLabels,
     itemIndex?: number
   ) => {
     props.update({

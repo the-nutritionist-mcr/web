@@ -1,4 +1,5 @@
-import { Select, TableCell, ThemeContext } from 'grommet';
+import { Box, Button, Select, TableCell, ThemeContext } from 'grommet';
+import { Trash } from 'grommet-icons';
 import React from 'react';
 import deepMemo from '../../lib/deepMemo';
 import { extrasLabels, planLabels } from '@tnmw/config';
@@ -20,8 +21,8 @@ interface FinalizeCellProps {
   selectedItem: SelectedItem;
   onUpdate: (
     deliveryIndex: number,
-    newRecipe: Recipe,
-    chosenVariant: PlanLabels,
+    newRecipe?: Recipe,
+    chosenVariant?: PlanLabels,
     itemIndex?: number
   ) => void;
 }
@@ -72,16 +73,30 @@ const UnMemoizedFinalizeCell: React.FC<FinalizeCellProps> = (props) => {
           },
         }}
       >
-        <Select
-          plain
-          size="xsmall"
-          options={options(props.deliveryIndex)}
-          placeholder="None"
-          labelKey={getSelectedItemString}
-          valueKey={getSelectedItemString}
-          value={props.selectedItem}
-          onChange={onChange}
-        />
+        <Box direction="row">
+          <Button
+            hoverIndicator
+            icon={<Trash size="small" />}
+            onClick={() => {
+              props.onUpdate(
+                props.deliveryIndex,
+                undefined,
+                undefined,
+                props.index
+              );
+            }}
+          />
+          <Select
+            plain
+            size="xsmall"
+            options={options(props.deliveryIndex)}
+            placeholder="None"
+            labelKey={getSelectedItemString}
+            valueKey={getSelectedItemString}
+            value={props.selectedItem}
+            onChange={onChange}
+          />
+        </Box>
       </ThemeContext.Extend>
     </TableCell>
   );

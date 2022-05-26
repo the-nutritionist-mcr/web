@@ -2,12 +2,12 @@ import { PlanLabels } from './customer-plan';
 import Recipe, { isRecipe } from './Recipe';
 
 export interface ChangePlanRecipeBody {
-  recipe: Recipe;
+  recipe?: Recipe;
   selectionId: string;
   selectionSort: string;
   deliveryIndex: number;
   itemIndex?: number;
-  chosenVariant: PlanLabels;
+  chosenVariant?: PlanLabels;
 }
 
 export const isChangePlanRecipeBody = (
@@ -15,7 +15,7 @@ export const isChangePlanRecipeBody = (
 ): body is ChangePlanRecipeBody => {
   const bodyAsAny = body as any;
 
-  if (!isRecipe(bodyAsAny.recipe)) {
+  if (typeof bodyAsAny.recipe !== undefined && !isRecipe(bodyAsAny.recipe)) {
     return false;
   }
 
@@ -34,7 +34,10 @@ export const isChangePlanRecipeBody = (
     return false;
   }
 
-  if (typeof bodyAsAny.chosenVariant !== 'string') {
+  if (
+    typeof bodyAsAny.chosenVariant !== undefined &&
+    typeof bodyAsAny.chosenVariant !== 'string'
+  ) {
     return false;
   }
 

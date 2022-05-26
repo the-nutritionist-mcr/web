@@ -13,6 +13,8 @@ export { isRecipe } from './lib/Recipe';
 export { isChangePlanRecipeBody } from './lib/change-plan-recipe-body';
 export { isPublishPlanBody } from './lib/publish-plan-body';
 
+export { Delivery as NewDelivery } from './lib/customer-meal-selection';
+
 export type { default as DeliveryMealsSelection } from './lib/delivery-meal-selection';
 export type { PlanCategory } from './lib/plan-category';
 export type { ChangePlanRecipeBody } from './lib/change-plan-recipe-body';
@@ -51,5 +53,5 @@ export type { StandardPlan } from './lib/standard-plan';
 export { isWeeklyPlan } from './lib/weekly-plan';
 export type { WeeklyPlan } from './lib/weekly-plan';
 
-export { isUpdateCustomerBody } from "./lib/update-customer-body"
-export type { UpdateCustomerBody } from "./lib/update-customer-body"
+export { isUpdateCustomerBody } from './lib/update-customer-body';
+export type { UpdateCustomerBody } from './lib/update-customer-body';

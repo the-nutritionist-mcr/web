@@ -10,6 +10,7 @@ import useMutation from 'use-mutation';
 import { HTTP } from '@tnmw/constants';
 
 import useSWR, { useSWRConfig } from 'swr';
+import { updateDelivery } from '@tnmw/utils';
 export const usePlan = () => {
   const { mutate, cache } = useSWRConfig();
 
@@ -64,33 +65,7 @@ export const usePlan = () => {
               ? dataRow
               : {
                   ...dataRow,
-                  deliveries: dataRow.deliveries
-                    .map((delivery, deliveryIndex) =>
-                      input.deliveryIndex !== deliveryIndex ||
-                      typeof delivery === 'string'
-                        ? delivery
-                        : delivery.map((item, itemIndex) =>
-                            itemIndex !== input.itemIndex
-                              ? item
-                              : {
-                                  recipe: input.recipe,
-                                  chosenVariant: input.chosenVariant,
-                                }
-                          )
-                    )
-                    .map((delivery, deliveryIndex) =>
-                      input.deliveryIndex !== deliveryIndex ||
-                      typeof delivery === 'string' ||
-                      input.itemIndex !== undefined
-                        ? delivery
-                        : [
-                            ...delivery,
-                            {
-                              recipe: input.recipe,
-                              chosenVariant: input.chosenVariant,
-                            },
-                          ]
-                    ),
+                  deliveries: updateDelivery(dataRow.deliveries, input),
                 }
         ),
       };
