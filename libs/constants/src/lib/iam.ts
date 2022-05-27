@@ -1,5 +1,11 @@
 export const IAM = {
   actions: {
+    cloudformation: {
+      listStacks: 'cloudformation:ListStacks',
+      listStar: 'cloudformation:List*',
+      getStar: 'cloudformation:Get*',
+      describeStar: 'cloudformation:Describe*',
+    },
     cognito: {
       listUsers: 'cognito-idp:ListUsers',
       adminGetUser: 'cognito-idp:AdminGetUser',

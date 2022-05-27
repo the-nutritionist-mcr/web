@@ -49,7 +49,8 @@ const Finalize: React.FC<FinalizeProps> = ({
           by <strong>{generatedBy}</strong>
         </li>
         <li>
-          This plan {published ? 'has' : 'has not'} been published to customers
+          This plan <strong>{published ? 'has' : 'has not'}</strong> been
+          published to customers
         </li>
       </ul>
       {

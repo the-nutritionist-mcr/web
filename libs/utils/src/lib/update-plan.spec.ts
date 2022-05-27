@@ -135,17 +135,52 @@ describe('update delivery', () => {
     expect(itemToRemain.recipe).toEqual(recipeTwo);
   });
 
-  it('adds an item when passed no itemIndex', () => {
-    const result = updateDelivery(delivery, {
+  it('results in an empty list when removing the last item', () => {
+    const specialDelivery: NewDelivery[] = [
+      [
+        { recipe: recipeOne, chosenVariant: 'Micro' },
+        { recipe: recipeTwo, chosenVariant: 'Micro' },
+        { recipe: recipeThree, chosenVariant: 'Micro' },
+      ],
+      [{ recipe: recipeFour, chosenVariant: 'Micro' }],
+      [
+        { recipe: recipeSeven, chosenVariant: 'Micro' },
+        { recipe: recipeEight, chosenVariant: 'Micro' },
+        { recipe: recipeNine, chosenVariant: 'Micro' },
+      ],
+    ];
+
+    const result = updateDelivery(specialDelivery, {
       selectionId: 'foo',
       selectionSort: 'bar',
       deliveryIndex: 1,
+      itemIndex: 0,
+    });
+
+    expect(result[1]).toHaveLength(0);
+
+    const itemToRemain = result[0][1] as SelectedMeal;
+    expect(itemToRemain.recipe).toEqual(recipeTwo);
+  });
+
+  it('adds an item when passed no itemIndex and a recipe', () => {
+    const result = updateDelivery(delivery, {
+      selectionId: 'foo',
+      selectionSort: 'bar',
+      recipe: recipeTen,
+      deliveryIndex: 1,
+      chosenVariant: 'Micro',
     });
 
     const itemToRemain = result[1][1] as SelectedMeal;
     expect(itemToRemain.recipe).toEqual(recipeFive);
 
     expect(result[1]).toHaveLength(4);
+
+    const itemToCheck = result[1][3] as SelectedMeal;
+
+    expect(itemToCheck.chosenVariant).toEqual('Micro');
+    expect(itemToCheck.recipe).toEqual(recipeTen);
 
     const otherItemToRemain = result[0][1] as SelectedMeal;
     expect(otherItemToRemain.recipe).toEqual(recipeTwo);

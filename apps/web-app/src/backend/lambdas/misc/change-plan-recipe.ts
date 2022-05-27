@@ -18,6 +18,10 @@ import { updateDelivery } from '@tnmw/utils';
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
     await authoriseJwt(event, ['admin']);
+    const marshallOptions = {
+      removeUndefinedValues: true,
+    };
+
     const dynamodbClient = new DynamoDBClient({});
     const changePlanData = JSON.parse(event.body);
     const tableName = process.env[ENV.varNames.DynamoDBTable];
@@ -26,7 +30,9 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       throw new HttpError(HTTP.statusCodes.BadRequest, 'Request was invalid');
     }
 
-    const dynamo = DynamoDBDocumentClient.from(dynamodbClient);
+    const dynamo = DynamoDBDocumentClient.from(dynamodbClient, {
+      marshallOptions,
+    });
 
     const queryCommand = new QueryCommand({
       TableName: tableName,

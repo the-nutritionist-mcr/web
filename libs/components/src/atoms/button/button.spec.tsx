@@ -50,20 +50,6 @@ describe('The button component', () => {
   });
 
   describe('if a color is passed in', () => {
-    it('should be red with a red border and white text if set to primary and red is passed in the color prop', () => {
-      const button = renderer
-        .create(
-          <ThemeProvider theme={theme}>
-            <Button primary color="#FF0000" />
-          </ThemeProvider>
-        )
-        .toJSON();
-
-      expect(button).toHaveStyleRule('background', '#FF0000');
-      expect(button).toHaveStyleRule('color', 'white');
-      expect(button).toHaveStyleRule('border', `1px solid #FF0000`);
-    });
-
     it('should have a white background with no border and black text if not set to primary', () => {
       const button = renderer
         .create(

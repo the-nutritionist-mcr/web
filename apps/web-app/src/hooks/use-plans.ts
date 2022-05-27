@@ -11,6 +11,7 @@ import { HTTP } from '@tnmw/constants';
 
 import useSWR, { useSWRConfig } from 'swr';
 import { updateDelivery } from '@tnmw/utils';
+import toast from 'react-hot-toast';
 export const usePlan = () => {
   const { mutate, cache } = useSWRConfig();
 
@@ -74,6 +75,14 @@ export const usePlan = () => {
       return () => {
         mutate('plan', data, false);
       };
+    },
+
+    onFailure() {
+      toast.error('Failed to update plan');
+    },
+
+    onSuccess() {
+      toast.success('Plan successfully updated');
     },
   });
 

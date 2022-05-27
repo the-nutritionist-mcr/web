@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast';
 import useSWR, { useSWRConfig } from 'swr';
 import useMutation from 'use-mutation';
 import { swrFetcher } from '../utils/swr-fetcher';
@@ -42,6 +43,11 @@ export const useResource = <T extends { id: string }>(type: string) => {
         item.id === '0' ? { ...input, id: data.id } : item
       );
       mutate(type, newData, false);
+      toast.success(`${type} created successfully`);
+    },
+
+    onFailure() {
+      toast.error(`failed to create ${type}`);
     },
   });
 
@@ -63,6 +69,14 @@ export const useResource = <T extends { id: string }>(type: string) => {
         mutate(type, data, false);
       };
     },
+
+    onSuccess() {
+      toast.success(`${type} updated successfully`);
+    },
+
+    onFailure() {
+      toast.error(`failed to update ${type}`);
+    },
   });
 
   const removeItem = async <T extends { id: string }>(
@@ -76,7 +90,6 @@ export const useResource = <T extends { id: string }>(type: string) => {
 
   const [remove] = useMutation(removeItem, {
     onMutate({ input }: { input: T }) {
-      console.log(input);
       const data = cache.get(type);
       const items = data.items.filter(
         (dataItem: T) => dataItem.id !== input.id
@@ -86,6 +99,14 @@ export const useResource = <T extends { id: string }>(type: string) => {
       return () => {
         mutate(type, data, false);
       };
+    },
+
+    onSuccess() {
+      toast.success(`${type} removed successfully`);
+    },
+
+    onFailure() {
+      toast.error(`failed to remove ${type}`);
     },
   });
 
