@@ -11,14 +11,22 @@ import { makeNewPlan } from '@tnmw/meal-planning';
 
 import { defaultDeliveryDays, extrasLabels, planLabels } from '@tnmw/config';
 
+interface Family {
+  name: string;
+  isExtra: boolean;
+}
+
 export const convertPlanFormat = (
-  plans: StandardPlan[]
+  plans: StandardPlan[],
+  itemFamilies: Family[]
 ): CustomerPlanWithoutConfiguration => {
   const convertedPlans = plans.map((plan) => {
     const newPlan = makeNewPlan(
       {
         defaultDeliveryDays,
-        planLabels: [...planLabels],
+        planLabels: itemFamilies?.map((item) => item.name as PlanLabels) ?? [
+          ...planLabels,
+        ],
         extrasLabels: [...extrasLabels],
       },
       {
@@ -31,14 +39,11 @@ export const convertPlanFormat = (
       ...newPlan,
       deliveries: newPlan.deliveries.map((delivery) => ({
         ...delivery,
-        items: delivery.items.map((item) =>
-          item.name === plan.name
-            ? {
-                ...item,
-                isExtra: plan.isExtra,
-              }
-            : item
-        ),
+        items: delivery.items.map((item) => ({
+          ...item,
+          isExtra: itemFamilies?.find((family) => item.name === family.name)
+            ?.isExtra,
+        })),
       })),
     };
   });
@@ -73,8 +78,6 @@ export const convertPlanFormat = (
       ),
     }
   );
-
-  console.log(combinedPlans);
 
   return combinedPlans;
 };

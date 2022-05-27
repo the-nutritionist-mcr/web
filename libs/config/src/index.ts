@@ -15,6 +15,45 @@ export const planLabels: ReadonlyArray<PlanLabels> = [
   'Large Snack',
 ];
 
+export const itemFamilies = [
+  {
+    name: 'Equilibrium',
+    isExtra: false,
+  },
+  {
+    name: 'Mass',
+    isExtra: false,
+  },
+  {
+    name: 'Micro',
+    isExtra: false,
+  },
+  {
+    name: 'Ultra Micro',
+    isExtra: false,
+  },
+  {
+    name: 'Low-CHO',
+    isExtra: false,
+  },
+  {
+    name: 'Seasonal Soup',
+    isExtra: true,
+  },
+  {
+    name: 'Breakfast',
+    isExtra: true,
+  },
+  {
+    name: 'Snack',
+    isExtra: true,
+  },
+  {
+    name: 'Large Snack',
+    isExtra: true,
+  },
+];
+
 export const defaultDeliveryDays = ['Monday', 'Wednesday', 'Friday'];
 
 export const daysOfWeek = [

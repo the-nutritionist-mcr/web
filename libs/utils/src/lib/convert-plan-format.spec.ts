@@ -1,6 +1,45 @@
 import { StandardPlan } from '@tnmw/types';
 import { convertPlanFormat } from './convert-plan-format';
 
+const families = [
+  {
+    name: 'Equilibrium',
+    isExtra: false,
+  },
+  {
+    name: 'Mass',
+    isExtra: false,
+  },
+  {
+    name: 'Micro',
+    isExtra: false,
+  },
+  {
+    name: 'Ultra Micro',
+    isExtra: false,
+  },
+  {
+    name: 'Low-CHO',
+    isExtra: false,
+  },
+  {
+    name: 'Seasonal Soup',
+    isExtra: true,
+  },
+  {
+    name: 'Breakfast',
+    isExtra: true,
+  },
+  {
+    name: 'Snack',
+    isExtra: true,
+  },
+  {
+    name: 'Large Snack',
+    isExtra: true,
+  },
+];
+
 describe('convert plan format', () => {
   it('correctly marks extras', () => {
     const plan: StandardPlan[] = [
@@ -41,7 +80,7 @@ describe('convert plan format', () => {
       },
     ];
 
-    const result = convertPlanFormat(plan);
+    const result = convertPlanFormat(plan, families);
 
     const massItems = result.deliveries.map((delivery) =>
       delivery.items.find((item) => item.name === 'Mass')
@@ -81,7 +120,7 @@ describe('convert plan format', () => {
       },
     ];
 
-    const result = convertPlanFormat(plan);
+    const result = convertPlanFormat(plan, families);
 
     const massItems = result.deliveries.map((delivery) =>
       delivery.items.find((item) => item.name === 'Mass')
@@ -120,7 +159,7 @@ describe('convert plan format', () => {
       },
     ];
 
-    const result = convertPlanFormat(plan);
+    const result = convertPlanFormat(plan, families);
 
     const microItems = result.deliveries[0].items.filter(
       (item) => (item.name as string) === 'Micro'
@@ -154,7 +193,7 @@ describe('convert plan format', () => {
       },
     ];
 
-    const result = convertPlanFormat(plan);
+    const result = convertPlanFormat(plan, families);
 
     const microItems = result.deliveries.map((delivery) =>
       delivery.items.find((item) => item.name === 'Micro')
@@ -166,5 +205,181 @@ describe('convert plan format', () => {
     );
 
     expect(totalMicroMeals).toEqual(26);
+  });
+
+  it('should correctly add extras to the delivery plan', () => {
+    const plan: StandardPlan[] = [
+      {
+        name: 'Breakfast',
+        daysPerWeek: 2,
+        itemsPerDay: 1,
+        isExtra: true,
+        totalMeals: 2,
+      },
+      {
+        name: 'Equilibrium',
+        daysPerWeek: 7,
+        itemsPerDay: 1,
+        isExtra: false,
+        totalMeals: 7,
+      },
+    ];
+    const result = convertPlanFormat(plan, families);
+
+    expect(result).toStrictEqual({
+      deliveries: [
+        {
+          items: [
+            {
+              name: 'Equilibrium',
+              quantity: 2,
+              isExtra: false,
+            },
+            {
+              name: 'Mass',
+              quantity: 0,
+              isExtra: false,
+            },
+            {
+              name: 'Micro',
+              quantity: 0,
+              isExtra: false,
+            },
+            {
+              name: 'Ultra Micro',
+              quantity: 0,
+              isExtra: false,
+            },
+            {
+              name: 'Low-CHO',
+              quantity: 0,
+              isExtra: false,
+            },
+            {
+              name: 'Seasonal Soup',
+              quantity: 0,
+              isExtra: true,
+            },
+            {
+              name: 'Breakfast',
+              quantity: 1,
+              isExtra: true,
+            },
+            {
+              name: 'Snack',
+              quantity: 0,
+              isExtra: true,
+            },
+            {
+              name: 'Large Snack',
+              quantity: 0,
+              isExtra: true,
+            },
+          ],
+          extras: [],
+        },
+        {
+          items: [
+            {
+              name: 'Equilibrium',
+              quantity: 2,
+              isExtra: false,
+            },
+            {
+              name: 'Mass',
+              quantity: 0,
+              isExtra: false,
+            },
+            {
+              name: 'Micro',
+              quantity: 0,
+              isExtra: false,
+            },
+            {
+              name: 'Ultra Micro',
+              quantity: 0,
+              isExtra: false,
+            },
+            {
+              name: 'Low-CHO',
+              quantity: 0,
+              isExtra: false,
+            },
+            {
+              name: 'Seasonal Soup',
+              quantity: 0,
+              isExtra: true,
+            },
+            {
+              name: 'Breakfast',
+              isExtra: true,
+              quantity: 1,
+            },
+            {
+              name: 'Snack',
+              quantity: 0,
+              isExtra: true,
+            },
+            {
+              name: 'Large Snack',
+              quantity: 0,
+              isExtra: true,
+            },
+          ],
+          extras: [],
+        },
+        {
+          items: [
+            {
+              name: 'Equilibrium',
+              quantity: 3,
+              isExtra: false,
+            },
+            {
+              name: 'Mass',
+              quantity: 0,
+              isExtra: false,
+            },
+            {
+              name: 'Micro',
+              quantity: 0,
+              isExtra: false,
+            },
+            {
+              name: 'Ultra Micro',
+              quantity: 0,
+              isExtra: false,
+            },
+            {
+              name: 'Low-CHO',
+              quantity: 0,
+              isExtra: false,
+            },
+            {
+              name: 'Seasonal Soup',
+              quantity: 0,
+              isExtra: true,
+            },
+            {
+              name: 'Breakfast',
+              quantity: 0,
+              isExtra: true,
+            },
+            {
+              name: 'Snack',
+              quantity: 0,
+              isExtra: true,
+            },
+            {
+              name: 'Large Snack',
+              quantity: 0,
+              isExtra: true,
+            },
+          ],
+          extras: [],
+        },
+      ],
+      configuration: {},
+    });
   });
 });

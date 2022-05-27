@@ -1,7 +1,12 @@
 import { Form, Header, Heading, Button, Paragraph, Select, Box } from 'grommet';
 import React, { FC } from 'react';
 import { FormField, Text } from 'grommet';
-import { planLabels, extrasLabels, defaultDeliveryDays } from '@tnmw/config';
+import {
+  planLabels,
+  extrasLabels,
+  defaultDeliveryDays,
+  itemFamilies,
+} from '@tnmw/config';
 import { convertPlanFormat } from '@tnmw/utils';
 import { debounce, update } from 'lodash';
 import PlanPanel from './PlanPanel';
@@ -73,7 +78,10 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
             label="Create custom plan"
             type="submit"
             onClick={() => {
-              const deliveries = convertPlanFormat(customer.plans).deliveries;
+              const deliveries = convertPlanFormat(
+                customer.plans,
+                itemFamilies
+              ).deliveries;
               console.log(deliveries);
               updateCustomer({
                 ...customer,

@@ -1,0 +1,18 @@
+import { Delivery } from '@tnmw/types';
+
+interface ItemFamily {
+  name: string;
+  isExtra: boolean;
+}
+
+export const hydrateCustomPlan = (
+  customPlan: Delivery[],
+  itemFamilies: ItemFamily[]
+): Delivery[] =>
+  customPlan.map((delivery) => ({
+    ...delivery,
+    items: delivery.items.map((item) => ({
+      ...item,
+      isExtra: itemFamilies.find((family) => family.name === item.name).isExtra,
+    })),
+  }));

@@ -24,7 +24,9 @@ import { v4 } from 'uuid';
 import { isWeeklyPlan } from '@tnmw/types';
 import { StoredMealSelection } from '@tnmw/types';
 import { batchArray } from '../../../utils/batch-array';
-import { convertPlanFormat } from '../../../utils/convert-plan-format';
+import { convertPlanFormat } from '@tnmw/utils';
+import { itemFamilies } from '@tnmw/config';
+import { hydrateCustomPlan } from './hydrate-custom-plan';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -54,8 +56,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const list = parseCustomerList(await cognito.send(command)).map((item) => {
       const mealsForPlan = item.customPlan
-        ? { deliveries: item.customPlan }
-        : convertPlanFormat(item.plans);
+        ? { deliveries: hydrateCustomPlan(item.customPlan, itemFamilies) }
+        : convertPlanFormat(item.plans, itemFamilies);
 
       return {
         ...item,

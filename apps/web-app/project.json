@@ -12,14 +12,14 @@
       }
     },
 
-    "deploy:cypress": {
+    "deploy-cypress": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "command": "cdk deploy tnm-web-cypress-stack --require-approval never --outputs-file public/app-config.json",
         "cwd": "apps/web-app"
       }
     },
-    "synth:cypress": {
+    "synth-cypress": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "command": "cdk synth tnm-web-cypress-stack --require-approval never --outputs-file public/app-config.json",

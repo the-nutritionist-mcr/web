@@ -15,7 +15,7 @@ export const isChangePlanRecipeBody = (
 ): body is ChangePlanRecipeBody => {
   const bodyAsAny = body as any;
 
-  if (typeof bodyAsAny.recipe !== undefined && !isRecipe(bodyAsAny.recipe)) {
+  if (typeof bodyAsAny.recipe !== 'undefined' && !isRecipe(bodyAsAny.recipe)) {
     return false;
   }
 
@@ -35,7 +35,7 @@ export const isChangePlanRecipeBody = (
   }
 
   if (
-    typeof bodyAsAny.chosenVariant !== undefined &&
+    typeof bodyAsAny.chosenVariant !== 'undefined' &&
     typeof bodyAsAny.chosenVariant !== 'string'
   ) {
     return false;
