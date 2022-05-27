@@ -5,7 +5,6 @@ export const updateDelivery = (
   data: ChangePlanRecipeBody
 ) => {
   if (data.itemIndex === undefined) {
-    console.log('1');
     return deliveries.map((delivery, index) =>
       index !== data.deliveryIndex || typeof delivery === 'string'
         ? delivery
@@ -20,7 +19,6 @@ export const updateDelivery = (
   }
 
   if (data.chosenVariant) {
-    console.log('2');
     return deliveries.map((delivery, index) =>
       index !== data.deliveryIndex || typeof delivery === 'string'
         ? delivery
@@ -34,10 +32,9 @@ export const updateDelivery = (
           )
     );
   }
-  console.log('3');
 
   return deliveries.map((delivery, index) =>
-    index !== data.deliveryIndex || typeof delivery === 'string' || data.recipe
+    index !== data.deliveryIndex || typeof delivery === 'string'
       ? delivery
       : delivery.filter((item, index) => index !== data.itemIndex)
   );

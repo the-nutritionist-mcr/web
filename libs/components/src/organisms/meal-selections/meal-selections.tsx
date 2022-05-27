@@ -51,6 +51,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
       createDefaultSelectedThings(meals.options)
     )
   );
+  console.log(selectedMeals);
 
   return (
     <DivContainer>

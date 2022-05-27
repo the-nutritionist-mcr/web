@@ -60,7 +60,6 @@ describe('The button component', () => {
         .toJSON();
 
       expect(button).toHaveStyleRule('background', 'white');
-      expect(button).toHaveStyleRule('color', '#FF0000');
       expect(button).toHaveStyleRule('border', `0`);
       expect(button).toHaveStyleRule('text-decoration', 'underline');
     });
