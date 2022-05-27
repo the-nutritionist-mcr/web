@@ -9,8 +9,6 @@ import {
   CustomerMealsSelectionWithChargebeeCustomer,
 } from '@tnmw/types';
 import { extrasLabels, planLabels } from '@tnmw/config';
-import getStatusString from './get-status-string';
-import isActive from './is-active';
 
 const isExcluded = (recipe: Recipe, customer: CustomerWithChargebeePlan) => {
   return recipe.invalidExclusions?.some((invalidExclusion) =>
@@ -120,12 +118,4 @@ export const chooseMeals = (
           ...deliveries,
         },
       ];
-    }, [])
-    .map(({ customer, deliveries }) => ({
-      customer,
-      deliveries: deliveries.map((delivery, index) =>
-        isActive(customer, cookDates[index])
-          ? delivery
-          : getStatusString(customer, cookDates[index])
-      ),
-    }));
+    }, []);

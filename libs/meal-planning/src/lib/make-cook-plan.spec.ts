@@ -1,4 +1,9 @@
-import { Customer, Exclusion, HotOrCold, Recipe } from '@tnmw/types';
+import {
+  CustomerWithChargebeePlan,
+  Exclusion,
+  HotOrCold,
+  Recipe,
+} from '@tnmw/types';
 import { mock } from 'jest-mock-extended';
 import { makeCookPlan } from './make-cook-plan';
 
@@ -107,13 +112,13 @@ describe('make cook plan', () => {
       name: 'balls-recipe-two',
       potentialExclusions: [],
     };
-    const mockCustomer1 = mock<Customer>();
+    const mockCustomer1 = mock<CustomerWithChargebeePlan>();
     mockCustomer1.exclusions = [noCheese];
 
-    const mockCustomer2 = mock<Customer>();
+    const mockCustomer2 = mock<CustomerWithChargebeePlan>();
     mockCustomer2.exclusions = [noCheese, noTuna];
 
-    const mockCustomer3 = mock<Customer>();
+    const mockCustomer3 = mock<CustomerWithChargebeePlan>();
     mockCustomer3.exclusions = [];
 
     const selection = [
@@ -438,13 +443,13 @@ describe('make cook plan', () => {
       name: 'balls-recipe-two',
       potentialExclusions: [],
     };
-    const mockCustomer1 = mock<Customer>();
+    const mockCustomer1 = mock<CustomerWithChargebeePlan>();
     mockCustomer1.exclusions = [noCheese];
 
-    const mockCustomer2 = mock<Customer>();
+    const mockCustomer2 = mock<CustomerWithChargebeePlan>();
     mockCustomer2.exclusions = [noCheese, noTuna];
 
-    const mockCustomer3 = mock<Customer>();
+    const mockCustomer3 = mock<CustomerWithChargebeePlan>();
     mockCustomer3.exclusions = [];
 
     const selection = [

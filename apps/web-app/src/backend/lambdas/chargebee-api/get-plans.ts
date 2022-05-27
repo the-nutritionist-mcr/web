@@ -18,7 +18,12 @@ export const getPlans = async (
   const response = await client.subscription
     .list({
       customer_id: { is: subscription.customer_id },
-      status: { is: CHARGEBEE.subscriptionStatuses.active },
+      status: {
+        in: [
+          CHARGEBEE.subscriptionStatuses.active,
+          CHARGEBEE.subscriptionStatuses.paused,
+        ],
+      },
     })
     .request();
 

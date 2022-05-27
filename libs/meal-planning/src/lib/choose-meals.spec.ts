@@ -110,13 +110,15 @@ const customerOne: CustomerWithChargebeePlan = {
   firstName: 'Ben',
   surname: 'Wainwright',
   email: 'foo-email',
-  chargebeePlan: {
-    name: 'Equilibrium',
-    daysPerWeek: 6,
-    itemsPerDay: 5,
-    isExtra: false,
-    totalMeals: 30,
-  },
+  chargebeePlan: [
+    {
+      name: 'Equilibrium',
+      daysPerWeek: 6,
+      itemsPerDay: 5,
+      isExtra: false,
+      totalMeals: 30,
+    },
+  ],
   newPlan: {
     deliveries: [
       {
@@ -146,13 +148,15 @@ const customerTwo: CustomerWithChargebeePlan = {
   firstName: 'bar-customer',
   surname: 'baz',
   email: 'bar-email',
-  chargebeePlan: {
-    name: 'Mass',
-    daysPerWeek: 1,
-    itemsPerDay: 5,
-    isExtra: false,
-    totalMeals: 5,
-  },
+  chargebeePlan: [
+    {
+      name: 'Mass',
+      daysPerWeek: 1,
+      itemsPerDay: 5,
+      isExtra: false,
+      totalMeals: 5,
+    },
+  ],
   newPlan: {
     deliveries: [
       {
@@ -183,13 +187,15 @@ const customerThree: CustomerWithChargebeePlan = {
   firstName: 'baz-customer',
   surname: 'bash',
   email: 'baz-email',
-  chargebeePlan: {
-    name: 'Mass',
-    daysPerWeek: 6,
-    itemsPerDay: 2,
-    isExtra: false,
-    totalMeals: 30,
-  },
+  chargebeePlan: [
+    {
+      name: 'Mass',
+      daysPerWeek: 6,
+      itemsPerDay: 2,
+      isExtra: false,
+      totalMeals: 30,
+    },
+  ],
   newPlan: {
     deliveries: [
       {

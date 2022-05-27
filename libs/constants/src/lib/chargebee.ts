@@ -1,6 +1,7 @@
 export const CHARGEBEE = {
   subscriptionStatuses: {
     active: 'active',
+    paused: 'paused',
   },
   itemTypes: {
     plan: 'plan',

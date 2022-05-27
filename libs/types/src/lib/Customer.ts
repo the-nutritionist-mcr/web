@@ -8,7 +8,7 @@ export enum Snack {
   Large = 'Large',
 }
 
-export default interface Customer {
+export default interface CustomerWithChargebeePlan {
   id: string;
   firstName: string;
   surname: string;
