@@ -2,7 +2,7 @@ import { Box, Button, Select, TableCell, ThemeContext } from 'grommet';
 import { Trash } from 'grommet-icons';
 import React from 'react';
 import deepMemo from '../../lib/deepMemo';
-import { extrasLabels, planLabels } from '@tnmw/config';
+import { extrasLabels, itemFamilies, planLabels } from '@tnmw/config';
 import {
   SelectedItem,
   Recipe,
@@ -54,9 +54,16 @@ const UnMemoizedFinalizeCell: React.FC<FinalizeCellProps> = (props) => {
 
   const options = (delivery: number) => [
     ...props.deliveryMeals[delivery].flatMap((meal) =>
-      planLabels.map((variant) => ({ recipe: meal, chosenVariant: variant }))
+      itemFamilies
+        .filter((family) => !family.isExtra)
+        .map((family) => ({
+          recipe: meal,
+          chosenVariant: family.name,
+        }))
     ),
-    ...extrasLabels.map((label) => ({ chosenVariant: label })),
+    ...itemFamilies
+      .filter((family) => family.isExtra)
+      .map((family) => ({ chosenVariant: family.name })),
   ];
 
   return (

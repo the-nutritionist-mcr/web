@@ -33,6 +33,7 @@ export type {
   CustomerMealsSelection,
   CustomerMealsSelectionWithChargebeeCustomer,
   SelectedItem,
+  SelectedMeal,
   CustomerWithNewPlan,
   CustomerWithChargebeePlan,
   CustomerPlanWithoutConfiguration,
