@@ -5,7 +5,9 @@ export const generateDatestampedFilename = (
   extension: ValidExtension
 ) => {
   const date = new Date();
-  const dateString = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`;
+  const dateString = `${date.getDate()}-${
+    date.getMonth() + 1
+  }-${date.getFullYear()}`;
 
   return `${name}-${dateString}.${extension}`;
 };

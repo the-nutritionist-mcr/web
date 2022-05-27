@@ -4,6 +4,14 @@
   "projectType": "application",
   "targets": {
 
+    "deploy-perms": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "cdk deploy tnm-web-users-stack --require-approval never",
+        "cwd": "apps/web-app"
+      }
+    },
+
     "deploy:cypress": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {

@@ -45,6 +45,7 @@ const generateDeliveryListFromItem = <
 ) =>
   [...Array.from({ length: item.quantity })].map(() => ({
     chosenVariant: item.name,
+    isExtra: item.isExtra,
   }));
 
 const generateDeliveries = (
@@ -63,11 +64,13 @@ const generateDeliveries = (
             .flatMap((item) => generateDeliveryListFromItem(item))
             .map((item, index) => ({
               ...item,
-              recipe: getRecipeFromSelection(
-                index + startPositions[deliveryIndex],
-                customer,
-                deliverySelections[deliveryIndex]
-              ),
+              recipe: !item.isExtra
+                ? getRecipeFromSelection(
+                    index + startPositions[deliveryIndex],
+                    customer,
+                    deliverySelections[deliveryIndex]
+                  )
+                : undefined,
             })),
           ...delivery.extras.flatMap((item) =>
             generateDeliveryListFromItem(item)
