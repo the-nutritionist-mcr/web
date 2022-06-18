@@ -47,7 +47,9 @@ const DesktopHeader: FC = () => (
     </HeaderListItem>
     <HeaderListItem>The Plans</HeaderListItem>
     <HeaderListItem>
-      <Button primary>Get Started</Button>
+      <Button primary backgroundColor="buttonBlack">
+        Get Started
+      </Button>
     </HeaderListItem>
   </HeaderUnorderedList>
 );

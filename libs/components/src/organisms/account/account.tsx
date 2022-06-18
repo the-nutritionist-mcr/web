@@ -32,6 +32,20 @@ interface AccountProps {
   logout: () => void;
 }
 
+const Header = styled.h2`
+  font-family: 'Acumin Pro', Arial, sans-serif;
+`;
+
+const SectionContents = styled.div`
+  border-top 1px dashed #B8B8B8;
+  width: 100%;
+  display: flex;
+  padding-top: 1.2rem;
+`;
+const ChooseButtonContainer = styled.div`
+  margin-bottom: 3.2rem;
+`;
+
 export const Account: FC<AccountProps> = ({
   userDetails,
   showChooseButton,
@@ -67,9 +81,17 @@ export const Account: FC<AccountProps> = ({
         ))}
       </FormSection>
     )}
-    {showChooseButton && <Button primary>Choose Meals</Button>}
-    <FormSection heading="Logout">
-      <Button onClick={logout}>Logout</Button>
-    </FormSection>
+    <ChooseButtonContainer>
+      {showChooseButton && <Button primary>Choose Meals</Button>}
+    </ChooseButtonContainer>
+
+    <div>
+      <Header>Logout</Header>
+      <SectionContents>
+        <Button backgroundColor="#E3E3E3" onClick={logout} primary>
+          Logout
+        </Button>
+      </SectionContents>
+    </div>
   </div>
 );
