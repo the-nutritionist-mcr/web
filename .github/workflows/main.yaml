@@ -365,7 +365,7 @@ jobs:
         run: yarn nx build web-app
 
       - name: Deploy
-        run: yarn nx deploy-dev web-app
+        run: yarn nx deploy-prod web-app
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
