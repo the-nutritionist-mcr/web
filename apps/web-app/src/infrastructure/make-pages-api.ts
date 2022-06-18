@@ -6,6 +6,7 @@ import {
   LambdaIntegration,
   RestApi,
 } from '@aws-cdk/aws-apigateway';
+import { PolicyStatement, Effect } from '@aws-cdk/aws-iam';
 import { HttpOrigin } from '@aws-cdk/aws-cloudfront-origins';
 import { IUserPoolClient, IUserPool } from '@aws-cdk/aws-cognito';
 import { Code, LayerVersion, Function, Runtime } from '@aws-cdk/aws-lambda';
@@ -13,6 +14,7 @@ import * as cdk from '@aws-cdk/core';
 import * as fs from 'fs-extra';
 import { getResourceName } from './get-resource-name';
 import { Duration } from '@aws-cdk/core';
+import { IAM } from '@tnmw/constants';
 
 export const makePagesApi = (
   context: cdk.Construct,
@@ -81,6 +83,14 @@ export const makePagesApi = (
           COGNITO_POOL_ID: pool.userPoolId,
         },
       }
+    );
+
+    pageFunction.addToRolePolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        resources: [pool.userPoolArn],
+        actions: [IAM.actions.cognito.adminGetUser],
+      })
     );
 
     const resourceToAttachTo =
