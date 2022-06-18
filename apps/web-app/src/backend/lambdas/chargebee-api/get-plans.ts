@@ -1,5 +1,5 @@
 import { CHARGEBEE } from '@tnmw/constants';
-import { ChargeBee, _subscription } from 'chargebee-typescript';
+import { ChargeBee } from 'chargebee-typescript';
 
 interface Subscription {
   subscription_items?: SubscriptionItem[];

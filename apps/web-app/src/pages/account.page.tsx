@@ -26,6 +26,12 @@ const YourAccountHeader = styled('h1')`
   margin: 0.5rem 0 0 0;
 `;
 
+const logout = async () => {
+  await signOut();
+  // eslint-disable-next-line fp/no-mutating-methods
+  await Router.push('/');
+};
+
 const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
   return (
     <>
@@ -40,18 +46,7 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
           <YourAccountHeader>Your Account</YourAccountHeader>
         </YourAccountHeaderBox>
       </Hero>
-      <h2>You are logged in</h2>
-      <Account userDetails={user} showChooseButton={true} />
-
-      <Button
-        onClick={async () => {
-          await signOut();
-          // eslint-disable-next-line fp/no-mutating-methods
-          await Router.push('/');
-        }}
-      >
-        Logout
-      </Button>
+      <Account userDetails={user} showChooseButton={true} logout={logout} />
     </>
   );
 };

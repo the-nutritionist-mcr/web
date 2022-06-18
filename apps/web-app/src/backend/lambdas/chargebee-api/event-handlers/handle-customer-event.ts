@@ -6,7 +6,7 @@ import {
   CognitoIdentityProviderClient,
 } from '@aws-sdk/client-cognito-identity-provider';
 import { CHARGEBEE, COGNITO, E2E, ENV } from '@tnmw/constants';
-import { ChargeBee, _event } from 'chargebee-typescript';
+import { ChargeBee } from 'chargebee-typescript';
 import { transformPhoneNumberToCognitoFormat } from '../../transform-phone-number';
 
 export const handleCustomerEvent = async (
