@@ -19,6 +19,27 @@
         "cwd": "apps/web-app"
       }
     },
+    "deploy-dev": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "cdk deploy tnm-web-dev-stack --require-approval never --outputs-file public/app-config.json",
+        "cwd": "apps/web-app"
+      }
+    },
+    "deploy-test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "cdk deploy tnm-web-test-stack --require-approval never --outputs-file public/app-config.json",
+        "cwd": "apps/web-app"
+      }
+    },
+    "deploy-prod": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "cdk deploy tnm-web-prod-stack --require-approval never --outputs-file public/app-config.json",
+        "cwd": "apps/web-app"
+      }
+    },
     "synth-cypress": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {

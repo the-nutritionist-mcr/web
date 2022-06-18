@@ -115,7 +115,7 @@ jobs:
           path: dist/storybook/components
 
   deploy-for-cypress:
-    name: Deploy for Cypress
+    name: Cypress Deploy
     runs-on: ubuntu-latest
     needs: [build-next-app]
 
@@ -144,6 +144,228 @@ jobs:
 
       - name: Deploy
         run: yarn nx deploy-cypress web-app
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: eu-west-2
+
+      - name: Get S3 Bucket
+        run: echo "UPLOAD_BUCKET=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .StaticsBucket')" >> $GITHUB_ENV
+
+      - name: Upload Next Statics
+        uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_bucket: ${{ env.UPLOAD_BUCKET }}
+          destination_dir: _next/static
+          source_dir: dist/apps/web-app/.next/static
+
+      - name: Upload App Config
+        uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_bucket: ${{ env.UPLOAD_BUCKET }}
+          source_dir: apps/web-app/public
+          destination_dir: ''
+
+      # - name: Download Storybook
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: storybook
+      #     path: storybook
+
+      # - name: Upload Storybook
+      #   uses: shallwefootball/s3-upload-action@master
+      #   with:
+      #     aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+      #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws_bucket: ${{ env.UPLOAD_BUCKET }}
+      #     source_dir: storybook
+      #     destination_dir: 'storybook'
+
+      - name: Get Cloudfront ID
+        run: echo "CLOUDFRONT_ID=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .CloudfrontId')" >> $GITHUB_ENV
+
+      - name: Invalidate Cloudfront
+        uses: chetan/invalidate-cloudfront-action@master
+        env:
+          DISTRIBUTION: ${{ env.CLOUDFRONT_ID }}
+          PATHS: /*
+          AWS_REGION: 'us-east-1'
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  deploy-for-test:
+    name: Test Deploy
+    runs-on: ubuntu-latest
+    needs: [build-next-app]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure node 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
+      - name: Cache Nx
+        uses: actions/cache@v2
+        with:
+          path: node_modules/.cache/nx
+          key: build-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
+          restore-keys: |
+            build-cache-nx-${{ hashFiles('yarn.lock') }}-
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Regenerate build from cache
+        run: yarn nx build web-app
+
+      - name: Deploy
+        run: yarn nx deploy-test web-app
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: eu-west-2
+
+      - name: Get S3 Bucket
+        run: echo "UPLOAD_BUCKET=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .StaticsBucket')" >> $GITHUB_ENV
+
+      - name: Upload Next Statics
+        uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_bucket: ${{ env.UPLOAD_BUCKET }}
+          destination_dir: _next/static
+          source_dir: dist/apps/web-app/.next/static
+
+      - name: Upload App Config
+        uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_bucket: ${{ env.UPLOAD_BUCKET }}
+          source_dir: apps/web-app/public
+          destination_dir: ''
+
+  deploy-for-dev:
+    name: Dev Deploy
+    runs-on: ubuntu-latest
+    needs: [build-next-app]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure node 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
+      - name: Cache Nx
+        uses: actions/cache@v2
+        with:
+          path: node_modules/.cache/nx
+          key: build-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
+          restore-keys: |
+            build-cache-nx-${{ hashFiles('yarn.lock') }}-
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Regenerate build from cache
+        run: yarn nx build web-app
+
+      - name: Deploy
+        run: yarn nx deploy-dev web-app
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: eu-west-2
+
+      - name: Get S3 Bucket
+        run: echo "UPLOAD_BUCKET=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .StaticsBucket')" >> $GITHUB_ENV
+
+      - name: Upload Next Statics
+        uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_bucket: ${{ env.UPLOAD_BUCKET }}
+          destination_dir: _next/static
+          source_dir: dist/apps/web-app/.next/static
+
+      - name: Upload App Config
+        uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_bucket: ${{ env.UPLOAD_BUCKET }}
+          source_dir: apps/web-app/public
+          destination_dir: ''
+
+      # - name: Download Storybook
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: storybook
+      #     path: storybook
+
+      # - name: Upload Storybook
+      #   uses: shallwefootball/s3-upload-action@master
+      #   with:
+      #     aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+      #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws_bucket: ${{ env.UPLOAD_BUCKET }}
+      #     source_dir: storybook
+      #     destination_dir: 'storybook'
+
+      - name: Get Cloudfront ID
+        run: echo "CLOUDFRONT_ID=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .CloudfrontId')" >> $GITHUB_ENV
+
+      - name: Invalidate Cloudfront
+        uses: chetan/invalidate-cloudfront-action@master
+        env:
+          DISTRIBUTION: ${{ env.CLOUDFRONT_ID }}
+          PATHS: /*
+          AWS_REGION: 'us-east-1'
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  deploy-for-prod:
+    name: Production Deploy
+    runs-on: ubuntu-latest
+    needs: [build-next-app]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure node 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
+      - name: Cache Nx
+        uses: actions/cache@v2
+        with:
+          path: node_modules/.cache/nx
+          key: build-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
+          restore-keys: |
+            build-cache-nx-${{ hashFiles('yarn.lock') }}-
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Regenerate build from cache
+        run: yarn nx build web-app
+
+      - name: Deploy
+        run: yarn nx deploy-dev web-app
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
