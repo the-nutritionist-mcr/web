@@ -53,19 +53,20 @@ export const Account: FC<AccountProps> = ({
       <Input label="Postcode" value={userDetails.postcode} disabled />
       <Input label="City" value={userDetails.city} disabled />
     </FormSection>
-    <FormSection heading="Your Plan">
-      {userDetails.plans.map((plan) => (
-        <>
-          <Input label="Meal Size" value={plan.name} disabled />
-          <Input
-            label="Weekly Meals"
-            value={String(plan.totalMeals)}
-            disabled
-          />
-        </>
-      ))}
-    </FormSection>
-
+    {userDetails.plans.length > 0 && (
+      <FormSection heading="Your Plan">
+        {userDetails.plans.map((plan) => (
+          <>
+            <Input label="Meal Size" value={plan.name} disabled />
+            <Input
+              label="Weekly Meals"
+              value={String(plan.totalMeals)}
+              disabled
+            />
+          </>
+        ))}
+      </FormSection>
+    )}
     {showChooseButton && <Button primary>Choose Meals</Button>}
     <FormSection heading="Logout">
       <Button onClick={logout}>Logout</Button>

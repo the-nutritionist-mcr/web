@@ -16,6 +16,9 @@ import { getResourceName } from './get-resource-name';
 import { Duration } from '@aws-cdk/core';
 import { IAM } from '@tnmw/constants';
 
+const removeBraces = (thing: string) =>
+  thing.replace(/\{/g, '').replace(/\}/g, '');
+
 export const makePagesApi = (
   context: cdk.Construct,
   outLambda: string,
@@ -59,9 +62,6 @@ export const makePagesApi = (
     const pagePath = [buildDir, ...buildPath];
 
     fs.copySync(handlerPath, path.resolve(...pagePath));
-
-    const removeBraces = (thing: string) =>
-      thing.replace(/\{/g, '').replace(/\}/g, '');
 
     const pageFunction = new Function(
       context,
