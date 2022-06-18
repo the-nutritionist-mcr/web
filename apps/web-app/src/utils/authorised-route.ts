@@ -1,8 +1,13 @@
-import { GetServerSideProps } from 'next';
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  PreviewData,
+} from 'next';
 import { verifyJwtToken } from '@tnmw/authorise-cognito-jwt';
 import { backendRedirect } from './backend-redirect';
 import { getUserFromAws } from './get-user-from-aws';
 import { BackendCustomer } from '@tnmw/types';
+import { ParsedUrlQuery } from 'querystring';
 
 export interface AuthorizedRouteProps {
   user: BackendCustomer & { admin: boolean };
@@ -15,20 +20,27 @@ interface AuthorizedRouteWrapper {
   }): GetServerSideProps<AuthorizedRouteProps>;
 }
 
+const getCookie = <Q extends ParsedUrlQuery, D extends PreviewData>(
+  context: GetServerSidePropsContext<Q, D>,
+  callback: (key: string) => boolean
+) => Object.entries(context.req.cookies).find(([key]) => callback(key))?.[1];
+
 export const authorizedRoute: AuthorizedRouteWrapper = ({
   groups,
   getServerSideProps,
 } = {}): GetServerSideProps<AuthorizedRouteProps> => {
   return async (context) => {
-    const tokenPair = Object.entries(context.req.cookies).find(([key]) =>
-      key.endsWith('.accessToken')
+    const userId = getCookie(context, (key) => key.endsWith('LastAuthUser'));
+
+    const token = getCookie(context, (key) =>
+      key.endsWith(`${userId}.accessToken`)
     );
 
-    if (!tokenPair || tokenPair.length !== 2) {
+    if (!token) {
       return backendRedirect('login', 'No .accessToken found');
     }
 
-    const verifyResult = await verifyJwtToken({ token: tokenPair[1] });
+    const verifyResult = await verifyJwtToken({ token: token });
 
     if (!verifyResult.isValid) {
       return backendRedirect(

@@ -10,7 +10,50 @@ jest.mock('./get-user-from-aws');
 
 describe('authorised route', () => {
   beforeEach(() => {
+    jest.resetAllMocks();
     jest.mocked(getUserFromAws).mockResolvedValue({} as User);
+  });
+
+  it('always uses the token of the LastAuthUser', async () => {
+    mocked(verifyJwtToken).mockResolvedValue({
+      userName: 'user',
+      isValid: true,
+      groups: ['a-different-group', 'a-group'],
+    });
+
+    const mockContext = mock<GetServerSidePropsContext>();
+    mockContext.req = mock<GetServerSidePropsContext['req']>();
+    mockContext.req.cookies = {
+      'CognitoIdentityServiceProvider.5cduopruc8j1ped1ccrpe2mout.the-customer-id.clockDrift':
+        '0',
+      'CognitoIdentityServiceProvider.5cduopruc8j1ped1ccrpe2mout.the-customer-id.idToken':
+        'wrongIdToken',
+      'CognitoIdentityServiceProvider.5cduopruc8j1ped1ccrpe2mout.the-customer-id.accessToken':
+        'wrongAccessToken',
+      'CognitoIdentityServiceProvider.5cduopruc8j1ped1ccrpe2mout.the-customer-id.refreshToken':
+        'wrongRefreshToken',
+      'CognitoIdentityServiceProvider.5cduopruc8j1ped1ccrpe2mout.LastAuthUser':
+        'cypress-test-user',
+      'CognitoIdentityServiceProvider.5cduopruc8j1ped1ccrpe2mout.cypress-test-user.clockDrift':
+        '-4',
+      'CognitoIdentityServiceProvider.5cduopruc8j1ped1ccrpe2mout.cypress-test-user.idToken':
+        'my-id-token',
+      'CognitoIdentityServiceProvider.5cduopruc8j1ped1ccrpe2mout.cypress-test-user.accessToken':
+        'my-access-token',
+      'CognitoIdentityServiceProvider.5cduopruc8j1ped1ccrpe2mout.cypress-test-user.refreshToken':
+        'my-refresh-token',
+    };
+
+    const mockProps = { props: {} };
+    const getServerSideProps = jest.fn(() => Promise.resolve(mockProps));
+
+    const serversidePropsCallback = authorizedRoute({ getServerSideProps });
+    const response = await serversidePropsCallback(mockContext);
+
+    expect(getServerSideProps).toHaveBeenCalled();
+    expect(mocked(verifyJwtToken)).toHaveBeenCalledWith({
+      token: 'my-access-token',
+    });
   });
 
   it('redirects to the login route without trying to verify if there is no token cookie', async () => {
@@ -63,7 +106,7 @@ describe('authorised route', () => {
     });
   });
 
-  it('eoes not redirect to login if verify is successful and a group is returned by the claim that was passed in', async () => {
+  it('does not redirect to login if verify is successful and a group is returned by the claim that was passed in', async () => {
     mocked(verifyJwtToken).mockResolvedValue({
       userName: 'user',
       isValid: true,
@@ -71,7 +114,10 @@ describe('authorised route', () => {
     });
     const mockContext = mock<GetServerSidePropsContext>();
     mockContext.req = mock<GetServerSidePropsContext['req']>();
-    mockContext.req.cookies = { 'foo.accessToken': 'invalidtoken' };
+    mockContext.req.cookies = {
+      'foo.accessToken': 'invalidtoken',
+      LastAuthUser: 'foo',
+    };
 
     const serversidePropsCallback = authorizedRoute({ groups: ['a-group'] });
     const response = await serversidePropsCallback(mockContext);
@@ -87,7 +133,10 @@ describe('authorised route', () => {
     });
     const mockContext = mock<GetServerSidePropsContext>();
     mockContext.req = mock<GetServerSidePropsContext['req']>();
-    mockContext.req.cookies = { 'foo.accessToken': 'invalidtoken' };
+    mockContext.req.cookies = {
+      'foo.accessToken': 'invalidtoken',
+      LastAuthUser: 'foo',
+    };
 
     const serversidePropsCallback = authorizedRoute();
     const response = await serversidePropsCallback(mockContext);
@@ -104,7 +153,10 @@ describe('authorised route', () => {
 
     const mockContext = mock<GetServerSidePropsContext>();
     mockContext.req = mock<GetServerSidePropsContext['req']>();
-    mockContext.req.cookies = { 'foo.accessToken': 'a.valid.token' };
+    mockContext.req.cookies = {
+      'foo.accessToken': 'a.valid.token',
+      LastAuthUser: 'foo',
+    };
 
     const mockProps = { props: {} };
     const getServerSideProps = jest.fn(() => Promise.resolve(mockProps));
