@@ -2,8 +2,8 @@ import { FC } from 'react';
 
 import { ThePlans as ThePlansComponent } from '@tnmw/static-pages';
 
-const OurStory: FC = () => {
+const ThePlans: FC = () => {
   return <ThePlansComponent />;
 };
 
-export default OurStory;
+export default ThePlans;
