@@ -47,9 +47,12 @@ const decodeBasicAuth = (authHeaderValue: string) => {
     .toString('utf8')
     .split(':');
 
+  const username = parts[0];
+  const [, ...passwordParts] = parts;
+
   return {
-    username: parts[0],
-    password: parts[1],
+    username,
+    password: passwordParts.join(''),
   };
 };
 
