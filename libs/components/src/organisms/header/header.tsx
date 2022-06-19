@@ -16,6 +16,7 @@ const SiteNavbar = styled('nav')`
   padding: 0 30px;
   border-bottom: 1px solid black;
   position: fixed;
+  top: 0;
   width: 100%;
   background-color: white;
 `;

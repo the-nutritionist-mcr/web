@@ -4,7 +4,6 @@ import { FC } from 'react';
 const HeroBox = styled('div')(({ theme }) => {
   return {
     minHeight: '330px',
-    paddingTop: `calc(${theme.menubarHeight}px + 14px)`,
     width: '100%',
     height: '330px',
     borderBottom: '1px solid black',
