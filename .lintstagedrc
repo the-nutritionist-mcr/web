@@ -1,0 +1,3 @@
+{
+  "*.{ts,tsx,js,jsx,md,html,css,scss,json,yaml,yml}": "yarn nx format:write --files"
+}
