@@ -2,17 +2,21 @@ import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { ChargeBee } from 'chargebee-typescript';
 import { ENV, CHARGEBEE, HTTP } from '@tnmw/constants';
 
-const chargebee = new ChargeBee();
-
-chargebee.configure({
-  site: process.env[ENV.varNames.ChargeBeeSite],
-  api_key: process.env[ENV.varNames.ChargeBeeToken],
-});
-
 import { authoriseJwt } from '../data-api/authorise';
 import { returnErrorResponse } from '../data-api/return-error-response';
+import { getSecrets } from '../get-secrets';
+import { getEnv } from './get-env';
 
 const getPlansForCustomer = async (id: string) => {
+  const [chargebeeToken] = getSecrets(getEnv(ENV.varNames.ChargeBeeToken));
+
+  const chargebee = new ChargeBee();
+
+  chargebee.configure({
+    site: process.env[ENV.varNames.ChargeBeeSite],
+    api_key: await chargebeeToken,
+  });
+
   const { list } = await chargebee.subscription
     .list({ customer_id: { is: id } })
     .request();

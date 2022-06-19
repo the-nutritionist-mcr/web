@@ -49,13 +49,12 @@ export const makeDataApis = (
   const defaultEnvironmentVars = {
     [ENV.varNames.NodeOptions]: NODE_OPTS.EnableSourceMaps,
     [ENV.varNames.EnvironmentName]: envName,
-    [ENV.varNames.ChargeBeeToken]: chargebeeAccessToken.secretValue.toString(),
+    [ENV.varNames.ChargeBeeToken]: chargebeeAccessToken.secretName,
     [ENV.varNames.CognitoPoolId]: pool.userPoolId,
     [ENV.varNames.ChargeBeeSite]: chargebeeSite,
     [ENV.varNames.ChargeBeeWebhookUsername]:
-      chargeBeeWebhookUsername.secretValue.toString(),
-    [ENV.varNames.ChargeBeeWebhookPasssword]:
-      chargeWebhookPassword.secretValue.toString(),
+      chargeBeeWebhookUsername.secretName,
+    [ENV.varNames.ChargeBeeWebhookPasssword]: chargeWebhookPassword.secretName,
     FORCE_UPDATE_KEY: forceUpdateKey,
   };
 
@@ -331,7 +330,7 @@ export const makeDataApis = (
       entry: entryName('chargebee-api', 'webhook.ts'),
       runtime: Runtime.NODEJS_14_X,
       memorySize: 2048,
-      environment: defaultEnvironmentVars,
+      environment: { ...defaultEnvironmentVars, FORCE_DEPLOY: 'true' },
       bundling: {
         sourceMap: true,
       },
