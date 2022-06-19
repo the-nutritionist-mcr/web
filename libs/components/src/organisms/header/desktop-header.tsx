@@ -9,10 +9,11 @@ const HeaderUnorderedList = styled('ul')`
   width: 100%;
   font-size: 21px;
   justify-content: space-between;
-  margin: 0;
+  margin: 0 auto;
   height: 100%;
   align-items: center;
   transition: ease transform 0.3s !important;
+  max-width: 1460px;
 `;
 
 const TheNutritionistLogo = styled('a')`
@@ -26,6 +27,9 @@ const TheNutritionistLogo = styled('a')`
 `;
 
 const HeaderListItem = styled('li')`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   list-style: none;
   margin: 0;
   white-space: nowrap;
