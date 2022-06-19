@@ -2,3 +2,8 @@ export { IndexPage } from './lib/pages/index';
 export { OurStory } from './lib/pages/our-story';
 export { ThePlans } from './lib/pages/the-plans';
 export { GetStarted } from './lib/pages/get-started';
+export { TermsAndConditions } from './lib/pages/terms-and-conditions';
+export { PrivacyPolicy } from './lib/pages/privacy-policy';
+export { Faq } from './lib/pages/faq';
+export { Pricing } from './lib/pages/pricing';
+export { WhyChooseUs } from './lib/pages/why-choose-us';
