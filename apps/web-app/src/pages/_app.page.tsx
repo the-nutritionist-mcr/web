@@ -10,7 +10,6 @@ import { SWRConfig } from 'swr';
 import { isClientSide } from '../utils/is-client-side';
 import { swrLocalstorageProvider } from '../utils/swr-localstorage-provider';
 import { AuthenticationServiceContext } from '@tnmw/components';
-import '../../../../libs/static-pages/src/styles/main.scss';
 import { NavigationContext } from '@tnmw/utils';
 
 import { theme } from '../theme';
@@ -23,11 +22,9 @@ import {
   signOut,
 } from '../aws/authenticate';
 
-import '../assets/global.css';
+import '../assets/global.scss';
 import { HttpError } from '../backend/lambdas/data-api/http-error';
 import { HTTP } from '@tnmw/constants';
-import { ListUserPoolsResponse } from '@aws-sdk/client-cognito-identity-provider';
-import { BackendCustomer } from '@tnmw/types';
 
 const navigator = {
   navigate: async (path: string) => {
