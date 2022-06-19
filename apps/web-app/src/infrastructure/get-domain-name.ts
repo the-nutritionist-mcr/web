@@ -6,7 +6,7 @@ export const getDomainName = (environment: string, prefix?: string) => {
   const otherPrefix = prefix ? `${prefix}.` : ``;
   const finalPrefix =
     environment !== 'prod'
-      ? `${otherPrefix}${environment}.`
+      ? `${otherPrefix}${environment}.app`
       : `${otherPrefix}${PROD_NAME}.`;
 
   return `${finalPrefix}${BASE_DOMAIN_NAME}`;
