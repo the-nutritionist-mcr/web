@@ -1,0 +1,11 @@
+section {
+  &.video {
+    padding: 100px 0;
+    border-top: 1px solid #0d0d0d;
+    box-sizing: border-box;
+
+    @include mob(900) {
+      padding: 30px 0;
+    }
+  }
+}

@@ -1,0 +1,36 @@
+.banner-break {
+  background-image: url("../images/Seasonal Pattern_SPRING_TNM.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  width: 100vw;
+  height: 125px;
+  border-top: 1px solid #0d0d0d;
+  border-bottom: 1px solid #0d0d0d;
+
+  .container {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    position: relative;
+  }
+
+  .stamp {
+    max-width: 150px;
+    width: 100%;
+    height: auto;
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 50px;
+    right: 0;
+    transform: rotate(16deg);
+
+    @include mob(900) {
+      max-width: 100px;
+      left: 30px;
+      top: 80px;
+    }
+  }
+}

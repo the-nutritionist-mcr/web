@@ -1,0 +1,205 @@
+section {
+  &.testimonals {
+    background-color: #cafbe2;
+
+    .container {
+      position: relative;
+    }
+
+    .testimonals-title-block {
+      border-bottom: 1px solid #0d0d0d;
+    }
+
+    .testimonals-title {
+      padding: 75px 0;
+      height: auto;
+      position: relative;
+      width: 90%;
+      margin: 0 auto;
+      border-left: 1px solid #0d0d0d;
+      border-right: 1px solid #0d0d0d;
+
+      @include mob(900) {
+        width: 100%;
+        border-left: 0;
+        border-right: 0;
+        padding: 50px 0 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      h2 {
+        text-align: center;
+        font-size: 70px;
+        color: #177f7a;
+
+        @include mob(1300) {
+          font-size: 50px;
+          line-height: 54px;
+        }
+
+        @include mob(1100) {
+          font-size: 40px;
+          line-height: 44px;
+        }
+
+        @include mob(900) {
+          font-size: 36px;
+          line-height: 40px;
+        }
+      }
+    }
+
+    .stamp {
+      max-width: 150px;
+      width: 100%;
+      height: auto;
+      display: block;
+      position: absolute;
+      z-index: 1;
+      top: -45px;
+      left: 50px;
+      transform: rotate(-16deg);
+
+      @include mob(900) {
+        top: -10px;
+        left: 30px;
+        max-width: 100px;
+        position: relative;
+      }
+    }
+
+    .customer-block {
+      display: block;
+      border-left: 1px solid #0d0d0d;
+      border-right: 1px solid #0d0d0d;
+      padding: 50px 0;
+      position: relative;
+      width: 90%;
+      margin: 0 auto;
+
+      @include mob(900) {
+        overflow-x: hidden;
+        width: 100%;
+        padding: 0;
+      }
+    }
+
+    .customer-block-arrows-mobile {
+      display: none;
+
+      @include mob(900) {
+        border-top: 1px solid #0d0d0d;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px;
+        box-sizing: border-box;
+      }
+    }
+
+    .testimonial-slider {
+      max-width: 1000px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 100px;
+      box-sizing: border-box;
+
+      @include mob(900) {
+        padding: 30px;
+      }
+    }
+
+    .customer-quote {
+      width: 100%;
+      display: inline-block;
+      padding: 50px;
+      box-sizing: border-box;
+      color: #177f7a;
+
+      @include mob(900) {
+        padding: 0 30px;
+
+        p {
+          font-size: 16px;
+          line-height: 20px;
+        }
+      }
+
+      @include mob(600) {
+        padding: 0;
+      }
+    }
+
+    h3 {
+      font-size: 37px;
+      color: #177f7a;
+      margin-bottom: 20px;
+      display: block;
+
+      @include mob(900) {
+        font-size: 37px;
+        line-height: 41px;
+      }
+    }
+  }
+
+  .nav-arrow {
+    &__previous {
+      display: block;
+      width: 48px;
+      height: 48px;
+      z-index: 2;
+      cursor: pointer;
+      position: absolute;
+      left: 5%;
+      top: calc(50% - 20px);
+      bottom: calc(50% - 20px);
+
+      @include mob(900) {
+        display: none;
+      }
+
+      &-mobile {
+        display: block;
+        width: 48px;
+        height: 48px;
+        z-index: 2;
+        cursor: pointer;
+      }
+    }
+
+    &__next {
+      display: block;
+      width: 48px;
+      height: 48px;
+      z-index: 2;
+      cursor: pointer;
+      position: absolute;
+      right: 5%;
+      top: calc(50% - 20px);
+      bottom: calc(50% - 20px);
+
+      @include mob(900) {
+        display: none;
+      }
+
+      &-mobile {
+        display: block;
+        width: 48px;
+        height: 48px;
+        z-index: 2;
+        cursor: pointer;
+      }
+    }
+
+    img {
+      width: 40px;
+      height: 40px;
+      display: block;
+      position: absolute;
+    }
+  }
+}

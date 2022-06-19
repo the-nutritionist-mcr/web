@@ -1,0 +1,26 @@
+section {
+  &.socials {
+    padding: 100px 0;
+    box-sizing: border-box;
+
+    @include mob(900) {
+      padding: 50px 0;
+      box-sizing: border-box;
+    }
+
+    .text-block {
+      text-align: center;
+      margin-bottom: 50px;
+
+      h2 {
+        font-size: 54px;
+        font-family: "acumin-pro", sans-serif;
+        font-weight: bold;
+
+        @include mob(900) {
+          font-size: 30px;
+        }
+      }
+    }
+  }
+}

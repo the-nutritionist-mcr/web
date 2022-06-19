@@ -1,0 +1,63 @@
+section {
+  &.dishes {
+    padding: 50px 0;
+    border-top: 1px solid #0d0d0d;
+    border-bottom: 1px solid #0d0d0d;
+    box-sizing: border-box;
+
+    @include mob(900) {
+      padding: 50px 0;
+    }
+
+    @include mob(600) {
+      height: 630px;
+      overflow-x: hidden;
+      padding: 10px 0 40px;
+    }
+
+    .container {
+      @include mob(600) {
+        padding: 0;
+      }
+    }
+
+    .dishes-block {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      height: 800px;
+      background-image: url("../images/dishes-dt.png");
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: contain;
+
+      @include mob(900) {
+        background-image: url("../images/dishes-new-mb.png");
+        height: 500px;
+      }
+
+      @include mob(600) {
+        background-image: url("../images/dishes-new-mb.png");
+        height: 532px;
+        background-size: cover;
+      }
+    }
+
+    .dishes-btn {
+      @include button;
+
+      background: #292929;
+      width: 200px;
+      color: #fff;
+      margin: 0 auto;
+      border: 1px solid $black;
+
+      &:hover {
+        background-color: transparent !important;
+        color: $black !important;
+      }
+    }
+  }
+}

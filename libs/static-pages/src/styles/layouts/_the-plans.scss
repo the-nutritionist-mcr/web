@@ -1,0 +1,106 @@
+.the-plans {
+  .page-hero {
+    border-top: 1px solid #0d0d0d;
+    border-bottom: 1px solid #0d0d0d;
+    display: flex;
+    flex-direction: row;
+    height: 450px;
+
+    @include mob(900) {
+      flex-direction: column;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .page-header {
+      color: #ffa397;
+      width: 50vw;
+      height: 100%;
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      background-color: #cb4440;
+      border-right: 1px solid #0d0d0d;
+
+      @include mob(900) {
+        width: 100%;
+        padding: 60px 30px;
+        box-sizing: border-box;
+        border-right: 0;
+        border-bottom: 1px solid #0d0d0d;
+      }
+    }
+
+    .header-text-block {
+      max-width: 640px;
+      width: calc(100% - 60px);
+      margin-left: auto;
+      margin-right: 30px;
+      position: relative;
+      padding: 0 30px;
+
+      span.block {
+        display: block;
+      }
+
+      @include mob(900) {
+        width: 100%;
+        padding: 0;
+        height: auto;
+        margin: 0 auto 20px;
+
+        h1 {
+          text-align: center;
+
+          span.block {
+            display: inline-block;
+          }
+        }
+      }
+    }
+
+    .page-header-right {
+      width: 50%;
+      height: 100%;
+      display: inline-block;
+      position: relative;
+      box-sizing: border-box;
+      padding-right: 30px;
+
+      @include mob(900) {
+        width: 100%;
+        padding: 0 30px;
+      }
+    }
+
+    .dish-block {
+      box-sizing: border-box;
+      padding: 30px 30px;
+      height: 450px;
+      background-image: url("../images/plans-new-dt.png");
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: contain;
+
+      @include mob(900) {
+        background-image: url("../images/plans-new-dt.png");
+        height: 390px;
+      }
+
+      @include mob(600) {
+        background-image: url("../images/plans-new-dt.png");
+        height: 290px;
+      }
+    }
+  }
+
+  section {
+    &.meal-plans-order {
+      @include mob(900) {
+        display: none;
+      }
+    }
+  }
+}

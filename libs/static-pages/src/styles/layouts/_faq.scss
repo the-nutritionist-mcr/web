@@ -1,0 +1,64 @@
+.faq {
+  .page-hero {
+    height: 390px;
+    background: #f3b762;
+    border-bottom: 1px solid #0d0d0d;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @include mob(900) {
+      padding: 30px;
+      box-sizing: border-box;
+    }
+
+    .container {
+      max-width: 816px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      padding: 0;
+    }
+
+    h1 {
+      color: #fff2d2;
+    }
+
+    span {
+      display: block;
+    }
+  }
+
+  section {
+    &.faqs {
+      padding: 100px 0;
+      box-sizing: border-box;
+
+      @include mob(900) {
+        padding: 50px 0;
+      }
+
+      .question-answer {
+        margin: 50px auto;
+        max-width: 816px;
+        width: 100%;
+
+        @include mob(900) {
+          margin: 0 auto 50px;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+
+        h3 {
+          font-size: 37px;
+          line-height: 41px;
+          margin-bottom: 30px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,178 @@
+section {
+  &.meal-plans-order {
+    padding: 100px 0;
+    box-sizing: border-box;
+
+    @include mob(900) {
+      padding: 50px 0;
+    }
+
+    .meal-plans__block {
+      display: flex;
+      flex-direction: row;
+      padding: 0;
+      flex-wrap: wrap;
+
+      @include mob(600) {
+        flex-direction: column;
+      }
+
+      .plans {
+        width: 25%;
+        display: inline-block;
+        padding: 0 1.5vw;
+        box-sizing: border-box;
+        border-right: 1px dashed #707070;
+
+        &:nth-child(1) {
+          padding-left: 0;
+
+          @include mob(900) {
+            padding-left: 30px;
+          }
+        }
+
+        &:nth-child(4) {
+          padding-right: 0;
+
+          @include mob(900) {
+            padding-right: 30px;
+          }
+        }
+
+        @include mob(1140) {
+          padding: 0 1.78vw;
+        }
+
+        @include mob(900) {
+          width: 50%;
+          padding: 30px;
+
+          &:nth-child(1) {
+            border-bottom: 1px dashed #707070;
+          }
+
+          &:nth-child(2) {
+            border-right: 0;
+            border-bottom: 1px dashed #707070;
+          }
+        }
+
+        @include mob(600) {
+          width: 100%;
+          border-right: 0;
+          padding: 50px 0;
+          border-bottom: 1px solid #707070 !important;
+
+          &:nth-child(4) {
+            border-bottom: 0 !important;
+          }
+        }
+
+        .description {
+          min-height: 70px;
+          flex-grow: 1;
+          font-size: 14px;
+          line-height: 20px;
+
+          @include mob(600) {
+            min-height: 0;
+            font-size: 16px;
+            margin-bottom: 10px;
+          }
+        }
+
+        .kcal-info {
+          border-top: 1px dashed #707070;
+          border-bottom: 1px dashed #707070;
+          flex-grow: 1;
+          font-size: 12px;
+          line-height: 20px;
+          padding: 10px 0;
+          font-family: "ibm-plex-mono", sans-serif;
+
+          @include mob(600) {
+            min-height: 0;
+            font-size: 14px;
+            line-height: 20px;
+          }
+        }
+
+        .plans-name {
+          font-size: 27px;
+          margin: 30px 0 20px;
+
+          @include mob(600) {
+            font-size: 35px;
+            line-height: 39px;
+          }
+        }
+
+        .price {
+          font-family: "acumin-pro", sans-serif;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 20px;
+
+          @include mob(600) {
+            font-size: 16px;
+          }
+
+          .from {
+            font-family: "acumin-pro-semi-condensed", sans-serif;
+            font-size: 20px;
+
+            @include mob(600) {
+              font-size: 25px;
+            }
+          }
+        }
+
+        &:last-child {
+          border-right: 0;
+        }
+
+        .image-block {
+          display: block;
+          max-width: 276px;
+          height: 276px;
+          background-size: contain;
+          background-repeat: no-repeat;
+          margin: 0 auto;
+          background-position: center center;
+        }
+      }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 50px;
+
+      @include mob(600) {
+        margin-bottom: 0;
+        font-size: 36px;
+        line-height: 40px;
+      }
+    }
+
+    .btn {
+      @include button;
+
+      background: #292929;
+      color: #fff;
+      max-width: 200px;
+      border: 1px solid $black;
+      width: 100%;
+      margin: 50px auto 0;
+
+      &:hover {
+        background-color: transparent !important;
+        color: $black !important;
+      }
+
+      @include mob(600) {
+        margin: 0 auto;
+      }
+    }
+  }
+}

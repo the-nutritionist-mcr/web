@@ -1,0 +1,280 @@
+header {
+  &.banner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 88px;
+    background-color: $white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #0d0d0d;
+    transition: ease transform 0.3s !important;
+
+    @include mob(900) {
+      justify-content: flex-start;
+      box-sizing: border-box;
+      padding: 0 30px;
+    }
+
+    &.hide-navbar {
+      transform: translateY(-100%) !important;
+    }
+
+    nav {
+      &.nav-desktop {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        max-width: 1460px;
+        position: relative;
+
+        @include mob(900) {
+          display: none;
+        }
+
+        .menu-main-menu-container {
+          max-width: 1460px;
+          width: 100%;
+          margin: 0 auto;
+          display: block;
+          padding: 0 30px;
+          box-sizing: border-box;
+        }
+
+        ul {
+          width: 100%;
+          list-style: none;
+          margin: 0;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+        }
+
+        li {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          a {
+            font-family: "acumin-pro", sans-serif;
+            font-weight: bold;
+            text-decoration: none;
+            color: #141414;
+          }
+        }
+
+        li.home-nav-btn {
+          max-width: 315px;
+          width: 100%;
+          height: 34px;
+          display: block;
+          background-image: url("../images/svg/TNM_Full Logo_Black_RGB.svg");
+          background-repeat: no-repeat;
+          background-size: contain;
+          background-position: center center;
+          cursor: pointer;
+
+          a {
+            max-width: 315px;
+            width: 100%;
+            height: 34px;
+            display: block;
+            text-indent: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+          }
+        }
+
+        li.basket {
+          max-width: 41px;
+          width: 100%;
+          height: 41px;
+          display: block;
+          background-image: url("../images/svg/TNM_Icon__Basket.svg");
+          background-repeat: no-repeat;
+          background-size: contain;
+          background-position: center center;
+          cursor: pointer;
+          position: absolute;
+          right: -41px;
+
+          a {
+            max-width: 41px;
+            width: 100%;
+            height: 41px;
+            display: block;
+            text-indent: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+          }
+        }
+
+        li.account {
+          background-image: url("../images/svg/TNM_Icon__Account.svg");
+          background-repeat: no-repeat;
+          background-position: center center;
+
+          a {
+            color: transparent;
+          }
+        }
+
+        li.order-btn a {
+          @include button;
+
+          background: #292929 !important;
+          color: #fff !important;
+          margin-top: 0;
+          padding: 10px 30px;
+          border: 1px solid $black;
+          font-size: 16px;
+
+          &:hover {
+            background-color: $white !important;
+            color: $black !important;
+            border: 1px solid $black;
+          }
+        }
+      }
+
+      &.nav-mobile {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        background-color: #f3b762;
+        width: 100vw;
+        height: 100vh;
+        z-index: 10000;
+        padding: 30px;
+        box-sizing: border-box;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        position: fixed;
+
+        &.show-menu {
+          display: flex;
+        }
+
+        .mobile-nav-btn-close {
+          display: block;
+          position: absolute;
+          top: 30px;
+          right: 30px;
+          cursor: pointer;
+        }
+
+        .nav {
+          height: 80vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          li.menu-item {
+            box-sizing: border-box;
+            border-bottom: 1px solid $black;
+
+            &:last-child {
+              border-bottom: 0;
+            }
+
+            a {
+              padding: 15px 0;
+              width: 100%;
+              display: block;
+              text-decoration: none;
+              font-family: "acumin-pro-semi-condensed", sans-serif;
+              font-weight: 600;
+              color: $black;
+              font-size: 37px;
+            }
+          }
+        }
+      }
+    }
+
+    .mobile-nav-btn {
+      @include mob(900) {
+        width: 50px;
+      }
+    }
+
+    .mobile-menu-image {
+      display: none;
+
+      @include mob(900) {
+        display: block;
+        width: 40px;
+        cursor: pointer;
+      }
+    }
+
+    .logo {
+      @include mob(900) {
+        display: block;
+        margin: 0 auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+        width: 60px;
+      }
+    }
+
+    .logo-image {
+      display: none;
+
+      @include mob(900) {
+        display: block;
+        width: 60px;
+      }
+    }
+
+    .get-started {
+      @include button;
+
+      background: #292929 !important;
+      color: #fff !important;
+      font-weight: normal;
+      margin-top: 0;
+      padding: 10px 30px;
+      border: 1px solid $black;
+      display: none;
+
+      &:hover {
+        background-color: $white !important;
+        color: $black !important;
+        border: 1px solid $black;
+      }
+
+      @include mob(900) {
+        display: block;
+        width: 75px;
+        font-size: 13px;
+        line-height: 17px;
+        padding: 10px;
+        font-weight: 700;
+        position: absolute;
+        right: 30px;
+      }
+    }
+  }
+}
+
+.page-hero {
+  height: 450px;
+  width: 100%;
+  display: block;
+  padding: 0;
+
+  @include mob(900) {
+    height: auto !important;
+    padding: 50px 0;
+    box-sizing: border-box;
+  }
+}

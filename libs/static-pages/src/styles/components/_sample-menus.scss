@@ -1,0 +1,155 @@
+.sample-menus {
+  background: #e3e3e3;
+  border-top: 1px solid #0d0d0d;
+  padding: 123px 0;
+
+  @include mob(600) {
+    padding: 50px 0;
+  }
+
+  h2 {
+    font-size: 85px;
+    line-height: 90px;
+
+    @include mob(600) {
+      font-size: 30px;
+      line-height: 36px;
+    }
+  }
+
+  p {
+    margin: 50px 0;
+    max-width: 850px;
+    width: 100%;
+  }
+
+  .menu-block {
+    &--menus {
+      border-top: 1px solid #0d0d0d;
+      border-bottom: 1px solid #0d0d0d;
+
+      @include mob(600) {
+        border-top: 0;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        @include mob(600) {
+          flex-direction: column;
+          padding: 0;
+        }
+      }
+
+      .menus-seasons {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid #0d0d0d;
+        box-sizing: border-box;
+        padding: 30px;
+
+        &:last-of-type {
+          border-right: 1px solid #0d0d0d;
+        }
+
+        h3 {
+          font-size: 36px;
+        }
+      }
+
+      .menus {
+        display: flex;
+        flex-direction: column;
+        width: calc(25% - 2px);
+        text-align: center;
+        border-left: 1px solid #0d0d0d;
+        cursor: pointer;
+
+        &:first-child {
+          @include mob(600) {
+            border-top: 1px solid #0d0d0d;
+          }
+        }
+
+        &:nth-child(2) {
+          @include mob(900) {
+            border-right: 1px solid #0d0d0d;
+          }
+
+          @include mob(600) {
+            border-top: 1px solid #0d0d0d;
+          }
+        }
+
+        &:nth-child(3),
+        &:nth-child(4) {
+          @include mob(900) {
+            border-top: 1px solid #0d0d0d;
+          }
+        }
+
+        @include mob(900) {
+          width: calc(50% - 2px);
+        }
+
+        @include mob(600) {
+          width: 100%;
+        }
+
+        &--img {
+          padding: 30px;
+          box-sizing: border-box;
+        }
+
+        img {
+          width: 100%;
+        }
+
+        &:last-of-type {
+          border-right: 1px solid #0d0d0d;
+        }
+      }
+    }
+  }
+
+  &--overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba($black, 0.6);
+    z-index: 1000;
+    display: none;
+    padding: 5%;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    &.open {
+      display: block;
+      overflow-y: auto;
+    }
+
+    .winter,
+    .spring,
+    .summer,
+    .autumn {
+      display: none;
+
+      &.show {
+        display: block;
+
+        img {
+          display: block;
+          max-width: 600px;
+          width: 100%;
+          margin: 0 auto;
+        }
+      }
+    }
+  }
+}

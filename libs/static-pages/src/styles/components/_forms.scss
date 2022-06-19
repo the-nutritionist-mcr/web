@@ -1,0 +1,60 @@
+.forminator-custom-form {
+  .forminator-label {
+    font-size: 24px !important;
+    font-family: "acumin-pro-semi-condensed", sans-serif !important;
+    color: $black !important;
+  }
+
+  .forminator-input {
+    background: transparent !important;
+    border: 1px solid $black !important;
+    padding: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    height: 40px !important;
+  }
+
+  .forminator-textarea {
+    background: transparent !important;
+    border: 1px solid $black !important;
+    padding: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .forminator-row {
+    margin-bottom: 10px !important;
+  }
+
+  .forminator-button.forminator-button-submit {
+    outline: none !important;
+    border-radius: 50px !important;
+    cursor: pointer !important;
+    margin: 20px auto 0 !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background: #292929 !important;
+    color: #fff !important;
+    font-size: 24px !important;
+    font-family: "acumin-pro", sans-serif !important;
+    font-weight: bold !important;
+    padding: 15px 30px !important;
+    border: 1px solid $black !important;
+    width: 75% !important;
+
+    @include mob(900) {
+      width: 100% !important;
+      padding: 5px 30px !important;
+    }
+
+    &:hover {
+      background-color: $white !important;
+      color: $black !important;
+      border: 1px solid $black !important;
+    }
+  }
+}

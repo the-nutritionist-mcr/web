@@ -1,0 +1,145 @@
+.get-started {
+  .page-hero {
+    display: flex;
+    flex-direction: row;
+    min-height: 580px;
+    border-bottom: 1px solid #0d0d0d;
+
+    @include mob(900) {
+      flex-direction: column;
+      height: auto;
+      padding: 0;
+    }
+
+    .page-header {
+      background: #ffa397;
+      min-width: 45%;
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      border-right: 1px solid #0d0d0d;
+
+      @include mob(900) {
+        width: 100%;
+        height: auto;
+        order: 2;
+        padding: 60px 30px;
+        box-sizing: border-box;
+        border-top: 1px solid #0d0d0d;
+        border-right: 0;
+      }
+    }
+
+    .header-text-block {
+      max-width: 560px;
+      width: calc(100% - 60px);
+      margin-left: auto;
+      margin-right: 30px;
+      position: relative;
+      padding: 0 30px;
+
+      @include mob(900) {
+        width: 100%;
+        padding: 0;
+        height: auto;
+        margin: 0 auto 20px;
+
+        h1 {
+          text-align: center;
+        }
+      }
+    }
+
+    .header-link-block {
+      margin-top: 50px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .page-header-img {
+      background-image: url("../images/Hero.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center center;
+      width: 55%;
+      height: 100%;
+      display: inline-block;
+
+      @include mob(900) {
+        width: 100vw;
+        height: 300px;
+        order: 1;
+      }
+    }
+
+    h1 {
+      margin-bottom: 40px;
+      color: #cb4440;
+
+      @include mob(900) {
+        margin-bottom: 20px;
+      }
+    }
+
+    .bold {
+      font-family: "ibm-plex-serif", sans-serif;
+      font-weight: 600;
+      font-size: 27px;
+      margin-bottom: 30px;
+
+      @include mob(900) {
+        font-size: 16px;
+        line-height: 20px;
+      }
+    }
+
+    p {
+      font-family: "ibm-plex-serif", sans-serif;
+      font-size: 27px;
+      line-height: 36px;
+
+      @include mob(900) {
+        font-size: 16px;
+        line-height: 20px;
+      }
+    }
+
+    .contact-socials-block {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .contact-socials {
+        display: block;
+        width: 56px;
+        height: auto;
+      }
+    }
+  }
+
+  .get-in-touch-form {
+    padding: 50px 0;
+    box-sizing: border-box;
+
+    h2 {
+      margin-bottom: 40px;
+
+      @include mob(900) {
+        margin-bottom: 30px;
+      }
+    }
+
+    .contact-form {
+      width: 66%;
+      display: block;
+      margin-right: auto;
+
+      @include mob(900) {
+        width: 100%;
+      }
+    }
+  }
+}

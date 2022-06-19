@@ -1,0 +1,96 @@
+.pricing {
+  .page-hero {
+    height: 390px;
+    background: #177f7a;
+    border-bottom: 1px solid #0d0d0d;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @include mob(900) {
+      padding: 30px;
+      box-sizing: border-box;
+    }
+
+    .container {
+      max-width: 816px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      padding: 0;
+    }
+
+    h1 {
+      color: #cafbe2;
+      text-align: center;
+    }
+
+    span {
+      display: block;
+    }
+  }
+
+  .pricing-grid {
+    padding: 50px 0;
+    box-sizing: border-box;
+
+    .pricing-block {
+      padding: 50px 0;
+      box-sizing: border-box;
+      border-bottom: 1px solid $black;
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+
+    .price-list {
+      margin: 50px 0 0;
+
+      .title {
+        padding: 0 0 20px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        span {
+          width: 25%;
+        }
+      }
+
+      .meal-info {
+        padding: 20px 0;
+        box-sizing: border-box;
+        border-top: 1px dashed $black;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        span {
+          width: 25%;
+        }
+      }
+
+      &.extra {
+        width: 50%;
+
+        @include mob(900) {
+          width: 100%;
+        }
+
+        .meal-info {
+          span {
+            width: 50% !important;
+          }
+        }
+      }
+    }
+  }
+}

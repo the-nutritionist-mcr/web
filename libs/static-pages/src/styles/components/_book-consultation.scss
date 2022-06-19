@@ -1,0 +1,23 @@
+.book-consultation {
+  @include button;
+
+  background: #292929;
+  border: 1px solid $black;
+  color: $white !important;
+  width: 66%;
+  display: block;
+  margin-right: auto;
+  box-sizing: border-box;
+  margin-top: 0;
+  font-size: 18px;
+
+  @include mob(900) {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  &:hover {
+    background-color: $white !important;
+    color: $black !important;
+  }
+}

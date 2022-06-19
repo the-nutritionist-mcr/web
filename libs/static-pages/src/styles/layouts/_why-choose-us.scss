@@ -1,0 +1,106 @@
+.why-choose-us {
+  .page-hero {
+    display: flex;
+    height: 530px;
+    background: #fff2d2;
+    position: relative;
+
+    @include mob(900) {
+      flex-direction: column;
+      padding: 0;
+      height: auto;
+    }
+
+    .page-header {
+      color: #141414;
+      width: 50vw;
+      height: 100%;
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+
+      @include mob(900) {
+        width: 100vw;
+        padding: 50px 30px;
+        order: 1;
+        box-sizing: border-box;
+      }
+
+      h1 {
+        color: #f3b762;
+
+        @include mob(900) {
+          font-size: 76px;
+          line-height: 80px;
+        }
+      }
+    }
+
+    .header-text-block {
+      max-width: 700px;
+      width: calc(100% - 60px);
+      height: 100%;
+      margin-left: auto;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-left: 30px;
+      background-color: #fff2d2;
+
+      @include mob(900) {
+        width: 100%;
+        padding: 0;
+        height: auto;
+        margin: 0 auto 20px;
+      }
+    }
+
+    .hero-stamp {
+      max-width: 150px;
+      width: 100%;
+      height: auto;
+      display: block;
+      position: absolute;
+      z-index: 1;
+      bottom: -60px;
+      left: 70px;
+      transform: rotate(-16deg);
+
+      @include mob(900) {
+        bottom: -53px;
+        max-width: 100px;
+      }
+    }
+
+    .page-header-right {
+      width: 50vw;
+      height: 100%;
+      display: inline-block;
+      background: #f3b762;
+      border-left: 1px solid #0d0d0d;
+      position: relative;
+      background-image: url("../images/Why Choose Us Meals DESKTOP.png");
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 90%;
+
+      @include mob(900) {
+        background-image: url("../images/Why Choose Us Meals TABLET.png");
+        height: 360px;
+        width: 100%;
+        background-size: cover;
+        order: 2;
+        border-left: 0;
+        border-top: 1px solid #0d0d0d;
+      }
+
+      @include mob(600) {
+        background-image: url("../images/Why Choose Us Meals MOBILE.png");
+        height: 360px;
+      }
+    }
+  }
+}

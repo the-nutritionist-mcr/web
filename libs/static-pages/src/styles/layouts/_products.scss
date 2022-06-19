@@ -1,0 +1,119 @@
+.single-product {
+  .page-hero {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 330px;
+    background-color: #cafbe2;
+    color: #141414;
+    border-bottom: 1px solid #0d0d0d;
+  }
+
+  .woocommerce {
+    margin: 100px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .single-product,
+    .summary.entry-summary {
+      width: 100% !important;
+    }
+
+    .summary.entry-summary,
+    .summary_title.step_title_wrapper {
+      display: none;
+    }
+
+    .details.component_data {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .bundled_product.bundled_product_summary {
+      display: flex;
+      flex-direction: column;
+      width: 25%;
+      padding: 0 20px;
+      box-sizing: border-box;
+      border-bottom: 0;
+      margin-bottom: 30px;
+    }
+
+    .details {
+      width: 100%;
+      padding: 0;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .component_title_wrapper {
+      display: none;
+    }
+
+    .bundled_product_images.images {
+      width: 100%;
+    }
+
+    .composite_pagination {
+      display: none;
+    }
+
+    .woocommerce-notices-wrapper {
+      width: 100% !important;
+    }
+
+    [data-nav_title="Breakfast"] {
+      .details {
+        float: none;
+        width: 100%;
+        padding: 0 30px;
+      }
+    }
+
+    [data-nav_title="Delivery"],
+    [data-nav_title="Meals Per Day"] {
+      .details.component_data {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        .details {
+          background-color: $white;
+          border: 1px solid $black;
+          color: $black;
+          border-radius: 50px;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          padding: 20px;
+          position: relative;
+
+          &:hover,
+          &.checked {
+            background-color: $black !important;
+            color: $white !important;
+          }
+        }
+
+        .bundled_product_title_link {
+          display: none;
+        }
+
+        .bundled_product_optional_checkbox {
+          width: 100%;
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+        }
+      }
+    }
+  }
+}

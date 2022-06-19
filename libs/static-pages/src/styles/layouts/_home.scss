@@ -1,0 +1,306 @@
+.home {
+  .page-hero {
+    display: flex;
+    flex-direction: row;
+    min-height: 530px;
+
+    @include mob(900) {
+      flex-direction: column;
+      min-height: auto;
+      padding: 0;
+    }
+  }
+
+  .page-header {
+    background: #177f7a;
+    width: 45vw;
+    height: 100%;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: #cafbe2;
+    border-right: 1px solid #0d0d0d;
+
+    @include mob(900) {
+      width: 100%;
+      height: auto;
+      order: 2;
+      padding: 60px 30px;
+      box-sizing: border-box;
+      border-top: 1px solid #0d0d0d;
+    }
+  }
+
+  .header-text-block {
+    max-width: 560px;
+    width: calc(100% - 60px);
+    margin-left: auto;
+    margin-right: 30px;
+    position: relative;
+    padding: 0 30px;
+
+    @include mob(900) {
+      width: 100%;
+      padding: 0;
+      height: auto;
+      margin: 0 auto 20px;
+
+      h1 {
+        text-align: center;
+      }
+    }
+  }
+
+  .header-link-block {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .page-header-img {
+    background-image: url("../images/Hero.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    width: 55vw;
+    height: 100%;
+    display: inline-block;
+
+    @include mob(900) {
+      width: 100vw;
+      height: 300px;
+      order: 1;
+    }
+  }
+
+  .cta-btn {
+    @include button;
+
+    background: #fff;
+    width: 200px;
+    color: #292929;
+    margin-top: 0;
+  }
+
+  .cta-learn-more {
+    color: #fff;
+    margin-left: 50px;
+  }
+
+  .hero-stamp {
+    max-width: 150px;
+    width: 100%;
+    height: auto;
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 240px;
+    right: -75px;
+    transform: rotate(16deg);
+
+    @include mob(1390) {
+      top: 190px;
+    }
+
+    @include mob(1300) {
+      top: 180px;
+    }
+
+    @include mob(1100) {
+      top: 170px;
+    }
+
+    @include mob(900) {
+      top: -120px;
+      left: 0;
+      right: 0;
+      max-width: 100px;
+      margin: 0 auto;
+    }
+  }
+}
+
+section {
+  &.info {
+    height: auto;
+    padding: 0;
+    width: 100vw;
+    background: #e3e3e3;
+    box-sizing: border-box;
+
+    .container {
+      display: flex;
+      flex-direction: row;
+
+      @include mob(900) {
+        flex-direction: column;
+      }
+    }
+
+    .text-block {
+      width: 50%;
+      padding: 50px 100px 50px 0;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      @include mob(900) {
+        width: 100%;
+        padding: 50px 0;
+      }
+    }
+
+    .image-block {
+      width: 50%;
+      border-left: 1px solid #0d0d0d;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      background-position: center right;
+      background-size: 70%;
+      background-repeat: no-repeat;
+
+      @include mob(1300) {
+        background-size: 100%;
+      }
+
+      @include mob(1100) {
+        background-size: 90%;
+      }
+
+      @include mob(900) {
+        display: none;
+      }
+    }
+
+    .image-block-mobile {
+      display: none;
+
+      @include mob(900) {
+        width: 100%;
+        display: block;
+        border-top: 1px solid #0d0d0d;
+        border-bottom: 1px solid #0d0d0d;
+        margin: 20px 0;
+      }
+
+      img {
+        width: 100%;
+        padding: 20px 0;
+        box-sizing: border-box;
+      }
+    }
+
+    h2 {
+      font-size: 75px;
+      margin-bottom: 20px;
+      line-height: 79px;
+
+      @include mob(900) {
+        font-size: 30px;
+        line-height: 34px;
+      }
+    }
+
+    .wmud-btn {
+      @include button;
+
+      background: #292929;
+      width: 200px;
+      color: #fff;
+      margin-top: 20px;
+      border: 1px solid $black;
+
+      &:hover {
+        background-color: transparent !important;
+        color: $black !important;
+      }
+    }
+  }
+
+  &.info2 {
+    height: 700px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    border-top: 1px solid #0d0d0d;
+    border-bottom: 1px solid #0d0d0d;
+    position: relative;
+
+    .dish-block {
+      position: absolute;
+      z-index: 1;
+      max-width: 900px;
+      width: 100%;
+      height: 700px;
+      margin: 0 auto;
+      background-position: center center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-image: url("../images/Homepage Meal annotation DESKTOP.png");
+      left: -300px;
+      right: 0;
+
+      @include mob(1100) {
+        width: 70%;
+        left: -200px;
+        right: 0;
+      }
+
+      @include mob(900) {
+        background-image: url("../images/Homepage Meal annotation TABLET.png");
+        width: 80%;
+        margin: 0 auto;
+        left: -117px;
+      }
+
+      @include mob(600) {
+        background-image: url("../images/Homepage Meal annotation MOBILE.png");
+        left: 0;
+      }
+    }
+
+    .stamp {
+      max-width: 150px;
+      width: 100%;
+      height: auto;
+      display: block;
+      position: absolute;
+      z-index: 1;
+      bottom: 40px;
+      left: 50px;
+      transform: rotate(-16deg);
+
+      @include mob(900) {
+        bottom: 50px;
+        left: 50px;
+        max-width: 100px;
+      }
+    }
+
+    .text-block {
+      width: 50vw;
+      height: 100%;
+      border-right: 1px solid #0d0d0d;
+      position: relative;
+    }
+
+    .image-block {
+      background-image: url("../images/TNM_Seasonal Patterns_v-20.png");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center center;
+      width: 50vw;
+      height: 100%;
+      display: inline-block;
+      border-left: 1px $black #0d0d0d;
+    }
+  }
+}
