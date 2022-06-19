@@ -316,6 +316,8 @@ export const makeDataApis = (
     }
   );
 
+  chargebeeAccessToken.grantRead(individualAcccessFunction);
+
   me.addMethod('GET', new LambdaIntegration(individualAcccessFunction));
 
   const receiveChargebeeWebhook = api.root.addResource(
@@ -336,6 +338,10 @@ export const makeDataApis = (
       },
     }
   );
+
+  chargeBeeWebhookUsername.grantRead(chargeBeeWebhookFunction);
+  chargeWebhookPassword.grantRead(chargeBeeWebhookFunction);
+  chargebeeAccessToken.grantRead(chargeBeeWebhookFunction);
 
   receiveChargebeeWebhook.addMethod(
     'POST',
