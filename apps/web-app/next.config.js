@@ -24,6 +24,16 @@ module.exports = withNx(
     ...nextConfig,
     target: 'serverless',
 
+    async redirects() {
+      return [
+        {
+          source: '/',
+          destination: '/account',
+          permanent: true,
+        },
+      ];
+    },
+
     typescript: {
       // !! WARN !!
       // Dangerously allow production builds to successfully complete even if
