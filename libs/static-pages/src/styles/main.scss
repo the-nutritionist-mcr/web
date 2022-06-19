@@ -3,7 +3,7 @@
 /** Import theme styles */
 @import "common/reset";
 @import "common/mixins";
-// @import "common/global";
+@import "common/global";
 @import "components/banner-breaks";
 @import "components/book-consultation";
 @import "components/dishes";
@@ -24,7 +24,7 @@
 @import "components/socials";
 @import "layouts/header";
 @import "layouts/sidebar";
-@import "layouts/footer";
+// @import "layouts/footer";
 @import "layouts/pages";
 @import "layouts/posts";
 @import "layouts/products";
