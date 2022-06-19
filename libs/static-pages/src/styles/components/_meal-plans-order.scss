@@ -89,7 +89,7 @@ section {
           font-size: 12px;
           line-height: 20px;
           padding: 10px 0;
-          font-family: "ibm-plex-mono", sans-serif;
+          font-family: 'ibm-plex-mono', sans-serif;
 
           @include mob(600) {
             min-height: 0;
@@ -109,7 +109,7 @@ section {
         }
 
         .price {
-          font-family: "acumin-pro", sans-serif;
+          font-family: 'acumin-pro', sans-serif;
           font-weight: normal;
           font-size: 14px;
           line-height: 20px;
@@ -119,7 +119,7 @@ section {
           }
 
           .from {
-            font-family: "acumin-pro-semi-condensed", sans-serif;
+            font-family: 'acumin-pro-semi-condensed', sans-serif;
             font-size: 20px;
 
             @include mob(600) {

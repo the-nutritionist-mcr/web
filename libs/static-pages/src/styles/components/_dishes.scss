@@ -28,18 +28,18 @@ section {
       align-items: center;
       position: relative;
       height: 800px;
-      background-image: url("../images/dishes-dt.png");
+      background-image: url('../images/dishes-dt.png');
       background-position: center center;
       background-repeat: no-repeat;
       background-size: contain;
 
       @include mob(900) {
-        background-image: url("../images/dishes-new-mb.png");
+        background-image: url('../images/dishes-new-mb.png');
         height: 500px;
       }
 
       @include mob(600) {
-        background-image: url("../images/dishes-new-mb.png");
+        background-image: url('../images/dishes-new-mb.png');
         height: 532px;
         background-size: cover;
       }

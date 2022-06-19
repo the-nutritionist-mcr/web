@@ -61,7 +61,7 @@
   }
 
   .page-header-img {
-    background-image: url("../images/Hero.jpg");
+    background-image: url('../images/Hero.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -244,7 +244,7 @@ section {
       background-position: center center;
       background-size: contain;
       background-repeat: no-repeat;
-      background-image: url("../images/Homepage Meal annotation DESKTOP.png");
+      background-image: url('../images/Homepage Meal annotation DESKTOP.png');
       left: -300px;
       right: 0;
 
@@ -255,14 +255,14 @@ section {
       }
 
       @include mob(900) {
-        background-image: url("../images/Homepage Meal annotation TABLET.png");
+        background-image: url('../images/Homepage Meal annotation TABLET.png');
         width: 80%;
         margin: 0 auto;
         left: -117px;
       }
 
       @include mob(600) {
-        background-image: url("../images/Homepage Meal annotation MOBILE.png");
+        background-image: url('../images/Homepage Meal annotation MOBILE.png');
         left: 0;
       }
     }
@@ -293,7 +293,7 @@ section {
     }
 
     .image-block {
-      background-image: url("../images/TNM_Seasonal Patterns_v-20.png");
+      background-image: url('../images/TNM_Seasonal Patterns_v-20.png');
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center center;

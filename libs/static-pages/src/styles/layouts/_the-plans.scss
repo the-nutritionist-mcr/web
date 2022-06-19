@@ -79,18 +79,18 @@
       box-sizing: border-box;
       padding: 30px 30px;
       height: 450px;
-      background-image: url("../images/plans-new-dt.png");
+      background-image: url('../images/plans-new-dt.png');
       background-position: center center;
       background-repeat: no-repeat;
       background-size: contain;
 
       @include mob(900) {
-        background-image: url("../images/plans-new-dt.png");
+        background-image: url('../images/plans-new-dt.png');
         height: 390px;
       }
 
       @include mob(600) {
-        background-image: url("../images/plans-new-dt.png");
+        background-image: url('../images/plans-new-dt.png');
         height: 290px;
       }
     }

@@ -104,7 +104,7 @@ section {
         h3 {
           font-size: 48px;
           margin-bottom: 40px;
-          font-family: "acumin-pro", sans-serif;
+          font-family: 'acumin-pro', sans-serif;
 
           @include mob(900) {
             margin-bottom: 30px;
@@ -120,7 +120,7 @@ section {
         }
 
         .kcal-info {
-          font-family: "ibm-plex-mono", sans-serif;
+          font-family: 'ibm-plex-mono', sans-serif;
           font-weight: normal;
           font-size: 18px;
           line-height: 22px;
@@ -135,7 +135,7 @@ section {
         }
 
         .price {
-          font-family: "acumin-pro", Arial, Helvetica, sans-serif;
+          font-family: 'acumin-pro', Arial, Helvetica, sans-serif;
           display: block;
           margin-bottom: 20px;
 

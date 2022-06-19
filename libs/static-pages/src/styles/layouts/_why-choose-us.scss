@@ -82,13 +82,13 @@
       background: #f3b762;
       border-left: 1px solid #0d0d0d;
       position: relative;
-      background-image: url("../images/Why Choose Us Meals DESKTOP.png");
+      background-image: url('../images/Why Choose Us Meals DESKTOP.png');
       background-position: center center;
       background-repeat: no-repeat;
       background-size: 90%;
 
       @include mob(900) {
-        background-image: url("../images/Why Choose Us Meals TABLET.png");
+        background-image: url('../images/Why Choose Us Meals TABLET.png');
         height: 360px;
         width: 100%;
         background-size: cover;
@@ -98,7 +98,7 @@
       }
 
       @include mob(600) {
-        background-image: url("../images/Why Choose Us Meals MOBILE.png");
+        background-image: url('../images/Why Choose Us Meals MOBILE.png');
         height: 360px;
       }
     }

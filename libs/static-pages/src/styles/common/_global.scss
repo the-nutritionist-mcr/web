@@ -2,7 +2,7 @@ body {
   padding: 0;
   margin: 88px 0 0;
   overflow-x: hidden;
-  font-family: "IBM Plex Serif", sans-serif;
+  font-family: 'IBM Plex Serif', sans-serif;
   font-weight: 300;
   // font-size: 21px;
 
@@ -19,7 +19,7 @@ body {
 
 h1 {
   font-size: 72px;
-  font-family: "Acumin Pro Semicondensed", sans-serif;
+  font-family: 'Acumin Pro Semicondensed', sans-serif;
   line-height: 76px;
 
   @include mob(1300) {
@@ -40,7 +40,7 @@ h1 {
 
 h2 {
   font-size: 45px;
-  font-family: "Acumin Pro Semicondensed", sans-serif;
+  font-family: 'Acumin Pro Semicondensed', sans-serif;
   line-height: 49px;
 
   @include mob(900) {
@@ -56,7 +56,7 @@ h2 {
 h3 {
   font-size: 17px;
   line-height: 21px;
-  font-family: "Acumin Pro Semicondensed", sans-serif;
+  font-family: 'Acumin Pro Semicondensed', sans-serif;
 }
 
 p {
@@ -73,7 +73,7 @@ p {
   width: 200px;
   margin: 10px 20px;
   border-radius: 25px;
-  font-family: "Acumin Pro", sans-serif;
+  font-family: 'Acumin Pro', sans-serif;
   font-weight: 700;
   display: inline-block;
   background: #177f7a;

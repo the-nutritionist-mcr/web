@@ -8,18 +8,18 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-image: url("../images/Our Story Meals DESKTOP.png");
+    background-image: url('../images/Our Story Meals DESKTOP.png');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
 
     @include mob(900) {
-      background-image: url("../images/Our Story Meals TABLET.png");
+      background-image: url('../images/Our Story Meals TABLET.png');
       height: 670px !important;
     }
 
     @include mob(600) {
-      background-image: url("../images/Our Story Meals MOBILE.png");
+      background-image: url('../images/Our Story Meals MOBILE.png');
       height: 782px !important;
     }
   }
@@ -90,7 +90,7 @@ section {
       font-weight: bold;
       left: 20%;
       top: 60px;
-      font-family: "ibm-plex-serif", sans-serif;
+      font-family: 'ibm-plex-serif', sans-serif;
       -webkit-text-fill-color: transparent;
       -webkit-text-stroke-width: 1px;
       -webkit-text-stroke-color: #ffa397;
@@ -127,7 +127,7 @@ section {
 
       h2 {
         font-size: 45px;
-        font-family: "acumin-pro", sans-serif;
+        font-family: 'acumin-pro', sans-serif;
         font-weight: bold;
         margin-bottom: 20px;
 
