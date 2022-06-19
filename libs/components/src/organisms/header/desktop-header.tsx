@@ -12,6 +12,7 @@ const HeaderUnorderedList = styled('ul')`
   margin: 0;
   height: 100%;
   align-items: center;
+  transition: ease transform 0.3s !important;
 `;
 
 const TheNutritionistLogo = styled('a')`

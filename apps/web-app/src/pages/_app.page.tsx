@@ -10,7 +10,7 @@ import { SWRConfig } from 'swr';
 import { isClientSide } from '../utils/is-client-side';
 import { swrLocalstorageProvider } from '../utils/swr-localstorage-provider';
 import { AuthenticationServiceContext } from '@tnmw/components';
-
+import '../../../../libs/static-pages/src/styles/main.scss';
 import { NavigationContext } from '@tnmw/utils';
 
 import { theme } from '../theme';
