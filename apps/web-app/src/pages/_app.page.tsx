@@ -44,8 +44,6 @@ const authenticationService = {
   newPasswordChallengeResponse,
 };
 
-const provider = isClientSide() ? swrLocalstorageProvider : undefined;
-
 Hub.listen('auth', (data) => {
   switch (data.payload.event) {
     case 'signIn':
@@ -62,7 +60,6 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <SWRConfig
       value={{
-        provider,
         onError: (error: Error) => {
           if (
             error instanceof HttpError &&

@@ -1,8 +1,10 @@
-export { CHARGEBEE } from "./lib/chargebee"
-export { IAM } from "./lib/iam"
-export { ENV } from "./lib/env"
-export { HTTP } from "./lib/http"
-export { COGNITO } from "./lib/cognito"
+export { CHARGEBEE } from './lib/chargebee';
+export { IAM } from './lib/iam';
+export { ENV } from './lib/env';
+export { HTTP } from './lib/http';
+export { COGNITO } from './lib/cognito';
+
+export const CONTACT_EMAIL = 'hello@thenutritionistmcr.com';
 
 export const E2E = {
   testEmail: 'ben+e2etesting@thenutritionistmcr.com',

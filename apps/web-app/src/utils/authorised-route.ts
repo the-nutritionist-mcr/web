@@ -22,8 +22,11 @@ interface AuthorizedRouteWrapper {
 
 const getCookie = <Q extends ParsedUrlQuery, D extends PreviewData>(
   context: GetServerSidePropsContext<Q, D>,
-  callback: (key: string) => boolean
-) => Object.entries(context.req.cookies).find(([key]) => callback(key))?.[1];
+  callback: (key: string, value: string) => boolean
+) =>
+  Object.entries(context.req.cookies).find(([key, value]) =>
+    callback(key, value)
+  )?.[1];
 
 export const authorizedRoute: AuthorizedRouteWrapper = ({
   groups,

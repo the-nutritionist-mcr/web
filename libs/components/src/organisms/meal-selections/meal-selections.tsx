@@ -10,6 +10,7 @@ import CombinedBasket from './combined-basket';
 import { totalOtherSelected } from './total-other-selected';
 import { setSelected } from './set-selected';
 import { Button } from '../../atoms';
+import { CONTACT_EMAIL } from '@tnmw/constants';
 
 export interface MealSelectionsProps {
   availableMeals: MealCategory[];
@@ -51,9 +52,13 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
       createDefaultSelectedThings(meals.options)
     )
   );
-  console.log(selectedMeals);
 
-  return (
+  return props.availableMeals.length === 0 ? (
+    <>
+      It looks like you've not got any meals available yet. If this is wrong,
+      get in touch with us at {CONTACT_EMAIL} to let us know
+    </>
+  ) : (
     <DivContainer>
       <GridParent>
         <TabBox tabButton={TabButton}>

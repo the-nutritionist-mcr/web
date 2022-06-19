@@ -5,6 +5,8 @@ import { Button, Input } from '../../atoms';
 import { FormSection } from '../../containers';
 import styled from 'styled-components';
 import { daysOfWeek } from '@tnmw/config';
+import { useContext } from 'react';
+import { NavigationContext } from '@tnmw/utils';
 
 export interface User {
   username: string;
@@ -50,48 +52,67 @@ export const Account: FC<AccountProps> = ({
   userDetails,
   showChooseButton,
   logout,
-}) => (
-  <div>
-    <FormSection heading="Your Details">
-      <Input label="First Name" value={userDetails.firstName} disabled />
-      <Input label="Last Name" value={userDetails.surname} disabled />
-    </FormSection>
-    <FormSection>
-      <Input label="Email" value={userDetails.email} disabled />
-      <Input label="Contact Number" value={userDetails.phoneNumber} disabled />
-    </FormSection>
-    <FormSection>
-      <Input label="Address Line 1" value={userDetails.addressLine1} disabled />
-      <Input label="Address Line 2" value={userDetails.addressLine2} disabled />
-      <Input label="Country" value={userDetails.country} disabled />
-      <Input label="Postcode" value={userDetails.postcode} disabled />
-      <Input label="City" value={userDetails.city} disabled />
-    </FormSection>
-    {userDetails.plans.length > 0 && (
-      <FormSection heading="Your Plan">
-        {userDetails.plans.map((plan) => (
-          <>
-            <Input label="Meal Size" value={plan.name} disabled />
-            <Input
-              label="Weekly Meals"
-              value={String(plan.totalMeals)}
-              disabled
-            />
-          </>
-        ))}
-      </FormSection>
-    )}
-    <ChooseButtonContainer>
-      {showChooseButton && <Button primary>Choose Meals</Button>}
-    </ChooseButtonContainer>
-
+}) => {
+  const { navigate } = useContext(NavigationContext);
+  return (
     <div>
-      <Header>Logout</Header>
-      <SectionContents>
-        <Button backgroundColor="#E3E3E3" onClick={logout} primary>
-          Logout
-        </Button>
-      </SectionContents>
+      <FormSection heading="Your Details">
+        <Input label="First Name" value={userDetails.firstName} disabled />
+        <Input label="Last Name" value={userDetails.surname} disabled />
+      </FormSection>
+      <FormSection>
+        <Input label="Email" value={userDetails.email} disabled />
+        <Input
+          label="Contact Number"
+          value={userDetails.phoneNumber}
+          disabled
+        />
+      </FormSection>
+      <FormSection>
+        <Input
+          label="Address Line 1"
+          value={userDetails.addressLine1}
+          disabled
+        />
+        <Input
+          label="Address Line 2"
+          value={userDetails.addressLine2}
+          disabled
+        />
+        <Input label="Country" value={userDetails.country} disabled />
+        <Input label="Postcode" value={userDetails.postcode} disabled />
+        <Input label="City" value={userDetails.city} disabled />
+      </FormSection>
+      {userDetails.plans.length > 0 && (
+        <FormSection heading="Your Plan">
+          {userDetails.plans.map((plan) => (
+            <>
+              <Input label="Meal Size" value={plan.name} disabled />
+              <Input
+                label="Weekly Meals"
+                value={String(plan.totalMeals)}
+                disabled
+              />
+            </>
+          ))}
+        </FormSection>
+      )}
+      <ChooseButtonContainer>
+        {showChooseButton && (
+          <Button onClick={() => navigate?.('/choose-meals/')} primary>
+            Choose Meals
+          </Button>
+        )}
+      </ChooseButtonContainer>
+
+      <div>
+        <Header>Logout</Header>
+        <SectionContents>
+          <Button backgroundColor="#E3E3E3" onClick={logout} primary>
+            Logout
+          </Button>
+        </SectionContents>
+      </div>
     </div>
-  </div>
-);
+  );
+};
