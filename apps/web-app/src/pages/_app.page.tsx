@@ -78,6 +78,7 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
                 rel="stylesheet"
                 href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
               />
+              <title>The Nutritionist Manchester</title>
             </Head>
             <Toaster
               toastOptions={{

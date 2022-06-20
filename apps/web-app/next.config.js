@@ -23,7 +23,10 @@ module.exports = withNx(
     },
     ...nextConfig,
     target: 'serverless',
-
+    i18n: {
+      locales: ['en'],
+      defaultLocale: 'en',
+    },
     async redirects() {
       return [
         {
