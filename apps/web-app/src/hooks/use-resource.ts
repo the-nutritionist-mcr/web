@@ -39,14 +39,17 @@ export const useResource = <T extends { id: string }>(type: string) => {
       data: ExtractPromiseType<ReturnType<typeof createItem>>;
     }) {
       const oldData = cache.get(type);
-      const newData = oldData.map((item: T) =>
-        item.id === '0' ? { ...input, id: data.id } : item
-      );
+      const newData = {
+        items: oldData.items.map((item: T) =>
+          item.id === '0' ? { ...input, id: data.id } : item
+        ),
+      };
       mutate(type, newData, false);
       toast.success(`${type} created successfully`);
     },
 
-    onFailure() {
+    onFailure({ error }) {
+      console.log(error);
       toast.error(`failed to create ${type}`);
     },
   });
@@ -74,7 +77,8 @@ export const useResource = <T extends { id: string }>(type: string) => {
       toast.success(`${type} updated successfully`);
     },
 
-    onFailure() {
+    onFailure(error) {
+      console.log(error);
       toast.error(`failed to update ${type}`);
     },
   });
@@ -105,7 +109,8 @@ export const useResource = <T extends { id: string }>(type: string) => {
       toast.success(`${type} removed successfully`);
     },
 
-    onFailure() {
+    onFailure(error) {
+      console.log(error);
       toast.error(`failed to remove ${type}`);
     },
   });
