@@ -12,6 +12,7 @@ const HeroBox = styled('div')(({ theme }) => {
     flexDirection: 'column',
     justifyContent: 'center',
     backgroundColor: '#d4f9e3',
+    marginBottom: '1rem',
   };
 });
 
