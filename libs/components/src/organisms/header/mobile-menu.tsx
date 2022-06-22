@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import closeButton from './TNM_Icon__Exit_9bd47247.svg';
+
 const MobileMenuContainer = styled.div`
   top: 0;
   left: 0;
@@ -11,6 +13,19 @@ const MobileMenuContainer = styled.div`
   z-index: 10000;
   width: 100vw;
   height: 100vh;
+`;
+
+const StyledIcon = styled.img`
+  width: 40px;
+  height: 40px;
+`;
+
+const CloseButton = styled.button`
+  border: 0;
+  background: 0;
+  top: 30px;
+  right: 30px;
+  position: absolute;
 `;
 
 const MobileMenuUl = styled.ul`
@@ -40,12 +55,16 @@ const MobileMenuA = styled.a`
 
 interface MobileMenu {
   show: boolean;
+  onClose: () => void;
 }
 
 export const MobileMenu = (props: MobileMenu) =>
   props.show ? (
     <MobileMenuContainer>
       <MobileMenuUl>
+        <CloseButton onClick={props.onClose}>
+          <StyledIcon src={closeButton} />
+        </CloseButton>
         <MobileMenuLi>
           <MobileMenuA href="/">Home</MobileMenuA>
         </MobileMenuLi>

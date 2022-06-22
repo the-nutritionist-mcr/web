@@ -27,15 +27,6 @@ module.exports = withNx(
       locales: ['en'],
       defaultLocale: 'en',
     },
-    async redirects() {
-      return [
-        {
-          source: '/',
-          destination: '/account',
-          permanent: true,
-        },
-      ];
-    },
 
     typescript: {
       // !! WARN !!

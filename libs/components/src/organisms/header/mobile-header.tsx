@@ -43,7 +43,7 @@ const MobileHeader: FC = () => {
   const [showMenu, setShowMenu] = useState(false);
   return (
     <Fragment>
-      <MobileMenu show={showMenu} />
+      <MobileMenu show={showMenu} onClose={() => setShowMenu(false)} />
       <MenuButtonContainerLeft>
         <MenuButton onClick={() => setShowMenu(true)}>
           <StyledMenuIcon src={menuSvg} />
