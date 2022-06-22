@@ -7,7 +7,7 @@ import { verifyJwtToken } from '@tnmw/authorise-cognito-jwt';
 import { backendRedirect } from './backend-redirect';
 import { getUserFromAws } from './get-user-from-aws';
 import { BackendCustomer } from '@tnmw/types';
-import { ParsedUrlQuery } from 'querystring';
+import { ParsedUrlQuery } from 'node:querystring';
 
 export interface AuthorizedRouteProps {
   user: BackendCustomer & { admin: boolean };
