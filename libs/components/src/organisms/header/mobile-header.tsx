@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
-import { FC, Fragment } from 'react';
+import { FC, Fragment, useState } from 'react';
 
 import { Button } from '../../atoms';
 import menuSvg from './menu.svg';
+import { MobileMenu } from './mobile-menu';
 import tnmNLogo from './tnm-n-logo.svg';
 
 const StyledMenuIcon = styled.img`
@@ -33,18 +34,29 @@ const StyledTnmLogo = styled.img`
   flex-grow: 100;
 `;
 
-const MobileHeader: FC = () => (
-  <Fragment>
-    <MenuButtonContainerLeft>
-      <StyledMenuIcon src={menuSvg} />
-    </MenuButtonContainerLeft>
-    <LogoContainer>
-      <StyledTnmLogo src={tnmNLogo} />
-    </LogoContainer>
-    <MenuButtonContainerRight>
-      <Button primary>Get Started</Button>
-    </MenuButtonContainerRight>
-  </Fragment>
-);
+const MenuButton = styled.button`
+  border: 0;
+  background: 0;
+`;
+
+const MobileHeader: FC = () => {
+  const [showMenu, setShowMenu] = useState(false);
+  return (
+    <Fragment>
+      <MobileMenu show={showMenu} />
+      <MenuButtonContainerLeft>
+        <MenuButton onClick={() => setShowMenu(true)}>
+          <StyledMenuIcon src={menuSvg} />
+        </MenuButton>
+      </MenuButtonContainerLeft>
+      <LogoContainer>
+        <StyledTnmLogo src={tnmNLogo} />
+      </LogoContainer>
+      <MenuButtonContainerRight>
+        <Button primary>Get Started</Button>
+      </MenuButtonContainerRight>
+    </Fragment>
+  );
+};
 
 export default MobileHeader;

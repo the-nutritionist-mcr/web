@@ -31,6 +31,7 @@ describe('the webhook handler', () => {
     delete process.env[ENV.varNames.CognitoPoolId];
     delete process.env[ENV.varNames.ChargeBeeWebhookUsername];
     delete process.env[ENV.varNames.ChargeBeeWebhookPasssword];
+    delete process.env[ENV.varNames.ChargeBeeToken];
     delete process.env[ENV.varNames.EnvironmentName];
   });
 
@@ -50,6 +51,7 @@ describe('the webhook handler', () => {
     process.env[ENV.varNames.ChargeBeeWebhookUsername] = 'test-user';
     process.env[ENV.varNames.ChargeBeeWebhookPasssword] = 'test-password';
     process.env[ENV.varNames.EnvironmentName] = 'prod';
+    process.env[ENV.varNames.ChargeBeeToken] = 'foo';
 
     // Webhook sample comes from pressing the 'test webhook' button in the console
     const webhookBody = {
@@ -137,6 +139,7 @@ describe('the webhook handler', () => {
 
     process.env[ENV.varNames.ChargeBeeWebhookUsername] = basicAuthUser;
     process.env[ENV.varNames.ChargeBeeWebhookPasssword] = basicAuthPassword;
+    process.env[ENV.varNames.ChargeBeeToken] = 'foo';
     process.env[ENV.varNames.EnvironmentName] = 'non-production';
 
     const encodedBasicAuth = Buffer.from(
@@ -220,6 +223,7 @@ describe('the webhook handler', () => {
     const mockItemPriceId = 'mock-item-price-id';
     jest.resetAllMocks();
     process.env[ENV.varNames.CognitoPoolId] = 'test-pool-id';
+    process.env[ENV.varNames.ChargeBeeToken] = 'foo';
     const mockPlans = [
       {
         name: 'Foo',
@@ -533,6 +537,7 @@ describe('the webhook handler', () => {
     process.env[ENV.varNames.ChargeBeeWebhookUsername] = basicAuthUser;
     process.env[ENV.varNames.ChargeBeeWebhookPasssword] = basicAuthPassword;
     process.env[ENV.varNames.EnvironmentName] = 'prod';
+    process.env[ENV.varNames.ChargeBeeToken] = 'foo';
 
     const encodedBasicAuth = Buffer.from(
       `${basicAuthUser}:${basicAuthPassword}`
@@ -565,6 +570,7 @@ describe('the webhook handler', () => {
     const mockItemPriceId = 'mock-item-price-id';
     jest.resetAllMocks();
     process.env[ENV.varNames.CognitoPoolId] = 'test-pool-id';
+    process.env[ENV.varNames.ChargeBeeToken] = 'foo';
     const mockPlans = [
       {
         name: 'Foo',
@@ -815,6 +821,7 @@ describe('the webhook handler', () => {
 
     process.env[ENV.varNames.ChargeBeeWebhookUsername] = basicAuthUser;
     process.env[ENV.varNames.ChargeBeeWebhookPasssword] = basicAuthPassword;
+    process.env[ENV.varNames.ChargeBeeToken] = 'foo';
     process.env[ENV.varNames.EnvironmentName] = 'prod';
 
     const encodedBasicAuth = Buffer.from(
@@ -856,6 +863,7 @@ describe('the webhook handler', () => {
     process.env[ENV.varNames.ChargeBeeWebhookUsername] = basicAuthUser;
     process.env[ENV.varNames.ChargeBeeWebhookPasssword] = basicAuthPassword;
     process.env[ENV.varNames.EnvironmentName] = 'prod';
+    process.env[ENV.varNames.ChargeBeeToken] = 'foo';
 
     const encodedBasicAuth = Buffer.from(
       `${basicAuthUser}:${basicAuthPassword}`
@@ -1061,6 +1069,7 @@ describe('the webhook handler', () => {
     const basicAuthPassword = 'test-password';
 
     process.env[ENV.varNames.ChargeBeeWebhookUsername] = basicAuthUser;
+    process.env[ENV.varNames.ChargeBeeToken] = 'foo';
     process.env[ENV.varNames.ChargeBeeWebhookPasssword] = basicAuthPassword;
     process.env[ENV.varNames.EnvironmentName] = 'prod';
 
@@ -1241,6 +1250,7 @@ describe('the webhook handler', () => {
     const basicAuthUser = 'test-user';
     const basicAuthPassword = 'test-password';
 
+    process.env[ENV.varNames.ChargeBeeToken] = 'foo';
     process.env[ENV.varNames.ChargeBeeWebhookUsername] = basicAuthUser;
     process.env[ENV.varNames.ChargeBeeWebhookPasssword] = basicAuthPassword;
     process.env[ENV.varNames.EnvironmentName] = 'non-production';
