@@ -7,6 +7,10 @@ export default {
   component: HeaderComponent,
 } as Meta;
 
-const Template: Story = (args) => <HeaderComponent {...args} />;
+type PropType<X> = X extends (props: infer P) => unknown ? P : never;
+
+const Template: Story<PropType<typeof HeaderComponent>> = (args) => (
+  <HeaderComponent {...args} />
+);
 
 export const Header = Template.bind({});
