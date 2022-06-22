@@ -22,6 +22,7 @@ const SiteNavbarDesktop = styled('nav')`
 
 const SiteNavbarMobile = styled('nav')`
   display: flex;
+  align-items: center;
   font-family: 'Acumin Pro', Arial, sans-serif;
   font-weight: 700;
   height: ${(props) => props.theme.menubarHeight}px;
