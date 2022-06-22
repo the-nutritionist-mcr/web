@@ -14,6 +14,7 @@ const HeaderUnorderedList = styled('ul')`
   align-items: center;
   transition: ease transform 0.3s !important;
   max-width: 1460px;
+  padding: 0 30px;
 `;
 
 const TheNutritionistLogo = styled('a')`
