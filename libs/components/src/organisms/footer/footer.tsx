@@ -31,6 +31,9 @@ const FooterContent = styled.div`
 const FooterColumns = styled.div`
   display: flex;
   justify-content: space-between;
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
 `;
 
 const FooterHeaders = styled.h2`
@@ -60,19 +63,22 @@ const UnStyledUl = styled.ul`
 `;
 
 const TnmLogoWhiteAnchor = styled.a`
-  text-indent: -9999px;
-  width: 422px;
-  height: 46px;
+  max-width: 422px;
+  height: auto;
+  width: 100%;
   display: block;
   margin-bottom: 100px;
-  background: url(${tnmFullWhite});
+
+  & img {
+    width: 100%;
+  }
 `;
 
 const Stamp = styled.div`
   width: 150px;
   height: 150px;
   top: 50px;
-  right: 0;
+  right: 20px;
   position: absolute;
   transform: rotate(16deg);
   background: url(${nStamp});
@@ -91,7 +97,9 @@ const Footer: FC = () => (
     </StampContainer>
     <FooterStrip aria-hidden></FooterStrip>
     <FooterContent>
-      <TnmLogoWhiteAnchor href="/">The Nutritionist MCR</TnmLogoWhiteAnchor>
+      <TnmLogoWhiteAnchor href="/">
+        <img src={tnmFullWhite} alt="The Nutriontist MCR" />
+      </TnmLogoWhiteAnchor>
       <FooterColumns>
         <div>
           <FooterHeaders>Sign up to emails</FooterHeaders>
