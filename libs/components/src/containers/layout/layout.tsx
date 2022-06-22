@@ -9,6 +9,7 @@ const MainContainer = styled('main')`
   align-items: center;
   flex-direction: column;
   padding: 0 0 1rem;
+  min-height: 80vh;
 `;
 
 interface LayoutProps {

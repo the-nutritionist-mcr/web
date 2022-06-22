@@ -33,6 +33,7 @@
     "@emotion/react": "11.5.0",
     "@emotion/server": "11.4.0",
     "@emotion/styled": "11.3.0",
+    "@mui/material": "^5.8.5",
     "@nrwl/next": "13.4.2",
     "@reduxjs/toolkit": "1.7.1",
     "@testing-library/jest-dom": "5.16.1",

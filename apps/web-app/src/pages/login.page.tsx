@@ -20,6 +20,13 @@ const YourAccountHeader = styled('h1')`
   margin: 0.5rem 0 0 0;
 `;
 
+const LoginAndRegisterPadding = styled('div')`
+  width: 100%;
+  border-top: 1px solid black;
+  min-height: 5rem;
+  height: 5rem;
+`;
+
 const Login: FC = () => {
   return (
     <>
@@ -30,6 +37,7 @@ const Login: FC = () => {
         </YourAccountHeaderBox>
       </Hero>
       <LoginAndRegisterBox defaultTab="Login" />
+      <LoginAndRegisterPadding />
     </>
   );
 };
