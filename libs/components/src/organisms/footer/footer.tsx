@@ -3,6 +3,7 @@ import { FC } from 'react';
 
 import tnmFullWhite from './TNM-Full-white.svg';
 import SeasonalPattern from './Seasonal-pattern-spring-tnm.png';
+import nStamp from './TNM_Sticker5_DarkGrey+Mint_3e99005d.svg';
 
 const StyledFooter = styled.footer`
   width: 100%;
@@ -67,8 +68,27 @@ const TnmLogoWhiteAnchor = styled.a`
   background: url(${tnmFullWhite});
 `;
 
+const Stamp = styled.div`
+  width: 150px;
+  height: 150px;
+  top: 50px;
+  right: 0;
+  position: absolute;
+  transform: rotate(16deg);
+  background: url(${nStamp});
+`;
+
+const StampContainer = styled.div`
+  max-width: 1400px;
+  position: relative;
+  margin: 0 auto;
+`;
+
 const Footer: FC = () => (
   <StyledFooter>
+    <StampContainer>
+      <Stamp />
+    </StampContainer>
     <FooterStrip aria-hidden></FooterStrip>
     <FooterContent>
       <TnmLogoWhiteAnchor href="/">The Nutritionist MCR</TnmLogoWhiteAnchor>
