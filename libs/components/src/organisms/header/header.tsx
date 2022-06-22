@@ -18,6 +18,7 @@ const SiteNavbarDesktop = styled('nav')`
   top: 0;
   width: 100%;
   background-color: white;
+  transition: ease transform 0.3s !important;
 `;
 
 const SiteNavbarMobile = styled('nav')`
@@ -32,6 +33,7 @@ const SiteNavbarMobile = styled('nav')`
   top: 0;
   width: 100%;
   background-color: white;
+  transition: ease transform 0.3s !important;
 `;
 
 interface HeaderProps {
