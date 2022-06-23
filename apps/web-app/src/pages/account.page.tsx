@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { Hero, Button, Account } from '@tnmw/components';
 import Router from 'next/router';
-import { currentUser, signOut } from '../aws/authenticate';
+import { signOut } from '../aws/authenticate';
+import { PageSpacing } from './page-spacing';
 
 import AccountIcon from '../images/TNM_Icons_Final_Account.png';
 import styled from '@emotion/styled';
@@ -46,7 +47,9 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
           <YourAccountHeader>Your Account</YourAccountHeader>
         </YourAccountHeaderBox>
       </Hero>
-      <Account userDetails={user} showChooseButton={true} logout={logout} />
+      <PageSpacing>
+        <Account userDetails={user} showChooseButton={true} logout={logout} />
+      </PageSpacing>
     </>
   );
 };

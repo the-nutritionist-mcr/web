@@ -3,9 +3,9 @@ import { FC } from 'react';
 import { StandardPlan } from '@tnmw/types';
 import { Button, Input } from '../../atoms';
 import { FormSection } from '../../containers';
-import styled from 'styled-components';
 import { useContext } from 'react';
 import { NavigationContext } from '@tnmw/utils';
+import { sectionContents, chooseButtonContainer, header } from './account.css';
 
 export interface User {
   username: string;
@@ -32,20 +32,6 @@ interface AccountProps {
   showChooseButton: boolean;
   logout: () => void;
 }
-
-const Header = styled.h2`
-  font-family: 'Acumin Pro', Arial, sans-serif;
-`;
-
-const SectionContents = styled.div`
-  border-top 1px dashed #B8B8B8;
-  width: 100%;
-  display: flex;
-  padding-top: 1.2rem;
-`;
-const ChooseButtonContainer = styled.div`
-  margin-bottom: 3.2rem;
-`;
 
 export const Account: FC<AccountProps> = ({
   userDetails,
@@ -96,21 +82,21 @@ export const Account: FC<AccountProps> = ({
           ))}
         </FormSection>
       )}
-      <ChooseButtonContainer>
+      <div className={chooseButtonContainer}>
         {showChooseButton && (
           <Button onClick={() => navigate?.('/choose-meals/')} primary>
             Choose Meals
           </Button>
         )}
-      </ChooseButtonContainer>
+      </div>
 
       <div>
-        <Header>Logout</Header>
-        <SectionContents>
+        <h2 className={header}>Logout</h2>
+        <div className={sectionContents}>
           <Button backgroundColor="#E3E3E3" onClick={logout} primary>
             Logout
           </Button>
-        </SectionContents>
+        </div>
       </div>
     </div>
   );
