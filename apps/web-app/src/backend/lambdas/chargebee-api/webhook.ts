@@ -40,7 +40,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     if (
       environment !== 'prod' &&
-      (!email.trim().toLowerCase().endsWith('thenutritionistmcr.com') || !email)
+      (!email || !email.trim().toLowerCase().endsWith('thenutritionistmcr.com'))
     ) {
       return {
         statusCode: HTTP.statusCodes.Ok,
