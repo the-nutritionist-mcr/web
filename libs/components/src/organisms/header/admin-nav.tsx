@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Link } from '../../atoms/link/link';
-import { headerListItem, headerUnorderedList } from './desktop-header.css';
+import { headerListItem, headerUnorderedList } from './admin-nav.css';
 
 export const AdminNav = () => {
   return (
