@@ -48,6 +48,7 @@ export const login = async (
   username: string,
   password: string
 ): Promise<LoginResponse> => {
+  await signOut();
   await configureAuth();
 
   const response = await Auth.signIn(username, password);

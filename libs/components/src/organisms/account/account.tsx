@@ -4,7 +4,6 @@ import { StandardPlan } from '@tnmw/types';
 import { Button, Input } from '../../atoms';
 import { FormSection } from '../../containers';
 import styled from 'styled-components';
-import { daysOfWeek } from '@tnmw/config';
 import { useContext } from 'react';
 import { NavigationContext } from '@tnmw/utils';
 

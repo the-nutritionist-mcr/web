@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { IconButton } from '../../atoms';
 import LockIcon from './lock-icon.png';
 import QuestionMarkIcon from './question-mark-icon.png';
-import Tooltip from '@mui/material/Tooltip';
 
 interface FormSectionProps {
   children: React.ReactNode;
