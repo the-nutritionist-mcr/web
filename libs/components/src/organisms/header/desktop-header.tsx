@@ -1,8 +1,5 @@
 import { Button } from '../../atoms';
-import styled from '@emotion/styled';
 import { FC } from 'react';
-
-import TnmHeader from './TNM-Header.svg';
 
 import {
   headerListItem,
