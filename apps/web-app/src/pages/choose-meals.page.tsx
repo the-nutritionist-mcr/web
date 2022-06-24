@@ -41,19 +41,20 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
     return <></>;
   }
 
-  const meals = user.plans.map((plan) => ({
-    title: plan.name,
-    maxMeals: plan.totalMeals,
-    options: data.cooks.map((cook) =>
-      cook.menu.map((recipe) => ({
-        id: recipe.id,
-        title: recipe.name,
-        description: recipe.description,
-      }))
-    ),
-  }));
+  const meals = user.plans
+    .filter((plan) => !plan.isExtra)
+    .map((plan) => ({
+      title: plan.name,
+      maxMeals: plan.totalMeals,
+      options: data.cooks.map((cook) =>
+        cook.menu.map((recipe) => ({
+          id: recipe.id,
+          title: recipe.name,
+          description: recipe.description,
+        }))
+      ),
+    }));
 
-  console.log(meals);
   return (
     <>
       <Hero>

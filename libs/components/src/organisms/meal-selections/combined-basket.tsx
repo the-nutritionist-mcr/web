@@ -6,11 +6,12 @@ import { MealCategory } from './meal-category';
 import { defaultDeliveryDays } from '@tnmw/config';
 import { totalOtherSelected } from './total-other-selected';
 import { setSelected } from './set-selected';
+import { SelectedMeals } from './initial-selections';
 
 interface BasketProps {
   availableMeals: MealCategory[];
   selectedMeals: SelectedThings[][];
-  setSelectedMeals: Dispatch<SetStateAction<SelectedThings[][]>>;
+  setSelectedMeals: (selected: SelectedMeals) => void;
 }
 
 const SelectedBox = styled.div`

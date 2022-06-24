@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { SelectedMeals } from './initial-selections';
 import { SelectedThings } from './selected-things';
 
 export const setSelected = (
@@ -6,7 +6,7 @@ export const setSelected = (
   selectedMeals: SelectedThings[][],
   categoryIndex: number,
   dayIndex: number,
-  setSelectedMeals: Dispatch<SetStateAction<SelectedThings[][]>>
+  setSelectedMeals: (selected: SelectedMeals) => void
 ) => {
   const newSelectedMeals = [...selectedMeals[categoryIndex]];
   newSelectedMeals[dayIndex] = selected;

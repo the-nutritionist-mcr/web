@@ -27,7 +27,9 @@ interface TabButtonProps {
 interface TabBoxProps {
   tabButton?: FC<TabButtonProps>;
   onChange?: (tab: ReactElement<TabProps>) => void;
+  onChangeIndex?: (which: number, length: number) => void;
   defaultTab?: string;
+  currentTabIndex?: number;
 }
 
 const isTab = (node: ReactNode): node is ReactElement<TabProps> =>
@@ -42,11 +44,15 @@ const getTabs = (nodes: ReactNode): ReactElement<TabProps>[] =>
 
 const TabBox: FC<TabBoxProps> = (props) => {
   const tabs = getTabs(props.children);
+
   const defaultTabIndex = props.defaultTab
     ? tabs.findIndex((tab) => tab.props.tabTitle === props.defaultTab)
     : 0;
 
   const [tabIndex, setTabIndex] = useState(defaultTabIndex);
+
+  const activeTab = props.currentTabIndex ?? tabIndex;
+
   const ButtonComponent = props.tabButton ?? TabButton;
   const buttons = tabs.map((tab, index) => (
     <ButtonComponent
@@ -55,8 +61,9 @@ const TabBox: FC<TabBoxProps> = (props) => {
       onClick={() => {
         setTabIndex(index);
         props.onChange?.(tab);
+        props.onChangeIndex?.(index, tabs.length);
       }}
-      active={tabIndex === index}
+      active={activeTab === index}
     >
       {tab.props.tabTitle}
     </ButtonComponent>
@@ -65,7 +72,7 @@ const TabBox: FC<TabBoxProps> = (props) => {
     <div>
       <ButtonRow role="tablist">{buttons}</ButtonRow>
       {/* eslint-disable-next-line security/detect-object-injection */}
-      {tabs[tabIndex]}
+      {tabs[activeTab]}
     </div>
   );
 };
