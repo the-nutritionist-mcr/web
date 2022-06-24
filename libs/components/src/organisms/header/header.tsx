@@ -12,8 +12,9 @@ interface HeaderProps {
 }
 
 const Header = (props: HeaderProps) => {
+  console.log(siteNavbarDesktop, siteNavbarMobile);
   const theme = useTheme();
-  const currentBreakpoint = 'large';
+  const currentBreakpoint = useBreakpoints(theme.breakpoints);
   return currentBreakpoint === 'large' ? (
     <nav key="one" className={siteNavbarDesktop}>
       <DesktopHeader />

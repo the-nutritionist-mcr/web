@@ -30,7 +30,7 @@ const findBreakpoint = (breakpoints: Breakpoints) => {
 };
 
 export const useBreakpoints = (breakpoints: Breakpoints): string => {
-  const [breakpoint, setBreakpoint] = useState(findBreakpoint(breakpoints));
+  const [breakpoint, setBreakpoint] = useState('small');
 
   useEffect(() => {
     const handleResize = () => {
@@ -41,6 +41,7 @@ export const useBreakpoints = (breakpoints: Breakpoints): string => {
     if (isBrowser) {
       window.addEventListener('resize', handleResize);
     }
+    setBreakpoint(findBreakpoint(breakpoints));
     return () => {
       if (isBrowser) {
         window.removeEventListener('resize', handleResize);
