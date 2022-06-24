@@ -7,6 +7,7 @@ import nStamp from './TNM_Sticker5_DarkGrey+Mint_3e99005d.svg';
 
 const StyledFooter = styled.footer`
   width: 100%;
+  z-index: -1;
   font-family: 'Acumin Pro', Arial, sans-serif;
   box-sizing: border-box;
   position: relative;
@@ -101,10 +102,6 @@ const Footer: FC = () => (
         <img src={tnmFullWhite} alt="The Nutriontist MCR" />
       </TnmLogoWhiteAnchor>
       <FooterColumns>
-        <div>
-          <FooterHeaders>Sign up to emails</FooterHeaders>
-        </div>
-
         <div>
           <FooterHeaders>Order</FooterHeaders>
           <UnStyledUl>
