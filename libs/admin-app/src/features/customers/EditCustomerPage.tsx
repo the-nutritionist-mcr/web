@@ -82,7 +82,6 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
                 customer.plans,
                 itemFamilies
               ).deliveries;
-              console.log(deliveries);
               updateCustomer({
                 ...customer,
                 customPlan: deliveries,

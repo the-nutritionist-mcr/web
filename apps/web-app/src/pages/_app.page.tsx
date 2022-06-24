@@ -7,8 +7,6 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Layout } from '@tnmw/components';
 import { ThemeProvider } from '@emotion/react';
 import { SWRConfig } from 'swr';
-import { isClientSide } from '../utils/is-client-side';
-import { swrLocalstorageProvider } from '../utils/swr-localstorage-provider';
 import { AuthenticationServiceContext } from '@tnmw/components';
 import { NavigationContext } from '@tnmw/utils';
 
@@ -74,10 +72,6 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
         <NavigationContext.Provider value={navigator}>
           <ThemeProvider theme={theme}>
             <Head>
-              <link
-                rel="stylesheet"
-                href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
-              />
               <title>The Nutritionist Manchester</title>
             </Head>
             <Toaster

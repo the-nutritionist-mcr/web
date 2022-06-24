@@ -21,7 +21,6 @@ export const useResource = <T extends { id: string }>(type: string) => {
 
   const [create] = useMutation(createItem, {
     onMutate({ input }: { input: T }) {
-      console.log(input);
       const data = cache.get(type);
       const items = [...data.items, { ...input, id: 0 }];
       mutate(type, { items }, false);

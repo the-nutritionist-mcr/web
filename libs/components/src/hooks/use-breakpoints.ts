@@ -1,6 +1,6 @@
 import { Breakpoints } from '../types/breakpoints';
 
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 
 const isBrowser = typeof window !== 'undefined';
 
@@ -29,14 +29,10 @@ const findBreakpoint = (breakpoints: Breakpoints) => {
   return betweenBreakpoint[0];
 };
 
-const serverSideUseLayoutEffectShim = (callback: () => void) => callback();
-
-const effectHook = isBrowser ? useLayoutEffect : serverSideUseLayoutEffectShim;
-
 export const useBreakpoints = (breakpoints: Breakpoints): string => {
   const [breakpoint, setBreakpoint] = useState(findBreakpoint(breakpoints));
 
-  effectHook(() => {
+  useEffect(() => {
     const handleResize = () => {
       if (isBrowser) {
         setBreakpoint(findBreakpoint(breakpoints));

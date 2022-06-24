@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import { Hero, Button, Account } from '@tnmw/components';
 import Router from 'next/router';
 import { signOut } from '../aws/authenticate';
@@ -10,6 +10,7 @@ import {
   authorizedRoute,
   AuthorizedRouteProps,
 } from '../utils/authorised-route';
+import { UserContext } from 'libs/components/src/contexts';
 
 const YourAccountHeaderBox = styled('div')`
   text-align: center;
@@ -27,13 +28,16 @@ const YourAccountHeader = styled('h1')`
   margin: 0.5rem 0 0 0;
 `;
 
-const logout = async () => {
-  await signOut();
-  // eslint-disable-next-line fp/no-mutating-methods
-  await Router.push('/');
-};
-
 const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
+  const { setUser } = useContext(UserContext);
+
+  const logout = async () => {
+    await signOut();
+    // eslint-disable-next-line fp/no-mutating-methods
+    await Router.push('/');
+    setUser(undefined);
+  };
+
   return (
     <>
       <Hero>

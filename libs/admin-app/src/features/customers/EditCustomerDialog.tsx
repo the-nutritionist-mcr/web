@@ -55,7 +55,6 @@ const EditCustomerDialog: React.FC<EditCustomerDialogProps> = (props) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onChange={(nextCustomerData: any): void => {
             // eslint-disable-next-line no-console
-            console.log(nextCustomerData);
             const nextCustomer = {
               ...nextCustomerData,
               startDate:

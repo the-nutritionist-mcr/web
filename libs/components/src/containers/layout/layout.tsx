@@ -20,8 +20,6 @@ const Layout: FC<LayoutProps> = (props) => {
   const [user, setUser] = useState<User | undefined>(props.user);
   useAxe();
 
-  console.log(user);
-
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <Header admin={Boolean(user?.admin)} />

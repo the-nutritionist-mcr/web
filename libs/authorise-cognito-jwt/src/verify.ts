@@ -9,7 +9,6 @@ export const verify = async (
   return new Promise<Claim>((resolve, reject) => {
     jsonwebtoken.verify(token, key.pem, (error, data) => {
       if (error) {
-        console.log(token);
         reject(error);
       } else {
         if (!data) {

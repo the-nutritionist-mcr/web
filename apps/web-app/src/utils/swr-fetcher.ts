@@ -28,8 +28,6 @@ export const swrFetcher = async <T>(
 ): Promise<T> => {
   const { ApiDomainName: domainName } = await getOutputs();
 
-  console.log(domainName);
-
   const finalInit = await getFetchInit(init);
   const fullPath = `https://${domainName}/${path}`;
   const response = await fetch(fullPath, finalInit);

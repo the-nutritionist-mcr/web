@@ -13,14 +13,14 @@ interface HeaderProps {
 
 const Header = (props: HeaderProps) => {
   const theme = useTheme();
-  const currentBreakpoint = useBreakpoints(theme.breakpoints);
+  const currentBreakpoint = 'large';
   return currentBreakpoint === 'large' ? (
-    <nav className={siteNavbarDesktop}>
+    <nav key="one" className={siteNavbarDesktop}>
       <DesktopHeader />
       {props.admin && <AdminNav />}
     </nav>
   ) : (
-    <nav className={siteNavbarMobile}>
+    <nav key="two" className={siteNavbarMobile}>
       <MobileHeader />
     </nav>
   );

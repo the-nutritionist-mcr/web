@@ -26,13 +26,11 @@ export const getPublicKeys = async (): Promise<MapOfKidToPublicKey> => {
   if (!cacheKeys) {
     const issuer = getIssuer();
     const url = `${issuer}/.well-known/jwks.json`;
-    console.log(url);
     const publicKeys = await Axios.default.get<PublicKeys>(url);
     // eslint-disable-next-line fp/no-mutation
     cacheKeys = publicKeys.data.keys.reduce<MapOfKidToPublicKey>(
       (agg: MapOfKidToPublicKey, current: PublicKey) => {
         const pem = jwkToPem(current);
-        console.log('here');
         // eslint-disable-next-line fp/no-mutation
         agg[current.kid] = { instance: current, pem };
         return agg;

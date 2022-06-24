@@ -24,7 +24,6 @@ export const useLoginBox = () => {
         try {
             if (isLoginData(data, loginState)) {
                 const loginResponse = yield login(data.email, data.password);
-                console.log(loginResponse);
                 setResponse(loginResponse);
                 if (loginResponse.challengeName === 'SMS_MFA') {
                     setLoginState(LoginState.MfaChallenge);
