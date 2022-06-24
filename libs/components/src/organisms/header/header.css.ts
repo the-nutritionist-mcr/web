@@ -5,6 +5,7 @@ export const siteNavbarDesktop = style({
   flexDirection: 'column',
   fontFamily: "'Acumin Pro', Arial, sans-serif",
   fontWeight: 700,
+  alignItems: 'center',
   height: '88px',
   padding: '0 30px',
   borderBottom: '1px solid black',
