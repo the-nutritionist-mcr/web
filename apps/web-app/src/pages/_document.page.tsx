@@ -8,7 +8,6 @@ const Document = () => {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=optional"
         />
-        <title>The Nutritionist Manchester</title>
       </Head>
       <body>
         <Main />

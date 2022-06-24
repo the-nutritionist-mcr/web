@@ -13,7 +13,7 @@ const theme = {
 };
 
 const Padding = styled.div`
-  padding: 0 1rem;
+  padding: 1rem 1rem;
 `;
 
 export const AdminTemplate: FC = (props) => (

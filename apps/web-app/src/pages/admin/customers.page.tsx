@@ -10,13 +10,9 @@ const CustomersPage: FC = () => {
   const { items: customisations } = useCustomisations();
   const { items } = useCustomers();
   return (
-    <MenuPaddedContent>
-      <AdminTemplate>
-        {items && (
-          <Customers customers={items} customisations={customisations} />
-        )}
-      </AdminTemplate>
-    </MenuPaddedContent>
+    <AdminTemplate>
+      {items && <Customers customers={items} customisations={customisations} />}
+    </AdminTemplate>
   );
 };
 
