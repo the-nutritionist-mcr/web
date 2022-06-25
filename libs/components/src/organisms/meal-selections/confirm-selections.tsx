@@ -13,11 +13,9 @@ import { MealCategoryWithSelections } from './meal-category';
 import { defaultDeliveryDays } from '@tnmw/config';
 import { ConfirmDelivery } from './confirm-delivery';
 import { countMeals } from './count-meals';
-import { SubmitCustomerOrderPayload } from '@tnmw/types';
 
 interface ConfirmSelectionsProps {
   selectedMeals: MealCategoryWithSelections[];
-  submitOrder: (payload: SubmitCustomerOrderPayload) => Promise<void>;
 }
 
 export const ConfirmSelections = (props: ConfirmSelectionsProps) => {

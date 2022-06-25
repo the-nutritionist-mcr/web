@@ -51,7 +51,7 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
                     {selected ? (
                       <MealList
                         things={category.options[dayIndex]}
-                        selected={props.selectedMeals[categoryIndex][dayIndex]}
+                        selected={selected}
                         setSelected={(selected) => {
                           setSelected(
                             selected,

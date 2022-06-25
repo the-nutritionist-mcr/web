@@ -1,12 +1,11 @@
-import Customer from './Customer';
 import { SelectedMeal } from './customer-meal-selection';
+
 import Recipe, { isRecipe } from './Recipe';
 
 export interface SubmitCustomerOrderPayload {
   deliveries: SelectedMeal[][];
   plan: string;
   sort: string;
-  customer: Customer;
 }
 
 export const isSubmitCustomerOrderPayload = (
