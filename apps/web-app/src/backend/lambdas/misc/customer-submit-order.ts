@@ -16,7 +16,7 @@ import { ENV, HTTP } from '@tnmw/constants';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
-    await authoriseJwt(event);
+    const { username: authedUsername } = await authoriseJwt(event);
     const marshallOptions = {
       removeUndefinedValues: true,
     };
@@ -46,6 +46,13 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const selection: CustomerMealsSelectionWithChargebeeCustomer[number] =
       result.Items[0].selection;
+
+    if (authedUsername !== selection.customer.id) {
+      throw new HttpError(
+        HTTP.statusCodes.Forbidden,
+        'Tried to submit the order for a different customer. Nice try...'
+      );
+    }
 
     const newSelection: CustomerMealsSelectionWithChargebeeCustomer[number] = {
       customer: selection.customer,

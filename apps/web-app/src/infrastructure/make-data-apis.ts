@@ -121,27 +121,6 @@ export const makeDataApis = (
     },
   });
 
-  const submitOrderFunction = new NodejsFunction(context, `plan-function`, {
-    functionName: getResourceName(`order-function`, envName),
-    entry: entryName('misc', 'customer-submit-order.ts'),
-    runtime: Runtime.NODEJS_14_X,
-    memorySize: 2048,
-    environment: {
-      ...defaultEnvironmentVars,
-      [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
-    },
-    bundling: {
-      sourceMap: true,
-    },
-  });
-
-  const submitOrder = api.root.addResource('submit-order');
-  submitOrder.addMethod(
-    HTTP.verbs.Post,
-    new LambdaIntegration(submitOrderFunction)
-  );
-  planDataTable.grantReadWriteData(submitOrderFunction);
-
   const planFunction = new NodejsFunction(context, `plan-function`, {
     functionName: getResourceName(`plan-function`, envName),
     entry: entryName('misc', 'submit-full-plan.ts'),
@@ -168,6 +147,31 @@ export const makeDataApis = (
       resources: [pool.userPoolArn],
     })
   );
+
+  const submitOrderFunction = new NodejsFunction(
+    context,
+    `submit-order-function`,
+    {
+      functionName: getResourceName(`order-function`, envName),
+      entry: entryName('misc', 'customer-submit-order.ts'),
+      runtime: Runtime.NODEJS_14_X,
+      memorySize: 2048,
+      environment: {
+        ...defaultEnvironmentVars,
+        [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
+      },
+      bundling: {
+        sourceMap: true,
+      },
+    }
+  );
+
+  const submitOrder = planResource.addResource('submit-order');
+  submitOrder.addMethod(
+    HTTP.verbs.Post,
+    new LambdaIntegration(submitOrderFunction)
+  );
+  planDataTable.grantReadWriteData(submitOrderFunction);
 
   const getPlanFunction = new NodejsFunction(context, `get-plan-function`, {
     functionName: getResourceName(`get-plan-function`, envName),
