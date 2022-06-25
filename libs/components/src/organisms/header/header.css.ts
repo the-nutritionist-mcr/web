@@ -24,6 +24,7 @@ export const siteNavbarMobile = style({
   padding: '0 30px',
   borderBottom: '1px solid black',
   position: 'fixed',
+  alignItems: 'center',
   top: 0,
   width: '100%',
   backgroundColor: 'white',

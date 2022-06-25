@@ -5,6 +5,7 @@ import {
   GetPlanResponse,
   NotYetPublishedResponse,
   StoredMealSelection,
+  SubmitCustomerOrderPayload,
 } from '@tnmw/types';
 import useMutation from 'use-mutation';
 import { HTTP } from '@tnmw/constants';
@@ -19,6 +20,14 @@ export const usePlan = () => {
     'plan',
     swrFetcher
   );
+
+  const submitOrder = async (
+    details: SubmitCustomerOrderPayload
+  ): Promise<void> =>
+    await swrFetcher('plan/submit-order', {
+      method: HTTP.verbs.Post,
+      body: JSON.stringify(details),
+    });
 
   const publishPlan = async (): Promise<void> =>
     await swrFetcher('plan/publish', {
@@ -90,5 +99,5 @@ export const usePlan = () => {
     ? { ...data, date: new Date(Number(data.date)) }
     : data;
 
-  return { data: finalData, update, publish };
+  return { data: finalData, update, publish, submitOrder };
 };

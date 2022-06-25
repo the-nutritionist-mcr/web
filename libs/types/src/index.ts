@@ -11,6 +11,7 @@ export type { default as Recipe } from './lib/Recipe';
 export { isRecipe } from './lib/Recipe';
 
 export { isSubmitCustomerOrderPayload } from './lib/submit-customer-order';
+export type { SubmitCustomerOrderPayload } from './lib/submit-customer-order';
 export { isChangePlanRecipeBody } from './lib/change-plan-recipe-body';
 export { isPublishPlanBody } from './lib/publish-plan-body';
 

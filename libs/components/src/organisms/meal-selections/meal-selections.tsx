@@ -8,10 +8,19 @@ import { CONTACT_EMAIL } from '@tnmw/constants';
 import { InitialSelections } from './initial-selections';
 import { ConfirmSelections } from './confirm-selections';
 import { remainingMeals } from './count-meals';
+import {
+  Recipe,
+  StoredMealSelection,
+  SubmitCustomerOrderPayload,
+} from '@tnmw/types';
+import { isSelectedMeal } from '@tnmw/meal-planning';
 
 export interface MealSelectionsProps {
   availableMeals: MealCategory[];
   deliveryDates: string[];
+  currentSelection: StoredMealSelection;
+  submitOrder: (payload: SubmitCustomerOrderPayload) => Promise<void>;
+  recipes: Recipe[];
 }
 
 const DivContainer = styled.div`
@@ -39,50 +48,98 @@ const ButtonBox = styled.div`
   }
 `;
 
-const hasMeal = (meal: Meal | undefined): meal is Meal => Boolean(meal);
+const hasThing = <T,>(thing: T | undefined): thing is T => Boolean(thing);
 
-const createDefaultSelectedThings = (things: Meal[][]) =>
-  things.map((day) => Object.fromEntries(day.map((thing) => [thing.id, 0])));
+const createDefaultSelectedThings = (
+  categories: MealCategory[],
+  selection: StoredMealSelection
+) =>
+  categories.map((category) =>
+    defaultDeliveryDays.map((day, index) => {
+      const delivery = selection.selection.deliveries[index];
+      return Array.isArray(delivery)
+        ? delivery
+            .filter((item) => item.chosenVariant === category.title)
+            .reduce<{ [id: string]: number }>((accum, item) => {
+              const id = isSelectedMeal(item) ? item.recipe.id : 'extra';
+              if (isSelectedMeal(item) && id in accum) {
+                accum[id]++;
+              }
+
+              if (isSelectedMeal(item) && !(id in accum)) {
+                accum[item.recipe.id] = 1;
+              }
+              return accum;
+            }, {})
+        : undefined;
+    })
+  );
 
 const MealSelections: FC<MealSelectionsProps> = (props) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedMeals, setSelectedMeals] = useState(
-    props.availableMeals.map((meals) =>
-      createDefaultSelectedThings(meals.options)
-    )
+    createDefaultSelectedThings(props.availableMeals, props.currentSelection)
   );
 
   const availableMeals = props.availableMeals.flatMap((category) =>
     category.options.flat()
   );
 
-  console.log(selectedMeals);
-
   const optionsWithSelections = props.availableMeals.map((category, index) => ({
     ...category,
     selections: selectedMeals[index]
       .map((delivery) =>
-        Object.entries(delivery).flatMap(([id, count]) =>
-          Array.from({ length: count }).map(() =>
-            availableMeals.find((meal) => meal.id === id)
-          )
-        )
+        delivery
+          ? Object.entries(delivery).flatMap(([id, count]) =>
+              Array.from({ length: count }).map(() =>
+                availableMeals.find((meal) => meal.id === id)
+              )
+            )
+          : []
       )
       // eslint-disable-next-line unicorn/no-array-callback-reference
-      .map((delivery) => delivery.filter(hasMeal)),
+      .map((delivery) => delivery.filter(hasThing)),
   }));
 
-  const remaining = remainingMeals(optionsWithSelections);
+  const remaining = remainingMeals(
+    optionsWithSelections.filter((category) => !category.isExtra)
+  );
 
-  const tabs = props.availableMeals.length * defaultDeliveryDays.length;
+  const tabs =
+    props.availableMeals.filter((category) => !category.isExtra).length *
+    defaultDeliveryDays.length;
 
   const [tabIndex, setTabIndex] = useState(0);
 
   const next = () => {
     if (tabIndex < tabs - 1) {
       setTabIndex((index) => index + 1);
-    } else {
+    } else if (!showConfirm) {
       setShowConfirm(true);
+    } else {
+      const submitOrder: SubmitCustomerOrderPayload = {
+        plan: props.currentSelection.id,
+        sort: props.currentSelection.sort,
+        deliveries: defaultDeliveryDays.map((day, index) => {
+          return optionsWithSelections.flatMap((category) =>
+            category.selections[index]
+              .map((recipe) => {
+                const foundRecipe = props.recipes.find(
+                  (straw) => recipe.id === straw.id
+                );
+                if (foundRecipe) {
+                  return {
+                    recipe: foundRecipe,
+                    chosenVariant: category.title,
+                  };
+                }
+                return undefined;
+              })
+              // eslint-disable-next-line unicorn/no-array-callback-reference
+              .filter(hasThing)
+          );
+        }),
+      };
     }
   };
 

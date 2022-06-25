@@ -10,7 +10,7 @@ import { SelectedMeals } from './initial-selections';
 
 interface BasketProps {
   availableMeals: MealCategory[];
-  selectedMeals: SelectedThings[][];
+  selectedMeals: (SelectedThings | undefined)[][];
   setSelectedMeals: (selected: SelectedMeals) => void;
 }
 

@@ -9,7 +9,7 @@ interface BasketProps {
   title: string;
   itemWord: string;
   itemWordPlural: string;
-  selectedMeals: SelectedThings;
+  selectedMeals: SelectedThings | undefined;
   setSelected: (selected: SelectedThings) => void;
   max: number;
 }
@@ -60,12 +60,14 @@ const BasketHeader = styled.h3`
 `;
 
 const Basket: FC<BasketProps> = (props) => {
-  const totalSelected = Object.entries(props.selectedMeals).reduce(
-    (accum, item) => accum + item[1],
-    0
-  );
+  const totalSelected = props.selectedMeals
+    ? Object.entries(props.selectedMeals).reduce(
+        (accum, item) => accum + item[1],
+        0
+      )
+    : 0;
 
-  if (totalSelected === 0) {
+  if (totalSelected === 0 || !props.selectedMeals) {
     // eslint-disable-next-line unicorn/no-null
     return null;
   }

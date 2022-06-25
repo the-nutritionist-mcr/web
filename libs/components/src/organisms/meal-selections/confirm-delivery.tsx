@@ -43,7 +43,7 @@ export const ConfirmDelivery = (props: ConfirmDeliveryProps) => {
           <h5 className={sectionHeader}>{section.name}</h5>
           <ul>
             {section.meals.length === 0 ? (
-              <li className={noMealsLi}>No meals in this delivery</li>
+              <li className={noMealsLi}>Empty</li>
             ) : (
               combineDuplicates(section.meals).map((meal) => (
                 <li className={mealSelectionLi}>

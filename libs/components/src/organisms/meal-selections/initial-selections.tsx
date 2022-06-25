@@ -8,6 +8,7 @@ import MealList from './meal-list';
 import { setSelected } from './set-selected';
 import { totalOtherSelected } from './total-other-selected';
 import { container, header, youNeedToChoose } from './initial-selections.css';
+import { ParagraphText } from '../../atoms';
 
 const GridParent = styled.div`
   display: grid;
@@ -15,7 +16,7 @@ const GridParent = styled.div`
   grid-template-columns: 70% 30%;
 `;
 
-export type SelectedMeals = { [key: string]: number }[][];
+export type SelectedMeals = ({ [key: string]: number } | undefined)[][];
 
 export interface InitialSelectionsProps {
   availableMeals: MealCategory[];
@@ -40,35 +41,42 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
           currentTabIndex={props.currentTabIndex}
           onChangeIndex={props.onChangeIndex}
         >
-          {props.availableMeals.flatMap((category, categoryIndex) => {
-            return defaultDeliveryDays.map((_, dayIndex) => {
-              return (
-                <Tab tabTitle={`Delivery ${dayIndex + 1} ${category.title}`}>
-                  <MealList
-                    things={category.options[dayIndex]}
-                    selected={props.selectedMeals[categoryIndex][dayIndex]}
-                    setSelected={(selected) => {
-                      setSelected(
-                        selected,
-                        props.selectedMeals,
-                        categoryIndex,
-                        dayIndex,
-                        props.setSelectedMeals
-                      );
-                    }}
-                    max={
-                      category.maxMeals -
-                      totalOtherSelected(
-                        props.selectedMeals,
-                        categoryIndex,
-                        dayIndex
-                      )
-                    }
-                  />
-                </Tab>
-              );
-            });
-          })}
+          {props.availableMeals
+            .filter((category) => !category.isExtra)
+            .flatMap((category, categoryIndex) => {
+              return defaultDeliveryDays.map((_, dayIndex) => {
+                const selected = props.selectedMeals[categoryIndex][dayIndex];
+                return (
+                  <Tab tabTitle={`Delivery ${dayIndex + 1} ${category.title}`}>
+                    {selected ? (
+                      <MealList
+                        things={category.options[dayIndex]}
+                        selected={props.selectedMeals[categoryIndex][dayIndex]}
+                        setSelected={(selected) => {
+                          setSelected(
+                            selected,
+                            props.selectedMeals,
+                            categoryIndex,
+                            dayIndex,
+                            props.setSelectedMeals
+                          );
+                        }}
+                        max={
+                          category.maxMeals -
+                          totalOtherSelected(
+                            props.selectedMeals,
+                            categoryIndex,
+                            dayIndex
+                          )
+                        }
+                      />
+                    ) : (
+                      <ParagraphText>Currently Paused</ParagraphText>
+                    )}
+                  </Tab>
+                );
+              });
+            })}
         </TabBox>
         <CombinedBasket
           availableMeals={props.availableMeals}

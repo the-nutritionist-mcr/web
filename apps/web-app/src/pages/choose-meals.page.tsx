@@ -6,7 +6,7 @@ import {
   AuthorizedRouteProps,
 } from '../utils/authorised-route';
 
-import { usePlan } from '../hooks';
+import { usePlan, useRecipes } from '../hooks';
 import styled from 'styled-components';
 import { GetPlanResponse, NotYetPublishedResponse } from '@tnmw/types';
 
@@ -35,26 +35,27 @@ const getMeals = (
 };
 
 const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
-  const { data } = usePlan();
+  const { data, submitOrder } = usePlan();
 
   if (!data?.available) {
     return <></>;
   }
 
-  const meals = user.plans
-    .filter((plan) => !plan.isExtra)
-    .map((plan) => ({
-      title: plan.name,
-      maxMeals: plan.totalMeals,
-      options: data.cooks.map((cook) =>
-        cook.menu.map((recipe) => ({
-          id: recipe.id,
-          title: recipe.name,
-          description: recipe.description,
-          contains: recipe.allergens,
-        }))
-      ),
-    }));
+  const recipes = data.cooks.flatMap((cook) => cook.menu);
+
+  const meals = user.plans.map((plan) => ({
+    title: plan.name,
+    isExtra: plan.isExtra,
+    maxMeals: plan.totalMeals,
+    options: data.cooks.map((cook) =>
+      cook.menu.map((recipe) => ({
+        id: recipe.id,
+        title: recipe.name,
+        description: recipe.description,
+        contains: recipe.allergens,
+      }))
+    ),
+  }));
 
   return (
     <>
@@ -64,6 +65,9 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
         </ChooseMealsHeaderBox>
       </Hero>
       <MealSelections
+        currentSelection={data.currentUserSelection}
+        submitOrder={submitOrder}
+        recipes={recipes}
         availableMeals={meals}
         deliveryDates={data.cooks.map((cook) => cook.date)}
       />
