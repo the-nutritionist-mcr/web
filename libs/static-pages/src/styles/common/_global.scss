@@ -17,53 +17,60 @@ body {
   }
 }
 
-h1 {
-  font-size: 72px;
-  font-family: 'Acumin Pro Semicondensed', sans-serif;
-  line-height: 76px;
 
-  @include mob(1300) {
-    font-size: 60px;
-    line-height: 64px;
-  }
+/** Many of these styles conflict with the styles
+  * I've done in the ordering system
+  * we need to find a way to scope them to just the static pages of the site
+  * so for now I'm excluding them
+  */
 
-  @include mob(1100) {
-    font-size: 40px;
-    line-height: 44px;
-  }
+// h1 {
+//   font-size: 72px;
+//   font-family: 'Acumin Pro Semicondensed', sans-serif;
+//   line-height: 76px;
 
-  @include mob(900) {
-    font-size: 36px;
-    line-height: 40px;
-  }
-}
+//   @include mob(1300) {
+//     font-size: 60px;
+//     line-height: 64px;
+//   }
 
-h2 {
-  font-size: 45px;
-  font-family: 'Acumin Pro Semicondensed', sans-serif;
-  line-height: 49px;
+//   @include mob(1100) {
+//     font-size: 40px;
+//     line-height: 44px;
+//   }
 
-  @include mob(900) {
-    font-size: 30px;
-    line-height: 34px;
-  }
+//   @include mob(900) {
+//     font-size: 36px;
+//     line-height: 40px;
+//   }
+// }
 
-  span {
-    display: block;
-  }
-}
+// h2 {
+//   font-size: 45px;
+//   font-family: 'Acumin Pro Semicondensed', sans-serif;
+//   line-height: 49px;
 
-h3 {
-  font-size: 17px;
-  line-height: 21px;
-  font-family: 'Acumin Pro Semicondensed', sans-serif;
-}
+//   @include mob(900) {
+//     font-size: 30px;
+//     line-height: 34px;
+//   }
 
-p {
-  font-size: 21px;
-  line-height: 30px;
-  margin: 11px 0;
-}
+//   span {
+//     display: block;
+//   }
+// }
+
+// h3 {
+//   font-size: 17px;
+//   line-height: 21px;
+//   font-family: 'Acumin Pro Semicondensed', sans-serif;
+// }
+
+// p {
+//   font-size: 21px;
+//   line-height: 30px;
+//   margin: 11px 0;
+// }
 
 .dish-nutrition-and-allergy-info {
   display: none;

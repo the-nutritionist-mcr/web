@@ -3,35 +3,37 @@ import { QuantityStepper } from '../../molecules';
 import styled from '@emotion/styled';
 import { uniqueId } from 'lodash';
 import { FC } from 'react';
+import { divider, header, nutritionAndAllergyLink } from './meal-counter.css';
 
 export interface MealCounterProps {
   title: string;
   description: string;
+  contains: string;
   value?: number;
   onChange?: (newValue: number) => void;
   max?: number;
   min?: number;
 }
 
-const Header = styled.h3`
-  font-family: 'Acumin Pro', Arial, sans-serif;
-  font-size: 1.7rem;
-  margin: 0;
-`;
 const Container = styled.section`
-  display: flex;
-  flex-direction: column;
-  width: 20rem;
+  display: grid;
   text-align: center;
-  align-items: center;
+  grid-template-rows: 3.5rem 6rem 2.5rem;
+  max-width: 20rem;
 `;
 
 const MealCounter: FC<MealCounterProps> = (props) => {
   const headerId = uniqueId();
   return (
     <Container aria-labelledby={headerId}>
-      <Header id={headerId}>{props.title}</Header>
-      <ParagraphText>{props.description}</ParagraphText>
+      <h3 className={header} id={headerId}>
+        {props.title.toLocaleLowerCase()}
+      </h3>
+      <ParagraphText>
+        {props.description}
+        <hr className={divider} />
+      </ParagraphText>
+      <p className={nutritionAndAllergyLink}>Allergen Info</p>
       <QuantityStepper
         onChange={props.onChange}
         value={props.value ?? 0}

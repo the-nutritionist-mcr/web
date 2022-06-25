@@ -1,18 +1,11 @@
 import { FC, useState } from 'react';
-import { TabBox, Tab } from '../../containers';
-import MealList from './meal-list';
-import TabButton from './tab-button';
 import styled from '@emotion/styled';
 import { Meal } from './meal';
 import { defaultDeliveryDays } from '@tnmw/config';
 import { MealCategory } from './meal-category';
-import CombinedBasket from './combined-basket';
-import { totalOtherSelected } from './total-other-selected';
-import { setSelected } from './set-selected';
 import { Button } from '../../atoms';
 import { CONTACT_EMAIL } from '@tnmw/constants';
 import { InitialSelections } from './initial-selections';
-import { SetUICustomizationRequest } from '@aws-sdk/client-cognito-identity-provider';
 import { ConfirmSelections } from './confirm-selections';
 
 export interface MealSelectionsProps {
@@ -25,18 +18,23 @@ const DivContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-end;
+  max-width: 1460px;
   gap: 2rem;
+  padding: 1rem;
 `;
 
 const ButtonBox = styled.div`
   width: 100%;
   gap: 1rem;
-  display: grid;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   margin-top: 3rem;
-  grid-template-columns: 4fr 2fr;
-  & > * {
-    grid-column-start: 2;
-    grid-column-end: 2;
+  grid-template-columns: 5rem;
+  & > button {
+    padding: 1.5rem 0;
+    border-radius: 50px;
+    width: 20rem;
   }
 `;
 
@@ -72,8 +70,6 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
       .map((delivery) => delivery.filter(hasMeal)),
   }));
 
-  console.log(optionsWithSelections);
-
   const tabs = props.availableMeals.length * defaultDeliveryDays.length;
 
   const [tabIndex, setTabIndex] = useState(0);
@@ -87,7 +83,9 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
   };
 
   const prev = () => {
-    if (tabIndex > 0) {
+    if (showConfirm) {
+      setShowConfirm(false);
+    } else if (tabIndex > 0) {
       setTabIndex((index) => index - 1);
     }
   };
@@ -105,6 +103,9 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
           selectedMeals={selectedMeals}
           setSelectedMeals={setSelectedMeals}
           currentTabIndex={tabIndex}
+          onChangeIndex={(index) => {
+            setTabIndex(index);
+          }}
         />
       ) : (
         <ConfirmSelections selectedMeals={optionsWithSelections} />

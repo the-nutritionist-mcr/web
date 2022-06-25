@@ -1,10 +1,14 @@
-import { Recipe } from '@tnmw/types';
 import { Meal } from './meal';
+import {
+  deliveryNumberHeader,
+  sectionContainer,
+  mealSelectionLi,
+  sectionHeader,
+} from './confirm-delivery.css';
 
 interface Section {
   name: string;
   meals: Meal[];
-  isExtra: boolean;
 }
 
 interface ConfirmDeliveryProps {
@@ -14,16 +18,16 @@ interface ConfirmDeliveryProps {
 export const ConfirmDelivery = (props: ConfirmDeliveryProps) => {
   return (
     <div>
-      <h4>Delivery {props.deliveryNumber}</h4>
+      <h4 className={deliveryNumberHeader}>Delivery {props.deliveryNumber}</h4>
       {props.sections.map((section) => (
-        <div>
-          <h5>{section.name}</h5>
+        <div className={sectionContainer}>
+          <h5 className={sectionHeader}>{section.name}</h5>
           <ul>
             {section.meals.length === 0 ? (
-              <li>No meals</li>
+              <li className={mealSelectionLi}>No meals</li>
             ) : (
               section.meals.map((meal) => (
-                <li>{section.isExtra ? section.name : meal.title}</li>
+                <li className={mealSelectionLi}>{meal.title}</li>
               ))
             )}
           </ul>

@@ -3,6 +3,7 @@ import { FC } from 'react';
 
 const StyledP = styled.p`
   font-family: 'IBM Plex Serif', 'Times New Roman', serif;
+  line-height: 23px;
 `;
 
 const ParagraphText: FC = (props) => {

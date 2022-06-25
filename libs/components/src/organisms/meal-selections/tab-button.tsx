@@ -14,7 +14,8 @@ const MealsSelectionsTabButton: FC<MealsSelectionsTabButtonProps> = (props) => {
     margin: 0 0 1rem 0;
     border: 0;
     cursor: pointer;
-    padding: 1rem 3rem;
+    padding: 1rem 3rem 0 0;
+    text-align: center;
     font-size: 2rem;
     background: white;
     color: ${props.active ? `black` : `#939393`};

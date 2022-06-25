@@ -21,7 +21,7 @@ const ChooseMealsHeaderBox = styled('div')`
 `;
 
 const ChooseMealsHeader = styled('h1')`
-  font-size: 40px;
+  font-size: 4rem;
   display: auto;
   margin: 0.5rem 0 0 0;
 `;
@@ -51,6 +51,7 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
           id: recipe.id,
           title: recipe.name,
           description: recipe.description,
+          contains: recipe.allergens,
         }))
       ),
     }));
@@ -59,7 +60,7 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
     <>
       <Hero>
         <ChooseMealsHeaderBox>
-          <ChooseMealsHeader>Choose Meals</ChooseMealsHeader>
+          <ChooseMealsHeader>Meal Selection</ChooseMealsHeader>
         </ChooseMealsHeaderBox>
       </Hero>
       <MealSelections
