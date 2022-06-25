@@ -12,11 +12,36 @@ export const deliveryNumberHeader = style({
 });
 
 export const sectionContainer = style({
-  marginLeft: '0.2rem',
+  marginLeft: '0.5rem',
+});
+
+export const noMealsLi = style({
+  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  listStyle: 'none',
+  color: 'red',
+  fontStyle: 'italic',
 });
 
 export const mealSelectionLi = style({
+  fontFamily: "'Acumin Pro', Arial, sans-serif",
   listStyle: 'none',
+  display: 'flex',
+  alignItems: 'flex-end',
+});
+
+export const itemCount = style({
+  borderRadius: '50%',
+  border: '1px solid black',
+  marginRight: '0.5rem',
+  width: '20px',
+  height: '20px',
+  display: 'flex',
+  alignItems: 'flex-end',
+  justifyContent: 'center',
+});
+
+export const mealTitle = style({
+  textTransform: 'capitalize',
 });
 
 export const sectionHeader = style({

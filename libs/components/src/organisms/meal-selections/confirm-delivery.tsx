@@ -4,6 +4,9 @@ import {
   sectionContainer,
   mealSelectionLi,
   sectionHeader,
+  noMealsLi,
+  itemCount,
+  mealTitle,
 } from './confirm-delivery.css';
 
 interface Section {
@@ -15,6 +18,20 @@ interface ConfirmDeliveryProps {
   deliveryNumber: number;
   sections: Section[];
 }
+
+const combineDuplicates = (meals: Meal[]): [Meal, number][] => {
+  return meals.reduce<[Meal, number][]>((accum, meal) => {
+    const index = accum.findIndex((item) => item[0].id === meal.id);
+    if (index !== -1) {
+      accum[index][1]++;
+    } else {
+      // eslint-disable-next-line fp/no-mutating-methods
+      accum.push([meal, 1]);
+    }
+    return accum;
+  }, []);
+};
+
 export const ConfirmDelivery = (props: ConfirmDeliveryProps) => {
   return (
     <div>
@@ -24,10 +41,17 @@ export const ConfirmDelivery = (props: ConfirmDeliveryProps) => {
           <h5 className={sectionHeader}>{section.name}</h5>
           <ul>
             {section.meals.length === 0 ? (
-              <li className={mealSelectionLi}>No meals</li>
+              <li className={noMealsLi}>No meals</li>
             ) : (
-              section.meals.map((meal) => (
-                <li className={mealSelectionLi}>{meal.title}</li>
+              combineDuplicates(section.meals).map((meal) => (
+                <li className={mealSelectionLi}>
+                  <div className={itemCount}>
+                    <div>{meal[1]}</div>
+                  </div>
+                  <div className={mealTitle}>
+                    {meal[0].title.toLocaleLowerCase()}
+                  </div>
+                </li>
               ))
             )}
           </ul>
