@@ -26,18 +26,22 @@ export const mealSelectionLi = style({
   fontFamily: "'Acumin Pro', Arial, sans-serif",
   listStyle: 'none',
   display: 'flex',
-  alignItems: 'flex-end',
+  alignItems: 'baseline',
 });
 
 export const itemCount = style({
   borderRadius: '50%',
   border: '1px solid black',
   marginRight: '0.5rem',
-  width: '20px',
-  height: '20px',
+  width: '30px',
+  height: '30px',
   display: 'flex',
-  alignItems: 'flex-end',
+  alignItems: 'center',
   justifyContent: 'center',
+});
+
+export const itemCountNumber = style({
+  paddingTop: '0.25rem',
 });
 
 export const mealTitle = style({

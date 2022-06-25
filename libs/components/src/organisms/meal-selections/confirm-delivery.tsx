@@ -7,6 +7,7 @@ import {
   noMealsLi,
   itemCount,
   mealTitle,
+  itemCountNumber,
 } from './confirm-delivery.css';
 
 interface Section {
@@ -41,12 +42,12 @@ export const ConfirmDelivery = (props: ConfirmDeliveryProps) => {
           <h5 className={sectionHeader}>{section.name}</h5>
           <ul>
             {section.meals.length === 0 ? (
-              <li className={noMealsLi}>No meals</li>
+              <li className={noMealsLi}>No meals on this delivery</li>
             ) : (
               combineDuplicates(section.meals).map((meal) => (
                 <li className={mealSelectionLi}>
                   <div className={itemCount}>
-                    <div>{meal[1]}</div>
+                    <div className={itemCountNumber}>{meal[1]}</div>
                   </div>
                   <div className={mealTitle}>
                     {meal[0].title.toLocaleLowerCase()}

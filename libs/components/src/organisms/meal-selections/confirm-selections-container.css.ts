@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import image from './_1011261.png';
 
 export const confirmSelectionsContainer = style({
   border: '1px solid black',
@@ -7,12 +8,14 @@ export const confirmSelectionsContainer = style({
 
 export const confirmSelectionsImage = style({
   border: '1px solid black',
+  background: `url(${image})`,
 });
 
 export const confirmSelectionsGrid = style({
   gridTemplateColumns: 'repeat(2, 1fr)',
   display: 'grid',
   width: '100%',
+  columnGap: '3rem',
   marginTop: '2rem',
 });
 
