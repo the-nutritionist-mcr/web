@@ -217,7 +217,7 @@ jobs:
   deploy-for-test:
     name: Test Deploy
     runs-on: ubuntu-latest
-    needs: [build-next-app, static-checks]
+    needs: [build-next-app, static-checks, cypress-run]
 
     steps:
       - uses: actions/checkout@v2
@@ -273,7 +273,7 @@ jobs:
   deploy-for-dev:
     name: Dev Deploy
     runs-on: ubuntu-latest
-    needs: [build-next-app, static-checks, cypress-run]
+    needs: [build-next-app]
 
     steps:
       - uses: actions/checkout@v2
