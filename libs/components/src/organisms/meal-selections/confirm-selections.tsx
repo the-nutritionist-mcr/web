@@ -42,16 +42,6 @@ export const ConfirmSelections = (props: ConfirmSelectionsProps) => {
               <ConfirmDelivery deliveryNumber={index + 1} sections={sections} />
             );
           })}
-          {defaultDeliveryDays.map((_, index) => {
-            const sections = props.selectedMeals.map((category) => ({
-              name: category.title,
-              meals: category.selections[index],
-            }));
-
-            return (
-              <ConfirmDelivery deliveryNumber={index + 1} sections={sections} />
-            );
-          })}
         </div>
         <div className={confirmSelectionsImage}></div>
       </div>

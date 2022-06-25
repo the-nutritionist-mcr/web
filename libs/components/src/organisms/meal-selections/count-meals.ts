@@ -13,13 +13,5 @@ export const countMeals = (categories: MealCategoryWithSelections[]) =>
   );
 
 export const remainingMeals = (categories: MealCategoryWithSelections[]) =>
-  categories.reduce(
-    (accumcategory, category) =>
-      accumcategory +
-      category.options.reduce(
-        (accum, delivery) =>
-          accum + delivery.reduce((accum2, meal) => accum2 + 1, 0),
-        0
-      ),
-    0
-  ) - countMeals(categories);
+  categories.reduce((total, category) => total + category.maxMeals, 0) -
+  countMeals(categories);
