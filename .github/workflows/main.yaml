@@ -166,20 +166,20 @@ jobs:
           source_dir: apps/web-app/public
           destination_dir: ''
 
-      # - name: Download Storybook
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: storybook
-      #     path: storybook
+      - name: Download Storybook
+        uses: actions/download-artifact@v2
+        with:
+          name: storybook
+          path: storybook
 
-      # - name: Upload Storybook
-      #   uses: shallwefootball/s3-upload-action@master
-      #   with:
-      #     aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
-      #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws_bucket: ${{ env.UPLOAD_BUCKET }}
-      #     source_dir: storybook
-      #     destination_dir: 'storybook'
+      - name: Upload Storybook
+        uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_bucket: ${{ env.UPLOAD_BUCKET }}
+          source_dir: storybook
+          destination_dir: 'storybook'
 
       - name: Get Cloudfront ID
         run: echo "CLOUDFRONT_ID=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .CloudfrontId')" >> $GITHUB_ENV
@@ -212,7 +212,7 @@ jobs:
         run: yarn install
 
       - name: Run E2E tests
-        run: yarn nx run web-app-e2e:e2e --baseUrl=https://cypress.app.thenutrionistmcr.com --skipServe=true
+        run: yarn nx run web-app-e2e:e2e --baseUrl=https://cypress.app.thenutritionistmcr.com --skipServe=true
 
   deploy-for-test:
     name: Test Deploy
@@ -270,6 +270,33 @@ jobs:
           source_dir: apps/web-app/public
           destination_dir: ''
 
+      - name: Download Storybook
+        uses: actions/download-artifact@v2
+        with:
+          name: storybook
+          path: storybook
+
+      - name: Upload Storybook
+        uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_bucket: ${{ env.UPLOAD_BUCKET }}
+          source_dir: storybook
+          destination_dir: 'storybook'
+
+      - name: Get Cloudfront ID
+        run: echo "CLOUDFRONT_ID=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .CloudfrontId')" >> $GITHUB_ENV
+
+      - name: Invalidate Cloudfront
+        uses: chetan/invalidate-cloudfront-action@master
+        env:
+          DISTRIBUTION: ${{ env.CLOUDFRONT_ID }}
+          PATHS: /*
+          AWS_REGION: 'us-east-1'
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
   deploy-for-dev:
     name: Dev Deploy
     runs-on: ubuntu-latest
@@ -326,20 +353,20 @@ jobs:
           source_dir: apps/web-app/public
           destination_dir: ''
 
-      # - name: Download Storybook
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: storybook
-      #     path: storybook
+      - name: Download Storybook
+        uses: actions/download-artifact@v2
+        with:
+          name: storybook
+          path: storybook
 
-      # - name: Upload Storybook
-      #   uses: shallwefootball/s3-upload-action@master
-      #   with:
-      #     aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
-      #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws_bucket: ${{ env.UPLOAD_BUCKET }}
-      #     source_dir: storybook
-      #     destination_dir: 'storybook'
+      - name: Upload Storybook
+        uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_bucket: ${{ env.UPLOAD_BUCKET }}
+          source_dir: storybook
+          destination_dir: 'storybook'
 
       - name: Get Cloudfront ID
         run: echo "CLOUDFRONT_ID=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .CloudfrontId')" >> $GITHUB_ENV
@@ -409,20 +436,20 @@ jobs:
           source_dir: apps/web-app/public
           destination_dir: ''
 
-      # - name: Download Storybook
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: storybook
-      #     path: storybook
+      - name: Download Storybook
+        uses: actions/download-artifact@v2
+        with:
+          name: storybook
+          path: storybook
 
-      # - name: Upload Storybook
-      #   uses: shallwefootball/s3-upload-action@master
-      #   with:
-      #     aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
-      #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws_bucket: ${{ env.UPLOAD_BUCKET }}
-      #     source_dir: storybook
-      #     destination_dir: 'storybook'
+      - name: Upload Storybook
+        uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_bucket: ${{ env.UPLOAD_BUCKET }}
+          source_dir: storybook
+          destination_dir: 'storybook'
 
       - name: Get Cloudfront ID
         run: echo "CLOUDFRONT_ID=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .CloudfrontId')" >> $GITHUB_ENV
