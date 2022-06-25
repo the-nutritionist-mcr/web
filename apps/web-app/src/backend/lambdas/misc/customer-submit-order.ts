@@ -9,11 +9,10 @@ import {
 } from '@aws-sdk/lib-dynamodb';
 import {
   CustomerMealsSelectionWithChargebeeCustomer,
-  isChangePlanRecipeBody,
+  isSubmitCustomerOrderPayload,
 } from '@tnmw/types';
 import { HttpError } from '../data-api/http-error';
 import { ENV, HTTP } from '@tnmw/constants';
-import { updateDelivery } from '@tnmw/utils';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -23,10 +22,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     };
 
     const dynamodbClient = new DynamoDBClient({});
-    const changePlanData = JSON.parse(event.body);
+    const submitOrderData = JSON.parse(event.body);
     const tableName = process.env[ENV.varNames.DynamoDBTable];
 
-    if (!isChangePlanRecipeBody(changePlanData)) {
+    if (!isSubmitCustomerOrderPayload(submitOrderData)) {
       throw new HttpError(HTTP.statusCodes.BadRequest, 'Request was invalid');
     }
 
@@ -38,8 +37,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       TableName: tableName,
       KeyConditionExpression: `id = :id and sort = :sort`,
       ExpressionAttributeValues: {
-        ':id': changePlanData.selectionId,
-        ':sort': changePlanData.selectionSort,
+        ':id': submitOrderData.plan,
+        ':sort': submitOrderData.sort,
       },
     });
 
@@ -50,14 +49,14 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const newSelection: CustomerMealsSelectionWithChargebeeCustomer[number] = {
       customer: selection.customer,
-      deliveries: updateDelivery(selection.deliveries, changePlanData),
+      deliveries: submitOrderData.deliveries,
     };
 
     const putCommand = new PutCommand({
       TableName: tableName,
       Item: {
-        id: changePlanData.selectionId,
-        sort: changePlanData.selectionSort,
+        id: submitOrderData.plan,
+        sort: submitOrderData.sort,
         selection: newSelection,
       },
     });

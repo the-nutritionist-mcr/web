@@ -10,7 +10,7 @@ export { HotOrCold } from './lib/Recipe';
 export type { default as Recipe } from './lib/Recipe';
 export { isRecipe } from './lib/Recipe';
 
-export { isSubmitCustomerOrderBody } from './lib/submit-customer-order';
+export { isSubmitCustomerOrderPayload } from './lib/submit-customer-order';
 export { isChangePlanRecipeBody } from './lib/change-plan-recipe-body';
 export { isPublishPlanBody } from './lib/publish-plan-body';
 
