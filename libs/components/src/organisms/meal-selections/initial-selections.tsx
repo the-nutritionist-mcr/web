@@ -23,6 +23,7 @@ export interface InitialSelectionsProps {
   selectedMeals: SelectedMeals;
   setSelectedMeals: (selected: SelectedMeals) => void;
   currentTabIndex: number;
+  remainingMeals: number;
   onChangeIndex: (index: number) => void;
 }
 
@@ -30,7 +31,9 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
   return (
     <div className={container}>
       <h2 className={header}>Choose Your Meals</h2>
-      <p className={youNeedToChoose}>You need to choose 12 meals</p>
+      <p className={youNeedToChoose}>
+        You need to choose {props.remainingMeals} meals
+      </p>
       <GridParent>
         <TabBox
           tabButton={TabButton}

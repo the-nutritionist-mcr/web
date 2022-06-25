@@ -7,6 +7,7 @@ import { Button } from '../../atoms';
 import { CONTACT_EMAIL } from '@tnmw/constants';
 import { InitialSelections } from './initial-selections';
 import { ConfirmSelections } from './confirm-selections';
+import { remainingMeals } from './count-meals';
 
 export interface MealSelectionsProps {
   availableMeals: MealCategory[];
@@ -38,6 +39,8 @@ const ButtonBox = styled.div`
   }
 `;
 
+const hasMeal = (meal: Meal | undefined): meal is Meal => Boolean(meal);
+
 const createDefaultSelectedThings = (things: Meal[][]) =>
   things.map((day) => Object.fromEntries(day.map((thing) => [thing.id, 0])));
 
@@ -53,8 +56,6 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
     category.options.flat()
   );
 
-  const hasMeal = (meal: Meal | undefined): meal is Meal => Boolean(meal);
-
   console.log(selectedMeals);
 
   const optionsWithSelections = props.availableMeals.map((category, index) => ({
@@ -67,8 +68,11 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
           )
         )
       )
+      // eslint-disable-next-line unicorn/no-array-callback-reference
       .map((delivery) => delivery.filter(hasMeal)),
   }));
+
+  const remaining = remainingMeals(optionsWithSelections);
 
   const tabs = props.availableMeals.length * defaultDeliveryDays.length;
 
@@ -90,6 +94,12 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
     }
   };
 
+  const continueButtonDisabled = tabIndex === tabs - 1 && remaining !== 0;
+
+  const continueText = continueButtonDisabled
+    ? 'Select more meals'
+    : 'Continue';
+
   return props.availableMeals.length === 0 ? (
     <>
       It looks like you've not got any meals available yet. If this is wrong,
@@ -100,6 +110,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
       {!showConfirm ? (
         <InitialSelections
           {...props}
+          remainingMeals={remaining}
           selectedMeals={selectedMeals}
           setSelectedMeals={setSelectedMeals}
           currentTabIndex={tabIndex}
@@ -111,8 +122,14 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
         <ConfirmSelections selectedMeals={optionsWithSelections} />
       )}
       <ButtonBox>
-        <Button size="large" primary color="callToAction" onClick={next}>
-          Continue
+        <Button
+          size="large"
+          primary
+          color="callToAction"
+          onClick={next}
+          disabled={continueButtonDisabled}
+        >
+          {showConfirm ? 'Submit' : continueText}
         </Button>
         <Button size="large" onClick={prev}>
           Go Back

@@ -12,22 +12,11 @@ import {
 import { MealCategoryWithSelections } from './meal-category';
 import { defaultDeliveryDays } from '@tnmw/config';
 import { ConfirmDelivery } from './confirm-delivery';
+import { countMeals } from './count-meals';
 
 interface ConfirmSelectionsProps {
   selectedMeals: MealCategoryWithSelections[];
 }
-
-export const countMeals = (categories: MealCategoryWithSelections[]) =>
-  categories.reduce(
-    (accumcategory, category) =>
-      accumcategory +
-      category.selections.reduce(
-        (accum, delivery) =>
-          accum + delivery.reduce((accum2, meal) => accum2 + 1, 0),
-        0
-      ),
-    0
-  );
 
 export const ConfirmSelections = (props: ConfirmSelectionsProps) => {
   const total = countMeals(props.selectedMeals);

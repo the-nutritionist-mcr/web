@@ -19,6 +19,7 @@ export interface ButtonProps {
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   primary?: boolean;
   color?: keyof Theme['colors'];
+  disabled?: boolean;
   size?: Size;
   backgroundColor?: string;
 }
@@ -60,6 +61,11 @@ const ButtonElement = styled.button((props: ButtonProps) => {
     '&:hover': {
       color: props.primary ? color : 'white',
       backgroundColor: props.primary ? 'white' : color,
+    },
+    '&:disabled': {
+      color: 'grey',
+      backgroundColor: 'white',
+      border: `1px solid ${color}`,
     },
   };
 });
