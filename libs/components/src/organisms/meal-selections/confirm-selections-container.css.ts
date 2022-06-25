@@ -4,6 +4,8 @@ import image from './_1011261.png';
 export const confirmSelectionsContainer = style({
   border: '1px solid black',
   padding: '1rem',
+  height: '719px',
+  overflow: 'scroll',
 });
 
 export const confirmSelectionsImage = style({
