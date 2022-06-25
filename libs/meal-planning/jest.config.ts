@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'meal-planning',
   preset: '../../jest.preset.js',

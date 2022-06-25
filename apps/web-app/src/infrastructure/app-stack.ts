@@ -6,6 +6,7 @@ import { makeDataApis } from './make-data-apis';
 import { makePagesApi } from './make-pages-api';
 import { makeUserPool } from './make-user-pool';
 import { setupFrontDoor } from './setup-front-door';
+import { E2E } from '@tnmw/constants';
 
 interface TnmAppProps {
   forceUpdateKey: string;
@@ -32,16 +33,16 @@ export class AppStack extends Stack {
         userpool: userPool,
         users: [
           {
-            username: 'cypress-test-user',
-            password: 'Cypress-test-password-1',
-            email: 'cypress@test.com',
+            username: E2E.adminUserOne.username,
+            password: E2E.adminUserOne.password,
+            email: E2E.adminUserOne.email,
             state: 'Complete',
             groups: ['admin'],
           },
           {
-            username: 'cypress-test-user-two',
-            password: 'Cypress-test-password-2',
-            email: 'cypress2@test.com',
+            username: E2E.normalUserOne.username,
+            password: E2E.normalUserOne.password,
+            email: E2E.normalUserOne.email,
             state: 'Complete',
           },
         ],

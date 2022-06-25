@@ -1,5 +1,5 @@
 import { FC, useContext } from 'react';
-import { Hero, Button, Account } from '@tnmw/components';
+import { UserContext, Hero, Account } from '@tnmw/components';
 import Router from 'next/router';
 import { signOut } from '../aws/authenticate';
 import { PageSpacing } from './page-spacing';
@@ -10,7 +10,6 @@ import {
   authorizedRoute,
   AuthorizedRouteProps,
 } from '../utils/authorised-route';
-import { UserContext } from 'libs/components/src/contexts';
 
 const YourAccountHeaderBox = styled('div')`
   text-align: center;
