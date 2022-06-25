@@ -8,6 +8,7 @@ import {
   itemCount,
   mealTitle,
   itemCountNumber,
+  deliveryContainer,
 } from './confirm-delivery.css';
 
 interface Section {
@@ -35,7 +36,7 @@ const combineDuplicates = (meals: Meal[]): [Meal, number][] => {
 
 export const ConfirmDelivery = (props: ConfirmDeliveryProps) => {
   return (
-    <div>
+    <div className={deliveryContainer}>
       <h4 className={deliveryNumberHeader}>Delivery {props.deliveryNumber}</h4>
       {props.sections.map((section) => (
         <div className={sectionContainer}>

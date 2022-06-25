@@ -10,7 +10,7 @@ import { doQuery } from '../dynamodb';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
-    const { groups } = await authoriseJwt(event);
+    const { groups, username: currentUser } = await authoriseJwt(event);
 
     const tableName = process.env[ENV.varNames.DynamoDBTable];
 
@@ -44,12 +44,17 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       | StoredMealSelection[]
       | undefined;
 
-    const defaultResponse = {
+    const currentUserSelection = selections.find(
+      (selection) => selection.selection.customer.id === currentUser
+    );
+
+    const defaultResponse: Omit<GetPlanResponse, 'available'> = {
       planId,
       cooks: menus,
       createdBy: username,
       date: sort,
       published,
+      currentUserSelection,
     };
 
     const finalResponse: GetPlanResponse = groups.includes('admin')

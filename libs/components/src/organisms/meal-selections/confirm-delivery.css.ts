@@ -4,6 +4,10 @@ export const header = style({
   fontFamily: "'Acumin Pro', Arial, sans-serif",
 });
 
+export const deliveryContainer = style({
+  marginBottom: '2rem',
+});
+
 export const deliveryNumberHeader = style({
   fontFamily: "'Acumin Pro', Arial, sans-serif",
   width: '100%',

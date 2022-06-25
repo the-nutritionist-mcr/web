@@ -25,8 +25,9 @@ export interface GetPlanResponse {
   planId: string;
   cooks: Cook[];
   selections?: PlanResponseSelections;
+  currentUserSelection?: StoredMealSelection;
   createdBy: string;
-  date: Date;
+  date: string;
   published: boolean;
   available: true;
 }
