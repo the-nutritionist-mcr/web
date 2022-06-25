@@ -1,5 +1,5 @@
 {
-  "root": "libs/authorise-cognito-jwt",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/authorise-cognito-jwt/src",
   "projectType": "library",
   "targets": {
@@ -14,7 +14,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/authorise-cognito-jwt"],
       "options": {
-        "jestConfig": "libs/authorise-cognito-jwt/jest.config.js",
+        "jestConfig": "libs/authorise-cognito-jwt/jest.config.ts",
         "passWithNoTests": true
       }
     }

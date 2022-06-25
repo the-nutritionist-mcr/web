@@ -1,5 +1,5 @@
 {
-  "root": "libs/pdf",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/pdf/src",
   "projectType": "library",
   "targets": {
@@ -14,7 +14,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/pdf"],
       "options": {
-        "jestConfig": "libs/pdf/jest.config.js",
+        "jestConfig": "libs/pdf/jest.config.ts",
         "passWithNoTests": true
       }
     }

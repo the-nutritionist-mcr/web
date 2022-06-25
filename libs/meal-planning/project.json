@@ -1,5 +1,5 @@
 {
-  "root": "libs/meal-planning",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/meal-planning/src",
   "projectType": "library",
   "targets": {
@@ -14,7 +14,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/meal-planning"],
       "options": {
-        "jestConfig": "libs/meal-planning/jest.config.js",
+        "jestConfig": "libs/meal-planning/jest.config.ts",
         "passWithNoTests": true
       }
     }

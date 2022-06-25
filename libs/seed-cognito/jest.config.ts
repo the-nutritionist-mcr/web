@@ -1,5 +1,6 @@
-module.exports = {
-  displayName: 'constants',
+/* eslint-disable */
+export default {
+  displayName: 'seed-cognito',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -10,5 +11,5 @@ module.exports = {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/libs/constants',
+  coverageDirectory: '../../coverage/libs/seed-cognito',
 };

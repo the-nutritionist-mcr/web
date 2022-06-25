@@ -1,5 +1,5 @@
 {
-  "root": "libs/planner",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/planner/src",
   "projectType": "library",
   "targets": {
@@ -14,7 +14,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/planner"],
       "options": {
-        "jestConfig": "libs/planner/jest.config.js",
+        "jestConfig": "libs/planner/jest.config.ts",
         "passWithNoTests": true
       }
     }

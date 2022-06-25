@@ -1,5 +1,5 @@
 {
-  "root": "libs/admin-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/admin-app/src",
   "projectType": "library",
   "targets": {
@@ -14,7 +14,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/admin-app"],
       "options": {
-        "jestConfig": "libs/admin-app/jest.config.js",
+        "jestConfig": "libs/admin-app/jest.config.ts",
         "passWithNoTests": true
       }
     }

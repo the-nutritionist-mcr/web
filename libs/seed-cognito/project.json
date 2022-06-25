@@ -1,5 +1,5 @@
 {
-  "root": "libs/seed-cognito",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/seed-cognito/src",
   "projectType": "library",
   "targets": {
@@ -14,7 +14,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/seed-cognito"],
       "options": {
-        "jestConfig": "libs/seed-cognito/jest.config.js",
+        "jestConfig": "libs/seed-cognito/jest.config.ts",
         "passWithNoTests": true
       }
     }

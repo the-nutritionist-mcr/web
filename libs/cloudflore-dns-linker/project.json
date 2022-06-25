@@ -1,5 +1,5 @@
 {
-  "root": "libs/cloudflore-dns-linker",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/cloudflore-dns-linker/src",
   "projectType": "library",
   "targets": {
@@ -14,7 +14,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/cloudflore-dns-linker"],
       "options": {
-        "jestConfig": "libs/cloudflore-dns-linker/jest.config.js",
+        "jestConfig": "libs/cloudflore-dns-linker/jest.config.ts",
         "passWithNoTests": true
       }
     }
