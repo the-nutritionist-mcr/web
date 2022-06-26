@@ -111,13 +111,13 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
 
   const [tabIndex, setTabIndex] = useState(0);
 
-  const next = () => {
+  const next = async () => {
     if (tabIndex < tabs - 1) {
       setTabIndex((index) => index + 1);
     } else if (!showConfirm) {
       setShowConfirm(true);
     } else {
-      const submitOrder: SubmitCustomerOrderPayload = {
+      const payload: SubmitCustomerOrderPayload = {
         plan: props.currentSelection.id,
         sort: props.currentSelection.sort,
         deliveries: defaultDeliveryDays.map((day, index) => {
@@ -140,6 +140,8 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
           );
         }),
       };
+
+      await props.submitOrder(payload);
     }
   };
 

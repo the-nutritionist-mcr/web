@@ -6,9 +6,8 @@ import {
   AuthorizedRouteProps,
 } from '../utils/authorised-route';
 
-import { usePlan, useRecipes } from '../hooks';
+import { usePlan } from '../hooks';
 import styled from 'styled-components';
-import { GetPlanResponse, NotYetPublishedResponse } from '@tnmw/types';
 
 const ChooseMealsHeaderBox = styled('div')`
   text-align: center;
@@ -25,14 +24,6 @@ const ChooseMealsHeader = styled('h1')`
   display: auto;
   margin: 0.5rem 0 0 0;
 `;
-
-const getMeals = (
-  usePlanResponse: GetPlanResponse | NotYetPublishedResponse
-) => {
-  if (usePlanResponse.available === false) {
-    return undefined;
-  }
-};
 
 const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
   const { data, submitOrder } = usePlan();
