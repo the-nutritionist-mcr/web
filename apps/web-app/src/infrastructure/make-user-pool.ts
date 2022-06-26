@@ -148,6 +148,12 @@ export const makeUserPool = (
       email: true,
       phone: false,
     },
+
+    signInAliases: {
+      username: true,
+      email: true,
+      phone: true,
+    },
   });
 
   new CfnOutput(context, 'UserPoolId', {
