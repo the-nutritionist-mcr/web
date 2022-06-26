@@ -16,6 +16,10 @@ import deepMemo from '../../lib/deepMemo';
 import styled from 'styled-components';
 import { batchArray } from '../../lib/batch-array';
 import FinalizeCell from './FinalizeCell';
+import {
+  customerLink,
+  modifiedCustomerLink,
+} from './finalise-customer-table.css';
 import DeliveryMealsSelection from '../../types/DeliveryMealsSelection';
 import {
   ChangePlanRecipeBody,
@@ -73,9 +77,18 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
         <TableRow>
           <TableCell colSpan={7}>
             <Box direction="row" align="end">
-              <Text>
+              <Text
+                color={
+                  props.customerSelection.updatedByCustomer ? 'blue' : 'black'
+                }
+              >
                 <strong>
                   <Link
+                    className={
+                      props.customerSelection.updatedByCustomer
+                        ? modifiedCustomerLink
+                        : customerLink
+                    }
                     path={`/admin/edit-customer/${props.customerSelection.customer.id}`}
                   >
                     {name}
