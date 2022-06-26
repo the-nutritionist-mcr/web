@@ -11,6 +11,7 @@
     "meal-planning": "libs/meal-planning",
     "pdf": "libs/pdf",
     "planner": "libs/planner",
+    "read-gmail": "apps/read-gmail",
     "seed-cognito": "libs/seed-cognito",
     "static-pages": "libs/static-pages",
     "types": "libs/types",
