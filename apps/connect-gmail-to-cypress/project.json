@@ -1,0 +1,52 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/connect-gmail-to-cypress/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/connect-gmail-to-cypress",
+        "main": "apps/connect-gmail-to-cypress/src/main.ts",
+        "tsConfig": "apps/connect-gmail-to-cypress/tsconfig.app.json",
+        "assets": ["apps/connect-gmail-to-cypress/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/connect-gmail-to-cypress/src/environments/environment.ts",
+              "with": "apps/connect-gmail-to-cypress/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "connect-gmail-to-cypress:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/connect-gmail-to-cypress/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/connect-gmail-to-cypress"],
+      "options": {
+        "jestConfig": "apps/connect-gmail-to-cypress/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

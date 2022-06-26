@@ -6,6 +6,7 @@
     "cloudflore-dns-linker": "libs/cloudflore-dns-linker",
     "components": "libs/components",
     "config": "libs/config",
+    "connect-gmail-to-cypress": "apps/connect-gmail-to-cypress",
     "constants": "libs/constants",
     "meal-planning": "libs/meal-planning",
     "pdf": "libs/pdf",
