@@ -136,10 +136,23 @@ export const makeUserPool = (
         }),
     },
 
+    passwordPolicy: {
+      minLength: 8,
+      requireDigits: false,
+      requireLowercase: false,
+      requireSymbols: false,
+      requireUppercase: false,
+    },
+
+    autoVerify: {
+      email: true,
+      phone: false,
+    },
+
     signInAliases: {
       username: true,
       email: true,
-      phone: true,
+      phone: false,
     },
   });
 
