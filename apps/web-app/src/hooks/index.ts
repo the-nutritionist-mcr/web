@@ -13,7 +13,7 @@ export const useRecipes = () => {
       const recipeWithExtraField = item as Recipe & {
         vegeterianOption: string | null;
       };
-      const { vegeterianOption, ...rest } = recipeWithExtraField;
+      const { vegetarianOption, ...rest } = recipeWithExtraField;
       return rest;
     }),
   };
