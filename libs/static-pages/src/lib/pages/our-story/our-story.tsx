@@ -5,7 +5,7 @@ import Ryan from '../../../styles/images/DSC02769.jpg';
 import Signature from '../../../styles/images/Ryan signature.png';
 
 export const OurStory = () => (
-  <div className="our-story">
+  <div className="our-story tnm-v1">
     <main className="main">
       <section className="page-hero">
         <div className="container">

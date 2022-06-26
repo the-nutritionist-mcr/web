@@ -1,5 +1,5 @@
 export const Faq = () => (
-  <div className="faq">
+  <div className="faq tnm-v1">
     <main className="main">
       <section className="page-hero">
         <div className="page-header">

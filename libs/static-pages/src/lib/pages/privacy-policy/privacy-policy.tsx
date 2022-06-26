@@ -1,5 +1,5 @@
 export const PrivacyPolicy = () => (
-  <div className="privacy-policy">
+  <div className="privacy-policy tnm-v1">
     <main className="main">
       <section className="page-hero">
         <div className="page-header">

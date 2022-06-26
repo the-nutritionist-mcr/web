@@ -1,5 +1,5 @@
 export const TermsAndConditions = () => (
-  <div className="terms-conditions">
+  <div className="terms-conditions tnm-v1">
     <main className="main">
       <section className="page-hero">
         <div className="page-header">

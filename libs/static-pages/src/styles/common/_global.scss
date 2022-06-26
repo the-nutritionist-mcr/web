@@ -1,20 +1,7 @@
-body {
-  padding: 0;
-  margin: 88px 0 0;
-  overflow-x: hidden;
+.tnm-v1 * {
   font-family: 'IBM Plex Serif', sans-serif;
   font-weight: 300;
-  // font-size: 21px;
-
-  &.logged-in {
-    header.banner {
-      top: 32px;
-    }
-  }
-
-  &.no-scroll {
-    overflow: hidden;
-  }
+  font-size: 21px;
 }
 
 
@@ -24,59 +11,59 @@ body {
   * so for now I'm excluding them
   */
 
-// h1 {
-//   font-size: 72px;
-//   font-family: 'Acumin Pro Semicondensed', sans-serif;
-//   line-height: 76px;
+.tnm-v1 h1 {
+  font-size: 72px;
+  font-family: 'Acumin Pro Semicondensed', sans-serif;
+  line-height: 76px;
 
-//   @include mob(1300) {
-//     font-size: 60px;
-//     line-height: 64px;
-//   }
+  @include mob(1300) {
+    font-size: 60px;
+    line-height: 64px;
+  }
 
-//   @include mob(1100) {
-//     font-size: 40px;
-//     line-height: 44px;
-//   }
+  @include mob(1100) {
+    font-size: 40px;
+    line-height: 44px;
+  }
 
-//   @include mob(900) {
-//     font-size: 36px;
-//     line-height: 40px;
-//   }
-// }
+  @include mob(900) {
+    font-size: 36px;
+    line-height: 40px;
+  }
+}
 
-// h2 {
-//   font-size: 45px;
-//   font-family: 'Acumin Pro Semicondensed', sans-serif;
-//   line-height: 49px;
+.tnm-v1 h2 {
+  font-size: 45px;
+  font-family: 'Acumin Pro Semicondensed', sans-serif;
+  line-height: 49px;
 
-//   @include mob(900) {
-//     font-size: 30px;
-//     line-height: 34px;
-//   }
+  @include mob(900) {
+    font-size: 30px;
+    line-height: 34px;
+  }
 
-//   span {
-//     display: block;
-//   }
-// }
+  span {
+    display: block;
+  }
+}
 
-// h3 {
-//   font-size: 17px;
-//   line-height: 21px;
-//   font-family: 'Acumin Pro Semicondensed', sans-serif;
-// }
+.tnm-v1 h3 {
+  font-size: 17px;
+  line-height: 21px;
+  font-family: 'Acumin Pro Semicondensed', sans-serif;
+}
 
-// p {
-//   font-size: 21px;
-//   line-height: 30px;
-//   margin: 11px 0;
-// }
+.tnm-v1 p {
+  font-size: 21px;
+  line-height: 30px;
+  margin: 11px 0;
+}
 
-.dish-nutrition-and-allergy-info {
+.tnm-v1 .dish-nutrition-and-allergy-info {
   display: none;
 }
 
-.cn-set-cookie.cn-button.bootstrap {
+.tnm-v1 .cn-set-cookie.cn-button.bootstrap {
   width: 200px;
   margin: 10px 20px;
   border-radius: 25px;
@@ -87,6 +74,6 @@ body {
   color: #cafbe2;
 }
 
-.nav-up {
+.tnm-v1 .nav-up {
   top: -89px;
 }
