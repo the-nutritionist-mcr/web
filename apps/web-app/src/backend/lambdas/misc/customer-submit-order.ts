@@ -56,6 +56,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const newSelection: CustomerMealsSelectionWithChargebeeCustomer[number] = {
       customer: selection.customer,
+      updatedByCustomer: true,
       deliveries: submitOrderData.deliveries,
     };
 

@@ -43,5 +43,6 @@ export type CustomerMealsSelection = {
 
 export type CustomerMealsSelectionWithChargebeeCustomer = {
   customer: CustomerWithChargebeePlan;
+  updatedByCustomer?: boolean;
   deliveries: Delivery[];
 }[];
