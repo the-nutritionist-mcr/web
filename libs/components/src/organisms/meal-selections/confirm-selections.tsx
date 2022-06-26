@@ -16,6 +16,7 @@ import { countMeals } from './count-meals';
 
 interface ConfirmSelectionsProps {
   selectedMeals: MealCategoryWithSelections[];
+  complete: boolean;
 }
 
 export const ConfirmSelections = (props: ConfirmSelectionsProps) => {
@@ -23,10 +24,18 @@ export const ConfirmSelections = (props: ConfirmSelectionsProps) => {
 
   return (
     <div className={container}>
-      <h2 className={header}>Confirm Your Order</h2>
-      <p className={goAheadAndSubmit}>
-        If you are happy with your choices, go ahead and press submit
-      </p>
+      {!props.complete ? (
+        <h2 className={header}>Confirm Your Order</h2>
+      ) : (
+        <h2 className={header}>Thank You</h2>
+      )}
+      {!props.complete ? (
+        <p className={goAheadAndSubmit}>
+          If you are happy with your choices, go ahead and press submit
+        </p>
+      ) : (
+        <p className={goAheadAndSubmit}>Your choices have been submitted!</p>
+      )}
       <div className={confirmSelectionsGrid}>
         <div className={confirmSelectionsContainer}>
           <h3 className={summaryHeader}>Your Selections</h3>

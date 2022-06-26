@@ -80,6 +80,8 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
   const [selectedMeals, setSelectedMeals] = useState(
     createDefaultSelectedThings(props.availableMeals, props.currentSelection)
   );
+  const [submittingOrder, setSubmittingOrder] = useState(false);
+  const [complete, setComplete] = useState(false);
 
   const availableMeals = props.availableMeals.flatMap((category) =>
     category.options.flat()
@@ -117,6 +119,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
     } else if (!showConfirm) {
       setShowConfirm(true);
     } else {
+      setSubmittingOrder(true);
       const payload: SubmitCustomerOrderPayload = {
         plan: props.currentSelection.id,
         sort: props.currentSelection.sort,
@@ -142,6 +145,8 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
       };
 
       await props.submitOrder(payload);
+      setSubmittingOrder(false);
+      setComplete(true);
     }
   };
 
@@ -178,7 +183,10 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
           }}
         />
       ) : (
-        <ConfirmSelections selectedMeals={optionsWithSelections} />
+        <ConfirmSelections
+          complete={complete}
+          selectedMeals={optionsWithSelections}
+        />
       )}
       <ButtonBox>
         <Button
@@ -186,11 +194,19 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
           primary
           color="callToAction"
           onClick={next}
-          disabled={continueButtonDisabled}
+          disabled={continueButtonDisabled || submittingOrder || complete}
         >
-          {showConfirm ? 'Submit' : continueText}
+          {showConfirm
+            ? submittingOrder
+              ? 'Submitting...'
+              : 'Submit'
+            : continueText}
         </Button>
-        <Button size="large" onClick={prev}>
+        <Button
+          size="large"
+          onClick={prev}
+          disabled={submittingOrder || complete}
+        >
           Go Back
         </Button>
       </ButtonBox>

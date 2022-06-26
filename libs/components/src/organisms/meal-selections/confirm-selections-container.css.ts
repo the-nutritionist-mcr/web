@@ -1,6 +1,8 @@
 import { style } from '@vanilla-extract/css';
 import image from './_1011261.png';
 
+console.log(image);
+
 export const confirmSelectionsContainer = style({
   border: '1px solid black',
   padding: '1rem',

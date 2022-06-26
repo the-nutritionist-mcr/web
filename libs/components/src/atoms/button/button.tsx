@@ -1,6 +1,13 @@
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import type { FC, MouseEvent } from 'react';
+import type {
+  FC,
+  MouseEvent,
+  Children,
+  ReactChild,
+  ReactChildren,
+  ReactNode,
+} from 'react';
 import { Theme } from '@emotion/react';
 
 type Size = 'medium' | 'large';
@@ -20,6 +27,7 @@ export interface ButtonProps {
   primary?: boolean;
   color?: keyof Theme['colors'];
   disabled?: boolean;
+  children: ReactNode;
   size?: Size;
   backgroundColor?: string;
 }
