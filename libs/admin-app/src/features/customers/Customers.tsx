@@ -21,7 +21,12 @@ interface CustomersProps {
 const Customers: React.FC<CustomersProps> = ({ customers }) => {
   return (
     <React.Fragment>
-      <Header align="center" justify="start" gap="small">
+      <Header
+        align="center"
+        justify="start"
+        gap="small"
+        style={{ marginBottom: '2rem', marginTop: '1rem' }}
+      >
         <Box direction="row" flex="grow" align="center" gap="small">
           <Heading level={2}>Customers</Heading>
         </Box>
@@ -36,18 +41,19 @@ const Customers: React.FC<CustomersProps> = ({ customers }) => {
         </TableHeader>
         <TableBody>
           {
-          // eslint-disable-next-line fp/no-mutating-methods
-          customers
-            .slice()
-            .reverse()
-            .sort(
-              (a: CustomerWithChargebeePlan, b: CustomerWithChargebeePlan) =>
-                // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-                a.surname > b.surname ? 1 : -1
-            )
-            .map((customer) => (
-              <CustomerRow key={customer.id} customer={customer} />
-            ))}
+            // eslint-disable-next-line fp/no-mutating-methods
+            customers
+              .slice()
+              .reverse()
+              .sort(
+                (a: CustomerWithChargebeePlan, b: CustomerWithChargebeePlan) =>
+                  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+                  a.surname > b.surname ? 1 : -1
+              )
+              .map((customer) => (
+                <CustomerRow key={customer.id} customer={customer} />
+              ))
+          }
         </TableBody>
       </Table>
     </React.Fragment>

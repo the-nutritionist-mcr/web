@@ -1,4 +1,5 @@
 import { WeeklyPlan, Recipe } from '@tnmw/types';
+import { selectedMealUl } from './planning-mode-summary.css';
 import {
   Box,
   Button,
@@ -60,7 +61,7 @@ const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = (props) => {
             <strong>Cook {index + 1}</strong>
           </CardHeader>
           <CardBody pad="medium" gap="medium">
-            <ul>
+            <ul className={selectedMealUl}>
               {
                 // eslint-disable-next-line security/detect-object-injection
                 props.plannerSelection[index].length === 0 ? (

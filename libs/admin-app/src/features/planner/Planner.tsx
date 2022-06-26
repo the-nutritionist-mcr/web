@@ -35,7 +35,12 @@ const Planner: React.FC<PlannerProps> = (props) => {
 
   return (
     <>
-      <Header align="center" justify="start" gap="small">
+      <Header
+        align="center"
+        justify="start"
+        gap="small"
+        style={{ marginBottom: '2rem', marginTop: '1rem' }}
+      >
         <Heading level={2}>Planner</Heading>
         {showLabelsDialog && (
           <DownloadLabelsDialog

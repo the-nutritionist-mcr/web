@@ -7,7 +7,7 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-  Text
+  Text,
 } from 'grommet';
 import EditExclusionDialog from './EditExclusionDialog';
 import ExclusionRow from './ExclusionRow';
@@ -21,13 +21,18 @@ interface ExclusionsProps {
   update: (exclusionToUpdate: Exclusion) => Promise<void>;
 }
 
-const Exclusions: React.FC<ExclusionsProps> = props => {
+const Exclusions: React.FC<ExclusionsProps> = (props) => {
   const exclusions = props.exclusions ?? [];
   const [showCreate, setShowCreate] = React.useState(false);
 
   return (
     <React.Fragment>
-      <Header align="center" justify="start" gap="small">
+      <Header
+        align="center"
+        justify="start"
+        gap="small"
+        style={{ marginBottom: '2rem', marginTop: '1rem' }}
+      >
         <Heading level={2}>Customisations</Heading>
         <Button
           primary
@@ -42,13 +47,13 @@ const Exclusions: React.FC<ExclusionsProps> = props => {
           exclusion={{
             id: '0',
             name: '',
-            allergen: false
+            allergen: false,
           }}
           show={showCreate}
           title="Create Customisation"
           onOk={(thing: Exclusion | undefined) => {
             setShowCreate(false);
-            thing && props.create(thing)
+            thing && props.create(thing);
           }}
           onCancel={(): void => {
             setShowCreate(false);
@@ -76,8 +81,13 @@ const Exclusions: React.FC<ExclusionsProps> = props => {
               // eslint-disable-next-line @typescript-eslint/no-magic-numbers
               .sort((a, b) => (a.name > b.name ? -1 : 1))
               .reverse()
-              .map(exclusion => (
-                <ExclusionRow key={exclusion.id} exclusion={exclusion} remove={props.remove} update={props.update}/>
+              .map((exclusion) => (
+                <ExclusionRow
+                  key={exclusion.id}
+                  exclusion={exclusion}
+                  remove={props.remove}
+                  update={props.update}
+                />
               ))}
           </TableBody>
         </Table>

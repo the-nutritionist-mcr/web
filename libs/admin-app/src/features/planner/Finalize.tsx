@@ -9,6 +9,7 @@ import { Paragraph } from 'grommet';
 import moment from 'moment';
 import React from 'react';
 import FinalizeCustomerTable from './FinalizeCustomerTable';
+import { plannerInfoLi, plannerInfoUl } from './finalise.css';
 
 interface FinalizeProps {
   customerMeals: PlanResponseSelections;
@@ -42,13 +43,13 @@ const Finalize: React.FC<FinalizeProps> = ({
   }
   return (
     <>
-      <ul>
-        <li>
+      <ul className={plannerInfoUl}>
+        <li className={plannerInfoLi}>
           Plan generated on{' '}
           <strong>{moment(creationDate).calendar(null, calendarFormat)}</strong>{' '}
           by <strong>{generatedBy}</strong>
         </li>
-        <li>
+        <li className={plannerInfoLi}>
           This plan <strong>{published ? 'has' : 'has not'}</strong> been
           published to customers
         </li>

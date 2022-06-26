@@ -63,7 +63,11 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
         You have made an update to this Customer&apos;s plan. This will result
         in the meals they receive changing. Are you sure you want to do this?
       </OkCancelDialog>
-      <Header justify="start" gap="small">
+      <Header
+        justify="start"
+        gap="small"
+        style={{ marginBottom: '2rem', marginTop: '1rem' }}
+      >
         <Heading level={2}>Update Customer</Heading>
         <Button
           primary

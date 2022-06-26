@@ -10,6 +10,7 @@ import {
   TableRow,
   Text,
 } from 'grommet';
+import { table } from './recipes.css';
 
 import EditRecipesDialog from './EditRecipesDialog';
 import React from 'react';
@@ -41,7 +42,12 @@ const Recipes: React.FC<RecipesProps> = (props) => {
 
   return (
     <React.Fragment>
-      <Header align="center" justify="start" gap="small">
+      <Header
+        align="center"
+        justify="start"
+        gap="small"
+        style={{ marginBottom: '2rem', marginTop: '1rem' }}
+      >
         <Heading level={2}>Recipes</Heading>
         <Button
           primary
@@ -87,7 +93,7 @@ const Recipes: React.FC<RecipesProps> = (props) => {
       {error && <Text color="status-error">{error}</Text>}
       {recipes.length > 0 ? (
         <Box direction="row" gap="large">
-          <Table alignSelf="start">
+          <Table alignSelf="start" className={table}>
             <TableHeader>
               <TableRow>
                 {showCheckBoxes && (
