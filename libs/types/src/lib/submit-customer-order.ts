@@ -28,10 +28,6 @@ export const isSubmitCustomerOrderPayload = (
     return false;
   }
 
-  if (typeof bodyAsAny.customer === 'undefined') {
-    return false;
-  }
-
   if (typeof bodyAsAny.sort !== 'string') {
     return false;
   }
