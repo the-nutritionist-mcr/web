@@ -44,7 +44,7 @@
     "@types/enzyme": "3.10.12",
     "@types/imap-simple": "4.2.5",
     "@types/jest-when": "2.7.4",
-    "@types/jsonwebtoken": "8.5.6",
+    "@types/jsonwebtoken": "8.5.8",
     "@types/jwk-to-pem": "2.0.1",
     "@types/lodash": "4.14.178",
     "@types/pdfmake": "0.1.20",
