@@ -53,7 +53,7 @@ export const isRecipe = (recipe: unknown): recipe is Recipe => {
     return false;
   }
 
-  if (asRecipe.allergens && typeof asRecipe.allergens == 'string') {
+  if (asRecipe.allergens && typeof asRecipe.allergens !== 'string') {
     return false;
   }
 
