@@ -1,4 +1,4 @@
-name: Test and Deploy
+name: Emergency Redeploy
 concurrency:
   group: mainline
   cancel-in-progress: true
