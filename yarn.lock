@@ -7059,7 +7059,7 @@
     url-loader "^4.1.1"
     webpack-merge "^5.8.0"
 
-"@nrwl/node@14.3.6", "@nrwl/node@^14.3.6":
+"@nrwl/node@14.3.6":
   version "14.3.6"
   resolved "https://registry.npmjs.org/@nrwl/node/-/node-14.3.6.tgz#3eaa368bfb671e00b24f46f19e37829194c8b143"
   integrity sha512-g32f15VHxn+2ia3NKAwFMLWx+eamsVhLFJvNFNslufp7hrwpS2eYGXVVayxrt3mYyDJwzAs5/P854GkfoeebLQ==
