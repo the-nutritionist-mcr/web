@@ -58,7 +58,7 @@
     "@vanilla-extract/next-plugin": "2.0.2",
     "@wojtekmaj/enzyme-adapter-react-17": "0.6.7",
     "amazon-cognito-identity-js": "5.2.9",
-    "aws-amplify": "4.3.12",
+    "aws-amplify": "4.3.26",
     "aws-cdk": "2.8.0",
     "aws-crt": "1.10.5",
     "aws-sdk": "2.1048.0",
