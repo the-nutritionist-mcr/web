@@ -56,7 +56,7 @@
     "@vanilla-extract/babel-plugin": "1.1.7",
     "@vanilla-extract/css": "1.7.2",
     "@vanilla-extract/next-plugin": "2.0.2",
-    "@wojtekmaj/enzyme-adapter-react-17": "0.6.6",
+    "@wojtekmaj/enzyme-adapter-react-17": "0.6.7",
     "amazon-cognito-identity-js": "5.2.3",
     "aws-amplify": "4.3.12",
     "aws-cdk": "2.8.0",
