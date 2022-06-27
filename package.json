@@ -88,7 +88,7 @@
     "js-file-download": "0.4.12",
     "jsonwebtoken": "8.5.1",
     "jwk-to-pem": "2.0.5",
-    "lint-staged": "13.0.2",
+    "lint-staged": "13.0.3",
     "lodash": "4.17.21",
     "loglevel": "1.8.0",
     "mailslurp-client": "15.4.7",
