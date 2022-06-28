@@ -10594,17 +10594,17 @@ aws-cdk@2.29.1:
   optionalDependencies:
     fsevents "2.3.2"
 
-aws-crt@1.10.5:
-  version "1.10.5"
-  resolved "https://registry.npmjs.org/aws-crt/-/aws-crt-1.10.5.tgz#d443b692e734d0281da0ff216bd154ce0c1aa8a7"
-  integrity sha512-RLMy9AdBILBUw/EPQuVa7AGsYV2BDPKWMCrautnZka5zm/14w/jODhOBzgtYyixEz/bgq40dhwLIGWvLru12XA==
+aws-crt@1.12.5:
+  version "1.12.5"
+  resolved "https://registry.yarnpkg.com/aws-crt/-/aws-crt-1.12.5.tgz#7b40dcc5bbae1144f7e35a9c22dc91542d18737b"
+  integrity sha512-fIMKy7BKHEWC4gzqewYJTlmp+m9ioZuBSfcKf2zYFSIZxtmweHji6n+sicHDcynxNA5zUsFPcVbKhOryfyAKfw==
   dependencies:
     "@httptoolkit/websocket-stream" "^6.0.0"
-    axios "^0.21.4"
+    axios "^0.24.0"
     cmake-js "6.3.0"
     crypto-js "^4.0.0"
     fastestsmallesttextencoderdecoder "^1.0.22"
-    mqtt "^4.2.8"
+    mqtt "^4.3.7"
     tar "^6.1.11"
     ws "^7.5.5"
 
@@ -10652,9 +10652,9 @@ axe-core@^4.4.1:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.4.2.tgz#dcf7fb6dea866166c3eab33d68208afe4d5f670c"
   integrity sha512-LVAaGp/wkkgYJcjmHsoKx4juT1aQvJyPcW09MLCjVTh3V2cc6PnyempiLMNH5iMdfIX/zdbjUx2KDjMLCTdPeA==
 
-axios@0.24.0:
+axios@0.24.0, axios@^0.24.0:
   version "0.24.0"
-  resolved "https://registry.npmjs.org/axios/-/axios-0.24.0.tgz#804e6fa1e4b9c5288501dd9dff56a7a0940d20d6"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.24.0.tgz#804e6fa1e4b9c5288501dd9dff56a7a0940d20d6"
   integrity sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==
   dependencies:
     follow-redirects "^1.14.4"
@@ -10666,7 +10666,7 @@ axios@0.26.0:
   dependencies:
     follow-redirects "^1.14.8"
 
-axios@^0.21.1, axios@^0.21.4:
+axios@^0.21.1:
   version "0.21.4"
   resolved "https://registry.npmjs.org/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
@@ -19317,10 +19317,10 @@ mqtt-packet@^6.8.0:
     debug "^4.1.1"
     process-nextick-args "^2.0.1"
 
-mqtt@^4.2.8:
-  version "4.3.4"
-  resolved "https://registry.npmjs.org/mqtt/-/mqtt-4.3.4.tgz#147b64192ef03f716628a8fe103092e26ebd2169"
-  integrity sha512-yAVDfVHz3Cjn6K68z54mf7fTni/AWsPhiEsRwZSvet2wO47R6NFUn2psWxYIph2JxWtL3ZKa/da8pjJKSaXPdQ==
+mqtt@^4.3.7:
+  version "4.3.7"
+  resolved "https://registry.yarnpkg.com/mqtt/-/mqtt-4.3.7.tgz#42985ca490ea25d2c12c119d83c632db6dc9d589"
+  integrity sha512-ew3qwG/TJRorTz47eW46vZ5oBw5MEYbQZVaEji44j5lAUSQSqIEoul7Kua/BatBW0H0kKQcC9kwUHa1qzaWHSw==
   dependencies:
     commist "^1.0.0"
     concat-stream "^2.0.0"
