@@ -25516,10 +25516,10 @@ url@^0.11.0, url@~0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
-use-async-resource@2.2.1:
-  version "2.2.1"
-  resolved "https://registry.npmjs.org/use-async-resource/-/use-async-resource-2.2.1.tgz#a87ffdc3c9a7fb0292f886cf4791e87560aa2a38"
-  integrity sha512-lB4JhaU5HcRYtpAK6smmwayb2gDaiewJ5Xp7ny8icqqxNW9tDdkzYRUyTUwOaYGXc49Bn2/O9VDhZVRpXHh84A==
+use-async-resource@2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/use-async-resource/-/use-async-resource-2.2.2.tgz#63d09f03c73d5b6cae075322eba47501c69341e4"
+  integrity sha512-BsQX4TkM2Iw+fGYefz+wISDxD8A3MUBL/l5QlN9euCBTbPJwM7myvV4E4BS4lduPYpskahbiFZqdibk6BQxZeQ==
   dependencies:
     object-hash "^2.0.3"
 
