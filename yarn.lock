@@ -3286,12 +3286,12 @@
   dependencies:
     tslib "^1.8.0"
 
-"@axe-core/react@4.3.2":
-  version "4.3.2"
-  resolved "https://registry.npmjs.org/@axe-core/react/-/react-4.3.2.tgz#20d175b7bc05e12301ca76fcddeb259a4ae88dbc"
-  integrity sha512-LSMydcQFFZrqiIqalgywVzHs3paLV6aQHKCba2F7kYWFTpqc/OvQ71NIPkjYY+oF06DgA4ucS2MrcYGbgx8kJg==
+"@axe-core/react@4.4.3":
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/@axe-core/react/-/react-4.4.3.tgz#944ce046c0a3a1e65977c6e230d2a2b812922497"
+  integrity sha512-3eIqDoGVTK20kbY+hD0S9n+ALdZ9FOzV692eD2iyyGMq7on6TCISEv8TljvirSBwWcWIxuUnI69KX/mMQBqtFA==
   dependencies:
-    axe-core "^4.3.3"
+    axe-core "^4.4.1"
     requestidlecallback "^0.3.0"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.7", "@babel/code-frame@^7.5.5", "@babel/code-frame@^7.8.3":
@@ -10314,10 +10314,15 @@ aws4@^1.8.0:
   resolved "https://registry.npmjs.org/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
 
-axe-core@^4.0.2, axe-core@^4.3.3, axe-core@^4.3.5:
+axe-core@^4.0.2, axe-core@^4.3.5:
   version "4.3.5"
   resolved "https://registry.npmjs.org/axe-core/-/axe-core-4.3.5.tgz#78d6911ba317a8262bfee292aeafcc1e04b49cc5"
   integrity sha512-WKTW1+xAzhMS5dJsxWkliixlO/PqC4VhmO9T4juNYcaTg9jzWiJsou6m5pxWYGfigWbwzJWeFY6z47a+4neRXA==
+
+axe-core@^4.4.1:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.4.2.tgz#dcf7fb6dea866166c3eab33d68208afe4d5f670c"
+  integrity sha512-LVAaGp/wkkgYJcjmHsoKx4juT1aQvJyPcW09MLCjVTh3V2cc6PnyempiLMNH5iMdfIX/zdbjUx2KDjMLCTdPeA==
 
 axios@0.24.0:
   version "0.24.0"
