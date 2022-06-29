@@ -15673,15 +15673,15 @@ grommet-styles@^0.2.0:
   resolved "https://registry.npmjs.org/grommet-styles/-/grommet-styles-0.2.0.tgz#b2eac2b7e2747cb523434d21728ce5234f8ce4f4"
   integrity sha512-0OMSYuGeyifYKpg4Gv2HzL8rUdd0ddnJ5LbCBKgDuloC71XIwr9g/Fxa6rs737MbPV7OZ4pEm4wvrjH4epzf1A==
 
-grommet@2.20.0:
-  version "2.20.0"
-  resolved "https://registry.npmjs.org/grommet/-/grommet-2.20.0.tgz#0711efbb0b44e70894aa133c7c1501924a9901ef"
-  integrity sha512-xnDf9o3o7NU62WAwNChBbgGRtVNslJldPRpdbdyzhx0f4PXQ1cwm73Rcbqzy8hB1CJKpYk+pOTmTNMFLsVZzOw==
+grommet@2.25.0:
+  version "2.25.0"
+  resolved "https://registry.yarnpkg.com/grommet/-/grommet-2.25.0.tgz#c1b6e1d4437d0ea0b87fb8a245a185ded781d037"
+  integrity sha512-sPdZDZ9ufqi7NxYlW9ZGaglbK1Ny0XEhlzWN5WwU4ES3mFKQZkn6LcO14Iw9bTof6AqgO11tu+5uRxh1UOS0LA==
   dependencies:
     grommet-icons "^4.7.0"
     hoist-non-react-statics "^3.2.0"
     markdown-to-jsx "^7.1.5"
-    prop-types "^15.7.2"
+    prop-types "^15.8.1"
 
 gtoken@^6.0.0:
   version "6.0.1"
