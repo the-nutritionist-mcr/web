@@ -35,7 +35,7 @@
     "@emotion/styled": "11.9.3",
     "@mui/material": "5.8.6",
     "@nrwl/next": "14.3.6",
-    "@reduxjs/toolkit": "1.8.2",
+    "@reduxjs/toolkit": "1.8.3",
     "@storybook/core-server": "6.4.22",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react-hooks": "8.0.1",
