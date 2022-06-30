@@ -118,7 +118,7 @@
     "tslib": "2.4.0",
     "tslog": "3.3.3",
     "use-async-resource": "2.2.2",
-    "use-debounce": "5.1.0",
+    "use-debounce": "5.2.1",
     "use-deep-compare-effect": "1.8.1",
     "use-mutation": "2.2.1",
     "uuid": "8.3.2"
