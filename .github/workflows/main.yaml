@@ -37,7 +37,7 @@ jobs:
           cache: 'yarn'
 
       - name: Cache Nx
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules/.cache/nx
           key: ${{ matrix.target }}-${{ matrix.project }}-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
@@ -64,7 +64,7 @@ jobs:
           cache: 'yarn'
 
       - name: Cache Nx
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules/.cache/nx
           key: build-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
@@ -91,7 +91,7 @@ jobs:
           cache: 'yarn'
 
       - name: Cache Nx
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules/.cache/nx
           key: storybook-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
@@ -125,7 +125,7 @@ jobs:
           cache: 'yarn'
 
       - name: Cache Nx
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules/.cache/nx
           key: build-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
@@ -229,7 +229,7 @@ jobs:
           cache: 'yarn'
 
       - name: Cache Nx
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules/.cache/nx
           key: build-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
@@ -312,7 +312,7 @@ jobs:
           cache: 'yarn'
 
       - name: Cache Nx
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules/.cache/nx
           key: build-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
@@ -395,7 +395,7 @@ jobs:
           cache: 'yarn'
 
       - name: Cache Nx
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules/.cache/nx
           key: build-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
