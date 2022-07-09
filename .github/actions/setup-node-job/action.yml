@@ -8,21 +8,8 @@ runs:
       uses: actions/setup-node@v2
       with:
         node-version: '14'
-
-    - uses: actions/cache@v3
-      with:
-        path: '**/node_modules'
-        key: ${{ runner.os }}-app-modules-${{ hashFiles('**/yarn.lock') }}
-
-    - name: Cache Cypress Binary
-      id: cache-cypress-binary
-      uses: actions/cache@v3
-      with:
-        path: cypress/cache
-        key: cypress-binary-key-${{ hashFiles('**/yarn.lock') }}
+        cache: 'yarn'
 
     - name: Install dependencies
       shell: 'bash'
       run: yarn install --frozen-lockfile
-      env:
-        CYPRESS_CACHE_FOLDER: cypress/cache

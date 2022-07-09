@@ -30,22 +30,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Configure node 14
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'yarn'
-
-      - name: Cache Nx
-        uses: actions/cache@v2
-        with:
-          path: node_modules/.cache/nx
-          key: ${{ matrix.target }}-${{ matrix.project }}-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
-          restore-keys: |
-            ${{ matrix.target }}-${{ matrix.project }}-cache-nx-${{ hashFiles('yarn.lock') }}-
-
-      - name: Install Dependencies
-        run: yarn install
+      - name: Setup node environment
+        uses: ./.github/actions/setup-node-job
 
       - name: Run ${{ matrix.target }}
         run: yarn nx ${{ matrix.target }} ${{ matrix.project }}
@@ -57,22 +43,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Configure node 14
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'yarn'
-
-      - name: Cache Nx
-        uses: actions/cache@v2
-        with:
-          path: node_modules/.cache/nx
-          key: build-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
-          restore-keys: |
-            build-cache-nx-${{ hashFiles('yarn.lock') }}-
-
-      - name: Install Dependencies
-        run: yarn install
+      - name: Setup node environment
+        uses: ./.github/actions/setup-node-job
 
       - name: Run
         run: yarn nx build web-app
@@ -84,22 +56,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Configure node 14
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'yarn'
-
-      - name: Cache Nx
-        uses: actions/cache@v2
-        with:
-          path: node_modules/.cache/nx
-          key: storybook-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
-          restore-keys: |
-            storybook-cache-nx-${{ hashFiles('yarn.lock') }}-
-
-      - name: Install Dependencies
-        run: yarn install
+      - name: Setup node environment
+        uses: ./.github/actions/setup-node-job
 
       - name: Run
         run: yarn nx run components:build-storybook
@@ -118,22 +76,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Configure node 14
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'yarn'
-
-      - name: Cache Nx
-        uses: actions/cache@v2
-        with:
-          path: node_modules/.cache/nx
-          key: build-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
-          restore-keys: |
-            build-cache-nx-${{ hashFiles('yarn.lock') }}-
-
-      - name: Install Dependencies
-        run: yarn install
+      - name: Setup node environment
+        uses: ./.github/actions/setup-node-job
 
       - name: Regenerate build from cache
         run: yarn nx build web-app
@@ -202,14 +146,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Configure node 14
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'yarn'
-
-      - name: Install Dependencies
-        run: yarn install
+      - name: Setup node environment
+        uses: ./.github/actions/setup-node-job
 
       - name: Run E2E tests
         run: yarn nx run web-app-e2e:e2e --baseUrl=https://cypress.app.thenutritionistmcr.com --skipServe=true --skip-nx-cache
@@ -230,22 +168,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Configure node 14
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'yarn'
-
-      - name: Cache Nx
-        uses: actions/cache@v2
-        with:
-          path: node_modules/.cache/nx
-          key: build-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
-          restore-keys: |
-            build-cache-nx-${{ hashFiles('yarn.lock') }}-
-
-      - name: Install Dependencies
-        run: yarn install
+      - name: Setup node environment
+        uses: ./.github/actions/setup-node-job
 
       - name: Regenerate build from cache
         run: yarn nx build web-app
@@ -313,22 +237,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Configure node 14
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'yarn'
-
-      - name: Cache Nx
-        uses: actions/cache@v2
-        with:
-          path: node_modules/.cache/nx
-          key: build-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
-          restore-keys: |
-            build-cache-nx-${{ hashFiles('yarn.lock') }}-
-
-      - name: Install Dependencies
-        run: yarn install
+      - name: Setup node environment
+        uses: ./.github/actions/setup-node-job
 
       - name: Regenerate build from cache
         run: yarn nx build web-app
@@ -396,22 +306,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Configure node 14
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'yarn'
-
-      - name: Cache Nx
-        uses: actions/cache@v2
-        with:
-          path: node_modules/.cache/nx
-          key: build-cache-nx-${{ hashFiles('yarn.lock') }}-${{ github.sha }}
-          restore-keys: |
-            build-cache-nx-${{ hashFiles('yarn.lock') }}-
-
-      - name: Install Dependencies
-        run: yarn install
+      - name: Setup node environment
+        uses: ./.github/actions/setup-node-job
 
       - name: Regenerate build from cache
         run: yarn nx build web-app
