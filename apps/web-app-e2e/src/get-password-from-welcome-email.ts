@@ -50,7 +50,9 @@ interface MessageResponse {
   };
 }
 
-export const getPasswordFromMostRecentWelcomeEmail = async () => {
+export const getPasswordFromMostRecentWelcomeEmailThenDelete = async (
+  to: string
+) => {
   const gmail = getAuthenticatedGmailClient();
 
   const listMessages = (params: { userId: string; q: string }) => {
@@ -77,10 +79,26 @@ export const getPasswordFromMostRecentWelcomeEmail = async () => {
     });
   };
 
+  const deleteMessage = (params: { userId: string; id: string }) => {
+    return new Promise<MessageResponse>((accept, reject) => {
+      gmail.users.messages.trash(params, (error, response) => {
+        if (error) {
+          reject(error);
+        } else {
+          accept(response);
+        }
+      });
+    });
+  };
+
   const response: any = await listMessages({
     userId: 'me',
-    q: 'label:tnm-transactional',
+    q: `label:tnm-transactional to:${to}`,
   });
+
+  if (!Array.isArray(response.data.messages)) {
+    throw new Error('No results returned');
+  }
 
   const messagePromises = response.data.messages.map(async (message) => {
     const messageResponse = await getMessage({
@@ -92,32 +110,57 @@ export const getPasswordFromMostRecentWelcomeEmail = async () => {
 
   const messages = await Promise.all(messagePromises);
 
-  const bodies = messages
-    .flatMap((message) =>
-      message.payload.parts?.map((part) =>
-        part.mimeType === 'text/html'
-          ? Buffer.from(part.body.data, 'base64').toString('ascii')
-          : undefined
-      )
-    )
+  const parsedMessages = messages
+    .flatMap((message) => {
+      return message.payload.parts?.map((part) => {
+        return part.mimeType === 'text/html'
+          ? {
+              body: Buffer.from(part.body.data, 'base64').toString('ascii'),
+              id: message.id,
+            }
+          : undefined;
+      });
+    })
     // eslint-disable-next-line unicorn/prefer-array-find
     .filter(Boolean);
 
-  const parsed = bodies.map((body) => {
-    const dom = new JSDOM(`<!DOCTYPE html>${body}`);
+  const parsed = parsedMessages.map((message) => {
+    const dom = new JSDOM(`<!DOCTYPE html>${message.body}`);
 
     const env = dom.window.document.querySelector('.environment');
     const password = dom.window.document.querySelector('.password');
 
     return {
+      id: message.id,
       environment: extractTextArray(env)[0],
       password: extractTextArray(password)[0],
     };
   });
 
-  return parsed;
+  const chosen = parsed[0];
+
+  await deleteMessage({
+    userId: 'me',
+    id: chosen.id,
+  });
+
+  return chosen.password;
 };
 
-getPasswordFromMostRecentWelcomeEmail()
-  .catch((error) => console.log(error.message))
-  .then((result) => console.log(`Result: ${JSON.stringify(result, null, 2)}`));
+const delay = (time: number) => {
+  return new Promise((accept) => setTimeout(accept, time));
+};
+
+export const pollForPasswordFromMostRecentWelcomeEmailThenDelete = async (
+  email: string
+) => {
+  console.log('Polling inbox for welcome email...');
+
+  try {
+    return await getPasswordFromMostRecentWelcomeEmailThenDelete(email);
+  } catch {
+    console.log('Not found, waiting for 2 seconds');
+    await delay(2000);
+    return await pollForPasswordFromMostRecentWelcomeEmailThenDelete(email);
+  }
+};

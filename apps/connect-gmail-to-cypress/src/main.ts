@@ -26,7 +26,7 @@ app.get('/api', async (req, res) => {
   }
 });
 
-const scopes = ['https://www.googleapis.com/auth/gmail.readonly'];
+const scopes = ['https://www.googleapis.com/auth/gmail.modify'];
 
 const url = oauth2Client.generateAuthUrl({
   access_type: 'offline',
@@ -38,6 +38,5 @@ open(url);
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });
-
 
 server.on('error', console.error);
