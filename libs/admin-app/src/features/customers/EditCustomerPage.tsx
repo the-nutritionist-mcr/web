@@ -13,12 +13,7 @@ import PlanPanel from './PlanPanel';
 
 import { OkCancelDialog } from '../../components';
 import EditCustomerDetailsPanel from './EditCustomerDetailsPanel';
-import {
-  BackendCustomer,
-  Delivery,
-  Exclusion,
-  UpdateCustomerBody,
-} from '@tnmw/types';
+import { BackendCustomer, Exclusion, UpdateCustomerBody } from '@tnmw/types';
 
 const SUBMIT_DEBOUNCE = 500;
 
@@ -53,7 +48,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
   }, SUBMIT_DEBOUNCE);
 
   return (
-    <Box align="flex-start">
+    <Box align="flex-start" gap="small">
       <OkCancelDialog
         header="Plan Changed"
         onOk={onSubmit}
@@ -107,20 +102,23 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
           />
         )}
       </Header>
-      <Text>
-        <strong>Name:</strong> {customer.firstName} {customer.surname}
-      </Text>
-      <Text>
-        <strong>Email:</strong> {customer.email}
-      </Text>
-      {customer.plans?.map((plan, index) => {
-        return (
-          <Text>
-            <strong>Plan {index + 1}:</strong> {plan.name} - {plan.daysPerWeek}{' '}
-            days per week x {plan.itemsPerDay} meals per day = {plan.totalMeals}
-          </Text>
-        );
-      })}
+      <Box direction="column">
+        <Text>
+          <strong>Name:</strong> {customer.firstName} {customer.surname}
+        </Text>
+        <Text>
+          <strong>Email:</strong> {customer.email}
+        </Text>
+        {customer.plans?.map((plan, index) => {
+          return (
+            <Text>
+              <strong>Plan {index + 1}:</strong> {plan.name} -{' '}
+              {plan.daysPerWeek} days per week x {plan.itemsPerDay} meals per
+              day = {plan.totalMeals}
+            </Text>
+          );
+        })}
+      </Box>
       <Heading level={3}>Customisations</Heading>
       <Select
         multiple
