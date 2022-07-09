@@ -23,7 +23,11 @@ export const handler: Handler<
         event.request.codeParameter
       ),
     };
+
+    console.log(event);
   }
+
+  console.log('finished');
 
   return event;
 };
