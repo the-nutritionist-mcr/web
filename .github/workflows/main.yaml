@@ -111,7 +111,7 @@ jobs:
           destination_dir: ''
 
       - name: Download Storybook
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: storybook
           path: storybook
@@ -203,7 +203,7 @@ jobs:
           destination_dir: ''
 
       - name: Download Storybook
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: storybook
           path: storybook
@@ -272,7 +272,7 @@ jobs:
           destination_dir: ''
 
       - name: Download Storybook
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: storybook
           path: storybook
@@ -341,7 +341,7 @@ jobs:
           destination_dir: ''
 
       - name: Download Storybook
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: storybook
           path: storybook
