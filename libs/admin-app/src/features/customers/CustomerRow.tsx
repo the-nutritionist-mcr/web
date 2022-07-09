@@ -11,15 +11,16 @@ interface CustomerRowProps {
 
 const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
   const { navigate } = useContext(NavigationContext);
-  const nameString = `${props.customer.surname} ${props.customer.firstName} (${props.customer.salutation})`;
+  const nameString = `${props.customer.surname} ${props.customer.firstName}`;
 
   return (
     <TableRow>
-      <TableCell scope="row">
+      <TableCell>
         <Link path={`/admin/edit-customer/${props.customer.id}`}>
           {nameString}
         </Link>
       </TableCell>
+      <TableCell scope="row">{props.customer.email}</TableCell>
     </TableRow>
   );
 };

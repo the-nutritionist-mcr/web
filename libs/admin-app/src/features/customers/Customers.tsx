@@ -37,6 +37,10 @@ const Customers: React.FC<CustomersProps> = ({ customers }) => {
             <TableCell scope="col">
               <strong>Name</strong>
             </TableCell>
+
+            <TableCell scope="col">
+              <strong>Email</strong>
+            </TableCell>
           </TableRow>
         </TableHeader>
         <TableBody>
