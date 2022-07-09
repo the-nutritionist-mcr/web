@@ -21,7 +21,6 @@ const FormSection = (props: FormSectionProps) => (
       <div className={gridContainer}>{props.children}</div>
 
       <div className={iconContainer}>
-        <IconButton icon={LockIcon} a11yLabel="Section Disabled" />
         <IconButton icon={QuestionMarkIcon} a11yLabel="Information" />
       </div>
     </div>
