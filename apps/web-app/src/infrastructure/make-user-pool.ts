@@ -35,6 +35,9 @@ export const makeUserPool = (
       ),
       entry: entryName('chargebee-api', 'joining-email-sender.ts'),
       runtime: Runtime.NODEJS_14_X,
+      environment: {
+        ENVIRONMENT: environmentName,
+      },
       memorySize: 2048,
       bundling: {
         sourceMap: true,

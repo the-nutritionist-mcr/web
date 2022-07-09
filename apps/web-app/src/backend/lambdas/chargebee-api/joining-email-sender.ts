@@ -6,7 +6,8 @@ const template = (username: string, name: string, password: string) =>
   <body>
     <h1>Welcome ${name}</h1>
     <p>You have been invited to join The Nutritionist Manchester. Your temporary password is <span class='password'>${password}</span></p>
-    <p style='display:none'>username: ${username}</p>
+    <p style='display:none' class='username'>${username}</p>
+    <p style='display:none' class='environment'>${process.env.ENVIRONMENT}</p>
   </body>
 </html>`;
 

@@ -123,7 +123,10 @@ export const handleCustomerEvent = async (
 
   const command =
     event.event_type === 'customer_created'
-      ? new AdminCreateUserCommand(input)
+      ? new AdminCreateUserCommand({
+          ...input,
+          DesiredDeliveryMediums: ['EMAIL'],
+        })
       : new AdminUpdateUserAttributesCommand(input);
 
   const cognito = new CognitoIdentityProviderClient({});
