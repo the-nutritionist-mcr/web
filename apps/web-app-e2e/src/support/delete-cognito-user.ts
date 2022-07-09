@@ -8,8 +8,9 @@ import {
 export const deleteCognitoUser = async (username: string) => {
   try {
     const cognito = new CognitoIdentityProviderClient({
-      regino: 'eu-west-2',
+      region: 'eu-west-2',
     });
+
     const pool = process.env[`NX_${ENV.varNames.CognitoPoolId}`];
     const deleteCommand = new AdminDeleteUserCommand({
       UserPoolId: pool,
@@ -18,7 +19,8 @@ export const deleteCognitoUser = async (username: string) => {
 
     await cognito.send(deleteCommand);
     return null;
-  } catch {
+  } catch (error) {
+    console.log(`Failed to delete: ${error.message}`);
     return null;
     // swallow user doesn't exist error
   }
