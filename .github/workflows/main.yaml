@@ -212,7 +212,7 @@ jobs:
         run: yarn install
 
       - name: Run E2E tests
-        run: yarn nx run web-app-e2e:e2e --baseUrl=https://cypress.app.thenutritionistmcr.com --skipServe=true
+        run: yarn nx run web-app-e2e:e2e --baseUrl=https://cypress.app.thenutritionistmcr.com --skipServe=true --skip-nx-cache
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

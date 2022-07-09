@@ -3,6 +3,9 @@ name: Manually run Cypress tests
 on:
   workflow_dispatch:
 
+env:
+  CYPRESS_CACHE_FOLDER: cypress/cache
+
 jobs:
   cypress-run:
     name: E2E Tests
@@ -20,7 +23,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: '**/node_modules'
-          key: key-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: key-again-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Cache Cypress Binary
         id: cache-cypress-binary
@@ -33,7 +36,7 @@ jobs:
         run: yarn install
 
       - name: Run E2E tests
-        run: yarn nx run web-app-e2e:e2e --baseUrl=https://cypress.app.thenutritionistmcr.com --skipServe=true
+        run: yarn nx run web-app-e2e:e2e --baseUrl=https://cypress.app.thenutritionistmcr.com --skipServe=true --skip-nx-cache
         env:
           NX_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           NX_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}

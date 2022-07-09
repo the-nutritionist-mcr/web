@@ -32,7 +32,7 @@ describe('The login page', () => {
     cy.get('form').contains('Incorrect username or password');
   });
 
-  it('Creating an account on ChargeBee should provide an account that I can log in with', () => {
+  it('Creating an account on ChargeBee should result in being sent a password that I can use to login and change my password with', () => {
     cy.task('createChargebeeCustomer');
 
     cy.task('getPasswordFromWelcomeEmailThenDelete').then((password) => {
