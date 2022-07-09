@@ -6,14 +6,16 @@ import {
 } from '@aws-sdk/client-cognito-identity-provider';
 
 export const deleteCognitoUser = async (username: string) => {
-  const cognito = new CognitoIdentityProviderClient({
-    region: 'eu-west-2',
-  });
-  const pool = process.env[`NX_${ENV.varNames.CognitoPoolId}`];
-  const deleteCommand = new AdminDeleteUserCommand({
-    UserPoolId: pool,
-    Username: username,
-  });
+  try {
+    const cognito = new CognitoIdentityProviderClient({});
+    const pool = process.env[`NX_${ENV.varNames.CognitoPoolId}`];
+    const deleteCommand = new AdminDeleteUserCommand({
+      UserPoolId: pool,
+      Username: username,
+    });
 
-  await cognito.send(deleteCommand);
+    await cognito.send(deleteCommand);
+  } catch {
+    // swallow user doesn't exist error
+  }
 };
