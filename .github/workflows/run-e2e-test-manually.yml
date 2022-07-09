@@ -25,7 +25,9 @@ jobs:
         run: yarn nx run web-app-e2e:e2e --baseUrl=https://cypress.app.thenutritionistmcr.com --skipServe=true
         env:
           NX_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          NX_GOOGLE_CLIENT_SECRT: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          NX_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           NX_GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
           NX_CHARGEBEE_TOKEN: ${{ secrets.CHARGEBEE_TOKEN }}
           NX_COGNITO_POOL_ID: eu-west-2_X1GcrUCJu
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
