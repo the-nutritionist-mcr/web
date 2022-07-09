@@ -1,6 +1,7 @@
 import { ENV } from '@tnmw/constants';
 
 import {
+  AdminDeleteUserCommandInput,
   AdminDeleteUserCommand,
   CognitoIdentityProviderClient,
 } from '@aws-sdk/client-cognito-identity-provider';
@@ -12,10 +13,15 @@ export const deleteCognitoUser = async (username: string) => {
     });
 
     const pool = process.env[`NX_${ENV.varNames.CognitoPoolId}`];
-    const deleteCommand = new AdminDeleteUserCommand({
+
+    const params: AdminDeleteUserCommandInput = {
       UserPoolId: pool,
       Username: username,
-    });
+    };
+
+    console.log(params);
+
+    const deleteCommand = new AdminDeleteUserCommand(params);
 
     await cognito.send(deleteCommand);
     return null;
