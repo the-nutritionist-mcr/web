@@ -26,4 +26,6 @@ runs:
 
     - name: Install dependencies
       shell: 'bash'
-      irun: yarn install --frozen-lockfile
+      run: yarn install --frozen-lockfile
+      env:
+        CYPRESS_CACHE_FOLDER: cypress/cache
