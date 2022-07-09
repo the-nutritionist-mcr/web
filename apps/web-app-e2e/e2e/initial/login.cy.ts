@@ -1,6 +1,6 @@
 import { E2E } from '@tnmw/constants';
 describe('The login page', () => {
-  after(() => {
+  before(() => {
     cy.task('deleteChargebeeCustomer', E2E.nonExistingUser.username);
     cy.task('deleteCognitoUser', E2E.nonExistingUser.username);
   });
