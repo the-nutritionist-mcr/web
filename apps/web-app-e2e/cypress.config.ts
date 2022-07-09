@@ -1,9 +1,26 @@
+import { createChargebeeCustomer } from './src/support/create-chargebee-customer';
+import { deleteChargebeeCustomer } from './src/support/delete-chargebee-customer';
+import { deleteCognitoUser } from './src/support/delete-cognito-user';
+import { pollForPasswordFromMostRecentWelcomeEmailThenDelete } from './src/support/get-password-from-welcome-email';
 import { defineConfig } from 'cypress';
+import { E2E } from '@tnmw/constants';
 
 export default defineConfig({
   e2e: {
     supportFile: './src/support/index.ts',
     specPattern: 'e2e/**/*.cy.{ts,tsx}',
+    setupNodeEvents(on) {
+      on('task', {
+        deleteCognitoUser: deleteCognitoUser,
+        deleteChargebeeCustomer: deleteChargebeeCustomer,
+        createChargebeeCustomer: createChargebeeCustomer,
+        getPasswordFromWelcomeEmailThenDelete: () => {
+          return pollForPasswordFromMostRecentWelcomeEmailThenDelete(
+            E2E.nonExistingUser.email
+          );
+        },
+      });
+    },
   },
   fileServerFolder: '.',
   fixturesFolder: './src/fixtures',

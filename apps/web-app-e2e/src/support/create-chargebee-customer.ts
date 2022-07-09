@@ -1,16 +1,21 @@
+import { ChargeBee } from 'chargebee-typescript';
+import { CHARGEBEE, ENV, E2E } from '@tnmw/constants';
+
 export const createChargebeeCustomer = async () => {
+  const chargebee = new ChargeBee();
+  const key = process.env[`NX_${ENV.varNames.ChargeBeeToken}`];
   chargebee.configure({
-    site: CHARGEBEE_SITES.test,
-    api_key: process.env[`NX_${ENV.varNames.ChargeBeeToken}`],
+    site: CHARGEBEE.sites.test,
+    api_key: key,
   });
 
   await new Promise((accept, reject) => {
     chargebee.customer
       .create({
-        id: TEST_USER,
+        id: E2E.nonExistingUser.username,
         first_name: 'John',
         last_name: 'Doe',
-        email: E2E.testEmail,
+        email: E2E.nonExistingUser.email,
         locale: 'fr-CA',
         billing_address: {
           first_name: 'John',

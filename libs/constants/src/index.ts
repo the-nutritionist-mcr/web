@@ -8,8 +8,8 @@ export const CONTACT_EMAIL = 'hello@thenutritionistmcr.com';
 
 export const E2E = {
   nonExistingUser: {
-    username: 'test-chargebee-cypress-user',
-    email: 'ben+e2etesting@thenutritionistmcr.com',
+    username: 'test-chargebee-cypress-user-2',
+    email: 'ben+e2etestinguser@thenutritionistmcr.com',
     password: 'the-cypress-test-password',
   },
   adminUserOne: {

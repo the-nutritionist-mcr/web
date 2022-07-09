@@ -1,5 +1,6 @@
 import { google } from 'googleapis';
 import { JSDOM } from 'jsdom';
+import { ENV } from '@tnmw/constants';
 
 // Borrowed from here: https://github.com/jsdom/jsdom/issues/1245#issuecomment-861208443
 function extractTextArray(node: ChildNode): string[] {
@@ -24,10 +25,10 @@ function extractTextArray(node: ChildNode): string[] {
 }
 
 const getAuthenticatedGmailClient = () => {
-  const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
-  const clientId = process.env.GOOGLE_CLIENT_ID;
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-  const redirectUrl = process.env.GOOGLE_REDIRECT_URL;
+  const refreshToken = process.env[`NX_${ENV.varNames.GoogleRefreshToken}`];
+  const clientId = process.env[`NX_${ENV.varNames.GoogleClientId}`];
+  const clientSecret = process.env[`NX_${ENV.varNames.GoogleClientSecret}`];
+  const redirectUrl = process.env[`NX_${ENV.varNames.GoogleRedirectUrl}`];
 
   const oauth2Client = new google.auth.OAuth2(
     clientId,
@@ -158,8 +159,8 @@ export const pollForPasswordFromMostRecentWelcomeEmailThenDelete = async (
 
   try {
     return await getPasswordFromMostRecentWelcomeEmailThenDelete(email);
-  } catch {
-    console.log('Not found, waiting for 2 seconds');
+  } catch (error) {
+    console.log(`Not found, waiting for 2 seconds: ${error.message}`);
     await delay(2000);
     return await pollForPasswordFromMostRecentWelcomeEmailThenDelete(email);
   }
