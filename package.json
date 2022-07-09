@@ -86,7 +86,7 @@
     "jest-transform-stub": "2.0.0",
     "jest-when": "3.5.0",
     "js-file-download": "0.4.12",
-    "jsdom": "^20.0.0",
+    "jsdom": "20.0.0",
     "jsonwebtoken": "8.5.1",
     "jwk-to-pem": "2.0.5",
     "lint-staged": "13.0.3",
