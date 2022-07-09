@@ -23,7 +23,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: '**/node_modules'
-          key: key-again-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Cache Cypress Binary
         id: cache-cypress-binary
@@ -34,10 +34,13 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install
+        env:
+          CYPRESS_CACHE_FOLDER: cypress/cache
 
       - name: Run E2E tests
         run: yarn nx run web-app-e2e:e2e --baseUrl=https://cypress.app.thenutritionistmcr.com --skipServe=true --skip-nx-cache
         env:
+          CYPRESS_CACHE_FOLDER: cypress/cache
           NX_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           NX_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           NX_GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
