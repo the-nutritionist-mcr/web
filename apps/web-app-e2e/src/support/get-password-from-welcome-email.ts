@@ -158,7 +158,11 @@ export const pollForPasswordFromMostRecentWelcomeEmailThenDelete = async (
   console.log('Polling inbox for welcome email...');
 
   try {
-    return await getPasswordFromMostRecentWelcomeEmailThenDelete(email);
+    const response = await getPasswordFromMostRecentWelcomeEmailThenDelete(
+      email
+    );
+    console.log('welcome email found!');
+    return response;
   } catch (error) {
     console.log(`Not found, waiting for 2 seconds: ${error.message}`);
     await delay(2000);

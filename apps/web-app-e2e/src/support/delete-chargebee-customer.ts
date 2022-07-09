@@ -19,9 +19,11 @@ export const deleteChargebeeCustomer = async (id: string) => {
         }
       });
     });
+    console.log('Chargebee user deleted');
 
     return null;
   } catch (error) {
+    console.log('Failed to delete chargebee user');
     console.log(error.message);
     return null;
   }

@@ -19,14 +19,13 @@ export const deleteCognitoUser = async (username: string) => {
       Username: username,
     };
 
-    console.log(params);
-
     const deleteCommand = new AdminDeleteUserCommand(params);
 
     await cognito.send(deleteCommand);
+    console.log('Cognito user deleted');
     return null;
   } catch (error) {
-    console.log(`Failed to delete: ${error.message}`);
+    console.log(`Failed to delete cognito user: ${error.message}`);
     return null;
     // swallow user doesn't exist error
   }

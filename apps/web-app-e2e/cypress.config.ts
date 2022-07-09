@@ -6,6 +6,9 @@ import { defineConfig } from 'cypress';
 import { E2E } from '@tnmw/constants';
 
 export default defineConfig({
+  viewportHeight: 1011,
+  viewportWidth: 1438,
+  scrollBehaviour: false,
   e2e: {
     supportFile: './src/support/index.ts',
     specPattern: 'e2e/**/*.cy.{ts,tsx}',
