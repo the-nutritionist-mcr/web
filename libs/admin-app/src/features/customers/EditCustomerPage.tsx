@@ -44,7 +44,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
   const onSubmit = debounce(async () => {
     saveCustomer({
       customisations: customer.customisations,
-      customPlan: customer.customPlan,
+      customPlan: customer.customPlan ? customer.customPlan : undefined,
     });
 
     setDirty(false);
