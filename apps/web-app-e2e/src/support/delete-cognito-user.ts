@@ -15,7 +15,9 @@ export const deleteCognitoUser = async (username: string) => {
     });
 
     await cognito.send(deleteCommand);
+    return null;
   } catch {
+    return null;
     // swallow user doesn't exist error
   }
 };
