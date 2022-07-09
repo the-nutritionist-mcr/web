@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     container: cypress/browsers:node12.18.3-chrome87-ff82
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
 
