@@ -62,10 +62,11 @@ export const useResource = <T extends { id: string }>(type: string) => {
   const [update] = useMutation(updateItem, {
     onMutate({ input }: { input: T }) {
       const data = cache.get(type);
-      const items = data.items.filter(
-        (dataItem: T) => dataItem.id !== input.id
+      const index = data.items.findIndex(
+        (dataItem: T) => dataItem.id === input.id
       );
-      mutate(type, { items }, false);
+      data.items[index] = input;
+      mutate(type, { items: data.items }, false);
 
       return () => {
         mutate(type, data, false);
