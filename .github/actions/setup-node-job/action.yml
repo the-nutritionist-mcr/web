@@ -4,9 +4,6 @@ description: 'Sets up jobs running on node'
 runs:
   using: 'composite'
   steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-
     - name: Configure node 14
       uses: actions/setup-node@v2
       with:
@@ -15,14 +12,14 @@ runs:
     - uses: actions/cache@v3
       with:
         path: '**/node_modules'
-        key: key-again-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+        key: ${{ runner.os }}-app-modules-${{ hashFiles('**/yarn.lock') }}
 
     - name: Cache Cypress Binary
       id: cache-cypress-binary
       uses: actions/cache@v3
       with:
         path: cypress/cache
-        key: cypress-binary-${{ hashFiles('**/yarn.lock') }}
+        key: cypress-binary-key-${{ hashFiles('**/yarn.lock') }}
 
     - name: Install dependencies
       shell: 'bash'
