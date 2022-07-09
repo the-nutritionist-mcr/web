@@ -1,19 +1,24 @@
 import { createChargebeeCustomer } from './src/support/create-chargebee-customer';
 import { deleteChargebeeCustomer } from './src/support/delete-chargebee-customer';
 import { deleteCognitoUser } from './src/support/delete-cognito-user';
-import { pollForPasswordFromMostRecentWelcomeEmailThenDelete } from './src/support/get-password-from-welcome-email';
+import { pollForPasswordFromMostRecentWelcomeEmailThenDelete } from './src/support/google/get-password-from-welcome-email';
+import { deleteAllCypressWelcomeEmails } from './src/support/google/delete-all-cypress-welcome-emails';
 import { defineConfig } from 'cypress';
 import { E2E } from '@tnmw/constants';
 
 export default defineConfig({
   viewportHeight: 1011,
   viewportWidth: 1438,
-  scrollBehaviour: false,
+  scrollBehaviour: 'middle',
   e2e: {
+    defaultCommandTimeout: 25_000,
     supportFile: './src/support/index.ts',
     specPattern: 'e2e/**/*.cy.{ts,tsx}',
     setupNodeEvents(on) {
       on('task', {
+        deleteWelcomeEmails: () => {
+          return deleteAllCypressWelcomeEmails(E2E.nonExistingUser.email);
+        },
         deleteCognitoUser: deleteCognitoUser,
         deleteChargebeeCustomer: deleteChargebeeCustomer,
         createChargebeeCustomer: createChargebeeCustomer,

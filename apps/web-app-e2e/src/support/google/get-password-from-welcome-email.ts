@@ -1,6 +1,6 @@
-import { google } from 'googleapis';
 import { JSDOM } from 'jsdom';
-import { ENV } from '@tnmw/constants';
+import { listMessages } from './list-messages';
+import { getMessage } from './get-message';
 
 // Borrowed from here: https://github.com/jsdom/jsdom/issues/1245#issuecomment-861208443
 function extractTextArray(node: ChildNode): string[] {
@@ -24,25 +24,6 @@ function extractTextArray(node: ChildNode): string[] {
   return textLines;
 }
 
-const getAuthenticatedGmailClient = () => {
-  const refreshToken = process.env[`NX_${ENV.varNames.GoogleRefreshToken}`];
-  const clientId = process.env[`NX_${ENV.varNames.GoogleClientId}`];
-  const clientSecret = process.env[`NX_${ENV.varNames.GoogleClientSecret}`];
-  const redirectUrl = process.env[`NX_${ENV.varNames.GoogleRedirectUrl}`];
-
-  const oauth2Client = new google.auth.OAuth2(
-    clientId,
-    clientSecret,
-    redirectUrl
-  );
-
-  oauth2Client.setCredentials({
-    refresh_token: refreshToken,
-  });
-
-  return google.gmail({ version: 'v1', auth: oauth2Client });
-};
-
 interface MessageResponse {
   data: {
     payload: {
@@ -54,44 +35,6 @@ interface MessageResponse {
 export const getPasswordFromMostRecentWelcomeEmailThenDelete = async (
   to: string
 ) => {
-  const gmail = getAuthenticatedGmailClient();
-
-  const listMessages = (params: { userId: string; q: string }) => {
-    return new Promise((accept, reject) => {
-      gmail.users.messages.list(params, (error, response) => {
-        if (error) {
-          reject(error);
-        } else {
-          accept(response);
-        }
-      });
-    });
-  };
-
-  const getMessage = (params: { userId: string; id: string }) => {
-    return new Promise<MessageResponse>((accept, reject) => {
-      gmail.users.messages.get(params, (error, response) => {
-        if (error) {
-          reject(error);
-        } else {
-          accept(response);
-        }
-      });
-    });
-  };
-
-  const deleteMessage = (params: { userId: string; id: string }) => {
-    return new Promise<MessageResponse>((accept, reject) => {
-      gmail.users.messages.trash(params, (error, response) => {
-        if (error) {
-          reject(error);
-        } else {
-          accept(response);
-        }
-      });
-    });
-  };
-
   const response: any = await listMessages({
     userId: 'me',
     q: `label:tnm-transactional to:${to}`,
@@ -139,11 +82,6 @@ export const getPasswordFromMostRecentWelcomeEmailThenDelete = async (
   });
 
   const chosen = parsed[0];
-
-  await deleteMessage({
-    userId: 'me',
-    id: chosen.id,
-  });
 
   return chosen.password;
 };

@@ -8,6 +8,7 @@ import {
 
 export const deleteCognitoUser = async (username: string) => {
   try {
+    console.log(`Deleting cognito user '${username}'`);
     const cognito = new CognitoIdentityProviderClient({
       region: 'eu-west-2',
     });

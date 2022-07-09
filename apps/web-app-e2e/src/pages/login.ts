@@ -5,15 +5,13 @@ export const LoginPage = {
 
   getLoginForm: () => cy.get('form'),
 
-  getLoginButton: () => cy.get('form').find('button').contains('Login'),
+  getLoginButton: () => cy.contains('form button', 'Login'),
 
-  getSubmitButton: () => cy.get('form').find('button').contains('Submit'),
+  getSubmitButton: () => cy.contains('form button', 'Submit'),
 
-  clickSubmitButton: () =>
-    cy.get('form').find('button').contains('Submit').click(),
+  clickSubmitButton: () => cy.contains('form button', 'Submit').click(),
 
-  clickLoginButton: () =>
-    cy.get('form').find('button').contains('Login').click(),
+  clickLoginButton: () => cy.contains('form button', 'Login').click(),
 
   fillEmailInput: (text: string) =>
     cy.get('form').find("input[name='email']").clear().type(text),
