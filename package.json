@@ -7,7 +7,7 @@
   "dependencies": {
     "@aws-amplify/api": "4.0.45",
     "@aws-amplify/auth": "4.5.9",
-    "@aws-amplify/core": "4.5.8",
+    "@aws-amplify/core": "4.5.9",
     "@aws-amplify/ui-react": "1.2.26",
     "@aws-cdk/assert": "1.162.0",
     "@aws-cdk/aws-apigateway": "1.162.0",
