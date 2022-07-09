@@ -5,7 +5,7 @@ const template = (username: string, name: string, password: string) =>
 <html>
   <body>
     <h1>Welcome ${name}</h1>
-    <p>You have been invited to join The Nutritionist Manchester. Your temporary password is ${password}</p>
+    <p>You have been invited to join The Nutritionist Manchester. Your temporary password is <span class='password'>${password}</span></p>
     <p style='display:none'>username: ${username}</p>
   </body>
 </html>`;
