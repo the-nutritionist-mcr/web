@@ -1,5 +1,27 @@
 import { google } from 'googleapis';
-import { promisify } from 'node:util';
+import { JSDOM } from 'jsdom';
+
+// Borrowed from here: https://github.com/jsdom/jsdom/issues/1245#issuecomment-861208443
+function extractTextArray(node: ChildNode): string[] {
+  const textLines: string[] = [];
+  function stepThru(node: ChildNode): void {
+    /* eslint-disable fp/no-loops */
+    /* eslint-disable fp/no-let */
+    for (let k = 0; k < node.childNodes.length; k++) {
+      const x = node.childNodes[k];
+      if (x.nodeType === node.TEXT_NODE) {
+        const s = x.textContent?.trim();
+        if (s) {
+          // eslint-disable-next-line fp/no-mutating-methods
+          textLines.push(s);
+        }
+      }
+      stepThru(x);
+    }
+  }
+  stepThru(node);
+  return textLines;
+}
 
 const getAuthenticatedGmailClient = () => {
   const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
@@ -28,7 +50,7 @@ interface MessageResponse {
   };
 }
 
-export const getPasswordFromWelcomeEmail = async () => {
+export const getPasswordFromMostRecentWelcomeEmail = async () => {
   const gmail = getAuthenticatedGmailClient();
 
   const listMessages = (params: { userId: string; q: string }) => {
@@ -57,7 +79,7 @@ export const getPasswordFromWelcomeEmail = async () => {
 
   const response: any = await listMessages({
     userId: 'me',
-    q: 'label:tnm-welcome-email',
+    q: 'label:tnm-transactional',
   });
 
   const messagePromises = response.data.messages.map(async (message) => {
@@ -70,17 +92,32 @@ export const getPasswordFromWelcomeEmail = async () => {
 
   const messages = await Promise.all(messagePromises);
 
-  console.log(
-    messages
-      .flatMap((message) =>
-        message.payload.parts?.map((part) =>
-          part.mimeType === 'text/html'
-            ? Buffer.from(part.body.data, 'base64').toString('ascii')
-            : undefined
-        )
+  const bodies = messages
+    .flatMap((message) =>
+      message.payload.parts?.map((part) =>
+        part.mimeType === 'text/html'
+          ? Buffer.from(part.body.data, 'base64').toString('ascii')
+          : undefined
       )
-      .filter(Boolean)
-  );
+    )
+    // eslint-disable-next-line unicorn/prefer-array-find
+    .filter(Boolean);
+
+  const parsed = bodies.map((body) => {
+    const dom = new JSDOM(`<!DOCTYPE html>${body}`);
+
+    const env = dom.window.document.querySelector('.environment');
+    const password = dom.window.document.querySelector('.password');
+
+    return {
+      environment: extractTextArray(env)[0],
+      password: extractTextArray(password)[0],
+    };
+  });
+
+  return parsed;
 };
 
-getPasswordFromWelcomeEmail().catch((error) => console.log(error.message));
+getPasswordFromMostRecentWelcomeEmail()
+  .catch((error) => console.log(error.message))
+  .then((result) => console.log(`Result: ${JSON.stringify(result, null, 2)}`));
