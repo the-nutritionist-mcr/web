@@ -7,7 +7,9 @@ import {
 
 export const deleteCognitoUser = async (username: string) => {
   try {
-    const cognito = new CognitoIdentityProviderClient({});
+    const cognito = new CognitoIdentityProviderClient({
+      regino: 'eu-west-2',
+    });
     const pool = process.env[`NX_${ENV.varNames.CognitoPoolId}`];
     const deleteCommand = new AdminDeleteUserCommand({
       UserPoolId: pool,
