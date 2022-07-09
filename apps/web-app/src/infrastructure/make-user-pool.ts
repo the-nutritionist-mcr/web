@@ -2,6 +2,7 @@ import {
   UserPool,
   CfnUserPoolGroup,
   VerificationEmailStyle,
+  UserPoolEmail,
   StringAttribute,
 } from '@aws-cdk/aws-cognito';
 import { Runtime } from '@aws-cdk/aws-lambda';
@@ -41,6 +42,13 @@ export const makeUserPool = (
     }
   );
 
+  const email = UserPoolEmail.withSES({
+    fromEmail: 'no-reply@thenutritionistmcr.com',
+    fromName: 'The Nutritionist MCR',
+    replyTo: 'support@thenutrionistmcr.com',
+    sesVerifiedDomain: 'thenutritionistmcr.com',
+  });
+
   const verificationString =
     'Hey {username}! Thanks for signing up to The Nutritionist Manchester. Your verification code is {####}';
   const invitationString =
@@ -50,11 +58,12 @@ export const makeUserPool = (
     userPoolName: getResourceName('user-pool', environmentName),
     selfSignUpEnabled: true,
 
+    email,
+
     userVerification: {
       emailBody: verificationString,
       emailSubject: 'TNM signup',
       emailStyle: VerificationEmailStyle.CODE,
-      smsMessage: verificationString,
     },
 
     lambdaTriggers: {
@@ -64,7 +73,6 @@ export const makeUserPool = (
     userInvitation: {
       emailSubject: 'TNM invite',
       emailBody: invitationString,
-      smsMessage: invitationString,
     },
 
     customAttributes: {
