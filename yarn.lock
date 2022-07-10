@@ -10561,10 +10561,10 @@ aws-cdk@2.31.1:
   optionalDependencies:
     fsevents "2.3.2"
 
-aws-crt@1.12.5:
-  version "1.12.5"
-  resolved "https://registry.yarnpkg.com/aws-crt/-/aws-crt-1.12.5.tgz#7b40dcc5bbae1144f7e35a9c22dc91542d18737b"
-  integrity sha512-fIMKy7BKHEWC4gzqewYJTlmp+m9ioZuBSfcKf2zYFSIZxtmweHji6n+sicHDcynxNA5zUsFPcVbKhOryfyAKfw==
+aws-crt@1.13.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/aws-crt/-/aws-crt-1.13.0.tgz#278efedb4175a8d3a3f447f0d512f824b031aaef"
+  integrity sha512-4TnGrN/cyp9hsGd+a19EgTyL8k/J9KiU9SlEVGgLimKVGEk8ApJynSvcFgmh1qLC+6/EvZ5NcPUBnuBKfWnYMg==
   dependencies:
     "@httptoolkit/websocket-stream" "^6.0.0"
     axios "^0.24.0"
