@@ -28,7 +28,7 @@ jobs:
           - lint
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
@@ -63,7 +63,7 @@ jobs:
         run: yarn nx run components:build-storybook
 
       - name: Save Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: storybook
           path: dist/storybook/components
@@ -74,7 +74,7 @@ jobs:
     needs: [build-next-app]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
@@ -111,7 +111,7 @@ jobs:
           destination_dir: ''
 
       - name: Download Storybook
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: storybook
           path: storybook
@@ -144,7 +144,7 @@ jobs:
     container: cypress/browsers:node12.18.3-chrome87-ff82
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
@@ -166,7 +166,7 @@ jobs:
     needs: [build-next-app, static-checks, cypress-run, build-storybook]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
@@ -203,7 +203,7 @@ jobs:
           destination_dir: ''
 
       - name: Download Storybook
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: storybook
           path: storybook
@@ -235,7 +235,7 @@ jobs:
     needs: [build-next-app, build-storybook]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
@@ -272,7 +272,7 @@ jobs:
           destination_dir: ''
 
       - name: Download Storybook
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: storybook
           path: storybook
@@ -304,7 +304,7 @@ jobs:
     needs: [build-next-app, static-checks, cypress-run, build-storybook]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
@@ -341,7 +341,7 @@ jobs:
           destination_dir: ''
 
       - name: Download Storybook
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: storybook
           path: storybook
