@@ -1,5 +1,7 @@
+import { getClosingDate } from '../utils/get-closing-date';
 import { FC } from 'react';
 import { Hero, MealSelections } from '@tnmw/components';
+import { useEffect } from 'react';
 
 import {
   authorizedRoute,
@@ -27,6 +29,18 @@ const ChooseMealsHeader = styled('h1')`
 
 const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
   const { data, submitOrder } = usePlan();
+
+  useEffect(() => {
+    const now = new Date(Date.now());
+
+    const go =
+      data &&
+      (!data.available || now >= getClosingDate(new Date(Number(data.date))));
+
+    if (go) {
+      window.location = '/account';
+    }
+  }, [data]);
 
   if (!data?.available) {
     return <></>;

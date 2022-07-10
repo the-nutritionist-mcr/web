@@ -1,4 +1,5 @@
 import { FC, useContext } from 'react';
+import { getClosingDate } from '../utils/get-closing-date';
 import { UserContext, Hero, Account } from '@tnmw/components';
 import Router from 'next/router';
 import { signOut } from '../aws/authenticate';
@@ -29,17 +30,6 @@ const YourAccountHeader = styled('h1')`
   margin: 0.5rem 0 0 0;
 `;
 
-const getClosingDate = (date: Date) => {
-  let newDate = new Date(date.valueOf());
-  do {
-    newDate.setDate(newDate.getDate() + 1);
-  } while (newDate.getDay() !== 4);
-
-  newDate.setHours(12, 0, 0);
-
-  return newDate;
-};
-
 const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
   const { setUser } = useContext(UserContext);
   const { data } = usePlan();
@@ -48,7 +38,7 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
 
   const showChooseButton =
     data &&
-    (data?.published || now < getClosingDate(new Date(Number(data?.date))));
+    (data?.available || now < getClosingDate(new Date(Number(data?.date))));
 
   const logout = async () => {
     await signOut();
