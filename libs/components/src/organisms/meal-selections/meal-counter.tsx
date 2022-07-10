@@ -29,6 +29,7 @@ const Container = styled.section`
 
 const MealCounter: FC<MealCounterProps> = (props) => {
   const headerId = uniqueId();
+  const contains = props.contains ? props.contains : 'no allergens';
   return (
     <section className={container} aria-labelledby={headerId}>
       <h3 className={header} id={headerId}>
@@ -36,7 +37,7 @@ const MealCounter: FC<MealCounterProps> = (props) => {
       </h3>
       <ParagraphText>{props.description}</ParagraphText>
       <hr className={divider} />
-      <p className={nutritionAndAllergyLink}>Allergen Info</p>
+      <p className={nutritionAndAllergyLink}>Contains {contains}</p>
       <QuantityStepper
         onChange={props.onChange}
         value={props.value ?? 0}
