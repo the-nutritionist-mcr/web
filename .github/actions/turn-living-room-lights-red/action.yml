@@ -1,0 +1,29 @@
+name: 'turn-living-room-lights-red'
+description: 'Changes all the lights in my living room to red'
+
+runs:
+  using: 'composite'
+  strategy:
+    fail-fast: false
+    matrix:
+      light:
+        - 7
+        - 8
+        - 9
+        - 10
+  steps:
+    - name: Red light on failure
+      uses: manekinekko/hue-action@v1.0
+      if: failure()
+      with:
+        hueWebhook: ${{ secrets.HUEACTION_WEBHOOK }}
+        hueLightId: ${{ matrix.light }}
+        hueStatus: 'failure'
+
+    - name: Green light on success
+      uses: manekinekko/hue-action@v1.0
+      if: success()
+      with:
+        hueWebhook: ${{ secrets.HUEACTION_WEBHOOK }}
+        hueLightId: ${{ matrix.light }}
+        hueStatus: 'failure'
