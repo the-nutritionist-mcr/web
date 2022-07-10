@@ -70,7 +70,7 @@
     "core-js": "3.23.4",
     "deep-equal": "2.0.5",
     "enzyme": "3.11.0",
-    "esbuild": "0.14.48",
+    "esbuild": "0.14.49",
     "eslint-plugin-fp": "2.3.0",
     "eslint-plugin-security": "1.5.0",
     "eslint-plugin-unicorn": "40.1.0",
