@@ -33,7 +33,7 @@
     "@emotion/react": "11.9.3",
     "@emotion/server": "11.4.0",
     "@emotion/styled": "11.9.3",
-    "@mui/material": "5.8.6",
+    "@mui/material": "5.8.7",
     "@nrwl/next": "14.4.0",
     "@reduxjs/toolkit": "1.8.3",
     "@storybook/core-server": "6.5.9",
