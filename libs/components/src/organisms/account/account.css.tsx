@@ -14,3 +14,10 @@ export const chooseButtonContainer = style({
 export const header = style({
   fontFamily: "'Acumin Pro', Arial, sans-serif",
 });
+
+export const text = style({
+  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  gridColumnStart: '1',
+  gridColumnEnd: '3',
+  lineHeight: '1.5rem',
+});

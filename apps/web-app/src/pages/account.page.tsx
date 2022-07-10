@@ -11,6 +11,8 @@ import {
   AuthorizedRouteProps,
 } from '../utils/authorised-route';
 
+import { usePlan } from '../hooks';
+
 const YourAccountHeaderBox = styled('div')`
   text-align: center;
   color: #3b7d7a;
@@ -29,6 +31,7 @@ const YourAccountHeader = styled('h1')`
 
 const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
   const { setUser } = useContext(UserContext);
+  const { data } = usePlan();
 
   const logout = async () => {
     await signOut();
@@ -51,7 +54,7 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
         </YourAccountHeaderBox>
       </Hero>
       <PageSpacing>
-        <Account userDetails={user} showChooseButton={true} logout={logout} />
+        <Account userDetails={user} showChooseButton={false} logout={logout} />
       </PageSpacing>
     </>
   );

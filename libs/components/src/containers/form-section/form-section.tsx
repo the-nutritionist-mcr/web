@@ -10,6 +10,7 @@ import {
 interface FormSectionProps {
   children: React.ReactNode;
   heading?: string;
+  showQuestionMarkIcon?: boolean;
 }
 
 const FormSection = (props: FormSectionProps) => (
@@ -18,9 +19,11 @@ const FormSection = (props: FormSectionProps) => (
     <div className={sectionContents}>
       <div className={gridContainer}>{props.children}</div>
 
-      <div className={iconContainer}>
-        <IconButton icon={QuestionMarkIcon} a11yLabel="Information" />
-      </div>
+      {props.showQuestionMarkIcon && (
+        <div className={iconContainer}>
+          <IconButton icon={QuestionMarkIcon} a11yLabel="Information" />
+        </div>
+      )}
     </div>
   </div>
 );

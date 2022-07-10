@@ -71,6 +71,7 @@ const ButtonElement = styled.button((props: ButtonProps) => {
       backgroundColor: props.primary ? 'white' : color,
     },
     '&:disabled': {
+      cursor: 'not-allowed',
       color: 'grey',
       backgroundColor: 'white',
       border: `1px solid ${color}`,

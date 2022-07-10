@@ -5,7 +5,12 @@ import { Button, Input } from '../../atoms';
 import { FormSection } from '../../containers';
 import { useContext } from 'react';
 import { NavigationContext } from '@tnmw/utils';
-import { sectionContents, chooseButtonContainer, header } from './account.css';
+import {
+  sectionContents,
+  chooseButtonContainer,
+  header,
+  text,
+} from './account.css';
 
 export interface User {
   username: string;
@@ -41,11 +46,11 @@ export const Account: FC<AccountProps> = ({
   const { navigate } = useContext(NavigationContext);
   return (
     <div>
-      <FormSection heading="Your Details">
+      <FormSection heading="Your Details" showQuestionMarkIcon>
         <Input label="First Name" value={userDetails.firstName} disabled />
         <Input label="Last Name" value={userDetails.surname} disabled />
       </FormSection>
-      <FormSection>
+      <FormSection showQuestionMarkIcon>
         <Input label="Email" value={userDetails.email} disabled />
         <Input
           label="Contact Number"
@@ -53,7 +58,7 @@ export const Account: FC<AccountProps> = ({
           disabled
         />
       </FormSection>
-      <FormSection>
+      <FormSection showQuestionMarkIcon>
         <Input
           label="Address Line 1"
           value={userDetails.addressLine1}
@@ -69,7 +74,7 @@ export const Account: FC<AccountProps> = ({
         <Input label="City" value={userDetails.city} disabled />
       </FormSection>
       {userDetails.plans.length > 0 && (
-        <FormSection heading="Your Plan">
+        <FormSection heading="Your Plan" showQuestionMarkIcon>
           {userDetails.plans.map((plan) => (
             <>
               <Input label="Meal Size" value={plan.name} disabled />
@@ -82,22 +87,37 @@ export const Account: FC<AccountProps> = ({
           ))}
         </FormSection>
       )}
-      <div className={chooseButtonContainer}>
-        {showChooseButton && (
-          <Button onClick={() => navigate?.('/choose-meals/')} primary>
-            Choose Meals
-          </Button>
-        )}
-      </div>
+      <FormSection heading="Choose Meals">
+        {showChooseButton ? (
+          <>
+            <p className={text}>
+              Meal selections are now open. Click on the button below to view
+              the meals you will be receiving for the week or to make
+              alternative choices.
+            </p>
+            <Button onClick={() => navigate?.('/choose-meals/')} primary>
+              Make Choices
+            </Button>
+          </>
+        ) : (
+          <>
+            <p className={text}>
+              Meal selections for this week's cook have now closed. Check back
+              here on Tuesday for next weeks meal choices.
+            </p>
 
-      <div>
-        <h2 className={header}>Logout</h2>
-        <div className={sectionContents}>
-          <Button backgroundColor="#E3E3E3" onClick={logout} primary>
-            Logout
-          </Button>
-        </div>
-      </div>
+            <Button primary disabled>
+              Make Choices
+            </Button>
+          </>
+        )}
+      </FormSection>
+
+      <FormSection heading="Logout">
+        <Button backgroundColor="#E3E3E3" onClick={logout} primary>
+          Logout
+        </Button>
+      </FormSection>
     </div>
   );
 };
