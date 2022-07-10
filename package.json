@@ -61,7 +61,7 @@
     "aws-amplify": "4.3.27",
     "aws-cdk": "2.31.1",
     "aws-crt": "1.13.0",
-    "aws-sdk": "2.1167.0",
+    "aws-sdk": "2.1171.0",
     "aws-sdk-client-mock": "0.6.2",
     "axios": "0.27.2",
     "babel-plugin-polyfill-corejs2": "0.3.1",
