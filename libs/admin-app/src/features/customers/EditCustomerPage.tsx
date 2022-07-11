@@ -71,36 +71,37 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
           name="submit"
           onClick={() => setShowPlanChangedDialog(true)}
         />
-        {!customer.customPlan ? (
-          <Button
-            primary
-            label="Create custom plan"
-            type="submit"
-            onClick={() => {
-              const deliveries = convertPlanFormat(
-                customer.plans,
-                itemFamilies
-              ).deliveries;
-              updateCustomer({
-                ...customer,
-                customPlan: deliveries,
-              });
-              setDirty(true);
-            }}
-          />
-        ) : (
-          <Button
-            primary
-            onClick={() => {
-              updateCustomer({
-                ...customer,
-                customPlan: undefined,
-              });
-              setDirty(true);
-            }}
-            label="Remove custom plan"
-          />
-        )}
+        {customer.plans.length > 0 &&
+          (!customer.customPlan ? (
+            <Button
+              primary
+              label="Create custom plan"
+              type="submit"
+              onClick={() => {
+                const deliveries = convertPlanFormat(
+                  customer.plans,
+                  itemFamilies
+                ).deliveries;
+                updateCustomer({
+                  ...customer,
+                  customPlan: deliveries,
+                });
+                setDirty(true);
+              }}
+            />
+          ) : (
+            <Button
+              primary
+              onClick={() => {
+                updateCustomer({
+                  ...customer,
+                  customPlan: undefined,
+                });
+                setDirty(true);
+              }}
+              label="Remove custom plan"
+            />
+          ))}
       </Header>
       <Box direction="column">
         <Text>
