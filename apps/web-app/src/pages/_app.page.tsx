@@ -44,10 +44,6 @@ Hub.listen('auth', (data) => {
     case 'signIn':
       toast.success('Login successful!');
       break;
-
-    case 'signOut':
-      toast.success('Successfully logged out');
-      break;
   }
 });
 
