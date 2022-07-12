@@ -54,7 +54,7 @@ export const itemFamilies = [
   },
 ];
 
-export const defaultDeliveryDays = ['Monday', 'Wednesday', 'Friday'];
+export const defaultDeliveryDays = ['Monday', 'Thursday'];
 
 export const daysOfWeek = [
   'Sunday',
