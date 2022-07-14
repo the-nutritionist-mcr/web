@@ -49,6 +49,7 @@ export const makeUserPool = (
     fromEmail: 'no-reply@thenutritionistmcr.com',
     fromName: 'The Nutritionist MCR',
     replyTo: 'support@thenutrionistmcr.com',
+  /* @ts-ignore */
     sesVerifiedDomain: 'thenutritionistmcr.com',
   });
 

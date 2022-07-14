@@ -1,12 +1,12 @@
 {
-  "tnm-web-cypress-stack": {
-    "dataapiEndpointFF8416B3": "https://5pk0qld7jb.execute-api.eu-west-2.amazonaws.com/prod/",
-    "UserPoolId": "eu-west-2_X1GcrUCJu",
-    "DomainName": "cypress.app.thenutritionistmcr.com",
-    "StaticsBucket": "cypress.app.thenutritionistmcr.com",
-    "ClientId": "2ap2bp3c0di302t9n5ai3dhdoa",
-    "pagesapiEndpoint356D7B8F": "https://896yz3hl3b.execute-api.eu-west-2.amazonaws.com/prod/",
-    "CloudfrontId": "EGVFK1I6PKBOA",
-    "ApiDomainName": "api.cypress.app.thenutritionistmcr.com"
+  "tnm-web-test-stack": {
+    "dataapiEndpointFF8416B3": "https://oyiyu4cgm7.execute-api.eu-west-2.amazonaws.com/prod/",
+    "UserPoolId": "eu-west-2_sFsGezOqI",
+    "DomainName": "test.app.thenutritionistmcr.com",
+    "StaticsBucket": "test.app.thenutritionistmcr.com",
+    "ClientId": "2et3kb26gk3u5githv4h0murfg",
+    "pagesapiEndpoint356D7B8F": "https://1dbwosq7t1.execute-api.eu-west-2.amazonaws.com/prod/",
+    "CloudfrontId": "E2AAFMEIPU9T1U",
+    "ApiDomainName": "api.test.app.thenutritionistmcr.com"
   }
 }

@@ -36,9 +36,11 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
 
   const now = new Date(Date.now());
 
-  const showChooseButton =
+  /* const showChooseButton =
     data &&
-    (data?.available || now < getClosingDate(new Date(Number(data?.date))));
+    (data?.available || now < getClosingDate(new Date(Number(data?.date)))); */
+
+  const showChooseButton = true;
 
   const logout = async () => {
     await signOut();
