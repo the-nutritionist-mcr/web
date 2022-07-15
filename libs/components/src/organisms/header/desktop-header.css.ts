@@ -1,23 +1,64 @@
 import TnmHeader from './TNM-Header.svg';
+import Account from './account.svg';
 
 import { style } from '@vanilla-extract/css';
 
 export const headerUnorderedList = style({
   display: 'flex',
   width: '100%',
-  fontSize: '21px',
+  margin: '0',
   justifyContent: 'space-between',
-  margin: '0 auto',
-  height: '100%',
+});
+
+export const accountButton = style({
+  background: `url(${Account})`,
+  width: '92.3203px',
+  fontFamily: '"Acumin Pro",sans-serif',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: `50%`,
+  display: 'block',
+  textIndent: '100%',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  height: '38px',
+});
+
+export const getStartedButton = style({
+  outline: 'none',
+  borderRadius: '25px',
+  textAlign: 'center',
+  cursor: 'pointer',
+  textDecoration: 'none',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'center',
   alignItems: 'center',
-  transition: 'ease transform 0.3s !important',
-  maxWidth: '1460px',
-  padding: '0 30px',
+  fontWeight: 700,
+  background: '#292929',
+  color: '#fff',
+  padding: '10px 30px',
+  fontSize: '16px',
+  border: '1px solid #000',
+  margin: 0,
+  lineHeight: 'normal',
 });
 
 export const theNutritionistLogo = style({
-  background: `url(${TnmHeader})`,
-  width: '313px',
+  backgroundImage: `url(${TnmHeader})`,
+  backgroundRepeat: 'no-repeat',
+  width: '315px',
+  height: '34px',
+  display: 'block',
+  margin: 0,
+  padding: 0,
+  textIndent: '100%',
+  backgroundSize: 'contain',
+  backgroundPosition: 'center center',
+});
+
+export const theNutritionistALink = style({
+  maxWidth: '35px',
+  width: '100%',
   height: '34px',
   display: 'block',
   textIndent: '100%',
@@ -35,6 +76,8 @@ export const headerListItem = style({
 });
 
 export const menuAnchor = style({
+  fontFamily: '"Acumin Pro",sans-serif',
+  fontWeight: 'bold',
   textDecoration: 'none',
-  color: '#292929',
+  color: '#141414',
 });

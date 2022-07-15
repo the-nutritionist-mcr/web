@@ -1,11 +1,15 @@
 import { useBreakpoints } from '../../hooks';
-import styled from '@emotion/styled';
 import { useTheme } from '@emotion/react';
 
 import DesktopHeader from './desktop-header';
 import MobileHeader from './mobile-header';
 import { AdminNav } from './admin-nav';
-import { siteNavbarDesktop, siteNavbarMobile } from './header.css';
+import {
+  header,
+  siteNavbarDesktop,
+  siteNavbarMobile,
+  mainMenuContainer,
+} from './header.css';
 
 interface HeaderProps {
   admin: boolean;
@@ -15,14 +19,22 @@ const Header = (props: HeaderProps) => {
   const theme = useTheme();
   const currentBreakpoint = useBreakpoints(theme.breakpoints);
   return currentBreakpoint === 'large' ? (
-    <nav key="one" className={siteNavbarDesktop}>
-      <DesktopHeader />
-      {props.admin && <AdminNav />}
-    </nav>
+    <header className={header}>
+      <nav key="one" className={siteNavbarDesktop}>
+        <div className={mainMenuContainer}>
+          <DesktopHeader />
+          {props.admin && <AdminNav />}
+        </div>
+      </nav>
+    </header>
   ) : (
-    <nav key="two" className={siteNavbarMobile}>
-      <MobileHeader />
-    </nav>
+    <header className={header}>
+      <nav key="two" className={siteNavbarMobile}>
+        <div className={mainMenuContainer}>
+          <MobileHeader />
+        </div>
+      </nav>
+    </header>
   );
 };
 

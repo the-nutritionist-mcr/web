@@ -1,19 +1,37 @@
 import { style } from '@vanilla-extract/css';
 
+export const mainMenuContainer = style({
+  maxWidth: '1460px',
+  width: '100%',
+  margin: '0 auto',
+  display: 'block',
+  padding: '0 30px',
+  boxSizing: 'border-box',
+});
+
+export const header = style({
+  height: '88px',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+  position: 'fixed',
+  background: 'white',
+  fontSize: '21px',
+  top: 0,
+  left: 0,
+  right: 0,
+  zIndex: 1000,
+  borderBottom: '1px solid #0d0d0d',
+});
+
 export const siteNavbarDesktop = style({
   display: 'flex',
-  flexDirection: 'column',
   fontFamily: "'Acumin Pro', Arial, sans-serif",
-  fontWeight: 700,
-  alignItems: 'center',
-  height: '88px',
-  padding: '0 30px',
-  borderBottom: '1px solid black',
-  position: 'fixed',
-  top: 0,
+  justifyContent: 'center',
   width: '100%',
-  backgroundColor: 'white',
-  transition: 'ease transform 0.3s !important',
+  maxWidth: '1460px',
+  position: 'relative',
 });
 
 export const siteNavbarMobile = style({
