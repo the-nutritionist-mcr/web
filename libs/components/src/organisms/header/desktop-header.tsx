@@ -1,19 +1,14 @@
 import { FC } from 'react';
+import { TNM_SITE } from './tnm-site';
 
+import { headerUnorderedList, accountButton } from './header.css';
 import {
   getStartedButton,
   theNutritionistALink,
   headerListItem,
-  accountButton,
-  headerUnorderedList,
   menuAnchor,
   theNutritionistLogo,
 } from './desktop-header.css';
-
-const TNM_SITE =
-  process.NODE_ENV === 'production'
-    ? 'https://www.thenutritionistmcr.com'
-    : 'https://staging.thenutritionistmcr.com';
 
 const DesktopHeader: FC = () => (
   <ul className={headerUnorderedList}>

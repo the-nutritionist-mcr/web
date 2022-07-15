@@ -1,61 +1,52 @@
-import styled from '@emotion/styled';
-import { FC, Fragment, useState } from 'react';
+import { FC, useState } from 'react';
+import Account from './account.svg';
 
-import { Button } from '../../atoms';
-import menuSvg from './menu.svg';
 import { MobileMenu } from './mobile-menu';
-import tnmNLogo from './tnm-n-logo.svg';
+import { accountWrapper } from './mobile-header.css';
+import { TNM_SITE } from './tnm-site';
 
-const StyledMenuIcon = styled.img`
-  width: 40px;
-  height: 40px;
-`;
-const MenuButtonContainerLeft = styled('div')`
-  margin: 24px 0;
-  width: 200px;
-  text-align: left;
-  flex-grow: 100;
-`;
-
-const LogoContainer = styled('div')`
-  margin: 24px 0;
-`;
-
-const MenuButtonContainerRight = styled('div')`
-  margin: 24px 0;
-  width: 200px;
-  text-align: right;
-  flex-grow: 100;
-`;
-
-const StyledTnmLogo = styled.img`
-  width: 60px;
-  height: 60px;
-  flex-grow: 100;
-`;
-
-const MenuButton = styled.button`
-  border: 0;
-  background: 0;
-`;
+import { headerUnorderedListMobile } from './header.css';
+import {
+  menuButton,
+  menuButtonContainer,
+  mobileLogoLi,
+  mobileHeaderGettingStartedButton,
+  gettingStartedWrapper,
+} from './mobile-header.css';
 
 const MobileHeader: FC = () => {
   const [showMenu, setShowMenu] = useState(false);
   return (
-    <Fragment>
+    <>
       <MobileMenu show={showMenu} onClose={() => setShowMenu(false)} />
-      <MenuButtonContainerLeft>
-        <MenuButton onClick={() => setShowMenu(true)}>
-          <StyledMenuIcon src={menuSvg} />
-        </MenuButton>
-      </MenuButtonContainerLeft>
-      <LogoContainer>
-        <StyledTnmLogo src={tnmNLogo} />
-      </LogoContainer>
-      <MenuButtonContainerRight>
-        <Button primary>Get Started</Button>
-      </MenuButtonContainerRight>
-    </Fragment>
+      <ul className={headerUnorderedListMobile}>
+        <li className={menuButtonContainer}>
+          <button
+            className={menuButton}
+            onClick={() => setShowMenu(true)}
+            aria-label="Button"
+          />
+        </li>
+        <li className={accountWrapper}>
+          <a href="/account">
+            <img src={Account} width="40" height="40" alt="Account" />
+          </a>
+        </li>
+
+        <li className={mobileLogoLi}>
+          <a href={TNM_SITE}>Home</a>
+        </li>
+
+        <li className={gettingStartedWrapper}>
+          <a
+            href={`${TNM_SITE}/get-started/`}
+            className={mobileHeaderGettingStartedButton}
+          >
+            Get Started
+          </a>
+        </li>
+      </ul>
+    </>
   );
 };
 

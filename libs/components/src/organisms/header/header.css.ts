@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import Account from './account.svg';
 
 export const mainMenuContainer = style({
   maxWidth: '1460px',
@@ -6,7 +7,40 @@ export const mainMenuContainer = style({
   margin: '0 auto',
   display: 'block',
   padding: '0 30px',
+  listStyle: 'none',
   boxSizing: 'border-box',
+});
+
+export const headerUnorderedList = style({
+  display: 'flex',
+  width: '100%',
+  margin: '0',
+  justifyContent: 'space-between',
+});
+
+export const headerUnorderedListMobile = style({
+  display: 'flex',
+  width: '100%',
+  height: '100%',
+  alignItems: 'center',
+  margin: '0',
+});
+
+export const accountButton = style({
+  background: `url(${Account})`,
+  width: '92.3203px',
+  fontFamily: '"Acumin Pro",sans-serif',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: `50%`,
+  display: 'block',
+  textIndent: '100%',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  height: '38px',
+  margin: 0,
+  lineHeight: '21px',
+  fontSize: '21px',
+  padding: 0,
 });
 
 export const header = style({
@@ -17,6 +51,23 @@ export const header = style({
   alignItems: 'center',
   position: 'fixed',
   background: 'white',
+  fontSize: '21px',
+  top: 0,
+  left: 0,
+  right: 0,
+  zIndex: 1000,
+  borderBottom: '1px solid #0d0d0d',
+});
+
+export const headerMobile = style({
+  height: '88px',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+  position: 'fixed',
+  background: 'white',
+  padding: '0 30px',
   fontSize: '21px',
   top: 0,
   left: 0,

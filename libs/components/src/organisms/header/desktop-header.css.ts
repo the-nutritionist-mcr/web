@@ -1,32 +1,12 @@
 import TnmHeader from './TNM-Header.svg';
-import Account from './account.svg';
 
 import { style } from '@vanilla-extract/css';
-
-export const headerUnorderedList = style({
-  display: 'flex',
-  width: '100%',
-  margin: '0',
-  justifyContent: 'space-between',
-});
-
-export const accountButton = style({
-  background: `url(${Account})`,
-  width: '92.3203px',
-  fontFamily: '"Acumin Pro",sans-serif',
-  backgroundRepeat: 'no-repeat',
-  backgroundPosition: `50%`,
-  display: 'block',
-  textIndent: '100%',
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  height: '38px',
-});
 
 export const getStartedButton = style({
   outline: 'none',
   borderRadius: '25px',
   textAlign: 'center',
+  fontFamily: '"Acumin Pro",sans-serif',
   cursor: 'pointer',
   textDecoration: 'none',
   display: 'flex',

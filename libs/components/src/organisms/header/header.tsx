@@ -7,7 +7,7 @@ import { AdminNav } from './admin-nav';
 import {
   header,
   siteNavbarDesktop,
-  siteNavbarMobile,
+  headerMobile,
   mainMenuContainer,
 } from './header.css';
 
@@ -28,12 +28,8 @@ const Header = (props: HeaderProps) => {
       </nav>
     </header>
   ) : (
-    <header className={header}>
-      <nav key="two" className={siteNavbarMobile}>
-        <div className={mainMenuContainer}>
-          <MobileHeader />
-        </div>
-      </nav>
+    <header className={headerMobile}>
+      <MobileHeader />
     </header>
   );
 };
