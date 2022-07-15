@@ -1,6 +1,6 @@
 export const BASE_DOMAIN_NAME = 'thenutritionistmcr.com';
 
-const PROD_NAME = 'account';
+const PROD_NAME = 'portal';
 
 export const getDomainName = (environment: string, prefix?: string) => {
   const otherPrefix = prefix ? `${prefix}.` : ``;

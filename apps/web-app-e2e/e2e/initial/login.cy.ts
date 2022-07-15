@@ -1,5 +1,4 @@
 import { E2E } from '@tnmw/constants';
-import cypressConfig from '../../cypress.config';
 import { AccountPage } from '../../src/pages/account';
 import { LoginPage } from '../../src/pages/login';
 

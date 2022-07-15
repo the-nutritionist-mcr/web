@@ -10,6 +10,32 @@ export const mobileMenuItem = style({
   },
 });
 
+export const iconTag = style({
+  width: '40px',
+  height: '40px',
+});
+
+export const closeButton = style({
+  border: 0,
+  background: 0,
+  top: '30px',
+  right: '30px',
+  position: 'absolute',
+});
+
+export const mobileMenuContainer = style({
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0,
+  backgroundColor: '#F3b762',
+  position: 'fixed',
+  padding: '30px',
+  zIndex: 10_000,
+  width: '100vw',
+  height: '100vh',
+});
+
 export const mobileMenuUl = style({
   height: '80vh',
   display: 'flex',

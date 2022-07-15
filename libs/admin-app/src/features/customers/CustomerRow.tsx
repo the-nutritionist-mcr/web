@@ -10,7 +10,6 @@ interface CustomerRowProps {
 }
 
 const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
-  const { navigate } = useContext(NavigationContext);
   const nameString = `${props.customer.surname} ${props.customer.firstName}`;
 
   return (
