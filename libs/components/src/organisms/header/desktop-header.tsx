@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Account from './account.svg';
 import { TNM_SITE } from './tnm-site';
 
 import { headerUnorderedList, accountButton } from './header.css';
@@ -13,7 +14,9 @@ import {
 const DesktopHeader: FC = () => (
   <ul className={headerUnorderedList}>
     <li className={accountButton}>
-      <a href="/account">Accounts</a>
+      <a href="/account">
+        <img src={Account} width="40" height="40" alt="Account" />
+      </a>
     </li>
     <li className={headerListItem}>
       <a className={menuAnchor} href={`${TNM_SITE}/our-story/`}>

@@ -27,16 +27,14 @@ export const headerUnorderedListMobile = style({
 });
 
 export const accountButton = style({
-  background: `url(${Account})`,
   width: '92.3203px',
   fontFamily: '"Acumin Pro",sans-serif',
   backgroundRepeat: 'no-repeat',
   backgroundPosition: `50%`,
   display: 'block',
-  textIndent: '100%',
   whiteSpace: 'nowrap',
-  overflow: 'hidden',
   height: '38px',
+  textAlign: 'center',
   margin: 0,
   lineHeight: '21px',
   fontSize: '21px',
