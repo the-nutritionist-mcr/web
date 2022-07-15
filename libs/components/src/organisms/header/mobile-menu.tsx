@@ -1,6 +1,13 @@
 import styled from '@emotion/styled';
 
+import { TNM_SITE } from './tnm-site';
+
 import closeButton from './TNM_Icon__Exit_9bd47247.svg';
+import {
+  mobileMenuItem,
+  mobileMenuUl,
+  mobileMenuAnchor,
+} from './mobile-menu.css';
 
 const MobileMenuContainer = styled.div`
   top: 0;
@@ -35,14 +42,6 @@ const MobileMenuUl = styled.ul`
   justify-content: center;
 `;
 
-const MobileMenuLi = styled.li`
-  border-bottom: 1px solid black;
-
-  &:last-child {
-    border-bottom: 0;
-  }
-`;
-
 const MobileMenuA = styled.a`
   font-size: 37px;
   padding: 15px 0;
@@ -61,27 +60,37 @@ interface MobileMenu {
 export const MobileMenu = (props: MobileMenu) =>
   props.show ? (
     <MobileMenuContainer>
-      <MobileMenuUl>
+      <ul className={mobileMenuUl}>
         <CloseButton onClick={props.onClose}>
           <StyledIcon src={closeButton} />
         </CloseButton>
-        <MobileMenuLi>
-          <MobileMenuA href="/">Home</MobileMenuA>
-        </MobileMenuLi>
+        <li className={mobileMenuItem}>
+          <a className={mobileMenuAnchor} href="/">
+            Home
+          </a>
+        </li>
 
-        <MobileMenuLi>
-          <MobileMenuA href="/">Our Story</MobileMenuA>
-        </MobileMenuLi>
+        <li className={mobileMenuItem}>
+          <a className={mobileMenuAnchor} href="/">
+            Our Story
+          </a>
+        </li>
 
-        <MobileMenuLi>
-          <MobileMenuA href="/">Why Choose Us</MobileMenuA>
-        </MobileMenuLi>
-        <MobileMenuLi>
-          <MobileMenuA href="/">The Plans</MobileMenuA>
-        </MobileMenuLi>
-        <MobileMenuLi>
-          <MobileMenuA href="/">Get Started</MobileMenuA>
-        </MobileMenuLi>
-      </MobileMenuUl>
+        <li className={mobileMenuItem}>
+          <a className={mobileMenuAnchor} href="/">
+            Why Choose Us
+          </a>
+        </li>
+        <li className={mobileMenuItem}>
+          <a className={mobileMenuAnchor} href="/">
+            The Plans
+          </a>
+        </li>
+        <li className={mobileMenuItem}>
+          <a className={mobileMenuAnchor} href="/">
+            Get Started
+          </a>
+        </li>
+      </ul>
     </MobileMenuContainer>
   ) : null;
