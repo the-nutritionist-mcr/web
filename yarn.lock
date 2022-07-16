@@ -10554,6 +10554,21 @@ aws-amplify@4.3.27:
     "@aws-amplify/ui" "2.0.5"
     "@aws-amplify/xr" "3.0.45"
 
+aws-cdk-lib@^2.32.1:
+  version "2.32.1"
+  resolved "https://registry.npmjs.org/aws-cdk-lib/-/aws-cdk-lib-2.32.1.tgz#1e08043c58665f5b637ffbae9c858c043c8cb531"
+  integrity sha512-P0qGCh9sjJwrM0IaF6uULfup6R4JBoQKOxQxefF0KeCCgI3DbYoNHZOTJPejnaPRdX0Vhq607t6i6bq6gYxjOQ==
+  dependencies:
+    "@balena/dockerignore" "^1.0.2"
+    case "1.6.3"
+    fs-extra "^9.1.0"
+    ignore "^5.2.0"
+    jsonschema "^1.4.1"
+    minimatch "^3.1.2"
+    punycode "^2.1.1"
+    semver "^7.3.7"
+    yaml "1.10.2"
+
 aws-cdk@2.31.1:
   version "2.31.1"
   resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.31.1.tgz#8ab6d6fb9405baa6c8f6e9f009a66d4cf692a43e"
@@ -12178,6 +12193,11 @@ constants-browserify@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/constants-browserify/-/constants-browserify-1.0.0.tgz#c20b96d8c617748aaf1c16021760cd27fcb8cb75"
   integrity sha1-wguW2MYXdIqvHBYCF2DNJ/y4y3U=
+
+constructs@^10.1.47:
+  version "10.1.47"
+  resolved "https://registry.npmjs.org/constructs/-/constructs-10.1.47.tgz#24505be63ef8bf80471e6342d9e7e9d77f4b3a0c"
+  integrity sha512-lCV+M526e155p475k4Q8y6VPnsIrUAkPi5Cknn22SdCQBNbX23p3PRJuioYoOKwXU3ol15v9RyWv0rzLG/3Nqw==
 
 constructs@^3.3.69:
   version "3.3.178"
@@ -25849,7 +25869,7 @@ yallist@^4.0.0:
   resolved "https://registry.npmjs.org/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
   integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
 
-yaml@^1.10.0, yaml@^1.10.2, yaml@^1.7.2:
+yaml@1.10.2, yaml@^1.10.0, yaml@^1.10.2, yaml@^1.7.2:
   version "1.10.2"
   resolved "https://registry.npmjs.org/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
   integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==

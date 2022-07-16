@@ -5,22 +5,23 @@ import {
   IResource,
   LambdaIntegration,
   RestApi,
-} from '@aws-cdk/aws-apigateway';
-import { PolicyStatement, Effect } from '@aws-cdk/aws-iam';
-import { HttpOrigin } from '@aws-cdk/aws-cloudfront-origins';
-import { IUserPoolClient, IUserPool } from '@aws-cdk/aws-cognito';
-import { Code, LayerVersion, Function, Runtime } from '@aws-cdk/aws-lambda';
-import * as cdk from '@aws-cdk/core';
+} from 'aws-cdk-lib/aws-apigateway';
+import { PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
+import { HttpOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
+import { IUserPoolClient, IUserPool } from 'aws-cdk-lib/aws-cognito';
+import { Code, LayerVersion, Function, Runtime } from 'aws-cdk-lib/aws-lambda';
+import * as cdk from 'aws-cdk-lib/core';
 import * as fs from 'fs-extra';
 import { getResourceName } from './get-resource-name';
-import { Duration } from '@aws-cdk/core';
+import { Duration } from 'aws-cdk-lib';
 import { IAM } from '@tnmw/constants';
+import { Construct } from 'constructs';
 
 const removeBraces = (thing: string) =>
   thing.replace(/\{/g, '').replace(/\}/g, '');
 
 export const makePagesApi = (
-  context: cdk.Construct,
+  context: Construct,
   outLambda: string,
   envName: string,
   dotNextFolder: string,

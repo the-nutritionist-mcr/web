@@ -1,15 +1,20 @@
-import { DnsValidatedCertificate } from '@aws-cdk/aws-certificatemanager';
+import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import {
   Distribution,
   OriginRequestCookieBehavior,
   OriginRequestPolicy,
   ViewerProtocolPolicy,
-} from '@aws-cdk/aws-cloudfront';
-import { HttpOrigin } from '@aws-cdk/aws-cloudfront-origins';
-import { ARecord, PublicHostedZone, RecordTarget } from '@aws-cdk/aws-route53';
-import { CloudFrontTarget } from '@aws-cdk/aws-route53-targets';
-import { CfnOutput, Construct } from '@aws-cdk/core';
+} from 'aws-cdk-lib/aws-cloudfront';
+import { HttpOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
+import {
+  ARecord,
+  PublicHostedZone,
+  RecordTarget,
+} from 'aws-cdk-lib/aws-route53';
+import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
+import { CfnOutput } from 'aws-cdk-lib';
 import { getDomainName } from './get-domain-name';
+import { Construct } from 'constructs';
 
 export const setupFrontDoor = (
   context: Construct,

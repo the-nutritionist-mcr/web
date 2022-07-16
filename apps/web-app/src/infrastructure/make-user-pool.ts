@@ -4,13 +4,14 @@ import {
   VerificationEmailStyle,
   UserPoolEmail,
   StringAttribute,
-} from '@aws-cdk/aws-cognito';
-import { Runtime } from '@aws-cdk/aws-lambda';
-import { CfnOutput, RemovalPolicy, Construct } from '@aws-cdk/core';
+} from 'aws-cdk-lib/aws-cognito';
+import { Runtime } from 'aws-cdk-lib/aws-lambda';
+import { CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
 import { getResourceName } from './get-resource-name';
 import { COGNITO } from '@tnmw/constants';
-import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import path from 'node:path';
+import { Construct } from 'constructs';
 
 const entryName = (folder: string, name: string) =>
   // eslint-disable-next-line unicorn/prefer-module
@@ -49,7 +50,7 @@ export const makeUserPool = (
     fromEmail: 'no-reply@thenutritionistmcr.com',
     fromName: 'The Nutritionist MCR',
     replyTo: 'support@thenutrionistmcr.com',
-  /* @ts-ignore */
+    /* @ts-ignore */
     sesVerifiedDomain: 'thenutritionistmcr.com',
   });
 

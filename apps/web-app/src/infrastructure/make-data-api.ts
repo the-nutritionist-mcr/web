@@ -1,13 +1,11 @@
-import { IRestApi, LambdaIntegration } from '@aws-cdk/aws-apigateway';
-import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
-import { Table, AttributeType, BillingMode } from '@aws-cdk/aws-dynamodb';
-import { Runtime } from '@aws-cdk/aws-lambda';
-import { Effect, PolicyStatement } from '@aws-cdk/aws-iam';
+import { IRestApi, LambdaIntegration } from 'aws-cdk-lib/aws-apigateway';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import { Table, AttributeType, BillingMode } from 'aws-cdk-lib/aws-dynamodb';
+import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { ENV, HTTP, IAM } from '@tnmw/constants';
-import { Construct } from '@aws-cdk/core';
 import { getResourceName } from './get-resource-name';
 import { entryName } from './entry-name';
-import { IUserPool } from '@aws-cdk/aws-cognito';
+import { Construct } from 'constructs';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export enum ReadWriteMode {

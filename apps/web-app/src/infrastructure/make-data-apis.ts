@@ -1,20 +1,21 @@
-import { Construct, CfnOutput } from '@aws-cdk/core';
-import { DnsValidatedCertificate } from '@aws-cdk/aws-certificatemanager';
-import { ARecord, RecordTarget } from '@aws-cdk/aws-route53';
-import { ApiGatewayDomain } from '@aws-cdk/aws-route53-targets';
-import { Runtime } from '@aws-cdk/aws-lambda';
-import { Secret } from '@aws-cdk/aws-secretsmanager';
-import { IHostedZone } from '@aws-cdk/aws-route53';
+import { CfnOutput } from 'aws-cdk-lib';
+import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
+import { ARecord, RecordTarget } from 'aws-cdk-lib/aws-route53';
+import { ApiGatewayDomain } from 'aws-cdk-lib/aws-route53-targets';
+import { Runtime } from 'aws-cdk-lib/aws-lambda';
+import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
+import { IHostedZone } from 'aws-cdk-lib/aws-route53';
 import { getResourceName } from './get-resource-name';
-import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
-import { Effect, PolicyStatement } from '@aws-cdk/aws-iam';
-import { LambdaIntegration, RestApi } from '@aws-cdk/aws-apigateway';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { LambdaIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { getDomainName } from './get-domain-name';
-import { IUserPool } from '@aws-cdk/aws-cognito';
+import { IUserPool } from 'aws-cdk-lib/aws-cognito';
 import { IAM, ENV, HTTP, RESOURCES, NODE_OPTS } from '@tnmw/constants';
 import { makeDataApi } from './make-data-api';
 import { entryName } from './entry-name';
-import { AttributeType, BillingMode, Table } from '@aws-cdk/aws-dynamodb';
+import { AttributeType, BillingMode, Table } from 'aws-cdk-lib/aws-dynamodb';
+import { Construct } from 'constructs';
 
 export const makeDataApis = (
   context: Construct,

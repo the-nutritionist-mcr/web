@@ -1,8 +1,9 @@
-import { Distribution } from '@aws-cdk/aws-cloudfront';
-import { S3Origin } from '@aws-cdk/aws-cloudfront-origins';
-import { Bucket } from '@aws-cdk/aws-s3';
-import { CfnOutput, RemovalPolicy, Construct } from '@aws-cdk/core';
+import { Distribution } from 'aws-cdk-lib/aws-cloudfront';
+import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
+import { Bucket } from 'aws-cdk-lib/aws-s3';
+import { CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
 import { getDomainName } from './get-domain-name';
+import { Construct } from 'constructs';
 
 export const deployStatics = (
   context: Construct,

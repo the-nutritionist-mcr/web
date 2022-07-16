@@ -1,12 +1,6 @@
-import { Construct, Stack, StackProps } from '@aws-cdk/core';
-import {
-  Effect,
-  PolicyStatement,
-  ManagedPolicy,
-  User,
-  Group,
-} from '@aws-cdk/aws-iam';
-import { IAM } from '@tnmw/constants';
+import { Stack, StackProps } from 'aws-cdk-lib';
+import { ManagedPolicy, User, Group } from 'aws-cdk-lib/aws-iam';
+import { Construct } from 'constructs';
 
 interface PermsStackProps {
   stackProps: StackProps;
