@@ -2,7 +2,9 @@
   "name": "the-nutritionist-mcr-web",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "prepare": "husky install"
+  },
   "private": true,
   "dependencies": {
     "@aws-amplify/api": "4.0.45",
