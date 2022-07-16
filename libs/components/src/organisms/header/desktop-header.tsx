@@ -38,11 +38,13 @@ const DesktopHeader: FC = () => (
         The Plans
       </a>
     </li>
-    <li className={headerListItem}>
-      <a className={menuAnchor} href={`${TNM_SITE}/pricing/`}>
-        Pricing
-      </a>
-    </li>
+    {process.env.NX_APP_ENV !== 'production' ? (
+      <li className={headerListItem}>
+        <a className={menuAnchor} href={`${TNM_SITE}/pricing/`}>
+          Pricing
+        </a>
+      </li>
+    ) : null}
     <li className={headerListItem}>
       <a href={`${TNM_SITE}/get-started/`} className={getStartedButton}>
         Get Started
