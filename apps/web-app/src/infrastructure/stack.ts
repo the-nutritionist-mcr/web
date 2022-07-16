@@ -1,4 +1,4 @@
-import { App } from '@aws-cdk/core';
+import { App } from 'aws-cdk-lib';
 import { AppStack } from './app-stack';
 import { CHARGEBEE_SITES } from './constants';
 import { UsersStack } from './permissions-stack';
@@ -9,7 +9,7 @@ const account = process.env.IS_CDK_LOCAL ? '000000000000' : '568693217207';
 
 const env = {
   account,
-  region: 'eu-west-2',
+  region: 'us-east-1',
 };
 
 const forceUpdateKey = 'force-update-key';
