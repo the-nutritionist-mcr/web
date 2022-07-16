@@ -1,12 +1,13 @@
-import { Construct, CustomResource, CfnParameter } from '@aws-cdk/core';
+import { CustomResource, CfnParameter } from 'aws-cdk-lib';
 import path from 'node:path';
-import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
-import { Runtime } from '@aws-cdk/aws-lambda';
-import { RetentionDays } from '@aws-cdk/aws-logs';
-import { IUserPool } from '@aws-cdk/aws-cognito';
-import { Provider } from '@aws-cdk/custom-resources';
-import { Effect, PolicyStatement } from '@aws-cdk/aws-iam';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import { Runtime } from 'aws-cdk-lib/aws-lambda';
+import { RetentionDays } from 'aws-cdk-lib/aws-logs';
+import { IUserPool } from 'aws-cdk-lib/aws-cognito';
+import { Provider } from 'aws-cdk-lib/custom-resources';
+import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { IAM } from '@tnmw/constants';
+import { Construct } from 'constructs';
 import {
   USER_POOL_ID_ENV_KEY_STRING,
   SEED_USERS_ENV_KEY_STRING,
