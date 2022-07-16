@@ -10,7 +10,7 @@ import { PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
 import { HttpOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { IUserPoolClient, IUserPool } from 'aws-cdk-lib/aws-cognito';
 import { Code, LayerVersion, Function, Runtime } from 'aws-cdk-lib/aws-lambda';
-import * as cdk from 'aws-cdk-lib/core';
+import * as cdk from 'aws-cdk-lib';
 import * as fs from 'fs-extra';
 import { getResourceName } from './get-resource-name';
 import { Duration } from 'aws-cdk-lib';
