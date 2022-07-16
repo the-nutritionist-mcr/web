@@ -311,6 +311,8 @@ jobs:
 
       - name: Regenerate build from cache
         run: yarn nx build web-app
+        env:
+          NX_APP_ENV: production
 
       - name: Deploy
         run: yarn nx deploy-prod web-app
