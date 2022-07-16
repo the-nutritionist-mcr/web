@@ -4,6 +4,7 @@ import { CognitoSeeder } from '@tnmw/seed-cognito';
 import path from 'node:path';
 import { deployStatics } from './deploy-statics';
 import { makeDataApis } from './make-data-apis';
+import { makePagesApi } from './make-pages-api';
 import { makeUserPool } from './make-user-pool';
 import { setupFrontDoor } from './setup-front-door';
 import { E2E } from '@tnmw/constants';
@@ -49,39 +50,20 @@ export class AppStack extends Stack {
       });
     }
 
-    const dir = path.join(
-      // eslint-disable-next-line unicorn/prefer-module
-      __dirname,
-      '..',
-      '..',
-      '..',
-      '..',
-      'dist',
-      'apps',
-      'web-app'
+    const { httpOrigin } = makePagesApi(
+      this,
+      path.resolve(packageRoot, 'out_lambda'),
+      props.envName,
+      path.resolve(repoRoot, 'dist', 'apps', 'web-app', '.next'),
+      userPool,
+      client,
+      props.forceUpdateKey
     );
-
-    // const serverlessNextjs = new ServerlessNextjs(scope, 'NextJs', {
-    //   nextjsArtifact: NextjsArtifact.fromBuild({
-    //     nextjsDirectory: dir,
-    //     buildCommand: ['yarn', 'build', 'web-app'],
-    //   }),
-    // });
-
-    // const { httpOrigin } = makePagesApi(
-    //   this,
-    //   path.resolve(packageRoot, 'out_lambda'),
-    //   props.envName,
-    //   path.resolve(repoRoot, 'dist', 'apps', 'web-app', '.next'),
-    //   userPool,
-    //   client,
-    //   props.forceUpdateKey
-    // );
 
     const { distribution, hostedZone } = setupFrontDoor(
       this,
       props.envName,
-      serverlessNextjs
+      httpOrigin
     );
 
     deployStatics(this, props.envName, distribution);
