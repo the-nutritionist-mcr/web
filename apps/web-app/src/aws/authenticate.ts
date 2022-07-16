@@ -1,7 +1,7 @@
 import { Auth } from '@aws-amplify/auth';
 import { getPoolConfig } from './get-pool-config';
 
-const REGION = 'eu-west-2';
+const REGION = 'us-east-1';
 
 type ExtractPromiseType<T> = T extends Promise<infer RT> ? RT : never;
 

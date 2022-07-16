@@ -87,7 +87,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: eu-west-2
+          AWS_REGION: us-east-1
 
       - name: Get S3 Bucket
         run: echo "UPLOAD_BUCKET=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .StaticsBucket')" >> $GITHUB_ENV
@@ -158,7 +158,7 @@ jobs:
           NX_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           NX_GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
           NX_CHARGEBEE_TOKEN: ${{ secrets.CHARGEBEE_TOKEN }}
-          NX_COGNITO_POOL_ID: eu-west-2_X1GcrUCJu
+          NX_COGNITO_POOL_ID: us-east-1_ilYruIOKK
 
   deploy-for-test:
     name: Test Deploy
@@ -179,7 +179,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: eu-west-2
+          AWS_REGION: us-east-1
 
       - name: Get S3 Bucket
         run: echo "UPLOAD_BUCKET=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .StaticsBucket')" >> $GITHUB_ENV
@@ -248,7 +248,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: eu-west-2
+          AWS_REGION: us-east-1
 
       - name: Get S3 Bucket
         run: echo "UPLOAD_BUCKET=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .StaticsBucket')" >> $GITHUB_ENV
@@ -294,7 +294,7 @@ jobs:
         env:
           DISTRIBUTION: ${{ env.CLOUDFRONT_ID }}
           PATHS: /*
-          AWS_REGION: 'us-east-1'
+          AWS_REGION: us-east-1
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -317,7 +317,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: eu-west-2
+          AWS_REGION: us-east-1
 
       - name: Get S3 Bucket
         run: echo "UPLOAD_BUCKET=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .StaticsBucket')" >> $GITHUB_ENV

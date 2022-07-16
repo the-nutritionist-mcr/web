@@ -16,7 +16,7 @@ const SwrConfigComponent: FC = (props) => (
 const dummyAppConfig = `{
   "tnm-web-cypress-stack": {
     "dataapiEndpointFF8416B3": "https://wpheqoxxhh.execute-api.eu-west-2.amazonaws.com/prod/",
-    "UserPoolId": "eu-west-2_844S8k2dn",
+    "UserPoolId": "us-east-1_ilYruIOKK",
     "DomainName": "cypress.app.thenutritionistmcr.com",
     "StaticsBucket": "cypress.app.thenutritionistmcr.com",
     "ClientId": "6cncblhq2rca7cbaonohphndh2",
