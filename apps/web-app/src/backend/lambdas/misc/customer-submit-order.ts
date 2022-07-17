@@ -8,6 +8,14 @@ import {
   PutCommand,
 } from '@aws-sdk/lib-dynamodb';
 import {
+  SESClient,
+  SendEmailCommand,
+  SendEmailCommandInput,
+} from '@aws-sdk/client-ses';
+
+const BCC_ADDRESS = 'ben+orders@thenutritionistmcr.com';
+
+import {
   CustomerMealsSelectionWithChargebeeCustomer,
   isSubmitCustomerOrderPayload,
 } from '@tnmw/types';
@@ -22,6 +30,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     };
 
     const dynamodbClient = new DynamoDBClient({});
+    const ses = new SESClient({});
     const submitOrderData = JSON.parse(event.body);
     const tableName = process.env[ENV.varNames.DynamoDBTable];
 
@@ -70,6 +79,56 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     });
 
     await dynamo.send(putCommand);
+
+    const emailTemplate = `
+    <h1>Thanks for making your selection</h1>
+    <table>
+      <tbody>
+      ${submitOrderData.deliveries.map(
+        (delivery) =>
+          `<tr>${
+            typeof delivery === 'string'
+              ? delivery
+              : delivery.map(
+                  (item) =>
+                    `<td>${
+                      isSelectedMeal(item)
+                        ? item.recipe.name
+                        : item.chosenVariant
+                    }</td>`
+                )
+          }</tr>`
+      )}
+      </tbody>
+    </table>
+    `;
+
+    const email: SendEmailCommandInput = {
+      Destination: {
+        ToAddresses: [selection.customer.email],
+        BccAddresses: [BCC_ADDRESS],
+        Message: {
+          Body: {
+            Html: {
+              Charset: 'UTF-8',
+              Data: emailTemplate,
+            },
+          },
+          Subject: {
+            Charset: 'UTF-8',
+            Data: 'Your Meal Choices',
+          },
+        },
+      },
+
+      Source: 'no-reply@thenutritionistmcr.com',
+    };
+
+    console.log(JSON.stringify(email, null, 2));
+
+    const sendEmailCommand = new SendEmailCommand(email);
+
+    await ses.send(sendEmailCommand);
 
     return {
       statusCode: HTTP.statusCodes.Ok,
