@@ -45,7 +45,7 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
   const logout = async () => {
     await signOut();
     // eslint-disable-next-line fp/no-mutating-methods
-    await Router.push('/');
+    await Router.push('/login');
     setUser(undefined);
   };
 
