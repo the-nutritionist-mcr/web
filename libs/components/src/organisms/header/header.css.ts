@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css';
-import Account from './account.svg';
 
 export const mainMenuContainer = style({
   maxWidth: '1460px',

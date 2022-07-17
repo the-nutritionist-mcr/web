@@ -68,7 +68,7 @@ export const mobileHeaderGettingStartedButton = style({
   color: '#fff',
   border: '1px solid #000',
   margin: 0,
-  lineHeight: 'normal',
+  lineHeight: 1,
 });
 
 export const accountButtonMobile = style({

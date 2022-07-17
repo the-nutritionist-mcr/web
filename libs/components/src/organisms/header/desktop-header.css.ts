@@ -20,7 +20,7 @@ export const getStartedButton = style({
   fontSize: '16px',
   border: '1px solid #000',
   margin: 0,
-  lineHeight: 'normal',
+  lineHeight: 1,
 });
 
 export const theNutritionistLogo = style({
