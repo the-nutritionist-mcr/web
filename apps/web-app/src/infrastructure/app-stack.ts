@@ -85,11 +85,11 @@ export class AppStack extends Stack {
               },
               {
                 Name: 'custom:deliveryDay1',
-                Value: 'Monday',
+                Value: E2E.testCustomer.deliveryDay1,
               },
               {
                 Name: 'custom:deliveryDay2',
-                Value: 'Wednesday',
+                Value: E2E.testCustomer.deliveryDay2,
               },
             ],
             username: E2E.testCustomer.username,

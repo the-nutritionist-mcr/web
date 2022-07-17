@@ -28,6 +28,8 @@ export const E2E = {
     email: 'ben+testcustomer@thenutritionistmcr.com',
     firstName: 'Ben (test customer)',
     surname: 'Wainwright',
+    deliveryDay1: 'Monday',
+    deliveryDay2: 'Wednesday',
     plans:
       '[{"name":"Equilibrium","daysPerWeek":6,"itemsPerDay":1,"isExtra":false,"totalMeals":6},{"name":"Breakfast","daysPerWeek":7,"itemsPerDay":1,"isExtra":true,"totalMeals":7}]',
   },
