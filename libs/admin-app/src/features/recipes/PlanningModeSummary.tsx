@@ -119,6 +119,7 @@ const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = (props) => {
           onClick={() => {
             if (hasNoEmpties(cookDates)) {
               props.onSubmit({
+                timestamp: Date.now(),
                 cooks: props.plannerSelection,
                 dates: cookDates,
               });

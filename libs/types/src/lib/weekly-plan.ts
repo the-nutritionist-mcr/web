@@ -8,6 +8,7 @@ export const isWeeklyPlan = (plan: unknown): plan is WeeklyPlan => {
   const asPlan = plan as WeeklyPlan;
 
   return (
+    typeof asPlan.timestamp === 'string' &&
     Array.isArray(asPlan.cooks) &&
     asPlan.cooks.every(
       (item) => Array.isArray(item) && item.every((recipe) => isRecipe(recipe))
@@ -17,6 +18,7 @@ export const isWeeklyPlan = (plan: unknown): plan is WeeklyPlan => {
 };
 
 export interface WeeklyPlan {
+  timestamp: string;
   cooks: Recipe[][];
   dates: string[];
 }

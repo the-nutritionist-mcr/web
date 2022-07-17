@@ -71,12 +71,11 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const meals = chooseMeals(payload.cooks, dates, list);
 
-    const planTimestamp = String(Date.now());
     const planId = v4();
 
     const plan: StoredPlan = {
       id: 'plan',
-      sort: planTimestamp,
+      sort: payload.timestamp,
       published: false,
       planId,
       menus: dates.map((date, index) => ({
