@@ -13,8 +13,13 @@ export const mainMenuContainer = style({
 export const headerUnorderedList = style({
   display: 'flex',
   width: '100%',
+  alignItems: 'center',
   margin: '0',
-  justifyContent: 'space-between',
+  '@media': {
+    'screen and (min-width: 900px)': {
+      justifyContent: 'space-between',
+    },
+  },
 });
 
 export const headerUnorderedListMobile = style({
@@ -23,6 +28,14 @@ export const headerUnorderedListMobile = style({
   height: '100%',
   alignItems: 'center',
   margin: '0',
+});
+
+export const accountWrapper = style({
+  listStyle: 'none',
+  height: 40,
+  width: 40,
+  margin: 0,
+  flexGrow: 2,
 });
 
 export const accountButton = style({
@@ -38,6 +51,14 @@ export const accountButton = style({
   lineHeight: '21px',
   fontSize: '21px',
   padding: 0,
+  '@media': {
+    'screen and (max-width: 900px)': {
+      height: 40,
+      width: 40,
+      flexGrow: 2,
+      textAlign: 'left',
+    },
+  },
 });
 
 export const header = style({

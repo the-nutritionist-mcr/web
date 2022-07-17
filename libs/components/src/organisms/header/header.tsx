@@ -16,9 +16,7 @@ interface HeaderProps {
 }
 
 const Header = (props: HeaderProps) => {
-  const theme = useTheme();
-  const currentBreakpoint = useBreakpoints(theme.breakpoints);
-  return currentBreakpoint === 'large' ? (
+  return (
     <header className={header}>
       <nav key="one" className={siteNavbarDesktop}>
         <div className={mainMenuContainer}>
@@ -26,10 +24,6 @@ const Header = (props: HeaderProps) => {
           {props.admin && <AdminNav />}
         </div>
       </nav>
-    </header>
-  ) : (
-    <header className={headerMobile}>
-      <MobileHeader />
     </header>
   );
 };
