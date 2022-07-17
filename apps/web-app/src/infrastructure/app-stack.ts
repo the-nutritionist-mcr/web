@@ -1,16 +1,16 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
-import { Code, LayerVersion, Function, Runtime } from 'aws-cdk-lib/aws-lambda';
+import { Runtime } from 'aws-cdk-lib/aws-lambda';
+import {
+  OriginRequestCookieBehavior,
+  OriginRequestPolicy,
+} from 'aws-cdk-lib/aws-cloudfront';
 import { Construct } from 'constructs';
 import { CognitoSeeder } from '@tnmw/seed-cognito';
 import { CfnOutput } from 'aws-cdk-lib';
-import path from 'node:path';
-import { deployStatics } from './deploy-statics';
 import { PublicHostedZone } from 'aws-cdk-lib/aws-route53';
 import { makeDataApis } from './make-data-apis';
-import { makePagesApi } from './make-pages-api';
 import { makeUserPool } from './make-user-pool';
 import { getDomainName } from './get-domain-name';
-import { setupFrontDoor } from './setup-front-door';
 import { E2E } from '@tnmw/constants';
 import { NextJSLambdaEdge } from '@sls-next/cdk-construct';
 import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
@@ -23,10 +23,6 @@ interface TnmAppProps {
   chargebeeSite: string;
   nextJsBuildDir: string;
 }
-
-// eslint-disable-next-line unicorn/prefer-module
-const packageRoot = path.resolve(__dirname, '..', '..');
-const repoRoot = path.resolve(packageRoot, '..', '..');
 
 export class AppStack extends Stack {
   constructor(scope: Construct, id: string, props: TnmAppProps) {
@@ -128,12 +124,13 @@ export class AppStack extends Stack {
       serverlessBuildOutDir: props.nextJsBuildDir,
       runtime: Runtime.NODEJS_14_X,
       memory: 2048,
+      withLogging: true,
       domain: {
         domainNames: [domainName],
         hostedZone,
         certificate,
       },
-      defaultBehaviour: {
+      defaultBehavior: {
         originRequestPolicy: new OriginRequestPolicy(
           context,
           'origin-request-policy',
