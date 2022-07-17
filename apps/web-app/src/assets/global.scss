@@ -32,11 +32,14 @@ html {
   box-sizing: border-box;
 }
 
+.tnm-v1 {
+  font-size: 21px;
+}
+
 body {
   padding: 0;
   margin: 88px 0 0;
   overflow-x: hidden;
-  font-size: 21px;
   line-height: 1;
   // -webkit-font-smoothing: antialiased;
   // -moz-osx-font-smoothing: grayscale;
@@ -54,7 +57,7 @@ body {
 }
 
 li {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 *::before {
