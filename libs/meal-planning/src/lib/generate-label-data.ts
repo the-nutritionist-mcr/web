@@ -1,6 +1,6 @@
-import { CustomerMealsSelection, isSelectedMeal } from './types';
+import { CustomerMealsSelection, isSelectedMeal, SelectedItem } from './types';
 import { createVariant } from './create-variant';
-import { Recipe } from '@tnmw/types';
+import { Recipe, Customer } from '@tnmw/types';
 
 const stringifyValue = (thing: unknown) =>
   typeof thing === 'number' ? String(thing) : thing;
@@ -53,12 +53,96 @@ const formatDate = (date: Date) => {
   )}/${convertToStringWithLeadingZero(month)}/${year}`;
 };
 
+interface Label {
+  customerName: string;
+  mealName: string;
+  description: string;
+  allergens: string;
+  itemPlan: string;
+  customisations: string;
+  hotOrCold: string;
+  useBy: string;
+}
+
+const makeLabelObject = (
+  customer: Customer,
+  item: SelectedItem,
+  useByDate: Date,
+  allMeals: Recipe[]
+): Label => {
+  if (isSelectedMeal(item)) {
+    const variant = createVariant(customer, item, allMeals);
+    const { hotOrCold } = item.recipe;
+
+    return {
+      // eslint-disable-next-line unicorn/consistent-destructuring
+      customerName: titleCase(`${customer.firstName} ${customer.surname}`),
+
+      // eslint-disable-next-line unicorn/consistent-destructuring
+      mealName: titleCase(item.recipe.name),
+
+      // eslint-disable-next-line unicorn/consistent-destructuring
+      description: item.recipe.description,
+      allergens: `Contains ${
+        // eslint-disable-next-line unicorn/consistent-destructuring
+        item.recipe.allergens?.trim()
+          ? // eslint-disable-next-line unicorn/consistent-destructuring
+            item.recipe.allergens.trim()
+          : 'no allergens'
+      }`,
+      itemPlan: item.chosenVariant,
+      customisations: variant.exclusions ?? '',
+      hotOrCold: `Enjoy ${hotOrCold}`,
+      useBy: `Use by ${formatDate(useByDate)}`,
+    };
+  }
+  return {
+    // eslint-disable-next-line unicorn/consistent-destructuring
+    customerName: titleCase(`${customer.firstName} ${customer.surname}`),
+    mealName: titleCase(item.chosenVariant),
+    allergens: '',
+    itemPlan: 'Extra',
+    customisations: '',
+    hotOrCold: '',
+    useBy: `Use by ${formatDate(useByDate)}`,
+  };
+};
+
+const sortFunction = (a: Record<string, string>, b: Record<string, string>) => {
+  if (a.mealName > b.mealName) {
+    return 1;
+  }
+
+  if (a.mealName < b.mealName) {
+    return -1;
+  }
+
+  if (a.itemPlan > b.itemPlan) {
+    return 1;
+  }
+
+  if (a.itemPlan < b.itemPlan) {
+    return -1;
+  }
+
+  if (a.surname > b.surname) {
+    return 1;
+  }
+
+  if (a.surname < b.surname) {
+    return -1;
+  }
+
+  return 0;
+};
+
 export const generateLabelData = (
   selections: CustomerMealsSelection,
   useByDate: Date,
   allMeals: Recipe[],
   deliveryNumber: number
 ): ReadonlyArray<Record<string, string>> =>
+  // eslint-disable-next-line fp/no-mutating-methods
   selections
     .flatMap((selection) => {
       const delivery = selection.deliveries[deliveryNumber];
@@ -67,36 +151,11 @@ export const generateLabelData = (
         return [];
       }
 
-      return delivery.map((item) => {
-        const defaultProps = {
-          ...selection.customer,
-          useBy: `Use by ${formatDate(useByDate)}`,
-          customerName: titleCase(
-            `${selection.customer.firstName} ${selection.customer.surname}`
-          ),
-        };
-        if (isSelectedMeal(item)) {
-          const variant = createVariant(selection.customer, item, allMeals);
-          return {
-            ...defaultProps,
-            ...item.recipe,
-            hotOrCold: `Enjoy ${item.recipe.hotOrCold}`,
-            allergens: `Contains ${
-              item.recipe.allergens?.trim()
-                ? item.recipe.allergens.trim()
-                : 'no allergens'
-            }`,
-            itemPlan: item.chosenVariant,
-            variantString: variant.string,
-            mealLabelString: variant.mealWithVariantString,
-            mealName: titleCase(item.recipe.name),
-          };
-        }
-        return {
-          ...defaultProps,
-          mealName: titleCase(item.chosenVariant),
-          itemPlan: 'extra',
-        };
-      });
+      return delivery.map((item) =>
+        makeLabelObject(selection.customer, item, useByDate, allMeals)
+      );
     })
-    .map((thing) => normalize(thing));
+    // eslint-disable-next-line unicorn/no-array-callback-reference
+    .map(normalize)
+    .slice()
+    .sort(sortFunction);
