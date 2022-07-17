@@ -14,6 +14,5 @@ export const headerUnorderedList = style({
   justifyContent: 'center',
   gap: '1rem',
   margin: 0,
-  height: `100%`,
   alignItems: 'center',
 });
