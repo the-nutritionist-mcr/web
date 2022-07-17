@@ -11,8 +11,7 @@ export const planLabels: ReadonlyArray<PlanLabels> = [
   'Low-CHO',
   'Seasonal Soup',
   'Breakfast',
-  'Snack',
-  'Large Snack',
+  'Snacks',
 ];
 
 export const itemFamilies = [
@@ -45,11 +44,7 @@ export const itemFamilies = [
     isExtra: true,
   },
   {
-    name: 'Snack',
-    isExtra: true,
-  },
-  {
-    name: 'Large Snack',
+    name: 'Snacks',
     isExtra: true,
   },
 ];
