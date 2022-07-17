@@ -22,6 +22,15 @@ export const E2E = {
     password: 'Cypress-test-password-2',
     email: 'cypress2@test.com',
   },
+  testCustomer: {
+    username: 'test-customer-1',
+    password: 'test-customer-password',
+    email: 'ben+testcustomer@thenutritionistmcr.com',
+    firstName: 'Ben (test customer)',
+    surname: 'Wainwright',
+    plans:
+      '[{"name":"Equilibrium","daysPerWeek":6,"itemsPerDay":1,"isExtra":false,"totalMeals":6},{"name":"Breakfast","daysPerWeek":7,"itemsPerDay":1,"isExtra":true,"totalMeals":7}]',
+  },
 };
 
 export const TNM_WEB_LOCALSTORAGE_KEY = 'tnm-web-cache';
