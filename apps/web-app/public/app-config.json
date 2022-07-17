@@ -3,10 +3,7 @@
     "dataapiEndpointFF8416B3": "https://4m7p37y6ua.execute-api.us-east-1.amazonaws.com/prod/",
     "UserPoolId": "us-east-1_ilYruIOKK",
     "DomainName": "cypress.app.thenutritionistmcr.com",
-    "StaticsBucket": "cypress.app.thenutritionistmcr.com",
     "ClientId": "33lfajll79cpvgafq233u2k132",
-    "pagesapiEndpoint356D7B8F": "https://qddzx8pwmg.execute-api.us-east-1.amazonaws.com/prod/",
-    "CloudfrontId": "E2F7VJMN3ZVAYT",
     "ApiDomainName": "api.cypress.app.thenutritionistmcr.com"
   }
 }

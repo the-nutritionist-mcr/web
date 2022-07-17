@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "nx": "nx"
   },
   "private": true,
   "dependencies": {
@@ -27,6 +28,8 @@
     "@mui/material": "5.8.7",
     "@nrwl/next": "14.4.2",
     "@reduxjs/toolkit": "1.8.3",
+    "@sls-next/cdk-construct": "^3.7.0",
+    "@sls-next/lambda-at-edge": "^3.7.0",
     "@storybook/core-server": "6.5.9",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react-hooks": "8.0.1",

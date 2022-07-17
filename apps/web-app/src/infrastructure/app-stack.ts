@@ -1,13 +1,19 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
+import { Code, LayerVersion, Function, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
 import { CognitoSeeder } from '@tnmw/seed-cognito';
+import { CfnOutput } from 'aws-cdk-lib';
 import path from 'node:path';
 import { deployStatics } from './deploy-statics';
+import { PublicHostedZone } from 'aws-cdk-lib/aws-route53';
 import { makeDataApis } from './make-data-apis';
 import { makePagesApi } from './make-pages-api';
 import { makeUserPool } from './make-user-pool';
+import { getDomainName } from './get-domain-name';
 import { setupFrontDoor } from './setup-front-door';
 import { E2E } from '@tnmw/constants';
+import { NextJSLambdaEdge } from '@sls-next/cdk-construct';
+import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 
 interface TnmAppProps {
   forceUpdateKey: string;
@@ -15,6 +21,7 @@ interface TnmAppProps {
   envName: string;
   transient: boolean;
   chargebeeSite: string;
+  nextJsBuildDir: string;
 }
 
 // eslint-disable-next-line unicorn/prefer-module
@@ -101,23 +108,39 @@ export class AppStack extends Stack {
       });
     }
 
-    const { httpOrigin } = makePagesApi(
-      this,
-      path.resolve(packageRoot, 'out_lambda'),
-      props.envName,
-      path.resolve(repoRoot, 'dist', 'apps', 'web-app', '.next'),
-      userPool,
-      client,
-      props.forceUpdateKey
-    );
+    const domainName = getDomainName(props.envName);
 
-    const { distribution, hostedZone } = setupFrontDoor(
-      this,
-      props.envName,
-      httpOrigin
-    );
+    new CfnOutput(this, 'DomainName', {
+      value: domainName,
+    });
 
-    deployStatics(this, props.envName, distribution);
+    const hostedZone = new PublicHostedZone(this, 'HostedZone', {
+      zoneName: domainName,
+    });
+
+    const certificate = new DnsValidatedCertificate(this, 'cert', {
+      domainName,
+      hostedZone,
+      region: 'us-east-1',
+    });
+
+    new NextJSLambdaEdge(this, 'NextJsApp', {
+      serverlessBuildOutDir: props.nextJsBuildDir,
+      runtime: Runtime.NODEJS_14_X,
+      memory: 2048,
+      domain: {
+        domainNames: [domainName],
+        hostedZone,
+        certificate,
+      },
+      defaultBehaviour: {
+        originRequestPolicy: new OriginRequestPolicy(
+          context,
+          'origin-request-policy',
+          { cookieBehavior: OriginRequestCookieBehavior.all() }
+        ),
+      },
+    });
 
     makeDataApis(
       this,

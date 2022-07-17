@@ -4,7 +4,6 @@ import { CHARGEBEE, ENV, E2E } from '@tnmw/constants';
 export const createChargebeeCustomer = async () => {
   const chargebee = new ChargeBee();
   const key = process.env[`NX_${ENV.varNames.ChargeBeeToken}`];
-  console.log('Creating chargebee customer');
   chargebee.configure({
     site: CHARGEBEE.sites.test,
     api_key: key,
