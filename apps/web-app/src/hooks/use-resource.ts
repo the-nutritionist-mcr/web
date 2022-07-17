@@ -39,10 +39,11 @@ export const useResource = <T extends { id: string }>(type: string) => {
     }) {
       const oldData = cache.get(type);
       const newData = {
-        items: oldData.items.map((item: T) =>
-          item.id === '0' ? { ...input, id: data.id } : item
-        ),
+        items: oldData.items.map((item: T) => {
+          return item.id === 0 ? { ...input, id: data.id } : item;
+        }),
       };
+
       mutate(type, newData, false);
       toast.success(`${type} created successfully`);
     },
