@@ -15,7 +15,7 @@ const builder = new Builder('../../dist/apps/web-app', nextJsBuildDir, {
 });
 
 builder
-  .build()
+  .build(true)
   .then(() => {
     const app = new App();
 
