@@ -6,17 +6,15 @@ import { UsersStack } from './permissions-stack';
 import { Builder } from '@sls-next/lambda-at-edge';
 import path from 'node:path';
 
-const nextJsBuildDir = '../../dist/apps/web-app/sls-build';
-
 // eslint-disable-next-line unicorn/prefer-module
 const dirname = __dirname;
 
-const root = path.join(dirname, '../../../..');
+const root = path.join(dirname, '../..');
 const dist = path.join(root, 'dist');
 const nextConfigDir = path.join(dist, 'apps', 'web-app');
-const slsBuildOutput = path.join(dist, 'apps', 'web-app', 'serverless');
+const nextJsBuildDir = path.join(dist, 'apps', 'web-app', 'serverless');
 
-const builder = new Builder(nextConfigDir, slsBuildOutput, {
+const builder = new Builder(nextConfigDir, nextJsBuildDir, {
   cmd: 'true',
   cwd: root,
   cleanupDotNext: false,

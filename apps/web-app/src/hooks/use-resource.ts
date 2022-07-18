@@ -22,7 +22,7 @@ export const useResource = <T extends { id: string }>(type: string) => {
   const [create] = useMutation(createItem, {
     onMutate({ input }: { input: T }) {
       const data = cache.get(type);
-      const items = [...data.items, { ...input, id: 0 }];
+      const items = [...data.items, { ...input, id: '0' }];
       mutate(type, { items }, false);
 
       return () => {
@@ -40,7 +40,7 @@ export const useResource = <T extends { id: string }>(type: string) => {
       const oldData = cache.get(type);
       const newData = {
         items: oldData.items.map((item: T) => {
-          return item.id === 0 ? { ...input, id: data.id } : item;
+          return item.id === '0' ? { ...input, id: data.id } : item;
         }),
       };
 

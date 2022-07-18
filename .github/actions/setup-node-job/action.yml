@@ -1,6 +1,12 @@
 name: 'setup-node-job'
 description: 'Sets up jobs running on node'
 
+inputs:
+  cache-node-modules:
+    description: Whether to cache the node_modules directory in this job
+    required: false
+    default: 'true'
+
 runs:
   using: 'composite'
   steps:
@@ -9,6 +15,17 @@ runs:
       with:
         node-version: '14'
         cache: 'yarn'
+
+    - name: Cache node_modules
+      if: ${{ inputs.cache-node-modules == 'true' }}
+      uses: actions/cache@v3
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
 
     - name: Install dependencies
       shell: 'bash'

@@ -78,6 +78,8 @@ jobs:
 
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
+        with:
+          cache-node-modules: false
 
       - name: Deploy
         uses: ./.github/actions/deploy
