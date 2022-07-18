@@ -15,6 +15,7 @@ import { makeUserPool } from './make-user-pool';
 import { getDomainName } from './get-domain-name';
 import { E2E, IAM } from '@tnmw/constants';
 import { NextJSLambdaEdge } from '@sls-next/cdk-construct';
+import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 
 interface TnmAppProps {
   forceUpdateKey: string;
@@ -31,7 +32,7 @@ export class AppStack extends Stack {
 
     const transient = props.envName !== 'prod';
 
-    const { userPool, client } = makeUserPool(this, transient, props.envName);
+    const { userPool } = makeUserPool(this, transient, props.envName);
 
     if (transient) {
       new CognitoSeeder(this, `cognito-seeder`, {
