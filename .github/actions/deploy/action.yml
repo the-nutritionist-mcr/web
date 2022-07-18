@@ -6,27 +6,38 @@ inputs:
     description: Name of the environment being deployed
     required: true
 
+  aws-access-key-id:
+    description: AWS Access Key ID
+    required: true
+
+  aws-secret-access-key:
+    description: AWS Secret Access Key
+    required: true
+
 runs:
   using: 'composite'
   steps:
     - name: Build
+      shell: bash
       run: yarn nx build web-app
 
     - name: Deploy
+      shell: bash
       run: yarn nx deploy-${{ inputs.env-name }} web-app
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
+        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
         AWS_REGION: us-east-1
 
     - name: Get Deploy Bucket
+      shell: bash
       run: echo "DEPLOY_BUCKET=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .DeployBucket')" >> $GITHUB_ENV
 
     - name: Upload App Config
       uses: shallwefootball/s3-upload-action@master
       with:
-        aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
-        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_key_id: ${{ inputs.aws-access-key-id }}
+        aws_secret_access_key: ${{ inputs.aws-secret-access-key }}
         aws_bucket: ${{ env.DEPLOY_BUCKET }}
         source_dir: apps/web-app/public
         destination_dir: ''
@@ -40,8 +51,8 @@ runs:
     - name: Upload Storybook
       uses: shallwefootball/s3-upload-action@master
       with:
-        aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
-        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_key_id: ${{ inputs.aws-access-key-id }}
+        aws_secret_access_key: ${{ inputs.aws-secret-access-key }}
         aws_bucket: ${{ env.DEPLOY_BUCKET }}
         source_dir: storybook
         destination_dir: 'storybook'
