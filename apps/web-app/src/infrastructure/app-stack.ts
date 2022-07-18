@@ -15,7 +15,6 @@ import { makeUserPool } from './make-user-pool';
 import { getDomainName } from './get-domain-name';
 import { E2E, IAM } from '@tnmw/constants';
 import { NextJSLambdaEdge } from '@sls-next/cdk-construct';
-import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 
 interface TnmAppProps {
   forceUpdateKey: string;
