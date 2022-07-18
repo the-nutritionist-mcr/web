@@ -3,6 +3,7 @@ import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
 import {
+  CachePolicy,
   OriginRequestCookieBehavior,
   OriginRequestPolicy,
 } from 'aws-cdk-lib/aws-cloudfront';
@@ -15,6 +16,7 @@ import { makeUserPool } from './make-user-pool';
 import { getDomainName } from './get-domain-name';
 import { E2E, IAM } from '@tnmw/constants';
 import { NextJSLambdaEdge } from '@sls-next/cdk-construct';
+import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 
 interface TnmAppProps {
   forceUpdateKey: string;
@@ -139,6 +141,14 @@ export class AppStack extends Stack {
         ),
       },
     });
+
+    next.distribution.addBehavior(
+      '/app-config.json',
+      new S3Origin(next.bucket),
+      {
+        cachePolicy: CachePolicy.CACHING_DISABLED,
+      }
+    );
 
     new CfnOutput(this, 'DeployBucket', {
       value: next.bucket.bucketName,
