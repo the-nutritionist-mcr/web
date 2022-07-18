@@ -9,7 +9,7 @@ import path from 'node:path';
 // eslint-disable-next-line unicorn/prefer-module
 const dirname = __dirname;
 
-const root = path.join(dirname, '../..');
+const root = path.join(dirname, '../../../..');
 const dist = path.join(root, 'dist');
 const nextConfigDir = path.join(dist, 'apps', 'web-app');
 const nextJsBuildDir = path.join(dist, 'apps', 'web-app', 'serverless');
