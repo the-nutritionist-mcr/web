@@ -79,9 +79,6 @@ jobs:
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
 
-      - name: Regenerate build from cache
-        run: yarn nx build web-app
-
       - name: Deploy
         run: yarn nx deploy-cypress web-app
         env:
@@ -171,9 +168,6 @@ jobs:
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
 
-      - name: Regenerate build from cache
-        run: yarn nx build web-app
-
       - name: Deploy
         run: yarn nx deploy-test web-app
         env:
@@ -240,9 +234,6 @@ jobs:
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
 
-      - name: Regenerate build from cache
-        run: yarn nx build web-app
-
       - name: Deploy
         run: yarn nx deploy-dev web-app
         env:
@@ -308,11 +299,6 @@ jobs:
 
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
-
-      - name: Regenerate build from cache
-        run: yarn nx build web-app
-        env:
-          NX_APP_ENV: production
 
       - name: Deploy
         run: yarn nx deploy-prod web-app
