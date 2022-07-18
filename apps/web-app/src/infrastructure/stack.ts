@@ -5,10 +5,10 @@ import { UsersStack } from './permissions-stack';
 
 import { Builder } from '@sls-next/lambda-at-edge';
 import path from 'node:path';
-import url from 'node:url';
 
 const nextJsBuildDir = '../../dist/apps/web-app/sls-build';
 
+// eslint-disable-next-line unicorn/prefer-module
 const dirname = __dirname;
 
 const root = path.join(dirname, '../..');
