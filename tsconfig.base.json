@@ -36,5 +36,14 @@
       "@tnmw/utils": ["libs/utils/src/index.ts"]
     }
   },
-  "exclude": ["node_modules", "tmp", ".git", "dist"]
+  "exclude": [
+    "tmp",
+    ".git",
+    "dist",
+    "**/node_modules/*",
+    "**/dist/*",
+    "**/cdk.out/**",
+    "dist*",
+    "**/coverage/*"
+  ]
 }
