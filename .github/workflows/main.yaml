@@ -78,8 +78,6 @@ jobs:
 
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
-        with:
-          cache-node-modules: false
 
       - name: Deploy
         uses: ./.github/actions/deploy
@@ -99,6 +97,8 @@ jobs:
 
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
+        with:
+          cache-node-modules: false
 
       - name: Run E2E tests
         run: yarn nx run web-app-e2e:e2e --baseUrl=https://cypress.app.thenutritionistmcr.com --skipServe=true --skip-nx-cache
