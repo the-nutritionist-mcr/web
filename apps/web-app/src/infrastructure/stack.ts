@@ -74,7 +74,7 @@ builder
       stackProps: { env },
       envName: 'prod',
       transient: false,
-      chargebeeSite: CHARGEBEE_SITES.test,
+      chargebeeSite: CHARGEBEE_SITES.live,
       forceUpdateKey,
       nextJsBuildDir,
     });

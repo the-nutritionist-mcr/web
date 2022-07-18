@@ -31,6 +31,7 @@ export const ENV = {
 
 export const CHARGEBEE_SITES = {
   test: 'thenutritionist-test',
+  live: 'thenutritionist',
 } as const;
 
 export const RESOURCES = {
