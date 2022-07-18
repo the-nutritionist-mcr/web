@@ -25,12 +25,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Configure node 14
-        uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-          cache: 'yarn'
-
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
 

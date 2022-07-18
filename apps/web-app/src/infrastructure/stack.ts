@@ -11,7 +11,7 @@ const nextJsBuildDir = '../../dist/apps/web-app/sls-build';
 // eslint-disable-next-line unicorn/prefer-module
 const dirname = __dirname;
 
-const root = path.join(dirname, '../..');
+const root = path.join(dirname, '../../../..');
 const dist = path.join(root, 'dist');
 const nextConfigDir = path.join(dist, 'apps', 'web-app');
 const slsBuildOutput = path.join(dist, 'apps', 'web-app', 'serverless');
