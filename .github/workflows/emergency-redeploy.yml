@@ -31,51 +31,12 @@ jobs:
           node-version: '14'
           cache: 'yarn'
 
-      - name: Install Dependencies
-        run: yarn install
-
-      - name: Run
-        run: yarn nx build web-app
-
-      - name: Regenerate build from cache
-        run: yarn nx build web-app
+      - name: Setup node environment
+        uses: ./.github/actions/setup-node-job
 
       - name: Deploy
-        run: yarn nx deploy-${{ inputs.env }} web-app
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
-
-      - name: Get S3 Bucket
-        run: echo "UPLOAD_BUCKET=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .StaticsBucket')" >> $GITHUB_ENV
-
-      - name: Upload Next Statics
-        uses: shallwefootball/s3-upload-action@master
+        uses: ./.github/actions/deploy
         with:
-          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_bucket: ${{ env.UPLOAD_BUCKET }}
-          destination_dir: _next/static
-          source_dir: dist/apps/web-app/.next/static
-
-      - name: Upload App Config
-        uses: shallwefootball/s3-upload-action@master
-        with:
-          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_bucket: ${{ env.UPLOAD_BUCKET }}
-          source_dir: apps/web-app/public
-          destination_dir: ''
-
-      - name: Get Cloudfront ID
-        run: echo "CLOUDFRONT_ID=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .CloudfrontId')" >> $GITHUB_ENV
-
-      - name: Invalidate Cloudfront
-        uses: chetan/invalidate-cloudfront-action@master
-        env:
-          DISTRIBUTION: ${{ env.CLOUDFRONT_ID }}
-          PATHS: /*
-          AWS_REGION: 'us-east-1'
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          env-name: cypress
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY }}
