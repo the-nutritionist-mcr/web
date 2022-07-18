@@ -10,7 +10,7 @@ const nextJsBuildDir = '../../dist/apps/web-app/sls-build';
 
 const builder = new Builder('../../dist/apps/web-app', nextJsBuildDir, {
   cmd: 'yarn',
-  args: ['nx', 'build', 'web-app'],
+  args: ['nx', 'build', 'web-app', '--skip-nx-cache'],
   cwd: path.join(process.cwd(), '..', '..'),
 });
 
