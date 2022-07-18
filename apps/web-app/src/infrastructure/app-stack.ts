@@ -1,4 +1,5 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
+import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
 import {
