@@ -9,7 +9,7 @@ import url from 'node:url';
 
 const nextJsBuildDir = '../../dist/apps/web-app/sls-build';
 
-const dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const dirname = __dirname;
 
 const root = path.join(dirname, '../..');
 const dist = path.join(root, 'dist');

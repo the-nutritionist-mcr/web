@@ -14,6 +14,11 @@ inputs:
     description: AWS Secret Access Key
     required: true
 
+  do-storybook:
+    description: Whether to deploy storybook
+    required: false
+    default: 'true'
+
 runs:
   using: 'composite'
   steps:
@@ -44,12 +49,14 @@ runs:
 
     - name: Download Storybook
       uses: actions/download-artifact@v3
+      if: ${{ inputs.do-storybook == 'true' }}
       with:
         name: storybook
         path: storybook
 
     - name: Upload Storybook
       uses: shallwefootball/s3-upload-action@master
+      if: ${{ inputs.do-storybook == 'true' }}
       with:
         aws_key_id: ${{ inputs.aws-access-key-id }}
         aws_secret_access_key: ${{ inputs.aws-secret-access-key }}
