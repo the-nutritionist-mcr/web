@@ -33,7 +33,7 @@ export class AppStack extends Stack {
 
     const transient = props.envName !== 'prod';
 
-    const { userPool } = makeUserPool(this, transient, props.envName);
+    const { userPool, client } = makeUserPool(this, transient, props.envName);
 
     if (transient) {
       new CognitoSeeder(this, `cognito-seeder`, {
@@ -141,6 +141,21 @@ export class AppStack extends Stack {
         ),
       },
     });
+
+    next.defaultNextLambda.addEnvironment(
+      'FORCE_UPDATE_KEY',
+      props.forceUpdateKey
+    );
+
+    next.defaultNextLambda.addEnvironment(
+      'COGNITO_POOL_CLIENT_ID',
+      client.userPoolClientId
+    );
+
+    next.defaultNextLambda.addEnvironment(
+      'COGNITO_POOL_ID',
+      userPool.userPoolId
+    );
 
     next.distribution.addBehavior(
       '/app-config.json',
