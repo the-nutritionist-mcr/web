@@ -132,7 +132,7 @@ export class AppStack extends Stack {
       },
       defaultBehavior: {
         originRequestPolicy: new OriginRequestPolicy(
-          context,
+          this,
           'origin-request-policy',
           { cookieBehavior: OriginRequestCookieBehavior.all() }
         ),
