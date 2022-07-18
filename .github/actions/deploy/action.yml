@@ -1,0 +1,44 @@
+name: 'deploy'
+description: 'Deploys the application'
+
+inputs:
+  env-name:
+    description: Name of the environment being deployed
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Deploy
+      run: yarn nx deploy-${{ inputs.env-name }} web-app
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: us-east-1
+
+    - name: Get Deploy Bucket
+      run: echo "DEPLOY_BUCKET=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .DeployBucket')" >> $GITHUB_ENV
+
+    - name: Upload App Config
+      uses: shallwefootball/s3-upload-action@master
+      with:
+        aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_bucket: ${{ env.DEPLOY_BUCKET }}
+        source_dir: apps/web-app/public
+        destination_dir: ''
+
+    - name: Download Storybook
+      uses: actions/download-artifact@v3
+      with:
+        name: storybook
+        path: storybook
+
+    - name: Upload Storybook
+      uses: shallwefootball/s3-upload-action@master
+      with:
+        aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_bucket: ${{ env.DEPLOY_BUCKET }}
+        source_dir: storybook
+        destination_dir: 'storybook'

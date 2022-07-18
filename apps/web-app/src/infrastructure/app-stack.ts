@@ -140,6 +140,10 @@ export class AppStack extends Stack {
       },
     });
 
+    new CfnOutput(this, 'DeployBucket', {
+      value: next.bucket.bucketName,
+    });
+
     next.edgeLambdaRole.addToPolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
