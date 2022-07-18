@@ -9,6 +9,9 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Build
+      run: yarn nx build web-app
+
     - name: Deploy
       run: yarn nx deploy-${{ inputs.env-name }} web-app
       env:

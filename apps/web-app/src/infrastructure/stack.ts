@@ -5,13 +5,21 @@ import { UsersStack } from './permissions-stack';
 
 import { Builder } from '@sls-next/lambda-at-edge';
 import path from 'node:path';
+import url from 'node:url';
 
 const nextJsBuildDir = '../../dist/apps/web-app/sls-build';
 
-const builder = new Builder('../../dist/apps/web-app', nextJsBuildDir, {
-  cmd: 'yarn',
-  args: ['nx', 'build', 'web-app', '--skip-nx-cache'],
-  cwd: path.join(process.cwd(), '..', '..'),
+const dirname = path.dirname(url.fileURLToPath(import.meta.url));
+
+const root = path.join(dirname, '../..');
+const dist = path.join(root, 'dist');
+const nextConfigDir = path.join(dist, 'apps', 'web-app');
+const slsBuildOutput = path.join(dist, 'apps', 'web-app', 'serverless');
+
+const builder = new Builder(nextConfigDir, slsBuildOutput, {
+  cmd: 'true',
+  cwd: root,
+  cleanupDotNext: false,
 });
 
 builder
