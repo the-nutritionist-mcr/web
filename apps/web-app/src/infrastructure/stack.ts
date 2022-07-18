@@ -4,13 +4,14 @@ import { CHARGEBEE_SITES } from './constants';
 import { UsersStack } from './permissions-stack';
 
 import { Builder } from '@sls-next/lambda-at-edge';
+import path from 'node:path';
 
 const nextJsBuildDir = '../../dist/apps/web-app/sls-build';
 
 const builder = new Builder('../../dist/apps/web-app', nextJsBuildDir, {
   cmd: 'yarn',
   args: ['nx', 'build', 'web-app'],
-  cwd: process.cwd(),
+  cwd: path.join(process.cwd(), '..', '..'),
 });
 
 builder
