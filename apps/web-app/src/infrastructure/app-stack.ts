@@ -1,5 +1,6 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
+import { PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
 import {
   OriginRequestCookieBehavior,
   OriginRequestPolicy,
@@ -11,9 +12,8 @@ import { PublicHostedZone } from 'aws-cdk-lib/aws-route53';
 import { makeDataApis } from './make-data-apis';
 import { makeUserPool } from './make-user-pool';
 import { getDomainName } from './get-domain-name';
-import { E2E } from '@tnmw/constants';
+import { E2E, IAM } from '@tnmw/constants';
 import { NextJSLambdaEdge } from '@sls-next/cdk-construct';
-import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 
 interface TnmAppProps {
   forceUpdateKey: string;
@@ -120,7 +120,7 @@ export class AppStack extends Stack {
       region: 'us-east-1',
     });
 
-    new NextJSLambdaEdge(this, 'NextJsApp', {
+    const next = new NextJSLambdaEdge(this, 'NextJsApp', {
       serverlessBuildOutDir: props.nextJsBuildDir,
       runtime: Runtime.NODEJS_14_X,
       memory: 2048,
@@ -138,6 +138,14 @@ export class AppStack extends Stack {
         ),
       },
     });
+
+    next.edgeLambdaRole.addToPolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        resources: [userPool.userPoolArn],
+        actions: [IAM.actions.cognito.adminGetUser],
+      })
+    );
 
     makeDataApis(
       this,
