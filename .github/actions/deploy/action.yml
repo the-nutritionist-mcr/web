@@ -46,6 +46,10 @@ runs:
       env:
         NX_USER_POOL_ID: ${{ env.USERPOOL_ID }}
 
+    - name: Process build artifact for Serverless
+      shell: bash
+      run: yarn ts-node tools/build-serverless-next.ts
+
     - name: Deploy Application Stack
       shell: bash
       run: yarn nx deploy-${{ inputs.env-name }} web-app

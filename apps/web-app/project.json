@@ -32,6 +32,13 @@
         "cwd": "apps/web-app"
       }
     },
+    "deploy-dev-backend": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "cdk deploy tnm-web-dev-backend-stack --require-approval never --outputs-file public/app-config.json",
+        "cwd": "apps/web-app"
+      }
+    },
     "deploy-test": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
@@ -39,10 +46,24 @@
         "cwd": "apps/web-app"
       }
     },
+    "deploy-test-backend": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "cdk deploy tnm-web-test-backend-stack --require-approval never --outputs-file public/app-config.json",
+        "cwd": "apps/web-app"
+      }
+    },
     "deploy-prod": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "command": "cdk deploy tnm-web-prod-stack --require-approval never --outputs-file public/app-config.json",
+        "cwd": "apps/web-app"
+      }
+    },
+    "deploy-prod-backend": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "cdk deploy tnm-web-prod-backend-stack --require-approval never --outputs-file public/app-config.json",
         "cwd": "apps/web-app"
       }
     },
