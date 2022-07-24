@@ -60,14 +60,14 @@ runs:
 
     - name: Get Deploy Bucket
       shell: bash
-      run: echo "DEPLOY_BUCKET=\"$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .DeployBucket')\"" >> $GITHUB_ENV
+      run: echo "BUCKET=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .DeployBucket')" >> $GITHUB_ENV
 
     - name: Upload App Config
       uses: shallwefootball/s3-upload-action@master
       with:
         aws_key_id: ${{ inputs.aws-access-key-id }}
         aws_secret_access_key: ${{ inputs.aws-secret-access-key }}
-        aws_bucket: ${{ env.DEPLOY_BUCKET }}
+        aws_bucket: ${{ env.BUCKET }}
         source_dir: apps/web-app/public
         destination_dir: ''
 
