@@ -61,7 +61,7 @@ new AppStack(app, 'tnm-web-cypress-stack', {
 
 const devStack = new BackendStack(app, 'tnm-web-dev-backend-stack', {
   stackProps: { env },
-  envName: 'cypress',
+  envName: 'dev',
   transient: true,
   chargebeeSite: CHARGEBEE_SITES.test,
   forceUpdateKey,
@@ -79,7 +79,7 @@ new AppStack(app, 'tnm-web-dev-stack', {
 
 const testStack = new BackendStack(app, 'tnm-web-test-backend-stack', {
   stackProps: { env },
-  envName: 'cypress',
+  envName: 'test',
   transient: true,
   chargebeeSite: CHARGEBEE_SITES.test,
   forceUpdateKey,
@@ -97,7 +97,7 @@ new AppStack(app, 'tnm-web-test-stack', {
 
 const prodStack = new BackendStack(app, 'tnm-web-prod-backend-stack', {
   stackProps: { env },
-  envName: 'cypress',
+  envName: 'prod',
   transient: true,
   chargebeeSite: CHARGEBEE_SITES.test,
   forceUpdateKey,
