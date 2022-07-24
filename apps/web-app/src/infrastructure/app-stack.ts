@@ -8,15 +8,14 @@ import {
   OriginRequestPolicy,
 } from 'aws-cdk-lib/aws-cloudfront';
 import { Construct } from 'constructs';
-import { CognitoSeeder } from '@tnmw/seed-cognito';
 import { CfnOutput } from 'aws-cdk-lib';
 import { PublicHostedZone } from 'aws-cdk-lib/aws-route53';
 import { makeDataApis } from './make-data-apis';
-import { makeUserPool } from './make-user-pool';
 import { getDomainName } from './get-domain-name';
 import { E2E, IAM } from '@tnmw/constants';
 import { NextJSLambdaEdge } from '@sls-next/cdk-construct';
 import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
+import { UserPool } from 'aws-cdk-lib/aws-cognito';
 
 interface TnmAppProps {
   forceUpdateKey: string;
@@ -25,87 +24,12 @@ interface TnmAppProps {
   transient: boolean;
   chargebeeSite: string;
   nextJsBuildDir: string;
+  userPool: UserPool;
 }
 
 export class AppStack extends Stack {
   constructor(scope: Construct, id: string, props: TnmAppProps) {
     super(scope, id, props.stackProps);
-
-    const transient = props.envName !== 'prod';
-
-    const { userPool, client } = makeUserPool(this, transient, props.envName);
-
-    if (transient) {
-      new CognitoSeeder(this, `cognito-seeder`, {
-        userpool: userPool,
-        users: [
-          {
-            otherAttributes: [
-              {
-                Name: 'given_name',
-                Value: 'Cypress',
-              },
-
-              {
-                Name: 'family_name',
-                Value: 'Tester',
-              },
-            ],
-
-            username: E2E.adminUserOne.username,
-            password: E2E.adminUserOne.password,
-            email: E2E.adminUserOne.email,
-            state: 'Complete',
-            groups: ['admin'],
-          },
-          {
-            otherAttributes: [
-              {
-                Name: 'given_name',
-                Value: 'Cypress',
-              },
-
-              {
-                Name: 'family_name',
-                Value: 'Tester2',
-              },
-            ],
-            username: E2E.normalUserOne.username,
-            password: E2E.normalUserOne.password,
-            email: E2E.normalUserOne.email,
-            state: 'Complete',
-          },
-          {
-            otherAttributes: [
-              {
-                Name: 'given_name',
-                Value: E2E.testCustomer.firstName,
-              },
-              {
-                Name: 'family_name',
-                Value: E2E.testCustomer.surname,
-              },
-              {
-                Name: 'custom:plans',
-                Value: E2E.testCustomer.plans,
-              },
-              {
-                Name: 'custom:deliveryDay1',
-                Value: E2E.testCustomer.deliveryDay1,
-              },
-              {
-                Name: 'custom:deliveryDay2',
-                Value: E2E.testCustomer.deliveryDay2,
-              },
-            ],
-            username: E2E.testCustomer.username,
-            password: E2E.testCustomer.password,
-            email: E2E.testCustomer.email,
-            state: 'Complete',
-          },
-        ],
-      });
-    }
 
     const domainName = getDomainName(props.envName);
 
@@ -142,21 +66,6 @@ export class AppStack extends Stack {
       },
     });
 
-    next.defaultNextLambda.addEnvironment(
-      'FORCE_UPDATE_KEY',
-      props.forceUpdateKey
-    );
-
-    next.defaultNextLambda.addEnvironment(
-      'COGNITO_POOL_CLIENT_ID',
-      client.userPoolClientId
-    );
-
-    next.defaultNextLambda.addEnvironment(
-      'COGNITO_POOL_ID',
-      userPool.userPoolId
-    );
-
     next.distribution.addBehavior(
       '/app-config.json',
       new S3Origin(next.bucket),
@@ -172,7 +81,7 @@ export class AppStack extends Stack {
     next.edgeLambdaRole.addToPolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
-        resources: [userPool.userPoolArn],
+        resources: [props.userPool.userPoolArn],
         actions: [IAM.actions.cognito.adminGetUser],
       })
     );
@@ -181,7 +90,7 @@ export class AppStack extends Stack {
       this,
       hostedZone,
       props.envName,
-      userPool,
+      props.userPool,
       props.chargebeeSite,
       props.forceUpdateKey
     );

@@ -46,8 +46,17 @@ jobs:
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
 
-      - name: Run
+      - name: Build Application
         run: yarn nx build web-app
+
+      - name: Process for Serverless
+        run: yarn ts-node tools/build-serverless-next.ts
+
+      - name: Save dist folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
 
   build-storybook:
     name: Build Storybook

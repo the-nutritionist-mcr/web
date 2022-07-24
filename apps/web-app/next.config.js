@@ -20,6 +20,9 @@ const withImages = require('next-images');
 module.exports = withVanillaExtract(
   withNx(
     withImages({
+      env: {
+        COGNITO_POOL_ID: process.env.NX_USER_POOL_ID,
+      },
       pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
       generateBuildId: async () => {
         return 'tnm-web-build';

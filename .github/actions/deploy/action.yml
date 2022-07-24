@@ -22,11 +22,31 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Build
+    - name: Download Dist folder
+      uses: actions/download-artifact@v3
+      with:
+        name: dist
+        path: dist
+
+    - name: Deploy Backend Stack
+      shell: bash
+      run: yarn nx deploy-${{ inputs.env-name }}-backend web-app
+      env:
+        AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
+        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
+        AWS_REGION: us-east-1
+
+    - name: Get Pool Id
+      shell: bash
+      run: echo "USERPOOL_ID=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .UserPoolId')" >> $GITHUB_ENV
+
+    - name: Rebuild with baked in environment variables
       shell: bash
       run: yarn nx build web-app
+      env:
+        NX_USER_POOL_ID: ${{ env.USERPOOL_ID }}
 
-    - name: Deploy
+    - name: Deploy Application Stack
       shell: bash
       run: yarn nx deploy-${{ inputs.env-name }} web-app
       env:

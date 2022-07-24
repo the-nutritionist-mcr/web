@@ -1,14 +1,22 @@
 import { Builder } from '@sls-next/lambda-at-edge';
 
-const builder = new Builder('./apps/web-app', './dist/apps/web-app/sls-build', {
-  cmd: 'yarn',
-  args: ['nx', 'build', 'web-app'],
-  cwd: process.cwd(),
+import path from 'node:path';
+
+// eslint-disable-next-line unicorn/prefer-module
+const dirname = __dirname;
+
+const root = path.join(dirname, '..');
+const dist = path.join(root, 'dist');
+const nextConfigDir = path.join(dist, 'apps', 'web-app');
+const nextJsBuildDir = path.join(dist, 'apps', 'web-app', 'serverless');
+
+const builder = new Builder(nextConfigDir, nextJsBuildDir, {
+  cmd: 'true',
+  cwd: root,
+  cleanupDotNext: false,
 });
 
-console.log('building next application!');
-
 builder
-  .build()
+  .build(true)
   .then(() => console.log('Done!'))
   .catch((error) => console.log(error));

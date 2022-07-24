@@ -177,6 +177,10 @@ export const makeUserPool = (
     disableOAuth: true,
   });
 
+  new CfnOutput(context, 'UserPoolArn', {
+    value: userPool.userPoolArn,
+  });
+
   new CfnOutput(context, 'ClientId', {
     value: client.userPoolClientId,
   });

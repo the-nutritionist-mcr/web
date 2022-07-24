@@ -17,6 +17,14 @@
         "cwd": "apps/web-app"
       }
     },
+
+    "deploy-cypress-backend": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "cdk deploy tnm-web-cypress-backend-stack --require-approval never --outputs-file public/app-config.json",
+        "cwd": "apps/web-app"
+      }
+    },
     "deploy-dev": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
