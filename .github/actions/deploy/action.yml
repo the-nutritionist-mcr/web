@@ -60,7 +60,7 @@ runs:
 
     - name: Get Deploy Bucket
       shell: bash
-      run: echo "BUCKET=$(cat apps/web-app/public/app-config.json | jq --raw-output '.\"tnm-web-${{ inputs.env-name }}-stack\" | .DeployBucket')" >> $GITHUB_ENV
+      run: echo "BUCKET=$(cat apps/web-app/public/app-config.json | jq --raw-output '."tnm-web-${{ inputs.env-name }}-stack" | .DeployBucket')" >> $GITHUB_ENV
 
     - name: Upload App Config
       uses: shallwefootball/s3-upload-action@master
