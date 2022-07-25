@@ -21,7 +21,7 @@
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@cypress/code-coverage": "3.10.0",
-    "@emotion/jest": "11.9.3",
+    "@emotion/jest": "11.9.4",
     "@emotion/react": "11.9.3",
     "@emotion/server": "11.4.0",
     "@emotion/styled": "11.9.3",
