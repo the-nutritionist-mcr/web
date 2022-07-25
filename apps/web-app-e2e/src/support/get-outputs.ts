@@ -17,9 +17,8 @@ export const getOutputs = async (): Promise<StackConfig> => {
 
   const entries = Object.entries(json);
 
-  const found = entries.find(
-    ([key]) => key.endsWith('-stack') && !key.endsWith('backend-stack')
+  return entries.reduce<StackConfig>(
+    (accum, value) => ({ ...accum, ...value }),
+    {} as StackConfig
   );
-
-  return found[1];
 };
