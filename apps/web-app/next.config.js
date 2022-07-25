@@ -22,6 +22,7 @@ module.exports = withVanillaExtract(
     withImages({
       env: {
         COGNITO_POOL_ID: process.env.NX_USER_POOL_ID,
+        AWS_REGION: 'us-east-1',
       },
       pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
       generateBuildId: async () => {
