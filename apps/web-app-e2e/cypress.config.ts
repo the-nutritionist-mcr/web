@@ -36,7 +36,7 @@ export default defineConfig({
     CYPRESS_TEST_USER_NAME: 'test-cypress-user',
     CYPRESS_TEST_USER_INITIAL_PASSWORD: 'test-cypress-password',
     CYPRESS_TEST_REGISTER_USER: 'test-cypress-register-user',
-    CYPRESS_POOL_ID: 'us-east-1_ilYruIOKK',
+    CYPRESS_POOL_ID: 'us-east-1_52Vmao897',
   },
 
   videosFolder: '../../dist/cypress/apps/web-app-e2e/videos',
