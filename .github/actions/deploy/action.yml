@@ -42,7 +42,7 @@ runs:
 
     - name: Rebuild with baked in environment variables
       shell: bash
-      run: yarn nx build web-app
+      run: rm -rf dist && yarn nx build web-app
       env:
         NX_USER_POOL_ID: ${{ env.USERPOOL_ID }}
 
