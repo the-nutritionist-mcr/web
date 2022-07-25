@@ -1,4 +1,4 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Arn, ArnFormat, Stack, StackProps } from 'aws-cdk-lib';
 import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
@@ -151,10 +151,20 @@ export class AppStack extends Stack {
       value: next.bucket.bucketName,
     });
 
+    const userPoolArn = Arn.split(
+      props.userPool.userPoolArn,
+      ArnFormat.SLASH_RESOURCE_NAME
+    );
+
+    const crossRegionArn = Arn.format({
+      ...userPoolArn,
+      region: '*',
+    });
+
     next.edgeLambdaRole.addToPolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
-        resources: [props.userPool.userPoolArn],
+        resources: [crossRegionArn],
         actions: [IAM.actions.cognito.adminGetUser],
       })
     );
