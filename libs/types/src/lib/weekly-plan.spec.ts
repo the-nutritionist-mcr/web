@@ -1,9 +1,47 @@
 import { isWeeklyPlan } from './weekly-plan';
 
 describe('is weekly plan', () => {
+  it('should correclty identify another plan as a weekly plan', () => {
+    const plan = JSON.parse(`
+{
+  "timestamp": 1658782032018,
+  "cooks": [
+    [
+      {
+        "hotOrCold": "Hot",
+        "shortName": "foo",
+        "potentialExclusions": [],
+        "invalidExclusions": [],
+        "description": "bar",
+        "id": "86d807d8-e4fd-4c09-ae6d-e801e66cc252",
+        "name": "test"
+      }
+    ],
+    [
+      {
+        "hotOrCold": "Hot",
+        "shortName": "foo",
+        "potentialExclusions": [],
+        "invalidExclusions": [],
+        "description": "bar",
+        "id": "86d807d8-e4fd-4c09-ae6d-e801e66cc252",
+        "name": "test"
+      }
+    ]
+  ],
+  "dates": [
+    "2022-07-04T23:00:00.000Z",
+    "2022-06-29T23:00:00.000Z"
+  ]
+}`);
+    const result = isWeeklyPlan(plan);
+
+    expect(result).toBeTruthy();
+  });
   it('should correctly identify a plan payload as a weekly plan', () => {
     const plan = JSON.parse(`
 {
+  "timestamp": 1658782032018,
   "cooks": [
     [
       {
@@ -81,6 +119,7 @@ describe('is weekly plan', () => {
   it('should correctly identify a plan payload as a weekly plan', () => {
     const plan = JSON.parse(`
     {
+      "timestamp": 1658782032018,
       "cooks":[
          [
             {

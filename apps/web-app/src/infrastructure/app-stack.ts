@@ -17,6 +17,7 @@ import { NextJSLambdaEdge } from '@sls-next/cdk-construct';
 import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { UserPool } from 'aws-cdk-lib/aws-cognito';
 import { CognitoSeeder } from '@tnmw/seed-cognito';
+import { makeArnRegionless } from './make-arn-regionless';
 
 interface TnmAppProps {
   forceUpdateKey: string;
@@ -151,20 +152,15 @@ export class AppStack extends Stack {
       value: next.bucket.bucketName,
     });
 
-    const userPoolArn = Arn.split(
-      props.userPool.userPoolArn,
-      ArnFormat.SLASH_RESOURCE_NAME
-    );
-
-    const crossRegionArn = Arn.format({
-      ...userPoolArn,
-      region: '*',
-    });
-
     next.edgeLambdaRole.addToPolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
-        resources: [crossRegionArn],
+        resources: [
+          makeArnRegionless(
+            props.userPool.userPoolArn,
+            ArnFormat.SLASH_RESOURCE_NAME
+          ),
+        ],
         actions: [IAM.actions.cognito.adminGetUser],
       })
     );
