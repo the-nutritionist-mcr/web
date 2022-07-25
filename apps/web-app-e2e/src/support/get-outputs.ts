@@ -17,9 +17,9 @@ export const getOutputs = async (): Promise<StackConfig> => {
 
   const entries = Object.entries(json);
 
-  if (entries.length !== 1) {
-    throw new Error('Stack configuration file was invalid');
-  }
+  const found = entries.find(
+    ([key]) => key.endsWith('-stack') && !key.endsWith('backend-stack')
+  );
 
-  return entries[0][1];
+  return found[1];
 };
