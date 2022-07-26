@@ -26313,10 +26313,10 @@ use-async-resource@2.2.2:
   dependencies:
     object-hash "^2.0.3"
 
-use-debounce@5.2.1:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/use-debounce/-/use-debounce-5.2.1.tgz#7366543c769f1de3e92104dee64de5c4dfddfd33"
-  integrity sha512-BQG5uEypYHd/ASF6imzYR8tJHh5qGn28oZG/5iVAbljV6MUrfyT4jzxA8co+L+WLCT1U8VBwzzvlb3CHmUDpEA==
+use-debounce@8.0.3:
+  version "8.0.3"
+  resolved "https://registry.yarnpkg.com/use-debounce/-/use-debounce-8.0.3.tgz#2b4d7d7307a9397acb6520b7a1dea14c2c3d108c"
+  integrity sha512-BV7xuVy4LS0HtzHb23sDwAjfNjdBWlc4oyjJLcdCoVAjPv1+hroZYsCXX4VfRJT+8sLaqCftBOO8l7CMQtn9Gw==
 
 use-deep-compare-effect@1.8.1:
   version "1.8.1"
