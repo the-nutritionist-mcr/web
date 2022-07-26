@@ -118,7 +118,7 @@ jobs:
           NX_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           NX_GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
           NX_CHARGEBEE_TOKEN: ${{ secrets.CHARGEBEE_TOKEN }}
-          NX_COGNITO_POOL_ID: us-east-1_ilYruIOKK
+          NX_COGNITO_POOL_ID: us-east-1_52Vmao897
 
   deploy-for-test:
     name: Test Deploy
