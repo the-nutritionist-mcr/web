@@ -27,7 +27,8 @@ import { HTTP } from '@tnmw/constants';
 const navigator = {
   navigate: async (path: string) => {
     // eslint-disable-next-line fp/no-mutating-methods
-    await Router.push(path);
+    // await Router.push(path);
+    window.location.href = path;
   },
 };
 

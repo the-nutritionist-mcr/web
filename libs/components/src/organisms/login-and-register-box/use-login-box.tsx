@@ -56,7 +56,7 @@ export const useLoginBox = () => {
         }
 
         if (loginResponse.success) {
-          navigate('/account/');
+          await navigate('/account/');
         }
       }
 
@@ -67,7 +67,7 @@ export const useLoginBox = () => {
         );
 
         if (newPasswordResponse.success) {
-          navigate('/account/');
+          await navigate('/account/');
         }
       }
     } catch (error) {
