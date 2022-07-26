@@ -12536,10 +12536,10 @@ character-reference-invalid@^1.0.0:
   resolved "https://registry.npmjs.org/character-reference-invalid/-/character-reference-invalid-1.1.4.tgz#083329cda0eae272ab3dbbf37e9a382c13af1560"
   integrity sha512-mKKUkUbhPpQlCOfIuZkvSEgktjPFIsZKRRbC6KWVEMvlzblj3i3asQv5ODsrwt0N3pHAEvjP8KTQPHkp0+6jOg==
 
-chargebee-typescript@2.9.0:
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/chargebee-typescript/-/chargebee-typescript-2.9.0.tgz#9e08af3ca08210b09375c978f856888863497796"
-  integrity sha512-+8hNtJbk72YkbmOnj0TqeBVBLFnA9ykUsP0MDDW0mI/rFE+gOmSdGXX3xRIxWWYqY4wux8NUNDGwsZ+q0/OApw==
+chargebee-typescript@2.10.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/chargebee-typescript/-/chargebee-typescript-2.10.0.tgz#844a9d30dab4db112e1cb0fd56f0f7f5279a184d"
+  integrity sha512-9RMfEEe+h9Vs6u1BtgvbwOypjZtYza5IWZZZVx+oHae2uX2oQ8Y9A4iM6SLkY9IoeKyeydBsgC85wkNVD2DxdQ==
   dependencies:
     q ">=1.0.1"
 
