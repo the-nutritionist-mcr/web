@@ -75,7 +75,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const plan: StoredPlan = {
       id: 'plan',
-      sort: payload.timestamp,
+      sort: String(payload.timestamp),
       published: false,
       planId,
       menus: dates.map((date, index) => ({
