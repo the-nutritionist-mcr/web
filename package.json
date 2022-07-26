@@ -33,7 +33,7 @@
     "@storybook/core-server": "6.5.9",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react-hooks": "8.0.1",
-    "@testing-library/user-event": "14.2.1",
+    "@testing-library/user-event": "14.3.0",
     "@types/aws-lambda": "8.10.101",
     "@types/enzyme": "3.10.12",
     "@types/imap-simple": "4.2.5",
