@@ -57,7 +57,7 @@ runs:
 
     - name: Deploy Application Stack
       shell: bash
-      run: yarn nx deploy-${{ inputs.env-name }} web-app
+      run: yarn nx deploy-${{ inputs.env-name }} web-app --args='--exclusively'
       env:
         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
         AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
