@@ -95,7 +95,7 @@
     "next": "12.2.2",
     "next-aws-lambda-webpack-plugin": "0.2.8",
     "next-images": "1.8.4",
-    "nock": "13.2.8",
+    "nock": "13.2.9",
     "open": "8.4.0",
     "pdfmake": "0.2.5",
     "ramda": "0.28.0",
