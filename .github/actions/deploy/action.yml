@@ -6,6 +6,11 @@ inputs:
     description: Name of the environment being deployed
     required: true
 
+  app-env:
+    description: Value of the NX_APP_ENV environment variable
+    required: false
+    default: 'test'
+
   aws-access-key-id:
     description: AWS Access Key ID
     required: true
