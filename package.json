@@ -72,7 +72,7 @@
     "eslint-plugin-unicorn": "43.0.2",
     "express": "4.18.1",
     "googleapis": "105.0.0",
-    "grommet": "2.25.0",
+    "grommet": "2.25.1",
     "grommet-controls": "3.0.2",
     "husky": "^8.0.1",
     "imap-simple": "5.1.0",
