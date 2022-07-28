@@ -61,13 +61,16 @@ const createDefaultSelectedThings = (
         ? delivery
             .filter((item) => item.chosenVariant === category.title)
             .reduce<{ [id: string]: number }>((accum, item) => {
-              const id = isSelectedMeal(item) ? item.recipe.id : 'extra';
-              if (isSelectedMeal(item) && id in accum) {
+              const id = isSelectedMeal(item)
+                ? item.recipe.id
+                : item.chosenVariant;
+
+              if (id in accum) {
                 accum[id]++;
               }
 
-              if (isSelectedMeal(item) && !(id in accum)) {
-                accum[item.recipe.id] = 1;
+              if (!(id in accum)) {
+                accum[id] = 1;
               }
               return accum;
             }, {})
@@ -93,8 +96,15 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
       .map((delivery) =>
         delivery
           ? Object.entries(delivery).flatMap(([id, count]) =>
-              Array.from({ length: count }).map(() =>
-                availableMeals.find((meal) => meal.id === id)
+              Array.from({ length: count }).map(
+                () =>
+                  availableMeals.find((meal) => meal.id === id) ?? {
+                    isExtra: true,
+                    id: '0',
+                    description: '',
+                    contains: '',
+                    title: id,
+                  }
               )
             )
           : []
@@ -135,8 +145,9 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
                     recipe: foundRecipe,
                     chosenVariant: category.title,
                   };
+                } else {
+                  return { chosenVariant: recipe.title };
                 }
-                return undefined;
               })
               // eslint-disable-next-line unicorn/no-array-callback-reference
               .filter(hasThing)
