@@ -108,20 +108,19 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       Destination: {
         ToAddresses: [selection.customer.email],
         BccAddresses: [BCC_ADDRESS],
-        Message: {
-          Body: {
-            Html: {
-              Charset: 'UTF-8',
-              Data: emailTemplate,
-            },
-          },
-          Subject: {
+      },
+      Message: {
+        Body: {
+          Html: {
             Charset: 'UTF-8',
-            Data: 'Your Meal Choices',
+            Data: emailTemplate,
           },
         },
+        Subject: {
+          Charset: 'UTF-8',
+          Data: 'Your Meal Choices',
+        },
       },
-
       Source: 'no-reply@thenutritionistmcr.com',
     };
 
