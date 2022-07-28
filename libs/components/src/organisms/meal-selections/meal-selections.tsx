@@ -1,6 +1,5 @@
 import { FC, useState } from 'react';
 import styled from '@emotion/styled';
-import { Meal } from './meal';
 import { defaultDeliveryDays } from '@tnmw/config';
 import { MealCategory } from './meal-category';
 import { Button } from '../../atoms';
@@ -14,6 +13,13 @@ import {
   SubmitCustomerOrderPayload,
 } from '@tnmw/types';
 import { isSelectedMeal } from '@tnmw/meal-planning';
+import {
+  container,
+  header,
+  headerText,
+  youNeedToChoose,
+} from './initial-selections.css';
+import { goAheadAndSubmit } from './confirm-selections-container.css';
 
 export interface MealSelectionsProps {
   availableMeals: MealCategory[];
@@ -31,21 +37,6 @@ const DivContainer = styled.div`
   max-width: 1460px;
   gap: 2rem;
   padding: 1rem;
-`;
-
-const ButtonBox = styled.div`
-  width: 100%;
-  gap: 1rem;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 3rem;
-  grid-template-columns: 5rem;
-  & > button {
-    padding: 1.5rem 0;
-    border-radius: 50px;
-    width: 20rem;
-  }
 `;
 
 const hasThing = <T,>(thing: T | undefined): thing is T => Boolean(thing);
@@ -183,44 +174,88 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
   ) : (
     <DivContainer>
       {!showConfirm ? (
-        <InitialSelections
-          {...props}
-          remainingMeals={remaining}
-          selectedMeals={selectedMeals}
-          setSelectedMeals={setSelectedMeals}
-          currentTabIndex={tabIndex}
-          onChangeIndex={(index) => {
-            setTabIndex(index);
-          }}
-        />
+        <div className={container}>
+          <h2 className={header}>
+            <span className={headerText}>Choose Your Meals</span>
+            <Button
+              size="large"
+              onClick={prev}
+              disabled={submittingOrder || complete}
+            >
+              Go Back
+            </Button>
+            <Button
+              size="large"
+              primary
+              color="callToAction"
+              onClick={next}
+              disabled={continueButtonDisabled || submittingOrder || complete}
+            >
+              {showConfirm
+                ? submittingOrder
+                  ? 'Submitting...'
+                  : 'Submit'
+                : continueText}
+            </Button>
+          </h2>
+          <p className={youNeedToChoose}>
+            You need to choose {remaining} meals
+          </p>
+          <InitialSelections
+            {...props}
+            remainingMeals={remaining}
+            selectedMeals={selectedMeals}
+            setSelectedMeals={setSelectedMeals}
+            currentTabIndex={tabIndex}
+            onChangeIndex={(index) => {
+              setTabIndex(index);
+            }}
+          />
+        </div>
       ) : (
-        <ConfirmSelections
-          complete={complete}
-          selectedMeals={optionsWithSelections}
-        />
+        <div className={container}>
+          {!complete ? (
+            <h2 className={header}>
+              <span className={headerText}>Confirm Your Order</span>
+              <Button
+                size="large"
+                onClick={prev}
+                disabled={submittingOrder || complete}
+              >
+                Go Back
+              </Button>
+              <Button
+                size="large"
+                primary
+                color="callToAction"
+                onClick={next}
+                disabled={continueButtonDisabled || submittingOrder || complete}
+              >
+                {showConfirm
+                  ? submittingOrder
+                    ? 'Submitting...'
+                    : 'Submit'
+                  : continueText}
+              </Button>
+            </h2>
+          ) : (
+            <h2 className={header}>Thank You</h2>
+          )}
+          {!complete ? (
+            <p className={goAheadAndSubmit}>
+              If you are happy with your choices, go ahead and press submit
+            </p>
+          ) : (
+            <p className={goAheadAndSubmit}>
+              Your choices have been submitted!
+            </p>
+          )}
+          <ConfirmSelections
+            complete={complete}
+            selectedMeals={optionsWithSelections}
+          />
+        </div>
       )}
-      <ButtonBox>
-        <Button
-          size="large"
-          primary
-          color="callToAction"
-          onClick={next}
-          disabled={continueButtonDisabled || submittingOrder || complete}
-        >
-          {showConfirm
-            ? submittingOrder
-              ? 'Submitting...'
-              : 'Submit'
-            : continueText}
-        </Button>
-        <Button
-          size="large"
-          onClick={prev}
-          disabled={submittingOrder || complete}
-        >
-          Go Back
-        </Button>
-      </ButtonBox>
     </DivContainer>
   );
 };

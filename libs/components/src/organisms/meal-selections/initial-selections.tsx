@@ -30,60 +30,54 @@ export interface InitialSelectionsProps {
 
 export const InitialSelections = (props: InitialSelectionsProps) => {
   return (
-    <div className={container}>
-      <h2 className={header}>Choose Your Meals</h2>
-      <p className={youNeedToChoose}>
-        You need to choose {props.remainingMeals} meals
-      </p>
-      <GridParent>
-        <TabBox
-          tabButton={TabButton}
-          currentTabIndex={props.currentTabIndex}
-          onChangeIndex={props.onChangeIndex}
-        >
-          {props.availableMeals
-            .filter((category) => !category.isExtra)
-            .flatMap((category, categoryIndex) => {
-              return defaultDeliveryDays.map((_, dayIndex) => {
-                const selected = props.selectedMeals[categoryIndex][dayIndex];
-                return (
-                  <Tab tabTitle={`Delivery ${dayIndex + 1} ${category.title}`}>
-                    {selected ? (
-                      <MealList
-                        things={category.options[dayIndex]}
-                        selected={selected}
-                        setSelected={(selected) => {
-                          setSelected(
-                            selected,
-                            props.selectedMeals,
-                            categoryIndex,
-                            dayIndex,
-                            props.setSelectedMeals
-                          );
-                        }}
-                        max={
-                          category.maxMeals -
-                          totalOtherSelected(
-                            props.selectedMeals,
-                            categoryIndex,
-                            dayIndex
-                          )
-                        }
-                      />
-                    ) : (
-                      <ParagraphText>Currently Paused</ParagraphText>
-                    )}
-                  </Tab>
-                );
-              });
-            })}
-        </TabBox>
-        <CombinedBasket
-          availableMeals={props.availableMeals}
-          selectedMeals={props.selectedMeals}
-          setSelectedMeals={props.setSelectedMeals}
-        />
-      </GridParent>
-    </div>
+    <GridParent>
+      <TabBox
+        tabButton={TabButton}
+        currentTabIndex={props.currentTabIndex}
+        onChangeIndex={props.onChangeIndex}
+      >
+        {props.availableMeals
+          .filter((category) => !category.isExtra)
+          .flatMap((category, categoryIndex) => {
+            return defaultDeliveryDays.map((_, dayIndex) => {
+              const selected = props.selectedMeals[categoryIndex][dayIndex];
+              return (
+                <Tab tabTitle={`Delivery ${dayIndex + 1} ${category.title}`}>
+                  {selected ? (
+                    <MealList
+                      things={category.options[dayIndex]}
+                      selected={selected}
+                      setSelected={(selected) => {
+                        setSelected(
+                          selected,
+                          props.selectedMeals,
+                          categoryIndex,
+                          dayIndex,
+                          props.setSelectedMeals
+                        );
+                      }}
+                      max={
+                        category.maxMeals -
+                        totalOtherSelected(
+                          props.selectedMeals,
+                          categoryIndex,
+                          dayIndex
+                        )
+                      }
+                    />
+                  ) : (
+                    <ParagraphText>Currently Paused</ParagraphText>
+                  )}
+                </Tab>
+              );
+            });
+          })}
+      </TabBox>
+      <CombinedBasket
+        availableMeals={props.availableMeals}
+        selectedMeals={props.selectedMeals}
+        setSelectedMeals={props.setSelectedMeals}
+      />
+    </GridParent>
   );
 };

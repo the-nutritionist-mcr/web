@@ -21,7 +21,7 @@ const SelectedBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 25rem;
+  max-width: 25rem;
 `;
 
 const BasketHeader = styled.h2`

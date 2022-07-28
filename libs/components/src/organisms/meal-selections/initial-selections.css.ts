@@ -9,6 +9,13 @@ export const header = style({
   fontSize: '2rem',
   marginBottom: '2rem',
   fontFamily: "'Accumin Pro', Arial, sans-serif",
+  display: 'flex',
+  gap: '1rem',
+  alignItems: 'center',
+});
+
+export const headerText = style({
+  flexGrow: '2',
 });
 
 export const youNeedToChoose = style({
