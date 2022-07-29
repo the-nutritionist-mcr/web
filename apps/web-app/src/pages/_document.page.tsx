@@ -12,6 +12,11 @@ const Document = () => {
       <body>
         <Main />
         <NextScript />
+        <div
+          dangerouslySetInnerHTML={{
+            __html: `<!-- ${process.env['APP_VERSION']} -->`,
+          }}
+        />
       </body>
     </Html>
   );

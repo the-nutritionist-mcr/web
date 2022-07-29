@@ -45,12 +45,17 @@ runs:
       shell: bash
       run: echo "USERPOOL_ID=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .UserPoolId')" >> $GITHUB_ENV
 
+    - name: Get App Version
+      shell: bash
+      run: echo "APP_VERSION=$(git rev-parse --short HEAD)"
+
     - name: Rebuild with baked in environment variables
       shell: bash
       run: rm -rf dist && yarn nx build web-app
       env:
         NX_USER_POOL_ID: ${{ env.USERPOOL_ID }}
         NX_APP_ENV: ${{ inputs.app-env }}
+        NX_APP_VERSION: ${{ env.APP_VERSION }}
 
     - name: Process build artifact for Serverless
       shell: bash
