@@ -48,7 +48,7 @@ jobs:
 
       - name: Get App Version
         shell: bash
-        run: echo "APP_VERSION=$(git rev-parse --short HEAD)"
+        run: echo "APP_VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Build Application
         run: yarn nx build web-app
