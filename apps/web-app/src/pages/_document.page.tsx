@@ -14,7 +14,7 @@ const Document = () => {
         <NextScript />
         <div
           dangerouslySetInnerHTML={{
-            __html: `<!-- ${process.env['APP_VERSION']} -->`,
+            __html: `<!-- version: ${process.env['APP_VERSION']} -->`,
           }}
         />
       </body>
