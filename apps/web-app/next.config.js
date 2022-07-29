@@ -27,7 +27,7 @@ module.exports = withVanillaExtract(
       },
       pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
       generateBuildId: async () => {
-        return 'tnm-web-build';
+        return process.env.NX_APP_VERSION;
       },
       ...nextConfig,
       target: 'serverless',
