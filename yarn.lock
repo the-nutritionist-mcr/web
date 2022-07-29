@@ -19676,10 +19676,10 @@ magic-string@^0.25.7:
   dependencies:
     sourcemap-codec "^1.4.4"
 
-mailslurp-client@15.12.3:
-  version "15.12.3"
-  resolved "https://registry.yarnpkg.com/mailslurp-client/-/mailslurp-client-15.12.3.tgz#783a2b8467978abf568f24c2ce851c33a79d2e59"
-  integrity sha512-8lKjseznopEDaG1Xd3th7H3JLK1LizJw24kqxrBTeAvJBHn7e0aBliukqcOCnm4k96LZ04iblLHA6MOJPvyTTQ==
+mailslurp-client@15.13.0:
+  version "15.13.0"
+  resolved "https://registry.yarnpkg.com/mailslurp-client/-/mailslurp-client-15.13.0.tgz#bdd149040488761ba439c54458c4b2a1d4565b6e"
+  integrity sha512-4Sn0fwQoOy+WV1YnAR/HZ1tmjUCpW6tK8g/V4CN3qNW9G8C0pk+MeSw1MgQQjVKRl4LmdWi4tV8UF4Fb/FqM0w==
   dependencies:
     cross-fetch "^3.1.5"
     es6-promise "^4.2.8"
