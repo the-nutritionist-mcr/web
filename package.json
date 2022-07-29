@@ -89,7 +89,7 @@
     "lint-staged": "13.0.3",
     "lodash": "4.17.21",
     "loglevel": "1.8.0",
-    "mailslurp-client": "15.12.3",
+    "mailslurp-client": "15.13.0",
     "mockdate": "3.0.5",
     "moment": "2.29.4",
     "next": "12.2.3",
