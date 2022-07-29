@@ -46,8 +46,14 @@ jobs:
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
 
+      - name: Get App Version
+        shell: bash
+        run: echo "APP_VERSION=$(git rev-parse --short HEAD)"
+
       - name: Build Application
         run: yarn nx build web-app
+        env:
+          NX_APP_VERSION: ${{ env.APP_VERSION }}
 
       - name: Process for Serverless
         run: yarn ts-node tools/build-serverless-next.ts
