@@ -13,6 +13,7 @@ import {
 } from '../utils/authorised-route';
 
 import { usePlan } from '../hooks';
+import { getClosedOrOpenStatus } from '../utils/get-closed-or-open-status';
 
 const YourAccountHeaderBox = styled('div')`
   text-align: center;
@@ -36,11 +37,7 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
 
   const now = new Date(Date.now());
 
-  /* const showChooseButton =
-    data &&
-    (data?.available || now < getClosingDate(new Date(Number(data?.date)))); */
-
-  const showChooseButton = true;
+  const showChooseButton = getClosedOrOpenStatus(now, data);
 
   const logout = async () => {
     await signOut();

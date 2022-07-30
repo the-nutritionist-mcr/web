@@ -95,9 +95,18 @@ export const usePlan = () => {
     },
   });
 
-  const finalData = data?.available
-    ? { ...data, date: new Date(Number(data.date)) }
-    : data;
+  if (!data) {
+    return { data: undefined, update, publish, submitOrder };
+  }
 
-  return { data: finalData, update, publish, submitOrder };
+  if (data.available === true) {
+    return {
+      data: { ...data, date: new Date(Number(data.date)) },
+      update,
+      publish,
+      submitOrder,
+    };
+  }
+
+  return { data, update, publish, submitOrder };
 };

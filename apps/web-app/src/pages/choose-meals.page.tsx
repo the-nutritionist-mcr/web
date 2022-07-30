@@ -10,6 +10,7 @@ import {
 
 import { usePlan } from '../hooks';
 import styled from 'styled-components';
+import { getClosedOrOpenStatus } from '../utils/get-closed-or-open-status';
 
 const ChooseMealsHeaderBox = styled('div')`
   text-align: center;
@@ -33,9 +34,7 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
   useEffect(() => {
     const now = new Date(Date.now());
 
-    const go =
-      data &&
-      (!data.available || now >= getClosingDate(new Date(Number(data.date))));
+    const go = getClosedOrOpenStatus(now, data);
 
     if (go) {
       window.location = '/account';
