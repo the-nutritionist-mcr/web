@@ -1,9 +1,8 @@
 import styled from '@emotion/styled';
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
 
 export interface TabProps {
   tabTitle: string;
-  children: ReactNode;
 }
 
 const TabContents = styled.div`

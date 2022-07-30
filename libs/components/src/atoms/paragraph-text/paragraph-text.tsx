@@ -1,16 +1,12 @@
 import styled from '@emotion/styled';
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
 
 const StyledP = styled.p`
   font-family: 'IBM Plex Serif', 'Times New Roman', serif;
   line-height: 23px;
 `;
 
-interface ParagraphTextProps {
-  children: ReactNode;
-}
-
-const ParagraphText = (props: ParagraphTextProps) => {
+const ParagraphText: FC = (props) => {
   return <StyledP>{props.children}</StyledP>;
 };
 

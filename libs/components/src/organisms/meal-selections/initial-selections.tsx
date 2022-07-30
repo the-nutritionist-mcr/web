@@ -7,6 +7,7 @@ import { MealCategory } from './meal-category';
 import MealList from './meal-list';
 import { setSelected } from './set-selected';
 import { totalOtherSelected } from './total-other-selected';
+import { container, header, youNeedToChoose } from './initial-selections.css';
 import { ParagraphText } from '../../atoms';
 
 const GridParent = styled.div`
@@ -28,15 +29,6 @@ export interface InitialSelectionsProps {
 }
 
 export const InitialSelections = (props: InitialSelectionsProps) => {
-  const showIndexes = props.availableMeals.reduce<number[]>(
-    (accum, category, index) => (category.isExtra ? accum : [...accum, index]),
-    []
-  );
-
-  const selectedMeals = props.selectedMeals.filter((meal, index) =>
-    showIndexes.includes(index)
-  );
-
   return (
     <GridParent>
       <TabBox
@@ -48,7 +40,7 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
           .filter((category) => !category.isExtra)
           .flatMap((category, categoryIndex) => {
             return defaultDeliveryDays.map((_, dayIndex) => {
-              const selected = selectedMeals[categoryIndex][dayIndex];
+              const selected = props.selectedMeals[categoryIndex][dayIndex];
               return (
                 <Tab tabTitle={`Delivery ${dayIndex + 1} ${category.title}`}>
                   {selected ? (
@@ -58,7 +50,7 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
                       setSelected={(selected) => {
                         setSelected(
                           selected,
-                          selectedMeals,
+                          props.selectedMeals,
                           categoryIndex,
                           dayIndex,
                           props.setSelectedMeals
@@ -67,7 +59,7 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
                       max={
                         category.maxMeals -
                         totalOtherSelected(
-                          selectedMeals,
+                          props.selectedMeals,
                           categoryIndex,
                           dayIndex
                         )
