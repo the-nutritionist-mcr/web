@@ -21,6 +21,8 @@ const env = {
   region: 'us-east-1',
 };
 
+const sesIdentityArn = `arn:aws:ses:us-east-1:568693217207:identity/thenutritionistmcr.com`;
+
 const forceUpdateKey = 'force-update-key';
 
 const backendStack = new BackendStack(app, 'tnm-web-int-backend-stack', {
@@ -36,6 +38,7 @@ new AppStack(app, 'tnm-web-int-stack', {
   envName: 'int',
   transient: true,
   chargebeeSite: CHARGEBEE_SITES.test,
+  sesIdentityArn,
   forceUpdateKey,
   nextJsBuildDir,
   userPool: backendStack.pool,
@@ -53,6 +56,7 @@ new AppStack(app, 'tnm-web-cypress-stack', {
   stackProps: { env },
   envName: 'cypress',
   transient: true,
+  sesIdentityArn,
   chargebeeSite: CHARGEBEE_SITES.test,
   forceUpdateKey,
   nextJsBuildDir,
@@ -73,6 +77,7 @@ new AppStack(app, 'tnm-web-dev-stack', {
   transient: true,
   chargebeeSite: CHARGEBEE_SITES.test,
   forceUpdateKey,
+  sesIdentityArn,
   userPool: devStack.pool,
   nextJsBuildDir,
 });
@@ -90,6 +95,7 @@ new AppStack(app, 'tnm-web-test-stack', {
   envName: 'test',
   transient: true,
   chargebeeSite: CHARGEBEE_SITES.test,
+  sesIdentityArn,
   forceUpdateKey,
   nextJsBuildDir,
   userPool: testStack.pool,
@@ -108,6 +114,7 @@ new AppStack(app, 'tnm-web-prod-stack', {
   envName: 'prod',
   transient: false,
   chargebeeSite: CHARGEBEE_SITES.live,
+  sesIdentityArn,
   forceUpdateKey,
   nextJsBuildDir,
   userPool: prodStack.pool,

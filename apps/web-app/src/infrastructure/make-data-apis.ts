@@ -22,6 +22,7 @@ export const makeDataApis = (
   hostedZone: IHostedZone,
   envName: string,
   pool: IUserPool,
+  sesIdentityArn: string,
   chargebeeSite: string,
   forceUpdateKey: string
 ) => {
@@ -165,6 +166,14 @@ export const makeDataApis = (
         sourceMap: true,
       },
     }
+  );
+
+  submitOrderFunction.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [IAM.actions.ses.sendEmail],
+      resources: [sesIdentityArn],
+    })
   );
 
   const submitOrder = planResource.addResource('submit-order');

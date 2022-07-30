@@ -26,6 +26,7 @@ interface TnmAppProps {
   transient: boolean;
   chargebeeSite: string;
   nextJsBuildDir: string;
+  sesIdentityArn: string;
   userPool: UserPool;
 }
 
@@ -170,6 +171,7 @@ export class AppStack extends Stack {
       hostedZone,
       props.envName,
       props.userPool,
+      props.sesIdentityArn,
       props.chargebeeSite,
       props.forceUpdateKey
     );

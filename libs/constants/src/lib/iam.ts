@@ -1,5 +1,8 @@
 export const IAM = {
   actions: {
+    ses: {
+      sendEmail: 'ses:SendEmail',
+    },
     cloudformation: {
       listStacks: 'cloudformation:ListStacks',
       listStar: 'cloudformation:List*',
