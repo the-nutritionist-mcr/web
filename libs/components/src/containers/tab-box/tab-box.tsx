@@ -26,6 +26,7 @@ interface TabButtonProps {
 
 interface TabBoxProps {
   tabButton?: FC<TabButtonProps>;
+  children: ReactNode;
   onChange?: (tab: ReactElement<TabProps>) => void;
   onChangeIndex?: (which: number, length: number) => void;
   defaultTab?: string;
