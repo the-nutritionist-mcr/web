@@ -12,6 +12,7 @@ interface BasketProps {
   availableMeals: MealCategory[];
   selectedMeals: (SelectedThings | undefined)[][];
   setSelectedMeals: (selected: SelectedMeals) => void;
+  categoriesThatAreNotExtrasIndexes: number[];
 }
 
 const SelectedBox = styled.div`
@@ -44,6 +45,7 @@ const CombinedBasket: FC<BasketProps> = ({
   availableMeals,
   selectedMeals,
   setSelectedMeals,
+  categoriesThatAreNotExtrasIndexes,
 }) => {
   return (
     <SelectedBox>
@@ -51,7 +53,9 @@ const CombinedBasket: FC<BasketProps> = ({
       <Divider />
       {availableMeals.flatMap((category, categoryIndex) => {
         return defaultDeliveryDays.map((_, dayIndex) => {
-          return (
+          return !categoriesThatAreNotExtrasIndexes.includes(
+            categoryIndex
+          ) ? null : (
             <Basket
               itemWord="meal"
               title={`${category.title} - Delivery ${dayIndex + 1}`}

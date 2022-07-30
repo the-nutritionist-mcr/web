@@ -20,6 +20,7 @@ import {
   youNeedToChoose,
 } from './initial-selections.css';
 import { goAheadAndSubmit } from './confirm-selections-container.css';
+import { Meal } from './meal';
 
 export interface MealSelectionsProps {
   availableMeals: MealCategory[];
@@ -69,26 +70,26 @@ const createDefaultSelectedThings = (
     })
   );
 
-const MealSelections: FC<MealSelectionsProps> = (props) => {
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [selectedMeals, setSelectedMeals] = useState(
-    createDefaultSelectedThings(props.availableMeals, props.currentSelection)
-  );
-  const [submittingOrder, setSubmittingOrder] = useState(false);
-  const [complete, setComplete] = useState(false);
-
-  const availableMeals = props.availableMeals.flatMap((category) =>
-    category.options.flat()
-  );
-
-  const optionsWithSelections = props.availableMeals.map((category, index) => ({
+const getOptionsWithSelections = (
+  meals: MealCategory[],
+  selectedMeals: ({ [id: string]: number } | undefined)[][],
+  availableMeals: Meal[]
+) =>
+  meals.map((category, index) => ({
     ...category,
     selections: selectedMeals[index]
       .map((delivery) =>
         delivery
           ? Object.entries(delivery).flatMap(([id, count]) =>
-              Array.from({ length: count }).map(() =>
-                availableMeals.find((meal) => meal.id === id)
+              Array.from({ length: count }).map(
+                () =>
+                  availableMeals.find((meal) => meal.id === id) ?? {
+                    isExtra: true,
+                    id: '0',
+                    description: '',
+                    contains: '',
+                    title: id,
+                  }
               )
             )
           : []
@@ -97,13 +98,52 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
       .map((delivery) => delivery.filter(hasThing)),
   }));
 
-  const remaining = remainingMeals(
-    optionsWithSelections.filter((category) => !category.isExtra)
+const MealSelections: FC<MealSelectionsProps> = (props) => {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedMeals, setSelectedMeals] = useState(
+    createDefaultSelectedThings(props.availableMeals, props.currentSelection)
+  );
+
+  console.log(selectedMeals);
+  const [submittingOrder, setSubmittingOrder] = useState(false);
+  const [complete, setComplete] = useState(false);
+
+  const availableMealCategoriesWithoutExtras = props.availableMeals.filter(
+    (category) => !category.isExtra
+  );
+
+  const availableMealCategoriesWithoutExtrasIndexes =
+    props.availableMeals.reduce<number[]>(
+      (accum, item, index) => (item.isExtra ? accum : [...accum, index]),
+      []
+    );
+
+  const selectedMealsWithoutExtras = selectedMeals.filter((meal, index) =>
+    availableMealCategoriesWithoutExtrasIndexes.includes(index)
+  );
+
+  const availableMeals = props.availableMeals
+    .filter((category) => !category.isExtra)
+    .flatMap((category) => category.options.flat());
+
+  const optionsWithSelectionsWithoutExtras = getOptionsWithSelections(
+    availableMealCategoriesWithoutExtras,
+    selectedMealsWithoutExtras,
+    availableMeals
+  );
+
+  const optionsWithSelectionsWithExtras = getOptionsWithSelections(
+    props.availableMeals,
+    selectedMeals,
+    availableMeals
+  );
+
+  const remainingWithoutExtras = remainingMeals(
+    optionsWithSelectionsWithoutExtras.filter((category) => !category.isExtra)
   );
 
   const tabs =
-    props.availableMeals.filter((category) => !category.isExtra).length *
-    defaultDeliveryDays.length;
+    availableMealCategoriesWithoutExtras.length * defaultDeliveryDays.length;
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -118,19 +158,20 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
         plan: props.currentSelection.id,
         sort: props.currentSelection.sort,
         deliveries: defaultDeliveryDays.map((day, index) => {
-          return optionsWithSelections.flatMap((category) =>
+          return optionsWithSelectionsWithExtras.flatMap((category) =>
             category.selections[index]
               .map((recipe) => {
                 const foundRecipe = props.recipes.find(
                   (straw) => recipe.id === straw.id
                 );
-                if (foundRecipe) {
-                  return {
-                    recipe: foundRecipe,
-                    chosenVariant: category.title,
-                  };
-                }
-                return undefined;
+                return foundRecipe
+                  ? {
+                      recipe: foundRecipe,
+                      chosenVariant: category.title,
+                    }
+                  : {
+                      chosenVariant: recipe.title,
+                    };
               })
               // eslint-disable-next-line unicorn/no-array-callback-reference
               .filter(hasThing)
@@ -152,7 +193,8 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
     }
   };
 
-  const continueButtonDisabled = tabIndex === tabs - 1 && remaining !== 0;
+  const continueButtonDisabled =
+    tabIndex === tabs - 1 && remainingWithoutExtras !== 0;
 
   const continueText = continueButtonDisabled
     ? 'Select more meals'
@@ -191,12 +233,16 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
             </Button>
           </h2>
           <p className={youNeedToChoose}>
-            You need to choose {remaining} meals
+            You need to choose {remainingWithoutExtras} meals
           </p>
           <InitialSelections
             {...props}
-            remainingMeals={remaining}
+            availableMeals={props.availableMeals}
+            remainingMeals={remainingWithoutExtras}
             selectedMeals={selectedMeals}
+            categoriesThatAreNotExtrasIndexes={
+              availableMealCategoriesWithoutExtrasIndexes
+            }
             setSelectedMeals={setSelectedMeals}
             currentTabIndex={tabIndex}
             onChangeIndex={(index) => {
@@ -244,7 +290,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
           )}
           <ConfirmSelections
             complete={complete}
-            selectedMeals={optionsWithSelections}
+            selectedMeals={optionsWithSelectionsWithExtras}
           />
         </div>
       )}
