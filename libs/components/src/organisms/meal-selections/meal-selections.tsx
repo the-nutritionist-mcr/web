@@ -52,13 +52,16 @@ const createDefaultSelectedThings = (
         ? delivery
             .filter((item) => item.chosenVariant === category.title)
             .reduce<{ [id: string]: number }>((accum, item) => {
-              const id = isSelectedMeal(item) ? item.recipe.id : 'extra';
-              if (isSelectedMeal(item) && id in accum) {
+              const id = isSelectedMeal(item)
+                ? item.recipe.id
+                : item.chosenVariant;
+
+              if (id in accum) {
                 accum[id]++;
               }
 
-              if (isSelectedMeal(item) && !(id in accum)) {
-                accum[item.recipe.id] = 1;
+              if (!(id in accum)) {
+                accum[id] = 1;
               }
               return accum;
             }, {})
