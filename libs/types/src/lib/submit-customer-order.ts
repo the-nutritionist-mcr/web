@@ -1,9 +1,9 @@
-import { SelectedItem } from './customer-meal-selection';
+import { SelectedMeal } from './customer-meal-selection';
 
 import Recipe, { isRecipe } from './Recipe';
 
 export interface SubmitCustomerOrderPayload {
-  deliveries: SelectedItem[][];
+  deliveries: SelectedMeal[][];
   plan: string;
   sort: string;
 }

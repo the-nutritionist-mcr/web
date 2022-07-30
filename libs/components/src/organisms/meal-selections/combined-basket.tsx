@@ -49,34 +49,32 @@ const CombinedBasket: FC<BasketProps> = ({
     <SelectedBox>
       <BasketHeader>YOUR SELECTIONS</BasketHeader>
       <Divider />
-      {availableMeals
-        .filter((category) => !category.isExtra)
-        .flatMap((category, categoryIndex) => {
-          return defaultDeliveryDays.map((_, dayIndex) => {
-            return (
-              <Basket
-                itemWord="meal"
-                title={`${category.title} - Delivery ${dayIndex + 1}`}
-                itemWordPlural="meals"
-                available={availableMeals[categoryIndex].options[dayIndex]}
-                setSelected={(selected) =>
-                  setSelected(
-                    selected,
-                    selectedMeals,
-                    categoryIndex,
-                    dayIndex,
-                    setSelectedMeals
-                  )
-                }
-                selectedMeals={selectedMeals[categoryIndex][dayIndex]}
-                max={
-                  category.maxMeals -
-                  totalOtherSelected(selectedMeals, categoryIndex, dayIndex)
-                }
-              />
-            );
-          });
-        })}
+      {availableMeals.flatMap((category, categoryIndex) => {
+        return defaultDeliveryDays.map((_, dayIndex) => {
+          return (
+            <Basket
+              itemWord="meal"
+              title={`${category.title} - Delivery ${dayIndex + 1}`}
+              itemWordPlural="meals"
+              available={availableMeals[categoryIndex].options[dayIndex]}
+              setSelected={(selected) =>
+                setSelected(
+                  selected,
+                  selectedMeals,
+                  categoryIndex,
+                  dayIndex,
+                  setSelectedMeals
+                )
+              }
+              selectedMeals={selectedMeals[categoryIndex][dayIndex]}
+              max={
+                category.maxMeals -
+                totalOtherSelected(selectedMeals, categoryIndex, dayIndex)
+              }
+            />
+          );
+        });
+      })}
     </SelectedBox>
   );
 };
