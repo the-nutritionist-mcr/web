@@ -46,6 +46,26 @@ export const makeUserPool = (
     }
   );
 
+  const preTokenGenerationTriggerHandler = new NodejsFunction(
+    context,
+    `pre-token-generation-trigger`,
+    {
+      functionName: getResourceName(
+        `pre-token-generation-trigger`,
+        environmentName
+      ),
+      entry: entryName('misc', 'suppress-cognito-claims.ts'),
+      runtime: Runtime.NODEJS_14_X,
+      environment: {
+        ENVIRONMENT: environmentName,
+      },
+      memorySize: 2048,
+      bundling: {
+        sourceMap: true,
+      },
+    }
+  );
+
   const email = UserPoolEmail.withSES({
     fromEmail: 'no-reply@thenutritionistmcr.com',
     fromName: 'The Nutritionist MCR',
@@ -73,6 +93,7 @@ export const makeUserPool = (
 
     lambdaTriggers: {
       customMessage: adminCreateUserEmailSender,
+      preTokenGeneration: preTokenGenerationTriggerHandler,
     },
 
     userInvitation: {
