@@ -1,4 +1,5 @@
 import { CHARGEBEE } from '@tnmw/constants';
+import { StandardPlan, SubscriptionStatus } from '@tnmw/types';
 import { ChargeBee } from 'chargebee-typescript';
 
 interface Subscription {
@@ -14,7 +15,7 @@ interface SubscriptionItem {
 export const getPlans = async (
   client: ChargeBee,
   subscription: Subscription
-) => {
+): Promise<StandardPlan[]> => {
   const response = await client.subscription
     .list({
       customer_id: { is: subscription.customer_id },
@@ -77,9 +78,10 @@ export const getPlans = async (
             return {
               name: itemFamily.name,
               daysPerWeek,
+              itemsPerDay,
               pauseStart: pauseDate ?? pauseDate * 1000,
               pauseEnd: pauseResume ?? pauseResume * 1000,
-              itemsPerDay,
+              subscriptionStatus: subscription.status as SubscriptionStatus,
               isExtra:
                 itemFamily[CHARGEBEE.customFields.itemFamily.isExtra] === 'Yes',
               totalMeals,

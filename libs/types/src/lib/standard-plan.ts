@@ -1,3 +1,11 @@
+export type SubscriptionStatus =
+  | 'future'
+  | 'in_trial'
+  | 'active'
+  | 'non_renewing'
+  | 'paused'
+  | 'cancelled';
+
 export interface StandardPlan {
   name: string;
   daysPerWeek: number;
@@ -6,4 +14,5 @@ export interface StandardPlan {
   totalMeals: number;
   pauseStart?: number;
   pauseEnd?: number;
+  subscriptionStatus: SubscriptionStatus;
 }

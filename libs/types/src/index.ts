@@ -51,7 +51,7 @@ export type {
   PlanResponseSelections,
   Cook,
 } from './lib/stored-plan';
-export type { StandardPlan } from './lib/standard-plan';
+export type { StandardPlan, SubscriptionStatus } from './lib/standard-plan';
 
 export { isWeeklyPlan } from './lib/weekly-plan';
 export type { WeeklyPlan } from './lib/weekly-plan';

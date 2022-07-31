@@ -12,65 +12,28 @@ const date = (day: number, month: number, year: number) => {
 };
 
 describe('isActive', () => {
-  it('Should return true if there is no pause start or end', () => {
-    const mockPlan = mock<StandardPlan>();
+  it.each`
+    cookDay              | pauseStart           | pauseEnd             | subscriptionStatus | active
+    ${date(11, 6, 2022)} | ${undefined}         | ${undefined}         | ${'active'}        | ${true}
+    ${date(11, 6, 2022)} | ${date(18, 6, 2022)} | ${undefined}         | ${'active'}        | ${true}
+    ${date(11, 6, 2022)} | ${date(4, 6, 2022)}  | ${undefined}         | ${'active'}        | ${false}
+    ${date(11, 6, 2022)} | ${undefined}         | ${date(18, 6, 2022)} | ${'active'}        | ${false}
+    ${date(14, 6, 2022)} | ${date(4, 6, 2022)}  | ${date(12, 6, 2022)} | ${'active'}        | ${true}
+    ${date(5, 6, 2022)}  | ${date(4, 6, 2022)}  | ${date(12, 6, 2022)} | ${'active'}        | ${false}
+  `(
+    `Should return $active if the cookday is $cookDay, pause start is $pauseStart and pause end is $pauseEnd with a subscription status of $subscriptionStatus`,
+    ({ cookDay, pauseStart, pauseEnd, subscriptionStatus, active }) => {
+      const mockPlan = mock<StandardPlan>({
+        pauseStart: pauseStart?.getTime(),
+        pauseEnd: pauseEnd?.getTime(),
+        subscriptionStatus,
+      });
 
-    const active = isActive(new Date(Date.now()), [mockPlan]);
+      const outcome = isActive(cookDay, [mockPlan]);
 
-    expect(active).toEqual(true);
-  });
-
-  it('Should be active if there is a pause start date that is in the future', () => {
-    const now = date(11, 6, 2022);
-
-    const mockPlan = mock<StandardPlan>({
-      pauseStart: date(18, 6, 2022).getTime(),
-      pauseEnd: undefined,
-    });
-
-    const active = isActive(now, [mockPlan]);
-
-    expect(active).toEqual(true);
-  });
-
-  it('Should be inactive if there is a pause start date that is in the past and no pause end', () => {
-    const now = date(11, 6, 2022);
-
-    const mockPlan = mock<StandardPlan>({
-      pauseStart: date(4, 6, 2022).getTime(),
-      pauseEnd: undefined,
-    });
-
-    const active = isActive(now, [mockPlan]);
-
-    expect(active).toEqual(false);
-  });
-
-  it('Should be inactive if there is a pause end date that is in the future and no pause start', () => {
-    const now = date(11, 6, 2022);
-
-    const mockPlan = mock<StandardPlan>({
-      pauseStart: undefined,
-      pauseEnd: date(18, 6, 2022).getTime(),
-    });
-
-    const active = isActive(now, [mockPlan]);
-
-    expect(active).toEqual(false);
-  });
-
-  it('Should be active if the pause has expired', () => {
-    const now = date(14, 6, 2022);
-
-    const mockPlan = mock<StandardPlan>({
-      pauseStart: date(4, 6, 2022).getTime(),
-      pauseEnd: date(12, 6, 2022).getTime(),
-    });
-
-    const active = isActive(now, [mockPlan]);
-
-    expect(active).toEqual(true);
-  });
+      expect(outcome).toEqual(active);
+    }
+  );
 
   it('should return true if there are multiple plans and all plans are active', () => {
     const now = date(1, 6, 2022);
@@ -137,19 +100,6 @@ describe('isActive', () => {
     });
 
     const active = isActive(now, [mockPlan1, mockPlan2, mockPlan3]);
-
-    expect(active).toEqual(false);
-  });
-
-  it('Should be inactive if the current date is between the pause start and end dates', () => {
-    const now = date(5, 6, 2022);
-
-    const mockPlan = mock<StandardPlan>({
-      pauseStart: date(4, 6, 2022).getTime(),
-      pauseEnd: date(12, 6, 2022).getTime(),
-    });
-
-    const active = isActive(now, [mockPlan]);
 
     expect(active).toEqual(false);
   });
