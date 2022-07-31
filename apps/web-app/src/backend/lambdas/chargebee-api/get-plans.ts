@@ -69,11 +69,16 @@ export const getPlans = async (
 
             const itemFamily = itemFamilyResult.item_family;
 
+            const pauseDate = subscription.pause_date;
+            const pauseResume = subscription.resume_date;
+
             const totalMeals = daysPerWeek * itemsPerDay;
             // eslint-disable-next-line unicorn/no-await-expression-member
             return {
               name: itemFamily.name,
               daysPerWeek,
+              pauseStart: pauseDate ?? new Date(pauseDate * 1000),
+              pauseEnd: pauseResume ?? new Date(pauseResume * 1000),
               itemsPerDay,
               isExtra:
                 itemFamily[CHARGEBEE.customFields.itemFamily.isExtra] === 'Yes',
