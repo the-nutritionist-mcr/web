@@ -1,16 +1,17 @@
 import { StandardPlan } from '@tnmw/types';
 
 const individualPlanIsActive = (cookDate: Date, plan: StandardPlan) => {
+  const pauseStart = plan.pauseStart && new Date(plan.pauseStart);
+  const pauseEnd = plan.pauseEnd && new Date(plan.pauseEnd);
+  const startDate = plan.startDate && new Date(plan.startDate);
+  const cancelledAt = plan.cancelledAt && new Date(plan.cancelledAt);
+
   if (
     plan.subscriptionStatus === 'cancelled' ||
     plan.subscriptionStatus === 'in_trial'
   ) {
     return false;
   }
-
-  const pauseStart = plan.pauseStart && new Date(plan.pauseStart);
-  const pauseEnd = plan.pauseEnd && new Date(plan.pauseEnd);
-  const startDate = plan.startDate && new Date(plan.startDate);
 
   if (plan.subscriptionStatus === 'paused' && !pauseEnd) {
     return false;

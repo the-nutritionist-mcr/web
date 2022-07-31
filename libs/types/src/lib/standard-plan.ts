@@ -16,4 +16,5 @@ export interface StandardPlan {
   pauseEnd?: number;
   subscriptionStatus: SubscriptionStatus;
   startDate?: number;
+  cancelledAt?: number;
 }
