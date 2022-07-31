@@ -77,8 +77,8 @@ export const getPlans = async (
             return {
               name: itemFamily.name,
               daysPerWeek,
-              pauseStart: pauseDate ?? new Date(pauseDate * 1000),
-              pauseEnd: pauseResume ?? new Date(pauseResume * 1000),
+              pauseStart: pauseDate ?? pauseDate * 1000,
+              pauseEnd: pauseResume ?? pauseResume * 1000,
               itemsPerDay,
               isExtra:
                 itemFamily[CHARGEBEE.customFields.itemFamily.isExtra] === 'Yes',

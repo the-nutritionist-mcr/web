@@ -100,14 +100,12 @@ describe('convert plan format', () => {
 
     expect(soupItems[0]?.isExtra).toBeTruthy();
     expect(soupItems[1]?.isExtra).toBeTruthy();
-    expect(soupItems[2]?.isExtra).toBeTruthy();
 
     const microItems = result.deliveries.map((delivery) =>
       delivery.items.find((item) => item.name === 'Micro')
     );
     expect(microItems[0]?.isExtra).toBeFalsy();
     expect(microItems[1]?.isExtra).toBeFalsy();
-    expect(microItems[2]?.isExtra).toBeFalsy();
   });
   it('Has a single entry for plans that are counted once when there are multiple plans', () => {
     const plan: StandardPlan[] = [
@@ -232,106 +230,6 @@ describe('convert plan format', () => {
           items: [
             {
               name: 'Equilibrium',
-              quantity: 2,
-              isExtra: false,
-            },
-            {
-              name: 'Mass',
-              quantity: 0,
-              isExtra: false,
-            },
-            {
-              name: 'Micro',
-              quantity: 0,
-              isExtra: false,
-            },
-            {
-              name: 'Ultra Micro',
-              quantity: 0,
-              isExtra: false,
-            },
-            {
-              name: 'Low-CHO',
-              quantity: 0,
-              isExtra: false,
-            },
-            {
-              name: 'Seasonal Soup',
-              quantity: 0,
-              isExtra: true,
-            },
-            {
-              name: 'Breakfast',
-              quantity: 1,
-              isExtra: true,
-            },
-            {
-              name: 'Snack',
-              quantity: 0,
-              isExtra: true,
-            },
-            {
-              name: 'Large Snack',
-              quantity: 0,
-              isExtra: true,
-            },
-          ],
-          extras: [],
-        },
-        {
-          items: [
-            {
-              name: 'Equilibrium',
-              quantity: 2,
-              isExtra: false,
-            },
-            {
-              name: 'Mass',
-              quantity: 0,
-              isExtra: false,
-            },
-            {
-              name: 'Micro',
-              quantity: 0,
-              isExtra: false,
-            },
-            {
-              name: 'Ultra Micro',
-              quantity: 0,
-              isExtra: false,
-            },
-            {
-              name: 'Low-CHO',
-              quantity: 0,
-              isExtra: false,
-            },
-            {
-              name: 'Seasonal Soup',
-              quantity: 0,
-              isExtra: true,
-            },
-            {
-              name: 'Breakfast',
-              isExtra: true,
-              quantity: 1,
-            },
-            {
-              name: 'Snack',
-              quantity: 0,
-              isExtra: true,
-            },
-            {
-              name: 'Large Snack',
-              quantity: 0,
-              isExtra: true,
-            },
-          ],
-          extras: [],
-        },
-        {
-          items: [
-            {
-              name: 'Equilibrium',
               quantity: 3,
               isExtra: false,
             },
@@ -362,8 +260,58 @@ describe('convert plan format', () => {
             },
             {
               name: 'Breakfast',
+              quantity: 1,
+              isExtra: true,
+            },
+            {
+              name: 'Snack',
               quantity: 0,
               isExtra: true,
+            },
+            {
+              name: 'Large Snack',
+              quantity: 0,
+              isExtra: true,
+            },
+          ],
+          extras: [],
+        },
+        {
+          items: [
+            {
+              name: 'Equilibrium',
+              quantity: 4,
+              isExtra: false,
+            },
+            {
+              name: 'Mass',
+              quantity: 0,
+              isExtra: false,
+            },
+            {
+              name: 'Micro',
+              quantity: 0,
+              isExtra: false,
+            },
+            {
+              name: 'Ultra Micro',
+              quantity: 0,
+              isExtra: false,
+            },
+            {
+              name: 'Low-CHO',
+              quantity: 0,
+              isExtra: false,
+            },
+            {
+              name: 'Seasonal Soup',
+              quantity: 0,
+              isExtra: true,
+            },
+            {
+              name: 'Breakfast',
+              isExtra: true,
+              quantity: 1,
             },
             {
               name: 'Snack',

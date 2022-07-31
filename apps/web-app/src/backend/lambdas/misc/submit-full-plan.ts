@@ -6,6 +6,7 @@ import { parseCustomerList } from '../../../utils/parse-customer-list';
 import { StoredPlan } from '@tnmw/types';
 import { returnErrorResponse } from '../data-api/return-error-response';
 import { HttpError } from '../data-api/http-error';
+import { isActive } from '@tnmw/utils';
 
 import {
   CognitoIdentityProviderClient,
@@ -59,9 +60,17 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         ? { deliveries: hydrateCustomPlan(item.customPlan, itemFamilies) }
         : convertPlanFormat(item.plans, itemFamilies);
 
+      const mealsForPlanWithPausedRemoved = {
+        deliveries: mealsForPlan.deliveries.map((delivery, index) => {
+          const active = isActive(dates[index], item.plans);
+
+          return active ? delivery : { items: [], extras: [] };
+        }),
+      };
+
       return {
         ...item,
-        newPlan: mealsForPlan,
+        newPlan: mealsForPlanWithPausedRemoved,
         address: '',
         telephone: '',
         exclusions: item.customisations,

@@ -113,11 +113,7 @@ describe('hydrate custom plan', () => {
             quantity: 1,
           },
           {
-            name: 'Snack',
-            quantity: 0,
-          },
-          {
-            name: 'Large Snack',
+            name: 'Snacks',
             quantity: 0,
           },
         ],
@@ -154,11 +150,7 @@ describe('hydrate custom plan', () => {
             quantity: 0,
           },
           {
-            name: 'Snack',
-            quantity: 0,
-          },
-          {
-            name: 'Large Snack',
+            name: 'Snacks',
             quantity: 0,
           },
         ],
