@@ -65,12 +65,18 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
       case 'subscription_created':
       case 'subscription_started':
+      case 'subscription_activated':
+      case 'subscription_changed':
+      case 'subscription_cancelled':
+      case 'subscription_reactivated':
       case 'subscription_renewed':
       case 'subscription_deleted':
+      case 'subscription_paused':
+      case 'subscription_pause_scheduled':
+      case 'subscription_scheduled_pause_removed':
       case 'subscription_resumed':
-      case 'subscription_activated':
-      case 'subscription_cancelled':
-      case 'subscription_changed':
+      case 'subscription_resumption_scheduled':
+      case 'subscription_scheduled_resumption_removed':
         await handleSubscriptionEvent(chargebee, chargebeeEvent);
         break;
     }
