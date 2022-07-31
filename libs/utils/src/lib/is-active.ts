@@ -1,8 +1,36 @@
 import { StandardPlan } from '@tnmw/types';
 
 const individualPlanIsActive = (cookDate: Date, plan: StandardPlan) => {
+  if (
+    plan.subscriptionStatus === 'cancelled' ||
+    plan.subscriptionStatus === 'in_trial'
+  ) {
+    return false;
+  }
+
   const pauseStart = plan.pauseStart && new Date(plan.pauseStart);
   const pauseEnd = plan.pauseEnd && new Date(plan.pauseEnd);
+  const startDate = plan.startDate && new Date(plan.startDate);
+
+  if (plan.subscriptionStatus === 'paused' && !pauseEnd) {
+    return false;
+  }
+
+  if (
+    plan.subscriptionStatus === 'future' &&
+    startDate &&
+    cookDate > startDate
+  ) {
+    return true;
+  }
+
+  if (
+    plan.subscriptionStatus === 'future' &&
+    startDate &&
+    cookDate <= startDate
+  ) {
+    return false;
+  }
 
   if (pauseEnd && cookDate > pauseEnd) {
     return true;
@@ -27,10 +55,5 @@ const individualPlanIsActive = (cookDate: Date, plan: StandardPlan) => {
   return true;
 };
 
-export const isActive = (cookDate: Date, plans: StandardPlan[]): boolean => {
-  const inactive = plans.find(
-    (plan) => !individualPlanIsActive(cookDate, plan)
-  );
-
-  return !inactive;
-};
+export const isActive = (cookDate: Date, plans: StandardPlan[]): boolean =>
+  !plans.find((plan) => !individualPlanIsActive(cookDate, plan));

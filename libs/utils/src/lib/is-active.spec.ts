@@ -13,20 +13,36 @@ const date = (day: number, month: number, year: number) => {
 
 describe('isActive', () => {
   it.each`
-    cookDay              | pauseStart           | pauseEnd             | subscriptionStatus | active
-    ${date(11, 6, 2022)} | ${undefined}         | ${undefined}         | ${'active'}        | ${true}
-    ${date(11, 6, 2022)} | ${date(18, 6, 2022)} | ${undefined}         | ${'active'}        | ${true}
-    ${date(11, 6, 2022)} | ${date(4, 6, 2022)}  | ${undefined}         | ${'active'}        | ${false}
-    ${date(11, 6, 2022)} | ${undefined}         | ${date(18, 6, 2022)} | ${'active'}        | ${false}
-    ${date(14, 6, 2022)} | ${date(4, 6, 2022)}  | ${date(12, 6, 2022)} | ${'active'}        | ${true}
-    ${date(5, 6, 2022)}  | ${date(4, 6, 2022)}  | ${date(12, 6, 2022)} | ${'active'}        | ${false}
+    cookDay              | pauseStart           | pauseEnd             | subscriptionStart   | subscriptionStatus | active
+    ${date(11, 6, 2022)} | ${undefined}         | ${undefined}         | ${undefined}        | ${'active'}        | ${true}
+    ${date(11, 6, 2022)} | ${date(18, 6, 2022)} | ${undefined}         | ${undefined}        | ${'active'}        | ${true}
+    ${date(11, 6, 2022)} | ${date(4, 6, 2022)}  | ${undefined}         | ${undefined}        | ${'active'}        | ${false}
+    ${date(11, 6, 2022)} | ${undefined}         | ${date(18, 6, 2022)} | ${undefined}        | ${'active'}        | ${false}
+    ${date(14, 6, 2022)} | ${date(4, 6, 2022)}  | ${date(12, 6, 2022)} | ${undefined}        | ${'active'}        | ${true}
+    ${date(5, 6, 2022)}  | ${date(4, 6, 2022)}  | ${date(12, 6, 2022)} | ${undefined}        | ${'active'}        | ${false}
+    ${date(5, 6, 2022)}  | ${undefined}         | ${undefined}         | ${date(2, 6, 2022)} | ${'future'}        | ${true}
+    ${date(1, 6, 2022)}  | ${undefined}         | ${undefined}         | ${date(2, 6, 2022)} | ${'future'}        | ${false}
+    ${date(5, 6, 2022)}  | ${undefined}         | ${undefined}         | ${undefined}        | ${'non_renewing'}  | ${true}
+    ${date(5, 6, 2022)}  | ${undefined}         | ${undefined}         | ${undefined}        | ${'in_trial'}      | ${false}
+    ${date(5, 6, 2022)}  | ${undefined}         | ${undefined}         | ${undefined}        | ${'paused'}        | ${false}
+    ${date(5, 6, 2022)}  | ${undefined}         | ${date(3, 6, 2022)}  | ${undefined}        | ${'paused'}        | ${true}
+    ${date(2, 6, 2022)}  | ${undefined}         | ${date(3, 6, 2022)}  | ${undefined}        | ${'paused'}        | ${false}
+    ${date(5, 6, 2022)}  | ${undefined}         | ${undefined}         | ${undefined}        | ${'cancelled'}     | ${false}
   `(
-    `Should return $active if the cookday is $cookDay, pause start is $pauseStart and pause end is $pauseEnd with a subscription status of $subscriptionStatus`,
-    ({ cookDay, pauseStart, pauseEnd, subscriptionStatus, active }) => {
+    `Should return $active if the cookday is $cookDay, pause start is $pauseStart and pause end is $pauseEnd with a subscription status of $subscriptionStatus and subscription start of $subscriptionStart`,
+    ({
+      cookDay,
+      pauseStart,
+      pauseEnd,
+      subscriptionStatus,
+      active,
+      subscriptionStart,
+    }) => {
       const mockPlan = mock<StandardPlan>({
         pauseStart: pauseStart?.getTime(),
         pauseEnd: pauseEnd?.getTime(),
         subscriptionStatus,
+        startDate: subscriptionStart?.getTime(),
       });
 
       const outcome = isActive(cookDay, [mockPlan]);
