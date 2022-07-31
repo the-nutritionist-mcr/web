@@ -56,4 +56,4 @@ const individualPlanIsActive = (cookDate: Date, plan: StandardPlan) => {
 };
 
 export const isActive = (cookDate: Date, plans: StandardPlan[]): boolean =>
-  !plans.find((plan) => !individualPlanIsActive(cookDate, plan));
+  !plans.some((plan) => !individualPlanIsActive(cookDate, plan));
