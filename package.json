@@ -41,7 +41,7 @@
     "@types/jsonwebtoken": "8.5.8",
     "@types/jwk-to-pem": "2.0.1",
     "@types/lodash": "4.14.182",
-    "@types/pdfmake": "0.2.0",
+    "@types/pdfmake": "0.2.1",
     "@types/ramda": "0.28.15",
     "@types/react-router-dom": "5.3.3",
     "@types/redux-localstorage": "1.0.8",
