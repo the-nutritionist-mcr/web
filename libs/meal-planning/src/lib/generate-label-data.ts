@@ -1,6 +1,6 @@
 import { CustomerMealsSelection, isSelectedMeal, SelectedItem } from './types';
 import { createVariant } from './create-variant';
-import { Recipe, Customer } from '@tnmw/types';
+import { Recipe, Customer, CustomerWithChargebeePlan } from '@tnmw/types';
 
 const stringifyValue = (thing: unknown) =>
   typeof thing === 'number' ? String(thing) : thing;
@@ -53,23 +53,12 @@ const formatDate = (date: Date) => {
   )}/${convertToStringWithLeadingZero(month)}/${year}`;
 };
 
-interface Label {
-  customerName: string;
-  mealName: string;
-  description: string;
-  allergens: string;
-  itemPlan: string;
-  customisations: string;
-  hotOrCold: string;
-  useBy: string;
-}
-
 const makeLabelObject = (
-  customer: Customer,
+  customer: CustomerWithChargebeePlan,
   item: SelectedItem,
   useByDate: Date,
   allMeals: Recipe[]
-): Label => {
+): Record<string, string> => {
   if (isSelectedMeal(item)) {
     const variant = createVariant(customer, item, allMeals);
     const { hotOrCold } = item.recipe;
@@ -82,7 +71,7 @@ const makeLabelObject = (
       mealName: titleCase(item.recipe.name),
 
       // eslint-disable-next-line unicorn/consistent-destructuring
-      description: item.recipe.description,
+      description: item.recipe.description ?? '',
       allergens: `Contains ${
         // eslint-disable-next-line unicorn/consistent-destructuring
         item.recipe.allergens?.trim()
@@ -91,7 +80,7 @@ const makeLabelObject = (
           : 'no allergens'
       }`,
       itemPlan: item.chosenVariant,
-      customisations: variant.exclusions ?? '',
+      customisations: variant.string ?? '',
       hotOrCold: `Enjoy ${hotOrCold}`,
       useBy: `Use by ${formatDate(useByDate)}`,
     };
@@ -100,6 +89,7 @@ const makeLabelObject = (
     // eslint-disable-next-line unicorn/consistent-destructuring
     customerName: titleCase(`${customer.firstName} ${customer.surname}`),
     mealName: titleCase(item.chosenVariant),
+    description: '',
     allergens: '',
     itemPlan: 'Extra',
     customisations: '',
@@ -109,27 +99,27 @@ const makeLabelObject = (
 };
 
 const sortFunction = (a: Record<string, string>, b: Record<string, string>) => {
-  if (a.mealName > b.mealName) {
+  if (a['mealName'] > b['mealName']) {
     return 1;
   }
 
-  if (a.mealName < b.mealName) {
+  if (a['mealName'] < b['mealName']) {
     return -1;
   }
 
-  if (a.itemPlan > b.itemPlan) {
+  if (a['itemPlan'] > b['itemPlan']) {
     return 1;
   }
 
-  if (a.itemPlan < b.itemPlan) {
+  if (a['itemPlan'] < b['itemPlan']) {
     return -1;
   }
 
-  if (a.surname > b.surname) {
+  if (a['surname'] > b['surname']) {
     return 1;
   }
 
-  if (a.surname < b.surname) {
+  if (a['surname'] < b['surname']) {
     return -1;
   }
 
@@ -156,6 +146,6 @@ export const generateLabelData = (
       );
     })
     // eslint-disable-next-line unicorn/no-array-callback-reference
-    .map(normalize)
+    .map((item) => normalize(item))
     .slice()
     .sort(sortFunction);

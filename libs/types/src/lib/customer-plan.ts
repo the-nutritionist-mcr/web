@@ -6,9 +6,7 @@ export type PlanLabels =
   | 'Low-CHO'
   | 'Seasonal Soup'
   | 'Breakfast'
-  | 'Snack'
-  | 'Large Snack'
-  | 'Seasonal Soup';
+  | 'Snacks';
 
 export type ExtrasLabels =
   | 'Breakfast'

@@ -4,4 +4,6 @@ export interface StandardPlan {
   itemsPerDay: number;
   isExtra: boolean;
   totalMeals: number;
+  pauseStart?: Date;
+  pauseEnd?: Date;
 }

@@ -7,7 +7,6 @@ import {
   DaysPerWeek,
   CustomerPlan,
   PlanConfiguration,
-  CustomerPlanWithoutConfiguration,
 } from '@tnmw/types';
 import { curry, pipe } from 'ramda';
 import { extrasLabels, planLabels, defaultDeliveryDays } from '@tnmw/config';
@@ -85,8 +84,11 @@ const distributeAndMultiply = curry(
     inputPlan: Delivery[]
   ) =>
     pipe<Delivery[], Delivery[], Delivery[]>(
-      distributeItems(daysPerWeek, target, section),
+      distributeItems(daysPerWeek, target, section) as (
+        ...a: Delivery[]
+      ) => Delivery[],
       multiplyItems(target, multiple)
+      // @ts-ignore
     )(inputPlan)
 );
 
