@@ -13094,10 +13094,10 @@ constants-browserify@1.0.0, constants-browserify@^1.0.0:
   resolved "https://registry.npmjs.org/constants-browserify/-/constants-browserify-1.0.0.tgz#c20b96d8c617748aaf1c16021760cd27fcb8cb75"
   integrity sha1-wguW2MYXdIqvHBYCF2DNJ/y4y3U=
 
-constructs@10.1.61:
-  version "10.1.61"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.1.61.tgz#050e2e4f872848166970d2efbf545fc90c2a28df"
-  integrity sha512-o+ux1qAzR1QQEWDdybKFJyHdEdpPbUllvsJt0XAmSjZ0iilStAUNEVfGRU+vhGA5PffvO+V/AaUHfb6B3TGUUw==
+constructs@10.1.62:
+  version "10.1.62"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.1.62.tgz#e3a5cd93118dcbc5d4cb273c2a5a0089d4eb6fad"
+  integrity sha512-1480IwCI5yhxiodJqjO9rkozt+8WryVFycMpTjROtktdt8zMXsadaPYnEH/YsY027myu50/fjWKPwcuWOujAIg==
 
 content-disposition@0.5.4:
   version "0.5.4"
@@ -19816,10 +19816,10 @@ magic-string@^0.25.7:
   dependencies:
     sourcemap-codec "^1.4.4"
 
-mailslurp-client@15.13.0:
-  version "15.13.0"
-  resolved "https://registry.yarnpkg.com/mailslurp-client/-/mailslurp-client-15.13.0.tgz#bdd149040488761ba439c54458c4b2a1d4565b6e"
-  integrity sha512-4Sn0fwQoOy+WV1YnAR/HZ1tmjUCpW6tK8g/V4CN3qNW9G8C0pk+MeSw1MgQQjVKRl4LmdWi4tV8UF4Fb/FqM0w==
+mailslurp-client@15.13.1:
+  version "15.13.1"
+  resolved "https://registry.yarnpkg.com/mailslurp-client/-/mailslurp-client-15.13.1.tgz#21ec80d8f9435a2bd73a87eb687e6a838a17ce36"
+  integrity sha512-M3mjlZ1pcJaw+aLNLYxB0sRYzKii77TOHR96+79T15j0pFfygXAuAblCAd6fSV0VWppyc/7c19ZQRBDIeB0vsg==
   dependencies:
     cross-fetch "^3.1.5"
     es6-promise "^4.2.8"
