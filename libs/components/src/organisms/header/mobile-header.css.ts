@@ -6,6 +6,8 @@ import menuSvg from './menu.svg';
 import tnmNLogo from './tnm-n-logo.svg';
 
 export const menuButton = style({
+  width: '40px',
+  height: '40px',
   border: 0,
   background: 0,
 });
