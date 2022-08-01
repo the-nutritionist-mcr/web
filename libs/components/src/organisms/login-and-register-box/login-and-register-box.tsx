@@ -11,7 +11,7 @@ interface LoginAndRegisterBoxProps {
 }
 
 const Box = styled.div`
-  width: 500px;
+  width: clamp(200px, 100vw, 500px);
   border-top: 1px solid black;
   border-left: 1px solid black;
   border-right: 1px solid black;
