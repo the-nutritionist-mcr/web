@@ -48,7 +48,6 @@ export const gettingStartedWrapper = style({
 });
 
 export const mobileHeaderGettingStartedButton = style({
-  display: 'block',
   width: '75px',
   fontSize: '13px',
   padding: '10px 45px',
@@ -65,7 +64,6 @@ export const mobileHeaderGettingStartedButton = style({
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
-  fontWeight: 700,
   background: '#292929',
   color: '#fff',
   border: '1px solid #000',
