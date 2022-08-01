@@ -12,16 +12,16 @@ const date = (day: number, month: number, year: number, hour: number) => {
 
 describe('get closed or open status', () => {
   it.each`
-    nowDay | nowMonth | nowYear | nowHour | data                                                 | open
-    ${30}  | ${7}     | ${2022} | ${11}   | ${{ available: true, date: date(25, 7, 2022, 12) }}  | ${false}
-    ${30}  | ${7}     | ${2022} | ${11}   | ${undefined}                                         | ${false}
-    ${25}  | ${7}     | ${2022} | ${11}   | ${undefined}                                         | ${false}
-    ${27}  | ${7}     | ${2022} | ${11}   | ${{ available: true, date: date(25, 7, 2022, 12) }}  | ${true}
-    ${27}  | ${7}     | ${2022} | ${14}   | ${{ available: true, date: date(25, 7, 2022, 12) }}  | ${false}
-    ${26}  | ${7}     | ${2022} | ${11}   | ${{ available: true, date: date(25, 7, 2022, 12) }}  | ${true}
-    ${26}  | ${7}     | ${2022} | ${11}   | ${{ available: false, date: date(25, 7, 2022, 12) }} | ${false}
-    ${25}  | ${7}     | ${2022} | ${17}   | ${{ available: true, date: date(25, 7, 2022, 12) }}  | ${true}
-    ${25}  | ${7}     | ${2022} | ${17}   | ${{ available: true, date: date(18, 7, 2022, 12) }}  | ${false}
+    nowDay | nowMonth | nowYear | nowHour | data                                                                  | open
+    ${30}  | ${7}     | ${2022} | ${11}   | ${{ available: true, date: date(25, 7, 2022, 12), published: true }}  | ${false}
+    ${30}  | ${7}     | ${2022} | ${11}   | ${undefined}                                                          | ${false}
+    ${25}  | ${7}     | ${2022} | ${11}   | ${undefined}                                                          | ${false}
+    ${27}  | ${7}     | ${2022} | ${11}   | ${{ available: true, date: date(25, 7, 2022, 12), published: true }}  | ${true}
+    ${27}  | ${7}     | ${2022} | ${14}   | ${{ available: true, date: date(25, 7, 2022, 12), published: true }}  | ${false}
+    ${26}  | ${7}     | ${2022} | ${11}   | ${{ available: true, date: date(25, 7, 2022, 12), published: true }}  | ${true}
+    ${26}  | ${7}     | ${2022} | ${11}   | ${{ available: true, date: date(25, 7, 2022, 12), published: false }} | ${false}
+    ${25}  | ${7}     | ${2022} | ${17}   | ${{ available: true, date: date(25, 7, 2022, 12), published: true }}  | ${true}
+    ${25}  | ${7}     | ${2022} | ${17}   | ${{ available: true, date: date(18, 7, 2022, 12), published: true }}  | ${false}
   `(
     `When date is $nowDay/$nowMonth/$nowYear:$nowHour and data is $data, result should be $open`,
     ({ nowDay, nowMonth, nowYear, nowHour, data, open }) => {

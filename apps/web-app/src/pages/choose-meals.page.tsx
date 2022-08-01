@@ -34,10 +34,12 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
   useEffect(() => {
     const now = new Date(Date.now());
 
-    const go = getClosedOrOpenStatus(now, data);
+    if (data?.available) {
+      const go = getClosedOrOpenStatus(now, data);
 
-    if (go) {
-      window.location = '/account';
+      if (!go) {
+        window.location.href = '/account';
+      }
     }
   }, [data]);
 

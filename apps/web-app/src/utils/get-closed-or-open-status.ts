@@ -1,8 +1,10 @@
 const getClosingDate = (date: Date) => {
-  let newDate = new Date(date.valueOf());
-  do {
-    newDate.setDate(newDate.getDate() + 1);
-  } while (newDate.getDay() !== 3);
+  const newDate = new Date(date.valueOf());
+  newDate.setDate(newDate.getDate() + 1);
+
+  if (newDate.getDay() !== 3) {
+    return getClosingDate(newDate);
+  }
 
   newDate.setHours(12, 0, 0);
 
@@ -11,13 +13,20 @@ const getClosingDate = (date: Date) => {
 
 export const getClosedOrOpenStatus = (
   now: Date,
-  data: { available: true; date: Date } | { available: false } | undefined
+  data:
+    | { published: boolean; available: true; date: Date }
+    | { available: false }
+    | undefined
 ) => {
   if (!data) {
     return false;
   }
 
   if (!data.available) {
+    return false;
+  }
+
+  if (!data.published) {
     return false;
   }
 
