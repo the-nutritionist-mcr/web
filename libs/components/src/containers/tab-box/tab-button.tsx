@@ -16,6 +16,7 @@ const TabButton: FC<TabButtonProps> = (props) => {
     cursor: pointer;
     padding: 1rem 3rem;
     font-size: 2rem;
+    color: black;
     background: ${props.active ? 'white' : '#E3E3E3'};
     border-bottom: ${props.active ? '0' : '1px solid black'};
     border-top: 0;
