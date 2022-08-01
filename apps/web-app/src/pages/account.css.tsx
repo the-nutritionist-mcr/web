@@ -10,3 +10,25 @@ export const sectionContents = style({
 export const chooseButtonContainer = style({
   marginBottom: '3.1rem',
 });
+
+export const notSupportedMessage = style({
+  '@media': {
+    'screen and (min-width: 900px)': {
+      display: 'none',
+    },
+  },
+});
+
+export const accountContainer = style({
+  '@media': {
+    'screen and (max-width: 900px)': {
+      display: 'none',
+    },
+  },
+});
+
+export const notSupportedTitle = style({
+  fontSize: '2rem',
+  marginBottom: '1rem',
+  fontFamily: '"Accumin Pro", Arial, sans-serif;',
+});

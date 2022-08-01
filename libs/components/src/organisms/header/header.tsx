@@ -1,18 +1,11 @@
-import { useBreakpoints } from '../../hooks';
-import { useTheme } from '@emotion/react';
-
 import DesktopHeader from './desktop-header';
-import MobileHeader from './mobile-header';
 import { AdminNav } from './admin-nav';
-import {
-  header,
-  siteNavbarDesktop,
-  headerMobile,
-  mainMenuContainer,
-} from './header.css';
+import { header, siteNavbarDesktop, mainMenuContainer } from './header.css';
+import { ReactNode } from 'react';
 
 interface HeaderProps {
   admin: boolean;
+  children: ReactNode;
 }
 
 const Header = (props: HeaderProps) => {

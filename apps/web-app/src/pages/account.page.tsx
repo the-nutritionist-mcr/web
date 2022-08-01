@@ -1,6 +1,12 @@
 import { FC, useContext } from 'react';
 import { getClosingDate } from '../utils/get-closing-date';
-import { UserContext, Hero, Account } from '@tnmw/components';
+import {
+  UserContext,
+  Hero,
+  Account,
+  ParagraphText,
+  Heading,
+} from '@tnmw/components';
 import Router from 'next/router';
 import { signOut } from '../aws/authenticate';
 import { PageSpacing } from './page-spacing';
@@ -14,6 +20,11 @@ import {
 
 import { usePlan } from '../hooks';
 import { getClosedOrOpenStatus } from '../utils/get-closed-or-open-status';
+import {
+  accountContainer,
+  notSupportedMessage,
+  notSupportedTitle,
+} from './account.css';
 
 const YourAccountHeaderBox = styled('div')`
   text-align: center;
@@ -59,12 +70,22 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
           <YourAccountHeader>Your Account</YourAccountHeader>
         </YourAccountHeaderBox>
       </Hero>
+
       <PageSpacing>
-        <Account
-          userDetails={user}
-          showChooseButton={showChooseButton}
-          logout={logout}
-        />
+        <div className={accountContainer}>
+          <Account
+            userDetails={user}
+            showChooseButton={showChooseButton}
+            logout={logout}
+          />
+        </div>
+        <div className={notSupportedMessage}>
+          <h2 className={notSupportedTitle}>Not Supported</h2>
+          <ParagraphText>
+            The beta release of our customer portal does not yet support mobile
+            layouts. Check back soon!
+          </ParagraphText>
+        </div>
       </PageSpacing>
     </>
   );

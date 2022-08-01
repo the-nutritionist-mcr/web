@@ -1,10 +1,11 @@
-import { FC, createElement } from 'react';
+import { createElement, ReactNode } from 'react';
 
 interface HeadingProps {
   level: number;
+  children: ReactNode;
 }
 
-const Heading: FC<HeadingProps> = (props) => {
+const Heading = (props: HeadingProps) => {
   return createElement(`h${props.level}`, {}, props.children);
 };
 
