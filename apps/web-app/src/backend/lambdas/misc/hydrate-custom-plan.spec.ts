@@ -32,11 +32,7 @@ describe('hydrate custom plan', () => {
         isExtra: true,
       },
       {
-        name: 'Snack',
-        isExtra: true,
-      },
-      {
-        name: 'Large Snack',
+        name: 'Snacks',
         isExtra: true,
       },
     ];
@@ -72,11 +68,7 @@ describe('hydrate custom plan', () => {
             quantity: 1,
           },
           {
-            name: 'Snack',
-            quantity: 0,
-          },
-          {
-            name: 'Large Snack',
+            name: 'Snacks',
             quantity: 0,
           },
         ],
@@ -119,49 +111,11 @@ describe('hydrate custom plan', () => {
         ],
         extras: [],
       },
-      {
-        items: [
-          {
-            name: 'Equilibrium',
-            quantity: 3,
-          },
-          {
-            name: 'Mass',
-            quantity: 0,
-          },
-          {
-            name: 'Micro',
-            quantity: 0,
-          },
-          {
-            name: 'Ultra Micro',
-            quantity: 0,
-          },
-          {
-            name: 'Low-CHO',
-            quantity: 0,
-          },
-          {
-            name: 'Seasonal Soup',
-            quantity: 0,
-          },
-          {
-            name: 'Breakfast',
-            quantity: 0,
-          },
-          {
-            name: 'Snacks',
-            quantity: 0,
-          },
-        ],
-        extras: [],
-      },
     ];
 
     const result = hydrateCustomPlan(delivery, families);
 
     expect(result[0].items[0].isExtra).toEqual(false);
     expect(result[1].items[3].isExtra).toEqual(false);
-    expect(result[2].items[6].isExtra).toEqual(true);
   });
 });

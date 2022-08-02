@@ -23,6 +23,7 @@ jobs:
           - seed-cognito
           - constants
           - utils
+          - web-app
 
         target:
           - test

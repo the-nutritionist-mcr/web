@@ -14,14 +14,24 @@ import { mockClient } from 'aws-sdk-client-mock';
 import { when } from 'jest-when';
 import { ENV, HTTP, COGNITO, CHARGEBEE } from '@tnmw/constants';
 import { getPlans } from './get-plans';
+import { getSecrets } from '../get-secrets';
+import { StandardPlan } from '@tnmw/types';
 
 const cognitoMock = mockClient(CognitoIdentityProviderClient);
 
 jest.mock('./get-plans');
+jest.mock('../get-secrets');
 
 describe('the webhook handler', () => {
   beforeEach(() => {
     jest.mocked(getPlans).mockResolvedValue([]);
+    jest
+      .mocked(getSecrets)
+      .mockReturnValue([
+        Promise.resolve('my-token'),
+        Promise.resolve('my-user'),
+        Promise.resolve('my-password'),
+      ]);
   });
 
   afterEach(() => {
@@ -47,6 +57,14 @@ describe('the webhook handler', () => {
     const encodedBasicAuth = Buffer.from(
       `${basicAuthUser}:${basicAuthPassword}`
     ).toString('base64');
+
+    jest
+      .mocked(getSecrets)
+      .mockReturnValue([
+        Promise.resolve('my-token'),
+        Promise.resolve('something-else'),
+        Promise.resolve('something-more-else'),
+      ]);
 
     process.env[ENV.varNames.ChargeBeeWebhookUsername] = 'test-user';
     process.env[ENV.varNames.ChargeBeeWebhookPasssword] = 'test-password';
@@ -137,6 +155,14 @@ describe('the webhook handler', () => {
     const basicAuthUser = 'test-user';
     const basicAuthPassword = 'test-password';
 
+    jest
+      .mocked(getSecrets)
+      .mockReturnValue([
+        Promise.resolve('my-token'),
+        Promise.resolve(basicAuthUser),
+        Promise.resolve(basicAuthPassword),
+      ]);
+
     process.env[ENV.varNames.ChargeBeeWebhookUsername] = basicAuthUser;
     process.env[ENV.varNames.ChargeBeeWebhookPasssword] = basicAuthPassword;
     process.env[ENV.varNames.ChargeBeeToken] = 'foo';
@@ -224,8 +250,9 @@ describe('the webhook handler', () => {
     jest.resetAllMocks();
     process.env[ENV.varNames.CognitoPoolId] = 'test-pool-id';
     process.env[ENV.varNames.ChargeBeeToken] = 'foo';
-    const mockPlans = [
+    const mockPlans: StandardPlan[] = [
       {
+        subscriptionStatus: 'active',
         name: 'Foo',
         daysPerWeek: 4,
         itemsPerDay: 8,
@@ -253,7 +280,7 @@ describe('the webhook handler', () => {
       id: 'ev_19ACW8Srxbe2l3cp',
       occurred_at: 1639842412,
       source: 'admin_console',
-      user: 'lawrence@thenutritionistmcr.com',
+      user: 'bwainwright28@gmail.com',
       object: 'event',
       api_version: 'v2',
       content: {
@@ -296,7 +323,7 @@ describe('the webhook handler', () => {
           id: testCustomerId,
           first_name: 'Ben',
           last_name: 'Wainwright',
-          email: 'ben+hellotest@thenutritionistmcr.com',
+          email: 'bwainwright28@gmail.com',
           phone: '07872591841',
           company: 'Company',
           auto_collection: 'on',
@@ -539,6 +566,14 @@ describe('the webhook handler', () => {
     process.env[ENV.varNames.EnvironmentName] = 'prod';
     process.env[ENV.varNames.ChargeBeeToken] = 'foo';
 
+    jest
+      .mocked(getSecrets)
+      .mockReturnValue([
+        Promise.resolve('my-token'),
+        Promise.resolve(basicAuthUser),
+        Promise.resolve(basicAuthPassword),
+      ]);
+
     const encodedBasicAuth = Buffer.from(
       `${basicAuthUser}:${basicAuthPassword}`
     ).toString('base64');
@@ -600,7 +635,7 @@ describe('the webhook handler', () => {
       id: 'ev_19ACW8Srxbe2l3cp',
       occurred_at: 1639842412,
       source: 'admin_console',
-      user: 'lawrence@thenutritionistmcr.com',
+      user: 'bwainwright28@gmail.com',
       object: 'event',
       api_version: 'v2',
       content: {
@@ -641,7 +676,7 @@ describe('the webhook handler', () => {
           id: testCustomerId,
           first_name: 'Ben',
           last_name: 'Wainwright',
-          email: 'ben+test@thenutritionistmcr.com',
+          email: 'bwainwright28@gmail.com',
           auto_collection: 'on',
           net_term_days: 0,
           allow_direct_debit: false,
@@ -819,6 +854,14 @@ describe('the webhook handler', () => {
     const basicAuthUser = 'test-user';
     const basicAuthPassword = 'test-password';
 
+    jest
+      .mocked(getSecrets)
+      .mockReturnValue([
+        Promise.resolve('my-token'),
+        Promise.resolve(basicAuthUser),
+        Promise.resolve(basicAuthPassword),
+      ]);
+
     process.env[ENV.varNames.ChargeBeeWebhookUsername] = basicAuthUser;
     process.env[ENV.varNames.ChargeBeeWebhookPasssword] = basicAuthPassword;
     process.env[ENV.varNames.ChargeBeeToken] = 'foo';
@@ -855,7 +898,7 @@ describe('the webhook handler', () => {
     /* eslint-disable unicorn/numeric-separators-style */
 
     const testCustomerId = 'test-customer-id';
-    const testEmail = 'ben+test@thenutritionistmcr.com';
+    const testEmail = 'bwainwright28@gmail.com';
 
     const basicAuthUser = 'test-user';
     const basicAuthPassword = 'test-password';
@@ -864,6 +907,14 @@ describe('the webhook handler', () => {
     process.env[ENV.varNames.ChargeBeeWebhookPasssword] = basicAuthPassword;
     process.env[ENV.varNames.EnvironmentName] = 'prod';
     process.env[ENV.varNames.ChargeBeeToken] = 'foo';
+
+    jest
+      .mocked(getSecrets)
+      .mockReturnValue([
+        Promise.resolve('my-token'),
+        Promise.resolve(basicAuthUser),
+        Promise.resolve(basicAuthPassword),
+      ]);
 
     const encodedBasicAuth = Buffer.from(
       `${basicAuthUser}:${basicAuthPassword}`
@@ -874,7 +925,7 @@ describe('the webhook handler', () => {
       id: 'ev_19ACW8Srxbe2l3cp',
       occurred_at: 1639842412,
       source: 'admin_console',
-      user: 'lawrence@thenutritionistmcr.com',
+      user: 'bwainwright28@gmail.com',
       object: 'event',
       api_version: 'v2',
       content: {
@@ -1063,10 +1114,18 @@ describe('the webhook handler', () => {
     /* eslint-disable unicorn/numeric-separators-style */
 
     const testCustomerId = 'test-customer-id';
-    const testEmail = 'hello@example.com';
+    const testEmail = 'bwainwright28@gmail.com';
 
     const basicAuthUser = 'test-user';
     const basicAuthPassword = 'test-password';
+
+    jest
+      .mocked(getSecrets)
+      .mockReturnValue([
+        Promise.resolve('my-token'),
+        Promise.resolve(basicAuthUser),
+        Promise.resolve(basicAuthPassword),
+      ]);
 
     process.env[ENV.varNames.ChargeBeeWebhookUsername] = basicAuthUser;
     process.env[ENV.varNames.ChargeBeeToken] = 'foo';
@@ -1082,7 +1141,7 @@ describe('the webhook handler', () => {
       id: 'ev_19ACW8Srxbe2l3cp',
       occurred_at: 1639842412,
       source: 'admin_console',
-      user: 'lawrence@thenutritionistmcr.com',
+      user: 'bwainwright28@gmail.com',
       object: 'event',
       api_version: 'v2',
       content: {
@@ -1107,7 +1166,7 @@ describe('the webhook handler', () => {
           billing_address: {
             first_name: 'Scott',
             last_name: 'Dylan',
-            email: 'someone@thenutritionistmcr.com',
+            email: 'bwainwright28@gmail.com',
             phone: '+447462699468',
             line1: '14 Wadlow Close',
             line2: 'another line',
@@ -1245,15 +1304,31 @@ describe('the webhook handler', () => {
     /* eslint-disable unicorn/numeric-separators-style */
 
     const testCustomerId = 'test-customer-id';
-    const testEmail = 'test@thenutritionistmcr.com';
+    const testEmail = 'foo@thenutritionistmcr.com';
 
     const basicAuthUser = 'test-user';
     const basicAuthPassword = 'test-password';
+
+    jest
+      .mocked(getSecrets)
+      .mockReturnValue([
+        Promise.resolve('my-token'),
+        Promise.resolve(basicAuthUser),
+        Promise.resolve(basicAuthPassword),
+      ]);
 
     process.env[ENV.varNames.ChargeBeeToken] = 'foo';
     process.env[ENV.varNames.ChargeBeeWebhookUsername] = basicAuthUser;
     process.env[ENV.varNames.ChargeBeeWebhookPasssword] = basicAuthPassword;
     process.env[ENV.varNames.EnvironmentName] = 'non-production';
+
+    jest
+      .mocked(getSecrets)
+      .mockReturnValue([
+        Promise.resolve('my-token'),
+        Promise.resolve(basicAuthUser),
+        Promise.resolve(basicAuthPassword),
+      ]);
 
     const encodedBasicAuth = Buffer.from(
       `${basicAuthUser}:${basicAuthPassword}`
@@ -1264,7 +1339,7 @@ describe('the webhook handler', () => {
       id: 'ev_19ACW8Srxbe2l3cp',
       occurred_at: 1639842412,
       source: 'admin_console',
-      user: 'lawrence@thenutritionistmcr.com',
+      user: 'foo@thenutritionistmcr.com',
       object: 'event',
       api_version: 'v2',
       content: {
@@ -1289,7 +1364,7 @@ describe('the webhook handler', () => {
           billing_address: {
             first_name: 'Scott',
             last_name: 'Dylan',
-            email: 'someone@thenutritionistmcr.com',
+            email: 'foo@thenutritionistmcr.com',
             phone: '+447462699468',
             line1: '14 Wadlow Close',
             line2: 'another line',
@@ -1392,7 +1467,7 @@ describe('the webhook handler', () => {
         },
         {
           Name: COGNITO.standardAttributes.email,
-          Value: testEmail,
+          Value: 'foo@thenutritionistmcr.com',
         },
         {
           Name: COGNITO.standardAttributes.emailVerified,
