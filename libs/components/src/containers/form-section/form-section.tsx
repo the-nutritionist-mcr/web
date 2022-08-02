@@ -6,6 +6,8 @@ import {
   iconContainer,
   sectionContents,
 } from './form-section.css';
+import { ToolTip } from '../../molecules';
+import { CONTACT_EMAIL } from '@tnmw/constants';
 
 interface FormSectionProps {
   children: React.ReactNode;
@@ -20,9 +22,13 @@ const FormSection = (props: FormSectionProps) => (
       <div className={gridContainer}>{props.children}</div>
 
       {props.showQuestionMarkIcon && (
-        <div className={iconContainer}>
-          <IconButton icon={QuestionMarkIcon} a11yLabel="Information" />
-        </div>
+        <ToolTip
+          text={`This section cannot be edited - please email ${CONTACT_EMAIL} if you need to make any changes`}
+        >
+          <div className={iconContainer}>
+            <IconButton icon={QuestionMarkIcon} a11yLabel="Information" />
+          </div>
+        </ToolTip>
       )}
     </div>
   </div>
