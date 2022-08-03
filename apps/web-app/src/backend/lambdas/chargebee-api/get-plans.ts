@@ -14,11 +14,11 @@ interface SubscriptionItem {
 
 export const getPlans = async (
   client: ChargeBee,
-  subscription: Subscription
+  customerId: string
 ): Promise<StandardPlan[]> => {
   const response = await client.subscription
     .list({
-      customer_id: { is: subscription.customer_id },
+      customer_id: { is: customerId },
       status: {
         in: [
           CHARGEBEE.subscriptionStatuses.active,

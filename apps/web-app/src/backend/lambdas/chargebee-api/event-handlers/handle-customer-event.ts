@@ -8,6 +8,8 @@ import {
 import { CHARGEBEE, COGNITO, E2E, ENV } from '@tnmw/constants';
 import { ChargeBee } from 'chargebee-typescript';
 import { transformPhoneNumberToCognitoFormat } from '../../transform-phone-number';
+import { handleSubscriptionEvent } from './handle-subscription-event';
+import { userExists } from '../user-exists';
 
 export const handleCustomerEvent = async (
   client: ChargeBee,
@@ -121,23 +123,37 @@ export const handleCustomerEvent = async (
     ],
   };
 
-  const command =
-    event.event_type === 'customer_created'
-      ? new AdminCreateUserCommand({
-          ...input,
-          DesiredDeliveryMediums: ['EMAIL'],
-        })
-      : new AdminUpdateUserAttributesCommand(input);
-
   const cognito = new CognitoIdentityProviderClient({});
 
-  await cognito.send(command);
+  if (
+    event.event_type === 'customer_changed' &&
+    !(await userExists(id, poolId))
+  ) {
+    new AdminCreateUserCommand({
+      ...input,
+      DesiredDeliveryMediums: ['EMAIL'],
+    });
 
-  if (environment !== 'prod' && email.trim().toLowerCase() === E2E.testEmail) {
+    await handleSubscriptionEvent(client, id);
+  } else {
+    await (event.event_type === 'customer_created'
+      ? cognito.send(
+          new AdminCreateUserCommand({
+            ...input,
+            DesiredDeliveryMediums: ['EMAIL'],
+          })
+        )
+      : cognito.send(new AdminUpdateUserAttributesCommand(input)));
+  }
+
+  if (
+    environment !== 'prod' &&
+    email.trim().toLowerCase() === E2E.testCustomer.email
+  ) {
     const client = new CognitoIdentityProviderClient({});
 
     const params = {
-      Password: E2E.testPassword,
+      Password: E2E.testCustomer.password,
       Permanent: true,
       Username: id,
       UserPoolId: poolId,

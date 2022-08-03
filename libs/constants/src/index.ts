@@ -7,6 +7,7 @@ export { COGNITO } from './lib/cognito';
 export const CONTACT_EMAIL = 'hello@thenutritionistmcr.com';
 
 export const E2E = {
+  testPassword: 'test-password',
   nonExistingUser: {
     username: 'test-chargebee-cypress-user-2',
     email: 'ben+e2etestinguser@thenutritionistmcr.com',

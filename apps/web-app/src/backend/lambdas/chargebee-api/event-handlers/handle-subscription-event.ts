@@ -9,18 +9,15 @@ import { getPlans } from '../get-plans';
 
 export const handleSubscriptionEvent = async (
   client: ChargeBee,
-  event: ReturnType<typeof client.event.deserialize>
+  customerId: string
 ) => {
   const poolId = process.env[ENV.varNames.CognitoPoolId];
-  const { id } = event.content.customer;
 
-  const subscription = event.content.subscription;
-
-  const plans = await getPlans(client, subscription);
+  const plans = await getPlans(client, customerId);
 
   const input: AdminUpdateUserAttributesCommandInput = {
     UserPoolId: poolId,
-    Username: id,
+    Username: customerId,
     UserAttributes: [
       {
         Name: `custom:${COGNITO.customAttributes.Plans}`,

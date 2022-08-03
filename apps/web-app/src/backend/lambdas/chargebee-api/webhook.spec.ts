@@ -16,14 +16,17 @@ import { ENV, HTTP, COGNITO, CHARGEBEE } from '@tnmw/constants';
 import { getPlans } from './get-plans';
 import { getSecrets } from '../get-secrets';
 import { StandardPlan } from '@tnmw/types';
+import { userExists } from './user-exists';
 
 const cognitoMock = mockClient(CognitoIdentityProviderClient);
 
 jest.mock('./get-plans');
+jest.mock('./user-exists');
 jest.mock('../get-secrets');
 
 describe('the webhook handler', () => {
   beforeEach(() => {
+    jest.mocked(userExists).mockResolvedValue(true);
     jest.mocked(getPlans).mockResolvedValue([]);
     jest
       .mocked(getSecrets)
@@ -262,18 +265,7 @@ describe('the webhook handler', () => {
     ];
     const testCustomerId = 'test-customer-id';
     when(jest.mocked(getPlans))
-      .calledWith(
-        expect.anything(),
-        expect.objectContaining({
-          customer_id: testCustomerId,
-          subscription_items: expect.arrayContaining([
-            expect.objectContaining({
-              item_type: 'plan',
-              item_price_id: mockItemPriceId,
-            }),
-          ]),
-        })
-      )
+      .calledWith(expect.anything(), testCustomerId)
       .mockResolvedValue(mockPlans);
 
     const webhookBody = {
@@ -617,18 +609,7 @@ describe('the webhook handler', () => {
     ];
     const testCustomerId = 'test-customer-id';
     when(jest.mocked(getPlans))
-      .calledWith(
-        expect.anything(),
-        expect.objectContaining({
-          customer_id: testCustomerId,
-          subscription_items: expect.arrayContaining([
-            expect.objectContaining({
-              item_type: 'plan',
-              item_price_id: mockItemPriceId,
-            }),
-          ]),
-        })
-      )
+      .calledWith(expect.anything(), testCustomerId)
       .mockResolvedValue(mockPlans);
 
     const webhookBody = {
@@ -1099,8 +1080,8 @@ describe('the webhook handler', () => {
     const calls = cognitoMock.commandCalls(
       // TODO raise bug report on aws-sdk-client-mock repo for this type error
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      AdminUpdateUserAttributesCommand as any,
-      input
+      AdminUpdateUserAttributesCommand as any
+      // input
     );
 
     expect(calls).toHaveLength(1);
