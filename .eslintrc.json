@@ -11,6 +11,7 @@
         "plugin:security/recommended"
       ],
       "rules": {
+        "unicorn/prefer-logical-operator-over-ternary": "off",
         "unicorn/no-null": "off",
         "security/detect-non-literal-fs-filename": "off",
         "security/detect-object-injection": "off",

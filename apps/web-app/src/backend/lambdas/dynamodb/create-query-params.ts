@@ -20,6 +20,7 @@ const reserved = new Set([
   'ARRAY',
   'AS',
   'ASC',
+  // eslint-disable-next-line unicorn/text-encoding-identifier-case
   'ASCII',
   'ASENSITIVE',
   'ASSERTION',

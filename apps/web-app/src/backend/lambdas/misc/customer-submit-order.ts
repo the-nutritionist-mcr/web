@@ -112,11 +112,13 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       Message: {
         Body: {
           Html: {
+            // eslint-disable-next-line unicorn/text-encoding-identifier-case
             Charset: 'UTF-8',
             Data: emailTemplate,
           },
         },
         Subject: {
+          // eslint-disable-next-line unicorn/text-encoding-identifier-case
           Charset: 'UTF-8',
           Data: 'Your Meal Choices',
         },
