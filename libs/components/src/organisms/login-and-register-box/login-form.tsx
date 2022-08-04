@@ -26,7 +26,7 @@ const LoginForm: FC<LoginFormProps> = (props) => (
   >
     <Input label="Email" placeholder="a@b.com" name="email" type="email" />
     <Input label="Password" name="password" type="password" />
-    <StyledLink href="#">Forgot your password?</StyledLink>
+    <StyledLink href="/forgot-my-password">Forgot your password?</StyledLink>
   </ChallengeForm>
 );
 export default LoginForm;
