@@ -248,6 +248,7 @@ export const generateDistribution = (
   config: PlanConfiguration,
   defaultSettings: PlannerConfig
 ): Delivery[] =>
+  // @ts-ignore
   pipe(
     () => makeDefaultDeliveryPlan(defaultSettings, config),
 
@@ -257,7 +258,7 @@ export const generateDistribution = (
       'items',
       config.mealsPerDay * config.totalPlans
     ),
-
+    // @ts-ignore
     config.extrasChosen.reduce(
       (func, extra) =>
         pipe(
