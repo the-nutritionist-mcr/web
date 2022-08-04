@@ -22,6 +22,7 @@ import {
 } from '@tnmw/types';
 import { HttpError } from '../data-api/http-error';
 import { ENV, HTTP } from '@tnmw/constants';
+import { makeEmail } from './submit-order-email-template';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -81,29 +82,6 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     await dynamo.send(putCommand);
 
-    const emailTemplate = `
-    <h1>Thanks for making your selection</h1>
-    <table>
-      <tbody>
-      ${submitOrderData.deliveries.map(
-        (delivery) =>
-          `<tr>${
-            typeof delivery === 'string'
-              ? delivery
-              : delivery.map(
-                  (item) =>
-                    `<td>${
-                      isSelectedMeal(item)
-                        ? item.recipe.name
-                        : item.chosenVariant
-                    }</td>`
-                )
-          }</tr>`
-      )}
-      </tbody>
-    </table>
-    `;
-
     const email: SendEmailCommandInput = {
       Destination: {
         ToAddresses: [selection.customer.email],
@@ -114,7 +92,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
           Html: {
             // eslint-disable-next-line unicorn/text-encoding-identifier-case
             Charset: 'UTF-8',
-            Data: emailTemplate,
+            Data: makeEmail(submitOrderData.deliveries),
           },
         },
         Subject: {
