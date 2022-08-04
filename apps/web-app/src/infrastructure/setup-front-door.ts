@@ -13,7 +13,7 @@ import {
 } from 'aws-cdk-lib/aws-route53';
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
 import { CfnOutput } from 'aws-cdk-lib';
-import { getDomainName } from './get-domain-name';
+import { getDomainName } from '@tnmw/utils';
 import { Construct } from 'constructs';
 
 export const setupFrontDoor = (

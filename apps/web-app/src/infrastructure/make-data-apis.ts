@@ -9,7 +9,7 @@ import { getResourceName } from './get-resource-name';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { LambdaIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway';
-import { getDomainName } from './get-domain-name';
+import { getDomainName } from '@tnmw/utils';
 import { IUserPool } from 'aws-cdk-lib/aws-cognito';
 import { IAM, ENV, HTTP, RESOURCES, NODE_OPTS } from '@tnmw/constants';
 import { makeDataApi } from './make-data-api';

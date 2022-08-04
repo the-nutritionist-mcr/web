@@ -1,4 +1,4 @@
-export const BASE_DOMAIN_NAME = 'thenutritionistmcr.com';
+const BASE_DOMAIN_NAME = 'thenutritionistmcr.com';
 
 const PROD_NAME = 'portal';
 

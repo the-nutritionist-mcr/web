@@ -11,7 +11,7 @@ import { Construct } from 'constructs';
 import { CfnOutput } from 'aws-cdk-lib';
 import { PublicHostedZone } from 'aws-cdk-lib/aws-route53';
 import { makeDataApis } from './make-data-apis';
-import { getDomainName } from './get-domain-name';
+import { getDomainName } from '@tnmw/utils';
 import { E2E, IAM } from '@tnmw/constants';
 import { NextJSLambdaEdge } from '@sls-next/cdk-construct';
 import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
