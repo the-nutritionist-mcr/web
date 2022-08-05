@@ -9,7 +9,7 @@ export const handler: Handler<
     const domainName = getDomainName(process.env.ENVIRONMENT);
     event.response = {
       smsMessage: `TNM Invite`,
-      emailSubject: 'TNM Invite',
+      emailSubject: 'Welcome to your personal Members Area',
       emailMessage: makeEmail(
         event.request.userAttributes.given_name,
         event.request.usernameParameter,
