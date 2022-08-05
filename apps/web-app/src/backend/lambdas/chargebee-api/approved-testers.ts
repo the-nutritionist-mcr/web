@@ -1,5 +1,8 @@
 export const approvedTesters = [
   'bwainwright28@gmail.com',
+  'lawrence@thenutrionistmcr.com',
+  'jess@thenutrionistmcr.com',
+  'ryan@thenutrionistmcr.com',
   //   'marc.odonnell@icloud.com',
   //   'peter_barnes@live.co.uk',
   //   'james.fowler@j2recruitment.co.uk',
