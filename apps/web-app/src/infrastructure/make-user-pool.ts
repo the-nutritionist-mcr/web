@@ -69,7 +69,7 @@ export const makeUserPool = (
   const email = UserPoolEmail.withSES({
     fromEmail: 'no-reply@thenutritionistmcr.com',
     fromName: 'The Nutritionist MCR',
-    replyTo: 'support@thenutrionistmcr.com',
+    replyTo: 'hello@thenutrionistmcr.com',
     sesVerifiedDomain: 'thenutritionistmcr.com',
   });
 
