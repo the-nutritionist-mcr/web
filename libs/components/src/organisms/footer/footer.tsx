@@ -4,10 +4,10 @@ import { FC } from 'react';
 import tnmFullWhite from './TNM-Full-white.svg';
 import SeasonalPattern from './Seasonal-pattern-spring-tnm.png';
 import nStamp from './tnm-sticker-dark-grey-mint.svg';
+import { TNM_SITE } from '../header/tnm-site';
 
 const StyledFooter = styled.footer`
   width: 100%;
-  z-index: -1;
   font-family: 'Acumin Pro', Arial, sans-serif;
   box-sizing: border-box;
   position: relative;
@@ -98,7 +98,7 @@ const Footer: FC = () => (
     </StampContainer>
     <FooterStrip aria-hidden></FooterStrip>
     <FooterContent>
-      <TnmLogoWhiteAnchor href="/">
+      <TnmLogoWhiteAnchor href={TNM_SITE}>
         <img src={tnmFullWhite} alt="The Nutriontist MCR" />
       </TnmLogoWhiteAnchor>
       <FooterColumns>
@@ -106,20 +106,22 @@ const Footer: FC = () => (
           <FooterHeaders>Order</FooterHeaders>
           <UnStyledUl>
             <FooterLi>
-              <FooterLink href="/the-plans/#UnStyledUltra-Micro">
+              <FooterLink href={`${TNM_SITE}/the-plans/#UnStyledUltra-Micro`}>
                 Ultra Micro
               </FooterLink>
             </FooterLi>
             <FooterLi>
-              <FooterLink href="/the-plans/#Micro">Micro</FooterLink>
+              <FooterLink href={`${TNM_SITE}/the-plans/#Micro`}>
+                Micro
+              </FooterLink>
             </FooterLi>
             <FooterLi>
-              <FooterLink href="/the-plans/#Equilibrium">
+              <FooterLink href={`${TNM_SITE}/the-plans/#Equilibrium`}>
                 Equilibrium
               </FooterLink>
             </FooterLi>
             <FooterLi>
-              <FooterLink href="/the-plans/#Mass">Mass</FooterLink>
+              <FooterLink href={`${TNM_SITE}/the-plans/#Mass`}>Mass</FooterLink>
             </FooterLi>
           </UnStyledUl>
         </div>
@@ -128,13 +130,15 @@ const Footer: FC = () => (
           <FooterHeaders>About</FooterHeaders>
           <UnStyledUl>
             <FooterLi>
-              <FooterLink href="/our-story">Our Story</FooterLink>
+              <FooterLink href={`${TNM_SITE}/our-story`}>Our Story</FooterLink>
             </FooterLi>
             <FooterLi>
-              <FooterLink href="/why-choose-us">Why Choose Us?</FooterLink>
+              <FooterLink href={`${TNM_SITE}/why-choose-us`}>
+                Why Choose Us?
+              </FooterLink>
             </FooterLi>
             <FooterLi>
-              <FooterLink href="/the-plans">Meal Plans</FooterLink>
+              <FooterLink href={`${TNM_SITE}/the-plans`}>Meal Plans</FooterLink>
             </FooterLi>
           </UnStyledUl>
         </div>
@@ -143,10 +147,12 @@ const Footer: FC = () => (
           <FooterHeaders>Contact</FooterHeaders>
           <UnStyledUl>
             <FooterLi>
-              <FooterLink href="/faq">FAQ</FooterLink>
+              <FooterLink href={`${TNM_SITE}/faq`}>FAQ</FooterLink>
             </FooterLi>
             <FooterLi>
-              <FooterLink href="/get-started">Get Started</FooterLink>
+              <FooterLink href={`${TNM_SITE}/get-started`}>
+                Get Started
+              </FooterLink>
             </FooterLi>
           </UnStyledUl>
         </div>
