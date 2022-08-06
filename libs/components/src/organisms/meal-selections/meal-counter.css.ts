@@ -12,7 +12,7 @@ export const divider = style({
 export const nutritionAndAllergyLink = style({
   fontFamily: "'IBM Plex Mono', serif",
   margin: '0.5rem 0 1rem',
-  alignSelf: 'center',
+  alignSelf: 'start',
 });
 
 export const container = style({
