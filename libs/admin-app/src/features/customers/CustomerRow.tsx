@@ -10,7 +10,7 @@ interface CustomerRowProps {
 }
 
 const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
-  const nameString = `${props.customer.surname} ${props.customer.firstName}`;
+  const nameString = `${props.customer.surname}, ${props.customer.firstName}`;
 
   return (
     <TableRow>
