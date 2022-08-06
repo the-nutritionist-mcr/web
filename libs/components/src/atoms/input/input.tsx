@@ -66,6 +66,7 @@ const InputField = styled.input<InputProps>((props) => {
     margin: 0,
     borderRadius: 0,
     border: `1px solid ${props.error ? 'red' : borderColor}`,
+    backgroundColor: props.disabled ? '#fafafa' : 'white',
     lineHeight: `1.5rem`,
     padding: `0.5rem 0.5rem`,
     ...width,
