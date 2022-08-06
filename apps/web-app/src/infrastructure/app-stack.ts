@@ -25,6 +25,22 @@ import {
   SingleValueWidget,
 } from 'aws-cdk-lib/aws-cloudwatch';
 
+const makeErrorRatioWidget = (func: Function) => {
+  const problemPercentage = new MathExpression({
+    expression: '(problems / invocations) * 100',
+    usingMetrics: {
+      errors: func.metricErrors(),
+      invocations: func.metricInvocations(),
+    },
+  });
+
+  return new SingleValueWidget({
+    metrics: [problemPercentage],
+    fullPrecision: false,
+    title: `${func.functionName} error ratio`,
+  });
+};
+
 interface TnmAppProps {
   forceUpdateKey: string;
   stackProps: StackProps;
@@ -150,22 +166,6 @@ export class AppStack extends Stack {
         ),
       },
     });
-
-    const makeErrorRatioWidget = (func: Function) => {
-      const problemPercentage = new MathExpression({
-        expression: '(problems / invocations) * 100',
-        usingMetrics: {
-          errors: func.metricErrors(),
-          invocations: func.metricInvocations(),
-        },
-      });
-
-      return new SingleValueWidget({
-        metrics: [problemPercentage],
-        fullPrecision: false,
-        title: `${func.functionName} error ratio`,
-      });
-    };
 
     next.distribution.addBehavior(
       '/app-config.json',
