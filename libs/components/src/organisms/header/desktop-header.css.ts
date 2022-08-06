@@ -60,14 +60,15 @@ export const mobileLogoLi = style({
   width: '60px',
   background: `url(${tnmNLogo})`,
   height: '60px',
-  textIndent: '100%',
   listStyle: 'none',
-  overflow: 'hidden',
 });
 
 export const menuButton = style({
   border: 0,
   background: 0,
+  width: '40px',
+  height: '40px',
+  cursor: 'pointer',
 });
 
 export const hideOnDesktop = style({
@@ -108,8 +109,13 @@ export const theNutritionistLogo = style({
   backgroundPosition: 'center center',
 });
 
+export const mobileLogoNA = style({
+  textIndent: '100%',
+  overflow: 'hidden',
+  display: 'block',
+});
+
 export const theNutritionistALink = style({
-  maxWidth: '35px',
   width: '100%',
   height: '34px',
   display: 'block',

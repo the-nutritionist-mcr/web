@@ -21,6 +21,7 @@ export const closeButton = style({
   top: '30px',
   right: '30px',
   position: 'absolute',
+  cursor: 'pointer',
 });
 
 export const mobileMenuContainer = style({

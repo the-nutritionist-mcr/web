@@ -15,6 +15,7 @@ import {
   menuAnchor,
   theNutritionistLogo,
   hideOnDesktop,
+  mobileLogoNA,
   hideOnMobile,
 } from './desktop-header.css';
 
@@ -53,7 +54,9 @@ const DesktopHeader: FC = () => {
           </a>
         </li>
         <li className={`${mobileLogoLi} ${hideOnDesktop}`}>
-          <a href={TNM_SITE}>Home</a>
+          <a className={mobileLogoNA} href={TNM_SITE}>
+            Home
+          </a>
         </li>
         <li className={`${headerListItem} ${hideOnMobile}`}>
           <a className={menuAnchor} href={`${TNM_SITE}/the-plans/`}>
