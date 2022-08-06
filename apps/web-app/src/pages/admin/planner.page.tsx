@@ -16,7 +16,7 @@ const PlannerPage: FC = () => {
           <Planner
             update={update}
             recipes={items}
-            createdBy={data.createdBy}
+            createdBy={data.createdByName}
             creationDate={data.date}
             cooks={data.cooks}
             selections={data.selections}
