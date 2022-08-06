@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import tnmFullWhite from './TNM-Full-white.svg';
 import SeasonalPattern from './Seasonal-pattern-spring-tnm.png';
-import nStamp from './TNM_Sticker5_DarkGrey+Mint_3e99005d.svg';
+import nStamp from './tnm-sticker-dark-grey-mint.svg';
 
 const StyledFooter = styled.footer`
   width: 100%;
