@@ -12,7 +12,10 @@ export interface StoredPlan {
   sort: string;
   planId: string;
   menus: Cook[];
+
   username: string;
+
+  createdByName: string;
 }
 
 export interface StoredMealSelection {

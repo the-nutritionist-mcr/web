@@ -39,7 +39,9 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       },
     });
 
-    const { username } = await authoriseJwt(event, ['admin']);
+    const { username, firstName, surname } = await authoriseJwt(event, [
+      'admin',
+    ]);
 
     const payload = JSON.parse(event.body);
 
@@ -93,6 +95,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         menu: payload.cooks[index],
       })),
       username,
+      createdByName: `${firstName} ${surname}`,
     };
 
     const selections: StoredMealSelection[] = meals.map((meal) => ({

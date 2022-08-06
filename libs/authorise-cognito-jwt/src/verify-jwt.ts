@@ -9,6 +9,8 @@ import { verify } from './verify';
 
 export interface VerifyJwtResult {
   readonly userName: string;
+  readonly firstName: string;
+  readonly surname: string;
   readonly isValid: boolean;
   readonly error?: Error | undefined;
   readonly groups: string[];
@@ -52,6 +54,8 @@ export const verifyJwtToken = async (
 
     const returnVal = {
       userName: claim.username,
+      firstName: '',
+      surname: '',
       groups: claim['cognito:groups'] ?? [],
     };
 
@@ -75,6 +79,8 @@ export const verifyJwtToken = async (
   } catch (error) {
     return {
       userName: '',
+      firstName: '',
+      surname: '',
       error: error instanceof Error ? error : undefined,
       isValid: false,
       groups: [],
