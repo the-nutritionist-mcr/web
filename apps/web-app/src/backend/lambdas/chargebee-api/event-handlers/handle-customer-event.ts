@@ -129,13 +129,17 @@ export const handleCustomerEvent = async (
     event.event_type === 'customer_changed' &&
     !(await userExists(id, poolId))
   ) {
-    new AdminCreateUserCommand({
-      ...input,
-      DesiredDeliveryMediums: ['EMAIL'],
-    });
+    console.log('changed and doesn"t exist');
+    await cognito.send(
+      new AdminCreateUserCommand({
+        ...input,
+        DesiredDeliveryMediums: ['EMAIL'],
+      })
+    );
 
     await handleSubscriptionEvent(client, id);
   } else {
+    console.log('else');
     await (event.event_type === 'customer_created'
       ? cognito.send(
           new AdminCreateUserCommand({
