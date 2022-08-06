@@ -12,13 +12,13 @@ export const divider = style({
 export const nutritionAndAllergyLink = style({
   fontFamily: "'IBM Plex Mono', serif",
   margin: '0.5rem 0 1rem',
+  alignSelf: 'center',
 });
 
 export const container = style({
   display: 'grid',
   textAlign: 'center',
-  gridTemplateRows:
-    '[title] 3.5rem minmax(max-content, 100%) 10px 3.5rem 3.25rem',
+  gridTemplateRows: '1fr 1fr 10px minmax(min-content, 0.9fr) 3.25rem',
   maxWidth: '20rem',
 });
 
@@ -30,7 +30,7 @@ export const description = style({
 
 export const header = style({
   fontFamily: "'Acumin Pro', Arial, sans-serif",
-  fontSize: 'clamp(1.3rem, 2.1vw, 1.7rem)',
+  fontSize: '1.7rem',
   alignSelf: 'center',
   textTransform: 'capitalize',
 });
