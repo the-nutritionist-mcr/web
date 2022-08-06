@@ -1,5 +1,6 @@
 import { Arn, ArnFormat, Stack, StackProps } from 'aws-cdk-lib';
 import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
+import { Function } from 'aws-cdk-lib/aws-lambda';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
 import {
@@ -18,6 +19,11 @@ import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { UserPool } from 'aws-cdk-lib/aws-cognito';
 import { CognitoSeeder } from '@tnmw/seed-cognito';
 import { makeArnRegionless } from './make-arn-regionless';
+import {
+  Dashboard,
+  MathExpression,
+  SingleValueWidget,
+} from 'aws-cdk-lib/aws-cloudwatch';
 
 interface TnmAppProps {
   forceUpdateKey: string;
@@ -35,6 +41,10 @@ export class AppStack extends Stack {
     super(scope, id, props.stackProps);
 
     const domainName = getDomainName(props.envName);
+
+    const dashboard = new Dashboard(this, 'dashboard', {
+      dashboardName: `tnm-portal-${props.envName}`,
+    });
 
     new CfnOutput(this, 'DomainName', {
       value: domainName,
@@ -141,6 +151,22 @@ export class AppStack extends Stack {
       },
     });
 
+    const makeErrorRatioWidget = (func: Function) => {
+      const problemPercentage = new MathExpression({
+        expression: '(problems / invocations) * 100',
+        usingMetrics: {
+          errors: func.metricErrors(),
+          invocations: func.metricInvocations(),
+        },
+      });
+
+      return new SingleValueWidget({
+        metrics: [problemPercentage],
+        fullPrecision: false,
+        title: `${func.functionName} error ratio`,
+      });
+    };
+
     next.distribution.addBehavior(
       '/app-config.json',
       new S3Origin(next.bucket),
@@ -148,6 +174,8 @@ export class AppStack extends Stack {
         cachePolicy: CachePolicy.CACHING_DISABLED,
       }
     );
+
+    dashboard.addWidgets(makeErrorRatioWidget(next.defaultNextLambda));
 
     new CfnOutput(this, 'DeployBucket', {
       value: next.bucket.bucketName,
