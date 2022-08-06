@@ -92,7 +92,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
           Html: {
             // eslint-disable-next-line unicorn/text-encoding-identifier-case
             Charset: 'UTF-8',
-            Data: makeEmail(submitOrderData.deliveries),
+            Data: makeEmail(
+              selection.customer.firstName,
+              submitOrderData.deliveries
+            ),
           },
         },
         Subject: {

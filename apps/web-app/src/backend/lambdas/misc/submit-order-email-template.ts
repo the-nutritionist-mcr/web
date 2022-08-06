@@ -1,7 +1,7 @@
 import { isSelectedMeal } from '@tnmw/meal-planning';
 import { SelectedItem } from '@tnmw/types';
 
-export const makeEmail = (deliveries: SelectedItem[][]) => `
+export const makeEmail = (name: string, deliveries: SelectedItem[][]) => `
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
   xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -1016,8 +1016,7 @@ export const makeEmail = (deliveries: SelectedItem[][]) => `
                                                         <tbody>
                                                           <tr>
                                                             <td valign="top"><span
-                                                                style="font-family:playfair display,georgia,times new roman,serif">Hey
-                                                                *|FNAME|*</span>
+                                                                style="font-family:playfair display,georgia,times new roman,serif">Hey ${name}</span>
 
                                                               <p>
                                                                 <font
