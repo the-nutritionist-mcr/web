@@ -5,6 +5,7 @@ import { uniqueId } from 'lodash';
 import { FC } from 'react';
 import {
   container,
+  description,
   divider,
   header,
   nutritionAndAllergyLink,
@@ -21,9 +22,7 @@ export interface MealCounterProps {
 }
 
 const Container = styled.section`
-  display: grid;
   text-align: center;
-  grid-template-rows: 3.5rem 6rem 2.5rem;
   max-width: 20rem;
 `;
 
@@ -35,7 +34,8 @@ const MealCounter: FC<MealCounterProps> = (props) => {
       <h3 className={header} id={headerId}>
         {props.title.toLocaleLowerCase()}
       </h3>
-      <ParagraphText>{props.description}</ParagraphText>
+
+      <p className={description}>{props.description}</p>
       <hr className={divider} />
       <p className={nutritionAndAllergyLink}>Contains {contains}</p>
       <QuantityStepper

@@ -17,15 +17,20 @@ export const nutritionAndAllergyLink = style({
 export const container = style({
   display: 'grid',
   textAlign: 'center',
-  gridTemplateRows: '3.5rem 6rem 10px 2.5rem',
+  gridTemplateRows:
+    '[title] 3.5rem minmax(max-content, 100%) 10px 3.5rem 3.25rem',
   maxWidth: '20rem',
+});
+
+export const description = style({
+  fontFamily: "'IBM Plex Serif', 'Times New Roman', serif",
+  lineHeight: '23px',
+  paddingBottom: '0.5rem',
 });
 
 export const header = style({
   fontFamily: "'Acumin Pro', Arial, sans-serif",
-  fontSize: '1.7rem',
-  margin: '0 0 1.5rem 0',
-  display: 'block',
-  height: '2rem',
+  fontSize: 'clamp(1.3rem, 2.1vw, 1.7rem)',
+  alignSelf: 'center',
   textTransform: 'capitalize',
 });
