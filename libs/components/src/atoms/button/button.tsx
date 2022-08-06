@@ -55,7 +55,7 @@ const ButtonElement = styled.button((props: ButtonProps) => {
   return {
     height: '100%',
     borderRadius: '25px',
-    border: props.primary ? `1px solid ${color}` : 0,
+    border: props.primary ? `1px solid ${color}` : `1px solid ${color}`,
     cursor: 'pointer',
     textAlign: 'center',
     whiteSpace: 'nowrap',
@@ -65,7 +65,6 @@ const ButtonElement = styled.button((props: ButtonProps) => {
     fontSize: sizes[size].fontSize,
     fontWeight: 700,
     padding: sizes[size].padding,
-    textDecoration: props.primary ? 0 : 'underline',
     '&:hover': {
       color: props.primary ? color : 'white',
       backgroundColor: props.primary ? 'white' : color,
