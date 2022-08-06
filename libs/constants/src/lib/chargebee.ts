@@ -2,6 +2,9 @@ export const CHARGEBEE = {
   subscriptionStatuses: {
     active: 'active',
     paused: 'paused',
+    future: 'future',
+    nonRenewing: 'non_renewing',
+    cancelled: 'cancelled',
   },
   itemTypes: {
     plan: 'plan',
