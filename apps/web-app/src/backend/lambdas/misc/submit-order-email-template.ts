@@ -1090,7 +1090,7 @@ export const makeEmail = (name: string, deliveries: SelectedItem[][]) => `
                                               (item) =>
                                                 `<li><span style="font-family:arial,helvetica neue,helvetica,sans-serif">${
                                                   isSelectedMeal(item)
-                                                    ? item.recipe.name
+                                                    ? `${item.recipe.name} (${item.chosenVariant})`
                                                     : item.chosenVariant
                                                 }</span></li>`
                                             )
