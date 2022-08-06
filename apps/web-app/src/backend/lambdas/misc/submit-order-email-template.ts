@@ -1085,14 +1085,16 @@ export const makeEmail = (name: string, deliveries: SelectedItem[][]) => `
                                         style="font-family:arial,helvetica neue,helvetica,sans-serif"><strong>Delivery
                                           ${index + 1}</strong></span>
                                           <ul>
-                                          ${delivery.map(
-                                            (item) =>
-                                              `<li><span style="font-family:arial,helvetica neue,helvetica,sans-serif">${
-                                                isSelectedMeal(item)
-                                                  ? item.recipe.name
-                                                  : item.chosenVariant
-                                              }</span></li>`
-                                          )}
+                                          ${delivery
+                                            .map(
+                                              (item) =>
+                                                `<li><span style="font-family:arial,helvetica neue,helvetica,sans-serif">${
+                                                  isSelectedMeal(item)
+                                                    ? item.recipe.name
+                                                    : item.chosenVariant
+                                                }</span></li>`
+                                            )
+                                            .join('')}
                                           </ul>
                                           `
                                       )}
