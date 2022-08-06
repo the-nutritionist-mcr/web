@@ -10246,11 +10246,6 @@
   resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.30.3.tgz#8ef6313dcec2e297b167dd25ef363e36857c49ff"
   integrity sha512-vshU3pjSTgBPNgfd55JLYngHkXuwQP68fxYFUAg1Uq+JrR3xG/XjvL9Dmv28CpOERtqwkaR4QQ3mD0NLZcE2Xw==
 
-"@typescript-eslint/types@5.31.0":
-  version "5.31.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.31.0.tgz#7aa389122b64b18e473c1672fb3b8310e5f07a9a"
-  integrity sha512-/f/rMaEseux+I4wmR6mfpM2wvtNZb1p9hAV77hWfuKc3pmaANp5dLAZSiE3/8oXTYTt3uV9KW5yZKJsMievp6g==
-
 "@typescript-eslint/types@5.32.0":
   version "5.32.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.32.0.tgz#484273021eeeae87ddb288f39586ef5efeb6dcd8"
@@ -10366,14 +10361,6 @@
   integrity sha512-ep2xtHOhnSRt6fDP9DSSxrA/FqZhdMF7/Y9fYsxrKss2uWJMbzJyBJ/We1fKc786BJ10pHwrzUlhvpz8i7XzBg==
   dependencies:
     "@typescript-eslint/types" "5.30.3"
-    eslint-visitor-keys "^3.3.0"
-
-"@typescript-eslint/visitor-keys@5.31.0":
-  version "5.31.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.31.0.tgz#b0eca264df01ce85dceb76aebff3784629258f54"
-  integrity sha512-ZK0jVxSjS4gnPirpVjXHz7mgdOsZUHzNYSfTw2yPa3agfbt9YfqaBiBZFSSxeBWnpWkzCxTfUpnzA3Vily/CSg==
-  dependencies:
-    "@typescript-eslint/types" "5.31.0"
     eslint-visitor-keys "^3.3.0"
 
 "@typescript-eslint/visitor-keys@5.32.0":
