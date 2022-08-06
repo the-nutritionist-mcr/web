@@ -30,7 +30,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       ?.slice()
       .sort((a, b) => (Number(a.sort) < Number(b.sort) ? 1 : -1))?.[0];
 
-    const { planId, menus, published, username, sort } = plan;
+    const { planId, menus, published, username, sort, createdByName } = plan;
 
     const selectionResponse = await doQuery(tableName, `id = :id`, [
       `plan-${planId}-selection`,
@@ -52,6 +52,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       planId,
       cooks: menus,
       createdBy: username,
+      createdByName,
       date: sort,
       published,
       currentUserSelection,

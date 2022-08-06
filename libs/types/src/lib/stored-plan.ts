@@ -30,6 +30,7 @@ export interface GetPlanResponse {
   selections?: PlanResponseSelections;
   currentUserSelection?: StoredMealSelection;
   createdBy: string;
+  createdByName: string;
   date: string;
   published: boolean;
   available: true;
