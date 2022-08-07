@@ -29,6 +29,14 @@ inputs:
     required: false
     default: 'false'
 
+  datadog-app-id:
+    description: Datadog Application Id
+    required: true
+
+  datadog-client-token:
+    description: Datadog Client Token
+    required: true
+
 runs:
   using: 'composite'
   steps:
@@ -61,6 +69,8 @@ runs:
         NX_USER_POOL_ID: ${{ env.USERPOOL_ID }}
         NX_APP_ENV: ${{ inputs.app-env }}
         NX_APP_VERSION: ${{ env.APP_VERSION }}
+        NX_DATADOG_APP_ID: ${{ inputs.datadog-app-id }}
+        NX_DATADOG_CLIENT_TOKEN: ${{ inputs.datadog-client-token }}
 
     - name: Process build artifact for Serverless
       shell: bash

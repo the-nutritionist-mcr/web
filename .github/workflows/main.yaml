@@ -103,6 +103,8 @@ jobs:
           env-name: cypress
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          datadog-app-id: ${{ secrets.DATADOG_APP_ID }}
+          datadog-client-token: ${{ secrets.DATADOG_CLIENT_TOKEN }}
 
   cypress-run:
     name: E2E Tests
@@ -146,6 +148,8 @@ jobs:
           env-name: test
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          datadog-app-id: ${{ secrets.DATADOG_APP_ID }}
+          datadog-client-token: ${{ secrets.DATADOG_CLIENT_TOKEN }}
 
   deploy-for-dev:
     name: Dev Deploy
@@ -164,6 +168,8 @@ jobs:
           env-name: dev
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          datadog-app-id: ${{ secrets.DATADOG_APP_ID }}
+          datadog-client-token: ${{ secrets.DATADOG_CLIENT_TOKEN }}
 
   deploy-for-prod:
     name: Production Deploy
@@ -183,3 +189,5 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           app-env: production
+          datadog-app-id: ${{ secrets.DATADOG_APP_ID }}
+          datadog-client-token: ${{ secrets.DATADOG_CLIENT_TOKEN }}
