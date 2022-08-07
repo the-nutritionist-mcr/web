@@ -22,18 +22,6 @@ export class BackendStack extends Stack {
     super(scope, id, props.stackProps);
     const transient = props.envName !== 'prod';
 
-    const identityPool = new IdentityPool(this, 'identity-pool-for-rum');
-
-    const monitor = new CfnAppMonitor(this, 'app-monitor', {
-      domain: getDomainName(props.envName),
-      name: getResourceName(`app-monitor`, props.envName),
-      appMonitorConfiguration: {
-        allowCookies: true,
-        enableXRay: true,
-        identityPoolId: identityPool.identityPoolId,
-      },
-    });
-
     const { userPool } = makeUserPool(this, transient, props.envName);
 
     this.pool = userPool;

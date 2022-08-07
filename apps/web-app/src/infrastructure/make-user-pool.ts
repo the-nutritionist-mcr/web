@@ -12,6 +12,7 @@ import { COGNITO } from '@tnmw/constants';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import path from 'node:path';
 import { Construct } from 'constructs';
+import { instrumentFunctions } from './instrument-functions';
 
 const entryName = (folder: string, name: string) =>
   // eslint-disable-next-line unicorn/prefer-module
@@ -64,6 +65,13 @@ export const makeUserPool = (
         sourceMap: true,
       },
     }
+  );
+
+  instrumentFunctions(
+    context,
+    environmentName,
+    preTokenGenerationTriggerHandler,
+    adminCreateUserEmailSender
   );
 
   const email = UserPoolEmail.withSES({

@@ -6,6 +6,7 @@ import { ENV, HTTP, IAM } from '@tnmw/constants';
 import { getResourceName } from './get-resource-name';
 import { entryName } from './entry-name';
 import { Construct } from 'constructs';
+import { instrumentFunctions } from './instrument-functions';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export enum ReadWriteMode {
@@ -46,6 +47,8 @@ export const makeDataApi = (
         sourceMap: true,
       },
     });
+
+    instrumentFunctions(context, environment, crudFunction);
 
     return crudFunction;
   };

@@ -17,6 +17,7 @@ import { makeDataApi } from './make-data-api';
 import { entryName } from './entry-name';
 import { AttributeType, BillingMode, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Construct } from 'constructs';
+import { instrumentFunctions } from './instrument-functions';
 
 export const makeDataApis = (
   context: Construct,
@@ -360,15 +361,6 @@ export const makeDataApis = (
     'receive-chargebee-webhook'
   );
 
-  const dataDogApiKeySecretArn =
-    'arn:aws:secretsmanager:us-east-1:568693217207:secret:tnm-app/datadog-api-key-8qKjFO';
-
-  const getDatadogSecretPolicy = new PolicyStatement({
-    actions: [IAM.actions.secretsManager.getSecret],
-    effect: Effect.ALLOW,
-    resources: [dataDogApiKeySecretArn],
-  });
-
   const chargeBeeWebhookFunction = new NodejsFunction(
     context,
     `chargebee-webhook-function`,
@@ -383,21 +375,6 @@ export const makeDataApis = (
       },
     }
   );
-
-  chargeBeeWebhookFunction.addToRolePolicy(getDatadogSecretPolicy);
-
-  const datadog = new Datadog(context, 'datadog-instrumentation', {
-    site: 'datadoghq.eu',
-    apiKeySecretArn: dataDogApiKeySecretArn,
-    nodeLayerVersion: 29,
-    extensionLayerVersion: 27,
-    env: envName,
-    addLayers: true,
-    service: 'tnm-web',
-    logLevel: 'debug',
-  });
-
-  datadog.addLambdaFunctions([chargeBeeWebhookFunction]);
 
   chargeBeeWebhookUsername.grantRead(chargeBeeWebhookFunction);
   chargeWebhookPassword.grantRead(chargeBeeWebhookFunction);
@@ -418,5 +395,20 @@ export const makeDataApis = (
       ],
       resources: [pool.userPoolArn],
     })
+  );
+
+  instrumentFunctions(
+    context,
+    envName,
+    chargeBeeWebhookFunction,
+    getAllCustomersFunction,
+    updateCustomerFunction,
+    individualAcccessFunction,
+    getCustomerFunction,
+    publishPlanFunction,
+    changePlanFunction,
+    getPlanFunction,
+    submitOrderFunction,
+    planFunction
   );
 };

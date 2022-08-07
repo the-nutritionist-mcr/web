@@ -20,8 +20,7 @@ import { CognitoSeeder } from '@tnmw/seed-cognito';
 import { makeArnRegionless } from './make-arn-regionless';
 import { Dashboard } from 'aws-cdk-lib/aws-cloudwatch';
 import { makeErrorRatioWidget } from './make-error-ratio-widget';
-import { CfnAppMonitor } from 'aws-cdk-lib/aws-rum';
-import { getResourceName } from './get-resource-name';
+import { instrumentFunctions } from './instrument-functions';
 
 interface TnmAppProps {
   forceUpdateKey: string;
@@ -39,11 +38,6 @@ export class AppStack extends Stack {
     super(scope, id, props.stackProps);
 
     const domainName = getDomainName(props.envName);
-
-    const rumMonitor = new CfnAppMonitor(this, 'tnm-app-rum-monitor', {
-      domain: domainName,
-      name: getResourceName(`rum-monitor`, props.envName),
-    });
 
     const dashboard = new Dashboard(this, 'dashboard', {
       dashboardName: `tnm-portal-${props.envName}`,
@@ -153,6 +147,14 @@ export class AppStack extends Stack {
         ),
       },
     });
+
+    instrumentFunctions(
+      this,
+      props.envName,
+      next.nextApiLambda,
+      next.nextImageLambda,
+      next.defaultNextLambda
+    );
 
     next.distribution.addBehavior(
       '/app-config.json',
