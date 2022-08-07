@@ -35,7 +35,7 @@ runs:
 
     - name: Deploy Backend Stack
       shell: bash
-      run: yarn nx deploy-${{ inputs.env-name }}-backend web-app
+      run: yarn nx deploy-${{ inputs.env-name }}-backend web-app --verbose
       env:
         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
         AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
@@ -63,7 +63,7 @@ runs:
 
     - name: Deploy Application Stack
       shell: bash
-      run: yarn nx deploy-${{ inputs.env-name }} web-app --args='--exclusively'
+      run: yarn nx deploy-${{ inputs.env-name }} web-app --args='--exclusively' --verbose
       env:
         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
         AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
