@@ -61,6 +61,7 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
         site: 'datadoghq.eu',
         service: 'tnm-web',
         env: process.env['NX_APP_ENV'],
+        version: process.env['APP_VERSION'],
         sampleRate: 100,
         premiumSampleRate: 100,
         trackInteractions: true,
