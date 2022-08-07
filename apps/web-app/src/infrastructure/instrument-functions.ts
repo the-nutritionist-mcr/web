@@ -42,12 +42,12 @@ export const instrumentFunctions = (
     resources: [DATADOG_API_KEY_SECRET_ARN],
   });
 
-  funcs.forEach((func) => {
-    if (func) {
-      contexts[context.node.id].addGitCommitMetadata([func], gitHash);
-      func.addToRolePolicy(getDatadogSecretPolicy);
-    }
+  const allPresentFuncs = funcs.filter(Boolean);
+
+  allPresentFuncs.forEach((func) => {
+    contexts[context.node.id].addGitCommitMetadata([func], gitHash);
+    func.addToRolePolicy(getDatadogSecretPolicy);
   });
 
-  contexts[context.node.id].addLambdaFunctions(funcs);
+  contexts[context.node.id].addLambdaFunctions(allPresentFuncs);
 };
