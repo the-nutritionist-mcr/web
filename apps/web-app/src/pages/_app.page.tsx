@@ -61,9 +61,6 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
         site: 'datadoghq.eu',
         service: 'tnm-web',
         env: process.env['NX_APP_ENV'],
-
-        // Specify a version number to identify the deployed version of your application in Datadog
-        // version: '1.0.0',
         sampleRate: 100,
         premiumSampleRate: 100,
         trackInteractions: true,

@@ -12,11 +12,14 @@ const contexts: { [ids: string]: Datadog } = {};
 export const instrumentFunctions = (
   context: Construct,
   envName: string,
+  // eslint-disable-next-line @typescript-eslint/ban-types
   ...funcs: Function[]
 ) => {
   if (!(context.node.id in contexts)) {
-    contexts[context.node.id] ==
-      new Datadog(context, 'datadog-instrumentation', {
+    contexts[context.node.id] = new Datadog(
+      context,
+      'datadog-instrumentation',
+      {
         site: 'datadoghq.eu',
         apiKeySecretArn: DATADOG_API_KEY_SECRET_ARN,
         nodeLayerVersion: 29,
@@ -24,7 +27,8 @@ export const instrumentFunctions = (
         env: envName,
         addLayers: true,
         service: 'tnm-web',
-      });
+      }
+    );
   }
 
   const getDatadogSecretPolicy = new PolicyStatement({
