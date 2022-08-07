@@ -40,9 +40,9 @@ export const instrumentFunctions = (
     resources: [DATADOG_API_KEY_SECRET_ARN],
   });
 
-  funcs?.forEach((func) => {
-    func.addToRolePolicy(getDatadogSecretPolicy);
+  funcs.forEach((func) => {
+    func?.addToRolePolicy(getDatadogSecretPolicy);
   });
 
-  contexts[config.context.node.id].addLambdaFunctions(funcs);
+  contexts[context.node.id].addLambdaFunctions(funcs);
 };
