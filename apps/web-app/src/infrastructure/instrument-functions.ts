@@ -43,8 +43,10 @@ export const instrumentFunctions = (
   });
 
   funcs.forEach((func) => {
-    contexts[context.node.id].addGitCommitMetadata([func], gitHash);
-    func?.addToRolePolicy(getDatadogSecretPolicy);
+    if (func) {
+      contexts[context.node.id].addGitCommitMetadata([func], gitHash);
+      func?.addToRolePolicy(getDatadogSecretPolicy);
+    }
   });
 
   contexts[context.node.id].addLambdaFunctions(funcs);
