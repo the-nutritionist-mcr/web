@@ -24,6 +24,10 @@ export const instrumentFunctions = (
         site: 'datadoghq.eu',
         apiKeySecretArn: DATADOG_API_KEY_SECRET_ARN,
         nodeLayerVersion: 29,
+        flushMetricsToLogs: true,
+        enableDatadogTracing: true,
+        enableDatadogLogs: true,
+        injectLogContext: true,
         extensionLayerVersion: 27,
         env: envName,
         addLayers: true,
@@ -32,8 +36,6 @@ export const instrumentFunctions = (
     );
   }
 
-  contexts[context.node.id].addGitCommitMetadata([funcs], gitHash);
-
   const getDatadogSecretPolicy = new PolicyStatement({
     actions: [IAM.actions.secretsManager.getSecret],
     effect: Effect.ALLOW,
@@ -41,6 +43,7 @@ export const instrumentFunctions = (
   });
 
   funcs.forEach((func) => {
+    contexts[context.node.id].addGitCommitMetadata([func], gitHash);
     func?.addToRolePolicy(getDatadogSecretPolicy);
   });
 
