@@ -1,5 +1,5 @@
 import Router from 'next/router';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Head from 'next/head';
 import { Hub } from 'aws-amplify';
 import { AppProps } from 'next/app';
@@ -23,6 +23,7 @@ import {
 import '../assets/global.scss';
 import { HttpError } from '../backend/lambdas/data-api/http-error';
 import { HTTP } from '@tnmw/constants';
+import { datadogRum } from '@datadog/browser-rum';
 
 const navigator = {
   navigate: async (path: string) => {
@@ -48,7 +49,30 @@ Hub.listen('auth', (data) => {
   }
 });
 
+const datadogAppId = process.env['NX_DATADOG_APP_ID'];
+const datadogClientToken = process.env['NX_DATADOG_CLIENT_TOKEN'];
+
 const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
+  useEffect(() => {
+    if (datadogAppId) {
+      datadogRum.init({
+        applicationId: datadogAppId,
+        clientToken: datadogClientToken,
+        site: 'datadoghq.eu',
+        service: 'tnm-web',
+        env: process.env['NX_APP_ENV'],
+
+        // Specify a version number to identify the deployed version of your application in Datadog
+        // version: '1.0.0',
+        sampleRate: 100,
+        premiumSampleRate: 100,
+        trackInteractions: true,
+        defaultPrivacyLevel: 'mask-user-input',
+      });
+
+      datadogRum.startSessionReplayRecording();
+    }
+  }, []);
   return (
     <SWRConfig
       value={{
