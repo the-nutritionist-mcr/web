@@ -390,6 +390,9 @@ export const makeDataApis = (
     site: 'datadoghq.eu',
     apiKeySecretArn: dataDogApiKeySecretArn,
     nodeLayerVersion: 29,
+    env: envName,
+    addLayers: true,
+    service: 'tnm-web',
   });
 
   datadog.addLambdaFunctions([chargeBeeWebhookFunction]);
