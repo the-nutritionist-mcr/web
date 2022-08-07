@@ -1,5 +1,8 @@
 export const IAM = {
   actions: {
+    secretsManager: {
+      getSecret: 'secretsmanager:GetSecretValue',
+    },
     ses: {
       sendEmail: 'ses:SendEmail',
     },

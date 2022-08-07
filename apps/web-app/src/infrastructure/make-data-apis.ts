@@ -2,12 +2,13 @@ import { CfnOutput } from 'aws-cdk-lib';
 import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { ARecord, RecordTarget } from 'aws-cdk-lib/aws-route53';
 import { ApiGatewayDomain } from 'aws-cdk-lib/aws-route53-targets';
+import { Datadog } from 'datadog-cdk-constructs-v2';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { IHostedZone } from 'aws-cdk-lib/aws-route53';
 import { getResourceName } from './get-resource-name';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { Effect, ManagedPolicy, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { LambdaIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { getDomainName } from '@tnmw/utils';
 import { IUserPool } from 'aws-cdk-lib/aws-cognito';
@@ -359,6 +360,15 @@ export const makeDataApis = (
     'receive-chargebee-webhook'
   );
 
+  const dataDogApiKeySecretArn =
+    'arn:aws:secretsmanager:us-east-1:568693217207:secret:tnm-app/datadog-api-key-8qKjFO';
+
+  const getDatadogSecretPolicy = new PolicyStatement({
+    actions: [IAM.actions.secretsManager.getSecret],
+    effect: Effect.ALLOW,
+    resources: [dataDogApiKeySecretArn],
+  });
+
   const chargeBeeWebhookFunction = new NodejsFunction(
     context,
     `chargebee-webhook-function`,
@@ -373,6 +383,15 @@ export const makeDataApis = (
       },
     }
   );
+
+  chargeBeeWebhookFunction.addToRolePolicy(getDatadogSecretPolicy);
+
+  const datadog = new Datadog(this, 'datadog-instrumentation', {
+    site: 'datadoghq.eu',
+    apiKeySecretArn: dataDogApiKeySecretArn,
+  });
+
+  datadog.addLambdaFunctions([chargeBeeWebhookFunction]);
 
   chargeBeeWebhookUsername.grantRead(chargeBeeWebhookFunction);
   chargeWebhookPassword.grantRead(chargeBeeWebhookFunction);
