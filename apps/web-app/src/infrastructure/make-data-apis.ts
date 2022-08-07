@@ -394,6 +394,7 @@ export const makeDataApis = (
     env: envName,
     addLayers: true,
     service: 'tnm-web',
+    logLevel: 'debug',
   });
 
   datadog.addLambdaFunctions([chargeBeeWebhookFunction]);
