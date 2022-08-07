@@ -131,11 +131,12 @@ export const register = async (
 
 export const signOut = async () => {
   await configureAuth();
-  await Auth.signOut();
+  const result = await Auth.signOut();
 
   if (datadogAppId) {
     datadogRum.removeUser();
   }
+  return result;
 };
 
 export const confirmSignup = async (username: string, code: string) => {
