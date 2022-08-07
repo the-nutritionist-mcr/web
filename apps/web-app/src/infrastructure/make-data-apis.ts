@@ -390,6 +390,7 @@ export const makeDataApis = (
     site: 'datadoghq.eu',
     apiKeySecretArn: dataDogApiKeySecretArn,
     nodeLayerVersion: 29,
+    extensionLayerVersion: 27,
     env: envName,
     addLayers: true,
     service: 'tnm-web',
