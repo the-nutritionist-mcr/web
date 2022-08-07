@@ -12,7 +12,7 @@ import { CfnOutput } from 'aws-cdk-lib';
 import { PublicHostedZone } from 'aws-cdk-lib/aws-route53';
 import { makeDataApis } from './make-data-apis';
 import { getDomainName } from '@tnmw/utils';
-import { E2E, IAM } from '@tnmw/constants';
+import { IAM } from '@tnmw/constants';
 import { NextJSLambdaEdge } from '@sls-next/cdk-construct';
 import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { UserPool } from 'aws-cdk-lib/aws-cognito';
@@ -21,6 +21,7 @@ import { makeArnRegionless } from './make-arn-regionless';
 import { Dashboard } from 'aws-cdk-lib/aws-cloudwatch';
 import { makeErrorRatioWidget } from './make-error-ratio-widget';
 import { instrumentFunctions } from './instrument-functions';
+import { SEED_USERS } from './seed-users';
 
 interface TnmAppProps {
   forceUpdateKey: string;
@@ -51,72 +52,7 @@ export class AppStack extends Stack {
     if (props.transient) {
       new CognitoSeeder(this, `cognito-seeder`, {
         userpool: props.userPool,
-        users: [
-          {
-            otherAttributes: [
-              {
-                Name: 'given_name',
-                Value: 'Cypress',
-              },
-
-              {
-                Name: 'family_name',
-                Value: 'Tester',
-              },
-            ],
-
-            username: E2E.adminUserOne.username,
-            password: E2E.adminUserOne.password,
-            email: E2E.adminUserOne.email,
-            state: 'Complete',
-            groups: ['admin'],
-          },
-          {
-            otherAttributes: [
-              {
-                Name: 'given_name',
-                Value: 'Cypress',
-              },
-
-              {
-                Name: 'family_name',
-                Value: 'Tester2',
-              },
-            ],
-            username: E2E.normalUserOne.username,
-            password: E2E.normalUserOne.password,
-            email: E2E.normalUserOne.email,
-            state: 'Complete',
-          },
-          {
-            otherAttributes: [
-              {
-                Name: 'given_name',
-                Value: E2E.testCustomer.firstName,
-              },
-              {
-                Name: 'family_name',
-                Value: E2E.testCustomer.surname,
-              },
-              {
-                Name: 'custom:plans',
-                Value: E2E.testCustomer.plans,
-              },
-              {
-                Name: 'custom:deliveryDay1',
-                Value: E2E.testCustomer.deliveryDay1,
-              },
-              {
-                Name: 'custom:deliveryDay2',
-                Value: E2E.testCustomer.deliveryDay2,
-              },
-            ],
-            username: E2E.testCustomer.username,
-            password: E2E.testCustomer.password,
-            email: E2E.testCustomer.email,
-            state: 'Complete',
-          },
-        ],
+        users: SEED_USERS,
       });
     }
 
@@ -148,15 +84,6 @@ export class AppStack extends Stack {
         ),
       },
     });
-
-    instrumentFunctions(
-      this,
-      props.envName,
-      props.gitHash,
-      next.nextApiLambda,
-      next.nextImageLambda,
-      next.defaultNextLambda
-    );
 
     next.distribution.addBehavior(
       '/app-config.json',
