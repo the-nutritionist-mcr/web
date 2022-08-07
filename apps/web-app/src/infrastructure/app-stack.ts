@@ -25,9 +25,10 @@ import {
   SingleValueWidget,
 } from 'aws-cdk-lib/aws-cloudwatch';
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 const makeErrorRatioWidget = (func: Function) => {
   const problemPercentage = new MathExpression({
-    expression: '(problems / invocations) * 100',
+    expression: '(errors / invocations) * 100',
     usingMetrics: {
       errors: func.metricErrors(),
       invocations: func.metricInvocations(),
