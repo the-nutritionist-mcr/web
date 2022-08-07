@@ -386,7 +386,7 @@ export const makeDataApis = (
 
   chargeBeeWebhookFunction.addToRolePolicy(getDatadogSecretPolicy);
 
-  const datadog = new Datadog(this, 'datadog-instrumentation', {
+  const datadog = new Datadog(context, 'datadog-instrumentation', {
     site: 'datadoghq.eu',
     apiKeySecretArn: dataDogApiKeySecretArn,
   });
