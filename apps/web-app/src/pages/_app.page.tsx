@@ -70,7 +70,6 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
           defaultPrivacyLevel: 'mask-user-input',
         });
 
-        datadogRum.startSessionReplayRecording();
         const user = await currentUser();
 
         if (user) {
@@ -92,6 +91,8 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
             name: `${given_name} ${family_name}`,
           });
         }
+
+        datadogRum.startSessionReplayRecording();
       }
     })();
   }, []);
