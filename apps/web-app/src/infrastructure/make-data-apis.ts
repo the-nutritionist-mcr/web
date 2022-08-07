@@ -389,6 +389,7 @@ export const makeDataApis = (
   const datadog = new Datadog(context, 'datadog-instrumentation', {
     site: 'datadoghq.eu',
     apiKeySecretArn: dataDogApiKeySecretArn,
+    nodeLayerVersion: 29,
   });
 
   datadog.addLambdaFunctions([chargeBeeWebhookFunction]);
