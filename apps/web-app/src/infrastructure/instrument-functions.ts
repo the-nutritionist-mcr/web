@@ -13,7 +13,7 @@ export const instrumentFunctions = (
   context: Construct,
   envName: string,
   // eslint-disable-next-line @typescript-eslint/ban-types
-  ...funcs: Function[]
+  ...funcs: (Function | undefined)[]
 ) => {
   if (!(context.node.id in contexts)) {
     contexts[context.node.id] = new Datadog(
@@ -37,7 +37,7 @@ export const instrumentFunctions = (
     resources: [DATADOG_API_KEY_SECRET_ARN],
   });
 
-  funcs.forEach((func) => {
+  funcs?.forEach((func) => {
     func.addToRolePolicy(getDatadogSecretPolicy);
   });
 
