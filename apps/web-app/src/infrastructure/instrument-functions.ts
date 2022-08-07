@@ -45,7 +45,7 @@ export const instrumentFunctions = (
   funcs.forEach((func) => {
     if (func) {
       contexts[context.node.id].addGitCommitMetadata([func], gitHash);
-      func?.addToRolePolicy(getDatadogSecretPolicy);
+      func.addToRolePolicy(getDatadogSecretPolicy);
     }
   });
 
