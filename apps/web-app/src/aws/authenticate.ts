@@ -1,4 +1,5 @@
 import { Auth } from '@aws-amplify/auth';
+import { datadogRum } from '@datadog/browser-rum';
 import { getPoolConfig } from './get-pool-config';
 
 const REGION = 'us-east-1';
@@ -39,10 +40,30 @@ const getConfigurer = () => {
 
 const configureAuth = getConfigurer();
 
+interface CognitoUser {
+  signInUserSession: {
+    idToken: {
+      jwtToken: string;
+      payload: {
+        given_name: string;
+        family_name: string;
+        email: string;
+      };
+    };
+    accessToken: {
+      payload: {
+        'cognito:groups': string[];
+      };
+    };
+  };
+}
+
 interface LoginResponse {
-  challengeName: string;
+  challengeName?: string;
   success: boolean;
 }
+
+const datadogAppId = process.env['NX_DATADOG_APP_ID'];
 
 export const login = async (
   username: string,
@@ -54,6 +75,24 @@ export const login = async (
   const response = await Auth.signIn(username, password);
 
   const success = Boolean(response.signInUserSession?.accessToken);
+
+  const user: CognitoUser = response;
+
+  if (success && datadogAppId) {
+    const {
+      signInUserSession: {
+        idToken: {
+          payload: { given_name, family_name, email },
+        },
+      },
+    } = user;
+
+    datadogRum.setUser({
+      id: username,
+      email: email,
+      name: `${given_name} ${family_name}`,
+    });
+  }
 
   /**
    * Hack so that the cognito user can be passed out and then back into
@@ -92,23 +131,17 @@ export const register = async (
 
 export const signOut = async () => {
   await configureAuth();
-  return Auth.signOut();
+  await Auth.signOut();
+
+  if (datadogAppId) {
+    datadogRum.removeUser();
+  }
 };
 
 export const confirmSignup = async (username: string, code: string) => {
   await configureAuth();
   return Auth.confirmSignUp(username, code);
 };
-
-interface CognitoUser {
-  signInUserSession: {
-    accessToken: {
-      payload: {
-        'cognito:groups': string[];
-      };
-    };
-  };
-}
 
 export const currentUser = async (): Promise<CognitoUser | undefined> => {
   await configureAuth();

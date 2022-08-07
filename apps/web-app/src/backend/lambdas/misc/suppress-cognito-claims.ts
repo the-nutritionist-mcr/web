@@ -21,7 +21,6 @@ export const handler: PreTokenGenerationTriggerHandler = async (event) => {
         `custom:${COGNITO.customAttributes.DeliveryDay3}`,
         `custom:${COGNITO.customAttributes.SubscriptionUpdateTimestamp}`,
         `custom:${COGNITO.customAttributes.CustomerUpdateTimestamp}`,
-        COGNITO.standardAttributes.email,
         COGNITO.standardAttributes.phone,
         COGNITO.standardAttributes.emailVerified,
       ],
