@@ -14,6 +14,7 @@ import { theme } from '../theme';
 
 import {
   confirmSignup,
+  currentUser,
   login,
   newPasswordChallengeResponse,
   register,
@@ -54,22 +55,45 @@ const datadogClientToken = process.env['NX_DATADOG_CLIENT_TOKEN'];
 
 const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
-    if (datadogAppId) {
-      datadogRum.init({
-        applicationId: datadogAppId,
-        clientToken: datadogClientToken,
-        site: 'datadoghq.eu',
-        service: 'tnm-web',
-        env: process.env['NX_APP_ENV'],
-        version: process.env['APP_VERSION'],
-        sampleRate: 100,
-        premiumSampleRate: 100,
-        trackInteractions: true,
-        defaultPrivacyLevel: 'mask-user-input',
-      });
+    (async () => {
+      if (datadogAppId) {
+        datadogRum.init({
+          applicationId: datadogAppId,
+          clientToken: datadogClientToken,
+          site: 'datadoghq.eu',
+          service: 'tnm-web',
+          env: process.env['NX_APP_ENV'],
+          version: process.env['APP_VERSION'],
+          sampleRate: 100,
+          premiumSampleRate: 100,
+          trackInteractions: true,
+          defaultPrivacyLevel: 'mask-user-input',
+        });
 
-      datadogRum.startSessionReplayRecording();
-    }
+        datadogRum.startSessionReplayRecording();
+        const user = await currentUser();
+
+        if (user) {
+          const {
+            signInUserSession: {
+              idToken: {
+                payload: {
+                  given_name,
+                  family_name,
+                  email,
+                  'cognito:username': username,
+                },
+              },
+            },
+          } = user;
+          datadogRum.setUser({
+            id: username,
+            email: email,
+            name: `${given_name} ${family_name}`,
+          });
+        }
+      }
+    })();
   }, []);
   return (
     <SWRConfig

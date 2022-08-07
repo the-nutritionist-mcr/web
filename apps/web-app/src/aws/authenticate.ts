@@ -48,6 +48,7 @@ interface CognitoUser {
         given_name: string;
         family_name: string;
         email: string;
+        'cognito:username': string;
       };
     };
     accessToken: {
