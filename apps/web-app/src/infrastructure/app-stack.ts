@@ -1,6 +1,5 @@
-import { Arn, ArnFormat, Stack, StackProps } from 'aws-cdk-lib';
+import { ArnFormat, Stack, StackProps } from 'aws-cdk-lib';
 import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
-import { Function } from 'aws-cdk-lib/aws-lambda';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
 import {
@@ -19,28 +18,10 @@ import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { UserPool } from 'aws-cdk-lib/aws-cognito';
 import { CognitoSeeder } from '@tnmw/seed-cognito';
 import { makeArnRegionless } from './make-arn-regionless';
-import {
-  Dashboard,
-  MathExpression,
-  SingleValueWidget,
-} from 'aws-cdk-lib/aws-cloudwatch';
-
-// eslint-disable-next-line @typescript-eslint/ban-types
-const makeErrorRatioWidget = (func: Function) => {
-  const problemPercentage = new MathExpression({
-    expression: '(errors / invocations) * 100',
-    usingMetrics: {
-      errors: func.metricErrors(),
-      invocations: func.metricInvocations(),
-    },
-  });
-
-  return new SingleValueWidget({
-    metrics: [problemPercentage],
-    fullPrecision: false,
-    title: `${func.functionName} error ratio`,
-  });
-};
+import { Dashboard } from 'aws-cdk-lib/aws-cloudwatch';
+import { makeErrorRatioWidget } from './make-error-ratio-widget';
+import { CfnAppMonitor } from 'aws-cdk-lib/aws-rum';
+import { getResourceName } from './get-resource-name';
 
 interface TnmAppProps {
   forceUpdateKey: string;
@@ -58,6 +39,11 @@ export class AppStack extends Stack {
     super(scope, id, props.stackProps);
 
     const domainName = getDomainName(props.envName);
+
+    const rumMonitor = new CfnAppMonitor(this, 'tnm-app-rum-monitor', {
+      domain: domainName,
+      name: getResourceName(`rum-monitor`, props.envName),
+    });
 
     const dashboard = new Dashboard(this, 'dashboard', {
       dashboardName: `tnm-portal-${props.envName}`,
