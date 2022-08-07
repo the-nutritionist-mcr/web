@@ -21,7 +21,8 @@ const entryName = (folder: string, name: string) =>
 export const makeUserPool = (
   context: Construct,
   transient: boolean,
-  environmentName: string
+  environmentName: string,
+  gitHash: string
 ) => {
   const removalPolicy = transient
     ? RemovalPolicy.DESTROY
@@ -70,6 +71,7 @@ export const makeUserPool = (
   instrumentFunctions(
     context,
     environmentName,
+    gitHash,
     preTokenGenerationTriggerHandler,
     adminCreateUserEmailSender
   );

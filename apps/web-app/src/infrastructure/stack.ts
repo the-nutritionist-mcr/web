@@ -39,6 +39,7 @@ const main = async () => {
     envName: 'int',
     transient: true,
     chargebeeSite: CHARGEBEE_SITES.test,
+    gitHash,
     forceUpdateKey,
   });
 
@@ -58,6 +59,7 @@ const main = async () => {
     stackProps: { env },
     envName: 'cypress',
     transient: true,
+    gitHash,
     chargebeeSite: CHARGEBEE_SITES.test,
     forceUpdateKey,
   });
@@ -79,6 +81,7 @@ const main = async () => {
     envName: 'dev',
     transient: true,
     chargebeeSite: CHARGEBEE_SITES.test,
+    gitHash,
     forceUpdateKey,
   });
 
@@ -97,6 +100,7 @@ const main = async () => {
   const testStack = new BackendStack(app, 'tnm-web-test-backend-stack', {
     stackProps: { env },
     envName: 'test',
+    gitHash,
     transient: true,
     chargebeeSite: CHARGEBEE_SITES.test,
     forceUpdateKey,
@@ -117,6 +121,7 @@ const main = async () => {
   const prodStack = new BackendStack(app, 'tnm-web-prod-backend-stack', {
     stackProps: { env },
     envName: 'prod',
+    gitHash,
     transient: true,
     chargebeeSite: CHARGEBEE_SITES.test,
     forceUpdateKey,

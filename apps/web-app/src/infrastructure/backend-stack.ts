@@ -11,6 +11,7 @@ interface BackendStackProps {
   forceUpdateKey: string;
   stackProps: StackProps;
   envName: string;
+  gitHash: string;
   transient: boolean;
   chargebeeSite: string;
 }
@@ -22,7 +23,12 @@ export class BackendStack extends Stack {
     super(scope, id, props.stackProps);
     const transient = props.envName !== 'prod';
 
-    const { userPool } = makeUserPool(this, transient, props.envName);
+    const { userPool } = makeUserPool(
+      this,
+      transient,
+      props.envName,
+      props.gitHash
+    );
 
     this.pool = userPool;
   }
