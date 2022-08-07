@@ -29,6 +29,10 @@ inputs:
     required: false
     default: 'false'
 
+  datadog-api-key:
+    description: Datadog API Key
+    required: true
+
   datadog-app-id:
     description: Datadog Application Id
     required: true
@@ -83,6 +87,7 @@ runs:
         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
         AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
         AWS_REGION: us-east-1
+        DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
 
     - name: Get Deploy Bucket
       shell: bash

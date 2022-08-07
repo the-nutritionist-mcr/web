@@ -31,6 +31,7 @@ interface TnmAppProps {
   nextJsBuildDir: string;
   sesIdentityArn: string;
   userPool: UserPool;
+  gitHash: string;
 }
 
 export class AppStack extends Stack {
@@ -151,6 +152,7 @@ export class AppStack extends Stack {
     instrumentFunctions(
       this,
       props.envName,
+      props.gitHash,
       next.nextApiLambda,
       next.nextImageLambda,
       next.defaultNextLambda
@@ -188,6 +190,7 @@ export class AppStack extends Stack {
       hostedZone,
       props.envName,
       props.userPool,
+      props.gitHash,
       props.sesIdentityArn,
       props.chargebeeSite,
       props.forceUpdateKey

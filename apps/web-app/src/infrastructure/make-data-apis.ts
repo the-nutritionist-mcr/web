@@ -24,6 +24,7 @@ export const makeDataApis = (
   hostedZone: IHostedZone,
   envName: string,
   pool: IUserPool,
+  gitHash: string,
   sesIdentityArn: string,
   chargebeeSite: string,
   forceUpdateKey: string
@@ -102,12 +103,20 @@ export const makeDataApis = (
     target: RecordTarget.fromAlias(new ApiGatewayDomain(apiDomainName)),
   });
 
-  makeDataApi(context, RESOURCES.Recipe, envName, api, defaultEnvironmentVars);
+  makeDataApi(
+    context,
+    RESOURCES.Recipe,
+    envName,
+    gitHash,
+    api,
+    defaultEnvironmentVars
+  );
 
   makeDataApi(
     context,
     RESOURCES.Customisation,
     envName,
+    gitHash,
     api,
     defaultEnvironmentVars
   );
@@ -400,6 +409,7 @@ export const makeDataApis = (
   instrumentFunctions(
     context,
     envName,
+    gitHash,
     chargeBeeWebhookFunction,
     getAllCustomersFunction,
     updateCustomerFunction,

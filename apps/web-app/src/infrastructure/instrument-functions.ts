@@ -12,6 +12,7 @@ const contexts: { [ids: string]: Datadog } = {};
 export const instrumentFunctions = (
   context: Construct,
   envName: string,
+  gitHash: string,
   // eslint-disable-next-line @typescript-eslint/ban-types
   ...funcs: (Function | undefined)[]
 ) => {
@@ -31,6 +32,8 @@ export const instrumentFunctions = (
     );
   }
 
+  contexts[context.node.id].addGitCommitMetadata([funcs], gitHash);
+
   const getDatadogSecretPolicy = new PolicyStatement({
     actions: [IAM.actions.secretsManager.getSecret],
     effect: Effect.ALLOW,
@@ -41,5 +44,5 @@ export const instrumentFunctions = (
     func.addToRolePolicy(getDatadogSecretPolicy);
   });
 
-  contexts[context.node.id].addLambdaFunctions(funcs);
+  contexts[config.context.node.id].addLambdaFunctions(funcs);
 };

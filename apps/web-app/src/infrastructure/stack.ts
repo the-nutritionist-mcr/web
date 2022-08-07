@@ -25,103 +25,119 @@ const sesIdentityArn = `arn:aws:ses:us-east-1:568693217207:identity/thenutrition
 
 const forceUpdateKey = 'force-update-key';
 
-const backendStack = new BackendStack(app, 'tnm-web-int-backend-stack', {
-  stackProps: { env },
-  envName: 'int',
-  transient: true,
-  chargebeeSite: CHARGEBEE_SITES.test,
-  forceUpdateKey,
-});
+const main = async () => {
+  /* eslint-disable unicorn/prefer-module */
+  /* eslint-disable @typescript-eslint/no-var-requires */
+  const datadogCi = require('@datadog/datadog-ci');
+  const gitHash = await datadogCi.gitMetadata.uploadGitCommitHash(
+    process.env['DATADOG_API_KEY'],
+    'datadoghq.eu'
+  );
 
-new AppStack(app, 'tnm-web-int-stack', {
-  stackProps: { env },
-  envName: 'int',
-  transient: true,
-  chargebeeSite: CHARGEBEE_SITES.test,
-  sesIdentityArn,
-  forceUpdateKey,
-  nextJsBuildDir,
-  userPool: backendStack.pool,
-});
+  const backendStack = new BackendStack(app, 'tnm-web-int-backend-stack', {
+    stackProps: { env },
+    envName: 'int',
+    transient: true,
+    chargebeeSite: CHARGEBEE_SITES.test,
+    forceUpdateKey,
+  });
 
-const intStack = new BackendStack(app, 'tnm-web-cypress-backend-stack', {
-  stackProps: { env },
-  envName: 'cypress',
-  transient: true,
-  chargebeeSite: CHARGEBEE_SITES.test,
-  forceUpdateKey,
-});
+  new AppStack(app, 'tnm-web-int-stack', {
+    stackProps: { env },
+    gitHash,
+    envName: 'int',
+    transient: true,
+    chargebeeSite: CHARGEBEE_SITES.test,
+    sesIdentityArn,
+    forceUpdateKey,
+    nextJsBuildDir,
+    userPool: backendStack.pool,
+  });
 
-new AppStack(app, 'tnm-web-cypress-stack', {
-  stackProps: { env },
-  envName: 'cypress',
-  transient: true,
-  sesIdentityArn,
-  chargebeeSite: CHARGEBEE_SITES.test,
-  forceUpdateKey,
-  nextJsBuildDir,
-  userPool: intStack.pool,
-});
+  const intStack = new BackendStack(app, 'tnm-web-cypress-backend-stack', {
+    stackProps: { env },
+    envName: 'cypress',
+    transient: true,
+    chargebeeSite: CHARGEBEE_SITES.test,
+    forceUpdateKey,
+  });
 
-const devStack = new BackendStack(app, 'tnm-web-dev-backend-stack', {
-  stackProps: { env },
-  envName: 'dev',
-  transient: true,
-  chargebeeSite: CHARGEBEE_SITES.test,
-  forceUpdateKey,
-});
+  new AppStack(app, 'tnm-web-cypress-stack', {
+    stackProps: { env },
+    gitHash,
+    envName: 'cypress',
+    transient: true,
+    sesIdentityArn,
+    chargebeeSite: CHARGEBEE_SITES.test,
+    forceUpdateKey,
+    nextJsBuildDir,
+    userPool: intStack.pool,
+  });
 
-new AppStack(app, 'tnm-web-dev-stack', {
-  stackProps: { env },
-  envName: 'dev',
-  transient: true,
-  chargebeeSite: CHARGEBEE_SITES.test,
-  forceUpdateKey,
-  sesIdentityArn,
-  userPool: devStack.pool,
-  nextJsBuildDir,
-});
+  const devStack = new BackendStack(app, 'tnm-web-dev-backend-stack', {
+    stackProps: { env },
+    envName: 'dev',
+    transient: true,
+    chargebeeSite: CHARGEBEE_SITES.test,
+    forceUpdateKey,
+  });
 
-const testStack = new BackendStack(app, 'tnm-web-test-backend-stack', {
-  stackProps: { env },
-  envName: 'test',
-  transient: true,
-  chargebeeSite: CHARGEBEE_SITES.test,
-  forceUpdateKey,
-});
+  new AppStack(app, 'tnm-web-dev-stack', {
+    stackProps: { env },
+    envName: 'dev',
+    gitHash,
+    transient: true,
+    chargebeeSite: CHARGEBEE_SITES.test,
+    forceUpdateKey,
+    sesIdentityArn,
+    userPool: devStack.pool,
+    nextJsBuildDir,
+  });
 
-new AppStack(app, 'tnm-web-test-stack', {
-  stackProps: { env },
-  envName: 'test',
-  transient: true,
-  chargebeeSite: CHARGEBEE_SITES.test,
-  sesIdentityArn,
-  forceUpdateKey,
-  nextJsBuildDir,
-  userPool: testStack.pool,
-});
+  const testStack = new BackendStack(app, 'tnm-web-test-backend-stack', {
+    stackProps: { env },
+    envName: 'test',
+    transient: true,
+    chargebeeSite: CHARGEBEE_SITES.test,
+    forceUpdateKey,
+  });
 
-const prodStack = new BackendStack(app, 'tnm-web-prod-backend-stack', {
-  stackProps: { env },
-  envName: 'prod',
-  transient: true,
-  chargebeeSite: CHARGEBEE_SITES.test,
-  forceUpdateKey,
-});
+  new AppStack(app, 'tnm-web-test-stack', {
+    stackProps: { env },
+    envName: 'test',
+    transient: true,
+    gitHash,
+    chargebeeSite: CHARGEBEE_SITES.test,
+    sesIdentityArn,
+    forceUpdateKey,
+    nextJsBuildDir,
+    userPool: testStack.pool,
+  });
 
-new AppStack(app, 'tnm-web-prod-stack', {
-  stackProps: { env },
-  envName: 'prod',
-  transient: false,
-  chargebeeSite: CHARGEBEE_SITES.live,
-  sesIdentityArn,
-  forceUpdateKey,
-  nextJsBuildDir,
-  userPool: prodStack.pool,
-});
+  const prodStack = new BackendStack(app, 'tnm-web-prod-backend-stack', {
+    stackProps: { env },
+    envName: 'prod',
+    transient: true,
+    chargebeeSite: CHARGEBEE_SITES.test,
+    forceUpdateKey,
+  });
 
-new UsersStack(app, 'tnm-web-users-stack', {
-  stackProps: { env },
-});
+  new AppStack(app, 'tnm-web-prod-stack', {
+    stackProps: { env },
+    envName: 'prod',
+    gitHash,
+    transient: false,
+    chargebeeSite: CHARGEBEE_SITES.live,
+    sesIdentityArn,
+    forceUpdateKey,
+    nextJsBuildDir,
+    userPool: prodStack.pool,
+  });
 
-app.synth();
+  new UsersStack(app, 'tnm-web-users-stack', {
+    stackProps: { env },
+  });
+  app.synth();
+};
+
+main().catch((error) => console.log(error));

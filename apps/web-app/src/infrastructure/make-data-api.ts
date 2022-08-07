@@ -18,6 +18,7 @@ export const makeDataApi = (
   context: Construct,
   name: string,
   environment: string,
+  gitHash: string,
   api: IRestApi,
   defaultEnvironmentVars: { [key: string]: string },
   readWrite: ReadWriteMode = ReadWriteMode.ReadWrite
@@ -48,7 +49,7 @@ export const makeDataApi = (
       },
     });
 
-    instrumentFunctions(context, environment, crudFunction);
+    instrumentFunctions(context, environment, gitHash, crudFunction);
 
     return crudFunction;
   };
