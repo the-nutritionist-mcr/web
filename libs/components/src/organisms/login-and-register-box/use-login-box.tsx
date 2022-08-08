@@ -53,6 +53,7 @@ export const useLoginBox = () => {
   const [email, setEmail] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
   const onSubmit = async (data: SrpData) => {
+    setErrorMessage(undefined);
     try {
       if (isLoginData(data, loginState)) {
         setPassword(data.password);
