@@ -94,7 +94,6 @@ export const makeUserPool = (
     removalPolicy,
     userPoolName: getResourceName('user-pool', environmentName),
     selfSignUpEnabled: true,
-    signInCaseSensitive: false,
     email,
 
     userVerification: {
