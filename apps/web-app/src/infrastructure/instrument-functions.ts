@@ -33,6 +33,7 @@ export const instrumentFunctions = (
         addLayers: true,
         service: 'tnm-web',
         logLevel: 'debug',
+        tags: 'git.repository_url:https://github.com/the-nutritionist-mcr/web',
       }
     );
   }
