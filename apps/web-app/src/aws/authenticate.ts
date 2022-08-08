@@ -66,10 +66,6 @@ interface LoginResponse {
 
 const datadogAppId = process.env['NX_DATADOG_APP_ID'];
 
-export const changePassword = async () => {
-  Auth.changePassword;
-};
-
 export const login = async (
   username: string,
   password: string
