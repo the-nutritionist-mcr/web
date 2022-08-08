@@ -1,5 +1,6 @@
 import { ErrorResponse } from './types/error-response';
 import {
+  ChangePasswordAgainData,
   ChangePasswordFormData,
   LoginFormData,
   SrpData,
@@ -13,7 +14,15 @@ export enum LoginState {
   DoLogin = 'DoLogin',
   ChangePasswordChallenge = 'ChangePasswordChallenge',
   MfaChallenge = 'MfaChallenge',
+  PasswordresetRequired = 'PasswordResetRequired',
 }
+
+const isChangePasswordAgainData = (
+  formData: SrpData,
+  loginState: LoginState
+): formData is ChangePasswordAgainData =>
+  Object.prototype.hasOwnProperty.call(formData, 'password') &&
+  loginState === LoginState.PasswordresetRequired;
 
 const isChangePasswordData = (
   formData: SrpData,
@@ -30,20 +39,24 @@ const isLoginData = (
   loginState === LoginState.DoLogin;
 
 export const useLoginBox = () => {
-  const { login, newPasswordChallengeResponse } = useContext(
+  const { login, newPasswordChallengeResponse, forgotPassword } = useContext(
     AuthenticationServiceContext
   );
   const { navigate } = useContext(NavigationContext);
-  if (!login || !newPasswordChallengeResponse || !navigate) {
+  if (!login || !newPasswordChallengeResponse || !navigate || !forgotPassword) {
     throw new Error('Dependencies not configured!');
   }
 
   const [errorMessage, setErrorMessage] = useState<ErrorResponse | undefined>();
   const [loginState, setLoginState] = useState<LoginState>(LoginState.DoLogin);
   const [response, setResponse] = useState<LoginResponse>();
+  const [email, setEmail] = useState<string | undefined>();
+  const [password, setPassword] = useState<string | undefined>();
   const onSubmit = async (data: SrpData) => {
     try {
       if (isLoginData(data, loginState)) {
+        setPassword(data.password);
+        setEmail(data.email);
         const loginResponse = await login(data.email, data.password);
         setResponse(loginResponse);
         if (loginResponse.challengeName === 'SMS_MFA') {
@@ -70,10 +83,24 @@ export const useLoginBox = () => {
           await navigate('/account/');
         }
       }
+
+      if (isChangePasswordAgainData(data, loginState)) {
+        await forgotPassword(email ?? '', password ?? '', data.password);
+        const loginResponse = await login(email ?? '', data.password);
+
+        if (loginResponse.success) {
+          await navigate('/account/');
+        }
+      }
     } catch (error) {
       if (error instanceof Error) {
-        setErrorMessage({ message: error.message });
-        console.log(error);
+        if (error.name === 'PasswordResetRequiredException') {
+          console.log(JSON.stringify(error, null, 2));
+          setLoginState(LoginState.PasswordresetRequired);
+        } else {
+          setErrorMessage({ message: error.message });
+          console.log(error);
+        }
       }
     }
   };

@@ -8,6 +8,7 @@ export enum LoginState {
   DoLogin = 'DoLogin',
   ChangePasswordChallenge = 'ChangePasswordChallenge',
   MfaChallenge = 'MfaChallenge',
+  PasswordresetRequired = 'PasswordResetRequired',
 }
 
 const getLoginBox = (state: LoginState) => {
@@ -18,6 +19,8 @@ const getLoginBox = (state: LoginState) => {
       return NewPasswordForm;
     case LoginState.MfaChallenge:
       return MfaForm;
+    case LoginState.PasswordresetRequired:
+      return NewPasswordForm;
   }
 };
 

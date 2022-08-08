@@ -66,6 +66,10 @@ interface LoginResponse {
 
 const datadogAppId = process.env['NX_DATADOG_APP_ID'];
 
+export const changePassword = async () => {
+  Auth.changePassword;
+};
+
 export const login = async (
   username: string,
   password: string
@@ -152,6 +156,15 @@ export const currentUser = async (): Promise<CognitoUser | undefined> => {
   } catch {
     return undefined;
   }
+};
+
+export const forgotPassword = async (
+  username: string,
+  password: string,
+  newPassword: string
+): Promise<void> => {
+  await configureAuth();
+  await Auth.forgotPasswordSubmit(username, password, newPassword);
 };
 
 export const newPasswordChallengeResponse = async (

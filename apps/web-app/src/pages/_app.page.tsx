@@ -17,6 +17,7 @@ import {
   currentUser,
   login,
   newPasswordChallengeResponse,
+  forgotPassword,
   register,
   signOut,
 } from '../aws/authenticate';
@@ -40,6 +41,7 @@ const authenticationService = {
   register,
   signOut,
   confirmSignup,
+  forgotPassword,
   newPasswordChallengeResponse,
 };
 

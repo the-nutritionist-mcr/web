@@ -11,6 +11,11 @@ export interface ChangePasswordFormData {
   password: string;
 }
 
+export interface ChangePasswordAgainData {
+  password: string;
+  email: string;
+}
+
 export interface RegisterFormData {
   saluation: string;
   username: string;
