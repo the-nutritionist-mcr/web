@@ -47,8 +47,7 @@ const main = async () => {
     stackProps: { env },
     gitHash,
     userPool: backendStack.pool,
-    backendStackId: backendStack.stackId,
-    userPoolClient: backendStack.client,
+    source: backendStack.source,
     envName: 'int',
     transient: true,
     chargebeeSite: CHARGEBEE_SITES.test,
@@ -76,8 +75,7 @@ const main = async () => {
     forceUpdateKey,
     nextJsBuildDir,
     userPool: intStack.pool,
-    backendStackId: intStack.stackId,
-    userPoolClient: intStack.client,
+    source: intStack.source,
   });
 
   const devStack = new BackendStack(app, 'tnm-web-dev-backend-stack', {
@@ -98,8 +96,7 @@ const main = async () => {
     forceUpdateKey,
     sesIdentityArn,
     userPool: devStack.pool,
-    backendStackId: devStack.stackId,
-    userPoolClient: devStack.client,
+    source: devStack.source,
     nextJsBuildDir,
   });
 
@@ -121,8 +118,7 @@ const main = async () => {
     sesIdentityArn,
     forceUpdateKey,
     userPool: testStack.pool,
-    backendStackId: testStack.stackId,
-    userPoolClient: testStack.client,
+    source: testStack.source,
     nextJsBuildDir,
   });
 
@@ -145,8 +141,7 @@ const main = async () => {
     forceUpdateKey,
     nextJsBuildDir,
     userPool: prodStack.pool,
-    backendStackId: prodStack.stackId,
-    userPoolClient: prodStack.client,
+    source: prodStack.source,
   });
 
   new UsersStack(app, 'tnm-web-users-stack', {

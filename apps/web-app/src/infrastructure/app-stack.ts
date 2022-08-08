@@ -4,6 +4,7 @@ import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import {
   BucketDeployment,
   CacheControl,
+  ISource,
   Source,
 } from 'aws-cdk-lib/aws-s3-deployment';
 import { PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
@@ -33,8 +34,7 @@ interface TnmAppProps {
   nextJsBuildDir: string;
   sesIdentityArn: string;
   userPool: UserPool;
-  userPoolClient: UserPoolClient;
-  backendStackId: string;
+  source: ISource;
   gitHash: string;
 }
 
@@ -85,20 +85,8 @@ export class AppStack extends Stack {
       },
     });
 
-    const config = {
-      [id]: {
-        DomainName: getDomainName(props.envName),
-        ApiDomainName: getDomainName(props.envName, 'api'),
-      },
-      [props.backendStackId]: {
-        UserPoolId: props.userPool.userPoolId,
-        ClientId: props.userPoolClient.userPoolClientId,
-        // UserPoolArn: props.userPool.userPoolArn,
-      },
-    };
-
     new BucketDeployment(this, 'deploy-app-config', {
-      sources: [Source.jsonData('app-config.json', config)],
+      sources: [props.source],
       destinationBucket: next.bucket,
       cacheControl: [
         CacheControl.setPublic(),

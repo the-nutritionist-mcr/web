@@ -1,5 +1,7 @@
+import { getDomainName } from '@tnmw/utils';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { UserPool, UserPoolClient } from 'aws-cdk-lib/aws-cognito';
+import { ISource, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { Construct } from 'constructs';
 import { makeUserPool } from './make-user-pool';
 
@@ -23,8 +25,8 @@ export interface BackendConfig {
 
 export class BackendStack extends Stack {
   public pool: UserPool;
-  public config: BackendConfig;
   public client: UserPoolClient;
+  public source: ISource;
 
   public constructor(scope: Construct, id: string, props: BackendStackProps) {
     super(scope, id, props.stackProps);
@@ -37,6 +39,19 @@ export class BackendStack extends Stack {
       props.gitHash
     );
 
+    const config = {
+      one: {
+        DomainName: getDomainName(props.envName),
+        ApiDomainName: getDomainName(props.envName, 'api'),
+      },
+      two: {
+        UserPoolId: userPool.userPoolId,
+        ClientId: client.userPoolClientId,
+        UserPoolArn: userPool.userPoolArn,
+      },
+    };
+
+    this.source = Source.jsonData('app-config.json', config);
     this.client = client;
     this.pool = userPool;
   }
