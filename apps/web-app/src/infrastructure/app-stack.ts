@@ -90,7 +90,7 @@ export class AppStack extends Stack {
       '/app-config.json',
       new S3Origin(next.bucket, {
         customHeaders: {
-          'cache-control': 'private, max-age=31536000',
+          'cache-control': 'public, max-age=31536000',
         },
       })
     );
