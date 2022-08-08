@@ -11,7 +11,10 @@ type StackOutputs = {
   [stackName: string]: StackConfig;
 };
 
-const path = '/app-config.json';
+const urlNeededForTestingCosNodeFetchDoesntSupport =
+  process.env.FETCH_BASE_URL ?? '';
+
+const path = `${urlNeededForTestingCosNodeFetchDoesntSupport}/app-config.json`;
 
 const isBrowser = typeof window !== 'undefined';
 
@@ -20,7 +23,7 @@ const getOutputJson = async () => {
     const promise = await fetch(path);
     return promise.json();
   }
-  return Promise.resolve({});
+  return {};
 };
 
 const jsonPromise = getOutputJson();

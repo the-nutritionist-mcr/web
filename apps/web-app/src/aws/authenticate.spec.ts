@@ -89,6 +89,13 @@ describe('The authenticate module', () => {
       const response = {
         signInUserSession: {
           accessToken: 'foo-token',
+          idToken: {
+            payload: {
+              given_name: 'ben',
+              family_name: 'wainwright',
+              email: 'a@b.c',
+            },
+          },
         },
       };
 
@@ -113,6 +120,13 @@ describe('The authenticate module', () => {
       class FakeCognitoResponse {
         signInUserSession = {
           accessToken: 'foo-token',
+          idToken: {
+            payload: {
+              given_name: 'ben',
+              family_name: 'wainwright',
+              email: 'a@b.c',
+            },
+          },
         };
       }
 

@@ -40,7 +40,7 @@ const getConfigurer = () => {
 
 const configureAuth = getConfigurer();
 
-interface CognitoUser {
+export interface CognitoUser {
   signInUserSession: {
     idToken: {
       jwtToken: string;
@@ -52,6 +52,7 @@ interface CognitoUser {
       };
     };
     accessToken: {
+      jwtToken: string;
       payload: {
         'cognito:groups': string[];
       };
