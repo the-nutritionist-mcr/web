@@ -52,6 +52,7 @@ export const makeDataApis = (
   );
 
   const defaultEnvironmentVars = {
+    DD_TRACE_STARTUP_LOGS: 'true',
     DD_TRACE_DEBUG: 'true',
     [ENV.varNames.NodeOptions]: NODE_OPTS.EnableSourceMaps,
     [ENV.varNames.EnvironmentName]: envName,
