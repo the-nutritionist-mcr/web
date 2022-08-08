@@ -22,7 +22,10 @@ import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { UserPool, UserPoolClient } from 'aws-cdk-lib/aws-cognito';
 import { CognitoSeeder } from '@tnmw/seed-cognito';
 import { makeArnRegionless } from './make-arn-regionless';
+import { Dashboard } from 'aws-cdk-lib/aws-cloudwatch';
+import { makeErrorRatioWidget } from './make-error-ratio-widget';
 import { SEED_USERS } from './seed-users';
+import { BackendConfig } from './backend-stack';
 
 interface TnmAppProps {
   forceUpdateKey: string;
@@ -36,6 +39,7 @@ interface TnmAppProps {
   userPoolClient: UserPoolClient;
   backendStackId: string;
   gitHash: string;
+  backendConfig: BackendConfig;
 }
 
 export class AppStack extends Stack {
@@ -43,6 +47,10 @@ export class AppStack extends Stack {
     super(scope, id, props.stackProps);
 
     const domainName = getDomainName(props.envName);
+
+    const dashboard = new Dashboard(this, 'dashboard', {
+      dashboardName: `tnm-portal-${props.envName}`,
+    });
 
     new CfnOutput(this, 'DomainName', {
       value: domainName,
@@ -112,6 +120,8 @@ export class AppStack extends Stack {
       '/app-config.json',
       new S3Origin(next.bucket)
     );
+
+    dashboard.addWidgets(makeErrorRatioWidget(next.defaultNextLambda));
 
     new CfnOutput(this, 'DeployBucket', {
       value: next.bucket.bucketName,
