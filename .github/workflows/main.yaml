@@ -133,6 +133,13 @@ jobs:
           NX_CHARGEBEE_TOKEN: ${{ secrets.CHARGEBEE_TOKEN }}
           NX_COGNITO_POOL_ID: us-east-1_52Vmao897
 
+      - name: Upload videos if failed
+        if: failure()
+        uses: actions/upload-artifact@v1
+        with:
+          name: Cypress videos
+          path: dist/cypress/apps/web-app-e2e/videos
+
   deploy-for-test:
     name: Test Deploy
     runs-on: ubuntu-latest
