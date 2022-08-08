@@ -1,3 +1,4 @@
+import '../misc/init-dd-trace';
 import { getDomainName } from '@tnmw/utils';
 import { CustomMessageAdminCreateUserTriggerEvent, Handler } from 'aws-lambda';
 import { makeEmail } from './portal-welcome-email';
