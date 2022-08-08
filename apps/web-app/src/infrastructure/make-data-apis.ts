@@ -148,6 +148,7 @@ export const makeDataApis = (
       [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
     },
     bundling: {
+      externalModules: ['dd-trace', 'datadog-lambda-js'],
       sourceMap: true,
     },
   });
@@ -178,6 +179,7 @@ export const makeDataApis = (
         [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
       },
       bundling: {
+        externalModules: ['dd-trace', 'datadog-lambda-js'],
         sourceMap: true,
       },
     }
@@ -208,6 +210,7 @@ export const makeDataApis = (
       [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
     },
     bundling: {
+      externalModules: ['dd-trace', 'datadog-lambda-js'],
       sourceMap: true,
     },
   });
@@ -231,6 +234,7 @@ export const makeDataApis = (
         [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
       },
       bundling: {
+        externalModules: ['dd-trace', 'datadog-lambda-js'],
         sourceMap: true,
       },
     }
@@ -255,6 +259,7 @@ export const makeDataApis = (
         [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
       },
       bundling: {
+        externalModules: ['dd-trace', 'datadog-lambda-js'],
         sourceMap: true,
       },
     }
@@ -283,6 +288,7 @@ export const makeDataApis = (
       memorySize: 2048,
       environment: defaultEnvironmentVars,
       bundling: {
+        externalModules: ['dd-trace', 'datadog-lambda-js'],
         sourceMap: true,
       },
     }
@@ -307,6 +313,7 @@ export const makeDataApis = (
       memorySize: 2048,
       environment: defaultEnvironmentVars,
       bundling: {
+        externalModules: ['dd-trace', 'datadog-lambda-js'],
         sourceMap: true,
       },
     }
@@ -334,6 +341,7 @@ export const makeDataApis = (
       memorySize: 2048,
       environment: defaultEnvironmentVars,
       bundling: {
+        externalModules: ['dd-trace', 'datadog-lambda-js'],
         sourceMap: true,
       },
     }
@@ -384,6 +392,7 @@ export const makeDataApis = (
       memorySize: 2048,
       environment: { ...defaultEnvironmentVars, FORCE_DEPLOY: 'true' },
       bundling: {
+        externalModules: ['dd-trace', 'datadog-lambda-js'],
         sourceMap: true,
       },
     }

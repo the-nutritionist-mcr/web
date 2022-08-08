@@ -42,6 +42,7 @@ export const makeUserPool = (
         ENVIRONMENT: environmentName,
       },
       bundling: {
+        externalModules: ['dd-trace', 'datadog-lambda-js'],
         sourceMap: true,
       },
     }
@@ -61,6 +62,7 @@ export const makeUserPool = (
         ENVIRONMENT: environmentName,
       },
       bundling: {
+        externalModules: ['dd-trace', 'datadog-lambda-js'],
         sourceMap: true,
       },
     }

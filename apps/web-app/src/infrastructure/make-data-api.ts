@@ -45,6 +45,7 @@ export const makeDataApi = (
         [ENV.varNames.DynamoDBTable]: dataTable.tableName,
       },
       bundling: {
+        externalModules: ['dd-trace', 'datadog-lambda-js'],
         sourceMap: true,
       },
     });
