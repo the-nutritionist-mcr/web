@@ -7,6 +7,8 @@ import { HttpError } from './http-error';
 interface AuthoriseResponse {
   username: string;
   groups: ReadonlyArray<string>;
+  firstName: string;
+  surname: string;
 }
 
 export const authoriseJwt = async (
@@ -38,7 +40,12 @@ export const authoriseJwt = async (
     );
   }
 
-  return { username: verifyResult.userName, groups: verifyResult.groups };
+  return {
+    username: verifyResult.userName,
+    groups: verifyResult.groups,
+    firstName: verifyResult.firstName,
+    surname: verifyResult.surname,
+  };
 };
 
 const decodeBasicAuth = (authHeaderValue: string) => {
