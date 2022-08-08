@@ -83,7 +83,7 @@ runs:
 
     - name: Upload sourcemaps
       shell: bash
-      run: yarn datadog-ci sourcemaps upload ./dist/apps/web-app/.next --service=tnm-web --version=${{ env.APP_VERSION }} --minified-path-prefix=${{ inputs.url }}/_next
+      run: yarn datadog-ci sourcemaps upload ./dist/apps/web-app/.next --service=tnm-web --release-version=${{ env.APP_VERSION }} --minified-path-prefix=${{ inputs.url }}/_next
       env:
         DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
         DATADOG_SITE: datadoghq.eu
