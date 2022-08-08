@@ -52,6 +52,7 @@ export const makeDataApis = (
   );
 
   const defaultEnvironmentVars = {
+    DD_TRACE_DEBUG: 'true',
     [ENV.varNames.NodeOptions]: NODE_OPTS.EnableSourceMaps,
     [ENV.varNames.EnvironmentName]: envName,
     [ENV.varNames.ChargeBeeToken]: chargebeeAccessToken.secretName,
