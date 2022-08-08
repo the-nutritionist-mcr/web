@@ -6,6 +6,10 @@ inputs:
     description: Name of the environment being deployed
     required: true
 
+  url:
+    description: The URL of the production application
+    required: true
+
   app-env:
     description: Value of the NX_APP_ENV environment variable
     required: false
@@ -76,6 +80,14 @@ runs:
         NX_APP_VERSION: ${{ env.APP_VERSION }}
         NX_DATADOG_APP_ID: ${{ inputs.datadog-app-id }}
         NX_DATADOG_CLIENT_TOKEN: ${{ inputs.datadog-client-token }}
+
+    - name: Upload sourcemaps
+      shell: bash
+      run: yarn datadog-ci sourcemaps upload ./dist/apps/web-app/.next --service=tnm-web --version=${{ env.APP_VERSION }} --minified-path-prefix=${{ inputs.url }}/_next
+      env:
+        DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
+        DATADOG_SITE: datadoghq.eu
+        DATADOG_API_HOST: api.datadoghq.eu
 
     - name: Process build artifact for Serverless
       shell: bash

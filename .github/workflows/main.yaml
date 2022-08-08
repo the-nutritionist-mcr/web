@@ -106,6 +106,7 @@ jobs:
           datadog-app-id: ${{ secrets.DATADOG_APP_ID }}
           datadog-client-token: ${{ secrets.DATADOG_CLIENT_TOKEN }}
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          url: https://cypress.app.thenutritionistmcr.com
 
   cypress-run:
     name: E2E Tests
@@ -152,6 +153,7 @@ jobs:
           datadog-app-id: ${{ secrets.DATADOG_APP_ID }}
           datadog-client-token: ${{ secrets.DATADOG_CLIENT_TOKEN }}
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          url: https://test.app.thenutritionistmcr.com
 
   deploy-for-dev:
     name: Dev Deploy
@@ -173,6 +175,7 @@ jobs:
           datadog-app-id: ${{ secrets.DATADOG_APP_ID }}
           datadog-client-token: ${{ secrets.DATADOG_CLIENT_TOKEN }}
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          url: https://dev.app.thenutritionistmcr.com
 
   deploy-for-prod:
     name: Production Deploy
@@ -195,3 +198,4 @@ jobs:
           datadog-app-id: ${{ secrets.DATADOG_APP_ID }}
           datadog-client-token: ${{ secrets.DATADOG_CLIENT_TOKEN }}
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          url: https://portal.thenutritionistmcr.com
