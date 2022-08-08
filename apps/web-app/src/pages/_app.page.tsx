@@ -25,6 +25,7 @@ import '../assets/global.scss';
 import { HttpError } from '../backend/lambdas/data-api/http-error';
 import { HTTP } from '@tnmw/constants';
 import { datadogRum } from '@datadog/browser-rum';
+import { getOutputs } from '../aws/get-outputs';
 
 const navigator = {
   navigate: async (path: string) => {
@@ -57,6 +58,7 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
     (async () => {
       if (datadogAppId) {
+        const { ApiDomainName: domainName } = await getOutputs();
         datadogRum.init({
           applicationId: datadogAppId,
           clientToken: datadogClientToken,
@@ -65,6 +67,7 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
           env: process.env['NX_APP_ENV'],
           version: process.env['APP_VERSION'],
           sampleRate: 100,
+          allowedTracingOrigins: [`https://${domainName}`],
           premiumSampleRate: 100,
           trackInteractions: true,
           trackFrustrations: true,
