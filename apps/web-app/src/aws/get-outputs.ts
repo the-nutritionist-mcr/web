@@ -11,19 +11,33 @@ type StackOutputs = {
   [stackName: string]: StackConfig;
 };
 
+const path = '/app-config.json';
+
+const isBrowser = typeof window !== 'undefined';
+
+const getOutputJson = async () => {
+  if (isBrowser) {
+    const promise = await fetch(path);
+    return promise.json();
+  }
+  return Promise.resolve({});
+};
+
+const jsonPromise = getOutputJson();
+
 export const getOutputs = async (): Promise<StackConfig> => {
-  // TODO need to set FETCH_BASE_URL in deployed build
-  const path = process.env.FETCH_BASE_URL
-    ? `${process.env.FETCH_BASE_URL}/app-config.json`
-    : `/app-config.json`;
-
-  const outputs = await fetch(path);
-  const json: StackOutputs = await outputs.json();
-
-  const entries = Object.values(json);
-
-  return entries.reduce<StackConfig>(
-    (accum, value) => ({ ...accum, ...value }),
-    {} as StackConfig
-  );
+  return new Promise<StackConfig>((accept, reject) => {
+    jsonPromise
+      .then(async (json) => {
+        const stackJson: StackOutputs = json;
+        const entries = Object.values(stackJson);
+        accept(
+          entries.reduce<StackConfig>(
+            (accum, value) => ({ ...accum, ...value }),
+            {} as StackConfig
+          )
+        );
+      })
+      .catch((error) => reject(error));
+  });
 };
