@@ -6,6 +6,10 @@ export const HTTP = {
     InternalServerError: 500,
   },
   headerNames: {
+    XDatadogTraceId: 'x-datadog-trace-id',
+    XDatadogParentId: 'x-datadog-parent-id',
+    XDatadogOrigin: 'x-datadog-origin',
+    XDatadogSamplingPriority: 'x-datadog-sampling-priority',
     AccessControlAllowOrigin: 'access-control-allow-origin',
     AccessControlAllowHeaders: 'access-control-allow-headers',
     ContentType: 'Content-Type',
