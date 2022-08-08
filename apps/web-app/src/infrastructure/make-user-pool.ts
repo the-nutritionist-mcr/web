@@ -41,7 +41,6 @@ export const makeUserPool = (
       environment: {
         ENVIRONMENT: environmentName,
       },
-      memorySize: 2048,
       bundling: {
         sourceMap: true,
       },
@@ -61,7 +60,6 @@ export const makeUserPool = (
       environment: {
         ENVIRONMENT: environmentName,
       },
-      memorySize: 2048,
       bundling: {
         sourceMap: true,
       },
