@@ -67,6 +67,7 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
           sampleRate: 100,
           premiumSampleRate: 100,
           trackInteractions: true,
+          trackFrustrations: true,
           defaultPrivacyLevel: 'mask-user-input',
         });
 
