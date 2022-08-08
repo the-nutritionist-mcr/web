@@ -19,7 +19,7 @@ import { getDomainName } from '@tnmw/utils';
 import { IAM } from '@tnmw/constants';
 import { NextJSLambdaEdge } from '@sls-next/cdk-construct';
 import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
-import { UserPool } from 'aws-cdk-lib/aws-cognito';
+import { UserPool, UserPoolClient } from 'aws-cdk-lib/aws-cognito';
 import { CognitoSeeder } from '@tnmw/seed-cognito';
 import { makeArnRegionless } from './make-arn-regionless';
 import { Dashboard } from 'aws-cdk-lib/aws-cloudwatch';
@@ -36,6 +36,8 @@ interface TnmAppProps {
   nextJsBuildDir: string;
   sesIdentityArn: string;
   userPool: UserPool;
+  userPoolClient: UserPoolClient;
+  backendStackId: string;
   gitHash: string;
   backendConfig: BackendConfig;
 }
@@ -96,7 +98,11 @@ export class AppStack extends Stack {
         DomainName: getDomainName(props.envName),
         ApiDomainName: getDomainName(props.envName, 'api'),
       },
-      [props.backendConfig.id]: props.backendConfig.config,
+      [props.backendStackId]: {
+        UserPoolId: props.userPool.userPoolId,
+        ClientId: props.userPoolClient.userPoolClientId,
+        UserPoolArn: props.userPool.userPoolArn,
+      },
     };
 
     new BucketDeployment(this, 'deploy-app-config', {

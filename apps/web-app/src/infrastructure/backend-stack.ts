@@ -1,5 +1,5 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
-import { UserPool } from 'aws-cdk-lib/aws-cognito';
+import { UserPool, UserPoolClient } from 'aws-cdk-lib/aws-cognito';
 import { Construct } from 'constructs';
 import { makeUserPool } from './make-user-pool';
 
@@ -24,6 +24,7 @@ export interface BackendConfig {
 export class BackendStack extends Stack {
   public pool: UserPool;
   public config: BackendConfig;
+  public client: UserPoolClient;
 
   public constructor(scope: Construct, id: string, props: BackendStackProps) {
     super(scope, id, props.stackProps);
@@ -36,15 +37,7 @@ export class BackendStack extends Stack {
       props.gitHash
     );
 
-    this.config = {
-      id,
-      config: {
-        UserPoolArn: userPool.userPoolArn,
-        UserpoolId: userPool.userPoolId,
-        ClientId: client.userPoolClientId,
-      },
-    };
-
+    this.client = client;
     this.pool = userPool;
   }
 }
