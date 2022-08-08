@@ -32,6 +32,7 @@ export const instrumentFunctions = (
         env: envName,
         addLayers: true,
         service: 'tnm-web',
+        logLevel: 'debug',
       }
     );
   }
