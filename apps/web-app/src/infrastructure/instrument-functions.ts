@@ -30,6 +30,7 @@ export const instrumentFunctions = (
         injectLogContext: true,
         extensionLayerVersion: 27,
         env: envName,
+        logLevel: 'debug',
         addLayers: true,
         service: 'tnm-web',
       }
