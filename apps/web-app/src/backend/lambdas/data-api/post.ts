@@ -1,3 +1,4 @@
+import 'dd-trace/init';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { v4 } from 'uuid';
 

@@ -1,3 +1,4 @@
+import './init-dd-trace';
 import { returnErrorResponse } from '../data-api/return-error-response';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { UpdateCommand } from '@aws-sdk/lib-dynamodb';

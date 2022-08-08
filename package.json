@@ -68,6 +68,7 @@
     "constructs": "10.1.64",
     "core-js": "3.24.1",
     "datadog-cdk-constructs-v2": "^0.3.5",
+    "dd-trace": "^2.12.2",
     "deep-equal": "2.0.5",
     "enzyme": "3.11.0",
     "esbuild": "0.14.51",

@@ -1,3 +1,4 @@
+import './init-dd-trace';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { chooseMeals } from '@tnmw/meal-planning';
 import { ENV } from '@tnmw/constants';

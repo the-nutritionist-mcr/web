@@ -1,3 +1,4 @@
+import 'dd-trace/init';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';

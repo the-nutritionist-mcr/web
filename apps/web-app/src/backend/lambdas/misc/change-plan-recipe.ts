@@ -1,3 +1,4 @@
+import './init-dd-trace';
 import { returnErrorResponse } from '../data-api/return-error-response';
 import { authoriseJwt } from '../data-api/authorise';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';

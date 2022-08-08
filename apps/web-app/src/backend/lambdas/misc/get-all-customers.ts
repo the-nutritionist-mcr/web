@@ -1,3 +1,4 @@
+import './init-dd-trace';
 import {
   ListUsersCommand,
   CognitoIdentityProviderClient,
