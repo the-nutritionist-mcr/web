@@ -6,7 +6,7 @@ import {
   StringAttribute,
 } from 'aws-cdk-lib/aws-cognito';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
-import { CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
+import { CfnOutput, Duration, RemovalPolicy } from 'aws-cdk-lib';
 import { getResourceName } from './get-resource-name';
 import { COGNITO } from '@tnmw/constants';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
@@ -56,6 +56,7 @@ export const makeUserPool = (
         `pre-token-generation-trigger`,
         environmentName
       ),
+      timeout: Duration.seconds(10),
       entry: entryName('misc', 'suppress-cognito-claims.ts'),
       runtime: Runtime.NODEJS_14_X,
       environment: {
