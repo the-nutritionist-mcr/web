@@ -23,7 +23,7 @@ export const instrumentFunctions = (
       {
         site: 'datadoghq.eu',
         apiKeySecretArn: DATADOG_API_KEY_SECRET_ARN,
-        nodeLayerVersion: 29,
+        nodeLayerVersion: 81,
         flushMetricsToLogs: true,
         enableDatadogTracing: true,
         enableDatadogLogs: true,
