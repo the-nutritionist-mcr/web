@@ -21,7 +21,7 @@ const EditCustomer: FC = () => {
   return (
     <MenuPaddedContent>
       <AdminTemplate>
-        {data && (
+        {data && customisations && (
           <EditCustomerPage
             saveCustomer={save}
             dirty={dirty}
