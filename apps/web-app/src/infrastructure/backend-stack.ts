@@ -1,7 +1,11 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
 import { UserPool } from 'aws-cdk-lib/aws-cognito';
+import { IdentityPool } from '@aws-cdk/aws-cognito-identitypool-alpha';
+import { CfnAppMonitor } from 'aws-cdk-lib/aws-rum';
 import { Construct } from 'constructs';
 import { makeUserPool } from './make-user-pool';
+import { getDomainName } from '@tnmw/utils';
+import { getResourceName } from './get-resource-name';
 
 interface BackendStackProps {
   forceUpdateKey: string;
@@ -12,38 +16,19 @@ interface BackendStackProps {
   chargebeeSite: string;
 }
 
-export interface BackendConfig {
-  config: {
-    UserpoolId: string;
-    ClientId: string;
-    UserPoolArn: string;
-  };
-  id: string;
-}
-
 export class BackendStack extends Stack {
   public pool: UserPool;
-  public config: BackendConfig;
 
   public constructor(scope: Construct, id: string, props: BackendStackProps) {
     super(scope, id, props.stackProps);
     const transient = props.envName !== 'prod';
 
-    const { userPool, client } = makeUserPool(
+    const { userPool } = makeUserPool(
       this,
       transient,
       props.envName,
       props.gitHash
     );
-
-    this.config = {
-      id,
-      config: {
-        UserPoolArn: userPool.userPoolArn,
-        UserpoolId: userPool.userPoolId,
-        ClientId: client.userPoolClientId,
-      },
-    };
 
     this.pool = userPool;
   }

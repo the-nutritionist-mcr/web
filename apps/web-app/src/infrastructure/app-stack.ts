@@ -1,15 +1,12 @@
-import { ArnFormat, Duration, Stack, StackProps } from 'aws-cdk-lib';
+import { ArnFormat, Stack, StackProps } from 'aws-cdk-lib';
 import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
-import {
-  BucketDeployment,
-  CacheControl,
-  Source,
-} from 'aws-cdk-lib/aws-s3-deployment';
 import { PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
 import {
+  CachePolicy,
   OriginRequestCookieBehavior,
   OriginRequestPolicy,
+  ResponseHeadersPolicy,
 } from 'aws-cdk-lib/aws-cloudfront';
 import { Construct } from 'constructs';
 import { CfnOutput } from 'aws-cdk-lib';
@@ -24,8 +21,8 @@ import { CognitoSeeder } from '@tnmw/seed-cognito';
 import { makeArnRegionless } from './make-arn-regionless';
 import { Dashboard } from 'aws-cdk-lib/aws-cloudwatch';
 import { makeErrorRatioWidget } from './make-error-ratio-widget';
+import { instrumentFunctions } from './instrument-functions';
 import { SEED_USERS } from './seed-users';
-import { BackendConfig } from './backend-stack';
 
 interface TnmAppProps {
   forceUpdateKey: string;
@@ -37,7 +34,6 @@ interface TnmAppProps {
   sesIdentityArn: string;
   userPool: UserPool;
   gitHash: string;
-  backendConfig: BackendConfig;
 }
 
 export class AppStack extends Stack {
@@ -89,25 +85,6 @@ export class AppStack extends Stack {
           { cookieBehavior: OriginRequestCookieBehavior.all() }
         ),
       },
-    });
-
-    const config = {
-      [id]: {
-        DomainName: getDomainName(props.envName),
-        ApiDomainName: getDomainName(props.envName, 'api'),
-      },
-      [props.backendConfig.id]: props.backendConfig.config,
-    };
-
-    new BucketDeployment(this, 'deploy-app-config', {
-      sources: [Source.jsonData('app-config.json', config)],
-      destinationBucket: next.bucket,
-      cacheControl: [
-        CacheControl.setPublic(),
-        CacheControl.maxAge(Duration.hours(24 * 30)),
-      ],
-      distribution: next.distribution,
-      distributionPaths: ['/app-config.json'],
     });
 
     next.distribution.addBehavior(
