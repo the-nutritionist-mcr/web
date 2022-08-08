@@ -38,6 +38,7 @@ export const makeUserPool = (
       ),
       entry: entryName('chargebee-api', 'joining-email-sender.ts'),
       runtime: Runtime.NODEJS_14_X,
+      timeout: Duration.seconds(10),
       environment: {
         ENVIRONMENT: environmentName,
       },
@@ -56,7 +57,8 @@ export const makeUserPool = (
         `pre-token-generation-trigger`,
         environmentName
       ),
-      timeout: Duration.seconds(10),
+      timeout: Duration.seconds(20),
+      memorySize: 2048,
       entry: entryName('misc', 'suppress-cognito-claims.ts'),
       runtime: Runtime.NODEJS_14_X,
       environment: {
