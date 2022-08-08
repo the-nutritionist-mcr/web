@@ -93,7 +93,7 @@ export class AppStack extends Stack {
       [props.backendStackId]: {
         UserPoolId: props.userPool.userPoolId,
         ClientId: props.userPoolClient.userPoolClientId,
-        // UserPoolArn: props.userPool.userPoolArn,
+        UserPoolArn: props.userPool.userPoolArn,
       },
     };
 
