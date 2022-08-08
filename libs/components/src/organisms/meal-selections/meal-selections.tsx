@@ -4,6 +4,7 @@ import { defaultDeliveryDays } from '@tnmw/config';
 import { MealCategory } from './meal-category';
 import { Button } from '../../atoms';
 import { CONTACT_EMAIL } from '@tnmw/constants';
+import { ParagraphText } from '@tnmw/components';
 import { InitialSelections } from './initial-selections';
 import { ConfirmSelections } from './confirm-selections';
 import { remainingMeals } from './count-meals';
@@ -193,6 +194,10 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
     }
   };
 
+  const Label = styled('div')`
+    margin-top: 1rem;
+  `;
+
   const continueButtonDisabled =
     tabIndex === tabs - 1 && remainingWithoutExtras !== 0;
 
@@ -201,10 +206,12 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
     : 'Continue';
 
   return props.availableMeals.length === 0 ? (
-    <>
-      It looks like you've not got any meals available yet. If this is wrong,
-      get in touch with us at {CONTACT_EMAIL} to let us know
-    </>
+    <Label>
+      <ParagraphText>
+        It looks like you've not got any meals available yet. If this is wrong,
+        get in touch with us at {CONTACT_EMAIL} to let us know
+      </ParagraphText>
+    </Label>
   ) : (
     <DivContainer>
       {!showConfirm ? (
