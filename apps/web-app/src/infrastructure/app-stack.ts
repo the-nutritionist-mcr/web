@@ -77,7 +77,6 @@ export class AppStack extends Stack {
         hostedZone,
         certificate,
       },
-      invalidationPaths: ['/*'],
       defaultBehavior: {
         originRequestPolicy: new OriginRequestPolicy(
           this,
@@ -89,7 +88,11 @@ export class AppStack extends Stack {
 
     next.distribution.addBehavior(
       '/app-config.json',
-      new S3Origin(next.bucket)
+      new S3Origin(next.bucket, {
+        customHeaders: {
+          'cache-control': 'public, max-age=31536000',
+        },
+      })
     );
 
     dashboard.addWidgets(makeErrorRatioWidget(next.defaultNextLambda));
