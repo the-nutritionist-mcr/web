@@ -6,6 +6,7 @@ import {
   CachePolicy,
   OriginRequestCookieBehavior,
   OriginRequestPolicy,
+  ResponseHeadersPolicy,
 } from 'aws-cdk-lib/aws-cloudfront';
 import { Construct } from 'constructs';
 import { CfnOutput } from 'aws-cdk-lib';
@@ -87,10 +88,11 @@ export class AppStack extends Stack {
 
     next.distribution.addBehavior(
       '/app-config.json',
-      new S3Origin(next.bucket),
-      {
-        cachePolicy: CachePolicy.CACHING_DISABLED,
-      }
+      new S3Origin(next.bucket, {
+        customHeaders: {
+          'cache-control': 'private, max-age=31536000',
+        },
+      })
     );
 
     dashboard.addWidgets(makeErrorRatioWidget(next.defaultNextLambda));
