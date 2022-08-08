@@ -87,10 +87,7 @@ export class AppStack extends Stack {
 
     next.distribution.addBehavior(
       '/app-config.json',
-      new S3Origin(next.bucket),
-      {
-        cachePolicy: CachePolicy.CACHING_DISABLED,
-      }
+      new S3Origin(next.bucket)
     );
 
     dashboard.addWidgets(makeErrorRatioWidget(next.defaultNextLambda));
