@@ -63,7 +63,7 @@ const DesktopHeader: FC = () => {
             The Plans
           </a>
         </li>
-        {process.env.NX_APP_ENV !== 'production' ? (
+        {process.env.NX_APP_ENV !== 'prod' ? (
           <li className={`${headerListItem} ${hideOnMobile}`}>
             <a className={menuAnchor} href={`${TNM_SITE}/pricing/`}>
               Pricing
