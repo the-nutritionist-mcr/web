@@ -4,7 +4,13 @@
   "license": "MIT",
   "scripts": {
     "prepare": "husky install",
-    "nx": "nx"
+    "nx": "nx",
+    "client:build:prod": "nx build web-app --prod -- --memoryLimit=8192",
+    "client:build:prod:stats": "nx build web-app --prod --skip-nx-cache -- --memoryLimit=8192 --statsJson",
+    "client:build:dev:stats": "nx build web-app --skip-nx-cache -- --memoryLimit=8192 --statsJson",
+    "analyze:prod:stats": "run-s \"client:build:prod:stats\" \"webpack-bundle-analyzer\"",
+    "analyze:dev:stats": "run-s \"client:build:dev:stats\" \"webpack-bundle-analyzer\"",
+    "webpack-bundle-analyzer": "webpack-bundle-analyzer dist/apps/web-app/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -102,6 +108,7 @@
     "next-aws-lambda-webpack-plugin": "0.2.8",
     "next-images": "1.8.4",
     "nock": "13.2.9",
+    "npm-run-all": "^4.1.5",
     "open": "8.4.0",
     "pdfmake": "0.2.5",
     "ramda": "0.28.0",
@@ -125,7 +132,8 @@
     "use-debounce": "5.2.1",
     "use-deep-compare-effect": "1.8.1",
     "use-mutation": "2.2.1",
-    "uuid": "8.3.2"
+    "uuid": "8.3.2",
+    "webpack-bundle-analyzer": "^4.5.0"
   },
   "devDependencies": {
     "@babel/core": "7.18.10",
