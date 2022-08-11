@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
 const HeroBox = styled('div')(({ theme }) => {
   return {
@@ -15,6 +15,10 @@ const HeroBox = styled('div')(({ theme }) => {
   };
 });
 
-const Hero: FC = (props) => <HeroBox>{props.children}</HeroBox>;
+interface HeroProps {
+  children: ReactNode;
+}
+
+const Hero = (props: HeroProps) => <HeroBox>{props.children}</HeroBox>;
 
 export default Hero;

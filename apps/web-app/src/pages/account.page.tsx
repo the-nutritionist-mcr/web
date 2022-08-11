@@ -1,4 +1,5 @@
 import { FC, useContext } from 'react';
+import Image from 'next/image';
 import { getClosingDate } from '../utils/get-closing-date';
 import {
   UserContext,
@@ -61,7 +62,7 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
     <>
       <Hero>
         <YourAccountHeaderBox>
-          <img
+          <Image
             src={AccountIcon as unknown as string}
             alt=""
             height="80"

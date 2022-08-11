@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { ReactNode } from 'react';
 
 const Container = styled.section`
   padding-top: 3rem;
@@ -10,7 +11,7 @@ const Container = styled.section`
 `;
 
 interface PageSpacingProps {
-  children: JSX.Element;
+  children: ReactNode;
 }
 
 export const PageSpacing = (props: PageSpacingProps) => (
