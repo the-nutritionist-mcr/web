@@ -24,7 +24,7 @@ export interface User {
   email: string;
   city: string;
   postcode: string;
-  plans: StandardPlan[];
+  plans?: StandardPlan[];
 }
 
 interface AccountProps {
@@ -38,6 +38,8 @@ export const Account: FC<AccountProps> = ({
   chooseIsOpen,
   logout,
 }) => {
+  const plans = userDetails.plans?.filter((plan) => plan.totalMeals > 0);
+
   const { navigate } = useContext(NavigationContext);
   return (
     <div>
@@ -68,9 +70,9 @@ export const Account: FC<AccountProps> = ({
         <Input label="Postcode" value={userDetails.postcode} disabled />
         <Input label="City" value={userDetails.city} disabled />
       </FormSection>
-      {userDetails.plans.length > 0 && (
+      {(plans?.length ?? 0) > 0 && (
         <FormSection heading="Your Plan" showQuestionMarkIcon>
-          {userDetails.plans.map((plan) => (
+          {plans?.map((plan) => (
             <>
               <Input label="Meal Size" value={plan.name} disabled />
               <Input
@@ -82,31 +84,33 @@ export const Account: FC<AccountProps> = ({
           ))}
         </FormSection>
       )}
-      <FormSection heading="Choose Meals">
-        {chooseIsOpen ? (
-          <>
-            <p className={text}>
-              Meal selections are now open. Click on the button below to view
-              the meals you will be receiving for the week or to make
-              alternative choices.
-            </p>
-            <Button onClick={() => navigate?.('/choose-meals/')} primary>
-              Make Choices
-            </Button>
-          </>
-        ) : (
-          <>
-            <p className={text}>
-              Meal selections for this week's cook have now closed. Check back
-              here on Monday for next week's meal choices.
-            </p>
+      {(plans?.length ?? 0) > 0 && (
+        <FormSection heading="Choose Meals">
+          {chooseIsOpen ? (
+            <>
+              <p className={text}>
+                Meal selections are now open. Click on the button below to view
+                the meals you will be receiving for the week or to make
+                alternative choices.
+              </p>
+              <Button onClick={() => navigate?.('/choose-meals/')} primary>
+                Make Choices
+              </Button>
+            </>
+          ) : (
+            <>
+              <p className={text}>
+                Meal selections for this week's cook have now closed. Check back
+                here on Monday for next week's meal choices.
+              </p>
 
-            <Button primary disabled>
-              Make Choices
-            </Button>
-          </>
-        )}
-      </FormSection>
+              <Button primary disabled>
+                Make Choices
+              </Button>
+            </>
+          )}
+        </FormSection>
+      )}
 
       <FormSection heading="Logout">
         <Button backgroundColor="#E3E3E3" onClick={logout} primary>
