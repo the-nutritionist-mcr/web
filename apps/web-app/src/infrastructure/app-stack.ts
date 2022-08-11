@@ -1,9 +1,8 @@
 import { ArnFormat, Stack, StackProps } from 'aws-cdk-lib';
 import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
-import { PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
+import { PolicyStatement, Effect, IGroup } from 'aws-cdk-lib/aws-iam';
 import {
-  CachePolicy,
   OriginRequestCookieBehavior,
   OriginRequestPolicy,
 } from 'aws-cdk-lib/aws-cloudfront';
@@ -20,7 +19,6 @@ import { CognitoSeeder } from '@tnmw/seed-cognito';
 import { makeArnRegionless } from './make-arn-regionless';
 import { Dashboard } from 'aws-cdk-lib/aws-cloudwatch';
 import { makeErrorRatioWidget } from './make-error-ratio-widget';
-import { instrumentFunctions } from './instrument-functions';
 import { SEED_USERS } from './seed-users';
 
 interface TnmAppProps {
@@ -33,6 +31,7 @@ interface TnmAppProps {
   sesIdentityArn: string;
   userPool: UserPool;
   gitHash: string;
+  developerGroup: IGroup;
 }
 
 export class AppStack extends Stack {
@@ -117,7 +116,8 @@ export class AppStack extends Stack {
       props.gitHash,
       props.sesIdentityArn,
       props.chargebeeSite,
-      props.forceUpdateKey
+      props.forceUpdateKey,
+      props.developerGroup
     );
   }
 }

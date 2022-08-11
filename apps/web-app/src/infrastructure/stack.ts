@@ -5,6 +5,7 @@ import { UsersStack } from './permissions-stack';
 
 import path from 'node:path';
 import { BackendStack } from './backend-stack';
+import { AccountUsersStack } from './account-users-stack';
 
 // eslint-disable-next-line unicorn/prefer-module
 const root = path.join(__dirname, '../../../..');
@@ -26,6 +27,12 @@ const sesIdentityArn = `arn:aws:ses:us-east-1:568693217207:identity/thenutrition
 const forceUpdateKey = 'force-update-key';
 
 const main = async () => {
+  const userStack = new AccountUsersStack(this, 'tnm-web-account-users-stack', {
+    businessOwners: ['lawrence', 'jess', 'ryan'],
+    developers: ['ben'],
+    stackProps: { env },
+  });
+
   /* eslint-disable unicorn/prefer-module */
   /* eslint-disable @typescript-eslint/no-var-requires */
   const datadogCi = require('@datadog/datadog-ci');
@@ -53,6 +60,7 @@ const main = async () => {
     forceUpdateKey,
     nextJsBuildDir,
     userPool: backendStack.pool,
+    developerGroup: userStack.developersGroup,
   });
 
   const intStack = new BackendStack(app, 'tnm-web-cypress-backend-stack', {
@@ -74,6 +82,7 @@ const main = async () => {
     forceUpdateKey,
     nextJsBuildDir,
     userPool: intStack.pool,
+    developerGroup: userStack.developersGroup,
   });
 
   const devStack = new BackendStack(app, 'tnm-web-dev-backend-stack', {
@@ -95,6 +104,7 @@ const main = async () => {
     sesIdentityArn,
     userPool: devStack.pool,
     nextJsBuildDir,
+    developerGroup: userStack.developersGroup,
   });
 
   const testStack = new BackendStack(app, 'tnm-web-test-backend-stack', {
@@ -116,6 +126,7 @@ const main = async () => {
     forceUpdateKey,
     nextJsBuildDir,
     userPool: testStack.pool,
+    developerGroup: userStack.developersGroup,
   });
 
   const prodStack = new BackendStack(app, 'tnm-web-prod-backend-stack', {
@@ -137,6 +148,7 @@ const main = async () => {
     forceUpdateKey,
     nextJsBuildDir,
     userPool: prodStack.pool,
+    developerGroup: userStack.developersGroup,
   });
 
   new UsersStack(app, 'tnm-web-users-stack', {

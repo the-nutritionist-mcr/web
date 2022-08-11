@@ -8,7 +8,12 @@ import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { IHostedZone } from 'aws-cdk-lib/aws-route53';
 import { getResourceName } from './get-resource-name';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import { Effect, ManagedPolicy, PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import {
+  Effect,
+  IGroup,
+  ManagedPolicy,
+  PolicyStatement,
+} from 'aws-cdk-lib/aws-iam';
 import { LambdaIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { getDomainName } from '@tnmw/utils';
 import { IUserPool } from 'aws-cdk-lib/aws-cognito';
@@ -27,7 +32,8 @@ export const makeDataApis = (
   gitHash: string,
   sesIdentityArn: string,
   chargebeeSite: string,
-  forceUpdateKey: string
+  forceUpdateKey: string,
+  developerGroup: IGroup
 ) => {
   const domainName = getDomainName(envName, 'api');
 
@@ -137,6 +143,31 @@ export const makeDataApis = (
       type: AttributeType.STRING,
     },
   });
+
+  const statement = new PolicyStatement({
+    actions: [IAM.actions.dynamodb.putItem],
+    effect: Effect.ALLOW,
+    resources: [planDataTable.tableArn],
+    conditions: {
+      'ForAllValues:StringEquals': {
+        'dynamodb:Attributes': ['deleted'],
+      },
+      StringEqualsIfExists: {
+        'dynamodb:Select': 'SPECIFIC_ATTRIBUTES',
+        'dynamodb:ReturnValues': ['NONE', 'UPDATED_OLD', 'UPDATED_NEW'],
+      },
+    },
+  });
+
+  developerGroup.addManagedPolicy(
+    new ManagedPolicy(context, `restore-item-permission`, {
+      managedPolicyName: getResourceName(
+        `restricted-db-access-policy`,
+        envName
+      ),
+      statements: [statement],
+    })
+  );
 
   const planFunction = new NodejsFunction(context, `plan-function`, {
     functionName: getResourceName(`plan-function`, envName),

@@ -3,6 +3,9 @@ export const IAM = {
     secretsManager: {
       getSecret: 'secretsmanager:GetSecretValue',
     },
+    dynamodb: {
+      putItem: 'dynamodb:putItem',
+    },
     ses: {
       sendEmail: 'ses:SendEmail',
     },
