@@ -3,6 +3,7 @@ import { returnErrorResponse } from '../data-api/return-error-response';
 import { authoriseJwt } from '../data-api/authorise';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { ORDERS_EMAIL } from '@tnmw/constants';
 import { isSelectedMeal } from '@tnmw/meal-planning';
 import {
   DynamoDBDocumentClient,
@@ -14,8 +15,6 @@ import {
   SendEmailCommand,
   SendEmailCommandInput,
 } from '@aws-sdk/client-ses';
-
-const BCC_ADDRESS = 'ben+orders@thenutritionistmcr.com';
 
 import {
   CustomerMealsSelectionWithChargebeeCustomer,
@@ -86,7 +85,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const email: SendEmailCommandInput = {
       Destination: {
         ToAddresses: [selection.customer.email],
-        BccAddresses: [BCC_ADDRESS],
+        BccAddresses: [ORDERS_EMAIL],
       },
       Message: {
         Body: {
