@@ -5,12 +5,7 @@ import { Button, Input } from '../../atoms';
 import { FormSection } from '../../containers';
 import { useContext } from 'react';
 import { NavigationContext } from '@tnmw/utils';
-import {
-  sectionContents,
-  chooseButtonContainer,
-  header,
-  text,
-} from './account.css';
+import { text } from './account.css';
 
 export interface User {
   username: string;
@@ -34,13 +29,13 @@ export interface User {
 
 interface AccountProps {
   userDetails: User;
-  showChooseButton: boolean;
+  chooseIsOpen: boolean;
   logout: () => void;
 }
 
 export const Account: FC<AccountProps> = ({
   userDetails,
-  showChooseButton,
+  chooseIsOpen,
   logout,
 }) => {
   const { navigate } = useContext(NavigationContext);
@@ -88,7 +83,7 @@ export const Account: FC<AccountProps> = ({
         </FormSection>
       )}
       <FormSection heading="Choose Meals">
-        {showChooseButton ? (
+        {chooseIsOpen ? (
           <>
             <p className={text}>
               Meal selections are now open. Click on the button below to view

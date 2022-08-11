@@ -48,7 +48,7 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
 
   const now = new Date(Date.now());
 
-  const showChooseButton = getClosedOrOpenStatus(now, data);
+  const chooseIsOpen = getClosedOrOpenStatus(now, data);
 
   const logout = async () => {
     await signOut();
@@ -75,7 +75,7 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
         <div className={accountContainer}>
           <Account
             userDetails={user}
-            showChooseButton={showChooseButton}
+            chooseIsOpen={chooseIsOpen}
             logout={logout}
           />
         </div>
