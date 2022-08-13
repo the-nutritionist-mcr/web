@@ -172,6 +172,59 @@ describe('get real recipe', () => {
     expect(result).toBe(recipeTwo);
   });
 
+  it('Throws an error if there is a cycle', () => {
+    const recipeTwo = mock<Recipe>({
+      id: 'recipe-two',
+    });
+
+    const recipeOne = mock<Recipe>({
+      id: 'recipe-one',
+    });
+
+    recipeOne.alternates = [
+      {
+        customisationId: 'foo-bar',
+        recipeId: 'first-recipe',
+      },
+    ];
+
+    recipeTwo.alternates = [{ customisationId: 'biz', recipeId: 'recipe-one' }];
+
+    const recipeThree = mock<Recipe>({
+      id: 'recipe-three',
+    });
+
+    recipeThree.alternates = [];
+
+    const recipe = mock<Recipe>({
+      id: 'first-recipe',
+    });
+
+    const recipes = [recipe, recipeOne, recipeTwo, recipeThree];
+
+    const customer = mock<BackendCustomer>({
+      customisations: [
+        mock<Exclusion>({
+          id: 'foo-bar',
+        }),
+        mock<Exclusion>({
+          id: 'bap',
+        }),
+        mock<Exclusion>({
+          id: 'biz',
+        }),
+      ],
+    });
+
+    recipe.alternates = [
+      { customisationId: 'baz', recipeId: 'bar' },
+      { customisationId: 'bap', recipeId: 'recipe-two' },
+      { customisationId: 'boom', recipeId: 'recipe-three' },
+    ];
+
+    expect(() => getRealRecipe(recipe, customer, recipes)).toThrow();
+  });
+
   it('Where the returned recipe should also be substituted, it returns the correct recipe', () => {
     const recipeTwo = mock<Recipe>({
       id: 'recipe-two',

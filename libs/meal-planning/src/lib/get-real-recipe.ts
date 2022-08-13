@@ -31,13 +31,20 @@ const findAlternate = (
 export const getRealRecipe = (
   recipe: Meal,
   customer: { customisations?: BackendCustomer['customisations'] },
-  recipes: Meal[]
+  recipes: Meal[],
+  recipeIds?: Set<string>
 ): Meal => {
+  const ids = recipeIds ?? new Set<string>();
+  if (ids.has(recipe.id ?? '')) {
+    throw new Error();
+  } else {
+    ids.add(recipe.id ?? '');
+  }
   const alternate = findAlternate(recipe, customer, recipes);
 
   if (findAlternate(alternate, customer, recipes) === alternate) {
     return alternate;
   }
 
-  return getRealRecipe(alternate, customer, recipes);
+  return getRealRecipe(alternate, customer, recipes, ids);
 };
