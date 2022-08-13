@@ -8,8 +8,6 @@ export const TEST_USER_2 = 'cypress-test-user-3';
 
 const USER_DOES_NOT_EXIST = 'User does not exist.';
 
-console.log('loading');
-
 export const seedCognito = async (
   poolId: string,
   email: string,
