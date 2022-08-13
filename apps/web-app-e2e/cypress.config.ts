@@ -9,7 +9,7 @@ import { E2E } from '@tnmw/constants';
 export default defineConfig({
   viewportHeight: 1011,
   viewportWidth: 1438,
-  scrollBehaviour: 'middle',
+  scrollBehavior: 'center',
   e2e: {
     defaultCommandTimeout: 25_000,
     supportFile: './src/support/index.ts',

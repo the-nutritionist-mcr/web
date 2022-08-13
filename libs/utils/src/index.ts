@@ -5,3 +5,4 @@ export { generateDatestampedFilename } from './lib/generate-date-stamped-filenam
 export { updateDelivery } from './lib/update-plan';
 export { isActive } from './lib/is-active';
 export { getDomainName } from './lib/get-domain-name';
+export { getAppConfig } from './lib/get-app-config';

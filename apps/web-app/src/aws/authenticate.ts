@@ -1,6 +1,6 @@
 import { Auth } from '@aws-amplify/auth';
 import { datadogRum } from '@datadog/browser-rum';
-import { getPoolConfig } from './get-pool-config';
+import { getAppConfig } from '@tnmw/utils';
 
 const REGION = 'us-east-1';
 
@@ -8,11 +8,11 @@ type ExtractPromiseType<T> = T extends Promise<infer RT> ? RT : never;
 
 const getConfigurer = () => {
   // eslint-disable-next-line fp/no-let
-  let outputs: undefined | ExtractPromiseType<ReturnType<typeof getPoolConfig>>;
+  let outputs: undefined | ExtractPromiseType<ReturnType<typeof getAppConfig>>;
   return async () => {
     if (!outputs) {
       // eslint-disable-next-line fp/no-mutation
-      outputs = await getPoolConfig();
+      outputs = await getAppConfig();
 
       const domain = process.env.NEXT_PUBLIC_IS_LOCAL_DEV
         ? 'localhost'
