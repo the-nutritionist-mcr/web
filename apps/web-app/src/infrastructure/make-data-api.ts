@@ -65,7 +65,7 @@ export const makeDataApi = (
     'get-by-id'
   );
 
-  const byIdResource = apiResource.addResource('/get-by-id');
+  const byIdResource = apiResource.addResource('get-by-id');
 
   byIdResource.addMethod(
     HTTP.verbs.Get,
