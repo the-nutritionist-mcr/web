@@ -1,6 +1,5 @@
 import { Auth } from '@aws-amplify/auth';
 import { when } from 'jest-when';
-import { mocked } from 'ts-jest/utils';
 import * as authenticate from './authenticate';
 import { mock } from 'jest-mock-extended';
 import { ISignUpResult } from 'amazon-cognito-identity-js';
@@ -24,7 +23,7 @@ describe('The authenticate module', () => {
 
       const mockResult = mock<ISignUpResult>();
 
-      when(mocked(Auth.signUp))
+      when(jest.mocked(Auth.signUp))
         .calledWith({
           username: 'foo-username',
           password: 'foo-password',
@@ -55,7 +54,7 @@ describe('The authenticate module', () => {
 
   describe('login()', () => {
     it('returns the appropriate response on failure', async () => {
-      mocked(getAppConfig).mockResolvedValue({
+      jest.mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
         UserPoolId: 'pool-id',
         ApiDomainName: 'locahost',
@@ -69,7 +68,7 @@ describe('The authenticate module', () => {
         challengeName: 'foo',
       };
 
-      when(mocked(Auth.signIn))
+      when(jest.mocked(Auth.signIn))
         .calledWith('foo', 'bar')
         .mockResolvedValue(response);
 
@@ -80,7 +79,7 @@ describe('The authenticate module', () => {
     });
 
     it('returns the appropriate response if the login is successful', async () => {
-      mocked(getAppConfig).mockResolvedValue({
+      jest.mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
         ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
@@ -102,7 +101,7 @@ describe('The authenticate module', () => {
         },
       };
 
-      when(mocked(Auth.signIn))
+      when(jest.mocked(Auth.signIn))
         .calledWith('foo', 'bar')
         .mockResolvedValue(response);
 
@@ -112,7 +111,7 @@ describe('The authenticate module', () => {
     });
 
     it('doesnt change the type of the object returned from the login method', async () => {
-      mocked(getAppConfig).mockResolvedValue({
+      jest.mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
         ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
@@ -134,7 +133,7 @@ describe('The authenticate module', () => {
         };
       }
 
-      when(mocked(Auth.signIn))
+      when(jest.mocked(Auth.signIn))
         .calledWith('foo', 'bar')
         .mockResolvedValue(new FakeCognitoResponse());
 
@@ -146,7 +145,7 @@ describe('The authenticate module', () => {
 
   describe('signOut()', () => {
     it('returns the promise from Auth.logout', async () => {
-      mocked(getAppConfig).mockResolvedValue({
+      jest.mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
         ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
@@ -155,7 +154,7 @@ describe('The authenticate module', () => {
         AuthUrl: 'auth-url',
       });
 
-      mocked(Auth.signOut).mockResolvedValue('logoutResponse');
+      jest.mocked(Auth.signOut).mockResolvedValue('logoutResponse');
 
       const result = await authenticate.signOut();
 
@@ -165,7 +164,7 @@ describe('The authenticate module', () => {
 
   describe('newPasswordChallengeResponse', () => {
     it('returns the appropriate response on failure', async () => {
-      mocked(getAppConfig).mockResolvedValue({
+      jest.mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
         ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
@@ -182,7 +181,7 @@ describe('The authenticate module', () => {
         challengeName: 'foo',
       };
 
-      mocked(Auth.completeNewPassword).mockResolvedValue(response);
+      jest.mocked(Auth.completeNewPassword).mockResolvedValue(response);
 
       const result = await authenticate.newPasswordChallengeResponse(
         usernameValue,
@@ -194,7 +193,7 @@ describe('The authenticate module', () => {
     });
 
     it('returns the appropriate response on success', async () => {
-      mocked(getAppConfig).mockResolvedValue({
+      jest.mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
         ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
@@ -212,7 +211,7 @@ describe('The authenticate module', () => {
         },
       };
 
-      mocked(Auth.completeNewPassword).mockResolvedValue(response);
+      jest.mocked(Auth.completeNewPassword).mockResolvedValue(response);
 
       const result = await authenticate.newPasswordChallengeResponse(
         usernameValue,
@@ -225,7 +224,7 @@ describe('The authenticate module', () => {
 
   describe('Confirmsignup', () => {
     it('Returns the promise from Auth.confirmSignup', async () => {
-      mocked(getAppConfig).mockResolvedValue({
+      jest.mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
         ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
@@ -234,7 +233,7 @@ describe('The authenticate module', () => {
         AuthUrl: 'auth-url',
       });
 
-      when(mocked(Auth.confirmSignUp))
+      when(jest.mocked(Auth.confirmSignUp))
         .calledWith('foo', 'bar')
         .mockResolvedValue('confirmResponse');
 
@@ -246,7 +245,7 @@ describe('The authenticate module', () => {
 
   describe('currentUser()', () => {
     it('returns the promise from Auth.currentAuthenticatedUser', async () => {
-      mocked(getAppConfig).mockResolvedValue({
+      jest.mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
         ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
@@ -255,9 +254,9 @@ describe('The authenticate module', () => {
         AuthUrl: 'auth-url',
       });
 
-      mocked(Auth.currentAuthenticatedUser).mockResolvedValue(
-        'currentUserResponse'
-      );
+      jest
+        .mocked(Auth.currentAuthenticatedUser)
+        .mockResolvedValue('currentUserResponse');
 
       const result = await authenticate.currentUser();
 
@@ -265,7 +264,7 @@ describe('The authenticate module', () => {
     });
 
     it('returns undefined if currentAuthenticatedUser throws', async () => {
-      mocked(getAppConfig).mockResolvedValue({
+      jest.mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
         ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
@@ -274,9 +273,9 @@ describe('The authenticate module', () => {
         AuthUrl: 'auth-url',
       });
 
-      mocked(Auth.currentAuthenticatedUser).mockRejectedValue(
-        new Error('Whoops!')
-      );
+      jest
+        .mocked(Auth.currentAuthenticatedUser)
+        .mockRejectedValue(new Error('Whoops!'));
 
       const result = await authenticate.currentUser();
 

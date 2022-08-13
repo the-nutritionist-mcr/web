@@ -6,6 +6,7 @@ import { screen } from '@testing-library/react';
 import { getAppConfig } from '@tnmw/utils';
 
 jest.mock('@tnmw/utils');
+jest.mock('../aws/authenticate');
 
 beforeEach(() => {
   jest.mocked(getAppConfig).mockResolvedValue({
