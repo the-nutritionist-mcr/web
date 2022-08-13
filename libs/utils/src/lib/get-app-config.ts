@@ -26,6 +26,7 @@ const getOutputJson = async () => {
   return {};
 };
 
+// eslint-disable-next-line fp/no-let
 let outputJson: Awaited<ReturnType<typeof getOutputJson>> | undefined;
 
 export const getAppConfig = async (): Promise<StackConfig> => {
