@@ -30,6 +30,14 @@ const ChooseMealsHeader = styled('h1')`
 const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
   const { data, submitOrder } = usePlan();
 
+  const recipes = data.available ? data.cooks.flatMap((cook) => cook.menu) : [];
+
+  const alternateRecipeIds = recipes
+    .flatMap((recipe) => recipe.alternates ?? [])
+    .map((alternate) => alternate.recipeId);
+
+  const { items: alternateRecipes } = useRecipes(alternateRecipeIds);
+
   useEffect(() => {
     const now = new Date(Date.now());
 
@@ -45,14 +53,6 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
   if (!data?.available) {
     return <></>;
   }
-
-  const recipes = data.cooks.flatMap((cook) => cook.menu);
-
-  const alternateRecipeIds = recipes
-    .flatMap((recipe) => recipe.alternates ?? [])
-    .map((alternate) => alternate.recipeId);
-
-  const { items: alternateRecipes } = useRecipes(alternateRecipeIds);
 
   const meals = user.plans
     .filter((plan) => plan.totalMeals > 0)

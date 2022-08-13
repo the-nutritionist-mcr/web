@@ -1,4 +1,4 @@
-import { Customer, Exclusion, Recipe } from '@tnmw/types';
+import { BackendCustomer, Exclusion, Recipe } from '@tnmw/types';
 import { mock } from 'jest-mock-extended';
 import { getRealRecipe } from './get-real-recipe';
 
@@ -16,7 +16,7 @@ describe('get real recipe', () => {
       }),
     ];
     const recipe = mock<Recipe>();
-    const customer = mock<Customer>();
+    const customer = mock<BackendCustomer>();
 
     recipe.alternates = undefined;
 
@@ -38,7 +38,7 @@ describe('get real recipe', () => {
       }),
     ];
     const recipe = mock<Recipe>();
-    const customer = mock<Customer>();
+    const customer = mock<BackendCustomer>();
 
     recipe.alternates = [];
 
@@ -60,8 +60,8 @@ describe('get real recipe', () => {
       }),
     ];
     const recipe = mock<Recipe>();
-    const customer = mock<Customer>({
-      exclusions: [
+    const customer = mock<BackendCustomer>({
+      customisations: [
         mock<Exclusion>({
           id: 'foo-bar',
         }),
@@ -95,8 +95,8 @@ describe('get real recipe', () => {
       }),
     ];
     const recipe = mock<Recipe>();
-    const customer = mock<Customer>({
-      exclusions: [
+    const customer = mock<BackendCustomer>({
+      customisations: [
         mock<Exclusion>({
           id: 'foo-bar',
         }),
@@ -132,8 +132,8 @@ describe('get real recipe', () => {
       recipeThree,
     ];
     const recipe = mock<Recipe>();
-    const customer = mock<Customer>({
-      exclusions: [
+    const customer = mock<BackendCustomer>({
+      customisations: [
         mock<Exclusion>({
           id: 'foo-bar',
         }),

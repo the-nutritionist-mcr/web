@@ -14,6 +14,7 @@ import {
   Alternate,
   StoredMealSelection,
   SubmitCustomerOrderPayload,
+  BackendCustomer,
 } from '@tnmw/types';
 import { isSelectedMeal } from '@tnmw/meal-planning';
 import {
@@ -26,7 +27,7 @@ import { goAheadAndSubmit } from './confirm-selections-container.css';
 import { Meal } from './meal';
 
 export interface ChooseMealsCustomer {
-  exclusions?: Customer['exclusions'];
+  customisations?: BackendCustomer['customisations'];
 }
 
 export interface MealSelectionsProps {

@@ -15,10 +15,19 @@ export const useResource = <T extends { id: string }>(
 ) => {
   const { mutate, cache } = useSWRConfig();
 
-  const { data: getData } = useSWR<Response<T>>(
-    ids ? `${type}/by-ids?ids=${ids.join(',')}` : type,
-    swrFetcher
-  );
+  const getType = () => {
+    if (ids && ids.length === 0) {
+      return false;
+    }
+
+    if (ids) {
+      return `${type}/by-ids?ids=${ids.join(',')}`;
+    }
+
+    return type;
+  };
+
+  const { data: getData } = useSWR<Response<T>>(getType, swrFetcher);
 
   const createItem = async <T extends { id: string }>(input: T): Promise<T> =>
     await swrFetcher<T>(type, {

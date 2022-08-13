@@ -1,4 +1,4 @@
-import { Customer } from '@tnmw/types';
+import { BackendCustomer, Customer } from '@tnmw/types';
 
 interface Meal {
   id: string;
@@ -9,7 +9,7 @@ interface Meal {
 
 export const getRealRecipe = (
   recipe: Meal,
-  customer: { exclusions?: Customer['exclusions'] },
+  customer: { customisations?: BackendCustomer['customisations'] },
   recipes: Meal[]
 ) => {
   const alternates = recipe.alternates ?? [];
@@ -18,7 +18,7 @@ export const getRealRecipe = (
     return recipe;
   }
 
-  const exclusions = customer.exclusions ?? [];
+  const exclusions = customer.customisations ?? [];
 
   const alternate = alternates.find((alternate) =>
     exclusions
