@@ -65,6 +65,8 @@ export const makeDataApi = (
     'get-by-id'
   );
 
+  dataTable.grantReadData(getByIdFunction);
+
   const byIdResource = apiResource.addResource('get-by-id');
 
   byIdResource.addMethod(
