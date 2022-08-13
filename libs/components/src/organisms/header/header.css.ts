@@ -73,7 +73,7 @@ export const header = style({
   top: 0,
   left: 0,
   right: 0,
-  zIndex: 1000,
+  zIndex: 19,
   borderBottom: '1px solid #0d0d0d',
 });
 

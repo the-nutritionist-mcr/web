@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Card,
   CardBody,
@@ -11,16 +12,18 @@ import {
   Select,
   TextInput,
 } from 'grommet';
-import { Checkmark, Close } from 'grommet-icons';
+import { Checkmark, Close, Trash } from 'grommet-icons';
 import { HotOrCold, Recipe, Exclusion } from '@tnmw/types';
 import React from 'react';
 import { debounce } from 'lodash';
+import { ParagraphText } from '@tnmw/components';
 
 interface EditRecipesDialogProps {
   recipe: Recipe;
   exclusions?: Exclusion[];
   onOk: (recipe: Recipe) => void;
   title: string;
+  recipes?: Recipe[];
   onCancel: () => void;
 }
 
@@ -29,6 +32,7 @@ const ONSUBMIT_DEBOUNCE = 500;
 const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
   const [recipe, setRecipe] = React.useState(props.recipe);
   const exclusions = props.exclusions ?? [];
+  const recipes = props.recipes ?? [];
 
   const onSubmit = debounce(async (): Promise<void> => {
     props.onOk(recipe);
@@ -42,7 +46,7 @@ const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
   };
 
   return (
-    <Layer>
+    <Layer style={{ zIndex: '2000' }}>
       <Card>
         <Form
           value={formRecipe}
@@ -68,45 +72,147 @@ const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
               {props.title}
             </Heading>
           </CardHeader>
-          <CardBody pad="medium" alignSelf="center">
-            <FormField name="name" label="Name" required>
-              <TextInput name="name" />
-            </FormField>
-            <FormField name="shortName" label="Short Name" required>
-              <TextInput name="shortName" />
-            </FormField>
-            <FormField name="description" label="Description">
-              <TextInput name="description" />
-            </FormField>
-            <FormField name="hotOrCold" label="Served" required>
-              <Select
-                options={[HotOrCold.Hot, HotOrCold.Cold, HotOrCold.Both]}
-                name="hotOrCold"
-              />
-            </FormField>
-            <FormField name="allergens" label="Allergens">
-              <TextInput name="allergens" />
-            </FormField>
-            <FormField name="potentialExclusions" label="Customisations">
-              <Select
-                multiple
-                closeOnChange={false}
-                name="potentialExclusions"
-                options={exclusions}
-                labelKey="name"
-                valueKey="name"
-              />
-            </FormField>
-            <FormField name="invalidExclusions" label="Exclusions">
-              <Select
-                multiple
-                closeOnChange={false}
-                name="invalidExclusions"
-                options={exclusions}
-                labelKey="name"
-                valueKey="name"
-              />
-            </FormField>
+          <CardBody pad="large" alignSelf="center">
+            <Box direction="row" gap="large">
+              <Box direction="column" width="20rem" gap="small">
+                <Heading margin="none" level={3}>
+                  Details
+                </Heading>
+                <FormField name="name" label="Name" required>
+                  <TextInput name="name" />
+                </FormField>
+                <FormField name="shortName" label="Short Name" required>
+                  <TextInput name="shortName" />
+                </FormField>
+                <FormField name="description" label="Description">
+                  <TextInput name="description" />
+                </FormField>
+                <FormField name="hotOrCold" label="Served" required>
+                  <Select
+                    options={[HotOrCold.Hot, HotOrCold.Cold, HotOrCold.Both]}
+                    name="hotOrCold"
+                  />
+                </FormField>
+                <FormField name="allergens" label="Allergens">
+                  <TextInput name="allergens" />
+                </FormField>
+                <FormField name="potentialExclusions" label="Customisations">
+                  <Select
+                    multiple
+                    closeOnChange={false}
+                    name="potentialExclusions"
+                    options={exclusions}
+                    labelKey="name"
+                    valueKey="name"
+                  />
+                </FormField>
+                <FormField name="invalidExclusions" label="Exclusions">
+                  <Select
+                    multiple
+                    closeOnChange={false}
+                    name="invalidExclusions"
+                    options={exclusions}
+                    labelKey="name"
+                    valueKey="name"
+                  />
+                </FormField>
+              </Box>
+              <Box direction="column" width="20rem" gap="small">
+                <Heading margin="none" level={3}>
+                  <Box gap="medium" direction="row" justify="center">
+                    <span>Alternates</span>
+                    <Button
+                      label="Add"
+                      onClick={() => {
+                        setRecipe({
+                          ...recipe,
+                          alternates: [
+                            ...(recipe.alternates ?? []),
+                            {
+                              customisationId: '',
+                              recipeId: '',
+                            },
+                          ],
+                        });
+                      }}
+                    />
+                  </Box>
+                </Heading>
+                {(recipe.alternates?.length ?? 0) === 0 ? (
+                  <ParagraphText>
+                    No alternates configured for this recipe. Click the button
+                    below to add one.
+                  </ParagraphText>
+                ) : (
+                  <Box gap="medium">
+                    {recipe.alternates?.map((alternate, index) => (
+                      <Card pad="medium">
+                        <CardBody>
+                          <FormField label="Customisation">
+                            <Select
+                              options={exclusions}
+                              value={alternate.customisationId}
+                              onChange={(event) => {
+                                const newAlternates = [
+                                  ...(recipe.alternates ?? []),
+                                ];
+
+                                newAlternates[index].customisationId =
+                                  event.value;
+
+                                setRecipe({
+                                  ...recipe,
+                                  alternates: newAlternates,
+                                });
+                              }}
+                              labelKey="name"
+                              valueKey={{ reduce: true, key: 'id' }}
+                            />
+                          </FormField>
+                          <FormField label="Recipe">
+                            <Select
+                              onChange={(event) => {
+                                const newAlternates = [
+                                  ...(recipe.alternates ?? []),
+                                ];
+
+                                newAlternates[index].recipeId = event.value;
+                                setRecipe({
+                                  ...recipe,
+                                  alternates: newAlternates,
+                                });
+                              }}
+                              options={recipes}
+                              value={alternate.recipeId}
+                              labelKey="shortName"
+                              valueKey={{ key: 'id', reduce: true }}
+                            />
+                          </FormField>
+                        </CardBody>
+                        <CardFooter>
+                          <Button
+                            icon={<Trash />}
+                            hoverIndicator
+                            onClick={() => {
+                              const newAlternates = [
+                                ...(recipe.alternates ?? []),
+                              ];
+
+                              newAlternates.splice(index, 1);
+
+                              setRecipe({
+                                ...recipe,
+                                alternates: newAlternates,
+                              });
+                            }}
+                          />
+                        </CardFooter>
+                      </Card>
+                    ))}
+                  </Box>
+                )}
+              </Box>
+            </Box>
           </CardBody>
           <CardFooter pad="medium" alignSelf="center" justify="center">
             <Button

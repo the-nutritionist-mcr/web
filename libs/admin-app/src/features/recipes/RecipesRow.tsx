@@ -4,9 +4,8 @@ import { Edit, Trash } from 'grommet-icons';
 import EditRecipesDialog from './EditRecipesDialog';
 import { OkCancelDialog } from '../../components';
 import React from 'react';
-import Recipe from '../../domain/Recipe';
+import { Recipe, Exclusion } from '@tnmw/types';
 import styled from 'styled-components';
-import Exclusion from '../../domain/Exclusion';
 
 const SlimButton = styled(Button)`
   padding: 0 5px 0 5px;
@@ -21,11 +20,12 @@ interface RecipesRowProps {
   showCheckBoxes: boolean;
   plannerMode: boolean;
   selectedDeliveryDay: number;
+  recipes?: Recipe[];
   plannerSelection: Recipe[][];
   onSelect: (plannerSelection: Recipe[][]) => void;
 }
 
-const RecipesRow: React.FC<RecipesRowProps> = props => {
+const RecipesRow: React.FC<RecipesRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
 
@@ -33,7 +33,7 @@ const RecipesRow: React.FC<RecipesRowProps> = props => {
     props.plannerSelection[props.selectedDeliveryDay] ?? [];
 
   const deliveryChecked = selectedDelivery.some(
-    item => item.id === props.recipe.id
+    (item) => item.id === props.recipe.id
   );
 
   return (
@@ -43,21 +43,21 @@ const RecipesRow: React.FC<RecipesRowProps> = props => {
           {
             <CheckBox
               checked={deliveryChecked}
-              onChange={event => {
+              onChange={(event) => {
                 if (event.target.checked) {
-                  const newSelection = props.plannerSelection.map(delivery => [
-                    ...delivery
-                  ]);
+                  const newSelection = props.plannerSelection.map(
+                    (delivery) => [...delivery]
+                  );
                   // eslint-disable-next-line fp/no-mutating-methods
                   newSelection[props.selectedDeliveryDay].push(props.recipe);
                   props.onSelect(newSelection);
                 } else {
-                  const newSelection = props.plannerSelection.map(delivery => [
-                    ...delivery
-                  ]);
+                  const newSelection = props.plannerSelection.map(
+                    (delivery) => [...delivery]
+                  );
                   newSelection[props.selectedDeliveryDay] = newSelection[
                     props.selectedDeliveryDay
-                  ].filter(item => item.id !== props.recipe.id);
+                  ].filter((item) => item.id !== props.recipe.id);
                   props.onSelect(newSelection);
                 }
               }}
@@ -72,7 +72,7 @@ const RecipesRow: React.FC<RecipesRowProps> = props => {
         <TableCell>
           {props.recipe.potentialExclusions.length > 0
             ? props.recipe.potentialExclusions
-                .map(exclusion => exclusion.name)
+                .map((exclusion) => exclusion.name)
                 .join(', ')
             : 'None'}
         </TableCell>
@@ -108,6 +108,7 @@ const RecipesRow: React.FC<RecipesRowProps> = props => {
           {showEdit && (
             <EditRecipesDialog
               recipe={props.recipe}
+              recipes={props.recipes}
               exclusions={props.exclusions}
               title="Edit Recipe"
               onOk={(recipe: Recipe): void => {

@@ -71,6 +71,7 @@ const Recipes: React.FC<RecipesProps> = (props) => {
         {showCreate && (
           <EditRecipesDialog
             exclusions={props.customisations}
+            recipes={props.recipes}
             recipe={{
               id: '0',
               shortName: '',
@@ -134,6 +135,7 @@ const Recipes: React.FC<RecipesProps> = (props) => {
                   .map((recipe) => (
                     /* eslint-enable fp/no-mutating-methods */
                     <RecipesRow
+                      recipes={props.recipes}
                       exclusions={props.customisations}
                       update={props.update}
                       remove={props.remove}

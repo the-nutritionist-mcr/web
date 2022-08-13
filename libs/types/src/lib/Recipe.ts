@@ -7,7 +7,7 @@ export enum HotOrCold {
 }
 
 interface Alternate {
-  alternateId: string;
+  customisationId: string;
   recipeId: string;
 }
 
@@ -55,7 +55,7 @@ export const assertIsRecipe: (recipe: unknown) => asserts recipe is Recipe = (
     !asRecipe.alternates?.every(
       (item) =>
         typeof item.recipeId === 'string' &&
-        typeof item.alternateId === 'string'
+        typeof item.customisationId === 'string'
     )
   ) {
     throw new TypeError('Recipe.alternates are invalid');
