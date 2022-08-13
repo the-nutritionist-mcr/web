@@ -306,6 +306,8 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
             </p>
           )}
           <ConfirmSelections
+            recipes={props.recipes}
+            customer={props.customer}
             complete={complete}
             selectedMeals={optionsWithSelectionsWithExtras}
           />

@@ -7,18 +7,13 @@ interface Meal {
   description?: string;
 }
 
-export const getRealRecipe = (
+const findAlternate = (
   recipe: Meal,
   customer: { customisations?: BackendCustomer['customisations'] },
   recipes: Meal[]
 ) => {
-  const alternates = recipe.alternates ?? [];
-
-  if (alternates.length === 0) {
-    return recipe;
-  }
-
   const exclusions = customer.customisations ?? [];
+  const alternates = recipe?.alternates ?? [];
 
   const alternate = alternates.find((alternate) =>
     exclusions
@@ -31,4 +26,18 @@ export const getRealRecipe = (
       ? recipes.find((recipe) => alternate.recipeId === recipe.id)
       : recipe) ?? recipe
   );
+};
+
+export const getRealRecipe = (
+  recipe: Meal,
+  customer: { customisations?: BackendCustomer['customisations'] },
+  recipes: Meal[]
+): Meal => {
+  const alternate = findAlternate(recipe, customer, recipes);
+
+  if (findAlternate(alternate, customer, recipes) === alternate) {
+    return alternate;
+  }
+
+  return getRealRecipe(alternate, customer, recipes);
 };

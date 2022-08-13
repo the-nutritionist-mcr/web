@@ -44,7 +44,7 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
     const now = new Date(Date.now());
   }, [data]);
 
-  if (!data?.available) {
+  if (!data?.available || !alternateRecipes) {
     return <></>;
   }
 

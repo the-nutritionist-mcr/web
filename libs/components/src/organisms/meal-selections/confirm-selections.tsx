@@ -39,7 +39,12 @@ export const ConfirmSelections = (props: ConfirmSelectionsProps) => {
           }));
 
           return (
-            <ConfirmDelivery deliveryNumber={index + 1} sections={sections} />
+            <ConfirmDelivery
+              customer={props.customer}
+              recipes={props.recipes}
+              deliveryNumber={index + 1}
+              sections={sections}
+            />
           );
         })}
       </div>
