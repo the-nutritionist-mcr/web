@@ -1,5 +1,5 @@
 import { PlanLabels } from './customer-plan';
-import Recipe, { isRecipe } from './Recipe';
+import Recipe, { assertIsRecipe } from './Recipe';
 
 export interface ChangePlanRecipeBody {
   recipe?: Recipe;
@@ -15,8 +15,8 @@ export const isChangePlanRecipeBody = (
 ): body is ChangePlanRecipeBody => {
   const bodyAsAny = body as any;
 
-  if (typeof bodyAsAny.recipe !== 'undefined' && !isRecipe(bodyAsAny.recipe)) {
-    return false;
+  if (typeof bodyAsAny.recipe !== 'undefined') {
+    assertIsRecipe(bodyAsAny.recipe);
   }
 
   if (typeof bodyAsAny.selectionId !== 'string') {

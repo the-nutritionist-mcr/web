@@ -1,4 +1,4 @@
-import Recipe, { isRecipe } from './Recipe';
+import Recipe, { assertIsRecipe } from './Recipe';
 
 export const isWeeklyPlan = (plan: unknown): plan is WeeklyPlan => {
   if (typeof plan !== 'object') {
@@ -15,13 +15,13 @@ export const isWeeklyPlan = (plan: unknown): plan is WeeklyPlan => {
     return false;
   }
 
-  if (
-    !asPlan.cooks.every(
-      (item) => Array.isArray(item) && item.every((recipe) => isRecipe(recipe))
-    )
-  ) {
-    return false;
-  }
+  // if (
+  //   !asPlan.cooks.every(
+  //     (item) => Array.isArray(item) && item.every((recipe) => assertIsRecipe(recipe))
+  //   )
+  // ) {
+  //   return false;
+  // }
 
   if (!asPlan.dates.every((item) => typeof item === 'string')) {
     return false;
