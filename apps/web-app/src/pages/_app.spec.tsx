@@ -3,6 +3,20 @@ import TnmApp from './_app.page';
 import { Router } from 'next/router';
 import { mock } from 'jest-mock-extended';
 import { screen } from '@testing-library/react';
+import { getAppConfig } from '@tnmw/utils';
+
+jest.mock('@tnmw/utils');
+
+beforeEach(() => {
+  jest.mocked(getAppConfig).mockResolvedValue({
+    DomainName: 'foo',
+    UserPoolId: 'pool-id',
+    ClientId: 'client-id',
+    RedirectUrl: 'redirect-url',
+    AuthUrl: 'auth-url',
+    ApiDomainName: 'locahost',
+  });
+});
 
 test('the app page renders correctly without error when passed a component', () => {
   const component = () => <></>;

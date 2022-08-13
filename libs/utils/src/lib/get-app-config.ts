@@ -26,21 +26,17 @@ const getOutputJson = async () => {
   return {};
 };
 
-const jsonPromise = getOutputJson();
+let outputJson: Awaited<ReturnType<typeof getOutputJson>> | undefined;
 
 export const getAppConfig = async (): Promise<StackConfig> => {
-  return new Promise<StackConfig>((accept, reject) => {
-    jsonPromise
-      .then(async (json) => {
-        const stackJson: StackOutputs = json;
-        const entries = Object.values(stackJson);
-        accept(
-          entries.reduce<StackConfig>(
-            (accum, value) => ({ ...accum, ...value }),
-            {} as StackConfig
-          )
-        );
-      })
-      .catch((error) => reject(error));
-  });
+  if (!outputJson) {
+    outputJson = await getOutputJson();
+  }
+  const stackJson: StackOutputs = outputJson;
+  const entries = Object.values(stackJson);
+
+  return entries.reduce<StackConfig>(
+    (accum, value) => ({ ...accum, ...value }),
+    {} as StackConfig
+  );
 };

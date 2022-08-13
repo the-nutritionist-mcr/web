@@ -1,5 +1,5 @@
-import { getOutputs } from '../aws/get-outputs';
 import { currentUser } from '../aws/authenticate';
+import { getAppConfig } from '@tnmw/utils';
 import { Codes, HttpError } from '../backend/lambdas/data-api/http-error';
 
 const getFetchInit = async (init?: RequestInit) => {
@@ -26,7 +26,7 @@ export const swrFetcher = async <T>(
   path: string,
   init?: RequestInit
 ): Promise<T> => {
-  const { ApiDomainName: domainName } = await getOutputs();
+  const { ApiDomainName: domainName } = await getAppConfig();
 
   const finalInit = await getFetchInit(init);
   const fullPath = `https://${domainName}/${path}`;

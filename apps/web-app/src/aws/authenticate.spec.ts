@@ -1,24 +1,25 @@
 import { Auth } from '@aws-amplify/auth';
 import { when } from 'jest-when';
 import { mocked } from 'ts-jest/utils';
-import { getPoolConfig } from './get-pool-config';
 import * as authenticate from './authenticate';
 import { mock } from 'jest-mock-extended';
 import { ISignUpResult } from 'amazon-cognito-identity-js';
+import { getAppConfig } from '@tnmw/utils';
 
 jest.mock('@aws-amplify/auth');
 jest.mock('aws-sdk');
-jest.mock('./get-pool-config');
+jest.mock('@tnmw/utils');
 
 describe('The authenticate module', () => {
   describe('register()', () => {
     it('returns the promise from Auth.signUp', async () => {
-      mocked(getPoolConfig).mockResolvedValue({
+      jest.mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
         RedirectUrl: 'redirect-url',
         AuthUrl: 'auth-url',
+        ApiDomainName: 'locahost',
       });
 
       const mockResult = mock<ISignUpResult>();
@@ -54,9 +55,10 @@ describe('The authenticate module', () => {
 
   describe('login()', () => {
     it('returns the appropriate response on failure', async () => {
-      mocked(getPoolConfig).mockResolvedValue({
+      mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
         UserPoolId: 'pool-id',
+        ApiDomainName: 'locahost',
         ClientId: 'client-id',
         RedirectUrl: 'redirect-url',
         AuthUrl: 'auth-url',
@@ -78,8 +80,9 @@ describe('The authenticate module', () => {
     });
 
     it('returns the appropriate response if the login is successful', async () => {
-      mocked(getPoolConfig).mockResolvedValue({
+      mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
+        ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
         RedirectUrl: 'redirect-url',
@@ -109,8 +112,9 @@ describe('The authenticate module', () => {
     });
 
     it('doesnt change the type of the object returned from the login method', async () => {
-      mocked(getPoolConfig).mockResolvedValue({
+      mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
+        ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
         RedirectUrl: 'redirect-url',
@@ -142,8 +146,9 @@ describe('The authenticate module', () => {
 
   describe('signOut()', () => {
     it('returns the promise from Auth.logout', async () => {
-      mocked(getPoolConfig).mockResolvedValue({
+      mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
+        ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
         RedirectUrl: 'redirect-url',
@@ -160,8 +165,9 @@ describe('The authenticate module', () => {
 
   describe('newPasswordChallengeResponse', () => {
     it('returns the appropriate response on failure', async () => {
-      mocked(getPoolConfig).mockResolvedValue({
+      mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
+        ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
         RedirectUrl: 'redirect-url',
@@ -188,8 +194,9 @@ describe('The authenticate module', () => {
     });
 
     it('returns the appropriate response on success', async () => {
-      mocked(getPoolConfig).mockResolvedValue({
+      mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
+        ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
         RedirectUrl: 'redirect-url',
@@ -218,8 +225,9 @@ describe('The authenticate module', () => {
 
   describe('Confirmsignup', () => {
     it('Returns the promise from Auth.confirmSignup', async () => {
-      mocked(getPoolConfig).mockResolvedValue({
+      mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
+        ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
         RedirectUrl: 'redirect-url',
@@ -238,8 +246,9 @@ describe('The authenticate module', () => {
 
   describe('currentUser()', () => {
     it('returns the promise from Auth.currentAuthenticatedUser', async () => {
-      mocked(getPoolConfig).mockResolvedValue({
+      mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
+        ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
         RedirectUrl: 'redirect-url',
@@ -256,8 +265,9 @@ describe('The authenticate module', () => {
     });
 
     it('returns undefined if currentAuthenticatedUser throws', async () => {
-      mocked(getPoolConfig).mockResolvedValue({
+      mocked(getAppConfig).mockResolvedValue({
         DomainName: 'foo',
+        ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
         RedirectUrl: 'redirect-url',

@@ -1,5 +1,5 @@
 import Router from 'next/router';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import Head from 'next/head';
 import { Hub } from 'aws-amplify';
 import { AppProps } from 'next/app';
@@ -26,7 +26,7 @@ import '../assets/global.scss';
 import { HttpError } from '../backend/lambdas/data-api/http-error';
 import { HTTP } from '@tnmw/constants';
 import { datadogRum } from '@datadog/browser-rum';
-import { getOutputs } from '../aws/get-outputs';
+import { getAppConfig } from '@tnmw/utils';
 
 const navigator = {
   navigate: async (path: string) => {
@@ -60,7 +60,7 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
     (async () => {
       if (datadogAppId) {
-        const { ApiDomainName: domainName } = await getOutputs();
+        const { ApiDomainName: domainName } = await getAppConfig();
         datadogRum.init({
           applicationId: datadogAppId,
           clientToken: datadogClientToken,
