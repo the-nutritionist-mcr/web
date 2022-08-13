@@ -92,7 +92,7 @@ const delay = (time: number) => {
 
 export const pollForPasswordFromMostRecentWelcomeEmailThenDelete = async (
   email: string
-) => {
+): Promise<string> => {
   console.log('Polling inbox for welcome email...');
 
   try {
