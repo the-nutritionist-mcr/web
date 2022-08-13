@@ -49,7 +49,7 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
 
   const now = new Date(Date.now());
 
-  const chooseIsOpen = true;
+  const chooseIsOpen = getClosedOrOpenStatus(now, data);
 
   const logout = async () => {
     await signOut();
