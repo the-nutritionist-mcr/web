@@ -60,6 +60,18 @@ export const makeDataApi = (
   apiResource.addMethod(HTTP.verbs.Get, new LambdaIntegration(getFunction));
   dataTable.grantReadData(getFunction);
 
+  const getByIdFunction = makeCrudFunction(
+    entryName('data-api', 'get-by-id.ts'),
+    'get-by-id'
+  );
+
+  const byIdResource = apiResource.addResource('/get-by-id');
+
+  byIdResource.addMethod(
+    HTTP.verbs.Get,
+    new LambdaIntegration(getByIdFunction)
+  );
+
   const createFunction = makeCrudFunction(
     entryName('data-api', 'post.ts'),
     'create'

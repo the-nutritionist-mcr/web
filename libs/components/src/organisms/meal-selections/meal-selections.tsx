@@ -88,8 +88,8 @@ const getOptionsWithSelections = (
                     isExtra: true,
                     id: '0',
                     description: '',
-                    contains: '',
-                    title: id,
+                    allergens: '',
+                    name: id,
                   }
               )
             )
@@ -171,7 +171,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
                       chosenVariant: category.title,
                     }
                   : {
-                      chosenVariant: recipe.title,
+                      chosenVariant: recipe.name,
                     };
               })
               // eslint-disable-next-line unicorn/no-array-callback-reference

@@ -1,4 +1,3 @@
-import { getClosingDate } from '../utils/get-closing-date';
 import { FC } from 'react';
 import { Hero, MealSelections } from '@tnmw/components';
 import { useEffect } from 'react';
@@ -10,7 +9,6 @@ import {
 
 import { usePlan } from '../hooks';
 import styled from 'styled-components';
-import { getClosedOrOpenStatus } from '../utils/get-closed-or-open-status';
 
 const ChooseMealsHeaderBox = styled('div')`
   text-align: center;
@@ -33,14 +31,6 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
 
   useEffect(() => {
     const now = new Date(Date.now());
-
-    if (data?.available) {
-      const go = getClosedOrOpenStatus(now, data);
-
-      if (!go) {
-        window.location.href = '/account';
-      }
-    }
   }, [data]);
 
   if (!data?.available) {
@@ -49,19 +39,14 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
 
   const recipes = data.cooks.flatMap((cook) => cook.menu);
 
-  const meals = user.plans.map((plan) => ({
-    title: plan.name,
-    isExtra: plan.isExtra,
-    maxMeals: plan.totalMeals,
-    options: data.cooks.map((cook) =>
-      cook.menu.map((recipe) => ({
-        id: recipe.id,
-        title: recipe.name,
-        description: recipe.description,
-        contains: recipe.allergens,
-      }))
-    ),
-  }));
+  const meals = user.plans
+    .filter((plan) => plan.totalMeals > 0)
+    .map((plan) => ({
+      title: plan.name,
+      isExtra: plan.isExtra,
+      maxMeals: plan.totalMeals,
+      options: data.cooks.map((cook) => cook.menu),
+    }));
 
   return (
     <>

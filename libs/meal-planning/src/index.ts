@@ -2,6 +2,7 @@ export { chooseMeals } from './lib/choose-meals';
 export { makeCookPlan } from './lib/make-cook-plan';
 export { createVariant } from './lib/create-variant';
 export { generateLabelData } from './lib/generate-label-data';
+export { getRealRecipe } from './lib/get-real-recipe';
 
 export {
   generateDistribution,

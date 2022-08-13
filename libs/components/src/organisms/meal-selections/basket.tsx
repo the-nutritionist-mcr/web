@@ -42,7 +42,7 @@ const makeBasketItems = (
     .map((thing) => (
       <QuantityStepper
         key={`${thing.id}-basket-item`}
-        label={thing.title}
+        label={thing.name}
         value={thing.count}
         max={max - total + (selectedThings[thing.id ?? ''] ?? 0)}
         onChange={(newValue: number) =>

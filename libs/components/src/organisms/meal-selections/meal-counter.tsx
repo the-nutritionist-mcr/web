@@ -13,18 +13,13 @@ import {
 
 export interface MealCounterProps {
   title: string;
-  description: string;
-  contains: string;
+  description?: string;
+  contains?: string;
   value?: number;
   onChange?: (newValue: number) => void;
   max?: number;
   min?: number;
 }
-
-const Container = styled.section`
-  text-align: center;
-  max-width: 20rem;
-`;
 
 const MealCounter: FC<MealCounterProps> = (props) => {
   const headerId = uniqueId();

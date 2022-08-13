@@ -51,7 +51,7 @@ export const ConfirmDelivery = (props: ConfirmDeliveryProps) => {
                     <div className={itemCountNumber}>{meal[1]}</div>
                   </div>
                   <div className={mealTitle}>
-                    {meal[0].title.toLocaleLowerCase()}
+                    {meal[0].name.toLocaleLowerCase()}
                   </div>
                 </li>
               ))

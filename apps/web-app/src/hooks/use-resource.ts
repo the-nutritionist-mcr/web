@@ -9,9 +9,16 @@ interface Response<T> {
 
 type ExtractPromiseType<T> = T extends Promise<infer P> ? P : never;
 
-export const useResource = <T extends { id: string }>(type: string) => {
+export const useResource = <T extends { id: string }>(
+  type: string,
+  ids?: string[]
+) => {
   const { mutate, cache } = useSWRConfig();
-  const { data: getData } = useSWR<Response<T>>(type, swrFetcher);
+
+  const { data: getData } = useSWR<Response<T>>(
+    ids ? `${type}/by-ids?ids=${ids.join(',')}` : type,
+    swrFetcher
+  );
 
   const createItem = async <T extends { id: string }>(input: T): Promise<T> =>
     await swrFetcher<T>(type, {

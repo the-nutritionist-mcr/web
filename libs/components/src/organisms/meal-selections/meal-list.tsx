@@ -3,9 +3,13 @@ import MealCounter from './meal-counter';
 import { SelectedThings } from './selected-things';
 import { Meal } from './meal';
 import { mealListGrid } from './meal-list.css';
+import { Customer, Recipe } from '@tnmw/types';
+import { getRealRecipe } from '@tnmw/meal-planning';
 
 interface MealListProps {
   things: Meal[];
+  customer: Customer;
+  recipes: Recipe[];
   selected: SelectedThings;
   setSelected: (things: SelectedThings) => void;
   max: number;
@@ -19,23 +23,26 @@ const MealList: FC<MealListProps> = (props) => {
 
   return (
     <div className={mealListGrid}>
-      {props.things.map((thing) => (
-        <MealCounter
-          key={thing.id}
-          title={thing.title}
-          description={thing.description}
-          contains={thing.contains}
-          value={props.selected[thing.id] ?? 0}
-          min={0}
-          max={props.max - total + (props.selected[thing.id] ?? 0)}
-          onChange={(newValue: number) =>
-            props.setSelected({
-              ...props.selected,
-              [thing.id]: newValue,
-            })
-          }
-        />
-      ))}
+      {props.things.map((thing) => {
+        const realRecipe = getRealRecipe(thing, props.customer, props.recipes);
+        return (
+          <MealCounter
+            key={thing.id}
+            title={realRecipe.name ?? ''}
+            description={realRecipe.description ?? ''}
+            contains={thing.allergens}
+            value={props.selected[thing.id] ?? 0}
+            min={0}
+            max={props.max - total + (props.selected[thing.id] ?? 0)}
+            onChange={(newValue: number) =>
+              props.setSelected({
+                ...props.selected,
+                [thing.id]: newValue,
+              })
+            }
+          />
+        );
+      })}
     </div>
   );
 };

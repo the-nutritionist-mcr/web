@@ -1,6 +1,10 @@
 export interface Meal {
   id: string;
-  title: string;
-  description: string;
-  contains: string;
+  name: string;
+  description?: string;
+  allergens?: string;
+  alternates?: {
+    customisationId: string;
+    recipeId: string;
+  }[];
 }
