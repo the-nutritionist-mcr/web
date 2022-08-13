@@ -3,14 +3,18 @@ import { Meal } from './meal';
 import { SelectedThings } from './selected-things';
 import { QuantityStepper } from '../../molecules';
 import styled from '@emotion/styled';
+import { getRealRecipe } from '@tnmw/meal-planning';
+import { ChooseMealsCustomer } from './meal-selections';
+import { Recipe } from '@tnmw/types';
 
 interface BasketProps {
-  available: Meal[];
+  recipes: Recipe[];
   title: string;
   itemWord: string;
   itemWordPlural: string;
   selectedMeals: SelectedThings | undefined;
   setSelected: (selected: SelectedThings) => void;
+  customer: ChooseMealsCustomer;
   max: number;
 }
 
@@ -28,21 +32,22 @@ const BasketContainer = styled.div`
 
 const makeBasketItems = (
   selectedThings: SelectedThings,
-  available: Meal[],
+  recipes: Recipe[],
   setSelected: (things: SelectedThings) => void,
   max: number,
-  total: number
+  total: number,
+  customer: ChooseMealsCustomer
 ) =>
   Object.entries(selectedThings)
     .filter(([, count]) => count > 0)
     .map(([id, count]) => ({
-      ...available.find((thing) => thing.id === id),
+      ...recipes.find((thing) => thing.id === id),
       count,
     }))
     .map((thing) => (
       <QuantityStepper
         key={`${thing.id}-basket-item`}
-        label={thing.name}
+        label={getRealRecipe(thing, customer, recipes).name}
         value={thing.count}
         max={max - total + (selectedThings[thing.id ?? ''] ?? 0)}
         onChange={(newValue: number) =>
@@ -88,10 +93,11 @@ const Basket: FC<BasketProps> = (props) => {
       </BasketRemaining>
       {makeBasketItems(
         props.selectedMeals,
-        props.available,
+        props.recipes,
         props.setSelected,
         props.max,
-        totalSelected
+        totalSelected,
+        props.customer
       )}
     </BasketContainer>
   );

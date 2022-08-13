@@ -7,12 +7,16 @@ import { defaultDeliveryDays } from '@tnmw/config';
 import { totalOtherSelected } from './total-other-selected';
 import { setSelected } from './set-selected';
 import { SelectedMeals } from './initial-selections';
+import { ChooseMealsCustomer } from './meal-selections';
+import { Recipe } from '@tnmw/types';
 
 interface BasketProps {
   availableMeals: MealCategory[];
   selectedMeals: (SelectedThings | undefined)[][];
   setSelectedMeals: (selected: SelectedMeals) => void;
   categoriesThatAreNotExtrasIndexes: number[];
+  customer: ChooseMealsCustomer;
+  recipes: Recipe[];
 }
 
 const SelectedBox = styled.div`
@@ -46,6 +50,8 @@ const CombinedBasket: FC<BasketProps> = ({
   selectedMeals,
   setSelectedMeals,
   categoriesThatAreNotExtrasIndexes,
+  customer,
+  recipes,
 }) => {
   return (
     <SelectedBox>
@@ -58,9 +64,10 @@ const CombinedBasket: FC<BasketProps> = ({
           ) ? null : (
             <Basket
               itemWord="meal"
+              customer={customer}
               title={`${category.title} - Delivery ${dayIndex + 1}`}
               itemWordPlural="meals"
-              available={availableMeals[categoryIndex].options[dayIndex]}
+              recipes={recipes}
               setSelected={(selected) =>
                 setSelected(
                   selected,

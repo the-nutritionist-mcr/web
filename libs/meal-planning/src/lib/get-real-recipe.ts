@@ -1,7 +1,7 @@
 import { BackendCustomer, Customer } from '@tnmw/types';
 
 interface Meal {
-  id: string;
+  id?: string;
   alternates?: { customisationId: string; recipeId: string }[];
   name?: string;
   description?: string;

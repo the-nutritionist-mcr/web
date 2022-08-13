@@ -13,9 +13,13 @@ import { MealCategoryWithSelections } from './meal-category';
 import { defaultDeliveryDays } from '@tnmw/config';
 import { ConfirmDelivery } from './confirm-delivery';
 import { countMeals } from './count-meals';
+import { ChooseMealsCustomer } from './meal-selections';
+import { Recipe } from '@tnmw/types';
 
 interface ConfirmSelectionsProps {
   selectedMeals: MealCategoryWithSelections[];
+  customer: ChooseMealsCustomer;
+  recipes: Recipe[];
   complete: boolean;
 }
 

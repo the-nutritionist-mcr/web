@@ -21,7 +21,7 @@ export const useResource = <T extends { id: string }>(
     }
 
     if (ids) {
-      return `${type}/by-ids?ids=${ids.join(',')}`;
+      return `${type}/get-by-id?ids=${ids.join(',')}`;
     }
 
     return type;

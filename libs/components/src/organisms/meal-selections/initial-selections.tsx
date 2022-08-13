@@ -11,6 +11,7 @@ import { container, header, youNeedToChoose } from './initial-selections.css';
 import { ParagraphText } from '../../atoms';
 import { Customer, Recipe } from '@tnmw/types';
 import { ChooseMealsCustomer } from './meal-selections';
+import { Meal } from './meal';
 
 const GridParent = styled.div`
   display: grid;
@@ -83,6 +84,8 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
       </TabBox>
       <CombinedBasket
         availableMeals={props.availableMeals}
+        customer={props.customer}
+        recipes={props.recipes}
         selectedMeals={props.selectedMeals}
         setSelectedMeals={props.setSelectedMeals}
         categoriesThatAreNotExtrasIndexes={

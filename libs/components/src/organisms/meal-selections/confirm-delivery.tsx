@@ -10,6 +10,9 @@ import {
   itemCountNumber,
   deliveryContainer,
 } from './confirm-delivery.css';
+import { Recipe } from '@tnmw/types';
+import { ChooseMealsCustomer } from './meal-selections';
+import { getRealRecipe } from '@tnmw/meal-planning';
 
 interface Section {
   name: string;
@@ -19,6 +22,8 @@ interface Section {
 interface ConfirmDeliveryProps {
   deliveryNumber: number;
   sections: Section[];
+  customer: ChooseMealsCustomer;
+  recipes: Recipe[];
 }
 
 const combineDuplicates = (meals: Meal[]): [Meal, number][] => {
@@ -45,16 +50,23 @@ export const ConfirmDelivery = (props: ConfirmDeliveryProps) => {
             {section.meals.length === 0 ? (
               <li className={noMealsLi}>Empty</li>
             ) : (
-              combineDuplicates(section.meals).map((meal) => (
-                <li className={mealSelectionLi}>
-                  <div className={itemCount}>
-                    <div className={itemCountNumber}>{meal[1]}</div>
-                  </div>
-                  <div className={mealTitle}>
-                    {meal[0].name.toLocaleLowerCase()}
-                  </div>
-                </li>
-              ))
+              combineDuplicates(section.meals).map((meal) => {
+                const realMeal = getRealRecipe(
+                  meal[0],
+                  props.customer,
+                  props.recipes
+                );
+                return (
+                  <li className={mealSelectionLi}>
+                    <div className={itemCount}>
+                      <div className={itemCountNumber}>{meal[1]}</div>
+                    </div>
+                    <div className={mealTitle}>
+                      {realMeal?.name?.toLocaleLowerCase()}
+                    </div>
+                  </li>
+                );
+              })
             )}
           </ul>
         </div>
