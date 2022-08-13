@@ -7,7 +7,7 @@ export { isExclusion } from './lib/Exclusion';
 export type { default as Plan } from './lib/Plan';
 
 export { HotOrCold } from './lib/Recipe';
-export type { default as Recipe } from './lib/Recipe';
+export type { default as Recipe, Alternate } from './lib/Recipe';
 export { assertIsRecipe } from './lib/Recipe';
 
 export { isSubmitCustomerOrderPayload } from './lib/submit-customer-order';

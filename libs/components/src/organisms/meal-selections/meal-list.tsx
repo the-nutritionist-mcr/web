@@ -5,10 +5,11 @@ import { Meal } from './meal';
 import { mealListGrid } from './meal-list.css';
 import { Customer, Recipe } from '@tnmw/types';
 import { getRealRecipe } from '@tnmw/meal-planning';
+import { ChooseMealsCustomer } from './meal-selections';
 
 interface MealListProps {
   things: Meal[];
-  customer: Customer;
+  customer: ChooseMealsCustomer;
   recipes: Recipe[];
   selected: SelectedThings;
   setSelected: (things: SelectedThings) => void;

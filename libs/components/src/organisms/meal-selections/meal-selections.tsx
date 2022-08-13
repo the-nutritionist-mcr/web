@@ -9,7 +9,9 @@ import { InitialSelections } from './initial-selections';
 import { ConfirmSelections } from './confirm-selections';
 import { remainingMeals } from './count-meals';
 import {
+  Customer,
   Recipe,
+  Alternate,
   StoredMealSelection,
   SubmitCustomerOrderPayload,
 } from '@tnmw/types';
@@ -23,12 +25,17 @@ import {
 import { goAheadAndSubmit } from './confirm-selections-container.css';
 import { Meal } from './meal';
 
+export interface ChooseMealsCustomer {
+  exclusions?: Customer['exclusions'];
+}
+
 export interface MealSelectionsProps {
   availableMeals: MealCategory[];
   deliveryDates: string[];
   currentSelection: StoredMealSelection;
   submitOrder: (payload: SubmitCustomerOrderPayload) => Promise<void>;
   recipes: Recipe[];
+  customer: ChooseMealsCustomer;
 }
 
 const DivContainer = styled.div`
@@ -245,6 +252,8 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
           <InitialSelections
             {...props}
             availableMeals={props.availableMeals}
+            customer={props.customer}
+            recipes={props.recipes}
             remainingMeals={remainingWithoutExtras}
             selectedMeals={selectedMeals}
             categoriesThatAreNotExtrasIndexes={

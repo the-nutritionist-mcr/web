@@ -6,7 +6,7 @@ export enum HotOrCold {
   Both = 'Both',
 }
 
-interface Alternate {
+export interface Alternate {
   customisationId: string;
   recipeId: string;
 }

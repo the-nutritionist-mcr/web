@@ -9,6 +9,8 @@ import { setSelected } from './set-selected';
 import { totalOtherSelected } from './total-other-selected';
 import { container, header, youNeedToChoose } from './initial-selections.css';
 import { ParagraphText } from '../../atoms';
+import { Customer, Recipe } from '@tnmw/types';
+import { ChooseMealsCustomer } from './meal-selections';
 
 const GridParent = styled.div`
   display: grid;
@@ -27,6 +29,8 @@ export interface InitialSelectionsProps {
   currentTabIndex: number;
   remainingMeals: number;
   onChangeIndex: (index: number) => void;
+  recipes: Recipe[];
+  customer: ChooseMealsCustomer;
 }
 
 export const InitialSelections = (props: InitialSelectionsProps) => {
@@ -46,6 +50,8 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
               <Tab tabTitle={`Delivery ${dayIndex + 1} ${category.title}`}>
                 {selected ? (
                   <MealList
+                    customer={props.customer}
+                    recipes={props.recipes}
                     things={category.options[dayIndex]}
                     selected={selected}
                     setSelected={(selected) => {

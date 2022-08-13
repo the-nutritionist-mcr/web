@@ -1,4 +1,4 @@
-import { Customer, Recipe } from '@tnmw/types';
+import { Customer } from '@tnmw/types';
 
 interface Meal {
   id: string;
@@ -9,7 +9,7 @@ interface Meal {
 
 export const getRealRecipe = (
   recipe: Meal,
-  customer: Customer,
+  customer: { exclusions?: Customer['exclusions'] },
   recipes: Meal[]
 ) => {
   const alternates = recipe.alternates ?? [];
@@ -18,8 +18,10 @@ export const getRealRecipe = (
     return recipe;
   }
 
+  const exclusions = customer.exclusions ?? [];
+
   const alternate = alternates.find((alternate) =>
-    customer.exclusions
+    exclusions
       .map((exclusion) => exclusion.id)
       .includes(alternate.customisationId)
   );

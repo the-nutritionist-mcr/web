@@ -4,12 +4,12 @@ export { usePlan } from './use-plans';
 
 export const useCustomisations = () => useResource<Exclusion>('customisation');
 
-export const useRecipes = () => {
-  const result = useResource<Recipe>('recipe');
+export const useRecipes = (ids?: string[]) => {
+  const result = useResource<Recipe>('recipe', ids);
 
   return {
     ...result,
-    items: result.items?.map((item) => {
+    items: result.items?.map<Recipe>((item) => {
       const recipeWithExtraField = item as Recipe & {
         vegeterianOption: string | null;
       };

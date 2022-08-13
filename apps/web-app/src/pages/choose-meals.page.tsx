@@ -7,8 +7,9 @@ import {
   AuthorizedRouteProps,
 } from '../utils/authorised-route';
 
-import { usePlan } from '../hooks';
+import { usePlan, useRecipes } from '../hooks';
 import styled from 'styled-components';
+import { getClosedOrOpenStatus } from '../utils/get-closed-or-open-status';
 
 const ChooseMealsHeaderBox = styled('div')`
   text-align: center;
@@ -47,6 +48,12 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
 
   const recipes = data.cooks.flatMap((cook) => cook.menu);
 
+  const alternateRecipeIds = recipes
+    .flatMap((recipe) => recipe.alternates ?? [])
+    .map((alternate) => alternate.recipeId);
+
+  const { items: alternateRecipes } = useRecipes(alternateRecipeIds);
+
   const meals = user.plans
     .filter((plan) => plan.totalMeals > 0)
     .map((plan) => ({
@@ -66,7 +73,8 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
       <MealSelections
         currentSelection={data.currentUserSelection}
         submitOrder={submitOrder}
-        recipes={recipes}
+        recipes={[...recipes, ...alternateRecipes]}
+        customer={user}
         availableMeals={meals}
         deliveryDates={data.cooks.map((cook) => cook.date)}
       />
