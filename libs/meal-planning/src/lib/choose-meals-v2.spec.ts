@@ -4,7 +4,7 @@ import {
   HotOrCold,
   BackendCustomer,
 } from '@tnmw/types';
-import { chooseMeals, Cook } from './choose-meals-v2';
+import { chooseMealSelections, Cook } from './choose-meals-v2';
 import { getCookStatus } from './get-cook-status';
 import { when } from 'jest-when';
 
@@ -299,7 +299,7 @@ describe('Choose Meals', () => {
   //     customerThree,
   //   ];
   //   const dates = [new Date(1_630_702_130_000), new Date(1_630_702_130_000)];
-  //   const result = chooseMeals(selection, dates, customers);
+  //   const result = chooseMealSelections(selection, dates, customers);
 
   //   expect(result[0].customer).toBe(customerOne);
   //   expect(result[1].customer).toBe(customerTwo);
@@ -312,7 +312,7 @@ describe('Choose Meals', () => {
       customerTwo,
       customerThree,
     ];
-    const result = chooseMeals(dummyPlannedCooks, customers, 'me');
+    const result = chooseMealSelections(dummyPlannedCooks, customers, 'me');
 
     expect(result).toBeDefined();
     expect(result.customerPlans[0].customer).toBe(customerOne);
@@ -332,7 +332,7 @@ describe('Choose Meals', () => {
       customerThree,
     ];
 
-    const result = chooseMeals(dummyPlannedCooks, customers, 'me');
+    const result = chooseMealSelections(dummyPlannedCooks, customers, 'me');
 
     expect(result.createdOn).toEqual(theDate);
   });
@@ -344,7 +344,7 @@ describe('Choose Meals', () => {
       customerThree,
     ];
 
-    const result = chooseMeals(dummyPlannedCooks, customers, 'me');
+    const result = chooseMealSelections(dummyPlannedCooks, customers, 'me');
 
     expect(result).toBeDefined();
     expect(result.cooks).toStrictEqual(dummyPlannedCooks);
@@ -357,7 +357,7 @@ describe('Choose Meals', () => {
       customerTwo,
       customerThree,
     ];
-    const result = chooseMeals(dummyPlannedCooks, customers, 'me');
+    const result = chooseMealSelections(dummyPlannedCooks, customers, 'me');
 
     expect(result).toBeDefined();
     expect(result.cooks).toStrictEqual(dummyPlannedCooks);
@@ -369,7 +369,7 @@ describe('Choose Meals', () => {
       customerTwo,
       customerThree,
     ];
-    const result = chooseMeals(dummyPlannedCooks, customers, 'me');
+    const result = chooseMealSelections(dummyPlannedCooks, customers, 'me');
 
     expect(result).toBeDefined();
     expect(result.customerPlans[0].wasUpdatedByCustomer).toBeFalsy();
@@ -383,7 +383,7 @@ describe('Choose Meals', () => {
       customerTwo,
       customerThree,
     ];
-    const result = chooseMeals(dummyPlannedCooks, customers, 'me');
+    const result = chooseMealSelections(dummyPlannedCooks, customers, 'me');
 
     expect(result).toBeDefined();
     expect(result.customerPlans[0].deliveries).toHaveLength(2);
@@ -397,7 +397,7 @@ describe('Choose Meals', () => {
       customerTwo,
       customerThree,
     ];
-    const result = chooseMeals(dummyPlannedCooks, customers, 'me');
+    const result = chooseMealSelections(dummyPlannedCooks, customers, 'me');
 
     expect(result).toBeDefined();
     expect(result.customerPlans[0].deliveries[0].plans).toHaveLength(1);
@@ -418,7 +418,7 @@ describe('Choose Meals', () => {
       customerTwo,
       customerThree,
     ];
-    const result = chooseMeals(dummyPlannedCooks, customers, 'me');
+    const result = chooseMealSelections(dummyPlannedCooks, customers, 'me');
 
     expect(result).toBeDefined();
     expect(result.customerPlans[0].deliveries[0].plans[0].status).toBe(
@@ -443,7 +443,7 @@ describe('Choose Meals', () => {
       customerTwo,
       customerThree,
     ];
-    const result = chooseMeals(dummyPlannedCooks, customers, 'me');
+    const result = chooseMealSelections(dummyPlannedCooks, customers, 'me');
 
     expect(result).toBeDefined();
     const firstPlan = result.customerPlans[0].deliveries[0].plans[0];
@@ -472,7 +472,7 @@ describe('Choose Meals', () => {
       customerTwo,
       customerThree,
     ];
-    const result = chooseMeals(dummyPlannedCooks, customers, 'me');
+    const result = chooseMealSelections(dummyPlannedCooks, customers, 'me');
 
     expect(result).toBeDefined();
     const lastPlan = result.customerPlans[2].deliveries[1].plans[0];
@@ -531,7 +531,7 @@ describe('Choose Meals', () => {
       customerTwoWithExclusion,
       customerThree,
     ];
-    const result = chooseMeals(plannedCooks, customers, 'me');
+    const result = chooseMealSelections(plannedCooks, customers, 'me');
 
     expect(result).toBeDefined();
 
