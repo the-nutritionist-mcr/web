@@ -1,8 +1,13 @@
 import { CustomerMealsSelectionWithChargebeeCustomer } from './customer-meal-selection';
+import {
+  MealPlanGeneratedForIndividualCustomer,
+  WeeklyCookPlan,
+  WeeklyCookPlanWithoutCustomerPlans,
+} from './meal-plan';
 import Recipe from './Recipe';
 
 export interface Cook {
-  date: string;
+  date: Date;
   menu: Recipe[];
 }
 
@@ -15,13 +20,32 @@ export interface StoredPlan {
 
   username: string;
 
-  createdByName: string;
+  createdBy: string;
+  createdOn: string;
 }
 
 export interface StoredMealSelection {
   id: `plan-${string}-selection`;
   sort: string;
   selection: CustomerMealsSelectionWithChargebeeCustomer[number];
+}
+
+export interface GetPlanResponseAdmin {
+  planId: string;
+  plan: WeeklyCookPlan;
+  currentUserSelection: MealPlanGeneratedForIndividualCustomer;
+  published: boolean;
+  available: true;
+  admin: true;
+}
+
+export interface GetPlanResponseNonAdmin {
+  planId: string;
+  plan: WeeklyCookPlanWithoutCustomerPlans;
+  currentUserSelection: MealPlanGeneratedForIndividualCustomer;
+  published: boolean;
+  available: true;
+  admin: false;
 }
 
 export interface GetPlanResponse {
@@ -38,6 +62,7 @@ export interface GetPlanResponse {
 
 export interface NotYetPublishedResponse {
   available: false;
+  admin: false;
 }
 
 export type PlanResponseSelections =

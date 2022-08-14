@@ -1,9 +1,11 @@
 import { defaultDeliveryDays, extrasLabels, planLabels } from '@tnmw/config';
+import { v4 } from 'uuid';
 import {
   Recipe,
   BackendCustomer,
   WeeklyCookPlan,
   MealPlanGeneratedForIndividualCustomer,
+  PlannedCook,
   PlannedDelivery,
   StandardPlan,
   Delivery,
@@ -49,10 +51,19 @@ const getDistribution = (
   );
 };
 
+const isExcluded = (recipe: Recipe, customer: BackendCustomer) => {
+  return recipe.invalidExclusions?.some((invalidExclusion) =>
+    customer.customisations
+      .map((customerExclusion) => customerExclusion.id)
+      .includes(invalidExclusion)
+  );
+};
+
 const selectPlanMealsForDelivery = (
   cook: Cook,
   plan: StandardPlan,
-  distribution: Delivery
+  distribution: Delivery,
+  customer: BackendCustomer
 ): PlanWithMeals => {
   const statusResult = getCookStatus(cook.date, plan);
 
@@ -67,6 +78,10 @@ const selectPlanMealsForDelivery = (
     }))
   );
 
+  const menuAfterExclusions = cook.menu.filter(
+    (item) => !isExcluded(item, customer)
+  );
+
   return {
     ...statusResult,
     meals: meals.map((item, index) =>
@@ -75,7 +90,7 @@ const selectPlanMealsForDelivery = (
         : {
             isExtra: false,
             chosenVariant: item.name,
-            recipe: cook.menu[index % cook.menu.length],
+            recipe: menuAfterExclusions[index % menuAfterExclusions.length],
           }
     ),
   };
@@ -90,7 +105,7 @@ const generateCustomerDeliveryFromCook = (
       const distribution = getDistribution(plan, customer.customPlan)[
         cook.index
       ];
-      return selectPlanMealsForDelivery(cook, plan, distribution);
+      return selectPlanMealsForDelivery(cook, plan, distribution, customer);
     }),
     dateCooked: cook.date,
   };
@@ -109,7 +124,7 @@ const generateCustomerDeliveries = (
   };
 };
 
-export const chooseMeals = (
+export const chooseMealSelections = (
   deliverySelection: Cook[],
   customers: BackendCustomer[],
   createdBy: string

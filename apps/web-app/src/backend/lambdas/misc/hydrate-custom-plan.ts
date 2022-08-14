@@ -1,4 +1,3 @@
-import './init-dd-trace';
 import { Delivery } from '@tnmw/types';
 
 interface ItemFamily {
@@ -7,10 +6,10 @@ interface ItemFamily {
 }
 
 export const hydrateCustomPlan = (
-  customPlan: Delivery[],
+  customPlan: Delivery[] | undefined,
   itemFamilies: ItemFamily[]
 ): Delivery[] =>
-  customPlan.map((delivery) => ({
+  customPlan?.map((delivery) => ({
     ...delivery,
     items: delivery.items.map((item) => ({
       ...item,

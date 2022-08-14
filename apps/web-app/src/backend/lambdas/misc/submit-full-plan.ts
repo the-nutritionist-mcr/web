@@ -1,6 +1,6 @@
 import './init-dd-trace';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
-import { chooseMeals } from '@tnmw/meal-planning';
+import { chooseMeals, chooseMealSelections } from '@tnmw/meal-planning';
 import { ENV } from '@tnmw/constants';
 import { authoriseJwt } from '../data-api/authorise';
 import { parseCustomerList } from '../../../utils/parse-customer-list';
@@ -24,11 +24,15 @@ import {
 } from '@aws-sdk/lib-dynamodb';
 import { v4 } from 'uuid';
 import { isWeeklyPlan } from '@tnmw/types';
-import { StoredMealSelection } from '@tnmw/types';
+import {
+  StoredMealSelection,
+  MealPlanGeneratedForIndividualCustomer,
+} from '@tnmw/types';
 import { batchArray } from '../../../utils/batch-array';
 import { convertPlanFormat } from '@tnmw/utils';
 import { itemFamilies } from '@tnmw/config';
 import { hydrateCustomPlan } from './hydrate-custom-plan';
+import { StoredMealPlanGeneratedForIndividualCustomer } from 'libs/types/src/lib/meal-plan';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -50,38 +54,20 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       throw new HttpError(HTTP.statusCodes.BadRequest, 'Request was invalid');
     }
 
-    const dates = payload.dates.map((date) => new Date(Date.parse(date)));
-
     const input: ListUsersCommandInput = {
       UserPoolId: process.env[ENV.varNames.CognitoPoolId],
     };
 
     const command = new ListUsersCommand(input);
 
-    const list = parseCustomerList(await cognito.send(command)).map((item) => {
-      const mealsForPlan = item.customPlan
-        ? { deliveries: hydrateCustomPlan(item.customPlan, itemFamilies) }
-        : convertPlanFormat(item.plans, itemFamilies);
+    const list = parseCustomerList(await cognito.send(command));
 
-      const mealsForPlanWithPausedRemoved = {
-        deliveries: mealsForPlan.deliveries.map((delivery, index) => {
-          const active = isActive(dates[index], item.plans);
+    const cooks = payload.dates.map((date, index) => ({
+      date: new Date(Date.parse(date)),
+      menu: payload.cooks[index],
+    }));
 
-          return active ? delivery : { items: [], extras: [] };
-        }),
-      };
-
-      return {
-        ...item,
-        newPlan: mealsForPlanWithPausedRemoved,
-        address: '',
-        telephone: '',
-        exclusions: item.customisations,
-        chargebeePlan: item.plans,
-      };
-    });
-
-    const meals = chooseMeals(payload.cooks, dates, list);
+    const meals = chooseMealSelections(cooks, list, `${firstName} ${surname}`);
 
     const planId = v4();
 
@@ -90,20 +76,18 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       sort: String(payload.timestamp),
       published: false,
       planId,
-      menus: dates.map((date, index) => ({
-        date: date.toString(),
-        // eslint-disable-next-line security/detect-object-injection
-        menu: payload.cooks[index],
-      })),
       username,
-      createdByName: `${firstName} ${surname}`,
+      createdBy: meals.createdBy,
+      createdOn: meals.createdOn.toString(),
+      menus: meals.cooks,
     };
 
-    const selections: StoredMealSelection[] = meals.map((meal) => ({
-      id: `plan-${planId}-selection`,
-      sort: v4(),
-      selection: meal,
-    }));
+    const selections: StoredMealPlanGeneratedForIndividualCustomer[] =
+      meals.customerPlans.map((customerPlan) => ({
+        id: `plan-${planId}-selection`,
+        sort: v4(),
+        ...customerPlan,
+      }));
 
     const batches = batchArray([plan, ...selections], 25);
     const tableName = process.env[ENV.varNames.DynamoDBTable];

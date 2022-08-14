@@ -58,6 +58,12 @@ export interface MealPlanGeneratedForIndividualCustomer {
   wasUpdatedByCustomer: boolean;
 }
 
+export type StoredMealPlanGeneratedForIndividualCustomer =
+  MealPlanGeneratedForIndividualCustomer & {
+    id: string;
+    sort: string;
+  };
+
 interface PlannedCook {
   date: Date;
   menu: Recipe[];
@@ -68,4 +74,14 @@ export interface WeeklyCookPlan {
   cooks: PlannedCook[];
   createdBy: string;
   createdOn: Date;
+}
+
+export type WeeklyCookPlanWithoutCustomerPlans = Omit<
+  WeeklyCookPlan,
+  'customerPlans'
+>;
+
+export interface StoredWeeklyCookPlan {
+  id: 'plan';
+  sort: string;
 }

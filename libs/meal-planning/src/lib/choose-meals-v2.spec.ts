@@ -482,59 +482,77 @@ describe('Choose Meals', () => {
     }
   });
 
-  // it('Where a recipe is tagged with a particular customisation as an exclusion, skips that meal if the customer has that customisation selected', () => {
-  //   const customerTwoWithExclusion = {
-  //     ...customerTwo,
+  it('Skips exclusions', () => {
+    const customerTwoWithExclusion = {
+      ...customerTwo,
 
-  //     exclusions: [
-  //       {
-  //         id: '423',
-  //         name: 'foo',
-  //         allergen: false,
-  //       },
-  //     ],
-  //   };
+      customisations: [
+        {
+          id: '423',
+          name: 'foo',
+          allergen: false,
+        },
+      ],
+    };
 
-  //   const recipeTwoWithExclusion = {
-  //     ...recipeTwo,
-  //     invalidExclusions: ['423'],
-  //   };
+    const recipeTwoWithExclusion = {
+      ...recipeTwo,
+      invalidExclusions: ['423'],
+    };
 
-  //   const selection: DeliveryMealsSelection[] = [
-  //     [
-  //       recipeOne,
-  //       recipeTwoWithExclusion,
-  //       recipeThree,
-  //       recipeFour,
-  //       recipeFive,
-  //       recipeSix,
-  //     ],
-  //     [
-  //       recipeSeven,
-  //       recipeEight,
-  //       recipeNine,
-  //       recipeTen,
-  //       recipeEleven,
-  //       recipeTwelve,
-  //     ],
-  //   ];
+    const plannedCooks: Cook[] = [
+      {
+        date: new Date(),
+        menu: [
+          recipeOne,
+          recipeTwoWithExclusion,
+          recipeThree,
+          recipeFour,
+          recipeFive,
+          recipeSix,
+        ],
+      },
 
-  //   const customers: BackendCustomer[] = [
-  //     customerOne,
-  //     customerTwoWithExclusion,
-  //     customerThree,
-  //   ];
-  //   const dates = [new Date(1_630_702_130_000), new Date(1_630_702_130_000)];
-  //   const result = chooseMeals(selection, dates, customers);
+      {
+        date: new Date(),
+        menu: [
+          recipeSeven,
+          recipeEight,
+          recipeNine,
+          recipeTen,
+          recipeEleven,
+          recipeTwelve,
+        ],
+      },
+    ];
 
-  //   const foundExcludedMeal = result[1].deliveries.find((delivery) =>
-  //     typeof delivery !== 'string'
-  //       ? delivery.find((item) =>
-  //           'recipe' in item ? item.recipe === recipeTwoWithExclusion : false
-  //         )
-  //       : false
-  //   );
+    const customers: BackendCustomer[] = [
+      customerOne,
+      customerTwoWithExclusion,
+      customerThree,
+    ];
+    const result = chooseMeals(plannedCooks, customers, 'me');
 
-  //   expect(foundExcludedMeal).toBeFalsy();
-  // });
+    expect(result).toBeDefined();
+
+    const secondPlan = result.customerPlans[1].deliveries[0].plans[0];
+    expect(secondPlan.status).toBe('active');
+
+    if (secondPlan.status === 'active') {
+      const foundRecipeTwo = secondPlan.meals.find(
+        (meal) => !meal.isExtra && meal.recipe === recipeTwoWithExclusion
+      );
+      expect(foundRecipeTwo).toBeFalsy();
+    }
+
+    const secondPlanMore = result.customerPlans[1].deliveries[0].plans[1];
+    expect(secondPlanMore.status).toBe('active');
+
+    if (secondPlanMore.status === 'active') {
+      const foundRecipeTwo = secondPlanMore.meals.find(
+        (meal) => !meal.isExtra && meal.recipe === recipeTwoWithExclusion
+      );
+      expect(foundRecipeTwo).toBeFalsy();
+    }
+  });
 });

@@ -2,7 +2,8 @@ import { swrFetcher } from '../utils/swr-fetcher';
 import {
   ChangePlanRecipeBody,
   CustomerMealsSelectionWithChargebeeCustomer,
-  GetPlanResponse,
+  GetPlanResponseAdmin,
+  GetPlanResponseNonAdmin,
   NotYetPublishedResponse,
   StoredMealSelection,
   SubmitCustomerOrderPayload,
@@ -16,10 +17,9 @@ import toast from 'react-hot-toast';
 export const usePlan = () => {
   const { mutate, cache } = useSWRConfig();
 
-  const { data } = useSWR<GetPlanResponse | NotYetPublishedResponse>(
-    'plan',
-    swrFetcher
-  );
+  const { data } = useSWR<
+    GetPlanResponseNonAdmin | GetPlanResponseAdmin | NotYetPublishedResponse
+  >('plan', swrFetcher);
 
   const submitOrder = async (
     details: SubmitCustomerOrderPayload
@@ -34,13 +34,13 @@ export const usePlan = () => {
       method: HTTP.verbs.Post,
       body: JSON.stringify({
         id: 'plan',
-        sort: data.available && data.date,
+        sort: data.available && data.plan.createdOn,
       }),
     });
 
   const [publish] = useMutation<void>(publishPlan, {
     onMutate() {
-      const data: GetPlanResponse = cache.get('plan');
+      const data: GetPlanResponseAdmin = cache.get('plan');
       const newData = {
         ...data,
         published: true,
@@ -60,7 +60,7 @@ export const usePlan = () => {
 
   const [update] = useMutation(changePlanItem, {
     onMutate({ input }) {
-      const data: GetPlanResponse = cache.get('plan');
+      const data: GetPlanResponseAdmin = cache.get('plan');
       const newData = {
         ...data,
         selections: data.selections.map(
@@ -101,7 +101,7 @@ export const usePlan = () => {
 
   if (data.available === true) {
     return {
-      data: { ...data, date: new Date(Number(data.date)) },
+      data: { ...data, date: new Date(Number(data.plan.createdOn)) },
       update,
       publish,
       submitOrder,

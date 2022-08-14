@@ -2,12 +2,20 @@ import './init-dd-trace';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { returnErrorResponse } from '../data-api/return-error-response';
 import { returnOkResponse } from '../data-api/return-ok-response';
-import { StoredMealSelection, StoredPlan, GetPlanResponse } from '@tnmw/types';
+import {
+  StoredPlan,
+  GetPlanResponseNonAdmin,
+  GetPlanResponseAdmin,
+} from '@tnmw/types';
 import { ENV, HTTP } from '@tnmw/constants';
 import { authoriseJwt } from '../data-api/authorise';
 
 import { HttpError } from '../data-api/http-error';
 import { doQuery } from '../dynamodb';
+import {
+  StoredMealPlanGeneratedForIndividualCustomer,
+  WeeklyCookPlanWithoutCustomerPlans,
+} from 'libs/types/src/lib/meal-plan';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -31,46 +39,57 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       ?.slice()
       .sort((a, b) => (Number(a.sort) < Number(b.sort) ? 1 : -1))?.[0];
 
-    const { planId, menus, published, username, sort, createdByName } = plan;
+    const { planId, menus, published, createdBy, createdOn } = plan;
 
     const selectionResponse = await doQuery(tableName, `id = :id`, [
       `plan-${planId}-selection`,
     ]);
 
     if (!published && !groups.includes('admin')) {
-      return returnOkResponse({ available: false });
+      return returnOkResponse({ available: false, admin: false });
     }
 
     const selections = selectionResponse.Items as
-      | StoredMealSelection[]
+      | StoredMealPlanGeneratedForIndividualCustomer[]
       | undefined;
 
     const currentUserSelection = selections.find(
-      (selection) => selection.selection.customer.id === currentUser
+      (selection) => selection.customer.username === currentUser
     );
 
-    const defaultResponse: Omit<GetPlanResponse, 'available'> = {
-      planId,
+    const thePlan = {
       cooks: menus,
-      createdBy: username,
-      createdByName,
-      date: sort,
+      createdBy,
+      createdOn: new Date(createdOn),
+    };
+
+    const defaultResponse: Omit<
+      GetPlanResponseNonAdmin,
+      'available' | 'plan' | 'admin'
+    > & {
+      plan: WeeklyCookPlanWithoutCustomerPlans;
+    } = {
+      planId,
+      plan: thePlan,
       published,
       currentUserSelection,
     };
 
-    const finalResponse: GetPlanResponse = groups.includes('admin')
-      ? {
-          ...defaultResponse,
-          available: true,
-          selections: selections.map((selection) => ({
-            ...selection.selection,
-            id: selection.id,
-            sort: selection.sort,
-          })),
-        }
-      : { ...defaultResponse, available: true };
+    if (groups.includes('admin')) {
+      const finalResponse: GetPlanResponseAdmin = {
+        ...defaultResponse,
+        available: true,
+        admin: true,
+        plan: { ...defaultResponse.plan, customerPlans: selections },
+      };
+      return returnOkResponse(finalResponse);
+    }
 
+    const finalResponse: GetPlanResponseNonAdmin = {
+      ...defaultResponse,
+      available: true,
+      admin: false,
+    };
     return returnOkResponse(finalResponse);
   } catch (error) {
     return returnErrorResponse(error);
