@@ -6,6 +6,7 @@ export default {
       tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
+  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   transform: {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },

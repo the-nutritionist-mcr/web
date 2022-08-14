@@ -12,7 +12,12 @@ import {
   PlanResponseSelections,
 } from '@tnmw/types';
 import { DownloadLabelsDialog } from '@tnmw/components';
-import { generateLabelData, makeCookPlan } from '@tnmw/meal-planning';
+import {
+  generateLabelData,
+  getRealRecipe,
+  isSelectedMeal,
+  makeCookPlan,
+} from '@tnmw/meal-planning';
 import generateCsvStringFromObjectArray from '../../lib/generateCsvStringFromObjectArray';
 import { downloadPdf } from '@tnmw/pdf';
 import generateCookPlanDocumentDefinition from '../../lib/generateCookPlanDocumentDefinition';
@@ -29,7 +34,25 @@ interface PlannerProps {
 }
 
 const Planner: React.FC<PlannerProps> = (props) => {
-  const customerMeals = props.selections;
+  const customerMeals = props.selections.map((selection) => ({
+    ...selection,
+    deliveries: selection.deliveries.map((delivery) =>
+      typeof delivery === 'string'
+        ? delivery
+        : delivery.map((item) =>
+            isSelectedMeal(item)
+              ? {
+                  ...item,
+                  recipe: getRealRecipe(
+                    item.recipe,
+                    selection.customer,
+                    recipes
+                  ),
+                }
+              : false
+          )
+    ),
+  }));
   const recipes = props.recipes;
   const [showLabelsDialog, setShowLabelDialog] = useState(false);
 

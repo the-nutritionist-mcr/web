@@ -14,18 +14,18 @@ const date = (day: number, month: number, year: number) => {
 describe('isActive', () => {
   it.each`
     cookDay              | pauseStart           | pauseEnd             | subscriptionStart   | subscriptionStatus | cancelledAt  | active
-    ${date(11, 6, 2022)} | ${undefined}         | ${undefined}         | ${undefined}        | ${'active'}        | ${undefined} | ${true}
-    ${date(11, 6, 2022)} | ${date(18, 6, 2022)} | ${undefined}         | ${undefined}        | ${'active'}        | ${undefined} | ${true}
+    ${date(11, 6, 2022)} | ${undefined}         | ${undefined}         | ${undefined}        | ${'active'}        | ${undefined} | ${{ status: 'active' }}
+    ${date(11, 6, 2022)} | ${date(18, 6, 2022)} | ${undefined}         | ${undefined}        | ${'active'}        | ${undefined} | ${{ status: 'active' }}
     ${date(11, 6, 2022)} | ${date(4, 6, 2022)}  | ${undefined}         | ${undefined}        | ${'active'}        | ${undefined} | ${false}
     ${date(11, 6, 2022)} | ${undefined}         | ${date(18, 6, 2022)} | ${undefined}        | ${'active'}        | ${undefined} | ${false}
-    ${date(14, 6, 2022)} | ${date(4, 6, 2022)}  | ${date(12, 6, 2022)} | ${undefined}        | ${'active'}        | ${undefined} | ${true}
+    ${date(14, 6, 2022)} | ${date(4, 6, 2022)}  | ${date(12, 6, 2022)} | ${undefined}        | ${'active'}        | ${undefined} | ${{ status: 'active' }}
     ${date(5, 6, 2022)}  | ${date(4, 6, 2022)}  | ${date(12, 6, 2022)} | ${undefined}        | ${'active'}        | ${undefined} | ${false}
-    ${date(5, 6, 2022)}  | ${undefined}         | ${undefined}         | ${date(2, 6, 2022)} | ${'future'}        | ${undefined} | ${true}
+    ${date(5, 6, 2022)}  | ${undefined}         | ${undefined}         | ${date(2, 6, 2022)} | ${'future'}        | ${undefined} | ${{ status: 'active' }}
     ${date(1, 6, 2022)}  | ${undefined}         | ${undefined}         | ${date(2, 6, 2022)} | ${'future'}        | ${undefined} | ${false}
-    ${date(5, 6, 2022)}  | ${undefined}         | ${undefined}         | ${undefined}        | ${'non_renewing'}  | ${undefined} | ${true}
+    ${date(5, 6, 2022)}  | ${undefined}         | ${undefined}         | ${undefined}        | ${'non_renewing'}  | ${undefined} | ${{ status: 'active' }}
     ${date(5, 6, 2022)}  | ${undefined}         | ${undefined}         | ${undefined}        | ${'in_trial'}      | ${undefined} | ${false}
     ${date(5, 6, 2022)}  | ${undefined}         | ${undefined}         | ${undefined}        | ${'paused'}        | ${undefined} | ${false}
-    ${date(5, 6, 2022)}  | ${undefined}         | ${date(3, 6, 2022)}  | ${undefined}        | ${'paused'}        | ${undefined} | ${true}
+    ${date(5, 6, 2022)}  | ${undefined}         | ${date(3, 6, 2022)}  | ${undefined}        | ${'paused'}        | ${undefined} | ${{ status: 'active' }}
     ${date(2, 6, 2022)}  | ${undefined}         | ${date(3, 6, 2022)}  | ${undefined}        | ${'paused'}        | ${undefined} | ${false}
     ${date(5, 6, 2022)}  | ${undefined}         | ${undefined}         | ${undefined}        | ${'cancelled'}     | ${undefined} | ${false}
   `(
