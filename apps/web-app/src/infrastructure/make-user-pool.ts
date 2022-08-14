@@ -194,6 +194,8 @@ export const makeUserPool = (
       phone: false,
     },
 
+    signInCaseSensitive: false,
+
     signInAliases: {
       username: true,
       email: true,

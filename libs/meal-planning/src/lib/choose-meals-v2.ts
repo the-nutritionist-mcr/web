@@ -1,11 +1,9 @@
 import { defaultDeliveryDays, extrasLabels, planLabels } from '@tnmw/config';
-import { v4 } from 'uuid';
 import {
   Recipe,
   BackendCustomer,
   WeeklyCookPlan,
   MealPlanGeneratedForIndividualCustomer,
-  PlannedCook,
   PlannedDelivery,
   StandardPlan,
   Delivery,

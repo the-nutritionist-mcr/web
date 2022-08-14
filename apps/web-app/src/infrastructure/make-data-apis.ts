@@ -2,7 +2,6 @@ import { CfnOutput } from 'aws-cdk-lib';
 import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { ARecord, RecordTarget } from 'aws-cdk-lib/aws-route53';
 import { ApiGatewayDomain } from 'aws-cdk-lib/aws-route53-targets';
-import { Datadog } from 'datadog-cdk-constructs-v2';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { IHostedZone } from 'aws-cdk-lib/aws-route53';
@@ -26,9 +25,9 @@ import { instrumentFunctions } from './instrument-functions';
 
 export const makeDataApis = (
   context: Construct,
-  hostedZone: IHostedZone,
   envName: string,
   pool: IUserPool,
+  hostedZone: IHostedZone,
   gitHash: string,
   sesIdentityArn: string,
   chargebeeSite: string,
@@ -73,11 +72,6 @@ export const makeDataApis = (
     value: domainName,
   });
 
-  const certificate = new DnsValidatedCertificate(context, 'apiCertificate', {
-    domainName,
-    hostedZone,
-  });
-
   const api = new RestApi(context, 'data-api', {
     restApiName: getResourceName('data-api', envName),
     defaultCorsPreflightOptions: {
@@ -100,17 +94,6 @@ export const makeDataApis = (
       allowCredentials: true,
       allowOrigins: ['*'],
     },
-  });
-
-  const apiDomainName = api.addDomainName('data-api-domain-name', {
-    domainName,
-    certificate,
-  });
-
-  new ARecord(context, 'ApiARecord', {
-    zone: hostedZone,
-    recordName: domainName,
-    target: RecordTarget.fromAlias(new ApiGatewayDomain(apiDomainName)),
   });
 
   makeDataApi(
@@ -465,4 +448,22 @@ export const makeDataApis = (
     submitOrderFunction,
     planFunction
   );
+
+  const apiCert = new DnsValidatedCertificate(context, 'apiCertificate', {
+    domainName,
+    hostedZone,
+  });
+
+  const apiDomainName = api.addDomainName('data-api-domain-name', {
+    domainName,
+    certificate: apiCert,
+  });
+
+  new ARecord(context, 'ApiARecord', {
+    zone: hostedZone,
+    recordName: domainName,
+    target: RecordTarget.fromAlias(new ApiGatewayDomain(apiDomainName)),
+  });
+
+  return { api };
 };
