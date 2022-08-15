@@ -5,30 +5,31 @@ import { AdminTemplate } from './admin-template';
 import { Planner } from '@tnmw/admin-app';
 import { useRecipes, usePlan } from '../../hooks';
 import { authorizedRoute } from '../../utils/authorised-route';
+import { RedirectIfLoggedOut } from '../../components/authentication/redirect-if-logged-out';
 
 const PlannerPage: FC = () => {
   const { items } = useRecipes();
   const { data, update, publish } = usePlan();
   return (
-    <MenuPaddedContent>
-      <AdminTemplate>
-        {data && data.available && (
-          <Planner
-            update={update}
-            recipes={items}
-            createdBy={data.createdByName}
-            creationDate={data.date}
-            cooks={data.cooks}
-            selections={data.selections}
-            published={data.published}
-            publish={publish}
-          />
-        )}
-      </AdminTemplate>
-    </MenuPaddedContent>
+    <RedirectIfLoggedOut allowedGroups={['admin']} redirectTo="/login">
+      <MenuPaddedContent>
+        <AdminTemplate>
+          {data && data.available && (
+            <Planner
+              update={update}
+              recipes={items}
+              createdBy={data.createdByName}
+              creationDate={data.date}
+              cooks={data.cooks}
+              selections={data.selections}
+              published={data.published}
+              publish={publish}
+            />
+          )}
+        </AdminTemplate>
+      </MenuPaddedContent>
+    </RedirectIfLoggedOut>
   );
 };
 
 export default PlannerPage;
-
-export const getServerSideProps = authorizedRoute({ groups: ['admin'] });

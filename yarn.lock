@@ -8287,6 +8287,11 @@
   resolved "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.1.3.tgz#6801033be7ff87a6b7cadaf5b337c9f366a3c4b0"
   integrity sha512-WiBSI6JBIhC6LRIsB2Kwh8DsGTlbBU+mLRxJmAe3LjHTdkDpwIbEOZgoXBbZilk/vlfjK8i6nKRAvIRn1XaIMw==
 
+"@seeebiii/ses-verify-identities@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.npmjs.org/@seeebiii/ses-verify-identities/-/ses-verify-identities-4.1.0.tgz#ecc96f5f3e31e343354e046d7a609062dc5bc99b"
+  integrity sha512-7TOoiZ2FbglDiX93NGYmGSd1XDCRqoSHtncpIMwMVnU+za0eDIrO6BdLkFNNFc9wXY52efrGSP+Cr/affgFUZw==
+
 "@sinclair/typebox@^0.24.1":
   version "0.24.20"
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.24.20.tgz#11a657875de6008622d53f56e063a6347c51a6dd"
@@ -24466,6 +24471,11 @@ react-shallow-renderer@^16.15.0:
   dependencies:
     object-assign "^4.1.1"
     react-is "^16.12.0 || ^17.0.0 || ^18.0.0"
+
+react-spinners@^0.13.4:
+  version "0.13.4"
+  resolved "https://registry.npmjs.org/react-spinners/-/react-spinners-0.13.4.tgz#20f7435e5cb3a2bde23110efa8b7dfbe485373e9"
+  integrity sha512-V6IURjYOwomhdngMfuVxBp4utCF6v21sjQ6r4K2JoKl8fwXZp1UeHMBLf+2SU+cts8hAVj9rHOJ8kdT5UqqaJw==
 
 react-syntax-highlighter@^15.4.5:
   version "15.5.0"

@@ -19,7 +19,11 @@ export const usePlan = () => {
 
   const { data } = useSWR<
     GetPlanResponseNonAdmin | GetPlanResponseAdmin | NotYetPublishedResponse
-  >('plan', swrFetcher);
+  >('plan', swrFetcher, {
+    fallback: {
+      plan: { available: false, admin: false },
+    },
+  });
 
   const submitOrder = async (
     details: SubmitCustomerOrderPayload

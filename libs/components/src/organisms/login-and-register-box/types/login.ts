@@ -1,6 +1,6 @@
 export interface LoginResponse {
   success: boolean;
-  challengeName: string;
+  challengeName?: string;
 }
 export type LoginFunc = (
   login: string,

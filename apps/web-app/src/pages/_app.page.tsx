@@ -1,32 +1,21 @@
 import Router from 'next/router';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import Head from 'next/head';
 import { Hub } from 'aws-amplify';
 import { AppProps } from 'next/app';
 import toast, { Toaster } from 'react-hot-toast';
-import { Layout } from '@tnmw/components';
+import { Layout, Loading } from '@tnmw/components';
 import { ThemeProvider } from '@emotion/react';
 import { SWRConfig } from 'swr';
-import { AuthenticationServiceContext } from '@tnmw/components';
 import { NavigationContext } from '@tnmw/utils';
 
 import { theme } from '../theme';
 
-import {
-  confirmSignup,
-  currentUser,
-  login,
-  newPasswordChallengeResponse,
-  forgotPassword,
-  register,
-  signOut,
-} from '../aws/authenticate';
-
 import '../assets/global.scss';
 import { HttpError } from '../backend/lambdas/data-api/http-error';
 import { HTTP } from '@tnmw/constants';
-import { datadogRum } from '@datadog/browser-rum';
-import { getAppConfig } from '@tnmw/utils';
+import { DatadogProvider } from '../components/DataDogProvider';
+import { AuthenticationProvider } from '../components/authenticationprovider';
 
 const navigator = {
   navigate: async (path: string) => {
@@ -34,15 +23,6 @@ const navigator = {
     // await Router.push(path);
     window.location.href = path;
   },
-};
-
-const authenticationService = {
-  login,
-  register,
-  signOut,
-  confirmSignup,
-  forgotPassword,
-  newPasswordChallengeResponse,
 };
 
 Hub.listen('auth', (data) => {
@@ -53,55 +33,7 @@ Hub.listen('auth', (data) => {
   }
 });
 
-const datadogAppId = process.env['NX_DATADOG_APP_ID'];
-const datadogClientToken = process.env['NX_DATADOG_CLIENT_TOKEN'];
-
 const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
-  useEffect(() => {
-    (async () => {
-      if (datadogAppId) {
-        const { ApiDomainName: domainName } = await getAppConfig();
-        datadogRum.init({
-          applicationId: datadogAppId,
-          clientToken: datadogClientToken,
-          site: 'datadoghq.eu',
-          service: 'tnm-web',
-          env: process.env['NX_APP_ENV'],
-          version: process.env['APP_VERSION'],
-          sampleRate: 100,
-          allowedTracingOrigins: [`https://${domainName}`],
-          premiumSampleRate: 100,
-          trackInteractions: true,
-          trackFrustrations: true,
-          defaultPrivacyLevel: 'mask-user-input',
-        });
-
-        const user = await currentUser();
-
-        if (user) {
-          const {
-            signInUserSession: {
-              idToken: {
-                payload: {
-                  given_name,
-                  family_name,
-                  email,
-                  'cognito:username': username,
-                },
-              },
-            },
-          } = user;
-          datadogRum.setUser({
-            id: username,
-            email: email,
-            name: `${given_name} ${family_name}`,
-          });
-        }
-
-        datadogRum.startSessionReplayRecording();
-      }
-    })();
-  }, []);
   return (
     <SWRConfig
       value={{
@@ -118,26 +50,30 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
         },
       }}
     >
-      <AuthenticationServiceContext.Provider value={authenticationService}>
-        <NavigationContext.Provider value={navigator}>
-          <ThemeProvider theme={theme}>
-            <Head>
-              <title>The Nutritionist Manchester</title>
-            </Head>
-            <Toaster
-              toastOptions={{
-                style: {
-                  fontFamily: 'Roboto',
-                  maxWidth: 700,
-                },
-              }}
-            />
-            <Layout user={pageProps.user}>
-              <Component {...pageProps} />
-            </Layout>
-          </ThemeProvider>
-        </NavigationContext.Provider>
-      </AuthenticationServiceContext.Provider>
+      <Loading>
+        <AuthenticationProvider>
+          <DatadogProvider>
+            <NavigationContext.Provider value={navigator}>
+              <ThemeProvider theme={theme}>
+                <Head>
+                  <title>The Nutritionist Manchester</title>
+                </Head>
+                <Toaster
+                  toastOptions={{
+                    style: {
+                      fontFamily: 'Roboto',
+                      maxWidth: 700,
+                    },
+                  }}
+                />
+                <Layout user={pageProps.user}>
+                  <Component {...pageProps} />
+                </Layout>
+              </ThemeProvider>
+            </NavigationContext.Provider>
+          </DatadogProvider>
+        </AuthenticationProvider>
+      </Loading>
     </SWRConfig>
   );
 };

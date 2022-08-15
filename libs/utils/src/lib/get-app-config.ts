@@ -1,8 +1,6 @@
 export type StackConfig = {
   UserPoolId: string;
-  AuthUrl: string;
   ClientId: string;
-  RedirectUrl: string;
   DomainName: string;
   ApiDomainName: string;
 };
@@ -33,11 +31,6 @@ export const getAppConfig = async (): Promise<StackConfig> => {
   if (!outputJson) {
     outputJson = await getOutputJson();
   }
-  const stackJson: StackOutputs = outputJson;
-  const entries = Object.values(stackJson);
 
-  return entries.reduce<StackConfig>(
-    (accum, value) => ({ ...accum, ...value }),
-    {} as StackConfig
-  );
+  return outputJson;
 };

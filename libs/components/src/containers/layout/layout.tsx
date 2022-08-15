@@ -2,7 +2,7 @@ import { Header, Footer } from '../../organisms';
 import { useAxe } from '../../hooks';
 import { User, UserContext } from '../../contexts';
 import styled from '@emotion/styled';
-import React, { FC, useState } from 'react';
+import React, { FC, ReactNode, useState } from 'react';
 
 const MainContainer = styled('main')`
   display: flex;
@@ -14,9 +14,10 @@ const MainContainer = styled('main')`
 
 interface LayoutProps {
   user?: User | undefined;
+  children: ReactNode;
 }
 
-const Layout: FC<LayoutProps> = (props) => {
+const Layout = (props: LayoutProps) => {
   const [user, setUser] = useState<User | undefined>(props.user);
   useAxe();
 

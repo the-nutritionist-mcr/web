@@ -1,21 +1,22 @@
-import { MenuPaddedContent } from './menu-padded-content';
 import { AdminTemplate } from './admin-template';
 import { Customers } from '@tnmw/admin-app';
 import { useAuthorisation, useCustomisations } from '../../hooks';
 import { FC } from 'react';
 import { useCustomers } from '../../hooks/use-customers';
-import { authorizedRoute } from '../../utils/authorised-route';
+import { RedirectIfLoggedOut } from '../../components/authentication/redirect-if-logged-out';
 
 const CustomersPage: FC = () => {
   const { items: customisations } = useCustomisations();
   const { items } = useCustomers();
   return (
-    <AdminTemplate>
-      {items && <Customers customers={items} customisations={customisations} />}
-    </AdminTemplate>
+    <RedirectIfLoggedOut allowedGroups={['admin']} redirectTo="/login">
+      <AdminTemplate>
+        {items && (
+          <Customers customers={items} customisations={customisations} />
+        )}
+      </AdminTemplate>
+    </RedirectIfLoggedOut>
   );
 };
 
 export default CustomersPage;
-
-export const getServerSideProps = authorizedRoute({ groups: ['admin'] });

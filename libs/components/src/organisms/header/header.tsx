@@ -1,11 +1,9 @@
 import DesktopHeader from './desktop-header';
 import { AdminNav } from './admin-nav';
 import { header, siteNavbarDesktop, mainMenuContainer } from './header.css';
-import { ReactNode } from 'react';
 
 interface HeaderProps {
   admin: boolean;
-  children: ReactNode;
 }
 
 const Header = (props: HeaderProps) => {

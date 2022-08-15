@@ -1,1 +1,9 @@
-{}
+{
+  "tnm-web-cypress-stack": {
+    "dataapiEndpointFF8416B3": "https://th19qn4oe1.execute-api.eu-west-2.amazonaws.com/prod/",
+    "UserPoolId": "eu-west-2_77z37j3Fb",
+    "ClientId": "gefuduan1mfq083dc2gr8b3",
+    "UserPoolArn": "arn:aws:cognito-idp:eu-west-2:568693217207:userpool/eu-west-2_77z37j3Fb",
+    "ApiDomainName": "api.cypress.app.thenutritionistmcr.com"
+  }
+}

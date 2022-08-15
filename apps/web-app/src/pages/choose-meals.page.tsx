@@ -10,6 +10,7 @@ import {
 import { usePlan, useRecipes } from '../hooks';
 import styled from 'styled-components';
 import { getClosedOrOpenStatus } from '../utils/get-closed-or-open-status';
+import { RedirectIfLoggedOut } from '../components/authentication/redirect-if-logged-out';
 
 const ChooseMealsHeaderBox = styled('div')`
   text-align: center;
@@ -58,7 +59,7 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
     }));
 
   return (
-    <>
+    <RedirectIfLoggedOut redirectTo="/login">
       <Hero>
         <ChooseMealsHeaderBox>
           <ChooseMealsHeader>Meal Selection</ChooseMealsHeader>
@@ -72,10 +73,8 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
         availableMeals={meals}
         deliveryDates={data.cooks.map((cook) => cook.date)}
       />
-    </>
+    </RedirectIfLoggedOut>
   );
 };
-
-export const getServerSideProps = authorizedRoute();
 
 export default ChooseMealsPage;

@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { LoginAndRegisterBox, Hero, Layout } from '@tnmw/components';
+import { RedirectIfLoggedIn } from '../components/authentication/redirect-if-logged-in';
 import AccountIcon from '../images/TNM_Icons_Final_Account.png';
 import styled from '@emotion/styled';
-import { loggedOutOnlyRoute } from '../utils';
 
 const YourAccountHeaderBox = styled('div')`
   text-align: center;
@@ -29,7 +29,7 @@ const LoginAndRegisterPadding = styled('div')`
 
 const Login: FC = () => {
   return (
-    <>
+    <RedirectIfLoggedIn redirectTo="/account">
       <Hero>
         <YourAccountHeaderBox>
           <img src={AccountIcon} alt="" height="80" width="80" />
@@ -38,10 +38,8 @@ const Login: FC = () => {
       </Hero>
       <LoginAndRegisterBox defaultTab="Login" />
       <LoginAndRegisterPadding />
-    </>
+    </RedirectIfLoggedIn>
   );
 };
-
-export const getServerSideProps = loggedOutOnlyRoute('account');
 
 export default Login;

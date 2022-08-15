@@ -378,14 +378,23 @@ export const makeDataApis = (
     `chargebe-me-function`,
     {
       functionName: getResourceName(`chargebee-me-handler`, envName),
-      entry: entryName('chargebee-api', 'me.ts'),
+      entry: entryName('misc', 'me.ts'),
       runtime: Runtime.NODEJS_14_X,
       memorySize: 2048,
       environment: defaultEnvironmentVars,
       bundling: {
+        externalModules: ['dd-trace', 'datadog-lambda-js'],
         sourceMap: true,
       },
     }
+  );
+
+  individualAcccessFunction.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      resources: [pool.userPoolArn],
+      actions: [IAM.actions.cognito.adminGetUser],
+    })
   );
 
   chargebeeAccessToken.grantRead(individualAcccessFunction);

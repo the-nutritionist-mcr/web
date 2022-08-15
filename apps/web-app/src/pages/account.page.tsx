@@ -1,12 +1,11 @@
-import { FC, useContext } from 'react';
+import { useContext } from 'react';
 import Image from 'next/image';
-import { getClosingDate } from '../utils/get-closing-date';
 import {
   UserContext,
   Hero,
   Account,
   ParagraphText,
-  Heading,
+  AuthenticationServiceContext,
 } from '@tnmw/components';
 import Router from 'next/router';
 import { signOut } from '../aws/authenticate';
@@ -14,10 +13,6 @@ import { PageSpacing } from './page-spacing';
 
 import AccountIcon from '../images/TNM_Icons_Final_Account.png';
 import styled from '@emotion/styled';
-import {
-  authorizedRoute,
-  AuthorizedRouteProps,
-} from '../utils/authorised-route';
 
 import { usePlan } from '../hooks';
 import { getClosedOrOpenStatus } from '../utils/get-closed-or-open-status';
@@ -26,6 +21,8 @@ import {
   notSupportedMessage,
   notSupportedTitle,
 } from './account.css';
+import { RedirectIfLoggedOut } from '../components/authentication/redirect-if-logged-out';
+import { useMe } from '../hooks/use-me';
 
 const YourAccountHeaderBox = styled('div')`
   text-align: center;
@@ -43,9 +40,11 @@ const YourAccountHeader = styled('h1')`
   margin: 0.5rem 0 0 0;
 `;
 
-const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
+const AccountPage = () => {
   const { setUser } = useContext(UserContext);
   const { data } = usePlan();
+
+  const user = useMe();
 
   const now = new Date(Date.now());
 
@@ -59,7 +58,7 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
   };
 
   return (
-    <>
+    <RedirectIfLoggedOut redirectTo="/login">
       <Hero>
         <YourAccountHeaderBox>
           <Image
@@ -74,11 +73,13 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
 
       <PageSpacing>
         <div className={accountContainer}>
-          <Account
-            userDetails={user}
-            chooseIsOpen={chooseIsOpen}
-            logout={logout}
-          />
+          {user && (
+            <Account
+              userDetails={user}
+              chooseIsOpen={chooseIsOpen}
+              logout={logout}
+            />
+          )}
         </div>
         <div className={notSupportedMessage}>
           <h2 className={notSupportedTitle}>Not Supported</h2>
@@ -88,10 +89,8 @@ const AccountPage: FC<AuthorizedRouteProps> = ({ user }) => {
           </ParagraphText>
         </div>
       </PageSpacing>
-    </>
+    </RedirectIfLoggedOut>
   );
 };
-
-export const getServerSideProps = authorizedRoute();
 
 export default AccountPage;

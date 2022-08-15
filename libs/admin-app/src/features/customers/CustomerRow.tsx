@@ -15,7 +15,7 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
   return (
     <TableRow>
       <TableCell>
-        <Link path={`/admin/edit-customer/${props.customer.id}`}>
+        <Link path={`/admin/edit-customer?userId=${props.customer.id}`}>
           {nameString}
         </Link>
       </TableCell>

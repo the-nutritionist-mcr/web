@@ -14,7 +14,6 @@ const nextConfig = {
   },
 };
 
-const GenerateAwsLambda = require('next-aws-lambda-webpack-plugin');
 const withImages = require('next-images');
 
 module.exports = withVanillaExtract(
@@ -30,11 +29,6 @@ module.exports = withVanillaExtract(
         return process.env.NX_APP_VERSION;
       },
       ...nextConfig,
-      target: 'serverless',
-      i18n: {
-        locales: ['en'],
-        defaultLocale: 'en',
-      },
 
       typescript: {
         // !! WARN !!
@@ -44,15 +38,15 @@ module.exports = withVanillaExtract(
         ignoreBuildErrors: true,
       },
       productionBrowserSourceMaps: true,
-      webpack: (config, nextConfig) => {
-        // eslint-disable-next-line fp/no-mutating-methods
-        config.plugins.push(new GenerateAwsLambda(nextConfig));
-        if (!nextConfig.isServer) {
-          // eslint-disable-next-line fp/no-mutation
-          config.resolve.fallback.fs = false;
-        }
-        return config;
-      },
+      // webpack: (config, nextConfig) => {
+      //   // eslint-disable-next-line fp/no-mutating-methods
+      //   config.plugins.push(new GenerateAwsLambda(nextConfig));
+      //   if (!nextConfig.isServer) {
+      //     // eslint-disable-next-line fp/no-mutation
+      //     config.resolve.fallback.fs = false;
+      //   }
+      //   return config;
+      // },
       images: {
         disableStaticImages: true,
         loader: 'custom',
