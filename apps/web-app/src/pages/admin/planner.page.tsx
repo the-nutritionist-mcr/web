@@ -14,13 +14,13 @@ const PlannerPage: FC = () => {
     <RedirectIfLoggedOut allowedGroups={['admin']} redirectTo="/login">
       <MenuPaddedContent>
         <AdminTemplate>
-          {data && data.available && (
+          {data && data.available && data.admin && (
             <Planner
               update={update}
               recipes={items}
-              createdBy={data.createdByName}
+              createdBy={data.plan.createdBy}
               creationDate={data.date}
-              cooks={data.cooks}
+              cooks={data.}
               selections={data.selections}
               published={data.published}
               publish={publish}

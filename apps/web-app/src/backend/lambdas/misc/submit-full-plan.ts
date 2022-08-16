@@ -41,8 +41,6 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       },
     });
 
-    console.log('one');
-
     const { username, firstName, surname } = await authoriseJwt(event, [
       'admin',
     ]);
@@ -60,16 +58,13 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const command = new ListUsersCommand(input);
 
     const list = parseCustomerList(await cognito.send(command));
-    console.log('two');
 
     const cooks = payload.dates.map((date, index) => ({
       date: new Date(Date.parse(date)),
       menu: payload.cooks[index],
     }));
 
-    console.log('three');
     const meals = chooseMealSelections(cooks, list, `${firstName} ${surname}`);
-    console.log('four');
 
     const planId = v4();
 
@@ -84,7 +79,6 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       menus: meals.cooks,
     };
 
-    console.log('five');
     const selections: StoredMealPlanGeneratedForIndividualCustomer[] =
       meals.customerPlans.map((customerPlan) => ({
         id: `plan-${planId}-selection`,
@@ -102,19 +96,14 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
           RequestItems: {
             [tableName]: batch.map((item) => ({
               PutRequest: {
-                Item: recursivelySerialiseDate(
-                  item as unknown as Record<string, unknown>
-                ),
+                Item: recursivelySerialiseDate(item),
               },
             })),
           },
         };
 
-        console.log(JSON.stringify(input, null, 2));
-
         const batchWriteCommand = new BatchWriteCommand(input);
         await dynamo.send(batchWriteCommand);
-        console.log(`six-a-${index}`);
       })
     );
 
