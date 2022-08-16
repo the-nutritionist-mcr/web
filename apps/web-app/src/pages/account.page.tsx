@@ -42,13 +42,15 @@ const YourAccountHeader = styled('h1')`
 
 const AccountPage = () => {
   const { setUser } = useContext(UserContext);
-  const { data } = usePlan();
+  {
+    /* const { data } = usePlan(); */
+  }
 
   const user = useMe();
 
   const now = new Date(Date.now());
 
-  const chooseIsOpen = getClosedOrOpenStatus(now, data);
+  const chooseIsOpen = false;
 
   const logout = async () => {
     await signOut();

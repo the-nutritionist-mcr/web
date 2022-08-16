@@ -1,8 +1,9 @@
-import { Header, Footer } from '../../organisms';
+import { Header, Footer, AuthenticationServiceContext } from '../../organisms';
 import { useAxe } from '../../hooks';
 import { User, UserContext } from '../../contexts';
 import styled from '@emotion/styled';
-import React, { FC, ReactNode, useState } from 'react';
+import React, { FC, ReactNode, useContext, useState } from 'react';
+import { BackendCustomer } from '@tnmw/types';
 
 const MainContainer = styled('main')`
   display: flex;
@@ -13,20 +14,19 @@ const MainContainer = styled('main')`
 `;
 
 interface LayoutProps {
-  user?: User | undefined;
   children: ReactNode;
 }
 
 const Layout = (props: LayoutProps) => {
-  const [user, setUser] = useState<User | undefined>(props.user);
   useAxe();
+  const { user } = useContext(AuthenticationServiceContext);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
-      <Header admin={Boolean(user?.admin)} />
+    <>
+      <Header admin={Boolean(user?.isAdmin)} />
       <MainContainer>{props.children}</MainContainer>
       <Footer />
-    </UserContext.Provider>
+    </>
   );
 };
 

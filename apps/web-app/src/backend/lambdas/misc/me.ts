@@ -7,8 +7,7 @@ import { getUserFromAws } from '../../../utils/get-user-from-aws';
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
     const { username } = await authoriseJwt(event);
-
-    const user = getUserFromAws(username);
+    const user = await getUserFromAws(username);
 
     return returnOkResponse(user);
   } catch (error) {

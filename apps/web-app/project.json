@@ -10,63 +10,73 @@
         "cwd": "apps/web-app"
       }
     },
-    "deploy-cypress": {
+
+    "deploy": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "cdk deploy tnm-web-cypress-stack --require-approval never --outputs-file public/app-config.json",
         "cwd": "apps/web-app"
+      },
+
+      "configurations": {
+        "cypress": {
+          "command": "cdk deploy tnm-web-cypress-frontend-stack --require-approval never --outputs-file public/app-config.json"
+        },
+        "test": {
+          "command": "cdk deploy tnm-web-test-frontend-stack --require-approval never --outputs-file public/app-config.json"
+        },
+        "dev": {
+          "command": "cdk deploy tnm-web-dev-frontend-stack --require-approval never --outputs-file public/app-config.json"
+        },
+        "prod": {
+          "command": "cdk deploy tnm-web-prod-frontend-stack --require-approval never --outputs-file public/app-config.json"
+        }
       }
     },
 
-    "deploy-cypress-backend": {
+    "deploy:backend": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "cdk deploy tnm-web-cypress-backend-stack --require-approval never --outputs-file public/app-config.json",
         "cwd": "apps/web-app"
+      },
+
+      "configurations": {
+        "cypress": {
+          "command": "cdk deploy tnm-web-cypress-stack --require-approval never --outputs-file public/app-config.json"
+        },
+        "test": {
+          "command": "cdk deploy tnm-web-test-stack --require-approval never --outputs-file public/app-config.json"
+        },
+        "dev": {
+          "command": "cdk deploy tnm-web-dev-stack --require-approval never --outputs-file public/app-config.json"
+        },
+        "prod": {
+          "command": "cdk deploy tnm-web-prod-stack --require-approval never --outputs-file public/app-config.json"
+        }
       }
     },
-    "deploy-dev": {
+
+    "deploy:backend:watch": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "cdk deploy tnm-web-dev-stack --require-approval never --outputs-file public/app-config.json",
         "cwd": "apps/web-app"
+      },
+
+      "configurations": {
+        "cypress": {
+          "command": "cdk watch tnm-web-cypress-stack --require-approval never --outputs-file public/app-config.json"
+        },
+        "test": {
+          "command": "cdk watch tnm-web-test-stack --require-approval never --outputs-file public/app-config.json"
+        },
+        "dev": {
+          "command": "cdk watch tnm-web-dev-stack --require-approval never --outputs-file public/app-config.json"
+        },
+        "prod": {
+          "command": "cdk watch tnm-web-prod-stack --require-approval never --outputs-file public/app-config.json"
+        }
       }
     },
-    "deploy-dev-backend": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "cdk deploy tnm-web-dev-backend-stack --require-approval never --outputs-file public/app-config.json",
-        "cwd": "apps/web-app"
-      }
-    },
-    "deploy-test": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "cdk deploy tnm-web-test-stack --require-approval never --outputs-file public/app-config.json",
-        "cwd": "apps/web-app"
-      }
-    },
-    "deploy-test-backend": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "cdk deploy tnm-web-test-backend-stack --require-approval never --outputs-file public/app-config.json",
-        "cwd": "apps/web-app"
-      }
-    },
-    "deploy-prod": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "cdk deploy tnm-web-prod-stack --require-approval never --outputs-file public/app-config.json",
-        "cwd": "apps/web-app"
-      }
-    },
-    "deploy-prod-backend": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "cdk deploy tnm-web-prod-backend-stack --require-approval never --outputs-file public/app-config.json",
-        "cwd": "apps/web-app"
-      }
-    },
+
     "synth-cypress": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {

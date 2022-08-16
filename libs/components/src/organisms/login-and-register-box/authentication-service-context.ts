@@ -6,6 +6,7 @@ import { NewPasswordChallengeResponseFunc } from './types/new-password-challenge
 import { RegisterFunc, ForgotPasswordFunc } from './types/register';
 
 export interface CognitoUser {
+  isAdmin: boolean;
   signInUserSession: {
     idToken: {
       jwtToken: string;

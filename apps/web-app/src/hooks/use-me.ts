@@ -7,6 +7,7 @@ export const useMe = () => {
     'customers/me',
     swrFetcher
   );
+  console.log(data);
 
   return data;
 };

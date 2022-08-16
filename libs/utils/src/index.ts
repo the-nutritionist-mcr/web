@@ -6,3 +6,7 @@ export { updateDelivery } from './lib/update-plan';
 export { isActive } from './lib/is-active';
 export { getDomainName } from './lib/get-domain-name';
 export { getAppConfig } from './lib/get-app-config';
+export {
+  recursivelySerialiseDate,
+  recursivelyDeserialiseDate,
+} from './lib/recursively-serialise-date';

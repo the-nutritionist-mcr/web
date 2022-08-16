@@ -9,10 +9,10 @@ export const hydrateCustomPlan = (
   customPlan: Delivery[] | undefined,
   itemFamilies: ItemFamily[]
 ): Delivery[] =>
-  customPlan?.map((delivery) => ({
+  customPlan?.map?.((delivery) => ({
     ...delivery,
     items: delivery.items.map((item) => ({
       ...item,
       isExtra: itemFamilies.find((family) => family.name === item.name).isExtra,
     })),
-  }));
+  })) ?? [];

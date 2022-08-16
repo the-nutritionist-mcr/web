@@ -1,5 +1,5 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
-import { UserPool } from 'aws-cdk-lib/aws-cognito';
+import { UserPool, UserPoolClient } from 'aws-cdk-lib/aws-cognito';
 import { Construct } from 'constructs';
 import { makeUserPool } from './make-user-pool';
 import { makeDataApis } from './make-data-apis';
@@ -33,21 +33,10 @@ interface BackendStackProps {
   developerGroup: IGroup;
 }
 
-const BUILD_PATH = path.join(
-  __dirname,
-  '..',
-  '..',
-  '..',
-  '..',
-  'dist',
-  'apps',
-  'web-app',
-  'exported'
-);
-
 export class BackendStack extends Stack {
   public pool: UserPool;
   public zone: IHostedZone;
+  public client: UserPoolClient;
 
   public constructor(scope: Construct, id: string, props: BackendStackProps) {
     super(scope, id, props.stackProps);
@@ -59,64 +48,12 @@ export class BackendStack extends Stack {
       zoneName: domainName,
     });
 
-    const certificate = new DnsValidatedCertificate(this, 'cert', {
-      domainName,
-      hostedZone,
-      region: 'us-east-1',
-    });
-
-    const staticsBucket = new Bucket(this, 'tnm-web-bucket', {
-      publicReadAccess: true,
-      websiteIndexDocument: 'index.html',
-      websiteErrorDocument: 'index.html',
-    });
-
-    const distribution = new Distribution(this, 'tnm-web-distribution', {
-      defaultBehavior: {
-        origin: new S3Origin(staticsBucket),
-      },
-      certificate,
-      domainNames: [domainName],
-    });
-
-    new ARecord(this, 'FrontendARecord', {
-      zone: hostedZone,
-      recordName: domainName,
-      target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
-    });
-
     const { userPool, client } = makeUserPool(
       this,
       transient,
       props.envName,
       props.gitHash
     );
-
-    const apiDomainName = getDomainName(props.envName, 'api');
-
-    const config: StackConfig = {
-      UserPoolId: userPool.userPoolId,
-      ClientId: client.userPoolClientId,
-      ApiDomainName: apiDomainName,
-      DomainName: domainName,
-      AwsRegion: Stack.of(this).region,
-    };
-
-    new BucketDeployment(this, 'bucket-deployment', {
-      sources: [
-        Source.asset(BUILD_PATH),
-        Source.jsonData('app-config.json', config),
-      ],
-      destinationBucket: staticsBucket,
-      distribution,
-    });
-
-    if (props.transient) {
-      new CognitoSeeder(this, `cognito-seeder`, {
-        userpool: userPool,
-        users: SEED_USERS,
-      });
-    }
 
     makeDataApis(
       this,
@@ -132,5 +69,6 @@ export class BackendStack extends Stack {
 
     this.zone = hostedZone;
     this.pool = userPool;
+    this.client = client;
   }
 }

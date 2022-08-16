@@ -2,9 +2,9 @@ import { App } from 'aws-cdk-lib';
 import { CHARGEBEE_SITES } from './constants';
 import { UsersStack } from './permissions-stack';
 
-import path from 'node:path';
 import { BackendStack } from './backend-stack';
 import { AccountUsersStack } from './account-users-stack';
+import { FrontendStack } from './frontend-stack';
 
 const app = new App();
 
@@ -34,59 +34,62 @@ const main = async () => {
     'datadoghq.eu'
   );
 
-  new BackendStack(app, 'tnm-web-int-stack', {
-    stackProps: { env },
-    sesIdentityArn,
-    developerGroup: userStack.developersGroup,
-    envName: 'int',
-    transient: true,
-    chargebeeSite: CHARGEBEE_SITES.test,
-    gitHash,
-    forceUpdateKey,
-  });
+  interface StackConfig {
+    transient: boolean;
+    chargebeeSite: string;
+  }
 
-  new BackendStack(app, 'tnm-web-cypress-stack', {
-    stackProps: { env },
-    envName: 'cypress',
-    sesIdentityArn,
-    developerGroup: userStack.developersGroup,
-    transient: true,
-    gitHash,
-    chargebeeSite: CHARGEBEE_SITES.test,
-    forceUpdateKey,
-  });
+  const stacks: { [key: string]: StackConfig } = {
+    local: {
+      transient: true,
+      chargebeeSite: CHARGEBEE_SITES.test,
+    },
+    int: {
+      transient: true,
+      chargebeeSite: CHARGEBEE_SITES.test,
+    },
 
-  new BackendStack(app, 'tnm-web-dev-stack', {
-    stackProps: { env },
-    envName: 'dev',
-    sesIdentityArn,
-    developerGroup: userStack.developersGroup,
-    transient: true,
-    chargebeeSite: CHARGEBEE_SITES.test,
-    gitHash,
-    forceUpdateKey,
-  });
+    test: {
+      transient: true,
+      chargebeeSite: CHARGEBEE_SITES.test,
+    },
 
-  new BackendStack(app, 'tnm-web-test-stack', {
-    stackProps: { env },
-    envName: 'test',
-    gitHash,
-    sesIdentityArn,
-    developerGroup: userStack.developersGroup,
-    transient: true,
-    chargebeeSite: CHARGEBEE_SITES.test,
-    forceUpdateKey,
-  });
+    cypress: {
+      transient: true,
+      chargebeeSite: CHARGEBEE_SITES.test,
+    },
 
-  new BackendStack(app, 'tnm-web-prod-stack', {
-    stackProps: { env },
-    envName: 'prod',
-    sesIdentityArn,
-    developerGroup: userStack.developersGroup,
-    gitHash,
-    transient: true,
-    chargebeeSite: CHARGEBEE_SITES.test,
-    forceUpdateKey,
+    dev: {
+      transient: true,
+      chargebeeSite: CHARGEBEE_SITES.test,
+    },
+
+    prod: {
+      transient: false,
+      chargebeeSite: CHARGEBEE_SITES.live,
+    },
+  };
+
+  Object.entries(stacks).forEach(([envName, config]) => {
+    const backend = new BackendStack(app, `tnm-web-${envName}-stack`, {
+      stackProps: { env },
+      sesIdentityArn,
+      developerGroup: userStack.developersGroup,
+      envName,
+      transient: config.transient,
+      chargebeeSite: config.chargebeeSite,
+      gitHash,
+      forceUpdateKey,
+    });
+
+    new FrontendStack(app, `tnm-web-${envName}-frontend-stack`, {
+      stackProps: { env },
+      envName,
+      transient: config.transient,
+      hostedZone: backend.zone,
+      poolClient: backend.client,
+      userPool: backend.pool,
+    });
   });
 
   new UsersStack(app, 'tnm-web-users-stack', {

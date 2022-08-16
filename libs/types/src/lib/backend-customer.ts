@@ -3,6 +3,7 @@ import Exclusion from './Exclusion';
 import type { StandardPlan } from './standard-plan';
 
 export interface BackendCustomer {
+  groups: string[];
   username: string;
   country: string;
   deliveryDay1: string;

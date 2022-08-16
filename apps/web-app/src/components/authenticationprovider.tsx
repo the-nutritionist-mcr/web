@@ -25,21 +25,26 @@ interface AuthenticationProvider {
   children: ReactNode;
 }
 
-const LOADING_KEY = 'get-user';
+export const LOADING_KEY = 'get-user';
 
 export const AuthenticationProvider = (props: AuthenticationProvider) => {
   const { startLoading, stopLoading } = useContext(LoadingContext);
   const [user, setUser] = useState<CognitoUser | undefined>();
   useEffect(() => {
     (async () => {
-      console.log('STARTING');
       startLoading(LOADING_KEY);
       const foundUser = await currentUser();
-      setUser(foundUser);
+      setUser({
+        ...foundUser,
+        isAdmin:
+          foundUser?.signInUserSession?.accessToken?.payload[
+            'cognito:groups'
+          ].includes('admin'),
+      });
       stopLoading(LOADING_KEY);
-      console.log('STOPPING');
     })();
   }, []);
+  console.log(user);
   return (
     <AuthenticationServiceContext.Provider
       value={{ ...authenticationService, user }}

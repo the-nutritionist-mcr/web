@@ -6,41 +6,51 @@ interface LoadingProps {
   children: ReactNode;
 }
 
+type LoadingState = 'Started' | 'Finished';
+
 interface LoadingHandles {
-  [id: string]: boolean;
+  [id: string]: LoadingState;
 }
 
 interface LoadingContextType {
   isLoading: boolean;
   startLoading: (id: string) => void;
   stopLoading: (id: string) => void;
+  getLoadingState: (id: string) => LoadingState | undefined;
 }
 
 export const LoadingContext = createContext<LoadingContextType>({
   isLoading: false,
   startLoading: () => {},
   stopLoading: () => {},
+  getLoadingState: () => undefined,
 });
 
 export const Loading = (props: LoadingProps) => {
   const [loadingHandles, setLoadingHandles] = useState<LoadingHandles>({});
 
-  const isLoading = Object.entries(loadingHandles).length > 0;
+  const isLoading =
+    Object.values(loadingHandles).filter((value) => value === 'Started')
+      .length > 0;
+
+  const getLoadingState = (id: string): LoadingState | undefined => {
+    return loadingHandles[id];
+  };
 
   const startLoading = (id: string) => {
-    console.log(`start ${id}`);
-    setLoadingHandles({ ...loadingHandles, [id]: true });
+    console.debug(`Loading ${id}`);
+    setLoadingHandles({ ...loadingHandles, [id]: 'Started' });
   };
 
   const stopLoading = (id: string) => {
-    console.log(`stop ${id}`);
-    const newLoadingHandles = { ...loadingHandles };
-    delete newLoadingHandles[id];
-    setLoadingHandles(newLoadingHandles);
+    console.debug(`Finished loading ${id}`);
+    setLoadingHandles({ ...loadingHandles, [id]: 'Finished' });
   };
 
   return (
-    <LoadingContext.Provider value={{ isLoading, startLoading, stopLoading }}>
+    <LoadingContext.Provider
+      value={{ isLoading, startLoading, stopLoading, getLoadingState }}
+    >
       <div
         className={`${loader}`}
         style={{ display: isLoading ? 'flex' : 'none' }}
