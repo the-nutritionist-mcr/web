@@ -60,6 +60,8 @@ export type { WeeklyPlan } from './lib/weekly-plan';
 export { isUpdateCustomerBody } from './lib/update-customer-body';
 export type { UpdateCustomerBody } from './lib/update-customer-body';
 
+export type { StackConfig } from './lib/stack-config';
+
 export type {
   PlanWithMeals,
   PlannedDelivery,

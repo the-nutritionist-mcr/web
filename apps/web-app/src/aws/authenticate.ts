@@ -2,39 +2,40 @@ import { Auth } from '@aws-amplify/auth';
 import { datadogRum } from '@datadog/browser-rum';
 import { getAppConfig } from '@tnmw/utils';
 
-const REGION = 'us-east-1';
-
 type ExtractPromiseType<T> = T extends Promise<infer RT> ? RT : never;
 
 const getConfigurer = () => {
   // eslint-disable-next-line fp/no-let
-  let outputs: undefined | ExtractPromiseType<ReturnType<typeof getAppConfig>>;
+  let config: undefined | ExtractPromiseType<ReturnType<typeof getAppConfig>>;
   return async () => {
-    if (!outputs) {
+    if (!config) {
       // eslint-disable-next-line fp/no-mutation
-      outputs = await getAppConfig();
+      config = await getAppConfig();
 
       const domain = process.env.NEXT_PUBLIC_IS_LOCAL_DEV
         ? 'localhost'
-        : outputs.DomainName;
+        : config.DomainName;
       const secure = !process.env.NEXT_PUBLIC_IS_LOCAL_DEV;
 
-      Auth.configure({
+      const authConfig = {
         Auth: {
-          region: REGION,
-          userPoolId: outputs.UserPoolId,
-          userPoolWebClientId: outputs.ClientId,
+          region: config.AwsRegion,
+          userPoolId: config.UserPoolId,
+          userPoolWebClientId: config.ClientId,
           cookieStorage: {
             domain,
             secure,
             path: '/',
             expires: 365,
-            region: REGION,
+            region: config.AwsRegion,
           },
         },
-      });
+      };
+
+      console.log(JSON.stringify(authConfig));
+      Auth.configure(authConfig);
     }
-    return outputs;
+    return config;
   };
 };
 

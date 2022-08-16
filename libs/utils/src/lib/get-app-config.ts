@@ -1,13 +1,4 @@
-export type StackConfig = {
-  UserPoolId: string;
-  ClientId: string;
-  DomainName: string;
-  ApiDomainName: string;
-};
-
-type StackOutputs = {
-  [stackName: string]: StackConfig;
-};
+import { StackConfig } from '@tnmw/types';
 
 const urlNeededForTestingCosNodeFetchDoesntSupport =
   process.env['FETCH_BASE_URL'] ?? '';

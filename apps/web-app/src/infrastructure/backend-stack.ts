@@ -20,6 +20,7 @@ import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
 import path from 'node:path';
+import { StackConfig } from '@tnmw/types';
 
 interface BackendStackProps {
   forceUpdateKey: string;
@@ -93,11 +94,12 @@ export class BackendStack extends Stack {
 
     const apiDomainName = getDomainName(props.envName, 'api');
 
-    const config = {
+    const config: StackConfig = {
       UserPoolId: userPool.userPoolId,
       ClientId: client.userPoolClientId,
       ApiDomainName: apiDomainName,
       DomainName: domainName,
+      AwsRegion: Stack.of(this).region,
     };
 
     new BucketDeployment(this, 'bucket-deployment', {
