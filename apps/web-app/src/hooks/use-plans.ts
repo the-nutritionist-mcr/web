@@ -12,7 +12,7 @@ import useMutation from 'use-mutation';
 import { HTTP } from '@tnmw/constants';
 
 import useSWR, { useSWRConfig } from 'swr';
-import { updateDelivery } from '@tnmw/utils';
+import { recursivelyDeserialiseDate, updateDelivery } from '@tnmw/utils';
 import toast from 'react-hot-toast';
 export const usePlan = () => {
   const { mutate, cache } = useSWRConfig();
@@ -44,15 +44,15 @@ export const usePlan = () => {
 
   const [publish] = useMutation<void>(publishPlan, {
     onMutate() {
-      const data: GetPlanResponseAdmin = cache.get('plan');
-      const newData = {
-        ...data,
-        published: true,
-      };
-      mutate('plan', newData, false);
-      return () => {
-        mutate('plan', data, false);
-      };
+      // const data: GetPlanResponseAdmin = cache.get('plan');
+      // const newData = {
+      //   ...data,
+      //   published: true,
+      // };
+      // mutate('plan', newData, false);
+      // return () => {
+      //   mutate('plan', data, false);
+      // };
     },
   });
 
@@ -64,25 +64,25 @@ export const usePlan = () => {
 
   const [update] = useMutation(changePlanItem, {
     onMutate({ input }) {
-      const data: GetPlanResponseAdmin = cache.get('plan');
-      const newData = {
-        ...data,
-        selections: data.selections.map(
-          (
-            dataRow: CustomerMealsSelectionWithChargebeeCustomer[number] & {
-              id: StoredMealSelection['id'];
-              sort: StoredMealSelection['sort'];
-            }
-          ) =>
-            dataRow.id !== input.selectionId ||
-            dataRow.sort !== input.selectionSort
-              ? dataRow
-              : {
-                  ...dataRow,
-                  deliveries: updateDelivery(dataRow.deliveries, input),
-                }
-        ),
-      };
+      // const data: GetPlanResponseAdmin = cache.get('plan');
+      // const newData = {
+      //   ...data,
+      //   selections: data.selections.map(
+      //     (
+      //       dataRow: CustomerMealsSelectionWithChargebeeCustomer[number] & {
+      //         id: StoredMealSelection['id'];
+      //         sort: StoredMealSelection['sort'];
+      //       }
+      //     ) =>
+      //       dataRow.id !== input.selectionId ||
+      //       dataRow.sort !== input.selectionSort
+      //         ? dataRow
+      //         : {
+      //             ...dataRow,
+      //             deliveries: updateDelivery(dataRow.deliveries, input),
+      //           }
+      //   ),
+      // };
 
       mutate('plan', newData, false);
       return () => {
@@ -112,5 +112,10 @@ export const usePlan = () => {
     };
   }
 
-  return { data, update, publish, submitOrder };
+  return {
+    data: recursivelyDeserialiseDate(data),
+    update,
+    publish,
+    submitOrder,
+  };
 };

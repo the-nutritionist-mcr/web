@@ -21,17 +21,21 @@ interface LoadingContextType {
 
 export const LoadingContext = createContext<LoadingContextType>({
   isLoading: false,
-  startLoading: () => {},
-  stopLoading: () => {},
+  startLoading: () => {
+    // Noop
+  },
+  stopLoading: () => {
+    // Noop
+  },
   getLoadingState: () => undefined,
 });
 
 export const Loading = (props: LoadingProps) => {
-  const [loadingHandles, setLoadingHandles] = useState<LoadingHandles>({});
+  const [loadingHandles, setLoadingHandles] = useState<LoadingHandles>({
+    'loading-component': 'Started',
+  });
 
-  const isLoading =
-    Object.values(loadingHandles).filter((value) => value === 'Started')
-      .length > 0;
+  const isLoading = Object.values(loadingHandles).includes('Started');
 
   const getLoadingState = (id: string): LoadingState | undefined => {
     return loadingHandles[id];
@@ -39,7 +43,11 @@ export const Loading = (props: LoadingProps) => {
 
   const startLoading = (id: string) => {
     console.debug(`Loading ${id}`);
-    setLoadingHandles({ ...loadingHandles, [id]: 'Started' });
+    setLoadingHandles({
+      ...loadingHandles,
+      loadingComponent: 'Finished',
+      [id]: 'Started',
+    });
   };
 
   const stopLoading = (id: string) => {

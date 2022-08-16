@@ -16,9 +16,7 @@ const isObjectType = (foo: unknown): foo is ObjectType => {
 
 type ObjectType = Record<string | number | symbol, unknown>;
 
-export const recursivelySerialiseDate = <T extends ObjectType>(
-  obj: T
-): ObjectType => {
+export const recursivelySerialiseDate = <T>(obj: T): T => {
   return Object.entries(obj).reduce((accum, [key, value]) => {
     if (isDate(value)) {
       return Object.assign(accum, {
@@ -34,9 +32,7 @@ export const recursivelySerialiseDate = <T extends ObjectType>(
   }, obj);
 };
 
-export const recursivelyDeserialiseDate = <T extends ObjectType>(
-  obj: T
-): ObjectType => {
+export const recursivelyDeserialiseDate = <T>(obj: T): T => {
   return Object.entries(obj).reduce((accum, [key, value]) => {
     if (isSerialisedDate(value)) {
       return Object.assign(accum, {
