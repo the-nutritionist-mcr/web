@@ -1,6 +1,7 @@
 import { Grommet } from 'grommet';
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
+import { Loading } from '@tnmw/components';
 
 const theme = {
   global: {

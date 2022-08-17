@@ -20,8 +20,7 @@ import { AuthenticationProvider } from '../components/authenticationprovider';
 const navigator = {
   navigate: async (path: string) => {
     // eslint-disable-next-line fp/no-mutating-methods
-    // await Router.push(path);
-    window.location.href = path;
+    await Router.push(path);
   },
 };
 
@@ -50,30 +49,28 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
         },
       }}
     >
-      <Loading>
-        <AuthenticationProvider>
-          <DatadogProvider>
-            <NavigationContext.Provider value={navigator}>
-              <ThemeProvider theme={theme}>
-                <Head>
-                  <title>The Nutritionist Manchester</title>
-                </Head>
-                <Toaster
-                  toastOptions={{
-                    style: {
-                      fontFamily: 'Roboto',
-                      maxWidth: 700,
-                    },
-                  }}
-                />
-                <Layout user={pageProps.user}>
-                  <Component {...pageProps} />
-                </Layout>
-              </ThemeProvider>
-            </NavigationContext.Provider>
-          </DatadogProvider>
-        </AuthenticationProvider>
-      </Loading>
+      <AuthenticationProvider>
+        <DatadogProvider>
+          <NavigationContext.Provider value={navigator}>
+            <ThemeProvider theme={theme}>
+              <Head>
+                <title>The Nutritionist Manchester</title>
+              </Head>
+              <Toaster
+                toastOptions={{
+                  style: {
+                    fontFamily: 'Roboto',
+                    maxWidth: 700,
+                  },
+                }}
+              />
+              <Layout user={pageProps.user}>
+                <Component {...pageProps} />
+              </Layout>
+            </ThemeProvider>
+          </NavigationContext.Provider>
+        </DatadogProvider>
+      </AuthenticationProvider>
     </SWRConfig>
   );
 };

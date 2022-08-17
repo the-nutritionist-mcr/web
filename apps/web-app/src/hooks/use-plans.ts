@@ -14,6 +14,11 @@ import { HTTP } from '@tnmw/constants';
 import useSWR, { useSWRConfig } from 'swr';
 import { recursivelyDeserialiseDate, updateDelivery } from '@tnmw/utils';
 import toast from 'react-hot-toast';
+import { LoadingContext } from '@tnmw/components';
+import { useContext } from 'react';
+
+const LOADING_KEY = 'plan-data';
+
 export const usePlan = () => {
   const { mutate, cache } = useSWRConfig();
 
@@ -110,6 +115,16 @@ export const usePlan = () => {
       publish,
       submitOrder,
     };
+  }
+
+  const { startLoading, stopLoading, isLoading } = useContext(LoadingContext);
+
+  if (!data) {
+    startLoading(LOADING_KEY);
+  }
+
+  if (data && isLoading) {
+    stopLoading(LOADING_KEY);
   }
 
   return {

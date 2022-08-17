@@ -30,10 +30,14 @@ export const LoadingContext = createContext<LoadingContextType>({
   getLoadingState: () => undefined,
 });
 
+const LOADING_KEY = 'loading-component';
+
 export const Loading = (props: LoadingProps) => {
   const [loadingHandles, setLoadingHandles] = useState<LoadingHandles>({
-    'loading-component': 'Started',
+    [LOADING_KEY]: 'Started',
   });
+
+  console.log(loadingHandles);
 
   const isLoading = Object.values(loadingHandles).includes('Started');
 
@@ -48,14 +52,21 @@ export const Loading = (props: LoadingProps) => {
     console.info(`Loading ${id}`);
     setLoadingHandles({
       ...loadingHandles,
-      loadingComponent: 'Finished',
+      [LOADING_KEY]: 'Finished',
       [id]: 'Started',
     });
   };
 
   const stopLoading = (id: string) => {
     console.info(`Finished loading ${id}`);
-    setLoadingHandles({ ...loadingHandles, [id]: 'Finished' });
+    if (!isLoading) {
+      return;
+    }
+    setLoadingHandles({
+      ...loadingHandles,
+      [LOADING_KEY]: 'Finished',
+      [id]: 'Finished',
+    });
   };
 
   return (

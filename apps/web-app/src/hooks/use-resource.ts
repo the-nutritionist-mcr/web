@@ -1,3 +1,5 @@
+import { LoadingContext } from '@tnmw/components';
+import { useContext } from 'react';
 import toast from 'react-hot-toast';
 import useSWR, { useSWRConfig } from 'swr';
 import useMutation from 'use-mutation';
@@ -14,6 +16,8 @@ export const useResource = <T extends { id: string }>(
   ids?: string[]
 ) => {
   const { mutate, cache } = useSWRConfig();
+
+  const loadingKey = `${type}-data`;
 
   const getType = () => {
     if (ids && ids.length === 0) {
@@ -131,6 +135,15 @@ export const useResource = <T extends { id: string }>(
       toast.error(`failed to remove ${type}`);
     },
   });
+  const { startLoading, stopLoading, isLoading } = useContext(LoadingContext);
+
+  if (!getData) {
+    startLoading(loadingKey);
+  }
+
+  if (getData && isLoading) {
+    stopLoading(loadingKey);
+  }
 
   return { items: getData?.items, create, remove, update };
 };

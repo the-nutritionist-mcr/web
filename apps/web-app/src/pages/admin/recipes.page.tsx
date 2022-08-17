@@ -5,7 +5,6 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Recipes } from '@tnmw/admin-app';
 import { useCustomisations, useRecipes } from '../../hooks';
 import { swrFetcher } from '../../utils/swr-fetcher';
-import { authorizedRoute } from '../../utils/authorised-route';
 import { RedirectIfLoggedOut } from '../../components/authentication/redirect-if-logged-out';
 
 const RecipesPage: FC = () => {
