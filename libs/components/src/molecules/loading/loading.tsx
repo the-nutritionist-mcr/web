@@ -47,7 +47,7 @@ export const Loading = (props: LoadingProps) => {
     if (!isLoading) {
       return;
     }
-    console.info(`Loading ${id}`);
+    console.debug(`Loading ${id}`);
     setLoadingHandles({
       ...loadingHandles,
       [LOADING_KEY]: 'Finished',
@@ -56,7 +56,7 @@ export const Loading = (props: LoadingProps) => {
   };
 
   const stopLoading = (id: string) => {
-    console.info(`Finished loading ${id}`);
+    console.debug(`Finished loading ${id}`);
     if (!isLoading) {
       return;
     }

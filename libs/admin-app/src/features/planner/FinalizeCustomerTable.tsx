@@ -128,20 +128,20 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
             batchArray(
               [
                 ...delivery.plans.flatMap((plan, itemIndex) => {
-                  if (plan.status === 'active') {
-                    return plan.meals.map((item) => (
-                      <FinalizeCell
-                        key={`${props.customerSelection.customer.username}-${deliveryIndex}-item-${itemIndex}`}
-                        deliveryIndex={deliveryIndex}
-                        index={itemIndex}
-                        deliveryMeals={props.deliveryMeals}
-                        allRecipes={props.allRecipes}
-                        selectedItem={plan}
-                        customerSelection={props.customerSelection}
-                        onUpdate={onUpdate}
-                      />
-                    ));
-                  } else return [];
+                  return plan.status === 'active'
+                    ? plan.meals.map((item) => (
+                        <FinalizeCell
+                          key={`${props.customerSelection.customer.username}-${deliveryIndex}-item-${itemIndex}`}
+                          deliveryIndex={deliveryIndex}
+                          index={itemIndex}
+                          deliveryMeals={props.deliveryMeals}
+                          allRecipes={props.allRecipes}
+                          selectedItem={item}
+                          customerSelection={props.customerSelection}
+                          onUpdate={onUpdate}
+                        />
+                      ))
+                    : [];
                 }),
                 <Button
                   key={`${props.customerSelection.customer.username}-${deliveryIndex}-add-button`}

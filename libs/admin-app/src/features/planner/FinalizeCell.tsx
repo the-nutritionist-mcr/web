@@ -2,23 +2,22 @@ import { Box, Button, Select, TableCell, ThemeContext } from 'grommet';
 import { Trash } from 'grommet-icons';
 import React from 'react';
 import deepMemo from '../../lib/deepMemo';
-import { extrasLabels, itemFamilies, planLabels } from '@tnmw/config';
+import { itemFamilies } from '@tnmw/config';
 import {
-  SelectedItem,
-  Recipe,
-  DeliveryMealsSelection,
-  CustomerMealsSelectionWithChargebeeCustomer,
+  DeliveryItem,
+  MealPlanGeneratedForIndividualCustomer,
   PlanLabels,
+  PlannedCook,
+  Recipe,
 } from '@tnmw/types';
-import { SelectedMeal } from '@tnmw/meal-planning';
 
 interface FinalizeCellProps {
   index: number;
-  deliveryMeals: DeliveryMealsSelection[];
+  deliveryMeals: PlannedCook[];
   deliveryIndex: number;
   allRecipes: Recipe[];
-  customerSelection: CustomerMealsSelectionWithChargebeeCustomer[number];
-  selectedItem: SelectedItem;
+  customerSelection: MealPlanGeneratedForIndividualCustomer;
+  selectedItem: DeliveryItem;
   onUpdate: (
     deliveryIndex: number,
     newRecipe?: Recipe,
@@ -27,19 +26,30 @@ interface FinalizeCellProps {
   ) => void;
 }
 
-const isSelectedMeal = (
-  selectedItem: SelectedItem
-): selectedItem is SelectedMeal =>
-  Boolean((selectedItem as SelectedMeal).recipe);
-
-const getSelectedItemString = (selectedItem: SelectedItem) => {
-  if (isSelectedMeal(selectedItem)) {
-    return `${selectedItem.recipe.shortName} (${selectedItem.chosenVariant})`;
+const getSelectedItemString = (selectedItem: DeliveryItem) => {
+  console.log(selectedItem);
+  if (selectedItem.isExtra) {
+    return selectedItem.extraName;
   }
-  return selectedItem.chosenVariant;
+  return `${selectedItem.recipe.shortName} (${selectedItem.chosenVariant})`;
 };
 
-const UnMemoizedFinalizeCell: React.FC<FinalizeCellProps> = (props) => {
+const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
+  const options = (delivery: number) => [
+    ...props.deliveryMeals[delivery].menu.flatMap((meal) => {
+      return itemFamilies
+        .filter((family) => !family.isExtra)
+        .map((family) => ({
+          recipe: meal,
+          chosenVariant: family.name,
+          isExtra: false,
+        }));
+    }),
+    ...itemFamilies
+      .filter((family) => family.isExtra)
+      .map((family) => ({ extraName: family.name, isExtra: true })),
+  ];
+
   const onChange = React.useCallback(
     (event) => {
       props.onUpdate(
@@ -51,20 +61,6 @@ const UnMemoizedFinalizeCell: React.FC<FinalizeCellProps> = (props) => {
     },
     [props.customerSelection.customer, props.index, props.deliveryIndex]
   );
-
-  const options = (delivery: number) => [
-    ...props.deliveryMeals[delivery].flatMap((meal) =>
-      itemFamilies
-        .filter((family) => !family.isExtra)
-        .map((family) => ({
-          recipe: meal,
-          chosenVariant: family.name,
-        }))
-    ),
-    ...itemFamilies
-      .filter((family) => family.isExtra)
-      .map((family) => ({ chosenVariant: family.name })),
-  ];
 
   return (
     <TableCell key={props.index}>

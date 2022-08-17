@@ -67,9 +67,9 @@ const Finalize: React.FC<FinalizeProps> = ({
           .filter((customerPlan) => customerPlan.customer.plans.length > 0)
           .map((customerPlan) => (
             <FinalizeCustomerTable
-              key={`${customerPlan.customer.id}-finalize-table`}
+              key={`${customerPlan.customer.username}-finalize-table`}
               customerSelection={customerPlan}
-              deliveryMeals={planned}
+              deliveryMeals={cooks}
               allRecipes={recipes}
               columns={6}
               update={update}

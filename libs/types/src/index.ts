@@ -69,4 +69,5 @@ export type {
   WeeklyCookPlan,
   WeeklyCookPlanWithoutCustomerPlans,
   PlannedCook,
+  DeliveryItem,
 } from './lib/meal-plan';

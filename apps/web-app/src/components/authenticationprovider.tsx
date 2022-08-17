@@ -46,7 +46,6 @@ export const AuthenticationProvider = (props: AuthenticationProvider) => {
       stopLoading(LOADING_KEY);
     })();
   }, []);
-  console.log(user);
   return (
     <AuthenticationServiceContext.Provider
       value={{ ...authenticationService, user }}
