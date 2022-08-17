@@ -68,4 +68,5 @@ export type {
   MealPlanGeneratedForIndividualCustomer,
   WeeklyCookPlan,
   WeeklyCookPlanWithoutCustomerPlans,
+  PlannedCook,
 } from './lib/meal-plan';

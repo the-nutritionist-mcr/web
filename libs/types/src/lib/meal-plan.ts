@@ -64,7 +64,7 @@ export type StoredMealPlanGeneratedForIndividualCustomer =
     sort: string;
   };
 
-interface PlannedCook {
+export interface PlannedCook {
   date: Date;
   menu: Recipe[];
 }

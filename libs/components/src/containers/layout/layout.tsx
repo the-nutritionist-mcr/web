@@ -1,10 +1,8 @@
 import { Header, Footer, AuthenticationServiceContext } from '../../organisms';
 import { useAxe } from '../../hooks';
-import { User, UserContext } from '../../contexts';
 import styled from '@emotion/styled';
 import React, { FC, ReactNode, useContext, useState } from 'react';
-import { BackendCustomer } from '@tnmw/types';
-import { Loading } from '@tnmw/components';
+import { Loading, Loader } from '@tnmw/components';
 
 const MainContainer = styled('main')`
   display: flex;
@@ -25,9 +23,9 @@ const Layout = (props: LayoutProps) => {
   return (
     <>
       <Header admin={Boolean(user?.isAdmin)} />
-      <Loading>
+      <Loader>
         <MainContainer>{props.children}</MainContainer>
-      </Loading>
+      </Loader>
       <Footer />
     </>
   );

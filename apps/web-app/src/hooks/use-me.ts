@@ -7,7 +7,7 @@ import { swrFetcher } from '../utils/swr-fetcher';
 const LOADING_KEY = 'account-data';
 
 export const useMe = () => {
-  const { startLoading, stopLoading, isLoading } = useContext(LoadingContext);
+  const { startLoading, stopLoading } = useContext(LoadingContext);
   const { data } = useSWR<BackendCustomer & { id: string }>(
     'customers/me',
     swrFetcher
@@ -17,7 +17,7 @@ export const useMe = () => {
     startLoading(LOADING_KEY);
   }
 
-  if (data && isLoading) {
+  if (data) {
     stopLoading(LOADING_KEY);
   }
 

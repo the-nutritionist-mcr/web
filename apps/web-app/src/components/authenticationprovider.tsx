@@ -34,13 +34,15 @@ export const AuthenticationProvider = (props: AuthenticationProvider) => {
     (async () => {
       startLoading(LOADING_KEY);
       const foundUser = await currentUser();
-      setUser({
-        ...foundUser,
-        isAdmin:
-          foundUser?.signInUserSession?.accessToken?.payload[
-            'cognito:groups'
-          ].includes('admin'),
-      });
+      setUser(
+        foundUser && {
+          ...foundUser,
+          isAdmin:
+            foundUser?.signInUserSession?.accessToken?.payload[
+              'cognito:groups'
+            ].includes('admin'),
+        }
+      );
       stopLoading(LOADING_KEY);
     })();
   }, []);

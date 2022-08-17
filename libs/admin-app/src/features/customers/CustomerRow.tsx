@@ -2,7 +2,6 @@ import { TableCell, TableRow } from 'grommet';
 import { CustomerWithChargebeePlan } from '@tnmw/types';
 import React, { useContext } from 'react';
 import deepMemo from '../../lib/deepMemo';
-import { NavigationContext } from '@tnmw/utils';
 import { Link } from '../../components';
 
 interface CustomerRowProps {

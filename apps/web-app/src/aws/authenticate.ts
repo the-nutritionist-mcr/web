@@ -34,7 +34,7 @@ const getConfigurer = () => {
         },
       };
 
-      console.log(JSON.stringify(authConfig));
+      console.log(`Auth configuration`, JSON.stringify(authConfig, null, 2));
       Auth.configure(authConfig);
     }
     return config;

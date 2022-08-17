@@ -37,8 +37,6 @@ export const Loading = (props: LoadingProps) => {
     [LOADING_KEY]: 'Started',
   });
 
-  console.log(loadingHandles);
-
   const isLoading = Object.values(loadingHandles).includes('Started');
 
   const getLoadingState = (id: string): LoadingState | undefined => {
@@ -73,13 +71,7 @@ export const Loading = (props: LoadingProps) => {
     <LoadingContext.Provider
       value={{ isLoading, startLoading, stopLoading, getLoadingState }}
     >
-      <div
-        className={`${loader}`}
-        style={{ display: isLoading ? 'flex' : 'none' }}
-      >
-        <BeatLoader />
-      </div>
-      <div className={isLoading ? hide : ''}>{props.children}</div>
+      {props.children}
     </LoadingContext.Provider>
   );
 };

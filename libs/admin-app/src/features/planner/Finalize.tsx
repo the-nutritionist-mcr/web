@@ -1,7 +1,7 @@
 import {
   ChangePlanRecipeBody,
-  Cook,
-  PlanResponseSelections,
+  MealPlanGeneratedForIndividualCustomer,
+  PlannedCook,
   Recipe,
 } from '@tnmw/types';
 import { calendarFormat } from '@tnmw/config';
@@ -12,9 +12,9 @@ import FinalizeCustomerTable from './FinalizeCustomerTable';
 import { plannerInfoLi, plannerInfoUl } from './finalise.css';
 
 interface FinalizeProps {
-  customerMeals: PlanResponseSelections;
+  customerMeals: MealPlanGeneratedForIndividualCustomer[];
   recipes: Recipe[];
-  cooks: Cook[];
+  cooks: PlannedCook[];
   published: boolean;
   generatedBy: string;
   creationDate: Date;
@@ -64,9 +64,7 @@ const Finalize: React.FC<FinalizeProps> = ({
               : // eslint-disable-next-line @typescript-eslint/no-magic-numbers
                 -1
           )
-          .filter(
-            (customerPlan) => customerPlan.customer.chargebeePlan.length > 0
-          )
+          .filter((customerPlan) => customerPlan.customer.plans.length > 0)
           .map((customerPlan) => (
             <FinalizeCustomerTable
               key={`${customerPlan.customer.id}-finalize-table`}

@@ -132,7 +132,9 @@ const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = (props) => {
           label="Cancel"
           style={{ flexGrow: 2 }}
           a11yTitle="Cancel"
-          onClick={() => {}}
+          onClick={() => {
+            props.setPlanningMode(false);
+          }}
         />
       </Box>
     </Box>

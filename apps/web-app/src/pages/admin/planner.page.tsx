@@ -12,20 +12,19 @@ const PlannerPage: FC = () => {
   return (
     <RedirectIfLoggedOut allowedGroups={['admin']} redirectTo="/login">
       <MenuPaddedContent>
-        {/* <AdminTemplate> */}
-        {/*   {data && data.available && data.admin && ( */}
-        {/*     <Planner */}
-        {/*       update={update} */}
-        {/*       recipes={items} */}
-        {/*       createdBy={data.plan.createdBy} */}
-        {/*       creationDate={data.date} */}
-        {/*       cooks={data.} */}
-        {/*       selections={data.selections} */}
-        {/*       published={data.published} */}
-        {/*       publish={publish} */}
-        {/*     /> */}
-        {/*   )} */}
-        {/* </AdminTemplate> */}
+        <AdminTemplate>
+          {data && data.available && data.admin && (
+            <Planner
+              update={update}
+              recipes={items}
+              createdBy={data.plan.createdBy}
+              creationDate={data.date}
+              plan={data.plan}
+              published={data.published}
+              publish={publish}
+            />
+          )}
+        </AdminTemplate>
       </MenuPaddedContent>
     </RedirectIfLoggedOut>
   );

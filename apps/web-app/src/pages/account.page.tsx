@@ -1,12 +1,6 @@
 import { useContext } from 'react';
 import Image from 'next/image';
-import {
-  UserContext,
-  Hero,
-  Account,
-  ParagraphText,
-  AuthenticationServiceContext,
-} from '@tnmw/components';
+import { UserContext, Hero, Account, ParagraphText } from '@tnmw/components';
 import Router from 'next/router';
 import { signOut } from '../aws/authenticate';
 import { PageSpacing } from './page-spacing';
@@ -42,15 +36,13 @@ const YourAccountHeader = styled('h1')`
 
 const AccountPage = () => {
   const { setUser } = useContext(UserContext);
-  {
-    /* const { data } = usePlan(); */
-  }
+  const { data } = usePlan();
 
   const user = useMe();
 
   const now = new Date(Date.now());
 
-  const chooseIsOpen = false;
+  const chooseIsOpen = getClosedOrOpenStatus(now, data);
 
   const logout = async () => {
     await signOut();

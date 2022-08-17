@@ -20,18 +20,18 @@ import {
   customerLink,
   modifiedCustomerLink,
 } from './finalise-customer-table.css';
-import DeliveryMealsSelection from '../../types/DeliveryMealsSelection';
 import {
   ChangePlanRecipeBody,
+  MealPlanGeneratedForIndividualCustomer,
   PlanLabels,
-  PlanResponseSelections,
+  PlannedCook,
   Recipe,
 } from '@tnmw/types';
 import { planLabels } from '@tnmw/config';
 
 interface FinalizeRowProps {
-  customerSelection: PlanResponseSelections[number];
-  deliveryMeals: DeliveryMealsSelection[];
+  customerSelection: MealPlanGeneratedForIndividualCustomer;
+  deliveryMeals: PlannedCook[];
   allRecipes: Recipe[];
   columns: number;
   update: (item: ChangePlanRecipeBody) => Promise<void>;
@@ -50,7 +50,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
   const deliveries = props.customerSelection.deliveries ?? [];
 
   const customisationsTags =
-    props.customerSelection.customer?.exclusions
+    props.customerSelection.customer?.customisations
       .map((exclusion) => exclusion.name)
       .join(', ') ?? '';
   ('');
@@ -61,6 +61,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
     chosenVariant?: PlanLabels,
     itemIndex?: number
   ) => {
+    /*
     props.update({
       selectionId: props.customerSelection.id,
       selectionSort: props.customerSelection.sort,
@@ -68,7 +69,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
       recipe,
       deliveryIndex,
       itemIndex,
-    });
+    }); */
   };
 
   return (
@@ -79,23 +80,25 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
             <Box direction="row" align="end">
               <Text
                 color={
-                  props.customerSelection.updatedByCustomer ? 'blue' : 'black'
+                  props.customerSelection.wasUpdatedByCustomer
+                    ? 'blue'
+                    : 'black'
                 }
               >
                 <strong>
                   <Link
                     className={
-                      props.customerSelection.updatedByCustomer
+                      props.customerSelection.wasUpdatedByCustomer
                         ? modifiedCustomerLink
                         : customerLink
                     }
-                    path={`/admin/edit-customer/${props.customerSelection.customer.id}`}
+                    path={`/admin/edit-customer/${props.customerSelection.customer.username}`}
                   >
                     {name}
                   </Link>
                 </strong>{' '}
                 /{' '}
-                {props.customerSelection.customer.chargebeePlan
+                {props.customerSelection.customer.plans
                   .map(
                     (plan) =>
                       `${plan.name} ${plan.itemsPerDay} (${plan.daysPerWeek} days)`
@@ -124,20 +127,24 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
           ) : (
             batchArray(
               [
-                ...delivery.map((item, itemIndex) => (
-                  <FinalizeCell
-                    key={`${props.customerSelection.customer.id}-${deliveryIndex}-item-${itemIndex}`}
-                    deliveryIndex={deliveryIndex}
-                    index={itemIndex}
-                    deliveryMeals={props.deliveryMeals}
-                    allRecipes={props.allRecipes}
-                    selectedItem={item}
-                    customerSelection={props.customerSelection}
-                    onUpdate={onUpdate}
-                  />
-                )),
+                ...delivery.plans.flatMap((plan, itemIndex) => {
+                  if (plan.status === 'active') {
+                    return plan.meals.map((item) => (
+                      <FinalizeCell
+                        key={`${props.customerSelection.customer.username}-${deliveryIndex}-item-${itemIndex}`}
+                        deliveryIndex={deliveryIndex}
+                        index={itemIndex}
+                        deliveryMeals={props.deliveryMeals}
+                        allRecipes={props.allRecipes}
+                        selectedItem={plan}
+                        customerSelection={props.customerSelection}
+                        onUpdate={onUpdate}
+                      />
+                    ));
+                  } else return [];
+                }),
                 <Button
-                  key={`${props.customerSelection.customer.id}-${deliveryIndex}-add-button`}
+                  key={`${props.customerSelection.customer.username}-${deliveryIndex}-add-button`}
                   icon={<FormAdd />}
                   hoverIndicator={true}
                   onClick={() => {
@@ -153,7 +160,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
             ).map((row, batchIndex) => (
               <AlternatingTableRow
                 style={{ width: '100%' }}
-                key={`${props.customerSelection.customer.id}-${deliveryIndex}-${batchIndex}}-row`}
+                key={`${props.customerSelection.customer.username}-${deliveryIndex}-${batchIndex}}-row`}
               >
                 <TableCell scope="row">
                   {batchIndex === 0 && (
