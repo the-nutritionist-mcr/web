@@ -92,7 +92,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                         ? modifiedCustomerLink
                         : customerLink
                     }
-                    path={`/admin/edit-customer/${props.customerSelection.customer.username}`}
+                    path={`/admin/edit-customer?userId=${props.customerSelection.customer.username}`}
                   >
                     {name}
                   </Link>
@@ -131,6 +131,8 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                   return plan.status === 'active'
                     ? plan.meals.map((item) => (
                         <FinalizeCell
+                          plan={plan}
+                          planIndex={itemIndex}
                           key={`${props.customerSelection.customer.username}-${deliveryIndex}-item-${itemIndex}`}
                           deliveryIndex={deliveryIndex}
                           index={itemIndex}

@@ -1,12 +1,13 @@
 const isDate = (foo: unknown): foo is Date => {
-  return typeof (foo as Date).getMonth === 'function';
+  return typeof (foo as Date)?.getMonth === 'function';
 };
 
 const isSerialisedDate = (
   foo: unknown
 ): foo is { $type: 'date'; value: number } => {
   return (
-    typeof (foo as any).value === 'string' && (foo as any)['$type'] === 'date'
+    typeof (foo as any)?.value === 'string' &&
+    (foo as any)?.['$type'] === 'date'
   );
 };
 

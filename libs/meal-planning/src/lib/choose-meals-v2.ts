@@ -1,4 +1,5 @@
 import { defaultDeliveryDays, extrasLabels, planLabels } from '@tnmw/config';
+import { v4 } from 'uuid';
 import {
   Recipe,
   BackendCustomer,
@@ -82,6 +83,7 @@ const selectPlanMealsForDelivery = (
 
   return {
     ...statusResult,
+    name: plan.name,
     meals: meals.map((item, index) =>
       plan.isExtra
         ? { isExtra: true, extraName: item.name }

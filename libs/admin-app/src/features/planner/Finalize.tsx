@@ -30,8 +30,6 @@ const Finalize: React.FC<FinalizeProps> = ({
   generatedBy,
   published,
 }) => {
-  const planned = cooks.map((cook) => cook.menu);
-
   if (!customerMeals) {
     return (
       <Paragraph fill>

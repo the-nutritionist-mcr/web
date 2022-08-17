@@ -4,6 +4,7 @@ import React from 'react';
 import deepMemo from '../../lib/deepMemo';
 import { itemFamilies } from '@tnmw/config';
 import {
+  ActivePlanWithMeals,
   DeliveryItem,
   MealPlanGeneratedForIndividualCustomer,
   PlanLabels,
@@ -15,9 +16,12 @@ interface FinalizeCellProps {
   index: number;
   deliveryMeals: PlannedCook[];
   deliveryIndex: number;
+  planIndex: number;
   allRecipes: Recipe[];
   customerSelection: MealPlanGeneratedForIndividualCustomer;
   selectedItem: DeliveryItem;
+  plan: ActivePlanWithMeals;
+  planIndex: number;
   onUpdate: (
     deliveryIndex: number,
     newRecipe?: Recipe,
@@ -26,12 +30,13 @@ interface FinalizeCellProps {
   ) => void;
 }
 
-const getSelectedItemString = (selectedItem: DeliveryItem) => {
-  console.log(selectedItem);
+const getSelectedItemString = (
+  selectedItem: DeliveryItem & { name: string }
+) => {
   if (selectedItem.isExtra) {
-    return selectedItem.extraName;
+    return selectedItem.name;
   }
-  return `${selectedItem.recipe.shortName} (${selectedItem.chosenVariant})`;
+  return `${selectedItem.recipe.shortName} (${selectedItem.name})`;
 };
 
 const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
@@ -41,13 +46,13 @@ const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
         .filter((family) => !family.isExtra)
         .map((family) => ({
           recipe: meal,
-          chosenVariant: family.name,
+          name: family.name,
           isExtra: false,
         }));
     }),
     ...itemFamilies
       .filter((family) => family.isExtra)
-      .map((family) => ({ extraName: family.name, isExtra: true })),
+      .map((family) => ({ name: family.name, isExtra: true })),
   ];
 
   const onChange = React.useCallback(
@@ -96,7 +101,7 @@ const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
             placeholder="None"
             labelKey={getSelectedItemString}
             valueKey={getSelectedItemString}
-            value={props.selectedItem}
+            value={{ ...props.selectedItem, name: props.plan.name }}
             onChange={onChange}
           />
         </Box>

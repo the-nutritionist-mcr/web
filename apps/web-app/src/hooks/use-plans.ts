@@ -43,21 +43,21 @@ export const usePlan = () => {
       method: HTTP.verbs.Post,
       body: JSON.stringify({
         id: 'plan',
-        sort: data.available && data.plan.createdOn,
+        sort: String(data.available && data.plan.createdOn.getTime()),
       }),
     });
 
   const [publish] = useMutation<void>(publishPlan, {
     onMutate() {
-      // const data: GetPlanResponseAdmin = cache.get('plan');
-      // const newData = {
-      //   ...data,
-      //   published: true,
-      // };
-      // mutate('plan', newData, false);
-      // return () => {
-      //   mutate('plan', data, false);
-      // };
+      const data: GetPlanResponseAdmin = cache.get('plan');
+      const newData = {
+        ...data,
+        published: true,
+      };
+      mutate('plan', newData, false);
+      return () => {
+        mutate('plan', data, false);
+      };
     },
   });
 

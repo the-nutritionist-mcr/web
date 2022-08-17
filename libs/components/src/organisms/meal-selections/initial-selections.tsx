@@ -7,11 +7,9 @@ import { MealCategory } from './meal-category';
 import MealList from './meal-list';
 import { setSelected } from './set-selected';
 import { totalOtherSelected } from './total-other-selected';
-import { container, header, youNeedToChoose } from './initial-selections.css';
 import { ParagraphText } from '../../atoms';
-import { Customer, Recipe } from '@tnmw/types';
+import { BackendCustomer, Customer, Recipe } from '@tnmw/types';
 import { ChooseMealsCustomer } from './meal-selections';
-import { Meal } from './meal';
 
 const GridParent = styled.div`
   display: grid;
@@ -19,7 +17,7 @@ const GridParent = styled.div`
   grid-template-columns: 70% 30%;
 `;
 
-export type SelectedMeals = ({ [key: string]: number } | undefined)[][];
+export type SelectedMeals = { [key: string]: number }[][];
 
 export interface InitialSelectionsProps {
   availableMeals: MealCategory[];
@@ -31,7 +29,7 @@ export interface InitialSelectionsProps {
   remainingMeals: number;
   onChangeIndex: (index: number) => void;
   recipes: Recipe[];
-  customer: ChooseMealsCustomer;
+  customer: BackendCustomer;
 }
 
 export const InitialSelections = (props: InitialSelectionsProps) => {

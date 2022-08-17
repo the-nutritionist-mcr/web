@@ -4,12 +4,10 @@ import Recipe from './Recipe';
 interface DeliveryMeal {
   isExtra: false;
   recipe: Recipe;
-  chosenVariant: string;
 }
 
 interface DeliveryExtra {
   isExtra: true;
-  extraName: string;
 }
 
 export type DeliveryItem = DeliveryMeal | DeliveryExtra;
@@ -29,8 +27,9 @@ interface PausedPlan {
   pausedFrom?: Date;
 }
 
-interface ActivePlanWithMeals {
+export interface ActivePlanWithMeals {
   status: 'active';
+  name: string;
   meals: DeliveryItem[];
   pausingOn?: Date;
   cancellingOn?: Date;

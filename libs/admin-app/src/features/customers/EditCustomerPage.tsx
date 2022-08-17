@@ -1,6 +1,18 @@
-import { Form, Header, Heading, Button, Paragraph, Select, Box } from 'grommet';
+import {
+  Form,
+  Header,
+  Heading,
+  Button,
+  Paragraph,
+  Select,
+  Box,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableHeader,
+} from 'grommet';
 import React, { FC } from 'react';
-import { FormField, Text } from 'grommet';
 import {
   planLabels,
   extrasLabels,
@@ -8,11 +20,10 @@ import {
   itemFamilies,
 } from '@tnmw/config';
 import { convertPlanFormat } from '@tnmw/utils';
-import { debounce, update } from 'lodash';
+import { debounce } from 'lodash';
 import PlanPanel from './PlanPanel';
 
 import { OkCancelDialog } from '../../components';
-import EditCustomerDetailsPanel from './EditCustomerDetailsPanel';
 import { BackendCustomer, Exclusion, UpdateCustomerBody } from '@tnmw/types';
 
 const SUBMIT_DEBOUNCE = 500;
@@ -104,21 +115,60 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
           ))}
       </Header>
       <Box direction="column">
-        <Text>
-          <strong>Name:</strong> {customer.firstName} {customer.surname}
-        </Text>
-        <Text>
-          <strong>Email:</strong> {customer.email}
-        </Text>
-        {customer.plans?.map((plan, index) => {
-          return (
-            <Text>
-              <strong>Plan {index + 1}:</strong> {plan.name} -{' '}
-              {plan.daysPerWeek} days per week x {plan.itemsPerDay} meals per
-              day = {plan.totalMeals}
-            </Text>
-          );
-        })}
+        <Table style={{ maxWidth: '40rem', marginBottom: '2rem' }}>
+          <TableBody>
+            <TableRow>
+              <TableCell scope="row">
+                <strong>Name</strong>
+              </TableCell>
+              <TableCell>
+                {customer.firstName} {customer.surname}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell scope="row">
+                <strong>Email</strong>
+              </TableCell>
+              <TableCell>{customer.email}</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+        <Table style={{ maxWidth: '40rem', marginBottom: '2rem' }}>
+          <TableHeader>
+            <TableRow>
+              <TableCell scope="col" border="bottom">
+                <strong>Plan</strong>
+              </TableCell>
+              <TableCell scope="col" border="bottom">
+                <strong>Days per Week</strong>
+              </TableCell>
+              <TableCell scope="col" border="bottom">
+                <strong>Meals per Day</strong>
+              </TableCell>
+              <TableCell scope="col" border="bottom">
+                <strong>Total meals</strong>
+              </TableCell>
+              <TableCell scope="col" border="bottom">
+                <strong>Status</strong>
+              </TableCell>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {customer.plans?.map((plan, index) => {
+              return (
+                <TableRow>
+                  <TableCell scope="row">
+                    <strong>{plan.name}</strong>
+                  </TableCell>
+                  <TableCell scope="row">{plan.daysPerWeek}</TableCell>
+                  <TableCell scope="row">{plan.itemsPerDay}</TableCell>
+                  <TableCell scope="row">{plan.totalMeals}</TableCell>
+                  <TableCell scope="row">{plan.subscriptionStatus}</TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
       </Box>
       <Heading level={3}>Customisations</Heading>
       <Select

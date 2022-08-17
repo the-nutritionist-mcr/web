@@ -7,11 +7,7 @@ import { parseCustomerList } from '../../../utils/parse-customer-list';
 import { StoredPlan } from '@tnmw/types';
 import { returnErrorResponse } from '../data-api/return-error-response';
 import { HttpError } from '../data-api/http-error';
-import {
-  isActive,
-  recursivelyDeserialiseDate,
-  recursivelySerialiseDate,
-} from '@tnmw/utils';
+import { recursivelySerialiseDate } from '@tnmw/utils';
 
 import {
   CognitoIdentityProviderClient,
@@ -66,6 +62,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const meals = chooseMealSelections(cooks, list, `${firstName} ${surname}`);
 
+    console.log(meals);
+
     const planId = v4();
 
     const plan: StoredPlan = {
@@ -82,16 +80,17 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const selections: StoredMealPlanGeneratedForIndividualCustomer[] =
       meals.customerPlans.map((customerPlan) => ({
         id: `plan-${planId}-selection`,
-        sort: v4(),
+        sort: customerPlan.customer.username,
         ...customerPlan,
       }));
+
+    console.log(plan);
 
     const batches = batchArray([plan, ...selections], 25);
     const tableName = process.env[ENV.varNames.DynamoDBTable];
 
     await Promise.all(
       batches.map(async (batch, index) => {
-        console.log(`six-${index}`);
         const input: BatchWriteCommandInput = {
           RequestItems: {
             [tableName]: batch.map((item) => ({
@@ -101,6 +100,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
             })),
           },
         };
+
+        console.log(JSON.stringify(input, null, 2));
 
         const batchWriteCommand = new BatchWriteCommand(input);
         await dynamo.send(batchWriteCommand);

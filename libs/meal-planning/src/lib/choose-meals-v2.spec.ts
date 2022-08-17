@@ -123,6 +123,7 @@ const recipeTwelve: Recipe = {
 const customerOne: BackendCustomer = {
   phoneNumber: '123123',
   salutation: 'Mr',
+  groups: [],
   addressLine1: 'somewhere',
   addressLine2: 'somehow',
   addressLine3: 'someplace',
@@ -158,6 +159,7 @@ const customerTwo: BackendCustomer = {
   addressLine1: 'somewhere',
   addressLine2: 'somehow',
   addressLine3: 'someplace',
+  groups: [],
   phoneNumber: '023',
   firstName: 'bar-customer',
   surname: 'baz',
@@ -213,6 +215,7 @@ const customerThree: BackendCustomer = {
   addressLine3: 'someplace',
   phoneNumber: '123',
   firstName: 'baz-customer',
+  groups: [],
   surname: 'bash',
   email: 'baz-email',
   plans: [
@@ -452,7 +455,7 @@ describe('Choose Meals', () => {
       expect(firstPlan.meals[0].isExtra).toBeFalsy();
       if (firstPlan.meals[0].isExtra === false) {
         expect(firstPlan.meals[0].recipe).toBe(recipeOne);
-        expect(firstPlan.meals[0].chosenVariant).toBe('Equilibrium');
+        expect(firstPlan.name).toBe('Equilibrium');
       }
       expect(firstPlan.meals[6].isExtra).toBeFalsy();
       if (firstPlan.meals[6].isExtra === false) {

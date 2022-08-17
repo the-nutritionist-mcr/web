@@ -32,7 +32,7 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
   const { data, submitOrder } = usePlan();
 
   const recipes = data?.available
-    ? data.cooks.flatMap((cook) => cook.menu)
+    ? data.plan.cooks.flatMap((cook) => cook.menu)
     : [];
 
   const alternateRecipeIds = recipes
@@ -55,7 +55,7 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
       title: plan.name,
       isExtra: plan.isExtra,
       maxMeals: plan.totalMeals,
-      options: data.cooks.map((cook) => cook.menu),
+      options: data.plan.cooks.map((cook) => cook.menu),
     }));
 
   return (
@@ -71,7 +71,7 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
         recipes={[...recipes, ...(alternateRecipes ?? [])]}
         customer={user}
         availableMeals={meals}
-        deliveryDates={data.cooks.map((cook) => cook.date)}
+        deliveryDates={data.plan.cooks.map((cook) => cook.date)}
       />
     </RedirectIfLoggedOut>
   );

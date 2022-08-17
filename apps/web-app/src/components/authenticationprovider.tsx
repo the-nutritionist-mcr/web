@@ -40,7 +40,7 @@ export const AuthenticationProvider = (props: AuthenticationProvider) => {
           isAdmin:
             foundUser?.signInUserSession?.accessToken?.payload[
               'cognito:groups'
-            ].includes('admin'),
+            ]?.includes('admin'),
         }
       );
       stopLoading(LOADING_KEY);

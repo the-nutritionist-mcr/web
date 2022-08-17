@@ -25,6 +25,7 @@ import {
 } from './initial-selections.css';
 import { goAheadAndSubmit } from './confirm-selections-container.css';
 import { Meal } from './meal';
+import { MealPlanGeneratedForIndividualCustomer } from 'libs/types/src/lib/meal-plan';
 
 export interface ChooseMealsCustomer {
   customisations?: BackendCustomer['customisations'];
@@ -33,10 +34,10 @@ export interface ChooseMealsCustomer {
 export interface MealSelectionsProps {
   availableMeals: MealCategory[];
   deliveryDates: string[];
-  currentSelection: StoredMealSelection;
+  currentSelection: MealPlanGeneratedForIndividualCustomer;
   submitOrder: (payload: SubmitCustomerOrderPayload) => Promise<void>;
   recipes: Recipe[];
-  customer: ChooseMealsCustomer;
+  customer: BackendCustomer;
 }
 
 const DivContainer = styled.div`
@@ -53,29 +54,31 @@ const hasThing = <T,>(thing: T | undefined): thing is T => Boolean(thing);
 
 const createDefaultSelectedThings = (
   categories: MealCategory[],
-  selection: StoredMealSelection
+  selection: MealPlanGeneratedForIndividualCustomer
 ) =>
   categories.map((category) =>
-    defaultDeliveryDays.map((day, index) => {
-      const delivery = selection.selection.deliveries[index];
-      return Array.isArray(delivery)
-        ? delivery
-            .filter((item) => item.chosenVariant === category.title)
-            .reduce<{ [id: string]: number }>((accum, item) => {
-              const id = isSelectedMeal(item)
-                ? item.recipe.id
-                : item.chosenVariant;
+    defaultDeliveryDays.map((_, index) => {
+      return selection.deliveries[index].plans
+        .filter(
+          (plan) => plan.status === 'active' && plan.name === category.title
+        )
+        .flatMap((plan) =>
+          plan.status === 'active'
+            ? plan.meals.map((meal) => ({ ...meal, name: plan.name }))
+            : []
+        )
+        .reduce<{ [id: string]: number }>((accum, item) => {
+          const id = item.isExtra ? item.name : item.recipe.id;
 
-              if (id in accum) {
-                accum[id]++;
-              }
+          if (id in accum) {
+            accum[id]++;
+          }
 
-              if (!(id in accum)) {
-                accum[id] = 1;
-              }
-              return accum;
-            }, {})
-        : undefined;
+          if (!(id in accum)) {
+            accum[id] = 1;
+          }
+          return accum;
+        }, {});
     })
   );
 
@@ -163,6 +166,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
       setShowConfirm(true);
     } else {
       setSubmittingOrder(true);
+      /*
       const payload: SubmitCustomerOrderPayload = {
         plan: props.currentSelection.id,
         sort: props.currentSelection.sort,
@@ -189,6 +193,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
       };
 
       await props.submitOrder(payload);
+      */
       setSubmittingOrder(false);
       setComplete(true);
     }

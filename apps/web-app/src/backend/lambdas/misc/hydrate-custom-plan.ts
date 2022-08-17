@@ -15,4 +15,4 @@ export const hydrateCustomPlan = (
       ...item,
       isExtra: itemFamilies.find((family) => family.name === item.name).isExtra,
     })),
-  })) ?? [];
+  }));

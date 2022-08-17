@@ -2,11 +2,6 @@ import { CHARGEBEE } from '@tnmw/constants';
 import { StandardPlan, SubscriptionStatus } from '@tnmw/types';
 import { ChargeBee } from 'chargebee-typescript';
 
-interface SubscriptionItem {
-  item_type: string;
-  item_price_id: string;
-}
-
 export const getPlans = async (
   client: ChargeBee,
   customerId: string

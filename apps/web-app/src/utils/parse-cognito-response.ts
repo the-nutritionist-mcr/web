@@ -9,7 +9,7 @@ const getAttributeValue = (attributes: AttributeType[], key: string) =>
 
 export const parseCognitoResponse = (
   attributes: AttributeType[]
-): Omit<BackendCustomer, 'username'> => {
+): Omit<BackendCustomer, 'username' | 'groups'> => {
   const plansValue = getAttributeValue(
     attributes,
     `custom:${COGNITO.customAttributes.Plans}`

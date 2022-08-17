@@ -25,6 +25,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const response = await doQuery(tableName, 'id = :id', ['plan']);
 
+    console.log(response);
     if (!response.Items?.length) {
       throw new HttpError(
         HTTP.statusCodes.InternalServerError,
@@ -38,6 +39,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const plan = plans
       ?.slice()
       .sort((a, b) => (Number(a.sort) < Number(b.sort) ? 1 : -1))?.[0];
+
+    console.log(plan);
 
     const { planId, menus, published, createdBy, createdOn } = plan;
 
