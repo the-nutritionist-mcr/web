@@ -28,10 +28,11 @@ interface AuthenticationProvider {
 export const LOADING_KEY = 'get-user';
 
 export const AuthenticationProvider = (props: AuthenticationProvider) => {
+  const [loaded, setLoaded] = useState(false);
   const { startLoading, stopLoading } = useContext(LoadingContext);
   const [user, setUser] = useState<CognitoUser | undefined>();
   useEffect(() => {
-    if (!user) {
+    if (!loaded) {
       startLoading(LOADING_KEY);
       (async () => {
         const foundUser = await currentUser();
@@ -44,10 +45,12 @@ export const AuthenticationProvider = (props: AuthenticationProvider) => {
               ]?.includes('admin'),
           }
         );
+        setLoaded(true);
       })();
+    } else {
+      stopLoading(LOADING_KEY);
     }
-    stopLoading(LOADING_KEY);
-  }, [user]);
+  }, [user, loaded]);
   return (
     <AuthenticationServiceContext.Provider
       value={{ ...authenticationService, user }}

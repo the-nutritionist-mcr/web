@@ -37,15 +37,18 @@ export const Loading = (props: LoadingProps) => {
 
   const isLoading = Object.values(loadingHandles).includes('Started');
 
+  console.log(JSON.stringify({ loadingHandles, isLoading }));
+
   const getLoadingState = (id: string): LoadingState | undefined => {
     return loadingHandles[id];
   };
 
   const startLoading = (id: string) => {
+    console.log(`Loading ${id}`);
     if (!isLoading) {
+      console.log('already finished loading');
       return;
     }
-    console.debug(`Loading ${id}`);
     setLoadingHandles({
       ...loadingHandles,
       [LOADING_KEY]: 'Finished',
@@ -54,7 +57,7 @@ export const Loading = (props: LoadingProps) => {
   };
 
   const stopLoading = (id: string) => {
-    console.debug(`Finished loading ${id}`);
+    console.log(`Finished loading ${id}`);
     if (!isLoading) {
       return;
     }

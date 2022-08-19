@@ -1,5 +1,5 @@
 import Router from 'next/router';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import Head from 'next/head';
 import { Hub } from 'aws-amplify';
 import { AppProps } from 'next/app';
@@ -16,6 +16,7 @@ import { HttpError } from '../backend/lambdas/data-api/http-error';
 import { HTTP } from '@tnmw/constants';
 import { DatadogProvider } from '../components/DataDogProvider';
 import { AuthenticationProvider } from '../components/authenticationprovider';
+import { HubCallback } from '@aws-amplify/core';
 
 const navigator = {
   navigate: async (path: string, withRouter: boolean = true) => {
@@ -28,15 +29,19 @@ const navigator = {
   },
 };
 
-Hub.listen('auth', (data) => {
-  switch (data.payload.event) {
-    case 'signIn':
-      toast.success('Login successful!');
-      break;
-  }
-});
-
 const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
+  useEffect(() => {
+    const callback: HubCallback = (data) => {
+      switch (data.payload.event) {
+        case 'signIn':
+          toast.success('Login successful!');
+          break;
+      }
+    };
+
+    Hub.listen('auth', callback);
+    return () => Hub.remove('auth', callback);
+  }, []);
   return (
     <SWRConfig
       value={{
