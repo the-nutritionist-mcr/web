@@ -1,5 +1,5 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
-import { UserPool, UserPoolClient } from 'aws-cdk-lib/aws-cognito';
+import { IUserPoolClient, UserPool } from 'aws-cdk-lib/aws-cognito';
 import { Construct } from 'constructs';
 import { makeUserPool } from './make-user-pool';
 import { makeDataApis } from './make-data-apis';
@@ -33,10 +33,22 @@ interface BackendStackProps {
   developerGroup: IGroup;
 }
 
+const BUILD_PATH = path.join(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  '..',
+  'dist',
+  'apps',
+  'web-app',
+  'exported'
+);
+
 export class BackendStack extends Stack {
   public pool: UserPool;
   public zone: IHostedZone;
-  public client: UserPoolClient;
+  public client: IUserPoolClient;
 
   public constructor(scope: Construct, id: string, props: BackendStackProps) {
     super(scope, id, props.stackProps);

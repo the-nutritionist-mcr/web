@@ -4,10 +4,13 @@ import { chooseMeals, chooseMealSelections } from '@tnmw/meal-planning';
 import { ENV } from '@tnmw/constants';
 import { authoriseJwt } from '../data-api/authorise';
 import { parseCustomerList } from '../../../utils/parse-customer-list';
-import { StoredPlan } from '@tnmw/types';
+import {
+  StoredPlan,
+  StoredMealPlanGeneratedForIndividualCustomer,
+} from '@tnmw/types';
 import { returnErrorResponse } from '../data-api/return-error-response';
 import { HttpError } from '../data-api/http-error';
-import { recursivelySerialiseDate } from '@tnmw/utils';
+import { recursivelySerialiseDate, SerialisedDate } from '@tnmw/utils';
 
 import {
   CognitoIdentityProviderClient,
@@ -25,7 +28,6 @@ import {
 import { v4 } from 'uuid';
 import { isWeeklyPlan } from '@tnmw/types';
 import { batchArray } from '../../../utils/batch-array';
-import { StoredMealPlanGeneratedForIndividualCustomer } from 'libs/types/src/lib/meal-plan';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -62,19 +64,19 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const meals = chooseMealSelections(cooks, list, `${firstName} ${surname}`);
 
-    console.log(meals);
-
     const planId = v4();
 
-    const plan: StoredPlan = {
+    const serialisedMeals = recursivelySerialiseDate(meals);
+
+    const plan: SerialisedDate<StoredPlan> = {
       id: 'plan',
       sort: String(payload.timestamp),
       published: false,
       planId,
       username,
-      createdBy: meals.createdBy,
-      createdOn: meals.createdOn.toString(),
-      menus: meals.cooks,
+      createdBy: serialisedMeals.createdBy,
+      createdOn: serialisedMeals.createdOn,
+      menus: serialisedMeals.cooks,
     };
 
     const selections: StoredMealPlanGeneratedForIndividualCustomer[] =
@@ -84,13 +86,11 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         ...customerPlan,
       }));
 
-    console.log(plan);
-
     const batches = batchArray([plan, ...selections], 25);
     const tableName = process.env[ENV.varNames.DynamoDBTable];
 
     await Promise.all(
-      batches.map(async (batch, index) => {
+      batches.map(async (batch) => {
         const input: BatchWriteCommandInput = {
           RequestItems: {
             [tableName]: batch.map((item) => ({
@@ -100,8 +100,6 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
             })),
           },
         };
-
-        console.log(JSON.stringify(input, null, 2));
 
         const batchWriteCommand = new BatchWriteCommand(input);
         await dynamo.send(batchWriteCommand);

@@ -12,7 +12,11 @@ import useMutation from 'use-mutation';
 import { HTTP } from '@tnmw/constants';
 
 import useSWR, { useSWRConfig } from 'swr';
-import { recursivelyDeserialiseDate, updateDelivery } from '@tnmw/utils';
+import {
+  recursivelyDeserialiseDate,
+  SerialisedDate,
+  updateDelivery,
+} from '@tnmw/utils';
 import toast from 'react-hot-toast';
 import { LoadingContext } from '@tnmw/components';
 import { useContext } from 'react';
@@ -22,41 +26,58 @@ const LOADING_KEY = 'plan-data';
 export const usePlan = () => {
   const { mutate, cache } = useSWRConfig();
 
-  const { data } = useSWR<
-    GetPlanResponseNonAdmin | GetPlanResponseAdmin | NotYetPublishedResponse
+  const { data: serialisedData } = useSWR<
+    SerialisedDate<
+      GetPlanResponseNonAdmin | GetPlanResponseAdmin | NotYetPublishedResponse
+    >
   >('plan', swrFetcher, {
     fallback: {
       plan: { available: false, admin: false },
     },
   });
 
+  const data = recursivelyDeserialiseDate(serialisedData);
+
   const submitOrder = async (
     details: SubmitCustomerOrderPayload
-  ): Promise<void> =>
-    await swrFetcher('plan/submit-order', {
+  ): Promise<void> => {
+    return await swrFetcher('plan/submit-order', {
       method: HTTP.verbs.Post,
       body: JSON.stringify(details),
     });
+  };
 
-  const publishPlan = async (): Promise<void> =>
-    await swrFetcher('plan/publish', {
-      method: HTTP.verbs.Post,
-      body: JSON.stringify({
-        id: 'plan',
-        sort: String(data.available && data.plan.createdOn.getTime()),
-      }),
-    });
+  const publishPlan = async (): Promise<void> => {
+    console.log('called publishPlan');
+    try {
+      const args = {
+        method: HTTP.verbs.Post,
+        body: JSON.stringify({
+          id: 'plan',
+          sort: data.available && data.sort,
+        }),
+      };
+      console.log(args);
+      await swrFetcher('plan/publish', args);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const [publish] = useMutation<void>(publishPlan, {
     onMutate() {
+      console.log('start mutate');
       const data: GetPlanResponseAdmin = cache.get('plan');
       const newData = {
         ...data,
         published: true,
       };
       mutate('plan', newData, false);
+      console.log('finish mutate');
       return () => {
+        console.log('rollback');
         mutate('plan', data, false);
+        console.log('finish rollback');
       };
     },
   });
@@ -88,11 +109,10 @@ export const usePlan = () => {
       //           }
       //   ),
       // };
-
-      mutate('plan', newData, false);
-      return () => {
-        mutate('plan', data, false);
-      };
+      // mutate('plan', newData, false);
+      // return () => {
+      //   mutate('plan', data, false);
+      // };
     },
 
     onFailure() {
@@ -112,7 +132,11 @@ export const usePlan = () => {
     return {
       data: { ...data, date: new Date(Number(data.plan.createdOn)) },
       update,
-      publish,
+      publish: async () => {
+        console.log('DEFINITELY called');
+        await publish();
+        console.log('finished publish');
+      },
       submitOrder,
     };
   }

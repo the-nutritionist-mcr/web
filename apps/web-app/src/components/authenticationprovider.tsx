@@ -31,21 +31,23 @@ export const AuthenticationProvider = (props: AuthenticationProvider) => {
   const { startLoading, stopLoading } = useContext(LoadingContext);
   const [user, setUser] = useState<CognitoUser | undefined>();
   useEffect(() => {
-    (async () => {
+    if (!user) {
       startLoading(LOADING_KEY);
-      const foundUser = await currentUser();
-      setUser(
-        foundUser && {
-          ...foundUser,
-          isAdmin:
-            foundUser?.signInUserSession?.accessToken?.payload[
-              'cognito:groups'
-            ]?.includes('admin'),
-        }
-      );
-      stopLoading(LOADING_KEY);
-    })();
-  }, []);
+      (async () => {
+        const foundUser = await currentUser();
+        setUser(
+          foundUser && {
+            ...foundUser,
+            isAdmin:
+              foundUser?.signInUserSession?.accessToken?.payload[
+                'cognito:groups'
+              ]?.includes('admin'),
+          }
+        );
+      })();
+    }
+    stopLoading(LOADING_KEY);
+  }, [user]);
   return (
     <AuthenticationServiceContext.Provider
       value={{ ...authenticationService, user }}

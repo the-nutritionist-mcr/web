@@ -17,6 +17,8 @@ import {
 } from './account.css';
 import { RedirectIfLoggedOut } from '../components/authentication/redirect-if-logged-out';
 import { useMe } from '../hooks/use-me';
+import { waitForAuthEvent } from '../components/authenticationprovider';
+import { NavigationContext } from '@tnmw/utils';
 
 const YourAccountHeaderBox = styled('div')`
   text-align: center;
@@ -35,7 +37,6 @@ const YourAccountHeader = styled('h1')`
 `;
 
 const AccountPage = () => {
-  const { setUser } = useContext(UserContext);
   const { data } = usePlan();
 
   const user = useMe();
@@ -43,12 +44,11 @@ const AccountPage = () => {
   const now = new Date(Date.now());
 
   const chooseIsOpen = getClosedOrOpenStatus(now, data);
+  const { navigate } = useContext(NavigationContext);
 
   const logout = async () => {
     await signOut();
-    // eslint-disable-next-line fp/no-mutating-methods
-    await Router.push('/login');
-    setUser(undefined);
+    await navigate('/login', false);
   };
 
   return (

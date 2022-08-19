@@ -39,9 +39,12 @@ const isLoginData = (
   loginState === LoginState.DoLogin;
 
 export const useLoginBox = () => {
-  const { login, newPasswordChallengeResponse, forgotPassword } = useContext(
-    AuthenticationServiceContext
-  );
+  const {
+    login,
+    newPasswordChallengeResponse,
+    forgotPassword,
+    waitForAuthEvent,
+  } = useContext(AuthenticationServiceContext);
   const { navigate } = useContext(NavigationContext);
   if (!login || !newPasswordChallengeResponse || !navigate || !forgotPassword) {
     throw new Error('Dependencies not configured!');
@@ -70,7 +73,7 @@ export const useLoginBox = () => {
         }
 
         if (loginResponse.success) {
-          await navigate('/account/');
+          await navigate('/account/', false);
         }
       }
 
@@ -81,7 +84,8 @@ export const useLoginBox = () => {
         );
 
         if (newPasswordResponse.success) {
-          await navigate('/account/');
+          // await waitForAuthEvent('signIn');
+          await navigate('/account/', false);
         }
       }
 
@@ -90,7 +94,8 @@ export const useLoginBox = () => {
         const loginResponse = await login(email ?? '', data.password);
 
         if (loginResponse.success) {
-          await navigate('/account/');
+          // await waitForAuthEvent('signIn');
+          await navigate('/account/', false);
         }
       }
     } catch (error) {

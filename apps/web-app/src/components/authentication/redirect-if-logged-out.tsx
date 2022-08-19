@@ -28,7 +28,8 @@ export const RedirectIfLoggedOut = (props: RedirectIfLoggedOutProps) => {
           (group) => props.allowedGroups.includes(group)
         )))
   ) {
-    console.log(`redirect to${props.redirectTo}`);
+    console.log({ isBrowser, hasFinishedLoadingUser, user });
+    console.log(`redirect to ${props.redirectTo}`);
     navigate(props.redirectTo);
   }
   return <>{props.children}</>;

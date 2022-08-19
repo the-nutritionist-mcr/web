@@ -1,6 +1,4 @@
 import { ReactNode, useState, createContext } from 'react';
-import { BeatLoader } from 'react-spinners';
-import { loader, hide } from './loading.css';
 
 interface LoadingProps {
   children: ReactNode;

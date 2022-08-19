@@ -21,7 +21,5 @@ export const useMe = () => {
     stopLoading(LOADING_KEY);
   }
 
-  console.log(data);
-
   return data;
 };

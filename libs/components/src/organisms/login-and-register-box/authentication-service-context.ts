@@ -33,6 +33,7 @@ export interface AuthenticationContextType {
   newPasswordChallengeResponse?: NewPasswordChallengeResponseFunc;
   user?: CognitoUser;
   forgotPassword?: ForgotPasswordFunc;
+  waitForAuthEvent?: (name: string) => Promise<void>;
 }
 
 export const AuthenticationServiceContext =

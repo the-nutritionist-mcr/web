@@ -18,9 +18,13 @@ import { DatadogProvider } from '../components/DataDogProvider';
 import { AuthenticationProvider } from '../components/authenticationprovider';
 
 const navigator = {
-  navigate: async (path: string) => {
-    // eslint-disable-next-line fp/no-mutating-methods
-    await Router.push(path);
+  navigate: async (path: string, withRouter: boolean = true) => {
+    if (withRouter) {
+      // eslint-disable-next-line fp/no-mutating-methods
+      await Router.push(path);
+    } else {
+      window.location.href = path;
+    }
   },
 };
 
@@ -41,8 +45,7 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
             error instanceof HttpError &&
             error.statusCode === HTTP.statusCodes.Forbidden
           ) {
-            // eslint-disable-next-line fp/no-mutating-methods
-            Router.push('/login');
+            navigator.navigate('/login', false);
           } else {
             toast.error(error.message);
           }

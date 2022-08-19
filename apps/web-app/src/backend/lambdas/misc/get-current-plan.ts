@@ -1,4 +1,3 @@
-import './init-dd-trace';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { returnErrorResponse } from '../data-api/return-error-response';
 import { returnOkResponse } from '../data-api/return-ok-response';
@@ -6,16 +5,15 @@ import {
   StoredPlan,
   GetPlanResponseNonAdmin,
   GetPlanResponseAdmin,
+  StoredMealPlanGeneratedForIndividualCustomer,
+  WeeklyCookPlanWithoutCustomerPlans,
 } from '@tnmw/types';
 import { ENV, HTTP } from '@tnmw/constants';
 import { authoriseJwt } from '../data-api/authorise';
 
 import { HttpError } from '../data-api/http-error';
 import { doQuery } from '../dynamodb';
-import {
-  StoredMealPlanGeneratedForIndividualCustomer,
-  WeeklyCookPlanWithoutCustomerPlans,
-} from 'libs/types/src/lib/meal-plan';
+import { SerialisedDate } from '@tnmw/utils';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -25,7 +23,6 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const response = await doQuery(tableName, 'id = :id', ['plan']);
 
-    console.log(response);
     if (!response.Items?.length) {
       throw new HttpError(
         HTTP.statusCodes.InternalServerError,
@@ -33,16 +30,14 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       );
     }
 
-    const plans = response.Items as StoredPlan[] | undefined;
+    const plans = response.Items as SerialisedDate<StoredPlan>[] | undefined;
 
     // eslint-disable-next-line fp/no-mutating-methods
     const plan = plans
       ?.slice()
       .sort((a, b) => (Number(a.sort) < Number(b.sort) ? 1 : -1))?.[0];
 
-    console.log(plan);
-
-    const { planId, menus, published, createdBy, createdOn } = plan;
+    const { planId, menus, published, createdBy, createdOn, sort } = plan;
 
     const selectionResponse = await doQuery(tableName, `id = :id`, [
       `plan-${planId}-selection`,
@@ -53,7 +48,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     }
 
     const selections = selectionResponse.Items as
-      | StoredMealPlanGeneratedForIndividualCustomer[]
+      | SerialisedDate<StoredMealPlanGeneratedForIndividualCustomer>[]
       | undefined;
 
     const currentUserSelection = selections.find(
@@ -63,23 +58,25 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const thePlan = {
       cooks: menus,
       createdBy,
-      createdOn: new Date(createdOn),
+      createdOn,
     };
 
-    const defaultResponse: Omit<
-      GetPlanResponseNonAdmin,
-      'available' | 'plan' | 'admin'
-    > & {
-      plan: WeeklyCookPlanWithoutCustomerPlans;
-    } = {
+    type DefaultResponse = SerialisedDate<
+      Omit<GetPlanResponseNonAdmin, 'available' | 'plan' | 'admin'> & {
+        plan: WeeklyCookPlanWithoutCustomerPlans;
+      }
+    >;
+
+    const defaultResponse: DefaultResponse = {
       planId,
       plan: thePlan,
       published,
+      sort,
       currentUserSelection,
     };
 
     if (groups.includes('admin')) {
-      const finalResponse: GetPlanResponseAdmin = {
+      const finalResponse: SerialisedDate<GetPlanResponseAdmin> = {
         ...defaultResponse,
         available: true,
         admin: true,
@@ -88,7 +85,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       return returnOkResponse(finalResponse);
     }
 
-    const finalResponse: GetPlanResponseNonAdmin = {
+    const finalResponse: SerialisedDate<GetPlanResponseNonAdmin> = {
       ...defaultResponse,
       available: true,
       admin: false,

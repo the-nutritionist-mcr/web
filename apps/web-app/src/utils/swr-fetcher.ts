@@ -26,10 +26,8 @@ export const swrFetcher = async <T>(
   path: string,
   init?: RequestInit
 ): Promise<T> => {
+  console.log(`path`, path);
   const { ApiDomainName: domainName } = await getAppConfig();
-
-  console.log('FETCH');
-  console.log(path);
 
   const finalInit = await getFetchInit(init);
   const fullPath = `https://${domainName}/${path}`;

@@ -21,7 +21,7 @@ export interface StoredPlan {
   username: string;
 
   createdBy: string;
-  createdOn: string;
+  createdOn: Date;
 }
 
 export interface StoredMealSelection {
@@ -36,6 +36,7 @@ export interface GetPlanResponseAdmin {
   currentUserSelection: MealPlanGeneratedForIndividualCustomer;
   published: boolean;
   available: true;
+  sort: string;
   admin: true;
 }
 
@@ -45,6 +46,7 @@ export interface GetPlanResponseNonAdmin {
   currentUserSelection: MealPlanGeneratedForIndividualCustomer;
   published: boolean;
   available: true;
+  sort: string;
   admin: false;
 }
 
@@ -54,6 +56,7 @@ export interface GetPlanResponse {
   selections?: PlanResponseSelections;
   currentUserSelection?: StoredMealSelection;
   createdBy: string;
+  sort: string;
   createdByName: string;
   date: string;
   published: boolean;

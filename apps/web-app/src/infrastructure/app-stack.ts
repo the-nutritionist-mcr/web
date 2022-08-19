@@ -1,4 +1,4 @@
-import { ArnFormat, PhysicalName, Stack, StackProps } from 'aws-cdk-lib';
+import { Stack, StackProps } from 'aws-cdk-lib';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { PolicyStatement, Effect, IGroup } from 'aws-cdk-lib/aws-iam';
 import {
@@ -11,9 +11,7 @@ import { getDomainName } from '@tnmw/utils';
 import { IAM } from '@tnmw/constants';
 import { NextJSLambdaEdge } from './serverless-next-js-vendored/stack';
 import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
-import { NextJSLambdaEdge as nextThing } from '@sls-next/cdk-construct';
 import { UserPool } from 'aws-cdk-lib/aws-cognito';
-import { makeArnRegionless } from './make-arn-regionless';
 import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { IHostedZone } from 'aws-cdk-lib/aws-route53';
 import { getResourceName } from './get-resource-name';

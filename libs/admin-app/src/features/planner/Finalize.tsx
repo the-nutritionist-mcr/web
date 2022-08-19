@@ -30,6 +30,7 @@ const Finalize: React.FC<FinalizeProps> = ({
   generatedBy,
   published,
 }) => {
+  console.log(customerMeals);
   if (!customerMeals) {
     return (
       <Paragraph fill>

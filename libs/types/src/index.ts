@@ -71,4 +71,5 @@ export type {
   PlannedCook,
   DeliveryItem,
   ActivePlanWithMeals,
+  StoredMealPlanGeneratedForIndividualCustomer,
 } from './lib/meal-plan';
