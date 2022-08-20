@@ -14,6 +14,7 @@ import {
 } from '@tnmw/types';
 import { generateDistribution } from './distribution-generator';
 import { getCookStatus } from './get-cook-status';
+import { itemFamilies } from '@tnmw/config';
 
 export interface Cook {
   date: Date;
@@ -128,6 +129,37 @@ const generateCustomerDeliveries = (
   };
 };
 
+const isExtra = (name: string) =>
+  Boolean(itemFamilies.find((family) => family.name === name)?.isExtra);
+
+export const makeMissingStandardPlansFromCustomPlan = (
+  customer: BackendCustomer
+): StandardPlan[] => {
+  const planNamesFromCustomPlans = new Set<string>(
+    customer.customPlan?.flatMap((plan) =>
+      plan.items.filter((item) => item.quantity > 0).map((item) => item.name)
+    ) ?? []
+  );
+
+  const planNamesFromStandardPlans = new Set(
+    customer.plans.map((plan) => plan.name)
+  );
+
+  const missing = Array.from(planNamesFromCustomPlans).filter(
+    (name) => !planNamesFromStandardPlans.has(name)
+  );
+
+  return missing.map((name) => ({
+    name,
+    daysPerWeek: 0,
+    itemsPerDay: 0,
+    isExtra: isExtra(name),
+    totalMeals: 0,
+    subscriptionStatus: 'active',
+    termEnd: 0,
+  }));
+};
+
 export const chooseMealSelections = (
   deliverySelection: Cook[],
   customers: BackendCustomer[],
@@ -135,9 +167,16 @@ export const chooseMealSelections = (
 ): WeeklyCookPlan => {
   const cooks = deliverySelection.map((cook, index) => ({ ...cook, index }));
   return {
-    customerPlans: customers.map((customer) =>
-      generateCustomerDeliveries(cooks, customer)
-    ),
+    customerPlans: customers.map((customer) => {
+      const customerWithCustomPlansAdded = {
+        ...customer,
+        plans: [
+          ...customer.plans,
+          ...makeMissingStandardPlansFromCustomPlan(customer),
+        ],
+      };
+      return generateCustomerDeliveries(cooks, customerWithCustomPlansAdded);
+    }),
 
     cooks: cooks.map((cook) => ({ date: cook.date, menu: cook.menu })),
     createdBy,

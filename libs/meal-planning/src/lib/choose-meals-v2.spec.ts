@@ -318,9 +318,9 @@ describe('Choose Meals', () => {
     const result = chooseMealSelections(dummyPlannedCooks, customers, 'me');
 
     expect(result).toBeDefined();
-    expect(result.customerPlans[0].customer).toBe(customerOne);
-    expect(result.customerPlans[1].customer).toBe(customerTwo);
-    expect(result.customerPlans[2].customer).toBe(customerThree);
+    expect(result.customerPlans[0].customer).toEqual(customerOne);
+    expect(result.customerPlans[1].customer).toEqual(customerTwo);
+    expect(result.customerPlans[2].customer).toEqual(customerThree);
   });
 
   it('adds the correct date to the plan', () => {
@@ -482,6 +482,339 @@ describe('Choose Meals', () => {
 
     if (lastPlan.status === 'active') {
       expect(lastPlan.meals).toHaveLength(55);
+    }
+  });
+
+  it("actually adds custom plans if the original plan wasn't there", () => {
+    const customerData = JSON.parse(`[
+  {
+    "id": "asdasd",
+    "username": "asdasd",
+    "salutation": "",
+    "country": "",
+    "deliveryDay1": "",
+    "deliveryDay2": "",
+    "customPlan": [
+      {
+        "items": [
+          {
+            "name": "Equilibrium",
+            "quantity": 1,
+            "isExtra": false
+          },
+          {
+            "name": "Mass",
+            "quantity": 0,
+            "isExtra": false
+          },
+          {
+            "name": "Micro",
+            "quantity": 5,
+            "isExtra": false
+          },
+          {
+            "name": "Ultra Micro",
+            "quantity": 0,
+            "isExtra": false
+          },
+          {
+            "name": "Low-CHO",
+            "quantity": 0,
+            "isExtra": false
+          },
+          {
+            "name": "Seasonal Soup",
+            "quantity": 0,
+            "isExtra": true
+          },
+          {
+            "name": "Breakfast",
+            "quantity": 3,
+            "isExtra": true
+          },
+          {
+            "name": "Snacks",
+            "quantity": 0,
+            "isExtra": true
+          }
+        ],
+        "extras": []
+      },
+      {
+        "items": [
+          {
+            "name": "Equilibrium",
+            "quantity": 0,
+            "isExtra": false
+          },
+          {
+            "name": "Mass",
+            "quantity": 0,
+            "isExtra": false
+          },
+          {
+            "name": "Micro",
+            "quantity": 4,
+            "isExtra": false
+          },
+          {
+            "name": "Ultra Micro",
+            "quantity": 0,
+            "isExtra": false
+          },
+          {
+            "name": "Low-CHO",
+            "quantity": 0,
+            "isExtra": false
+          },
+          {
+            "name": "Seasonal Soup",
+            "quantity": 0,
+            "isExtra": true
+          },
+          {
+            "name": "Breakfast",
+            "quantity": 4,
+            "isExtra": true
+          },
+          {
+            "name": "Snacks",
+            "quantity": 0,
+            "isExtra": true
+          }
+        ],
+        "extras": []
+      }
+    ],
+    "customisations": [],
+    "deliveryDay3": "",
+    "subscriptionUpdateTime": "1660997491.211",
+    "firstName": "Ben",
+    "city": "",
+    "postcode": "",
+    "plans": [
+      {
+        "name": "Breakfast",
+        "daysPerWeek": 7,
+        "itemsPerDay": 1,
+        "termEnd": 1663675881000,
+        "subscriptionStatus": "active",
+        "isExtra": true,
+        "totalMeals": 7
+      },
+      {
+        "name": "Micro",
+        "daysPerWeek": 7,
+        "itemsPerDay": 1,
+        "termEnd": 1663399561000,
+        "subscriptionStatus": "active",
+        "isExtra": false,
+        "totalMeals": 7
+      }
+    ],
+    "customerUpdateTime": "1660721155.764",
+    "addressLine1": "",
+    "addressLine2": "",
+    "surname": "Wainwright",
+    "email": "ben+testnewinfr@thenutritionistmcr.com",
+    "addressLine3": "",
+    "phoneNumber": "+447872591841"
+  },
+  {
+    "id": "cypress-test-user-two",
+    "username": "cypress-test-user-two",
+    "salutation": "",
+    "country": "",
+    "deliveryDay1": "",
+    "deliveryDay2": "",
+    "customisations": [],
+    "deliveryDay3": "",
+    "subscriptionUpdateTime": "",
+    "firstName": "Cypress",
+    "city": "",
+    "postcode": "",
+    "plans": [],
+    "customerUpdateTime": "",
+    "addressLine1": "",
+    "addressLine2": "",
+    "surname": "Tester2",
+    "email": "cypress2@test.com",
+    "addressLine3": "",
+    "phoneNumber": ""
+  },
+  {
+    "id": "cypress-test-user",
+    "username": "cypress-test-user",
+    "salutation": "",
+    "country": "",
+    "deliveryDay1": "",
+    "deliveryDay2": "",
+    "customisations": [],
+    "deliveryDay3": "",
+    "subscriptionUpdateTime": "",
+    "firstName": "Cypress",
+    "city": "",
+    "postcode": "",
+    "plans": [],
+    "customerUpdateTime": "",
+    "addressLine1": "",
+    "addressLine2": "",
+    "surname": "Tester",
+    "email": "cypress@test.com",
+    "addressLine3": "",
+    "phoneNumber": ""
+  },
+  {
+    "id": "test-customer-1",
+    "username": "test-customer-1",
+    "salutation": "",
+    "country": "",
+    "deliveryDay1": "Monday",
+    "deliveryDay2": "Wednesday",
+    "customisations": [],
+    "deliveryDay3": "",
+    "subscriptionUpdateTime": "",
+    "firstName": "Ben (test customer)",
+    "city": "",
+    "postcode": "",
+    "plans": [
+      {
+        "name": "Equilibrium",
+        "daysPerWeek": 6,
+        "itemsPerDay": 1,
+        "isExtra": false,
+        "totalMeals": 6
+      },
+      {
+        "name": "Breakfast",
+        "daysPerWeek": 7,
+        "itemsPerDay": 1,
+        "isExtra": true,
+        "totalMeals": 7
+      }
+    ],
+    "customerUpdateTime": "",
+    "addressLine1": "",
+    "addressLine2": "",
+    "surname": "Wainwright",
+    "email": "ben+testcustomer@thenutritionistmcr.com",
+    "addressLine3": "",
+    "phoneNumber": ""
+  },
+  {
+    "id": "test-webhook-ben",
+    "username": "test-webhook-ben",
+    "salutation": "",
+    "country": "",
+    "deliveryDay1": "Monday",
+    "deliveryDay2": "Thursday",
+    "customisations": [],
+    "deliveryDay3": "Saturday",
+    "subscriptionUpdateTime": "",
+    "firstName": "Ben",
+    "city": "",
+    "postcode": "",
+    "plans": [],
+    "customerUpdateTime": "1660719494.679",
+    "addressLine1": "",
+    "addressLine2": "",
+    "surname": "Wainwright",
+    "email": "ben+testwebhook@thenutritionistmcr.com",
+    "addressLine3": "",
+    "phoneNumber": "+447872591841"
+  }
+]`);
+
+    const cooks = JSON.parse(`[
+  {
+    "date": "2022-08-07T23:00:00.000Z",
+    "menu": [
+      {
+        "hotOrCold": "Hot",
+        "shortName": "test",
+        "potentialExclusions": [
+          {
+            "name": "test",
+            "allergen": true,
+            "id": "4f7030df-6b0a-40c5-8c66-729c17a19dc7"
+          }
+        ],
+        "allergens": "test",
+        "invalidExclusions": [
+          "4f7030df-6b0a-40c5-8c66-729c17a19dc7"
+        ],
+        "description": "test",
+        "id": "09912018-6552-4d2f-b56d-31f2ebff0ab1",
+        "name": "test"
+      },
+      {
+        "hotOrCold": "Cold",
+        "shortName": "Testthing",
+        "alternates": [],
+        "potentialExclusions": [],
+        "allergens": "test",
+        "invalidExclusions": [],
+        "description": "test",
+        "id": "1288283c-c332-4ad0-a837-a476b7c21f48",
+        "name": "testOther"
+      }
+    ]
+  },
+  {
+    "date": "2022-08-04T23:00:00.000Z",
+    "menu": [
+      {
+        "hotOrCold": "Hot",
+        "shortName": "test",
+        "potentialExclusions": [
+          {
+            "name": "test",
+            "allergen": true,
+            "id": "4f7030df-6b0a-40c5-8c66-729c17a19dc7"
+          }
+        ],
+        "allergens": "test",
+        "invalidExclusions": [
+          "4f7030df-6b0a-40c5-8c66-729c17a19dc7"
+        ],
+        "description": "test",
+        "id": "09912018-6552-4d2f-b56d-31f2ebff0ab1",
+        "name": "test"
+      },
+      {
+        "hotOrCold": "Cold",
+        "shortName": "Testthing",
+        "alternates": [],
+        "potentialExclusions": [],
+        "allergens": "test",
+        "invalidExclusions": [],
+        "description": "test",
+        "id": "1288283c-c332-4ad0-a837-a476b7c21f48",
+        "name": "testOther"
+      }
+    ]
+  }
+]`);
+
+    const result = chooseMealSelections(cooks, customerData, 'me');
+
+    const customerWithPlans = result.customerPlans.find(
+      (item) => item.customer.username === 'asdasd'
+    );
+
+    expect(customerWithPlans).toBeDefined();
+
+    expect(customerWithPlans?.deliveries[0].plans).toHaveLength(3);
+    expect(customerWithPlans?.deliveries[0].plans[0].name).toEqual('Breakfast');
+    expect(customerWithPlans?.deliveries[0].plans[1].name).toEqual('Micro');
+    expect(customerWithPlans?.deliveries[0].plans[2].name).toEqual(
+      'Equilibrium'
+    );
+
+    const customPlan = customerWithPlans?.deliveries[0].plans[2];
+    expect(customPlan?.status).toEqual('active');
+    if (customPlan?.status === 'active') {
+      expect(customPlan.meals).toHaveLength(1);
     }
   });
 
