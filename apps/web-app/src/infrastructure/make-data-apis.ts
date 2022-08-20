@@ -317,6 +317,34 @@ export const makeDataApis = (
     })
   );
 
+  const updateCustomerPlanFunction = new NodejsFunction(
+    context,
+    `update-customer-plan-function`,
+    {
+      functionName: getResourceName(`update-customer-plan`, envName),
+      entry: entryName('misc', 'update-customer-plan.ts'),
+      runtime: Runtime.NODEJS_14_X,
+      memorySize: 2048,
+      environment: {
+        ...defaultEnvironmentVars,
+        [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
+      },
+      bundling: {
+        externalModules: ['dd-trace', 'datadog-lambda-js'],
+        sourceMap: true,
+      },
+    }
+  );
+
+  const updatePlanResource = customer.addResource('update-plan');
+
+  updatePlanResource.addMethod(
+    'PUT',
+    new LambdaIntegration(updateCustomerPlanFunction)
+  );
+
+  planDataTable.grantReadWriteData(updateCustomerPlanFunction);
+
   const updateCustomerFunction = new NodejsFunction(
     context,
     `update-customer-function`,

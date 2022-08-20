@@ -1,12 +1,11 @@
 import { swrFetcher } from '../utils/swr-fetcher';
 import {
-  ChangePlanRecipeBody,
-  CustomerMealsSelectionWithChargebeeCustomer,
   GetPlanResponseAdmin,
   GetPlanResponseNonAdmin,
   NotYetPublishedResponse,
-  StoredMealSelection,
   SubmitCustomerOrderPayload,
+  MealSelectionPayload,
+  MealPlanGeneratedForIndividualCustomer,
 } from '@tnmw/types';
 import useMutation from 'use-mutation';
 import { HTTP } from '@tnmw/constants';
@@ -23,18 +22,24 @@ import { useContext } from 'react';
 
 const LOADING_KEY = 'plan-data';
 
+type GetPlanResponse =
+  | GetPlanResponseAdmin
+  | GetPlanResponseNonAdmin
+  | NotYetPublishedResponse;
+
 export const usePlan = () => {
   const { mutate, cache } = useSWRConfig();
+  const { startLoading, stopLoading, isLoading } = useContext(LoadingContext);
 
-  const { data: serialisedData } = useSWR<
-    SerialisedDate<
-      GetPlanResponseNonAdmin | GetPlanResponseAdmin | NotYetPublishedResponse
-    >
-  >('plan', swrFetcher, {
-    fallback: {
-      plan: { available: false, admin: false },
-    },
-  });
+  const { data: serialisedData } = useSWR<SerialisedDate<GetPlanResponse>>(
+    'plan',
+    swrFetcher,
+    {
+      fallback: {
+        plan: { available: false, admin: false },
+      },
+    }
+  );
 
   const data = recursivelyDeserialiseDate(serialisedData);
 
@@ -66,53 +71,49 @@ export const usePlan = () => {
 
   const [publish] = useMutation<void>(publishPlan, {
     onMutate() {
-      console.log('start mutate');
       const data: GetPlanResponseAdmin = cache.get('plan');
       const newData = {
         ...data,
         published: true,
       };
       mutate('plan', newData, false);
-      console.log('finish mutate');
       return () => {
-        console.log('rollback');
         mutate('plan', data, false);
-        console.log('finish rollback');
       };
     },
   });
 
-  const changePlanItem = async (newItem: ChangePlanRecipeBody): Promise<void> =>
-    await swrFetcher('plan', {
+  const changePlanItem = async (
+    newItem: MealPlanGeneratedForIndividualCustomer
+  ): Promise<void> =>
+    await swrFetcher('customer/update-plan', {
       method: HTTP.verbs.Put,
-      body: JSON.stringify(newItem),
+      body: JSON.stringify({
+        id: serialisedData.available && serialisedData.planId,
+        selection: newItem,
+      }),
     });
 
   const [update] = useMutation(changePlanItem, {
     onMutate({ input }) {
-      // const data: GetPlanResponseAdmin = cache.get('plan');
-      // const newData = {
-      //   ...data,
-      //   selections: data.selections.map(
-      //     (
-      //       dataRow: CustomerMealsSelectionWithChargebeeCustomer[number] & {
-      //         id: StoredMealSelection['id'];
-      //         sort: StoredMealSelection['sort'];
-      //       }
-      //     ) =>
-      //       dataRow.id !== input.selectionId ||
-      //       dataRow.sort !== input.selectionSort
-      //         ? dataRow
-      //         : {
-      //             ...dataRow,
-      //             deliveries: updateDelivery(dataRow.deliveries, input),
-      //           }
-      //   ),
-      // };
-      // mutate('plan', newData, false);
-      // return () => {
-      //   mutate('plan', data, false);
-      // };
+      const data: GetPlanResponse = cache.get('plan');
+
+      if (data.available && data.admin) {
+        const newData: GetPlanResponseAdmin = {
+          ...data,
+          plan: {
+            ...data.plan,
+            customerPlans: data.plan.customerPlans.map((plan) =>
+              plan.customer.username === input.customer.username ? input : plan
+            ),
+          },
+        };
+        mutate('plan', newData, false);
+      }
+
+      return () => {
+        mutate('plan', data, false);
+      };
     },
 
     onFailure() {
@@ -133,15 +134,11 @@ export const usePlan = () => {
       data: { ...data, date: new Date(Number(data.plan.createdOn)) },
       update,
       publish: async () => {
-        console.log('DEFINITELY called');
         await publish();
-        console.log('finished publish');
       },
       submitOrder,
     };
   }
-
-  const { startLoading, stopLoading, isLoading } = useContext(LoadingContext);
 
   if (!data) {
     startLoading(LOADING_KEY);

@@ -11,6 +11,7 @@ import {
   ChangePlanRecipeBody,
   PlanResponseSelections,
   WeeklyCookPlan,
+  MealSelectionPayload,
 } from '@tnmw/types';
 import { DownloadLabelsDialog } from '@tnmw/components';
 import {
@@ -28,7 +29,7 @@ interface PlannerProps {
   creationDate: Date;
   plan: WeeklyCookPlan;
   recipes: Recipe[];
-  update: (item: ChangePlanRecipeBody) => Promise<void>;
+  update: (item: MealSelectionPayload) => Promise<void>;
   publish: () => Promise<void>;
   published: boolean;
 }

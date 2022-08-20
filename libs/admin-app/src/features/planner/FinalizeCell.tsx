@@ -11,23 +11,19 @@ import {
   PlannedCook,
   Recipe,
 } from '@tnmw/types';
+import { SelectedItem } from '@tnmw/meal-planning';
 
 interface FinalizeCellProps {
   index: number;
   deliveryMeals: PlannedCook[];
   deliveryIndex: number;
-  planIndex: number;
   allRecipes: Recipe[];
   customerSelection: MealPlanGeneratedForIndividualCustomer;
   selectedItem: DeliveryItem;
   plan: ActivePlanWithMeals;
   planIndex: number;
-  onUpdate: (
-    deliveryIndex: number,
-    newRecipe?: Recipe,
-    chosenVariant?: PlanLabels,
-    itemIndex?: number
-  ) => void;
+  onChangeRecipe: (recipe: Recipe) => void;
+  onDelete: () => void;
 }
 
 const getSelectedItemString = (
@@ -40,33 +36,6 @@ const getSelectedItemString = (
 };
 
 const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
-  const options = (delivery: number) => [
-    ...props.deliveryMeals[delivery].menu.flatMap((meal) => {
-      return itemFamilies
-        .filter((family) => !family.isExtra)
-        .map((family) => ({
-          recipe: meal,
-          name: family.name,
-          isExtra: false,
-        }));
-    }),
-    ...itemFamilies
-      .filter((family) => family.isExtra)
-      .map((family) => ({ name: family.name, isExtra: true })),
-  ];
-
-  const onChange = React.useCallback(
-    (event) => {
-      props.onUpdate(
-        props.deliveryIndex,
-        event.value.recipe,
-        event.value.chosenVariant,
-        props.index
-      );
-    },
-    [props.customerSelection.customer, props.index, props.deliveryIndex]
-  );
-
   return (
     <TableCell key={props.index}>
       <ThemeContext.Extend
@@ -85,25 +54,24 @@ const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
           <Button
             hoverIndicator
             icon={<Trash size="small" />}
-            onClick={() => {
-              props.onUpdate(
-                props.deliveryIndex,
-                undefined,
-                undefined,
-                props.index
-              );
-            }}
+            onClick={props.onDelete}
           />
-          <Select
-            plain
-            size="xsmall"
-            options={options(props.deliveryIndex)}
-            placeholder="None"
-            labelKey={getSelectedItemString}
-            valueKey={getSelectedItemString}
-            value={{ ...props.selectedItem, name: props.plan.name }}
-            onChange={onChange}
-          />
+          {!props.selectedItem.isExtra ? (
+            <Select
+              plain
+              size="xsmall"
+              options={props.deliveryMeals[props.deliveryIndex].menu}
+              placeholder="None"
+              labelKey={'name'}
+              valueKey={'name'}
+              value={props.selectedItem.recipe}
+              onChange={(event) => {
+                props.onChangeRecipe(event.value);
+              }}
+            />
+          ) : (
+            props.plan.name
+          )}
         </Box>
       </ThemeContext.Extend>
     </TableCell>

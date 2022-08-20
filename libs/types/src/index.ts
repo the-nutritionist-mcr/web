@@ -62,6 +62,11 @@ export type { UpdateCustomerBody } from './lib/update-customer-body';
 
 export type { StackConfig } from './lib/stack-config';
 
+export {
+  assertsMealSelectionForIndividualCustomer,
+  assertsMealSelectPayload,
+} from './lib/meal-plan';
+
 export type {
   PlanWithMeals,
   PlannedDelivery,
@@ -72,4 +77,5 @@ export type {
   DeliveryItem,
   ActivePlanWithMeals,
   StoredMealPlanGeneratedForIndividualCustomer,
+  MealSelectionPayload,
 } from './lib/meal-plan';

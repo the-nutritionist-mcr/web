@@ -1,6 +1,7 @@
 import {
   ChangePlanRecipeBody,
   MealPlanGeneratedForIndividualCustomer,
+  MealSelectionPayload,
   PlannedCook,
   Recipe,
 } from '@tnmw/types';
@@ -18,7 +19,7 @@ interface FinalizeProps {
   published: boolean;
   generatedBy: string;
   creationDate: Date;
-  update: (item: ChangePlanRecipeBody) => Promise<void>;
+  update: (item: MealSelectionPayload) => Promise<void>;
 }
 
 const Finalize: React.FC<FinalizeProps> = ({

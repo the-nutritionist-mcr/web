@@ -67,7 +67,10 @@ const selectPlanMealsForDelivery = (
   const statusResult = getCookStatus(cook.date, plan);
 
   if (statusResult.status !== 'active') {
-    return statusResult;
+    return {
+      name: plan.name,
+      ...statusResult,
+    };
   }
 
   const meals = distribution.items.flatMap((item) =>

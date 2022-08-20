@@ -14,15 +14,18 @@ export type DeliveryItem = DeliveryMeal | DeliveryExtra;
 
 interface CancelledPlan {
   status: 'cancelled';
+  name: string;
 }
 
 interface FuturePlan {
   status: 'future';
+  name: string;
   startsOn?: Date;
 }
 
 interface PausedPlan {
   status: 'paused';
+  name: string;
   pausedUntil?: Date;
   pausedFrom?: Date;
 }
@@ -37,6 +40,7 @@ export interface ActivePlanWithMeals {
 
 interface InTrialPlan {
   status: 'in_trial';
+  name: string;
 }
 
 export type PlanWithMeals =
@@ -50,6 +54,29 @@ export interface PlannedDelivery {
   dateCooked: Date;
   plans: PlanWithMeals[];
 }
+
+export interface MealSelectionPayload {
+  id: string;
+  selection: MealPlanGeneratedForIndividualCustomer;
+}
+
+export const assertsMealSelectPayload: (
+  thing: unknown
+) => asserts thing is MealSelectionPayload = (thing) => {
+  const thingAsAny = thing as any;
+
+  assertsMealSelectionForIndividualCustomer(thingAsAny.selection);
+};
+
+export const assertsMealSelectionForIndividualCustomer: (
+  thing: unknown
+) => asserts thing is MealPlanGeneratedForIndividualCustomer = (thing) => {
+  const thingAsAny = thing as any;
+
+  if (typeof thingAsAny.customer === 'undefined') {
+    throw new Error('Customer was undefined');
+  }
+};
 
 export interface MealPlanGeneratedForIndividualCustomer {
   customer: BackendCustomer;

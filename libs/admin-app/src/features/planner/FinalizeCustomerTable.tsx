@@ -23,18 +23,23 @@ import {
 import {
   ChangePlanRecipeBody,
   MealPlanGeneratedForIndividualCustomer,
+  MealSelectionPayload,
   PlanLabels,
   PlannedCook,
   Recipe,
 } from '@tnmw/types';
 import { planLabels } from '@tnmw/config';
+import {
+  deleteRecipeInSelection,
+  updateRecipeInSelection,
+} from './update-recipe-in-selection';
 
 interface FinalizeRowProps {
   customerSelection: MealPlanGeneratedForIndividualCustomer;
   deliveryMeals: PlannedCook[];
   allRecipes: Recipe[];
   columns: number;
-  update: (item: ChangePlanRecipeBody) => Promise<void>;
+  update: (item: MealPlanGeneratedForIndividualCustomer) => Promise<void>;
 }
 
 const AlternatingTableRow = styled(TableRow)`
@@ -54,23 +59,6 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
       .map((exclusion) => exclusion.name)
       .join(', ') ?? '';
   ('');
-
-  const onUpdate = (
-    deliveryIndex: number,
-    recipe?: Recipe,
-    chosenVariant?: PlanLabels,
-    itemIndex?: number
-  ) => {
-    /*
-    props.update({
-      selectionId: props.customerSelection.id,
-      selectionSort: props.customerSelection.sort,
-      chosenVariant,
-      recipe,
-      deliveryIndex,
-      itemIndex,
-    }); */
-  };
 
   return (
     <Table alignSelf="start" style={{ marginTop: '1rem' }}>
@@ -113,67 +101,78 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
       </TableHeader>
       <TableBody>
         {deliveries.flatMap((delivery, deliveryIndex) =>
-          typeof delivery === 'string' ? (
-            <AlternatingTableRow>
-              <TableCell scope="row">
-                <Text>
-                  <strong>{deliveryIndex + 1}</strong>
-                </Text>
-              </TableCell>
-              <TableCell>
-                <em>{delivery}</em>
-              </TableCell>
-            </AlternatingTableRow>
-          ) : (
-            batchArray(
-              [
-                ...delivery.plans.flatMap((plan, itemIndex) => {
-                  return plan.status === 'active'
-                    ? plan.meals.map((item) => (
+          delivery.plans.map((plan, planIndex) =>
+            plan.status === 'active' ? (
+              <AlternatingTableRow>
+                <TableCell>
+                  {batchArray(
+                    [
+                      ...plan.meals.map((meal, itemIndex) => (
                         <FinalizeCell
                           plan={plan}
-                          planIndex={itemIndex}
+                          planIndex={0}
                           key={`${props.customerSelection.customer.username}-${deliveryIndex}-item-${itemIndex}`}
                           deliveryIndex={deliveryIndex}
-                          index={itemIndex}
+                          index={0}
                           deliveryMeals={props.deliveryMeals}
                           allRecipes={props.allRecipes}
-                          selectedItem={item}
+                          selectedItem={meal}
                           customerSelection={props.customerSelection}
-                          onUpdate={onUpdate}
+                          onDelete={() =>
+                            props.update(
+                              deleteRecipeInSelection(
+                                props.customerSelection,
+                                deliveryIndex,
+                                planIndex,
+                                itemIndex
+                              )
+                            )
+                          }
+                          onChangeRecipe={(recipe) =>
+                            props.update(
+                              updateRecipeInSelection(
+                                props.customerSelection,
+                                recipe,
+                                deliveryIndex,
+                                planIndex,
+                                itemIndex
+                              )
+                            )
+                          }
                         />
-                      ))
-                    : [];
-                }),
-                <Button
-                  key={`${props.customerSelection.customer.username}-${deliveryIndex}-add-button`}
-                  icon={<FormAdd />}
-                  hoverIndicator={true}
-                  onClick={() => {
-                    onUpdate(
-                      deliveryIndex,
-                      props.deliveryMeals[deliveryIndex][0],
-                      planLabels[0]
-                    );
-                  }}
-                />,
-              ],
-              props.columns
-            ).map((row, batchIndex) => (
-              <AlternatingTableRow
-                style={{ width: '100%' }}
-                key={`${props.customerSelection.customer.username}-${deliveryIndex}-${batchIndex}}-row`}
-              >
-                <TableCell scope="row">
-                  {batchIndex === 0 && (
-                    <Text>
-                      <strong>{deliveryIndex + 1}</strong>
-                    </Text>
-                  )}
+                      )),
+                    ],
+                    props.columns
+                  ).map((row, batchIndex) => (
+                    <>
+                      <TableCell scope="row">
+                        {batchIndex === 0 && (
+                          <Text>
+                            <strong>
+                              D{deliveryIndex + 1} ({plan.name})
+                            </strong>
+                          </Text>
+                        )}
+                      </TableCell>
+                      {row}
+                    </>
+                  ))}
                 </TableCell>
-                {row}
               </AlternatingTableRow>
-            ))
+            ) : (
+              <AlternatingTableRow>
+                <TableCell scope="row">
+                  <Text>
+                    <strong>
+                      D{deliveryIndex + 1} ({plan.name})
+                    </strong>
+                  </Text>
+                </TableCell>
+                <TableCell scope="row">
+                  <Text>{plan.status}</Text>
+                </TableCell>
+              </AlternatingTableRow>
+            )
           )
         )}
       </TableBody>

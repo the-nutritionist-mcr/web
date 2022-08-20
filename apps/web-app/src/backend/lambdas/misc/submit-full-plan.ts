@@ -86,7 +86,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         ...customerPlan,
       }));
 
-    const batches = batchArray([plan, ...selections], 25);
+    const batches = batchArray(
+      [plan, ...recursivelySerialiseDate(selections)],
+      25
+    );
     const tableName = process.env[ENV.varNames.DynamoDBTable];
 
     await Promise.all(
