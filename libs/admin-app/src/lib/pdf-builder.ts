@@ -1,3 +1,5 @@
+/* eslint-disable fp/no-mutating-methods */
+/* eslint-disable fp/no-this */
 // eslint-disable-next-line import/no-unresolved
 import { Content, Size } from 'pdfmake/interfaces';
 import { DocumentDefinition, makePdf } from './downloadPdf';

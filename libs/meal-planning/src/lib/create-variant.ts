@@ -1,4 +1,4 @@
-import { CustomerWithChargebeePlan, Exclusion, Recipe } from '@tnmw/types';
+import { BackendCustomer, DeliveryItem, Exclusion, Recipe } from '@tnmw/types';
 import { isSelectedMeal } from './is-selected-meal';
 import { SelectedItem, SelectedMeal } from './types';
 
@@ -6,7 +6,7 @@ const hasExclusions = (exclusion: Exclusion, meal: Recipe | undefined) =>
   meal?.potentialExclusions.some((value) => value.id === exclusion.id);
 
 const createVariantString = (
-  customer: CustomerWithChargebeePlan,
+  customer: BackendCustomer,
   item: SelectedItem,
   allMeals: Recipe[]
 ): string => {
@@ -16,7 +16,7 @@ const createVariantString = (
 
   const realMeal = allMeals.find((theMeal) => theMeal.id === item.recipe.id);
 
-  const matchingExclusions = customer.exclusions.filter((allergen) => {
+  const matchingExclusions = customer.customisations.filter((allergen) => {
     return realMeal?.potentialExclusions.some(
       (value) => value.id === allergen.id
     );
@@ -30,15 +30,15 @@ const createVariantString = (
 };
 
 const createMealWithVariantString = (
-  customer: CustomerWithChargebeePlan,
+  customer: BackendCustomer,
   meal: SelectedMeal,
   allMeals: Recipe[]
 ): string =>
   `${meal.recipe.shortName}/${createVariantString(customer, meal, allMeals)}`;
 
 export const createVariant = (
-  customer: CustomerWithChargebeePlan,
-  meal: SelectedItem,
+  customer: BackendCustomer,
+  meal: DeliveryItem,
   allMeals: Recipe[]
 ): {
   customisation: boolean;
@@ -46,18 +46,18 @@ export const createVariant = (
   string: string;
   mealWithVariantString: string;
 } => {
-  if (!isSelectedMeal(meal)) {
+  if (meal.isExtra) {
     return {
       customisation: false,
       allergen: false,
-      string: meal.chosenVariant,
-      mealWithVariantString: meal.chosenVariant,
+      string: meal.extraName,
+      mealWithVariantString: meal.extraName,
     };
   }
 
   const realMeal = allMeals.find((theMeal) => theMeal.id === meal.recipe.id);
 
-  const matchingExclusions = customer.exclusions.filter((exclusion) =>
+  const matchingExclusions = customer.customisations.filter((exclusion) =>
     hasExclusions(exclusion, realMeal)
   );
 

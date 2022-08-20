@@ -1,6 +1,10 @@
-import { CustomerMealsSelection, isSelectedMeal, SelectedItem } from './types';
 import { createVariant } from './create-variant';
-import { Recipe, Customer, CustomerWithChargebeePlan } from '@tnmw/types';
+import {
+  Recipe,
+  MealPlanGeneratedForIndividualCustomer,
+  DeliveryItem,
+  BackendCustomer,
+} from '@tnmw/types';
 
 const stringifyValue = (thing: unknown) =>
   typeof thing === 'number' ? String(thing) : thing;
@@ -54,12 +58,12 @@ const formatDate = (date: Date) => {
 };
 
 const makeLabelObject = (
-  customer: CustomerWithChargebeePlan,
-  item: SelectedItem,
+  customer: BackendCustomer,
+  item: DeliveryItem,
   useByDate: Date,
   allMeals: Recipe[]
 ): Record<string, string> => {
-  if (isSelectedMeal(item)) {
+  if (!item.isExtra) {
     const variant = createVariant(customer, item, allMeals);
     const { hotOrCold } = item.recipe;
 
@@ -88,7 +92,7 @@ const makeLabelObject = (
   return {
     // eslint-disable-next-line unicorn/consistent-destructuring
     customerName: titleCase(`${customer.firstName} ${customer.surname}`),
-    mealName: titleCase(item.chosenVariant),
+    mealName: titleCase(item.extraName),
     description: '',
     allergens: '',
     itemPlan: 'Extra',
@@ -127,7 +131,7 @@ const sortFunction = (a: Record<string, string>, b: Record<string, string>) => {
 };
 
 export const generateLabelData = (
-  selections: CustomerMealsSelection,
+  selections: MealPlanGeneratedForIndividualCustomer[],
   useByDate: Date,
   allMeals: Recipe[],
   deliveryNumber: number
@@ -137,12 +141,17 @@ export const generateLabelData = (
     .flatMap((selection) => {
       const delivery = selection.deliveries[deliveryNumber];
 
-      if (typeof delivery === 'string') {
-        return [];
-      }
-
-      return delivery.map((item) =>
-        makeLabelObject(selection.customer, item, useByDate, allMeals)
+      return delivery.plans.flatMap((plan) =>
+        plan.status === 'active'
+          ? plan.meals.map((deliveryItem) =>
+              makeLabelObject(
+                selection.customer,
+                deliveryItem,
+                useByDate,
+                allMeals
+              )
+            )
+          : []
       );
     })
     // eslint-disable-next-line unicorn/no-array-callback-reference

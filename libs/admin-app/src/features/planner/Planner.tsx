@@ -6,21 +6,12 @@ import generateDeliveryPlanDocumentDefinition from '../../lib/generateDeliveryPl
 import fileDownload from 'js-file-download';
 import { generateDatestampedFilename } from '@tnmw/utils';
 import {
-  Cook,
   Recipe,
-  ChangePlanRecipeBody,
-  PlanResponseSelections,
   WeeklyCookPlan,
-  MealSelectionPayload,
   MealPlanGeneratedForIndividualCustomer,
 } from '@tnmw/types';
 import { DownloadLabelsDialog } from '@tnmw/components';
-import {
-  generateLabelData,
-  getRealRecipe,
-  isSelectedMeal,
-  makeCookPlan,
-} from '@tnmw/meal-planning';
+import { generateLabelData, makeCookPlan } from '@tnmw/meal-planning';
 import generateCsvStringFromObjectArray from '../../lib/generateCsvStringFromObjectArray';
 import { downloadPdf } from '@tnmw/pdf';
 import generateCookPlanDocumentDefinition from '../../lib/generateCookPlanDocumentDefinition';
@@ -36,25 +27,6 @@ interface PlannerProps {
 }
 
 const Planner: React.FC<PlannerProps> = (props) => {
-  /* const customerMeals = props.selections.map((selection) => ({
-    ...selection,
-    deliveries: selection.deliveries.map((delivery) =>
-      typeof delivery === 'string'
-        ? delivery
-        : delivery.map((item) =>
-            isSelectedMeal(item)
-              ? {
-                  ...item,
-                  recipe: getRealRecipe(
-                    item.recipe,
-                    selection.customer,
-                    recipes
-                  ),
-                }
-              : false
-          )
-    ),
-  }));*/
   const recipes = props.recipes;
   const [showLabelsDialog, setShowLabelDialog] = useState(false);
 
@@ -73,9 +45,8 @@ const Planner: React.FC<PlannerProps> = (props) => {
           <DownloadLabelsDialog
             onClose={() => setShowLabelDialog(false)}
             onDownload={(useBy, cook) => {
-              /*
               const data = generateLabelData(
-                customerMeals ?? [],
+                props.plan.customerPlans,
                 useBy,
                 recipes,
                 cook
@@ -84,7 +55,7 @@ const Planner: React.FC<PlannerProps> = (props) => {
               fileDownload(
                 generateCsvStringFromObjectArray(data),
                 generateDatestampedFilename('labels', 'csv')
-              );*/
+              );
             }}
           />
         )}
@@ -95,13 +66,11 @@ const Planner: React.FC<PlannerProps> = (props) => {
           label="Pack Plan"
           disabled={Boolean(!customerMeals || !recipes)}
           onClick={() => {
-            /*
             const plan = generateDeliveryPlanDocumentDefinition(
-              customerMeals ?? [],
+              props.plan.customerPlans,
               recipes
             );
             downloadPdf(plan, 'pack-plan.pdf');
-            */
           }}
         />
         <Button
@@ -110,14 +79,11 @@ const Planner: React.FC<PlannerProps> = (props) => {
           label="Cook Plan"
           disabled={Boolean(!customerMeals || !recipes)}
           onClick={() => {
-            /*
-            const plan = makeCookPlan(customerMeals ?? [], recipes);
+            const plan = makeCookPlan(props.plan.customerPlans, recipes);
             downloadPdf(
               generateCookPlanDocumentDefinition(plan),
               generateDatestampedFilename('cook-plan', 'pdf')
             );
-            */
-            // Noop
           }}
         />
         <Button

@@ -4,10 +4,12 @@ import Recipe from './Recipe';
 interface DeliveryMeal {
   isExtra: false;
   recipe: Recipe;
+  chosenVariant: string;
 }
 
 interface DeliveryExtra {
   isExtra: true;
+  extraName: string;
 }
 
 export type DeliveryItem = DeliveryMeal | DeliveryExtra;
@@ -64,6 +66,7 @@ export interface MealSelectionPayload {
 export const assertsMealSelectPayload: (
   thing: unknown
 ) => asserts thing is MealSelectionPayload = (thing) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const thingAsAny = thing as any;
 
   assertsMealSelectionForIndividualCustomer(thingAsAny.selection);
@@ -72,10 +75,11 @@ export const assertsMealSelectPayload: (
 export const assertsMealSelectionForIndividualCustomer: (
   thing: unknown
 ) => asserts thing is MealPlanGeneratedForIndividualCustomer = (thing) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const thingAsAny = thing as any;
 
   if (typeof thingAsAny.customer === 'undefined') {
-    throw new Error('Customer was undefined');
+    throw new TypeError('Customer was undefined');
   }
 };
 

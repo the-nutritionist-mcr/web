@@ -1,4 +1,5 @@
 import { CustomerWithChargebeePlan } from '..';
+import { BackendCustomer } from './backend-customer';
 import Recipe from './Recipe';
 
 type CookPlan = {
@@ -14,7 +15,7 @@ type CookPlan = {
 
 export interface RecipeVariantMap {
   [variantName: string]: {
-    customers: CustomerWithChargebeePlan[];
+    customers: BackendCustomer[];
     count: number;
     allergen: boolean;
     customisation: boolean;

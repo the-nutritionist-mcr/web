@@ -1,22 +1,22 @@
 import { SelectedItem } from './types';
 import { createVariant } from './create-variant';
 import { defaultDeliveryDays } from '@tnmw/config';
-import { isSelectedMeal } from './is-selected-meal';
 import {
-  CustomerMealsSelectionWithChargebeeCustomer,
-  CustomerWithChargebeePlan,
+  BackendCustomer,
+  DeliveryItem,
+  MealPlanGeneratedForIndividualCustomer,
   Recipe,
   RecipeVariantMap,
 } from '@tnmw/types';
 
 const updateVariantMap = (
   map: Map<string, RecipeVariantMap>,
-  customer: CustomerWithChargebeePlan,
-  item: SelectedItem,
+  customer: BackendCustomer,
+  item: DeliveryItem,
   allMeals: Recipe[]
 ) => {
   const variant = createVariant(customer, item, allMeals);
-  const key = isSelectedMeal(item) ? item.recipe.name : item.chosenVariant;
+  const key = !item.isExtra ? item.recipe.name : item.extraName;
 
   const newMap = new Map(map);
 
@@ -37,21 +37,25 @@ const updateVariantMap = (
 };
 
 export const makeCookPlan = (
-  selections: CustomerMealsSelectionWithChargebeeCustomer,
+  selections: MealPlanGeneratedForIndividualCustomer[],
   allMeals: Recipe[]
 ): Map<string, RecipeVariantMap>[] => {
   return defaultDeliveryDays.map((day, deliveryIndex) =>
     selections.reduce<Map<string, RecipeVariantMap>>(
       (startMap, customerSelections) => {
         const cook = customerSelections.deliveries[deliveryIndex];
-        if (typeof cook === 'string') {
-          return startMap;
-        }
-        return cook.reduce(
-          (map, item) =>
-            updateVariantMap(map, customerSelections.customer, item, allMeals),
-          startMap
-        );
+        return cook.plans
+          .flatMap((plan) => (plan.status === 'active' ? plan.meals : []))
+          .reduce(
+            (map, item) =>
+              updateVariantMap(
+                map,
+                customerSelections.customer,
+                item,
+                allMeals
+              ),
+            startMap
+          );
       },
       new Map()
     )

@@ -6,21 +6,23 @@ import { defaultDeliveryDays } from '@tnmw/config';
 
 import {
   Recipe,
-  CustomerMealsSelectionWithChargebeeCustomer,
-  CustomerWithChargebeePlan,
+  BackendCustomer,
+  MealPlanGeneratedForIndividualCustomer,
+  PlannedDelivery,
 } from '@tnmw/types';
 
 const COLUMNS = 6;
 
 interface CustomerMealDaySelection {
-  customer: CustomerWithChargebeePlan;
-  delivery: Delivery;
+  customer: BackendCustomer;
+  delivery: PlannedDelivery;
 }
 
 const makeRowsFromSelections = (
   customerSelections: CustomerMealDaySelection[],
   allMeals: Recipe[]
 ) =>
+  // eslint-disable-next-line fp/no-mutating-methods
   customerSelections
     .slice()
     .sort((a, b) => (a.customer.surname > b.customer.surname ? 1 : -1))
@@ -34,8 +36,13 @@ const makeRowsFromSelections = (
         typeof customerSelection.delivery !== 'string'
           ? {
               ul: Object.entries(
-                customerSelection.delivery
-                  .map((item) => item.chosenVariant)
+                customerSelection.delivery.plans
+                  .flatMap((plan) =>
+                    plan.status === 'active' ? plan.meals : []
+                  )
+                  .map((item) =>
+                    item.isExtra ? item.extraName : item.chosenVariant
+                  )
                   .reduce<Record<string, number>>(
                     (variantMap, variant) => ({
                       ...variantMap,
@@ -48,17 +55,17 @@ const makeRowsFromSelections = (
             }
           : '',
       ],
-      [],
       ...(typeof customerSelection.delivery === 'string'
         ? [customerSelection.delivery]
-        : customerSelection.delivery
+        : customerSelection.delivery.plans
+            .flatMap((plan) => (plan.status === 'active' ? plan.meals : []))
             .map((item) =>
               createVariant(customerSelection.customer, item, allMeals)
             )
             .map((item) => formatPlanItem(item.mealWithVariantString, item))),
     ]);
 
-const generateNameString = (customer: CustomerWithChargebeePlan) =>
+const generateNameString = (customer: BackendCustomer) =>
   `${customer.surname}, ${customer.firstName}`;
 
 const options = {
@@ -69,7 +76,7 @@ const options = {
 };
 
 const generateDeliveryPlanDocumentDefinition = (
-  selections: CustomerMealsSelectionWithChargebeeCustomer,
+  selections: MealPlanGeneratedForIndividualCustomer[],
   allMeals: Recipe[]
 ): DocumentDefinition => {
   const date = new Date(Date.now());
