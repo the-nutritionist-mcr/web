@@ -33,8 +33,6 @@ const ChooseMealsPage = () => {
   const { data, submitOrder } = usePlan();
   const user = useMe();
 
-  console.log(user);
-
   const recipes = data?.available
     ? data.plan.cooks.flatMap((cook) => cook.menu)
     : [];
@@ -47,9 +45,15 @@ const ChooseMealsPage = () => {
 
   useEffect(() => {
     const now = new Date(Date.now());
-  }, [data]);
 
-  console.log(data?.available, alternateRecipes);
+    if (data?.available) {
+      const go = getClosedOrOpenStatus(now, data);
+
+      if (!go) {
+        window.location.href = '/account';
+      }
+    }
+  }, [data]);
 
   if (!data?.available) {
     return <></>;
