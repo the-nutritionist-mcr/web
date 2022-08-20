@@ -1,4 +1,3 @@
-import { CustomerWithChargebeePlan } from '..';
 import { BackendCustomer } from './backend-customer';
 import Recipe from './Recipe';
 

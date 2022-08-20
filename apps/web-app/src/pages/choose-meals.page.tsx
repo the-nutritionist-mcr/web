@@ -1,11 +1,5 @@
-import { FC } from 'react';
 import { Hero, MealSelections } from '@tnmw/components';
 import { useEffect } from 'react';
-
-import {
-  authorizedRoute,
-  AuthorizedRouteProps,
-} from '../utils/authorised-route';
 
 import { usePlan, useRecipes } from '../hooks';
 import styled from 'styled-components';
