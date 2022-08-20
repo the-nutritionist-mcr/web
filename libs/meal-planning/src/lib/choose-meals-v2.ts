@@ -87,6 +87,7 @@ const selectPlanMealsForDelivery = (
   return {
     ...statusResult,
     name: plan.name,
+    isExtra: plan.isExtra,
     meals: meals.map((item, index) =>
       plan.isExtra
         ? { isExtra: true, extraName: item.name }

@@ -19,7 +19,7 @@ interface FinalizeProps {
   published: boolean;
   generatedBy: string;
   creationDate: Date;
-  update: (item: MealSelectionPayload) => Promise<void>;
+  update: (item: MealPlanGeneratedForIndividualCustomer) => Promise<void>;
 }
 
 const Finalize: React.FC<FinalizeProps> = ({
@@ -71,7 +71,7 @@ const Finalize: React.FC<FinalizeProps> = ({
               customerSelection={customerPlan}
               deliveryMeals={cooks}
               allRecipes={recipes}
-              columns={6}
+              columns={5}
               update={update}
             />
           ))

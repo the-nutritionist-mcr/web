@@ -5,6 +5,10 @@ export const customerLink = style({
   color: 'black',
 });
 
+export const subheading = style({
+  fontSize: '0.8rem',
+});
+
 export const modifiedCustomerLink = style({
   textDecoration: 'none',
   color: 'blue',

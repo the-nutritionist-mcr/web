@@ -1,39 +1,23 @@
-import { Box, Button, Select, TableCell, ThemeContext } from 'grommet';
+import { Text, Box, Button, Select, TableCell, ThemeContext } from 'grommet';
 import { Trash } from 'grommet-icons';
-import React from 'react';
 import deepMemo from '../../lib/deepMemo';
-import { itemFamilies } from '@tnmw/config';
 import {
   ActivePlanWithMeals,
   DeliveryItem,
   MealPlanGeneratedForIndividualCustomer,
-  PlanLabels,
   PlannedCook,
   Recipe,
 } from '@tnmw/types';
-import { SelectedItem } from '@tnmw/meal-planning';
 
 interface FinalizeCellProps {
   index: number;
   deliveryMeals: PlannedCook[];
   deliveryIndex: number;
-  allRecipes: Recipe[];
-  customerSelection: MealPlanGeneratedForIndividualCustomer;
   selectedItem: DeliveryItem;
   plan: ActivePlanWithMeals;
-  planIndex: number;
   onChangeRecipe: (recipe: Recipe) => void;
   onDelete: () => void;
 }
-
-const getSelectedItemString = (
-  selectedItem: DeliveryItem & { name: string }
-) => {
-  if (selectedItem.isExtra) {
-    return selectedItem.name;
-  }
-  return `${selectedItem.recipe.shortName} (${selectedItem.name})`;
-};
 
 const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
   return (
@@ -50,7 +34,7 @@ const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
           },
         }}
       >
-        <Box direction="row">
+        <Box direction="row" align="center">
           <Button
             hoverIndicator
             icon={<Trash size="small" />}
@@ -70,7 +54,7 @@ const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
               }}
             />
           ) : (
-            props.plan.name
+            <Text style={{ fontSize: '12px' }}>{props.plan.name}</Text>
           )}
         </Box>
       </ThemeContext.Extend>

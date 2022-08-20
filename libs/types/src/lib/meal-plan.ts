@@ -35,6 +35,7 @@ export interface ActivePlanWithMeals {
   name: string;
   meals: DeliveryItem[];
   pausingOn?: Date;
+  isExtra: boolean;
   cancellingOn?: Date;
 }
 
