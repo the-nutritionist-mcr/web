@@ -137,13 +137,13 @@ export const useResource = <T extends { id: string }>(
   });
   const { startLoading, stopLoading, isLoading } = useContext(LoadingContext);
 
-  if (!getData) {
-    startLoading(loadingKey);
-  }
+  // if (!getData) {
+  //   startLoading(loadingKey);
+  // }
 
-  if (getData && isLoading) {
-    stopLoading(loadingKey);
-  }
+  // if (getData && isLoading) {
+  //   stopLoading(loadingKey);
+  // }
 
   return { items: getData?.items, create, remove, update };
 };

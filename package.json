@@ -1,6 +1,7 @@
 {
   "name": "the-nutritionist-mcr-web",
   "version": "0.0.0",
+  "foo": "foo",
   "license": "MIT",
   "scripts": {
     "prepare": "husky install",

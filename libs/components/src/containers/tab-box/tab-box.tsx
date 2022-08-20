@@ -30,6 +30,7 @@ interface TabBoxProps {
   onChangeIndex?: (which: number, length: number) => void;
   defaultTab?: string;
   currentTabIndex?: number;
+  children: ReactNode;
 }
 
 const isTab = (node: ReactNode): node is ReactElement<TabProps> =>
@@ -42,7 +43,7 @@ const getTabs = (nodes: ReactNode): ReactElement<TabProps>[] =>
     isTab(node) ? node : undefined
   )?.filter(Boolean as unknown as ExcludesUndefined) ?? [];
 
-const TabBox: FC<TabBoxProps> = (props) => {
+const TabBox = (props: TabBoxProps) => {
   const tabs = getTabs(props.children);
 
   const defaultTabIndex = props.defaultTab

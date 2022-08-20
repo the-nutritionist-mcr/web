@@ -11,6 +11,7 @@ import { usePlan, useRecipes } from '../hooks';
 import styled from 'styled-components';
 import { getClosedOrOpenStatus } from '../utils/get-closed-or-open-status';
 import { RedirectIfLoggedOut } from '../components/authentication/redirect-if-logged-out';
+import { useMe } from '../hooks/use-me';
 
 const ChooseMealsHeaderBox = styled('div')`
   text-align: center;
@@ -28,8 +29,11 @@ const ChooseMealsHeader = styled('h1')`
   margin: 0.5rem 0 0 0;
 `;
 
-const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
+const ChooseMealsPage = () => {
   const { data, submitOrder } = usePlan();
+  const user = useMe();
+
+  console.log(user);
 
   const recipes = data?.available
     ? data.plan.cooks.flatMap((cook) => cook.menu)
@@ -45,7 +49,9 @@ const ChooseMealsPage: FC<AuthorizedRouteProps> = ({ user }) => {
     const now = new Date(Date.now());
   }, [data]);
 
-  if (!data?.available || !alternateRecipes) {
+  console.log(data?.available, alternateRecipes);
+
+  if (!data?.available) {
     return <></>;
   }
 

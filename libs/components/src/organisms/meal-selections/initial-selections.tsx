@@ -21,7 +21,7 @@ export type SelectedMeals = { [key: string]: number }[][];
 
 export interface InitialSelectionsProps {
   availableMeals: MealCategory[];
-  deliveryDates: string[];
+  deliveryDates: Date[];
   selectedMeals: SelectedMeals;
   categoriesThatAreNotExtrasIndexes: number[];
   setSelectedMeals: (selected: SelectedMeals) => void;

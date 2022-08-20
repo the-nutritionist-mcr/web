@@ -33,7 +33,7 @@ export interface ChooseMealsCustomer {
 
 export interface MealSelectionsProps {
   availableMeals: MealCategory[];
-  deliveryDates: string[];
+  deliveryDates: Date[];
   currentSelection: MealPlanGeneratedForIndividualCustomer;
   submitOrder: (payload: SubmitCustomerOrderPayload) => Promise<void>;
   recipes: Recipe[];

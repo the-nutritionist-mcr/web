@@ -152,7 +152,7 @@ export const usePlan = () => {
   }
 
   return {
-    data: recursivelyDeserialiseDate(data),
+    data,
     update,
     publish,
     submitOrder,

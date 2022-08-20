@@ -5,6 +5,7 @@ interface TabButtonProps {
   onClick?: () => void;
   active?: boolean;
   tabListLength: number;
+  children: ReactNode;
 }
 
 const TabButton: FC<TabButtonProps> = (props) => {

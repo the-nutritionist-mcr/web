@@ -9,16 +9,17 @@ const isSerialisedDate = (
   foo: unknown
 ): foo is { $type: 'date'; value: number } => {
   return (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     typeof (foo as any)?.value === 'string' &&
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (foo as any)?.['$type'] === 'date'
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 const isObjectType = (foo: unknown): foo is {} => {
   return foo !== null && typeof foo === 'object';
 };
-
-type ObjectType = Record<string | number | symbol, unknown>;
 
 export type SerialisedDate<T> = {
   [K in keyof T]: T[K] extends DateLike
@@ -57,6 +58,7 @@ export const recursivelySerialiseDate = <T extends {}>(
   return returnVal as SerialisedDate<T>;
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const recursivelyDeserialiseDate = <T extends {}>(
   obj: SerialisedDate<T>
 ): T => {
