@@ -1,9 +1,20 @@
-import { BackendCustomer, DeliveryItem, Exclusion, Recipe } from '@tnmw/types';
-import { isSelectedMeal } from './is-selected-meal';
+import {
+  BackendCustomer,
+  DeliveryItem,
+  DeliveryMeal,
+  Exclusion,
+  Recipe,
+} from '@tnmw/types';
 import { SelectedItem, SelectedMeal } from './types';
 
 const hasExclusions = (exclusion: Exclusion, meal: Recipe | undefined) =>
   meal?.potentialExclusions.some((value) => value.id === exclusion.id);
+
+const isSelectedMeal = (item: unknown): item is DeliveryMeal => {
+  const itemAsAny = item as any;
+
+  return !itemAsAny.isExtra;
+};
 
 const createVariantString = (
   customer: BackendCustomer,
@@ -46,7 +57,7 @@ export const createVariant = (
   string: string;
   mealWithVariantString: string;
 } => {
-  if (meal.isExtra) {
+  if (!isSelectedMeal(meal)) {
     return {
       customisation: false,
       allergen: false,

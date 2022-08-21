@@ -4,6 +4,7 @@ import {
   MealPlanGeneratedForIndividualCustomer,
   DeliveryItem,
   BackendCustomer,
+  DeliveryMeal,
 } from '@tnmw/types';
 
 const stringifyValue = (thing: unknown) =>
@@ -57,13 +58,19 @@ const formatDate = (date: Date) => {
   )}/${convertToStringWithLeadingZero(month)}/${year}`;
 };
 
+const isSelectedMeal = (item: unknown): item is DeliveryMeal => {
+  const itemAsAny = item as any;
+
+  return !itemAsAny.isExtra;
+};
+
 const makeLabelObject = (
   customer: BackendCustomer,
   item: DeliveryItem,
   useByDate: Date,
   allMeals: Recipe[]
 ): Record<string, string> => {
-  if (!item.isExtra) {
+  if (isSelectedMeal(item)) {
     const variant = createVariant(customer, item, allMeals);
     const { hotOrCold } = item.recipe;
 

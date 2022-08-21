@@ -3,10 +3,17 @@ import { defaultDeliveryDays } from '@tnmw/config';
 import {
   BackendCustomer,
   DeliveryItem,
+  DeliveryMeal,
   MealPlanGeneratedForIndividualCustomer,
   Recipe,
   RecipeVariantMap,
 } from '@tnmw/types';
+
+const isSelectedMeal = (item: unknown): item is DeliveryMeal => {
+  const itemAsAny = item as any;
+
+  return !itemAsAny.isExtra;
+};
 
 const updateVariantMap = (
   map: Map<string, RecipeVariantMap>,
@@ -15,7 +22,7 @@ const updateVariantMap = (
   allMeals: Recipe[]
 ) => {
   const variant = createVariant(customer, item, allMeals);
-  const key = !item.isExtra ? item.recipe.name : item.extraName;
+  const key = isSelectedMeal(item) ? item.recipe.name : item.extraName;
 
   const newMap = new Map(map);
 
