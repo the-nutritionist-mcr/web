@@ -12,7 +12,7 @@ import { HttpError } from '../data-api/http-error';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
-    const { groups, username } = await authoriseJwt(event, ['admin']);
+    const { groups, username } = await authoriseJwt(event);
     const marshallOptions = {
       removeUndefinedValues: true,
     };

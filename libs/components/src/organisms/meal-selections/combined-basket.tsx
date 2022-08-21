@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { defaultDeliveryDays } from '@tnmw/config';
 import { totalOtherSelected } from './total-other-selected';
 import {
-  BackendCustomer,
   MealPlanGeneratedForIndividualCustomer,
   PlannedCook,
   PlanWithMeals,
@@ -73,20 +72,21 @@ const CombinedBasket = ({
 
           return (
             <Basket
+              key={`${standardPlan.id}-${dayIndex}-basket`}
               plan={standardPlan}
               itemWord="meal"
               customer={currentSelection.customer}
               title={`${standardPlan.name} - Delivery ${dayIndex + 1}`}
               itemWordPlural="meals"
               things={recipes}
-              setSelected={(selected) =>
+              setSelected={(selected) => {
                 updateAllSelectedMeals(
                   selected,
                   currentSelection,
                   setSelectedMeals,
                   dayIndex
-                )
-              }
+                );
+              }}
               selected={chosenSelection}
               max={
                 standardPlan.totalMeals -

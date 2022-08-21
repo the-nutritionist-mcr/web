@@ -9,6 +9,7 @@ export const updateAllSelectedMeals = (
   setSelected: (newPlan: MealPlanGeneratedForIndividualCustomer) => void,
   dayIndex: number
 ) => {
+  console.log(selected);
   setSelected({
     ...currentSelection,
     deliveries: currentSelection.deliveries.map((delivery, dIndex) => {

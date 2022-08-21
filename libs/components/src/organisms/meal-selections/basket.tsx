@@ -44,14 +44,7 @@ const BasketHeader = styled.h3`
 `;
 
 const Basket = (props: BasketProps) => {
-  const [counts, setCounts] = useState(countsFromPlans(props.selected));
-  useEffect(() => {
-    props.setSelected({
-      ...props.selected,
-      meals: planFromCounts(counts, props.things, props.plan.name),
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [counts]);
+  const counts = countsFromPlans(props.selected);
 
   const totalSelected = props.selected.meals.length;
 
@@ -79,11 +72,7 @@ const Basket = (props: BasketProps) => {
       {props.things.map((thing) => {
         const realRecipe = getRealRecipe(thing, props.customer, props.things);
 
-        const countOfThisRecipe = props.selected.meals.filter(
-          (meal) => !meal.isExtra && meal.recipe.id === thing.id
-        ).length;
-
-        if (countOfThisRecipe === 0) {
+        if (!counts[thing.id]) {
           return null;
         }
 
@@ -93,12 +82,12 @@ const Basket = (props: BasketProps) => {
             label={realRecipe.name}
             value={counts[thing.id]}
             min={0}
-            max={max + countOfThisRecipe}
+            max={max + counts[thing.id]}
             onChange={(value) => {
-              setCounts({ ...counts, [thing.id]: value });
+              const newCounts = { ...counts, [thing.id]: value };
               props.setSelected({
                 ...props.selected,
-                meals: planFromCounts(counts, props.things, props.plan.name),
+                meals: planFromCounts(newCounts, props.things, props.plan.name),
               });
             }}
           />

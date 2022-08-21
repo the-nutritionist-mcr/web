@@ -15,7 +15,6 @@ import {
   PlanWithMeals,
   Recipe,
   StandardPlan,
-  WeeklyCookPlanWithoutCustomerPlans,
 } from '@tnmw/types';
 
 interface ConfirmSelectionsProps {

@@ -24,7 +24,7 @@ const ChooseMealsHeader = styled('h1')`
 `;
 
 const ChooseMealsPage = () => {
-  const { data, submitOrder } = usePlan();
+  const { data, update } = usePlan();
   const user = useMe();
 
   const recipes = data?.available
@@ -68,7 +68,7 @@ const ChooseMealsPage = () => {
         plan={data.plan}
         currentSelection={data.currentUserSelection}
         cooks={data.plan.cooks}
-        submitOrder={submitOrder}
+        submitOrder={update}
         recipes={[...recipes, ...(alternateRecipes ?? [])]}
         customer={user}
       />

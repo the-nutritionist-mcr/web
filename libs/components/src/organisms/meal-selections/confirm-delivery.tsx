@@ -1,4 +1,3 @@
-import { Meal } from './meal';
 import {
   deliveryNumberHeader,
   sectionContainer,

@@ -53,7 +53,6 @@ export const usePlan = () => {
   };
 
   const publishPlan = async (): Promise<void> => {
-    console.log('called publishPlan');
     try {
       const args = {
         method: HTTP.verbs.Post,
@@ -62,7 +61,6 @@ export const usePlan = () => {
           sort: data.available && data.sort,
         }),
       };
-      console.log(args);
       await swrFetcher('plan/publish', args);
     } catch (error) {
       console.log(error);

@@ -5,9 +5,6 @@ import TabButton from './tab-button';
 import MealList from './meal-list';
 import { totalOtherSelected } from './total-other-selected';
 import {
-  ActivePlanWithMeals,
-  BackendCustomer,
-  Customer,
   MealPlanGeneratedForIndividualCustomer,
   PlannedCook,
   PlanWithMeals,
@@ -48,51 +45,52 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
         currentTabIndex={props.currentTabIndex}
         onChangeIndex={props.onChangeIndex}
       >
-        {props.currentSelection.customer.plans.flatMap(
-          (category, planIndex) => {
-            return defaultDeliveryDays.flatMap((_, dayIndex) => {
-              const chosenSelection = getActivePlan(
-                props.currentSelection.deliveries[dayIndex].plans,
-                category
-              );
+        {props.currentSelection.customer.plans.flatMap((category) => {
+          return defaultDeliveryDays.flatMap((_, dayIndex) => {
+            const chosenSelection = getActivePlan(
+              props.currentSelection.deliveries[dayIndex].plans,
+              category
+            );
 
-              if (!chosenSelection) {
-                return [];
-              }
+            if (!chosenSelection) {
+              return [];
+            }
 
-              return chosenSelection.status === 'active' &&
-                !chosenSelection.isExtra ? (
-                <Tab tabTitle={`Delivery ${dayIndex + 1} ${category.name}`}>
-                  <MealList
-                    customer={props.currentSelection.customer}
-                    recipes={props.recipes}
-                    things={props.cooks[dayIndex].menu}
-                    selected={chosenSelection}
-                    plan={category}
-                    setSelected={(selected) => {
-                      updateAllSelectedMeals(
-                        selected,
-                        props.currentSelection,
-                        props.setSelectedMeals,
-                        dayIndex
-                      );
-                    }}
-                    max={
-                      category.totalMeals -
-                      totalOtherSelected(
-                        props.currentSelection,
-                        chosenSelection,
-                        category
-                      )
-                    }
-                  />
-                </Tab>
-              ) : (
-                []
-              );
-            });
-          }
-        )}
+            return chosenSelection.status === 'active' &&
+              !chosenSelection.isExtra ? (
+              <Tab
+                tabTitle={`Delivery ${dayIndex + 1} ${category.name}`}
+                key={`${category.id}-${dayIndex}-tab`}
+              >
+                <MealList
+                  customer={props.currentSelection.customer}
+                  recipes={props.recipes}
+                  things={props.cooks[dayIndex].menu}
+                  selected={chosenSelection}
+                  plan={category}
+                  setSelected={(selected) => {
+                    updateAllSelectedMeals(
+                      selected,
+                      props.currentSelection,
+                      props.setSelectedMeals,
+                      dayIndex
+                    );
+                  }}
+                  max={
+                    category.totalMeals -
+                    totalOtherSelected(
+                      props.currentSelection,
+                      chosenSelection,
+                      category
+                    )
+                  }
+                />
+              </Tab>
+            ) : (
+              []
+            );
+          });
+        })}
       </TabBox>
       <CombinedBasket
         cooks={props.cooks}

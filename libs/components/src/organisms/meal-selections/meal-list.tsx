@@ -4,11 +4,9 @@ import { getRealRecipe } from '@tnmw/meal-planning';
 import {
   ActivePlanWithMeals,
   BackendCustomer,
-  DeliveryItem,
   Recipe,
   StandardPlan,
 } from '@tnmw/types';
-import { useEffect, useState } from 'react';
 import { countsFromPlans } from './count-from-plans';
 import { planFromCounts } from './plan-from-counts';
 
@@ -23,15 +21,7 @@ interface MealListProps {
 }
 
 const MealList = (props: MealListProps) => {
-  const [counts, setCounts] = useState(countsFromPlans(props.selected));
-
-  useEffect(() => {
-    props.setSelected({
-      ...props.selected,
-      meals: planFromCounts(counts, props.things, props.plan.name),
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [counts]);
+  const counts = countsFromPlans(props.selected);
 
   const max = props.max - props.selected.meals.length;
 
@@ -54,10 +44,10 @@ const MealList = (props: MealListProps) => {
             min={0}
             max={max + countOfThisRecipe}
             onChange={(value) => {
-              setCounts({ ...counts, [thing.id]: value });
+              const newCounts = { ...counts, [thing.id]: value };
               props.setSelected({
                 ...props.selected,
-                meals: planFromCounts(counts, props.things, props.plan.name),
+                meals: planFromCounts(newCounts, props.things, props.plan.name),
               });
             }}
           />

@@ -1,22 +1,15 @@
 import { FC, useState } from 'react';
 import styled from '@emotion/styled';
 import { defaultDeliveryDays } from '@tnmw/config';
-import { MealCategory } from './meal-category';
 import { Button } from '../../atoms';
 import { CONTACT_EMAIL } from '@tnmw/constants';
 import { ParagraphText } from '@tnmw/components';
 import { InitialSelections } from './initial-selections';
 import { ConfirmSelections } from './confirm-selections';
-import { remainingMeals } from './count-meals';
 import {
-  Customer,
   Recipe,
-  Alternate,
-  StoredMealSelection,
-  SubmitCustomerOrderPayload,
   BackendCustomer,
   PlannedCook,
-  WeeklyCookPlan,
   WeeklyCookPlanWithoutCustomerPlans,
 } from '@tnmw/types';
 import {
@@ -37,7 +30,9 @@ export interface MealSelectionsProps {
   plan: WeeklyCookPlanWithoutCustomerPlans;
   currentSelection: MealPlanGeneratedForIndividualCustomer;
   cooks: PlannedCook[];
-  submitOrder: (payload: SubmitCustomerOrderPayload) => Promise<void>;
+  submitOrder: (
+    payload: MealPlanGeneratedForIndividualCustomer
+  ) => Promise<void>;
   recipes: Recipe[];
   customer: BackendCustomer;
 }
@@ -66,30 +61,19 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
     (category) => !category.isExtra
   );
 
-  // const availableMeals = props.cooks.flatMap((cook) => cook.menu);
+  const remainingWithoutExtras = countRemainingMeals(
+    selectedMeals,
+    props.customer.plans
+  );
 
-  // const optionsWithSelectionsWithoutExtras = getOptionsWithSelections(
-  //   availableMealCategoriesWithoutExtras,
-  //   selectedMealsWithoutExtras,
-  //   availableMeals
-  // );
-
-  // const optionsWithSelectionsWithExtras = getOptionsWithSelections(
-  //   props.availableMeals,
-  //   selectedMeals,
-  //   availableMeals
-  // );
-
-  const remaining = countRemainingMeals(selectedMeals, props.customer.plans);
-
-  const totalRemaining = Object.values(remaining).reduce(
+  const totalRemaining = Object.values(remainingWithoutExtras).reduce(
     (total, value) => total + value,
     0
   );
 
   const remainingBreakdownString =
-    Object.values(remaining).length > 1
-      ? ` - (${Object.entries(remaining)
+    Object.values(remainingWithoutExtras).length > 1
+      ? ` - (${Object.entries(remainingWithoutExtras)
           .map(([name, total]) => `${total} ${name}`)
           .join(', ')})`
       : ``;
@@ -108,34 +92,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
       setShowConfirm(true);
     } else {
       setSubmittingOrder(true);
-      /*
-      const payload: SubmitCustomerOrderPayload = {
-        plan: props.currentSelection.id,
-        sort: props.currentSelection.sort,
-        deliveries: defaultDeliveryDays.map((day, index) => {
-          return optionsWithSelectionsWithExtras.flatMap((category) =>
-            category.selections[index]
-              .map((recipe) => {
-                const foundRecipe = props.recipes.find(
-                  (straw) => recipe.id === straw.id
-                );
-                return foundRecipe
-                  ? {
-                      recipe: foundRecipe,
-                      chosenVariant: category.title,
-                    }
-                  : {
-                      chosenVariant: recipe.name,
-                    };
-              })
-              // eslint-disable-next-line unicorn/no-array-callback-reference
-              .filter(hasThing)
-          );
-        }),
-      };
-
-      await props.submitOrder(payload);
-      */
+      await props.submitOrder({ ...selectedMeals, wasUpdatedByCustomer: true });
       setSubmittingOrder(false);
       setComplete(true);
     }
@@ -153,10 +110,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
     margin-top: 1rem;
   `;
 
-  // const continueButtonDisabled =
-  //   tabIndex === tabs - 1 && remainingWithoutExtras !== 0;
-  //
-  const continueButtonDisabled = false;
+  const continueButtonDisabled = tabIndex === tabs - 1 && totalRemaining !== 0;
 
   const continueText = continueButtonDisabled
     ? 'Select more meals'

@@ -1,6 +1,4 @@
-import { ParagraphText } from '../../atoms';
 import { QuantityStepper } from '../../molecules';
-import styled from '@emotion/styled';
 import { uniqueId } from 'lodash';
 import { FC } from 'react';
 import {
