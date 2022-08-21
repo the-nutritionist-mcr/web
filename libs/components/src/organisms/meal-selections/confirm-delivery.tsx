@@ -10,33 +10,34 @@ import {
   itemCountNumber,
   deliveryContainer,
 } from './confirm-delivery.css';
-import { Recipe } from '@tnmw/types';
-import { ChooseMealsCustomer } from './meal-selections';
+import { ActivePlanWithMeals, BackendCustomer, Recipe } from '@tnmw/types';
 import { getRealRecipe } from '@tnmw/meal-planning';
+import { countsFromPlans } from './count-from-plans';
 
 interface Section {
   name: string;
-  meals: Meal[];
+  meals: ActivePlanWithMeals;
 }
 
 interface ConfirmDeliveryProps {
   deliveryNumber: number;
   sections: Section[];
-  customer: ChooseMealsCustomer;
+  customer: BackendCustomer;
   recipes: Recipe[];
 }
 
-const combineDuplicates = (meals: Meal[]): [Meal, number][] => {
-  return meals.reduce<[Meal, number][]>((accum, meal) => {
-    const index = accum.findIndex((item) => item[0].id === meal.id);
-    if (index !== -1) {
-      accum[index][1]++;
-    } else {
-      // eslint-disable-next-line fp/no-mutating-methods
-      accum.push([meal, 1]);
-    }
-    return accum;
-  }, []);
+const getMealTitle = (
+  id: string,
+  recipes: Recipe[],
+  customer: BackendCustomer
+) => {
+  const recipe = recipes.find((recipe) => recipe.id === id);
+  if (!recipe) {
+    return id.toLocaleLowerCase();
+  }
+  const realMeal = getRealRecipe(recipe, customer, recipes);
+
+  return realMeal?.name?.toLocaleLowerCase();
 };
 
 export const ConfirmDelivery = (props: ConfirmDeliveryProps) => {
@@ -47,26 +48,23 @@ export const ConfirmDelivery = (props: ConfirmDeliveryProps) => {
         <div className={sectionContainer}>
           <h5 className={sectionHeader}>{section.name}</h5>
           <ul>
-            {section.meals.length === 0 ? (
+            {section.meals.meals.length === 0 ? (
               <li className={noMealsLi}>Empty</li>
             ) : (
-              combineDuplicates(section.meals).map((meal) => {
-                const realMeal = getRealRecipe(
-                  meal[0],
-                  props.customer,
-                  props.recipes
-                );
-                return (
-                  <li className={mealSelectionLi}>
-                    <div className={itemCount}>
-                      <div className={itemCountNumber}>{meal[1]}</div>
-                    </div>
-                    <div className={mealTitle}>
-                      {realMeal?.name?.toLocaleLowerCase()}
-                    </div>
-                  </li>
-                );
-              })
+              Object.entries(countsFromPlans(section.meals)).flatMap(
+                ([id, count]) => {
+                  return (
+                    <li className={mealSelectionLi}>
+                      <div className={itemCount}>
+                        <div className={itemCountNumber}>{count}</div>
+                      </div>
+                      <div className={mealTitle}>
+                        {getMealTitle(id, props.recipes, props.customer)}
+                      </div>
+                    </li>
+                  );
+                }
+              )
             )}
           </ul>
         </div>

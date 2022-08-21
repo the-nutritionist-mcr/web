@@ -5,7 +5,6 @@ export { usePlan } from './use-plans';
 export const useCustomisations = () => useResource<Exclusion>('customisation');
 
 export const useRecipes = (ids?: string[]) => {
-  console.log(ids);
   const result = useResource<Recipe>('recipe', ids);
 
   return {

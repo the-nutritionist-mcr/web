@@ -246,13 +246,12 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
               Your choices have been submitted!
             </p>
           )}
-          {/*
           <ConfirmSelections
             recipes={props.recipes}
             customer={props.customer}
             complete={complete}
-            selectedMeals={optionsWithSelectionsWithExtras}
-          /> */}
+            selectedMeals={selectedMeals}
+          />
         </div>
       )}
     </DivContainer>

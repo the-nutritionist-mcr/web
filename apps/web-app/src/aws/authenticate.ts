@@ -12,8 +12,6 @@ const getConfigurer = () => {
       // eslint-disable-next-line fp/no-mutation
       config = await getAppConfig();
 
-      console.log(config);
-
       const domain = process.env.NEXT_PUBLIC_IS_LOCAL_DEV
         ? 'localhost'
         : config.DomainName;
@@ -34,7 +32,6 @@ const getConfigurer = () => {
         },
       };
 
-      console.log(`Auth configuration`, JSON.stringify(authConfig, null, 2));
       Auth.configure(authConfig);
     }
     return config;

@@ -1,21 +1,37 @@
-import {
-  MealPlanGeneratedForIndividualCustomer,
-  StandardPlan,
-} from '@tnmw/types';
-import { MealCategoryWithSelections } from './meal-category';
+import { MealPlanGeneratedForIndividualCustomer } from '@tnmw/types';
+import { countMealsInPlans } from './count-plans';
 
-export const countMeals = (categories: MealCategoryWithSelections[]) =>
-  categories.reduce(
-    (accumcategory, category) =>
-      accumcategory +
-      category.selections.reduce(
-        (accum, delivery) =>
-          accum + delivery.reduce((accum2, meal) => accum2 + 1, 0),
+export const countMeals = (
+  selections: MealPlanGeneratedForIndividualCustomer
+) => {
+  const nonExtraMealCount = selections.deliveries.reduce(
+    (totalMeals, delivery) =>
+      totalMeals +
+      delivery.plans.reduce(
+        (mealsInDelivery, plan) =>
+          (plan.status === 'active' && !plan.isExtra
+            ? countMealsInPlans(plan)
+            : 0) + mealsInDelivery,
         0
       ),
     0
   );
 
-export const remainingMeals = (categories: MealCategoryWithSelections[]) =>
-  categories.reduce((total, category) => total + category.maxMeals, 0) -
-  countMeals(categories);
+  const extraMealCount = selections.deliveries.reduce(
+    (totalMeals, delivery) =>
+      totalMeals +
+      delivery.plans.reduce(
+        (mealsInDelivery, plan) =>
+          (plan.status === 'active' && plan.isExtra
+            ? countMealsInPlans(plan)
+            : 0) + mealsInDelivery,
+        0
+      ),
+    0
+  );
+
+  return {
+    meals: nonExtraMealCount,
+    extras: extraMealCount,
+  };
+};

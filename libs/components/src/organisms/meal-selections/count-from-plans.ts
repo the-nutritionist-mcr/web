@@ -6,10 +6,7 @@ type Counts = {
 
 export const countsFromPlans = (plan: ActivePlanWithMeals) => {
   return plan.meals.reduce<Counts>((accum, meal) => {
-    if (meal.isExtra) {
-      return {};
-    }
-    const id = meal.recipe.id;
+    const id = meal.isExtra ? meal.extraName : meal.recipe.id;
 
     return id in accum
       ? { ...accum, [id]: accum[id] + 1 }

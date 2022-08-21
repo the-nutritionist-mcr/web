@@ -26,7 +26,6 @@ export const swrFetcher = async <T>(
   path: string,
   init?: RequestInit
 ): Promise<T> => {
-  console.log(`path`, path);
   const { ApiDomainName: domainName } = await getAppConfig();
 
   const finalInit = await getFetchInit(init);
@@ -34,7 +33,6 @@ export const swrFetcher = async <T>(
   const response = await fetch(fullPath, finalInit);
 
   const data = await response.json();
-  console.log(fullPath);
 
   if (!response.ok) {
     const error = new HttpError(
