@@ -3,13 +3,16 @@ import { defaultDeliveryDays } from '@tnmw/config';
 import { Tab, TabBox } from '../../containers';
 import CombinedBasket from './combined-basket';
 import TabButton from './tab-button';
-import { MealCategory } from './meal-category';
 import MealList from './meal-list';
 import { setSelected } from './set-selected';
 import { totalOtherSelected } from './total-other-selected';
-import { ParagraphText } from '../../atoms';
-import { BackendCustomer, Customer, Recipe } from '@tnmw/types';
-import { ChooseMealsCustomer } from './meal-selections';
+import {
+  BackendCustomer,
+  Customer,
+  MealPlanGeneratedForIndividualCustomer,
+  PlannedCook,
+  Recipe,
+} from '@tnmw/types';
 
 const GridParent = styled.div`
   display: grid;
@@ -20,16 +23,12 @@ const GridParent = styled.div`
 export type SelectedMeals = { [key: string]: number }[][];
 
 export interface InitialSelectionsProps {
-  availableMeals: MealCategory[];
-  deliveryDates: Date[];
-  selectedMeals: SelectedMeals;
-  categoriesThatAreNotExtrasIndexes: number[];
-  setSelectedMeals: (selected: SelectedMeals) => void;
+  currentSelection: MealPlanGeneratedForIndividualCustomer;
+  setSelectedMeals: (newPlan: MealPlanGeneratedForIndividualCustomer) => void;
   currentTabIndex: number;
-  remainingMeals: number;
   onChangeIndex: (index: number) => void;
   recipes: Recipe[];
-  customer: BackendCustomer;
+  cooks: PlannedCook[];
 }
 
 export const InitialSelections = (props: InitialSelectionsProps) => {
@@ -40,46 +39,56 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
         currentTabIndex={props.currentTabIndex}
         onChangeIndex={props.onChangeIndex}
       >
-        {props.availableMeals.flatMap((category, categoryIndex) => {
-          return defaultDeliveryDays.map((_, dayIndex) => {
-            const selected = props.selectedMeals[categoryIndex][dayIndex];
-            return !props.categoriesThatAreNotExtrasIndexes.includes(
-              categoryIndex
-            ) ? null : (
-              <Tab tabTitle={`Delivery ${dayIndex + 1} ${category.title}`}>
-                {selected ? (
+        {props.currentSelection.customer.plans.flatMap(
+          (category, planIndex) => {
+            return defaultDeliveryDays.map((_, dayIndex) => {
+              const chosenSelection =
+                props.currentSelection.deliveries[dayIndex].plans[planIndex];
+
+              return chosenSelection.status === 'active' &&
+                !chosenSelection.isExtra ? (
+                <Tab tabTitle={`Delivery ${dayIndex + 1} ${category.name}`}>
                   <MealList
-                    customer={props.customer}
+                    customer={props.currentSelection.customer}
                     recipes={props.recipes}
-                    things={category.options[dayIndex]}
-                    selected={selected}
+                    things={props.cooks[dayIndex].menu}
+                    selected={chosenSelection}
+                    plan={category}
                     setSelected={(selected) => {
-                      console.log(selected);
-                      setSelected(
-                        selected,
-                        props.selectedMeals,
-                        categoryIndex,
-                        dayIndex,
-                        props.setSelectedMeals
-                      );
+                      props.setSelectedMeals({
+                        ...props.currentSelection,
+                        deliveries: props.currentSelection.deliveries.map(
+                          (delivery, dIndex) => {
+                            return dIndex !== dayIndex
+                              ? delivery
+                              : {
+                                  ...delivery,
+                                  plans: delivery.plans.map((plan, pIndex) =>
+                                    pIndex !== planIndex ? plan : selected
+                                  ),
+                                };
+                          }
+                        ),
+                      });
                     }}
                     max={
-                      category.maxMeals -
+                      category.totalMeals -
                       totalOtherSelected(
-                        props.selectedMeals,
-                        categoryIndex,
+                        props.currentSelection,
+                        planIndex,
                         dayIndex
                       )
                     }
                   />
-                ) : (
-                  <ParagraphText>Currently Paused</ParagraphText>
-                )}
-              </Tab>
-            );
-          });
-        })}
+                </Tab>
+              ) : (
+                []
+              );
+            });
+          }
+        )}
       </TabBox>
+      {/*
       <CombinedBasket
         availableMeals={props.availableMeals}
         customer={props.customer}
@@ -90,6 +99,7 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
           props.categoriesThatAreNotExtrasIndexes
         }
       />
+      */}
     </GridParent>
   );
 };

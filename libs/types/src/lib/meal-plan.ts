@@ -1,13 +1,13 @@
 import { BackendCustomer } from './backend-customer';
 import Recipe from './Recipe';
 
-interface DeliveryMeal {
+export interface DeliveryMeal {
   isExtra: false;
   recipe: Recipe;
   chosenVariant: string;
 }
 
-interface DeliveryExtra {
+export interface DeliveryExtra {
   isExtra: true;
   extraName: string;
 }
@@ -35,6 +35,7 @@ interface PausedPlan {
 export interface ActivePlanWithMeals {
   status: 'active';
   name: string;
+  planId: string;
   meals: DeliveryItem[];
   pausingOn?: Date;
   isExtra: boolean;

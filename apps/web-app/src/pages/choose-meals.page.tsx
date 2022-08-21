@@ -49,18 +49,13 @@ const ChooseMealsPage = () => {
     }
   }, [data]);
 
-  if (!data?.available) {
+  if (!user) {
     return <></>;
   }
 
-  const meals = user.plans
-    .filter((plan) => plan.totalMeals > 0)
-    .map((plan) => ({
-      title: plan.name,
-      isExtra: plan.isExtra,
-      maxMeals: plan.totalMeals,
-      options: data.plan.cooks.map((cook) => cook.menu),
-    }));
+  if (!data?.available) {
+    return <></>;
+  }
 
   return (
     <RedirectIfLoggedOut redirectTo="/login">
@@ -70,12 +65,12 @@ const ChooseMealsPage = () => {
         </ChooseMealsHeaderBox>
       </Hero>
       <MealSelections
+        plan={data.plan}
         currentSelection={data.currentUserSelection}
+        cooks={data.plan.cooks}
         submitOrder={submitOrder}
         recipes={[...recipes, ...(alternateRecipes ?? [])]}
         customer={user}
-        availableMeals={meals}
-        deliveryDates={data.plan.cooks.map((cook) => cook.date)}
       />
     </RedirectIfLoggedOut>
   );

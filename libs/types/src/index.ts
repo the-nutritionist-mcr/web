@@ -15,7 +15,7 @@ export type { SubmitCustomerOrderPayload } from './lib/submit-customer-order';
 export { isChangePlanRecipeBody } from './lib/change-plan-recipe-body';
 export { isPublishPlanBody } from './lib/publish-plan-body';
 
-export { Delivery as NewDelivery } from './lib/customer-meal-selection';
+export type { Delivery as NewDelivery } from './lib/customer-meal-selection';
 
 export type { default as DeliveryMealsSelection } from './lib/delivery-meal-selection';
 export type { PlanCategory } from './lib/plan-category';
@@ -77,5 +77,7 @@ export type {
   DeliveryItem,
   ActivePlanWithMeals,
   StoredMealPlanGeneratedForIndividualCustomer,
+  DeliveryMeal,
+  DeliveryExtra,
   MealSelectionPayload,
 } from './lib/meal-plan';

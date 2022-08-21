@@ -65,6 +65,13 @@ const QuantityStepper: FC<QuantityStepperProps> = (props) => {
     />
   );
 
+  console.log({
+    plusDisabled,
+    minusDisabled,
+    [`props.value`]: props.value,
+    [`props.max`]: props.max,
+  });
+
   const plusButton = (
     <IconButton
       onClick={() => {

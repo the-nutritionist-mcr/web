@@ -1,4 +1,3 @@
-import { SelectedItem } from './types';
 import { createVariant } from './create-variant';
 import { defaultDeliveryDays } from '@tnmw/config';
 import {

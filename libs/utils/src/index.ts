@@ -11,3 +11,5 @@ export {
   recursivelySerialiseDate,
   recursivelyDeserialiseDate,
 } from './lib/recursively-serialise-date';
+
+export { removeNullish } from './lib/remove-nullish';

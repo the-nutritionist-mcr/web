@@ -7,6 +7,7 @@ export type SubscriptionStatus =
   | 'cancelled';
 
 export interface StandardPlan {
+  id: string;
   name: string;
   daysPerWeek: number;
   itemsPerDay: number;

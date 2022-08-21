@@ -88,6 +88,7 @@ const selectPlanMealsForDelivery = (
   return {
     ...statusResult,
     name: plan.name,
+    planId: plan.id,
     isExtra: plan.isExtra,
     meals: meals.map((item, index) =>
       plan.isExtra
@@ -150,6 +151,7 @@ export const makeMissingStandardPlansFromCustomPlan = (
   );
 
   return missing.map((name) => ({
+    id: '0',
     name,
     daysPerWeek: 0,
     itemsPerDay: 0,

@@ -1,4 +1,4 @@
-import { BackendCustomer, Customer } from '@tnmw/types';
+import { BackendCustomer } from '@tnmw/types';
 
 interface Meal {
   id?: string;
@@ -30,7 +30,7 @@ const findAlternate = (
 
 export const getRealRecipe = (
   recipe: Meal,
-  customer: { customisations?: BackendCustomer['customisations'] },
+  customer: BackendCustomer,
   recipes: Meal[],
   recipeIds?: Set<string>
 ): Meal => {

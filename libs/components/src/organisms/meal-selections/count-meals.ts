@@ -1,3 +1,7 @@
+import {
+  MealPlanGeneratedForIndividualCustomer,
+  StandardPlan,
+} from '@tnmw/types';
 import { MealCategoryWithSelections } from './meal-category';
 
 export const countMeals = (categories: MealCategoryWithSelections[]) =>

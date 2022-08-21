@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
-import { FC } from 'react';
+import { ReactNode } from 'react';
 
 export interface TabProps {
   tabTitle: string;
+  children: ReactNode;
 }
 
 const TabContents = styled.div`
@@ -10,7 +11,7 @@ const TabContents = styled.div`
   text-align: right;
 `;
 
-const Tab: FC<TabProps> = (props) => {
+const Tab = (props: TabProps) => {
   return <TabContents role="tabpanel">{props.children}</TabContents>;
 };
 

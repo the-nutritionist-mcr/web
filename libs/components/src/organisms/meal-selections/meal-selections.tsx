@@ -15,8 +15,10 @@ import {
   StoredMealSelection,
   SubmitCustomerOrderPayload,
   BackendCustomer,
+  PlannedCook,
+  WeeklyCookPlan,
+  WeeklyCookPlanWithoutCustomerPlans,
 } from '@tnmw/types';
-import { isSelectedMeal } from '@tnmw/meal-planning';
 import {
   container,
   header,
@@ -25,16 +27,17 @@ import {
 } from './initial-selections.css';
 import { goAheadAndSubmit } from './confirm-selections-container.css';
 import { Meal } from './meal';
-import { MealPlanGeneratedForIndividualCustomer } from 'libs/types/src/lib/meal-plan';
+import { MealPlanGeneratedForIndividualCustomer } from '@tnmw/types';
+import { countRemainingMeals } from './count-remaining-meals';
 
 export interface ChooseMealsCustomer {
   customisations?: BackendCustomer['customisations'];
 }
 
 export interface MealSelectionsProps {
-  availableMeals: MealCategory[];
-  deliveryDates: Date[];
+  plan: WeeklyCookPlanWithoutCustomerPlans;
   currentSelection: MealPlanGeneratedForIndividualCustomer;
+  cooks: PlannedCook[];
   submitOrder: (payload: SubmitCustomerOrderPayload) => Promise<void>;
   recipes: Recipe[];
   customer: BackendCustomer;
@@ -112,47 +115,47 @@ const getOptionsWithSelections = (
 
 const MealSelections: FC<MealSelectionsProps> = (props) => {
   const [showConfirm, setShowConfirm] = useState(false);
-  const [selectedMeals, setSelectedMeals] = useState(
-    createDefaultSelectedThings(props.availableMeals, props.currentSelection)
-  );
+  const [selectedMeals, setSelectedMeals] =
+    useState<MealPlanGeneratedForIndividualCustomer>(props.currentSelection);
 
-  console.log(selectedMeals);
   const [submittingOrder, setSubmittingOrder] = useState(false);
   const [complete, setComplete] = useState(false);
 
-  const availableMealCategoriesWithoutExtras = props.availableMeals.filter(
+  const customerPlans = props.currentSelection.customer.plans;
+
+  const availableMealCategoriesWithoutExtras = customerPlans.filter(
     (category) => !category.isExtra
   );
 
-  const availableMealCategoriesWithoutExtrasIndexes =
-    props.availableMeals.reduce<number[]>(
-      (accum, item, index) => (item.isExtra ? accum : [...accum, index]),
-      []
-    );
+  // const availableMeals = props.cooks.flatMap((cook) => cook.menu);
 
-  const selectedMealsWithoutExtras = selectedMeals.filter((meal, index) =>
-    availableMealCategoriesWithoutExtrasIndexes.includes(index)
+  // const optionsWithSelectionsWithoutExtras = getOptionsWithSelections(
+  //   availableMealCategoriesWithoutExtras,
+  //   selectedMealsWithoutExtras,
+  //   availableMeals
+  // );
+
+  // const optionsWithSelectionsWithExtras = getOptionsWithSelections(
+  //   props.availableMeals,
+  //   selectedMeals,
+  //   availableMeals
+  // );
+
+  const remaining = countRemainingMeals(selectedMeals, props.customer.plans);
+
+  const totalRemaining = Object.values(remaining).reduce(
+    (total, value) => total + value,
+    0
   );
 
-  const availableMeals = props.availableMeals
-    .filter((category) => !category.isExtra)
-    .flatMap((category) => category.options.flat());
+  const remainingBreakdownString =
+    Object.values(remaining).length > 1
+      ? ` - (${Object.entries(remaining)
+          .map(([name, total]) => `${name}: ${total}`)
+          .join(',')})`
+      : ``;
 
-  const optionsWithSelectionsWithoutExtras = getOptionsWithSelections(
-    availableMealCategoriesWithoutExtras,
-    selectedMealsWithoutExtras,
-    availableMeals
-  );
-
-  const optionsWithSelectionsWithExtras = getOptionsWithSelections(
-    props.availableMeals,
-    selectedMeals,
-    availableMeals
-  );
-
-  const remainingWithoutExtras = remainingMeals(
-    optionsWithSelectionsWithoutExtras.filter((category) => !category.isExtra)
-  );
+  const remainingString = `You need to choose ${totalRemaining} meals${remainingBreakdownString}`;
 
   const tabs =
     availableMealCategoriesWithoutExtras.length * defaultDeliveryDays.length;
@@ -211,14 +214,16 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
     margin-top: 1rem;
   `;
 
-  const continueButtonDisabled =
-    tabIndex === tabs - 1 && remainingWithoutExtras !== 0;
+  // const continueButtonDisabled =
+  //   tabIndex === tabs - 1 && remainingWithoutExtras !== 0;
+  //
+  const continueButtonDisabled = false;
 
   const continueText = continueButtonDisabled
     ? 'Select more meals'
     : 'Continue';
 
-  return props.availableMeals.length === 0 ? (
+  return props.currentSelection.deliveries.length === 0 ? (
     <Label>
       <ParagraphText>
         It looks like you've not got any meals available yet. If this is wrong,
@@ -252,20 +257,12 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
                 : continueText}
             </Button>
           </h2>
-          <p className={youNeedToChoose}>
-            You need to choose {remainingWithoutExtras} meals
-          </p>
+          <p className={youNeedToChoose}>{remainingString}</p>
           <InitialSelections
             {...props}
-            availableMeals={props.availableMeals}
-            customer={props.customer}
-            recipes={props.recipes}
-            remainingMeals={remainingWithoutExtras}
-            selectedMeals={selectedMeals}
-            categoriesThatAreNotExtrasIndexes={
-              availableMealCategoriesWithoutExtrasIndexes
-            }
+            currentSelection={selectedMeals}
             setSelectedMeals={setSelectedMeals}
+            recipes={props.recipes}
             currentTabIndex={tabIndex}
             onChangeIndex={(index) => {
               setTabIndex(index);
@@ -310,12 +307,13 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
               Your choices have been submitted!
             </p>
           )}
+          {/*
           <ConfirmSelections
             recipes={props.recipes}
             customer={props.customer}
             complete={complete}
             selectedMeals={optionsWithSelectionsWithExtras}
-          />
+          /> */}
         </div>
       )}
     </DivContainer>

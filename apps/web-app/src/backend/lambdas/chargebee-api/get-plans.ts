@@ -72,6 +72,7 @@ export const getPlans = async (
             const totalMeals = daysPerWeek * itemsPerDay;
             // eslint-disable-next-line unicorn/no-await-expression-member
             return {
+              id: subscription.id,
               name: itemFamily.name,
               daysPerWeek,
               itemsPerDay,
