@@ -1,21 +1,21 @@
-import { FC, Dispatch, SetStateAction } from 'react';
-import { SelectedThings } from './selected-things';
 import Basket from './basket';
 import styled from '@emotion/styled';
-import { MealCategory } from './meal-category';
 import { defaultDeliveryDays } from '@tnmw/config';
 import { totalOtherSelected } from './total-other-selected';
-import { setSelected } from './set-selected';
-import { SelectedMeals } from './initial-selections';
-import { ChooseMealsCustomer } from './meal-selections';
-import { Recipe } from '@tnmw/types';
+import {
+  BackendCustomer,
+  MealPlanGeneratedForIndividualCustomer,
+  PlannedCook,
+  PlanWithMeals,
+  Recipe,
+  StandardPlan,
+} from '@tnmw/types';
+import { updateAllSelectedMeals } from './update-all-selected';
 
 interface BasketProps {
-  availableMeals: MealCategory[];
-  selectedMeals: (SelectedThings | undefined)[][];
-  setSelectedMeals: (selected: SelectedMeals) => void;
-  categoriesThatAreNotExtrasIndexes: number[];
-  customer: ChooseMealsCustomer;
+  cooks: PlannedCook[];
+  currentSelection: MealPlanGeneratedForIndividualCustomer;
+  setSelectedMeals: (newPlan: MealPlanGeneratedForIndividualCustomer) => void;
   recipes: Recipe[];
 }
 
@@ -45,42 +45,56 @@ const Divider = styled.hr`
   border: 0;
 `;
 
-const CombinedBasket: FC<BasketProps> = ({
-  availableMeals,
-  selectedMeals,
+const getActivePlan = (plans: PlanWithMeals[], customerPlan: StandardPlan) => {
+  return plans.find(
+    (plan) => plan.status === 'active' && plan.planId === customerPlan.id
+  );
+};
+
+const CombinedBasket = ({
   setSelectedMeals,
-  categoriesThatAreNotExtrasIndexes,
-  customer,
   recipes,
-}) => {
+  currentSelection,
+}: BasketProps) => {
   return (
     <SelectedBox>
       <BasketHeader>YOUR SELECTIONS</BasketHeader>
       <Divider />
-      {availableMeals.flatMap((category, categoryIndex) => {
-        return defaultDeliveryDays.map((_, dayIndex) => {
-          return !categoriesThatAreNotExtrasIndexes.includes(
-            categoryIndex
-          ) ? null : (
+      {currentSelection.customer.plans.flatMap((standardPlan) => {
+        return defaultDeliveryDays.flatMap((_, dayIndex) => {
+          const chosenSelection = getActivePlan(
+            currentSelection.deliveries[dayIndex].plans,
+            standardPlan
+          );
+
+          if (chosenSelection?.status !== 'active' || chosenSelection.isExtra) {
+            return [];
+          }
+
+          return (
             <Basket
+              plan={standardPlan}
               itemWord="meal"
-              customer={customer}
-              title={`${category.title} - Delivery ${dayIndex + 1}`}
+              customer={currentSelection.customer}
+              title={`${standardPlan.name} - Delivery ${dayIndex + 1}`}
               itemWordPlural="meals"
-              recipes={recipes}
+              things={recipes}
               setSelected={(selected) =>
-                setSelected(
+                updateAllSelectedMeals(
                   selected,
-                  selectedMeals,
-                  categoryIndex,
-                  dayIndex,
-                  setSelectedMeals
+                  currentSelection,
+                  setSelectedMeals,
+                  dayIndex
                 )
               }
-              selectedMeals={selectedMeals[categoryIndex][dayIndex]}
+              selected={chosenSelection}
               max={
-                category.maxMeals -
-                totalOtherSelected(selectedMeals, categoryIndex, dayIndex)
+                standardPlan.totalMeals -
+                totalOtherSelected(
+                  currentSelection,
+                  chosenSelection,
+                  standardPlan
+                )
               }
             />
           );

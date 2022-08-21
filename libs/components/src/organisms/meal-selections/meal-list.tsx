@@ -9,6 +9,8 @@ import {
   StandardPlan,
 } from '@tnmw/types';
 import { useEffect, useState } from 'react';
+import { countsFromPlans } from './count-from-plans';
+import { planFromCounts } from './plan-from-counts';
 
 interface MealListProps {
   things: Recipe[];
@@ -20,40 +22,8 @@ interface MealListProps {
   max: number;
 }
 
-type Counts = {
-  [key: string]: number;
-};
-
-const planFromCounts = (
-  counts: Counts,
-  recipes: Recipe[],
-  chosenVariant: string
-): DeliveryItem[] =>
-  Object.entries(counts)
-    .flatMap(([id, count]) => {
-      return Array.from({ length: count }, () =>
-        recipes.find((recipe) => recipe.id === id)
-      );
-    })
-    .flatMap((recipe) =>
-      recipe ? [{ recipe, isExtra: false, chosenVariant }] : []
-    );
-
-function countsFromPlans(plan: ActivePlanWithMeals) {
-  return plan.meals.reduce<Counts>((accum, meal) => {
-    if (meal.isExtra) {
-      return {};
-    }
-    const id = meal.recipe.id;
-
-    return id in accum
-      ? { ...accum, [id]: accum[id] + 1 }
-      : { ...accum, [id]: 1 };
-  }, {});
-}
-
 const MealList = (props: MealListProps) => {
-  const [counts, setCounts] = useState<Counts>(countsFromPlans(props.selected));
+  const [counts, setCounts] = useState(countsFromPlans(props.selected));
 
   useEffect(() => {
     props.setSelected({

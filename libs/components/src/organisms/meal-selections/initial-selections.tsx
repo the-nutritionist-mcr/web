@@ -5,6 +5,7 @@ import TabButton from './tab-button';
 import MealList from './meal-list';
 import { totalOtherSelected } from './total-other-selected';
 import {
+  ActivePlanWithMeals,
   BackendCustomer,
   Customer,
   MealPlanGeneratedForIndividualCustomer,
@@ -13,6 +14,8 @@ import {
   Recipe,
   StandardPlan,
 } from '@tnmw/types';
+import CombinedBasket from './combined-basket';
+import { updateAllSelectedMeals } from './update-all-selected';
 
 const GridParent = styled.div`
   display: grid;
@@ -67,21 +70,12 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
                     selected={chosenSelection}
                     plan={category}
                     setSelected={(selected) => {
-                      props.setSelectedMeals({
-                        ...props.currentSelection,
-                        deliveries: props.currentSelection.deliveries.map(
-                          (delivery, dIndex) => {
-                            return dIndex !== dayIndex
-                              ? delivery
-                              : {
-                                  ...delivery,
-                                  plans: delivery.plans.map((plan) =>
-                                    plan.id === selected.id ? selected : plan
-                                  ),
-                                };
-                          }
-                        ),
-                      });
+                      updateAllSelectedMeals(
+                        selected,
+                        props.currentSelection,
+                        props.setSelectedMeals,
+                        dayIndex
+                      );
                     }}
                     max={
                       category.totalMeals -
@@ -100,18 +94,12 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
           }
         )}
       </TabBox>
-      {/*
       <CombinedBasket
-        availableMeals={props.availableMeals}
-        customer={props.customer}
-        recipes={props.recipes}
-        selectedMeals={props.selectedMeals}
+        cooks={props.cooks}
+        currentSelection={props.currentSelection}
         setSelectedMeals={props.setSelectedMeals}
-        categoriesThatAreNotExtrasIndexes={
-          props.categoriesThatAreNotExtrasIndexes
-        }
+        recipes={props.recipes}
       />
-      */}
     </GridParent>
   );
 };

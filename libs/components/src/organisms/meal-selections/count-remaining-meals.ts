@@ -15,7 +15,7 @@ export const countRemainingMeals = (
 
   const currentPlanTotals = Object.fromEntries(
     plans
-      .map((plan, index) => [
+      .map((plan) => [
         plan.name,
         plan.totalMeals - totalFromSamePlan(plan, selections),
       ])
