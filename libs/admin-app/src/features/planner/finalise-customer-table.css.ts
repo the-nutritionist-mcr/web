@@ -7,6 +7,7 @@ export const customerLink = style({
 
 export const subheading = style({
   fontSize: '0.8rem',
+  paddingTop: '0.5rem',
 });
 
 export const modifiedCustomerLink = style({

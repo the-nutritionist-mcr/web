@@ -8,6 +8,7 @@ import {
   PlannedCook,
   Recipe,
 } from '@tnmw/types';
+import { cell } from './finalise.css';
 
 interface FinalizeCellProps {
   index: number;
@@ -21,19 +22,24 @@ interface FinalizeCellProps {
 
 const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
   return (
-    <TableCell key={props.index}>
-      <ThemeContext.Extend
-        value={{
-          global: {
-            input: {
-              padding: '0',
-              font: {
-                weight: 400,
-              },
+    <ThemeContext.Extend
+      value={{
+        table: {
+          body: {
+            pad: 'small',
+          },
+        },
+        global: {
+          input: {
+            padding: '0',
+            font: {
+              weight: 400,
             },
           },
-        }}
-      >
+        },
+      }}
+    >
+      <td key={props.index} className={cell}>
         <Box direction="row" align="center">
           <Button
             hoverIndicator
@@ -54,11 +60,13 @@ const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
               }}
             />
           ) : (
-            <Text style={{ fontSize: '12px' }}>{props.plan.name}</Text>
+            <Text style={{ fontSize: '12px', cursor: 'not-allowed' }}>
+              {props.plan.name}
+            </Text>
           )}
         </Box>
-      </ThemeContext.Extend>
-    </TableCell>
+      </td>
+    </ThemeContext.Extend>
   );
 };
 

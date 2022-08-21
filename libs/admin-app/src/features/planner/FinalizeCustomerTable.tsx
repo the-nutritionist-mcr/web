@@ -47,6 +47,7 @@ interface FinalizeRowProps {
 
 const AlternatingTableRow = styled(TableRow)`
   box-sizing: border-box;
+  padding: 0;
   &:hover {
     outline: 1px solid ${base.global?.colors?.['brand']};
   }
@@ -66,7 +67,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
   ('');
 
   return (
-    <Table alignSelf="start" style={{ marginTop: '1rem' }}>
+    <Table alignSelf="start" style={{ marginTop: '2rem' }}>
       {showAddPlanRowDialog && (
         <UpdatePlanRowDialog
           options={itemFamilies.map((family) => family.name)}
@@ -170,7 +171,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                   props.columns
                 ).map((row, batchIndex) => (
                   <AlternatingTableRow>
-                    <TableCell scope="row" align="center">
+                    <td scope="row" align="center" style={{ padding: 0 }}>
                       {batchIndex === 0 && (
                         <Text>
                           <Box align="center" direction="row">
@@ -215,14 +216,14 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                           </Box>
                         </Text>
                       )}
-                    </TableCell>
+                    </td>
                     {row}
                   </AlternatingTableRow>
                 ))}
               </>
             ) : (
               <AlternatingTableRow>
-                <TableCell scope="row">
+                <TableCell scope="row" plain>
                   <Text>
                     <strong>
                       D{deliveryIndex + 1} ({plan.name})
