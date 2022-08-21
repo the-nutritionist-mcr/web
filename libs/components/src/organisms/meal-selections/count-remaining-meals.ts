@@ -17,7 +17,7 @@ export const countRemainingMeals = (
     plans
       .map((plan, index) => [
         plan.name,
-        plan.totalMeals - totalFromSamePlan(index, selections),
+        plan.totalMeals - totalFromSamePlan(plan, selections),
       ])
       .filter((_, index) => nonExtraIndexes.includes(index))
   );

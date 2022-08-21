@@ -16,16 +16,19 @@ export type DeliveryItem = DeliveryMeal | DeliveryExtra;
 
 interface CancelledPlan {
   status: 'cancelled';
+  id: string;
   name: string;
 }
 
 interface FuturePlan {
   status: 'future';
   name: string;
+  id: string;
   startsOn?: Date;
 }
 
 interface PausedPlan {
+  id: string;
   status: 'paused';
   name: string;
   pausedUntil?: Date;
@@ -34,6 +37,7 @@ interface PausedPlan {
 
 export interface ActivePlanWithMeals {
   status: 'active';
+  id: string;
   name: string;
   planId: string;
   meals: DeliveryItem[];
@@ -44,6 +48,7 @@ export interface ActivePlanWithMeals {
 
 interface InTrialPlan {
   status: 'in_trial';
+  id: string;
   name: string;
 }
 

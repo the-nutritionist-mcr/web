@@ -1,17 +1,19 @@
-import { MealPlanGeneratedForIndividualCustomer } from '@tnmw/types';
-import { planSize } from './plan-size';
+import {
+  MealPlanGeneratedForIndividualCustomer,
+  PlanWithMeals,
+  StandardPlan,
+} from '@tnmw/types';
+import { countMealsInPlans } from './count-plans';
 import { totalFromSamePlan } from './total-from-same-plan';
 
 export const totalOtherSelected = (
   selectedMeals: MealPlanGeneratedForIndividualCustomer,
-  planIndex: number,
-  dayIndex: number
+  chosenPlan: PlanWithMeals,
+  standardPlan: StandardPlan
 ) => {
-  const allFromThisPlan = totalFromSamePlan(planIndex, selectedMeals);
+  const allFromThisPlan = totalFromSamePlan(standardPlan, selectedMeals);
 
-  const thisPlanTotal = planSize(
-    selectedMeals.deliveries[dayIndex].plans[planIndex]
-  );
+  const thisPlanTotal = countMealsInPlans(chosenPlan);
 
   return allFromThisPlan - thisPlanTotal;
 };

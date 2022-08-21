@@ -1,13 +1,21 @@
-import { MealPlanGeneratedForIndividualCustomer } from '@tnmw/types';
-import { planSize } from './plan-size';
+import {
+  MealPlanGeneratedForIndividualCustomer,
+  StandardPlan,
+} from '@tnmw/types';
+import { countMealsInPlans } from './count-plans';
 
 export const totalFromSamePlan = (
-  planIndex: number,
+  standardPlan: StandardPlan,
   selectedMeals: MealPlanGeneratedForIndividualCustomer
 ) => {
   return selectedMeals.deliveries.reduce(
     (totalFromDeliveries, delivery) =>
-      totalFromDeliveries + planSize(delivery.plans[planIndex]),
+      totalFromDeliveries +
+      countMealsInPlans(
+        ...delivery.plans.filter(
+          (plan) => plan.status === 'active' && plan.planId === standardPlan.id
+        )
+      ),
     0
   );
 };

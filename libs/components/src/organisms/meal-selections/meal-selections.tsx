@@ -26,7 +26,6 @@ import {
   youNeedToChoose,
 } from './initial-selections.css';
 import { goAheadAndSubmit } from './confirm-selections-container.css';
-import { Meal } from './meal';
 import { MealPlanGeneratedForIndividualCustomer } from '@tnmw/types';
 import { countRemainingMeals } from './count-remaining-meals';
 
@@ -52,66 +51,6 @@ const DivContainer = styled.div`
   gap: 2rem;
   padding: 1rem;
 `;
-
-const hasThing = <T,>(thing: T | undefined): thing is T => Boolean(thing);
-
-const createDefaultSelectedThings = (
-  categories: MealCategory[],
-  selection: MealPlanGeneratedForIndividualCustomer
-) =>
-  categories.map((category) =>
-    defaultDeliveryDays.map((_, index) => {
-      return selection.deliveries[index].plans
-        .filter(
-          (plan) => plan.status === 'active' && plan.name === category.title
-        )
-        .flatMap((plan) =>
-          plan.status === 'active'
-            ? plan.meals.map((meal) => ({ ...meal, name: plan.name }))
-            : []
-        )
-        .reduce<{ [id: string]: number }>((accum, item) => {
-          const id = item.isExtra ? item.name : item.recipe.id;
-
-          if (id in accum) {
-            accum[id]++;
-          }
-
-          if (!(id in accum)) {
-            accum[id] = 1;
-          }
-          return accum;
-        }, {});
-    })
-  );
-
-const getOptionsWithSelections = (
-  meals: MealCategory[],
-  selectedMeals: ({ [id: string]: number } | undefined)[][],
-  availableMeals: Meal[]
-) =>
-  meals.map((category, index) => ({
-    ...category,
-    selections: selectedMeals[index]
-      .map((delivery) =>
-        delivery
-          ? Object.entries(delivery).flatMap(([id, count]) =>
-              Array.from({ length: count }).map(
-                () =>
-                  availableMeals.find((meal) => meal.id === id) ?? {
-                    isExtra: true,
-                    id: '0',
-                    description: '',
-                    allergens: '',
-                    name: id,
-                  }
-              )
-            )
-          : []
-      )
-      // eslint-disable-next-line unicorn/no-array-callback-reference
-      .map((delivery) => delivery.filter(hasThing)),
-  }));
 
 const MealSelections: FC<MealSelectionsProps> = (props) => {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -151,8 +90,8 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
   const remainingBreakdownString =
     Object.values(remaining).length > 1
       ? ` - (${Object.entries(remaining)
-          .map(([name, total]) => `${name}: ${total}`)
-          .join(',')})`
+          .map(([name, total]) => `${total} ${name}`)
+          .join(', ')})`
       : ``;
 
   const remainingString = `You need to choose ${totalRemaining} meals${remainingBreakdownString}`;

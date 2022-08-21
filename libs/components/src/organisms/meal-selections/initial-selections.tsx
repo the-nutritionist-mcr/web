@@ -1,17 +1,17 @@
 import styled from '@emotion/styled';
 import { defaultDeliveryDays } from '@tnmw/config';
 import { Tab, TabBox } from '../../containers';
-import CombinedBasket from './combined-basket';
 import TabButton from './tab-button';
 import MealList from './meal-list';
-import { setSelected } from './set-selected';
 import { totalOtherSelected } from './total-other-selected';
 import {
   BackendCustomer,
   Customer,
   MealPlanGeneratedForIndividualCustomer,
   PlannedCook,
+  PlanWithMeals,
   Recipe,
+  StandardPlan,
 } from '@tnmw/types';
 
 const GridParent = styled.div`
@@ -31,6 +31,12 @@ export interface InitialSelectionsProps {
   cooks: PlannedCook[];
 }
 
+const getActivePlan = (plans: PlanWithMeals[], customerPlan: StandardPlan) => {
+  return plans.find(
+    (plan) => plan.status === 'active' && plan.planId === customerPlan.id
+  );
+};
+
 export const InitialSelections = (props: InitialSelectionsProps) => {
   return (
     <GridParent>
@@ -41,9 +47,15 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
       >
         {props.currentSelection.customer.plans.flatMap(
           (category, planIndex) => {
-            return defaultDeliveryDays.map((_, dayIndex) => {
-              const chosenSelection =
-                props.currentSelection.deliveries[dayIndex].plans[planIndex];
+            return defaultDeliveryDays.flatMap((_, dayIndex) => {
+              const chosenSelection = getActivePlan(
+                props.currentSelection.deliveries[dayIndex].plans,
+                category
+              );
+
+              if (!chosenSelection) {
+                return [];
+              }
 
               return chosenSelection.status === 'active' &&
                 !chosenSelection.isExtra ? (
@@ -63,8 +75,8 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
                               ? delivery
                               : {
                                   ...delivery,
-                                  plans: delivery.plans.map((plan, pIndex) =>
-                                    pIndex !== planIndex ? plan : selected
+                                  plans: delivery.plans.map((plan) =>
+                                    plan.id === selected.id ? selected : plan
                                   ),
                                 };
                           }
@@ -75,8 +87,8 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
                       category.totalMeals -
                       totalOtherSelected(
                         props.currentSelection,
-                        planIndex,
-                        dayIndex
+                        chosenSelection,
+                        category
                       )
                     }
                   />

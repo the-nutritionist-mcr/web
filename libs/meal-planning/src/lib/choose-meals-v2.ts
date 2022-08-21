@@ -69,6 +69,7 @@ const selectPlanMealsForDelivery = (
 
   if (statusResult.status !== 'active') {
     return {
+      id: v4(),
       name: plan.name,
       ...statusResult,
     };
@@ -88,6 +89,7 @@ const selectPlanMealsForDelivery = (
   return {
     ...statusResult,
     name: plan.name,
+    id: v4(),
     planId: plan.id,
     isExtra: plan.isExtra,
     meals: meals.map((item, index) =>
