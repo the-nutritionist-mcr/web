@@ -33,8 +33,6 @@ const getActivePlan = (plans: PlanWithMeals[], customerPlan: StandardPlan) => {
 export const ConfirmSelections = (props: ConfirmSelectionsProps) => {
   const totals = countMeals(props.selectedMeals);
 
-  console.log(totals);
-
   const extrasString = totals.extras > 0 ? ` and ${totals.extras} extras` : ``;
 
   const totalsString = `${totals.meals} meals${extrasString} selected`;

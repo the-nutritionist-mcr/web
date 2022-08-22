@@ -66,8 +66,8 @@ const ButtonElement = styled.button((props: ButtonProps) => {
     fontWeight: 700,
     padding: sizes[size].padding,
     '&:hover': {
-      color: props.primary ? color : 'white',
-      backgroundColor: props.primary ? 'white' : color,
+      color: color,
+      backgroundColor: props.primary ? 'white' : backgroundColor,
     },
     '&:disabled': {
       cursor: 'not-allowed',
