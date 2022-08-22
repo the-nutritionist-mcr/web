@@ -96,7 +96,7 @@ export const makeDataApis = (
     },
   });
 
-  makeDataApi(
+  const { table: recipesTable } = makeDataApi(
     context,
     RESOURCES.Recipe,
     envName,
@@ -328,12 +328,21 @@ export const makeDataApis = (
       environment: {
         ...defaultEnvironmentVars,
         [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
+        [ENV.varNames.RecipesDynamoDBTable]: recipesTable.tableName,
       },
       bundling: {
         externalModules: ['dd-trace', 'datadog-lambda-js'],
         sourceMap: true,
       },
     }
+  );
+
+  updateCustomerPlanFunction.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [IAM.actions.ses.sendEmail],
+      resources: [sesIdentityArn],
+    })
   );
 
   const updatePlanResource = customer.addResource('update-plan');

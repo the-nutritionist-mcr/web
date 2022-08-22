@@ -2,9 +2,15 @@ import { returnErrorResponse } from '../data-api/return-error-response';
 import { authoriseJwt } from '../data-api/authorise';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
+import {
+  DynamoDBDocumentClient,
+  PutCommand,
+  ScanCommand,
+} from '@aws-sdk/lib-dynamodb';
+import { performSwaps } from '@tnmw/meal-planning';
 import {
   assertsMealSelectPayload,
+  Recipe,
   StoredMealPlanGeneratedForIndividualCustomer,
 } from '@tnmw/types';
 import { ENV, HTTP, ORDERS_EMAIL } from '@tnmw/constants';
@@ -55,6 +61,14 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     await dynamo.send(putCommand);
 
     if (payload.selection.wasUpdatedByCustomer) {
+      const command = new ScanCommand({
+        TableName: process.env[ENV.varNames.RecipesDynamoDBTable],
+      });
+
+      const { Items: items } = await dynamo.send(command);
+
+      const recipes = items as Recipe[];
+
       const email: SendEmailCommandInput = {
         Destination: {
           ToAddresses: [selection.customer.email],
@@ -65,7 +79,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
             Html: {
               // eslint-disable-next-line unicorn/text-encoding-identifier-case
               Charset: 'UTF-8',
-              Data: makeEmail(selection.customer.firstName, selection),
+              Data: makeEmail(
+                selection.customer.firstName,
+                performSwaps(selection, selection.customer, recipes)
+              ),
             },
           },
           Subject: {

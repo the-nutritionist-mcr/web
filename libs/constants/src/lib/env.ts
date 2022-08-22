@@ -4,6 +4,7 @@ export const ENV = {
     NodeOptions: 'NODE_OPTIONS',
     CognitoPoolId: 'COGNITO_POOL_ID',
     DynamoDBTable: 'DYNAMODB_TABLE',
+    RecipesDynamoDBTable: 'RECIPES_TABLE',
     GoogleClientId: 'GOOGLE_CLIENT_ID',
     GoogleClientSecret: 'GOOGLE_CLIENT_SECRET',
     GoogleRefreshToken: 'GOOGLE_REFRESH_TOKEN',

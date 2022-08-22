@@ -67,6 +67,7 @@ export interface PlannedDelivery {
 export interface MealSelectionPayload {
   id: string;
   selection: MealPlanGeneratedForIndividualCustomer;
+  cooks: PlannedCook[];
 }
 
 export const assertsMealSelectPayload: (

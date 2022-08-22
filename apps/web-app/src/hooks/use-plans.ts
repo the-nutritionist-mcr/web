@@ -86,6 +86,7 @@ export const usePlan = () => {
   ): Promise<void> =>
     await swrFetcher('customer/update-plan', {
       method: HTTP.verbs.Put,
+      cooks: data.available ? data.plan.cooks : undefined,
       body: JSON.stringify({
         id: serialisedData.available && serialisedData.planId,
         selection: newItem,
