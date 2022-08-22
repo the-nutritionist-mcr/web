@@ -84,7 +84,7 @@ export const Account: FC<AccountProps> = ({
           ))}
         </FormSection>
       )}
-      {(plans?.length ?? 0) > 0 && (
+      {(plans?.filter((plan) => !plan.isExtra).length ?? 0) > 0 && (
         <FormSection heading="Choose Meals">
           {chooseIsOpen ? (
             <>

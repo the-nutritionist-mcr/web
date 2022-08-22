@@ -1,7 +1,19 @@
-import { isSelectedMeal } from '@tnmw/meal-planning';
-import { SelectedItem } from '@tnmw/types';
+import {
+  DeliveryMeal,
+  MealPlanGeneratedForIndividualCustomer,
+} from '@tnmw/types';
 
-export const makeEmail = (name: string, deliveries: SelectedItem[][]) => `
+const isSelectedMeal = (item: unknown): item is DeliveryMeal => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const itemAsAny = item as any;
+
+  return !itemAsAny.isExtra;
+};
+
+export const makeEmail = (
+  name: string,
+  deliveries: MealPlanGeneratedForIndividualCustomer
+) => `
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
   xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -1079,20 +1091,24 @@ export const makeEmail = (name: string, deliveries: SelectedItem[][]) => `
                                     <td valign="top" class="mcnTextContent"
                                       style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
 
-                                      ${deliveries.map(
+                                      ${deliveries.deliveries.map(
                                         (delivery, index) => `
                                       <span
                                         style="font-family:arial,helvetica neue,helvetica,sans-serif"><strong>Delivery
                                           ${index + 1}</strong></span>
                                           <ul>
-                                          ${delivery
-                                            .map(
-                                              (item) =>
-                                                `<li><span style="font-family:arial,helvetica neue,helvetica,sans-serif">${
-                                                  isSelectedMeal(item)
-                                                    ? `${item.recipe.name} (${item.chosenVariant})`
-                                                    : item.chosenVariant
-                                                }</span></li>`
+                                          ${delivery.plans
+                                            .flatMap((plan) =>
+                                              plan.status === 'active'
+                                                ? plan.meals.map(
+                                                    (item) =>
+                                                      `<li><span style="font-family:arial,helvetica neue,helvetica,sans-serif">${
+                                                        isSelectedMeal(item)
+                                                          ? `${item.recipe.name} (${item.chosenVariant})`
+                                                          : item.extraName
+                                                      }</span></li>`
+                                                  )
+                                                : []
                                             )
                                             .join('')}
                                           </ul>

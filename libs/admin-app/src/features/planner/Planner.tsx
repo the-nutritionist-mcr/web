@@ -6,12 +6,22 @@ import generateDeliveryPlanDocumentDefinition from '../../lib/generateDeliveryPl
 import fileDownload from 'js-file-download';
 import { generateDatestampedFilename } from '@tnmw/utils';
 import {
+  Cook,
   Recipe,
+  ChangePlanRecipeBody,
+  PlanResponseSelections,
   WeeklyCookPlan,
+  MealSelectionPayload,
   MealPlanGeneratedForIndividualCustomer,
 } from '@tnmw/types';
 import { DownloadLabelsDialog } from '@tnmw/components';
-import { generateLabelData, makeCookPlan } from '@tnmw/meal-planning';
+import {
+  generateLabelData,
+  getRealRecipe,
+  isSelectedMeal,
+  makeCookPlan,
+  performSwaps,
+} from '@tnmw/meal-planning';
 import generateCsvStringFromObjectArray from '../../lib/generateCsvStringFromObjectArray';
 import { downloadPdf } from '@tnmw/pdf';
 import generateCookPlanDocumentDefinition from '../../lib/generateCookPlanDocumentDefinition';
@@ -32,6 +42,10 @@ const Planner: React.FC<PlannerProps> = (props) => {
 
   const customerMeals = props.published && props.plan;
 
+  const swappedPlan = props.plan.customerPlans.map((plan) =>
+    performSwaps(plan, plan.customer, recipes)
+  );
+
   return (
     <>
       <Header
@@ -45,12 +59,7 @@ const Planner: React.FC<PlannerProps> = (props) => {
           <DownloadLabelsDialog
             onClose={() => setShowLabelDialog(false)}
             onDownload={(useBy, cook) => {
-              const data = generateLabelData(
-                props.plan.customerPlans,
-                useBy,
-                recipes,
-                cook
-              );
+              const data = generateLabelData(swappedPlan, useBy, recipes, cook);
               setShowLabelDialog(false);
               fileDownload(
                 generateCsvStringFromObjectArray(data),
@@ -67,7 +76,7 @@ const Planner: React.FC<PlannerProps> = (props) => {
           disabled={Boolean(!customerMeals || !recipes)}
           onClick={() => {
             const plan = generateDeliveryPlanDocumentDefinition(
-              props.plan.customerPlans,
+              swappedPlan,
               recipes
             );
             downloadPdf(plan, 'pack-plan.pdf');
@@ -79,7 +88,7 @@ const Planner: React.FC<PlannerProps> = (props) => {
           label="Cook Plan"
           disabled={Boolean(!customerMeals || !recipes)}
           onClick={() => {
-            const plan = makeCookPlan(props.plan.customerPlans, recipes);
+            const plan = makeCookPlan(swappedPlan, recipes);
             downloadPdf(
               generateCookPlanDocumentDefinition(plan),
               generateDatestampedFilename('cook-plan', 'pdf')

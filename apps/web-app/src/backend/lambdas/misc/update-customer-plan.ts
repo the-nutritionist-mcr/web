@@ -7,8 +7,14 @@ import {
   assertsMealSelectPayload,
   StoredMealPlanGeneratedForIndividualCustomer,
 } from '@tnmw/types';
-import { ENV, HTTP } from '@tnmw/constants';
+import { ENV, HTTP, ORDERS_EMAIL } from '@tnmw/constants';
 import { HttpError } from '../data-api/http-error';
+import {
+  SendEmailCommand,
+  SendEmailCommandInput,
+  SESClient,
+} from '@aws-sdk/client-ses';
+import { makeEmail } from './submit-order-email-template';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -16,6 +22,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const marshallOptions = {
       removeUndefinedValues: true,
     };
+    const ses = new SESClient({});
 
     const dynamodbClient = new DynamoDBClient({});
     const payload = JSON.parse(event.body);
@@ -46,6 +53,34 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     });
 
     await dynamo.send(putCommand);
+
+    if (payload.selection.wasUpdatedByCustomer) {
+      const email: SendEmailCommandInput = {
+        Destination: {
+          ToAddresses: [selection.customer.email],
+          BccAddresses: [ORDERS_EMAIL],
+        },
+        Message: {
+          Body: {
+            Html: {
+              // eslint-disable-next-line unicorn/text-encoding-identifier-case
+              Charset: 'UTF-8',
+              Data: makeEmail(selection.customer.firstName, selection),
+            },
+          },
+          Subject: {
+            // eslint-disable-next-line unicorn/text-encoding-identifier-case
+            Charset: 'UTF-8',
+            Data: 'Your Meal Choices',
+          },
+        },
+        Source: 'no-reply@thenutritionistmcr.com',
+      };
+
+      const sendEmailCommand = new SendEmailCommand(email);
+
+      await ses.send(sendEmailCommand);
+    }
 
     return {
       statusCode: HTTP.statusCodes.Ok,

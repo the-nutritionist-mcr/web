@@ -3,12 +3,13 @@ import { Trash } from 'grommet-icons';
 import deepMemo from '../../lib/deepMemo';
 import {
   ActivePlanWithMeals,
+  BackendCustomer,
   DeliveryItem,
-  MealPlanGeneratedForIndividualCustomer,
   PlannedCook,
   Recipe,
 } from '@tnmw/types';
 import { cell } from './finalise.css';
+import { getRealRecipe } from '@tnmw/meal-planning';
 
 interface FinalizeCellProps {
   index: number;
@@ -18,9 +19,29 @@ interface FinalizeCellProps {
   plan: ActivePlanWithMeals;
   onChangeRecipe: (recipe: Recipe) => void;
   onDelete: () => void;
+  customer: BackendCustomer;
+  recipes: Recipe[];
 }
 
 const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
+  const renderEntry = (recipe: Recipe) => {
+    const realRecipe = getRealRecipe(recipe, props.customer, props.recipes);
+    const isAlternate = recipe !== realRecipe;
+    return (
+      <Box>
+        <Text
+          style={{
+            padding: '6px',
+            fontSize: '12px',
+            color: isAlternate ? `green` : 'black',
+          }}
+        >
+          {realRecipe.name}
+        </Text>
+      </Box>
+    );
+  };
+
   return (
     <ThemeContext.Extend
       value={{
@@ -54,11 +75,14 @@ const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
               placeholder="None"
               labelKey={'name'}
               valueKey={'name'}
+              valueLabel={renderEntry}
               value={props.selectedItem.recipe}
               onChange={(event) => {
                 props.onChangeRecipe(event.value);
               }}
-            />
+            >
+              {renderEntry}
+            </Select>
           ) : (
             <Text style={{ fontSize: '12px', cursor: 'not-allowed' }}>
               {props.plan.name}

@@ -4,7 +4,6 @@ import { authoriseJwt } from '../data-api/authorise';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { ORDERS_EMAIL } from '@tnmw/constants';
-import { isSelectedMeal } from '@tnmw/meal-planning';
 import {
   DynamoDBDocumentClient,
   QueryCommand,

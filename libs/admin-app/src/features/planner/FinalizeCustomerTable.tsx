@@ -138,6 +138,8 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                   [
                     ...plan.meals.map((meal, itemIndex) => (
                       <FinalizeCell
+                        customer={props.customerSelection.customer}
+                        recipes={props.allRecipes}
                         plan={plan}
                         key={`${props.customerSelection.customer.username}-${deliveryIndex}-item-${itemIndex}`}
                         deliveryIndex={deliveryIndex}

@@ -11,6 +11,7 @@ const hasExclusions = (exclusion: Exclusion, meal: Recipe | undefined) =>
   meal?.potentialExclusions.some((value) => value.id === exclusion.id);
 
 const isSelectedMeal = (item: unknown): item is DeliveryMeal => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const itemAsAny = item as any;
 
   return !itemAsAny.isExtra;

@@ -1,16 +1,14 @@
-import { BackendCustomer } from '@tnmw/types';
-
-interface Meal {
-  id?: string;
-  alternates?: { customisationId: string; recipeId: string }[];
-  name?: string;
-  description?: string;
-}
+import {
+  BackendCustomer,
+  DeliveryMeal,
+  MealPlanGeneratedForIndividualCustomer,
+  Recipe,
+} from '@tnmw/types';
 
 const findAlternate = (
-  recipe: Meal,
+  recipe: Recipe,
   customer: { customisations?: BackendCustomer['customisations'] },
-  recipes: Meal[]
+  recipes: Recipe[]
 ) => {
   const exclusions = customer.customisations ?? [];
   const alternates = recipe?.alternates ?? [];
@@ -28,15 +26,15 @@ const findAlternate = (
   );
 };
 
-export const getRealRecipe = (
-  recipe: Meal,
+export const getRealRecipeHelper = (
+  recipe: Recipe,
   customer: BackendCustomer,
-  recipes: Meal[],
+  recipes: Recipe[],
   recipeIds?: Set<string>
-): Meal => {
+): Recipe => {
   const ids = recipeIds ?? new Set<string>();
   if (ids.has(recipe.id ?? '')) {
-    throw new Error();
+    throw new Error('Cyclic reference in alternate chain');
   } else {
     ids.add(recipe.id ?? '');
   }
@@ -46,5 +44,46 @@ export const getRealRecipe = (
     return alternate;
   }
 
-  return getRealRecipe(alternate, customer, recipes, ids);
+  return getRealRecipeHelper(alternate, customer, recipes, ids);
+};
+
+export const getRealRecipe = (
+  recipe: Recipe,
+  customer: BackendCustomer,
+  recipes: Recipe[]
+): Recipe => getRealRecipeHelper(recipe, customer, recipes);
+
+const isSelectedMeal = (item: unknown): item is DeliveryMeal => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const itemAsAny = item as any;
+
+  return !itemAsAny.isExtra;
+};
+
+export const performSwaps = (
+  plan: MealPlanGeneratedForIndividualCustomer,
+  customer: BackendCustomer,
+  recipes: Recipe[]
+): MealPlanGeneratedForIndividualCustomer => {
+  return {
+    ...plan,
+    deliveries: plan.deliveries.map((delivery) => ({
+      ...delivery,
+      plans: delivery.plans.map((plan) =>
+        plan.status === 'active'
+          ? {
+              ...plan,
+              meals: plan.meals.map((meal) =>
+                isSelectedMeal(meal)
+                  ? {
+                      ...meal,
+                      recipe: getRealRecipe(meal.recipe, customer, recipes),
+                    }
+                  : meal
+              ),
+            }
+          : plan
+      ),
+    })),
+  };
 };

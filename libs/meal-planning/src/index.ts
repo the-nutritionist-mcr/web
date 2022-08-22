@@ -3,7 +3,7 @@ export { chooseMealSelections } from './lib/choose-meals-v2';
 export { makeCookPlan } from './lib/make-cook-plan';
 export { createVariant } from './lib/create-variant';
 export { generateLabelData } from './lib/generate-label-data';
-export { getRealRecipe } from './lib/get-real-recipe';
+export { getRealRecipe, performSwaps } from './lib/get-real-recipe';
 
 export {
   generateDistribution,
