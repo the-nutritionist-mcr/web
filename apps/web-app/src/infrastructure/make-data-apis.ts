@@ -28,7 +28,7 @@ export const makeDataApis = (
   envName: string,
   pool: IUserPool,
   hostedZone: IHostedZone,
-  gitHash: string,
+  gitHash: string | undefined,
   sesIdentityArn: string,
   chargebeeSite: string,
   forceUpdateKey: string,

@@ -29,7 +29,7 @@ export const makeUserPool = (
   context: Construct,
   transient: boolean,
   environmentName: string,
-  gitHash: string,
+  gitHash: string | undefined,
   businessOwnersGroup: IGroup
 ) => {
   const removalPolicy = transient

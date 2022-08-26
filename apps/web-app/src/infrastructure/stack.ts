@@ -8,6 +8,18 @@ import { FrontendStack } from './frontend-stack';
 
 const app = new App();
 
+const gitHash = async (): Promise<string | undefined> => {
+  /* eslint-disable unicorn/prefer-module */
+  /* eslint-disable @typescript-eslint/no-var-requires */
+  const datadogCi = require('@datadog/datadog-ci');
+
+  const key = process.env['DATADOG_API_KEY'];
+  if (!key) {
+    return undefined;
+  }
+  return await datadogCi.gitMetadata.uploadGitCommitHash(key, 'datadoghq.eu');
+};
+
 const account = process.env.IS_CDK_LOCAL ? '000000000000' : '568693217207';
 
 const env = {
@@ -20,19 +32,13 @@ const sesIdentityArn = `arn:aws:ses:us-east-1:568693217207:identity/thenutrition
 const forceUpdateKey = 'force-update-key';
 
 const main = async () => {
-  const userStack = new AccountUsersStack(this, 'tnm-web-account-users-stack', {
+  const userStack = new AccountUsersStack(app, 'tnm-web-account-users-stack', {
     businessOwners: ['lawrence', 'jess', 'ryan'],
     developers: ['ben'],
     stackProps: { env },
   });
 
-  /* eslint-disable unicorn/prefer-module */
-  /* eslint-disable @typescript-eslint/no-var-requires */
-  const datadogCi = require('@datadog/datadog-ci');
-  const gitHash = await datadogCi.gitMetadata.uploadGitCommitHash(
-    process.env['DATADOG_API_KEY'],
-    'datadoghq.eu'
-  );
+  const hash = await gitHash();
 
   interface StackConfig {
     transient: boolean;
@@ -79,7 +85,7 @@ const main = async () => {
       envName,
       transient: config.transient,
       chargebeeSite: config.chargebeeSite,
-      gitHash,
+      gitHash: hash,
       forceUpdateKey,
     });
 

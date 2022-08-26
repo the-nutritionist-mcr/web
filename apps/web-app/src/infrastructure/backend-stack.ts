@@ -5,46 +5,20 @@ import { makeUserPool } from './make-user-pool';
 import { makeDataApis } from './make-data-apis';
 import { IGroup } from 'aws-cdk-lib/aws-iam';
 import { getDomainName } from '@tnmw/utils';
-import {
-  ARecord,
-  IHostedZone,
-  PublicHostedZone,
-  RecordTarget,
-} from 'aws-cdk-lib/aws-route53';
-import { CognitoSeeder } from '@tnmw/seed-cognito';
-import { SEED_USERS } from './seed-users';
-import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
-import { Distribution } from 'aws-cdk-lib/aws-cloudfront';
-import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
-import { Bucket } from 'aws-cdk-lib/aws-s3';
-import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
-import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
+import { IHostedZone, PublicHostedZone } from 'aws-cdk-lib/aws-route53';
 import path from 'node:path';
-import { StackConfig } from '@tnmw/types';
 
 interface BackendStackProps {
   forceUpdateKey: string;
   stackProps: StackProps;
   envName: string;
-  gitHash: string;
+  gitHash: string | undefined;
   transient: boolean;
   chargebeeSite: string;
   sesIdentityArn: string;
   developerGroup: IGroup;
   businessOwnersGroup: IGroup;
 }
-
-const BUILD_PATH = path.join(
-  __dirname,
-  '..',
-  '..',
-  '..',
-  '..',
-  'dist',
-  'apps',
-  'web-app',
-  'exported'
-);
 
 export class BackendStack extends Stack {
   public pool: UserPool;

@@ -3,13 +3,6 @@
   "sourceRoot": "apps/web-app",
   "projectType": "application",
   "targets": {
-    "deploy-perms": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "cdk deploy tnm-web-users-stack --require-approval never",
-        "cwd": "apps/web-app"
-      }
-    },
     "deploy": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
@@ -55,6 +48,13 @@
       "options": {
         "cwd": "apps/web-app",
         "command": "cdk deploy tnm-web-account-users-stack --require-approval never"
+      }
+    },
+    "deploy-users:old": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "cdk deploy tnm-web-users-stack --require-approval never",
+        "cwd": "apps/web-app"
       }
     },
     "deploy:backend:watch": {

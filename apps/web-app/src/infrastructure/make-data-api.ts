@@ -18,7 +18,7 @@ export const makeDataApi = (
   context: Construct,
   name: string,
   environment: string,
-  gitHash: string,
+  gitHash: string | undefined,
   api: IRestApi,
   defaultEnvironmentVars: { [key: string]: string },
   readWrite: ReadWriteMode = ReadWriteMode.ReadWrite
