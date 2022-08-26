@@ -50,7 +50,7 @@ export class UsersStack extends Stack {
 
     const businessOwnerGroup = new Group(this, 'tnm-business-owner-group', {
       groupName: 'tnm-business-owner',
-      managedPolicies: [billing, readOnlyAccess],
+      managedPolicies: [billing, readOnlyAccess, cognitoPowerUser],
     });
 
     new User(this, 'lawrence-user', {

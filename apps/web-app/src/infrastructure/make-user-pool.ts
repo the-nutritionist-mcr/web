@@ -8,11 +8,18 @@ import {
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { CfnOutput, Duration, RemovalPolicy } from 'aws-cdk-lib';
 import { getResourceName } from './get-resource-name';
-import { COGNITO } from '@tnmw/constants';
+import { COGNITO, IAM } from '@tnmw/constants';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import path from 'node:path';
 import { Construct } from 'constructs';
 import { instrumentFunctions } from './instrument-functions';
+import {
+  Effect,
+  IGroup,
+  ManagedPolicy,
+  PolicyStatement,
+} from 'aws-cdk-lib/aws-iam';
+import { businessOwnersCognito } from './business-owners-cognito-actions';
 
 const entryName = (folder: string, name: string) =>
   // eslint-disable-next-line unicorn/prefer-module
@@ -22,7 +29,8 @@ export const makeUserPool = (
   context: Construct,
   transient: boolean,
   environmentName: string,
-  gitHash: string
+  gitHash: string,
+  businessOwnersGroup: IGroup
 ) => {
   const removalPolicy = transient
     ? RemovalPolicy.DESTROY
@@ -202,6 +210,18 @@ export const makeUserPool = (
       phone: true,
     },
   });
+
+  businessOwnersGroup.addManagedPolicy(
+    new ManagedPolicy(context, 'business-owners-cognito-access-policy', {
+      statements: [
+        new PolicyStatement({
+          effect: Effect.ALLOW,
+          resources: [userPool.userPoolArn],
+          actions: businessOwnersCognito,
+        }),
+      ],
+    })
+  );
 
   new CfnOutput(context, 'UserPoolId', {
     value: userPool.userPoolId,

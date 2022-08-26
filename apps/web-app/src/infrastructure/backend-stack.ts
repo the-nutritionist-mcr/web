@@ -31,6 +31,7 @@ interface BackendStackProps {
   chargebeeSite: string;
   sesIdentityArn: string;
   developerGroup: IGroup;
+  businessOwnersGroup: IGroup;
 }
 
 const BUILD_PATH = path.join(
@@ -64,7 +65,8 @@ export class BackendStack extends Stack {
       this,
       transient,
       props.envName,
-      props.gitHash
+      props.gitHash,
+      props.businessOwnersGroup
     );
 
     makeDataApis(

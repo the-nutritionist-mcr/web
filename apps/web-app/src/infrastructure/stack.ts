@@ -75,6 +75,7 @@ const main = async () => {
       stackProps: { env },
       sesIdentityArn,
       developerGroup: userStack.developersGroup,
+      businessOwnersGroup: userStack.businessOwnersGroup,
       envName,
       transient: config.transient,
       chargebeeSite: config.chargebeeSite,
