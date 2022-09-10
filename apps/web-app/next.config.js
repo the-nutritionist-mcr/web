@@ -21,7 +21,6 @@ module.exports = withVanillaExtract(
     withImages({
       outputFileTracing: false,
       env: {
-        COGNITO_POOL_ID: process.env.NX_USER_POOL_ID,
         APP_VERSION: process.env.NX_APP_VERSION,
       },
       trailingSlash: true,

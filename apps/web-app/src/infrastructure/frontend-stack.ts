@@ -13,6 +13,7 @@ import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import { Construct } from 'constructs';
 import path from 'node:path';
+import { getResourceName } from './get-resource-name';
 import { SEED_USERS } from './seed-users';
 
 interface FrontendStackProps {
@@ -71,7 +72,7 @@ export class FrontendStack extends Stack {
     const apiDomainName = getDomainName(props.envName, 'api');
 
     const userPoolIdParam = new StringParameter(this, 'userPoolId', {
-      parameterName: 'user-pool-id',
+      parameterName: getResourceName('user-pool-id', props.envName),
       stringValue: props.userPool.userPoolId,
     });
 
@@ -79,7 +80,7 @@ export class FrontendStack extends Stack {
       this,
       'userPoolClientId',
       {
-        parameterName: 'user-pool-client-id',
+        parameterName: getResourceName('user-pool-client-id', props.envName),
         stringValue: props.poolClient.userPoolClientId,
       }
     );

@@ -63,31 +63,13 @@ runs:
         AWS_REGION: us-east-1
         DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
 
-    - name: Get Pool Id
-      shell: bash
-      run: echo "USERPOOL_ID=$(cat apps/web-app/public/app-config.json | jq --raw-output 'keys[] as $k | .[$k] | .UserPoolId')" >> $GITHUB_ENV
-
     - name: Get App Version
       shell: bash
       run: echo "APP_VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-    - name: Rebuild with baked in environment variables
+    - name: Deploy
       shell: bash
-      run: rm -rf dist && yarn nx build web-app
-      env:
-        NX_USER_POOL_ID: ${{ env.USERPOOL_ID }}
-        NX_APP_ENV: ${{ inputs.env-name }}
-        NX_APP_VERSION: ${{ env.APP_VERSION }}
-        NX_DATADOG_APP_ID: ${{ inputs.datadog-app-id }}
-        NX_DATADOG_CLIENT_TOKEN: ${{ inputs.datadog-client-token }}
-
-    - name: Process build artifact for Serverless
-      shell: bash
-      run: yarn ts-node tools/build-serverless-next.ts
-
-    - name: Deploy Application Stack
-      shell: bash
-      run: yarn nx deploy-${{ inputs.env-name }} web-app --verbose --args="--exclusively${{ inputs.do-hotswap == 'true' && ' --hotswap' || '' }}"
+      run: yarn nx deploy --configuration=${{ inputs.env-name }}
       env:
         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
         AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
@@ -101,19 +83,6 @@ runs:
         DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
         DATADOG_SITE: datadoghq.eu
         DATADOG_API_HOST: api.datadoghq.eu
-
-    - name: Get Deploy Bucket
-      shell: bash
-      run: echo "BUCKET=$(cat apps/web-app/public/app-config.json | jq --raw-output '."tnm-web-${{ inputs.env-name }}-stack" | .DeployBucket')" >> $GITHUB_ENV
-
-    - name: Upload App Config
-      uses: shallwefootball/s3-upload-action@master
-      with:
-        aws_key_id: ${{ inputs.aws-access-key-id }}
-        aws_secret_access_key: ${{ inputs.aws-secret-access-key }}
-        aws_bucket: ${{ env.BUCKET }}
-        source_dir: apps/web-app/public
-        destination_dir: ''
 
     - name: Download Storybook
       uses: actions/download-artifact@v3

@@ -53,12 +53,9 @@ jobs:
         run: echo "APP_VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Build Application
-        run: yarn nx build web-app
+        run: yarn nx build web-app && yarn nx export web-app
         env:
           NX_APP_VERSION: ${{ env.APP_VERSION }}
-
-      - name: Process for Serverless
-        run: yarn ts-node tools/build-serverless-next.ts
 
       - name: Save dist folder
         uses: actions/upload-artifact@v3
