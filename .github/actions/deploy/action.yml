@@ -54,15 +54,6 @@ runs:
         name: dist
         path: dist
 
-    - name: Deploy Backend Stack
-      shell: bash
-      run: yarn nx deploy-${{ inputs.env-name }}-backend web-app --verbose --args="${{ inputs.do-hotswap == 'true' && '--hotswap' || '' }}"
-      env:
-        AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
-        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
-        AWS_REGION: us-east-1
-        DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
-
     - name: Get App Version
       shell: bash
       run: echo "APP_VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
