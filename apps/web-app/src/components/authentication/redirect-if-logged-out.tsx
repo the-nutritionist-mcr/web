@@ -25,12 +25,12 @@ export const RedirectIfLoggedOut = (props: RedirectIfLoggedOutProps) => {
     (!user ||
       (props.allowedGroups &&
         !user.signInUserSession.accessToken.payload['cognito:groups'].some(
-          (group) => props.allowedGroups.includes(group)
+          (group) => props?.allowedGroups?.includes(group)
         )))
   ) {
     console.log({ isBrowser, hasFinishedLoadingUser, user });
     console.log(`redirect to ${props.redirectTo}`);
-    navigate(props.redirectTo);
+    navigate?.(props.redirectTo, false);
   }
   return <>{props.children}</>;
 };

@@ -19,7 +19,7 @@ import { AuthenticationProvider } from '../components/authenticationprovider';
 import { HubCallback } from '@aws-amplify/core';
 
 const navigator = {
-  navigate: async (path: string, withRouter: boolean = true) => {
+  navigate: async (path: string, withRouter = true) => {
     if (withRouter) {
       // eslint-disable-next-line fp/no-mutating-methods
       await Router.push(path);
