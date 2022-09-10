@@ -12,7 +12,7 @@ const contexts: { [ids: string]: Datadog } = {};
 export const instrumentFunctions = (
   context: Construct,
   envName: string,
-  gitHash: string,
+  gitHash: string | undefined,
   // eslint-disable-next-line @typescript-eslint/ban-types
   ...funcs: (Function | undefined)[]
 ) => {
@@ -43,10 +43,12 @@ export const instrumentFunctions = (
     resources: [DATADOG_API_KEY_SECRET_ARN],
   });
 
-  const allPresentFuncs = funcs.filter(Boolean);
+  const allPresentFuncs = funcs.flatMap((item) => (item ? [item] : []));
 
   allPresentFuncs.forEach((func) => {
-    contexts[context.node.id].addGitCommitMetadata([func], gitHash);
+    if (gitHash) {
+      contexts[context.node.id].addGitCommitMetadata([func], gitHash);
+    }
     func.addToRolePolicy(getDatadogSecretPolicy);
   });
 

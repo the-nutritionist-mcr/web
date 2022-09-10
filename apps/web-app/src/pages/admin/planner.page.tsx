@@ -13,7 +13,7 @@ const PlannerPage: FC = () => {
     <RedirectIfLoggedOut allowedGroups={['admin']} redirectTo="/login">
       <MenuPaddedContent>
         <AdminTemplate>
-          {data && data.available && data.admin && (
+          {data && items && data.available && data.admin && (
             <Planner
               update={update}
               recipes={items}

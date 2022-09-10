@@ -20,6 +20,10 @@ export class AccountUsersStack extends Stack {
     const readOnlyAccess =
       ManagedPolicy.fromAwsManagedPolicyName('ReadOnlyAccess');
 
+    const cognitoPowerUser = ManagedPolicy.fromAwsManagedPolicyName(
+      'AmazonCognitoPowerUser'
+    );
+
     this.businessOwnersGroup = new Group(this, 'tnm-web-business-owner-group', {
       groupName: 'tnm-web-business-owner',
     });
@@ -28,7 +32,7 @@ export class AccountUsersStack extends Stack {
       (owner) =>
         new User(this, `${owner}-user`, {
           groups: [this.businessOwnersGroup],
-          managedPolicies: [readOnlyAccess, billing],
+          managedPolicies: [readOnlyAccess, billing, cognitoPowerUser],
           userName: owner,
         })
     );

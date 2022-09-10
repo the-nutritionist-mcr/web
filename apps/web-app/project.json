@@ -3,20 +3,11 @@
   "sourceRoot": "apps/web-app",
   "projectType": "application",
   "targets": {
-    "deploy-perms": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "command": "cdk deploy tnm-web-users-stack --require-approval never",
-        "cwd": "apps/web-app"
-      }
-    },
-
     "deploy": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "cwd": "apps/web-app"
       },
-
       "configurations": {
         "cypress": {
           "command": "cdk deploy tnm-web-cypress-frontend-stack --require-approval never --outputs-file public/app-config.json"
@@ -32,13 +23,11 @@
         }
       }
     },
-
     "deploy:backend": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "cwd": "apps/web-app"
       },
-
       "configurations": {
         "cypress": {
           "command": "cdk deploy tnm-web-cypress-stack --require-approval never --outputs-file public/app-config.json"
@@ -54,13 +43,25 @@
         }
       }
     },
-
+    "deploy:users": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/web-app",
+        "command": "cdk deploy tnm-web-account-users-stack --require-approval never"
+      }
+    },
+    "deploy-users:old": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "cdk deploy tnm-web-users-stack --require-approval never",
+        "cwd": "apps/web-app"
+      }
+    },
     "deploy:backend:watch": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "cwd": "apps/web-app"
       },
-
       "configurations": {
         "cypress": {
           "command": "cdk watch tnm-web-cypress-stack --require-approval never --outputs-file public/app-config.json"
@@ -76,7 +77,6 @@
         }
       }
     },
-
     "synth-cypress": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
