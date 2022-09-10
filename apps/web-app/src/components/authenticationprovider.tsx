@@ -21,13 +21,13 @@ const authenticationService = {
   newPasswordChallengeResponse,
 };
 
-interface AuthenticationProvider {
+interface AuthenticationProviderProps {
   children: ReactNode;
 }
 
 export const LOADING_KEY = 'get-user';
 
-export const AuthenticationProvider = (props: AuthenticationProvider) => {
+export const AuthenticationProvider = (props: AuthenticationProviderProps) => {
   const [loaded, setLoaded] = useState(false);
   const { startLoading, stopLoading } = useContext(LoadingContext);
   const [user, setUser] = useState<CognitoUser | undefined>();
@@ -50,7 +50,7 @@ export const AuthenticationProvider = (props: AuthenticationProvider) => {
     } else {
       stopLoading(LOADING_KEY);
     }
-  }, [user, loaded]);
+  }, [user, loaded, startLoading, stopLoading]);
   return (
     <AuthenticationServiceContext.Provider
       value={{ ...authenticationService, user }}

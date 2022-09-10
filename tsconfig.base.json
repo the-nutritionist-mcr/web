@@ -30,7 +30,6 @@
       "@tnmw/meal-planning": ["libs/meal-planning/src/index.ts"],
       "@tnmw/pdf": ["libs/pdf/src/index.ts"],
       "@tnmw/planner": ["libs/planner/src/index.ts"],
-      "@tnmw/remote-outputs": ["libs/remote-outputs/src/index.ts"],
       "@tnmw/seed-cognito": ["libs/seed-cognito/src/index.ts"],
       "@tnmw/static-pages": ["libs/static-pages/src/index.ts"],
       "@tnmw/types": ["libs/types/src/index.ts"],

@@ -1,0 +1,12 @@
+{
+  "tnm-web-prod-stack": {
+    "dataapiEndpointFF8416B3": "https://voynxzx3r7.execute-api.eu-west-2.amazonaws.com/prod/",
+    "UserPoolId": "eu-west-2_ra8ncdI4o",
+    "ExportsOutputRefuserpool38E431F2448F1EFD": "eu-west-2_ra8ncdI4o",
+    "ClientId": "23cbuqom7eal2g2dh9i5vlujm8",
+    "UserPoolArn": "arn:aws:cognito-idp:eu-west-2:568693217207:userpool/eu-west-2_ra8ncdI4o",
+    "ApiDomainName": "api.portal.thenutritionistmcr.com",
+    "ExportsOutputRefuserpoolClientC46CFA12A2B2EAF9": "23cbuqom7eal2g2dh9i5vlujm8",
+    "ExportsOutputRefHostedZoneDB99F8662BBAE844": "Z08724511L3HBMIUVWWA7"
+  }
+}
