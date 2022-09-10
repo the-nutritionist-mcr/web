@@ -87,6 +87,7 @@ export class FrontendStack extends Stack {
     );
 
     const config: StackConfig = {
+      Environment: props.envName,
       UserPoolId: userPoolIdParam.stringValue,
       ClientId: userPoolClientIdParam.stringValue,
       ApiDomainName: apiDomainName,

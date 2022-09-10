@@ -10,12 +10,12 @@ import {
   iconTag,
 } from './mobile-menu.css';
 
-interface MobileMenu {
+interface MobileMenuProps {
   show: boolean;
   onClose: () => void;
 }
 
-export const MobileMenu = (props: MobileMenu) =>
+export const MobileMenu = (props: MobileMenuProps) =>
   props.show ? (
     <div className={mobileMenuContainer}>
       <ul className={mobileMenuUl}>
