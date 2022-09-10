@@ -69,19 +69,19 @@ export const getCookStatus = (cookDate: Date, plan: StandardPlan): Status => {
       return { status: 'in_trial' };
 
     case 'non_renewing':
+      // eslint-disable-next-line no-case-declarations
       const termEnd = new Date(plan.termEnd);
-      if (termEnd > cookDate) {
-        return {
-          status: 'active',
-          cancellingOn: termEnd,
-        };
-      } else {
-        return {
-          status: 'cancelled',
-        };
-      }
+      return termEnd > cookDate
+        ? {
+            status: 'active',
+            cancellingOn: termEnd,
+          }
+        : {
+            status: 'cancelled',
+          };
 
     case 'future':
+      // eslint-disable-next-line no-case-declarations
       const startDate = plan.startDate && new Date(plan.startDate);
 
       if (!startDate) {
@@ -90,16 +90,14 @@ export const getCookStatus = (cookDate: Date, plan: StandardPlan): Status => {
         };
       }
 
-      if (startDate < cookDate) {
-        return {
-          status: 'active',
-        };
-      } else {
-        return {
-          status: 'future',
-          startsOn: startDate,
-        };
-      }
+      return startDate < cookDate
+        ? {
+            status: 'active',
+          }
+        : {
+            status: 'future',
+            startsOn: startDate,
+          };
 
     case 'paused':
     case 'active':
