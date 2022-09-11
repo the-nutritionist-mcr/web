@@ -29,7 +29,7 @@ const LoginAndRegisterPadding = styled('div')`
 
 const Login: FC = () => {
   return (
-    <RedirectIfLoggedIn redirectTo="/account">
+    <RedirectIfLoggedIn redirectTo="/account/">
       <Hero>
         <YourAccountHeaderBox>
           <img src={AccountIcon} alt="" height="80" width="80" />

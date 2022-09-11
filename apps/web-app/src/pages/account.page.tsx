@@ -52,7 +52,7 @@ const AccountPage = () => {
   };
 
   return (
-    <RedirectIfLoggedOut redirectTo="/login">
+    <RedirectIfLoggedOut redirectTo="/login/">
       <Hero>
         <YourAccountHeaderBox>
           <Image
