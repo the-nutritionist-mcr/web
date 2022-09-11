@@ -139,14 +139,6 @@ export const usePlan = () => {
     };
   }
 
-  if (!data) {
-    startLoading(LOADING_KEY);
-  }
-
-  if (data && isLoading) {
-    stopLoading(LOADING_KEY);
-  }
-
   return {
     data,
     update,

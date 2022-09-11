@@ -135,7 +135,6 @@ export const useResource = <T extends { id: string }>(
       toast.error(`failed to remove ${type}`);
     },
   });
-  const { startLoading, stopLoading, isLoading } = useContext(LoadingContext);
 
   // if (!getData) {
   //   startLoading(loadingKey);

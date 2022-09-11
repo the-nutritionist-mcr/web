@@ -32,6 +32,8 @@ const getConfigurer = () => {
         },
       };
 
+      console.log(authConfig);
+
       Auth.configure(authConfig);
     }
     return config;
