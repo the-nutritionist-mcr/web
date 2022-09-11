@@ -17,6 +17,7 @@ import { HTTP } from '@tnmw/constants';
 import { DatadogProvider } from '../components/DataDogProvider';
 import { AuthenticationProvider } from '../components/authenticationprovider';
 import { HubCallback } from '@aws-amplify/core';
+import { ConfigProvider } from '../components/config-provider';
 
 const navigator = {
   navigate: async (path: string, withRouter = true) => {
@@ -58,28 +59,30 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
       }}
     >
       <Loading>
-        <AuthenticationProvider>
-          <DatadogProvider>
-            <NavigationContext.Provider value={navigator}>
-              <ThemeProvider theme={theme}>
-                <Head>
-                  <title>The Nutritionist Manchester</title>
-                </Head>
-                <Toaster
-                  toastOptions={{
-                    style: {
-                      fontFamily: 'Roboto',
-                      maxWidth: 700,
-                    },
-                  }}
-                />
-                <Layout user={pageProps.user}>
-                  <Component {...pageProps} />
-                </Layout>
-              </ThemeProvider>
-            </NavigationContext.Provider>
-          </DatadogProvider>
-        </AuthenticationProvider>
+        <ConfigProvider>
+          <AuthenticationProvider>
+            <DatadogProvider>
+              <NavigationContext.Provider value={navigator}>
+                <ThemeProvider theme={theme}>
+                  <Head>
+                    <title>The Nutritionist Manchester</title>
+                  </Head>
+                  <Toaster
+                    toastOptions={{
+                      style: {
+                        fontFamily: 'Roboto',
+                        maxWidth: 700,
+                      },
+                    }}
+                  />
+                  <Layout user={pageProps.user}>
+                    <Component {...pageProps} />
+                  </Layout>
+                </ThemeProvider>
+              </NavigationContext.Provider>
+            </DatadogProvider>
+          </AuthenticationProvider>
+        </ConfigProvider>
       </Loading>
     </SWRConfig>
   );
