@@ -50,7 +50,8 @@ export const AuthenticationProvider = (props: AuthenticationProviderProps) => {
     } else {
       stopLoading(LOADING_KEY);
     }
-  }, [user, loaded, startLoading, stopLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, loaded]);
   return (
     <AuthenticationServiceContext.Provider
       value={{ ...authenticationService, user }}
