@@ -22,13 +22,13 @@ export const configAmplify = async (): Promise<void> => {
     /* eslint-disable @typescript-eslint/naming-convention */
     Auth: {
       mandatorySignIn: true,
-      region: 'us-east-1',
+      region: 'eu-west-2',
       userPoolId: configObject.UserPoolId,
       userPoolWebClientId: configObject.ClientId,
     },
     aws_appsync_graphqlEndpoint: configObject.GraphQlQpiUrl,
     aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
-    graphql_endpoint_iam_region: 'us-east-1',
+    graphql_endpoint_iam_region: 'eu-west-2',
     /* eslint-enable @typescript-eslint/naming-convention */
   };
 

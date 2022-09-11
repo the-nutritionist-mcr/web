@@ -10,7 +10,7 @@ export const deleteCognitoUser = async (username: string) => {
   try {
     console.log(`Deleting cognito user '${username}'`);
     const cognito = new CognitoIdentityProviderClient({
-      region: `us-east-1`,
+      region: `eu-west-2`,
     });
 
     const pool = process.env[`NX_${ENV.varNames.CognitoPoolId}`];

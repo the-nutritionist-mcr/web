@@ -8,12 +8,12 @@ export const loginToCognito = async (
 ): Promise<string> => {
   const amplifyConfig = {
     Auth: {
-      region: 'us-east-1',
+      region: 'eu-west-2',
       userPoolId: process.env.COGNITO_POOL_ID,
       userPoolWebClientId: process.env.COGNITO_POOL_CLIENT_ID,
     },
     aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
-    graphql_endpoint_iam_region: 'us-east-1',
+    graphql_endpoint_iam_region: 'eu-west-2',
   };
 
   Amplify.configure(amplifyConfig);

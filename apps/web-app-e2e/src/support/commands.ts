@@ -7,7 +7,7 @@ const configureCognitoAndSignIn = async (
 ) => {
   const outputs = await getAppConfig();
 
-  const REGION = 'us-east-1';
+  const REGION = 'eu-west-2';
 
   Auth.configure({
     Auth: {

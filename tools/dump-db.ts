@@ -25,7 +25,7 @@ const recipesTable = 'tnm-web-recipe-table-prod';
 
 const run = async () => {
   const dynamodbClient = new DynamoDBClient({
-    region: 'us-east-1',
+    region: 'eu-west-2',
   });
 
   const dynamo = DynamoDBDocumentClient.from(dynamodbClient, {
