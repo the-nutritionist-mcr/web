@@ -1,3 +1,3 @@
 export const AccountPage = {
-  isInNavbar: () => cy.location('pathname').should('eq', '/account'),
+  isInNavbar: () => cy.location('pathname').should('eq', '/account/'),
 };
