@@ -55,7 +55,7 @@ export const Loading = (props: LoadingProps) => {
   };
 
   const stopLoading = (id: string) => {
-    console.debug(`Finished loading ${id}`);
+    console.log(`Finished loading ${id}`);
     if (!isLoading) {
       return;
     }
