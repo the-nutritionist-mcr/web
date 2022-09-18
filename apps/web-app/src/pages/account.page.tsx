@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import Image from 'next/image';
-import { UserContext, Hero, Account, ParagraphText } from '@tnmw/components';
-import Router from 'next/router';
+import { Hero, Account } from '@tnmw/components';
 import { signOut } from '../aws/authenticate';
 import { PageSpacing } from './page-spacing';
 
@@ -10,14 +9,9 @@ import styled from '@emotion/styled';
 
 import { usePlan } from '../hooks';
 import { getClosedOrOpenStatus } from '../utils/get-closed-or-open-status';
-import {
-  accountContainer,
-  notSupportedMessage,
-  notSupportedTitle,
-} from './account.css';
+import { accountContainer } from './account.css';
 import { RedirectIfLoggedOut } from '../components/authentication/redirect-if-logged-out';
 import { useMe } from '../hooks/use-me';
-import { waitForAuthEvent } from '../components/authenticationprovider';
 import { NavigationContext } from '@tnmw/utils';
 
 const YourAccountHeaderBox = styled('div')`
