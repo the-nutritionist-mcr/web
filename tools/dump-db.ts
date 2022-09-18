@@ -20,10 +20,11 @@ export const batchArray = <T>(input: T[], batchSize: number): T[][] =>
     [[]]
   );
 
-const exclusionsTable = 'tnm-web-customisation-table-prod';
-const recipesTable = 'tnm-web-recipe-table-prod';
+const run = async (env: string) => {
+  console.log(`Starting ${env}`);
+  const exclusionsTable = `tnm-web-customisation-table-${env}`;
+  const recipesTable = `tnm-web-recipe-table-${env}`;
 
-const run = async () => {
   const dynamodbClient = new DynamoDBClient({
     region: 'eu-west-2',
   });
@@ -34,7 +35,7 @@ const run = async () => {
     },
   });
 
-  const exclusionsToWrite = batchArray(exclusions, 25);
+  const exclusionsToWrite = batchArray(exclusions.data.listExclusions, 25);
 
   await Promise.all(
     exclusionsToWrite.map(async (batch) => {
@@ -51,7 +52,9 @@ const run = async () => {
     })
   );
 
-  const recipesToWrite = batchArray(recipes, 25);
+  const recipesToWrite = batchArray(recipes.data.listRecipes, 25);
+
+  console.log(`Batching arrays for ${env}`);
 
   await Promise.all(
     recipesToWrite.map(async (batch) => {
@@ -67,4 +70,6 @@ const run = async () => {
   );
 };
 
-run().catch((error) => console.log(error));
+Promise.all(['prod', 'test', 'dev', 'cypress'].map((env) => run(env))).catch(
+  (error) => console.log(error)
+);
