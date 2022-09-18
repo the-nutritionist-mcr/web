@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import {
   FC,
   useState,
@@ -9,14 +8,7 @@ import {
 } from 'react';
 import { TabProps } from './tab';
 import TabButton from './tab-button';
-
-const ButtonRow = styled.div`
-  overflow: hidden;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-`;
+import { buttonRow } from './tab-box.css';
 
 interface TabButtonProps {
   onClick?: () => void;
@@ -71,7 +63,9 @@ const TabBox = (props: TabBoxProps) => {
   ));
   return (
     <div>
-      <ButtonRow role="tablist">{buttons}</ButtonRow>
+      <div className={buttonRow} role="tablist">
+        {buttons}
+      </div>
       {/* eslint-disable-next-line security/detect-object-injection */}
       {tabs[activeTab]}
     </div>

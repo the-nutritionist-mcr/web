@@ -15,6 +15,7 @@ import {
 import {
   container,
   header,
+  headerButtons,
   headerText,
   youNeedToChoose,
 } from './initial-selections.css';
@@ -129,26 +130,28 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
         <div className={container}>
           <h2 className={header}>
             <span className={headerText}>Choose Your Meals</span>
-            <Button
-              size="large"
-              onClick={prev}
-              disabled={submittingOrder || complete}
-            >
-              Go Back
-            </Button>
-            <Button
-              size="large"
-              primary
-              color="callToAction"
-              onClick={next}
-              disabled={continueButtonDisabled || submittingOrder || complete}
-            >
-              {showConfirm
-                ? submittingOrder
-                  ? 'Submitting...'
-                  : 'Submit'
-                : continueText}
-            </Button>
+            <div className={headerButtons}>
+              <Button
+                size="large"
+                onClick={prev}
+                disabled={submittingOrder || complete}
+              >
+                Go Back
+              </Button>
+              <Button
+                size="large"
+                primary
+                color="callToAction"
+                onClick={next}
+                disabled={continueButtonDisabled || submittingOrder || complete}
+              >
+                {showConfirm
+                  ? submittingOrder
+                    ? 'Submitting...'
+                    : 'Submit'
+                  : continueText}
+              </Button>
+            </div>
           </h2>
           <p className={youNeedToChoose}>{remainingString}</p>
           <InitialSelections

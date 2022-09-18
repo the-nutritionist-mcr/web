@@ -13,12 +13,7 @@ import {
 } from '@tnmw/types';
 import CombinedBasket from './combined-basket';
 import { updateAllSelectedMeals } from './update-all-selected';
-
-const GridParent = styled.div`
-  display: grid;
-  width: 100%;
-  grid-template-columns: 70% 30%;
-`;
+import { gridParent } from './initial-selections.css';
 
 export type SelectedMeals = { [key: string]: number }[][];
 
@@ -39,7 +34,7 @@ const getActivePlan = (plans: PlanWithMeals[], customerPlan: StandardPlan) => {
 
 export const InitialSelections = (props: InitialSelectionsProps) => {
   return (
-    <GridParent>
+    <div className={gridParent}>
       <TabBox
         tabButton={TabButton}
         currentTabIndex={props.currentTabIndex}
@@ -98,6 +93,6 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
         setSelectedMeals={props.setSelectedMeals}
         recipes={props.recipes}
       />
-    </GridParent>
+    </div>
   );
 };

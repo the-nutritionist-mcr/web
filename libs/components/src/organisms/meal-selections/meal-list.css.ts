@@ -6,4 +6,10 @@ export const mealListGrid = style({
   gridAutoRows: 'minmax(min-content, max-content)',
   display: 'grid',
   gap: '2rem',
+  '@media': {
+    'screen and (max-width: 899px)': {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  },
 });

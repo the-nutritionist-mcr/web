@@ -12,10 +12,21 @@ export const header = style({
   display: 'flex',
   gap: '1rem',
   alignItems: 'center',
+
+  '@media': {
+    'screen and (max-width: 899px)': {
+      flexDirection: 'column',
+    },
+  },
 });
 
 export const headerText = style({
   flexGrow: '2',
+});
+
+export const headerButtons = style({
+  display: 'flex',
+  gap: '1rem',
 });
 
 export const youNeedToChoose = style({
@@ -23,4 +34,16 @@ export const youNeedToChoose = style({
   fontFamily: "'Accumin Pro', Arial, sans-serif",
   fontSize: '1.2rem',
   marginBottom: '0.5rem',
+});
+
+export const gridParent = style({
+  display: 'grid',
+  width: '100%',
+  gridTemplateColumns: '70% 30%',
+
+  '@media': {
+    'screen and (max-width: 899px)': {
+      display: 'block',
+    },
+  },
 });

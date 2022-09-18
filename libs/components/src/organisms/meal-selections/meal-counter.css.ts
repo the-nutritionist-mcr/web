@@ -22,6 +22,11 @@ export const container = style({
   gridTemplateRows: '1fr 1fr 10px 0.8fr 3.25rem',
   height: '100%',
   maxWidth: '20rem',
+  '@media': {
+    'screen and (max-width: 899px)': {
+      maxWidth: '100%',
+    },
+  },
 });
 
 export const description = style({
