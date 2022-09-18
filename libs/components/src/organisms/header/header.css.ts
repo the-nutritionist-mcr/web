@@ -75,6 +75,7 @@ export const header = style({
   right: 0,
   zIndex: 19,
   borderBottom: '1px solid #0d0d0d',
+  width: '100vw',
 });
 
 export const headerMobile = style({
