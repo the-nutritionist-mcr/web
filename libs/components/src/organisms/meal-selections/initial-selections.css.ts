@@ -44,6 +44,7 @@ export const gridParent = style({
   '@media': {
     'screen and (max-width: 899px)': {
       display: 'block',
+      width: '90vw',
     },
   },
 });
