@@ -42,7 +42,7 @@ const AccountPage = () => {
 
   const logout = async () => {
     await signOut();
-    await navigate('/login', false);
+    await navigate?.('/login', false);
   };
 
   return (
