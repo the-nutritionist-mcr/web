@@ -15,4 +15,9 @@ export const headerUnorderedList = style({
   gap: '1rem',
   margin: 0,
   alignItems: 'center',
+  '@media': {
+    'screen and (max-width: 899px)': {
+      display: 'none',
+    },
+  },
 });

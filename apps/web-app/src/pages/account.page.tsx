@@ -69,13 +69,6 @@ const AccountPage = () => {
             />
           )}
         </div>
-        <div className={notSupportedMessage}>
-          <h2 className={notSupportedTitle}>Not Supported</h2>
-          <ParagraphText>
-            The beta release of our customer portal does not yet support mobile
-            layouts. Check back soon!
-          </ParagraphText>
-        </div>
       </PageSpacing>
     </RedirectIfLoggedOut>
   );

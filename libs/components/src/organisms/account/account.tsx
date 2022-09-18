@@ -5,7 +5,7 @@ import { Button, Input } from '../../atoms';
 import { FormSection } from '../../containers';
 import { useContext } from 'react';
 import { NavigationContext } from '@tnmw/utils';
-import { text } from './account.css';
+import { container, text } from './account.css';
 
 export interface User {
   username: string;
@@ -42,7 +42,7 @@ export const Account: FC<AccountProps> = ({
 
   const { navigate } = useContext(NavigationContext);
   return (
-    <div>
+    <div className={container}>
       <FormSection heading="Your Details" showQuestionMarkIcon>
         <Input label="First Name" value={userDetails.firstName} disabled />
         <Input label="Last Name" value={userDetails.surname} disabled />

@@ -22,7 +22,8 @@ export const notSupportedMessage = style({
 export const accountContainer = style({
   '@media': {
     'screen and (max-width: 900px)': {
-      display: 'none',
+      width: '100%',
+      padding: '1rem',
     },
   },
 });
