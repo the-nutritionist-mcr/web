@@ -1,4 +1,4 @@
-const getClosingDate = (date: Date) => {
+const getClosingDate = (date: Date): Date => {
   const newDate = new Date(date.valueOf());
   newDate.setDate(newDate.getDate() + 1);
 
@@ -14,7 +14,7 @@ const getClosingDate = (date: Date) => {
 export const getClosedOrOpenStatus = (
   now: Date,
   data:
-    | { published: boolean; available: true; date: Date }
+    | { published: boolean; available: true; plan: { createdOn: Date } }
     | { available: false }
     | undefined
 ) => {
@@ -30,7 +30,7 @@ export const getClosedOrOpenStatus = (
     return false;
   }
 
-  const planStart = data.date;
+  const planStart = data.plan.createdOn;
 
   const closingDate = getClosingDate(planStart);
 
