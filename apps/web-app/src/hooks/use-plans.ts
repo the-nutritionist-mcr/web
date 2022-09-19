@@ -35,6 +35,7 @@ export const usePlan = () => {
     'plan',
     swrFetcher,
     {
+      revalidateIfStale: true,
       fallback: {
         plan: { available: false, admin: false },
       },
@@ -86,9 +87,8 @@ export const usePlan = () => {
   ): Promise<void> =>
     await swrFetcher('customer/update-plan', {
       method: HTTP.verbs.Put,
-      cooks: data.available ? data.plan.cooks : undefined,
       body: JSON.stringify({
-        id: serialisedData.available && serialisedData.planId,
+        id: serialisedData?.available && serialisedData.planId,
         selection: newItem,
       }),
     });
@@ -97,12 +97,15 @@ export const usePlan = () => {
     onMutate({ input }) {
       const data: GetPlanResponse = cache.get('plan');
 
-      if (data.available && data.admin) {
+      const { available, admin } = data;
+
+      if (available && admin) {
+        const { plan } = data;
         const newData: GetPlanResponseAdmin = {
           ...data,
           plan: {
-            ...data.plan,
-            customerPlans: data.plan.customerPlans.map((plan) =>
+            ...plan,
+            customerPlans: plan?.customerPlans.map((plan) =>
               plan.customer.username === input.customer.username ? input : plan
             ),
           },
