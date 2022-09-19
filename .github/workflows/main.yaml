@@ -69,9 +69,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dist-${{ matrix.env }}
-          path: |
-            dist
-            !dist/apps/web-app/.next/cache
+          path: dist
 
   build-storybook:
     name: Build Storybook
