@@ -77,24 +77,9 @@ export const ConfirmSelections = (props: ConfirmSelectionsProps) => {
 
       <div className={confirmSelectionsImage}>
         <picture>
-          <source
-            srcSet={platesImageWebp}
-            type="image/webp"
-            width="576"
-            height="1024"
-          />
-          <source
-            srcSet={platesImage}
-            type="image/jpeg"
-            width="576"
-            height="1024"
-          />
-          <img
-            src={platesImage}
-            width="576"
-            height="1024"
-            alt="Plates of TNM food"
-          />
+          <source srcSet={platesImageWebp} type="image/webp" />
+          <source srcSet={platesImage} type="image/jpeg" />
+          <img src={platesImage} alt="Plates of TNM food" />
         </picture>
       </div>
     </div>

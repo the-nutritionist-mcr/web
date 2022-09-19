@@ -54,8 +54,8 @@ export const verifyJwtToken = async (
 
     const returnVal = {
       userName: claim.username,
-      firstName: '',
-      surname: '',
+      firstName: claim.given_name,
+      surname: claim.family_name,
       groups: claim['cognito:groups'] ?? [],
     };
 

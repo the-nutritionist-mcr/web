@@ -37,6 +37,7 @@ export const confirmSelectionsGrid = style({
       display: 'flex',
       flexDirection: 'column',
       gap: '2rem',
+      width: 'calc(100vw - 2rem)',
     },
   },
 });

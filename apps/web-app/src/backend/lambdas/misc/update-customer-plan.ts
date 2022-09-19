@@ -31,7 +31,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const ses = new SESClient({});
 
     const dynamodbClient = new DynamoDBClient({});
-    const payload = JSON.parse(event.body);
+    const payload = JSON.parse(event.body ?? '');
     const tableName = process.env[ENV.varNames.DynamoDBTable];
 
     assertsMealSelectPayload(payload);

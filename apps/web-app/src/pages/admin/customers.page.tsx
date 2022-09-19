@@ -1,6 +1,6 @@
 import { AdminTemplate } from './admin-template';
 import { Customers } from '@tnmw/admin-app';
-import { useAuthorisation, useCustomisations } from '../../hooks';
+import { useCustomisations } from '../../hooks';
 import { FC } from 'react';
 import { useCustomers } from '../../hooks/use-customers';
 import { RedirectIfLoggedOut } from '../../components/authentication/redirect-if-logged-out';
