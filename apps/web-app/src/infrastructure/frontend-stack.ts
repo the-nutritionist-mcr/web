@@ -25,18 +25,19 @@ interface FrontendStackProps {
   userPool: IUserPool;
 }
 
-const BUILD_PATH = path.join(
+const DIST_PATH = path.join(
   // eslint-disable-next-line unicorn/prefer-module
   __dirname,
   '..',
   '..',
   '..',
   '..',
-  'dist',
-  'apps',
-  'web-app',
-  'exported'
+  'dist'
 );
+
+const EXPORTED_PATH = path.join(DIST_PATH, 'apps', 'web-app', 'exported');
+
+const DOT_NEXT_PATH = path.join(DIST_PATH, 'apps', 'web-app', '.next');
 
 export class FrontendStack extends Stack {
   public constructor(scope: Construct, id: string, props: FrontendStackProps) {
@@ -96,8 +97,24 @@ export class FrontendStack extends Stack {
     };
 
     new BucketDeployment(this, 'bucket-deployment', {
+      sources: [Source.asset(path.join(DOT_NEXT_PATH, 'static', 'images'))],
+      destinationBucket: staticsBucket,
+      destinationKeyPrefix: '_next/static/images',
+      distribution,
+    });
+
+    new BucketDeployment(this, 'bucket-deployment', {
       sources: [
-        Source.asset(BUILD_PATH),
+        Source.asset(EXPORTED_PATH),
+        Source.jsonData('app-config.json', config),
+      ],
+      destinationBucket: staticsBucket,
+      distribution,
+    });
+
+    new BucketDeployment(this, 'bucket-deployment', {
+      sources: [
+        Source.asset(EXPORTED_PATH),
         Source.jsonData('app-config.json', config),
       ],
       destinationBucket: staticsBucket,
