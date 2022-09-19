@@ -353,6 +353,7 @@ export const makeDataApis = (
   );
 
   planDataTable.grantReadWriteData(updateCustomerPlanFunction);
+  recipesTable.grantReadData(updateCustomerPlanFunction);
 
   const updateCustomerFunction = new NodejsFunction(
     context,

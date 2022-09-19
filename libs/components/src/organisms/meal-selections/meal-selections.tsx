@@ -170,26 +170,30 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
           {!complete ? (
             <h2 className={header}>
               <span className={headerText}>Confirm Your Order</span>
-              <Button
-                size="large"
-                onClick={prev}
-                disabled={submittingOrder || complete}
-              >
-                Go Back
-              </Button>
-              <Button
-                size="large"
-                primary
-                color="callToAction"
-                onClick={next}
-                disabled={continueButtonDisabled || submittingOrder || complete}
-              >
-                {showConfirm
-                  ? submittingOrder
-                    ? 'Submitting...'
-                    : 'Submit'
-                  : continueText}
-              </Button>
+              <div className={headerButtons}>
+                <Button
+                  size="large"
+                  onClick={prev}
+                  disabled={submittingOrder || complete}
+                >
+                  Go Back
+                </Button>
+                <Button
+                  size="large"
+                  primary
+                  color="callToAction"
+                  onClick={next}
+                  disabled={
+                    continueButtonDisabled || submittingOrder || complete
+                  }
+                >
+                  {showConfirm
+                    ? submittingOrder
+                      ? 'Submitting...'
+                      : 'Submit'
+                    : continueText}
+                </Button>
+              </div>
             </h2>
           ) : (
             <h2 className={header}>Thank You</h2>

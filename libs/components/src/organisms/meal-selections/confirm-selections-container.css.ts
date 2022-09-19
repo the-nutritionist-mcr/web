@@ -1,18 +1,24 @@
 import { style } from '@vanilla-extract/css';
-import image from './_1011261.png';
+import platesImage from './plates.png';
 
-console.log(image);
+console.log(platesImage);
 
 export const confirmSelectionsContainer = style({
   border: '1px solid black',
   padding: '1rem',
-  height: '719px',
+  height: '800px',
   overflow: 'scroll',
 });
 
 export const confirmSelectionsImage = style({
   border: '1px solid black',
-  background: `url(${image})`,
+  background: `url(${platesImage})`,
+  '@media': {
+    'screen and (max-width: 899px)': {
+      width: '100%',
+      height: 400,
+    },
+  },
 });
 
 export const confirmSelectionsGrid = style({
@@ -21,6 +27,13 @@ export const confirmSelectionsGrid = style({
   width: '100%',
   columnGap: '3rem',
   marginTop: '2rem',
+  '@media': {
+    'screen and (max-width: 899px)': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '2rem',
+    },
+  },
 });
 
 export const container = style({
