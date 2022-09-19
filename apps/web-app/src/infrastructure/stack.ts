@@ -27,7 +27,7 @@ const env = {
   region: 'eu-west-2',
 };
 
-const sesIdentityArn = `arn:aws:ses:us-east-1:568693217207:identity/thenutritionistmcr.com`;
+const sesIdentityArn = `arn:aws:ses:eu-west-2:568693217207:identity/thenutritionistmcr.com`;
 
 const forceUpdateKey = 'force-update-key';
 

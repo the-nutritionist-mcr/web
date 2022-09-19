@@ -90,6 +90,7 @@
     "grommet-controls": "3.0.2",
     "husky": "^8.0.1",
     "imagemin-optipng": "^8.0.0",
+    "imagemin-svgo": "^10.0.1",
     "imap-simple": "5.1.0",
     "jest-date": "^1.1.4",
     "jest-enzyme": "7.1.2",
