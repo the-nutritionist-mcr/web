@@ -1,5 +1,6 @@
 import { itemFamilies } from '@tnmw/config';
 import { MealPlanGeneratedForIndividualCustomer, Recipe } from '@tnmw/types';
+import { v4 } from 'uuid';
 
 export const updateRecipeInSelection = (
   currentPlan: MealPlanGeneratedForIndividualCustomer,
@@ -66,6 +67,7 @@ export const addPlanRowToDelivery = (
   const isExtra = Boolean(
     itemFamilies.find((family) => family.name === option)?.isExtra
   );
+  const id = v4();
   return {
     ...currentPlan,
     deliveries: currentPlan.deliveries.map((delivery, dIndex) =>
@@ -75,7 +77,14 @@ export const addPlanRowToDelivery = (
             ...delivery,
             plans: [
               ...delivery.plans,
-              { status: 'active', name: option, meals: [], isExtra },
+              {
+                status: 'active',
+                name: option,
+                meals: [],
+                isExtra,
+                id,
+                planId: id,
+              },
             ],
           }
     ),
@@ -104,6 +113,7 @@ export const addRecipeToSelection = (
   currentPlan: MealPlanGeneratedForIndividualCustomer,
   deliveryIndex: number,
   planIndex: number,
+  option: string,
   recipe?: Recipe
 ): MealPlanGeneratedForIndividualCustomer => {
   return {
@@ -119,7 +129,9 @@ export const addRecipeToSelection = (
                     ...plan,
                     meals: [
                       ...plan.meals,
-                      recipe ? { recipe, isExtra: false } : { isExtra: true },
+                      recipe
+                        ? { recipe, isExtra: false, chosenVariant: option }
+                        : { isExtra: true, extraName: option },
                     ],
                   }
                 : plan

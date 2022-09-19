@@ -207,6 +207,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                                     props.customerSelection,
                                     deliveryIndex,
                                     planIndex,
+                                    plan.name,
                                     !plan.isExtra
                                       ? props.deliveryMeals[deliveryIndex]
                                           .menu[0]
