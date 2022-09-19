@@ -1091,8 +1091,9 @@ export const makeEmail = (
                                     <td valign="top" class="mcnTextContent"
                                       style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
 
-                                      ${deliveries.deliveries.map(
-                                        (delivery, index) => `
+                                      ${deliveries.deliveries
+                                        .map(
+                                          (delivery, index) => `
                                       <span
                                         style="font-family:arial,helvetica neue,helvetica,sans-serif"><strong>Delivery
                                           ${index + 1}</strong></span>
@@ -1113,7 +1114,8 @@ export const makeEmail = (
                                             .join('')}
                                           </ul>
                                           `
-                                      )}
+                                        )
+                                        .join('')}
                                     </td>
                                   </tr>
                                 </tbody>
