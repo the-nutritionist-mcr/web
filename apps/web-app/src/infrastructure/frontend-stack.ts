@@ -96,23 +96,14 @@ export class FrontendStack extends Stack {
       AwsRegion: Stack.of(this).region,
     };
 
-    new BucketDeployment(this, 'bucket-deployment', {
+    new BucketDeployment(this, 'dot-next-bucket-deployment', {
       sources: [Source.asset(path.join(DOT_NEXT_PATH, 'static', 'images'))],
       destinationBucket: staticsBucket,
       destinationKeyPrefix: '_next/static/images',
       distribution,
     });
 
-    new BucketDeployment(this, 'bucket-deployment', {
-      sources: [
-        Source.asset(EXPORTED_PATH),
-        Source.jsonData('app-config.json', config),
-      ],
-      destinationBucket: staticsBucket,
-      distribution,
-    });
-
-    new BucketDeployment(this, 'bucket-deployment', {
+    new BucketDeployment(this, 'exported-bucket-deployment', {
       sources: [
         Source.asset(EXPORTED_PATH),
         Source.jsonData('app-config.json', config),
