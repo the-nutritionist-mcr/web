@@ -113,7 +113,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
 
   const continueButtonDisabled = tabIndex === tabs - 1 && totalRemaining !== 0;
 
-  const continueText = continueButtonDisabled ? 'Continue' : 'Continue';
+  const continueText = tabIndex === tabs - 1 ? 'Continue' : 'Next';
 
   return props.currentSelection.deliveries.length === 0 ? (
     <Label>

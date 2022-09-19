@@ -345,6 +345,14 @@ export const makeDataApis = (
     })
   );
 
+  updateCustomerPlanFunction.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [IAM.actions.cognito.adminGetUser],
+      resources: [pool.userPoolArn],
+    })
+  );
+
   const updatePlanResource = customer.addResource('update-plan');
 
   updatePlanResource.addMethod(

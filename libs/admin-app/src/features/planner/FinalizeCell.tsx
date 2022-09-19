@@ -10,6 +10,7 @@ import {
 } from '@tnmw/types';
 import { cell } from './finalise.css';
 import { getRealRecipe } from '@tnmw/meal-planning';
+import { useEffect, useState } from 'react';
 
 interface FinalizeCellProps {
   index: number;
@@ -41,6 +42,16 @@ const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
       </Box>
     );
   };
+
+  const recipe = !props.selectedItem.isExtra
+    ? props.selectedItem.recipe
+    : undefined;
+
+  const [cellValue, setCellValue] = useState(recipe);
+
+  useEffect(() => {
+    setCellValue(recipe);
+  }, [recipe]);
 
   return (
     <ThemeContext.Extend
@@ -76,8 +87,9 @@ const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
               labelKey={'name'}
               valueKey={'name'}
               valueLabel={renderEntry}
-              value={props.selectedItem.recipe}
+              value={cellValue}
               onChange={(event) => {
+                setCellValue(event.value);
                 props.onChangeRecipe(event.value);
               }}
             >

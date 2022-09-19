@@ -28,6 +28,7 @@ import {
 import { v4 } from 'uuid';
 import { isWeeklyPlan } from '@tnmw/types';
 import { batchArray } from '../../../utils/batch-array';
+import { getUserFromAws } from '../../../utils/get-user-from-aws';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -39,11 +40,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       },
     });
 
-    const { username, firstName, surname } = await authoriseJwt(event, [
-      'admin',
-    ]);
+    const { username } = await authoriseJwt(event, ['admin']);
+    const { firstName, surname } = await getUserFromAws(username);
 
-    const payload = JSON.parse(event.body);
+    const payload = JSON.parse(event.body ?? '');
 
     if (!isWeeklyPlan(payload)) {
       throw new HttpError(HTTP.statusCodes.BadRequest, 'Request was invalid');
@@ -96,7 +96,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       batches.map(async (batch) => {
         const input: BatchWriteCommandInput = {
           RequestItems: {
-            [tableName]: batch.map((item) => ({
+            [tableName ?? '']: batch.map((item) => ({
               PutRequest: {
                 Item: recursivelySerialiseDate(item),
               },
@@ -118,6 +118,9 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       },
     };
   } catch (error) {
-    return returnErrorResponse(error);
+    if (error instanceof Error) {
+      return returnErrorResponse(error);
+    }
+    return returnErrorResponse();
   }
 };
