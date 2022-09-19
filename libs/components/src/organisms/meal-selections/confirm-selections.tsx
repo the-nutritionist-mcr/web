@@ -4,6 +4,7 @@ import {
   confirmSelectionsImage,
   countHeader,
   divider,
+  imgTags,
   summaryHeader,
 } from './confirm-selections-container.css';
 import { defaultDeliveryDays } from '@tnmw/config';
@@ -77,9 +78,13 @@ export const ConfirmSelections = (props: ConfirmSelectionsProps) => {
 
       <div className={confirmSelectionsImage}>
         <picture>
-          <source srcSet={platesImageWebp} type="image/webp" />
-          <source srcSet={platesImage} type="image/jpeg" />
-          <img src={platesImage} alt="Plates of TNM food" />
+          <source
+            srcSet={platesImageWebp}
+            type="image/webp"
+            className={imgTags}
+          />
+          <source srcSet={platesImage} type="image/jpeg" className={imgTags} />
+          <img src={platesImage} alt="Plates of TNM food" className={imgTags} />
         </picture>
       </div>
     </div>

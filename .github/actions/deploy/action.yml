@@ -51,7 +51,7 @@ runs:
     - name: Download Dist folder
       uses: actions/download-artifact@v3
       with:
-        name: dist
+        name: dist-${{ inputs.env-name }}
         path: dist
 
     - name: Get App Version

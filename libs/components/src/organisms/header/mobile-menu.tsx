@@ -1,4 +1,4 @@
-import { TNM_SITE } from './tnm-site';
+import { getTnmSite } from './tnm-site';
 
 import closeButtonIcon from './TNM_Icon__Exit_9bd47247.svg';
 import {
@@ -23,37 +23,37 @@ export const MobileMenu = (props: MobileMenuProps) =>
           <img className={iconTag} src={closeButtonIcon} alt="Close" />
         </button>
         <li className={mobileMenuItem}>
-          <a className={mobileMenuAnchor} href={TNM_SITE}>
+          <a className={mobileMenuAnchor} href={getTnmSite}>
             Home
           </a>
         </li>
 
         <li className={mobileMenuItem}>
-          <a className={mobileMenuAnchor} href={`${TNM_SITE}/our-story/`}>
+          <a className={mobileMenuAnchor} href={`${getTnmSite}/our-story/`}>
             Our Story
           </a>
         </li>
 
         <li className={mobileMenuItem}>
-          <a className={mobileMenuAnchor} href={`${TNM_SITE}/why-choose-us/`}>
+          <a className={mobileMenuAnchor} href={`${getTnmSite}/why-choose-us/`}>
             Why Choose Us
           </a>
         </li>
         <li className={mobileMenuItem}>
-          <a className={mobileMenuAnchor} href={`${TNM_SITE}/the-plans/`}>
+          <a className={mobileMenuAnchor} href={`${getTnmSite}/the-plans/`}>
             The Plans
           </a>
         </li>
 
-        {process.env['NX_APP_ENV'] !== 'production' ? (
+        {process.env['NX_APP_ENV'] !== 'prod' ? (
           <li className={mobileMenuItem}>
-            <a className={mobileMenuAnchor} href={`${TNM_SITE}/pricing/`}>
+            <a className={mobileMenuAnchor} href={`${getTnmSite}/pricing/`}>
               Pricing
             </a>
           </li>
         ) : null}
         <li className={mobileMenuItem}>
-          <a className={mobileMenuAnchor} href={`${TNM_SITE}/get-started/`}>
+          <a className={mobileMenuAnchor} href={`${getTnmSite}/get-started/`}>
             Get Started
           </a>
         </li>

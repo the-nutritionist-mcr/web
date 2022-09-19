@@ -3,7 +3,7 @@ import Account from './account.svg';
 
 import { MobileMenu } from './mobile-menu';
 import { accountWrapper } from './mobile-header.css';
-import { TNM_SITE } from './tnm-site';
+import { getTnmSite } from './tnm-site';
 
 import { headerUnorderedListMobile } from './header.css';
 import {
@@ -34,12 +34,12 @@ const MobileHeader: FC = () => {
         </li>
 
         <li className={mobileLogoLi}>
-          <a href={TNM_SITE}>Home</a>
+          <a href={getTnmSite}>Home</a>
         </li>
 
         <li className={gettingStartedWrapper}>
           <a
-            href={`${TNM_SITE}/get-started/`}
+            href={`${getTnmSite}/get-started/`}
             className={mobileHeaderGettingStartedButton}
           >
             Get Started

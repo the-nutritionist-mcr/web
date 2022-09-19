@@ -38,13 +38,13 @@ export const youNeedToChoose = style({
 
 export const gridParent = style({
   display: 'grid',
-  width: '100%',
+  width: 'calc(100vw - 2rem)',
+  maxWidth: '1460px',
   gridTemplateColumns: '70% 30%',
 
   '@media': {
     'screen and (max-width: 899px)': {
       display: 'block',
-      width: '90vw',
     },
   },
 });

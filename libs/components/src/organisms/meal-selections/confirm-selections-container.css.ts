@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css';
-import platesImage from './plates.png';
 
 export const confirmSelectionsContainer = style({
   border: '1px solid black',
@@ -11,6 +10,10 @@ export const confirmSelectionsContainer = style({
       height: 'auto',
     },
   },
+});
+
+export const imgTags = style({
+  width: '100%',
 });
 
 export const confirmSelectionsImage = style({
