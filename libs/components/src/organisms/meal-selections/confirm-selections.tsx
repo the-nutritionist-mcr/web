@@ -7,6 +7,9 @@ import {
   summaryHeader,
 } from './confirm-selections-container.css';
 import { defaultDeliveryDays } from '@tnmw/config';
+import platesImage from './plates.png';
+
+import platesImageWebp from './plates.png?webp';
 import { ConfirmDelivery } from './confirm-delivery';
 import { countMeals } from './count-meals';
 import {
@@ -71,7 +74,29 @@ export const ConfirmSelections = (props: ConfirmSelectionsProps) => {
           );
         })}
       </div>
-      <div className={confirmSelectionsImage}></div>
+
+      <div className={confirmSelectionsImage}>
+        <picture>
+          <source
+            srcSet={platesImageWebp}
+            type="image/webp"
+            width="576"
+            height="1024"
+          />
+          <source
+            srcSet={platesImage}
+            type="image/jpeg"
+            width="576"
+            height="1024"
+          />
+          <img
+            src={platesImage}
+            width="576"
+            height="1024"
+            alt="Plates of TNM food"
+          />
+        </picture>
+      </div>
     </div>
   );
 };

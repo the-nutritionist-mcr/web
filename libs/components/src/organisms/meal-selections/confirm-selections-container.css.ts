@@ -6,15 +6,22 @@ export const confirmSelectionsContainer = style({
   padding: '1rem',
   height: '800px',
   overflow: 'scroll',
+  '@media': {
+    'screen and (max-width: 899px)': {
+      height: 'auto',
+    },
+  },
 });
 
 export const confirmSelectionsImage = style({
   border: '1px solid black',
-  background: `url(${platesImage})`,
+  height: '800px',
+  overflow: 'hidden',
+
   '@media': {
     'screen and (max-width: 899px)': {
       width: '100%',
-      height: 400,
+      height: '400px',
     },
   },
 });
