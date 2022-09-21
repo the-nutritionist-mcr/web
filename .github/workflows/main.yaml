@@ -61,7 +61,7 @@ jobs:
         run: echo "APP_VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       - name: Build Application
-        run: yarn nx build web-app
+        run: yarn nx build web-app && yarn nx export web-app
         env:
           NX_APP_VERSION: ${{ matrix.env }}
 
