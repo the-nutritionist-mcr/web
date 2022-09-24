@@ -30,11 +30,11 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
     authoriseBasic(
       event,
-      await chargebeeWebhookUsername,
-      await chargebeeWebhookPassword
+      (await chargebeeWebhookUsername) || '',
+      (await chargebeeWebhookPassword) || ''
     );
 
-    const chargebeeEvent = chargebee.event.deserialize(event.body);
+    const chargebeeEvent = chargebee.event.deserialize(event.body || '');
 
     const { email } = chargebeeEvent.content['customer'];
 

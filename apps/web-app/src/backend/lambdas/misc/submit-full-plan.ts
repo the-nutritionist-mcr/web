@@ -1,6 +1,6 @@
 import './init-dd-trace';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
-import { chooseMeals, chooseMealSelections } from '@tnmw/meal-planning';
+import { chooseMealSelections } from '@tnmw/meal-planning';
 import { ENV } from '@tnmw/constants';
 import { authoriseJwt } from '../data-api/authorise';
 import { parseCustomerList } from '../../../utils/parse-customer-list';
