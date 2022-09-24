@@ -31,7 +31,13 @@ const ONSUBMIT_DEBOUNCE = 500;
 
 const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
   const [recipe, setRecipe] = React.useState(props.recipe);
-  const exclusions = props.exclusions ?? [];
+  // eslint-disable-next-line fp/no-mutating-methods
+  const exclusions = (props.exclusions ?? [])
+    .slice()
+    .sort((a, b) =>
+      a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase() ? 1 : -1
+    );
+
   const recipes = props.recipes ?? [];
 
   const onSubmit = debounce(async (): Promise<void> => {
@@ -198,6 +204,7 @@ const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
                                 ...(recipe.alternates ?? []),
                               ];
 
+                              // eslint-disable-next-line fp/no-mutating-methods
                               newAlternates.splice(index, 1);
 
                               setRecipe({
