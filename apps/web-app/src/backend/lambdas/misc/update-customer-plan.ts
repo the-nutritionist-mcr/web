@@ -42,6 +42,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     ) {
       throw new HttpError(HTTP.statusCodes.Forbidden, 'nice try...');
     }
+    const environment = process.env[ENV.varNames.EnvironmentName];
 
     const dynamo = DynamoDBDocumentClient.from(dynamodbClient, {
       marshallOptions,
@@ -69,10 +70,12 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
       const recipes = items as Recipe[];
 
+      const bcc = environment === 'prod' ? [ORDERS_EMAIL] : [];
+
       const email: SendEmailCommandInput = {
         Destination: {
           ToAddresses: [selection.customer.email],
-          BccAddresses: [ORDERS_EMAIL],
+          BccAddresses: bcc,
         },
         Message: {
           Body: {
