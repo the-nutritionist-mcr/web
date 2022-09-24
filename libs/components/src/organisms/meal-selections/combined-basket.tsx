@@ -42,8 +42,8 @@ const CombinedBasket = ({
     <div className={selectedBox}>
       <h2 className={basketHeader}>YOUR SELECTIONS</h2>
       <Divider />
-      {currentSelection.customer.plans.flatMap((standardPlan) => {
-        return defaultDeliveryDays.flatMap((_, dayIndex) => {
+      {defaultDeliveryDays.flatMap((_, dayIndex) => {
+        return currentSelection.customer.plans.flatMap((standardPlan) => {
           const chosenSelection = getActivePlan(
             currentSelection.deliveries[dayIndex].plans,
             standardPlan

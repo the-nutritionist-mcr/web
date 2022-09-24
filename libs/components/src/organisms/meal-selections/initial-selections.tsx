@@ -40,8 +40,8 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
         currentTabIndex={props.currentTabIndex}
         onChangeIndex={props.onChangeIndex}
       >
-        {props.currentSelection.customer.plans.flatMap((category) => {
-          return defaultDeliveryDays.flatMap((_, dayIndex) => {
+        {defaultDeliveryDays.flatMap((_, dayIndex) => {
+          return props.currentSelection.customer.plans.flatMap((category) => {
             const chosenSelection = getActivePlan(
               props.currentSelection.deliveries[dayIndex].plans,
               category
