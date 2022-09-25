@@ -15,7 +15,7 @@ export const handler: Handler<
     event.triggerSource === 'CustomMessage_AdminCreateUser' ||
     event.triggerSource === 'CustomMessage_ForgotPassword'
   ) {
-    const domainName = getDomainName(process.env.ENVIRONMENT);
+    const domainName = getDomainName(process.env.ENVIRONMENT ?? '');
     event.response = {
       smsMessage: `TNM Invite`,
       emailSubject: 'Welcome to your personal Members Area',
