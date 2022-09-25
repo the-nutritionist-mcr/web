@@ -38,8 +38,11 @@ export const deleteChargebeeCustomer = async (id: string) => {
       });
     });
 
+    // eslint-disable-next-line fp/no-let, @typescript-eslint/no-explicit-any
+    let customer: any;
+    // eslint-disable-next-line fp/no-loops
     do {
-      let customer = await getCustomer(id);
+      customer = await getCustomer(id);
       console.log('Waiting for customer be deleted...');
       console.log(customer);
       console.log('After log');
