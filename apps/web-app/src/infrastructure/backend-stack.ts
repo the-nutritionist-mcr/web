@@ -16,8 +16,6 @@ interface BackendStackProps {
   transient: boolean;
   chargebeeSite: string;
   sesIdentityArn: string;
-  developerGroup: IGroup;
-  businessOwnersGroup: IGroup;
 }
 
 export class BackendStack extends Stack {
@@ -39,8 +37,7 @@ export class BackendStack extends Stack {
       this,
       transient,
       props.envName,
-      props.gitHash,
-      props.businessOwnersGroup
+      props.gitHash
     );
 
     makeDataApis(
@@ -51,8 +48,7 @@ export class BackendStack extends Stack {
       props.gitHash,
       props.sesIdentityArn,
       props.chargebeeSite,
-      props.forceUpdateKey,
-      props.developerGroup
+      props.forceUpdateKey
     );
 
     this.zone = hostedZone;

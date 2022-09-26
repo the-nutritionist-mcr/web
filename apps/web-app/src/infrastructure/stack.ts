@@ -80,8 +80,6 @@ const main = async () => {
     const backend = new BackendStack(app, `tnm-web-${envName}-stack`, {
       stackProps: { env },
       sesIdentityArn,
-      developerGroup: userStack.developersGroup,
-      businessOwnersGroup: userStack.businessOwnersGroup,
       envName,
       transient: config.transient,
       chargebeeSite: config.chargebeeSite,
