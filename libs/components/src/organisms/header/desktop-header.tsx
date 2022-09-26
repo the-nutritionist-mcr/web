@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { MobileMenu } from './mobile-menu';
 import Account from './account.svg';
-import { getTnmSite } from './tnm-site';
+import { TNM_SITE } from './tnm-site';
 import { useState } from 'react';
 
 import { headerUnorderedList, accountButton } from './header.css';
@@ -39,39 +39,39 @@ const DesktopHeader: FC = () => {
           </a>
         </li>
         <li className={`${headerListItem} ${hideOnMobile}`}>
-          <a className={menuAnchor} href={`${getTnmSite}/our-story/`}>
+          <a className={menuAnchor} href={`${TNM_SITE}/our-story/`}>
             Our Story
           </a>
         </li>
         <li className={`${headerListItem} ${hideOnMobile}`}>
-          <a href={`${getTnmSite}/why-choose-us/`} className={menuAnchor}>
+          <a href={`${TNM_SITE}/why-choose-us/`} className={menuAnchor}>
             Why Choose Us
           </a>
         </li>
         <li className={`${theNutritionistLogo} ${hideOnMobile}`}>
-          <a className={theNutritionistALink} href={getTnmSite}>
+          <a className={theNutritionistALink} href={TNM_SITE}>
             The Nutritionist MCR
           </a>
         </li>
         <li className={`${mobileLogoLi} ${hideOnDesktop}`}>
-          <a className={mobileLogoNA} href={getTnmSite}>
+          <a className={mobileLogoNA} href={TNM_SITE}>
             Home
           </a>
         </li>
         <li className={`${headerListItem} ${hideOnMobile}`}>
-          <a className={menuAnchor} href={`${getTnmSite}/the-plans/`}>
+          <a className={menuAnchor} href={`${TNM_SITE}/the-plans/`}>
             The Plans
           </a>
         </li>
-        {process.env.NX_APP_ENV !== 'prod' ? (
+        {process.env['NX_APP_ENV'] !== 'prod' ? (
           <li className={`${headerListItem} ${hideOnMobile}`}>
-            <a className={menuAnchor} href={`${getTnmSite}/pricing/`}>
+            <a className={menuAnchor} href={`${TNM_SITE}/pricing/`}>
               Pricing
             </a>
           </li>
         ) : null}
         <li className={headerListItem}>
-          <a href={`${getTnmSite}/get-started/`} className={getStartedButton}>
+          <a href={`${TNM_SITE}/get-started/`} className={getStartedButton}>
             Get Started
           </a>
         </li>
