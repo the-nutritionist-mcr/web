@@ -47,7 +47,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "cwd": "apps/web-app",
-        "command": "cdk deploy tnm-web-account-users-stack --require-approval never"
+        "command": "cdk deploy tnm-web-credentials-stack --require-approval never"
       }
     },
     "deploy-users:old": {

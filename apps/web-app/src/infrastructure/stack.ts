@@ -32,7 +32,7 @@ const sesIdentityArn = `arn:aws:ses:eu-west-2:568693217207:identity/thenutrition
 const forceUpdateKey = 'force-update-key';
 
 const main = async () => {
-  const userStack = new AccountUsersStack(app, 'tnm-web-account-users-stack', {
+  const userStack = new AccountUsersStack(app, 'tnm-web-credentials-stack', {
     businessOwners: ['lawrence', 'jess', 'ryan'],
     developers: ['ben'],
     stackProps: { env },
