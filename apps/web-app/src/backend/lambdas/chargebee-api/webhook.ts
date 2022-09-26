@@ -10,7 +10,6 @@ import { handleSubscriptionEvent } from './event-handlers/handle-subscription-ev
 import { authoriseBasic } from '../data-api/authorise';
 import { getEnv } from './get-env';
 import { getSecrets } from '../get-secrets';
-import { approvedTesters } from './approved-testers';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   const chargebee = new ChargeBee();
@@ -39,15 +38,6 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const { email } = chargebeeEvent.content['customer'];
 
     const environment = process.env[ENV.varNames.EnvironmentName];
-
-    if (
-      environment === 'prod' &&
-      (!email || !approvedTesters.includes(email.trim().toLowerCase()))
-    ) {
-      return {
-        statusCode: HTTP.statusCodes.Ok,
-      };
-    }
 
     if (
       environment !== 'prod' &&
