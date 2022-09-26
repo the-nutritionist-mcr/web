@@ -15,7 +15,7 @@ export const approvedTesters = [
   'mike@leadersincare.co.uk',
   'mikewright84@googlemail.com',
   'kate1411@googlemail.com',
-  'ahmadrobayan@hotmail.com ',
+  'ahmadrobayan@hotmail.com',
   'mbulley86@gmail.com',
   'stebulley@gmail.com',
 ];
