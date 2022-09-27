@@ -1,3 +1,5 @@
+import { MealPlanGeneratedForIndividualCustomer } from '@tnmw/types';
+
 const getClosingDate = (date: Date): Date => {
   const newDate = new Date(date.valueOf());
   newDate.setDate(newDate.getDate() + 1);
@@ -14,7 +16,12 @@ const getClosingDate = (date: Date): Date => {
 export const getClosedOrOpenStatus = (
   now: Date,
   data:
-    | { published: boolean; available: true; plan: { createdOn: Date } }
+    | {
+        published: boolean;
+        available: true;
+        plan: { createdOn: Date };
+        currentUserSelection?: MealPlanGeneratedForIndividualCustomer;
+      }
     | { available: false }
     | undefined
 ) => {
@@ -23,6 +30,10 @@ export const getClosedOrOpenStatus = (
   }
 
   if (!data.available) {
+    return false;
+  }
+
+  if (!data.currentUserSelection) {
     return false;
   }
 

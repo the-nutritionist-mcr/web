@@ -31,7 +31,6 @@ const YourAccountHeader = styled('h1')`
 `;
 
 const AccountPage = () => {
-  console.log('render');
   const { data } = usePlan();
 
   const user = useMe();

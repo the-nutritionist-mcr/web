@@ -43,7 +43,7 @@ export interface GetPlanResponseAdmin {
 export interface GetPlanResponseNonAdmin {
   planId: string;
   plan: WeeklyCookPlanWithoutCustomerPlans;
-  currentUserSelection: MealPlanGeneratedForIndividualCustomer;
+  currentUserSelection?: MealPlanGeneratedForIndividualCustomer;
   published: boolean;
   available: true;
   sort: string;

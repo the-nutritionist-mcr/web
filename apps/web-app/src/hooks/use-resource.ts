@@ -16,8 +16,6 @@ export const useResource = <T extends { id: string }>(
 ) => {
   const { mutate, cache } = useSWRConfig();
 
-  const loadingKey = `${type}-data`;
-
   const getType = () => {
     if (ids && ids.length === 0) {
       return false;
