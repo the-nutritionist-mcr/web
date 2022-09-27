@@ -21,12 +21,12 @@ export const RouterLoader = (props: RouterProps) => {
     const handleStop = () => {
       stopLoading();
     };
-    router.events.on('routeChangeStart', handleStart);
-    router.events.on('routeChangeComplete', handleStop);
+    router?.events?.on('routeChangeStart', handleStart);
+    router?.events?.on('routeChangeComplete', handleStop);
 
     return () => {
-      router.events.off('routeChangeStart', handleStart);
-      router.events.off('routeChangeComplete', handleStop);
+      router?.events?.off('routeChangeStart', handleStart);
+      router?.events?.off('routeChangeComplete', handleStop);
     };
   }, [router]);
 
