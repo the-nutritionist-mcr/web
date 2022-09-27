@@ -22,14 +22,14 @@ export const ConfigContext = createContext<ConfigContextType>({});
 const CONFIG_LOADER = 'config';
 
 export const ConfigProvider = (props: ConfigContextProviderProps) => {
-  const { startLoading, stopLoading } = useContext(LoadingContext);
+  const { useLoading } = useContext(LoadingContext);
+  const { stopLoading } = useLoading(CONFIG_LOADER);
 
   const [config, setConfig] = useState<StackConfig | undefined>();
   useEffect(() => {
-    startLoading(CONFIG_LOADER);
     (async () => {
       setConfig(await getAppConfig());
-      stopLoading(CONFIG_LOADER);
+      stopLoading();
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

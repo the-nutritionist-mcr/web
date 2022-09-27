@@ -17,7 +17,7 @@ import { HTTP } from '@tnmw/constants';
 import { DatadogProvider } from '../components/DataDogProvider';
 import { AuthenticationProvider } from '../components/authenticationprovider';
 import { HubCallback } from '@aws-amplify/core';
-import { ConfigProvider } from '../components/config-provider';
+import { RouterLoader } from '../components/router-loader';
 
 const navigator = {
   navigate: async (path: string, withRouter = true) => {
@@ -59,8 +59,8 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
       }}
     >
       <Loading>
-        <ConfigProvider>
-          <AuthenticationProvider>
+        <AuthenticationProvider>
+          <RouterLoader>
             <DatadogProvider>
               <NavigationContext.Provider value={navigator}>
                 <ThemeProvider theme={theme}>
@@ -81,8 +81,8 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
                 </ThemeProvider>
               </NavigationContext.Provider>
             </DatadogProvider>
-          </AuthenticationProvider>
-        </ConfigProvider>
+          </RouterLoader>
+        </AuthenticationProvider>
       </Loading>
     </SWRConfig>
   );

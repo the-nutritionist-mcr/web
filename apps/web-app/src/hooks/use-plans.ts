@@ -4,23 +4,14 @@ import {
   GetPlanResponseNonAdmin,
   NotYetPublishedResponse,
   SubmitCustomerOrderPayload,
-  MealSelectionPayload,
   MealPlanGeneratedForIndividualCustomer,
 } from '@tnmw/types';
 import useMutation from 'use-mutation';
 import { HTTP } from '@tnmw/constants';
 
-import useSWR, { useSWRConfig } from 'swr';
-import {
-  recursivelyDeserialiseDate,
-  SerialisedDate,
-  updateDelivery,
-} from '@tnmw/utils';
+import { useSWRConfig } from 'swr';
 import toast from 'react-hot-toast';
-import { LoadingContext } from '@tnmw/components';
-import { useContext } from 'react';
-
-const LOADING_KEY = 'plan-data';
+import { useSwrWrapper } from './use-swr-wrapper';
 
 type GetPlanResponse =
   | GetPlanResponseAdmin
@@ -29,20 +20,13 @@ type GetPlanResponse =
 
 export const usePlan = () => {
   const { mutate, cache } = useSWRConfig();
-  const { startLoading, stopLoading, isLoading } = useContext(LoadingContext);
 
-  const { data: serialisedData } = useSWR<SerialisedDate<GetPlanResponse>>(
-    'plan',
-    swrFetcher,
-    {
-      revalidateIfStale: true,
-      fallback: {
-        plan: { available: false, admin: false },
-      },
-    }
-  );
-
-  const data = recursivelyDeserialiseDate(serialisedData);
+  const { data } = useSwrWrapper<GetPlanResponse>('plan', swrFetcher, {
+    revalidateIfStale: true,
+    fallback: {
+      plan: { available: false, admin: false },
+    },
+  });
 
   const submitOrder = async (
     details: SubmitCustomerOrderPayload
@@ -59,7 +43,7 @@ export const usePlan = () => {
         method: HTTP.verbs.Post,
         body: JSON.stringify({
           id: 'plan',
-          sort: data.available && data.sort,
+          sort: data?.available && data.sort,
         }),
       };
       await swrFetcher('plan/publish', args);
@@ -88,7 +72,7 @@ export const usePlan = () => {
     await swrFetcher('customer/update-plan', {
       method: HTTP.verbs.Put,
       body: JSON.stringify({
-        id: serialisedData?.available && serialisedData.planId,
+        id: data?.available && data.planId,
         selection: newItem,
       }),
     });
@@ -123,6 +107,7 @@ export const usePlan = () => {
     },
 
     onSuccess() {
+      console.log('success');
       toast.success('Plan successfully updated');
     },
   });

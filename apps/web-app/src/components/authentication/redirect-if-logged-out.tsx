@@ -1,6 +1,6 @@
 import { AuthenticationServiceContext, LoadingContext } from '@tnmw/components';
 import { NavigationContext } from '@tnmw/utils';
-import { ReactNode, useContext } from 'react';
+import { ReactNode, useContext, useLayoutEffect } from 'react';
 import { LOADING_KEY } from '../authenticationprovider';
 
 interface RedirectIfLoggedOutProps {
@@ -19,18 +19,21 @@ export const RedirectIfLoggedOut = (props: RedirectIfLoggedOutProps) => {
 
   const { user } = useContext(AuthenticationServiceContext);
 
-  if (
+  const willRedirect =
     isBrowser &&
     hasFinishedLoadingUser &&
     (!user ||
       (props.allowedGroups &&
         !user.signInUserSession.accessToken.payload['cognito:groups'].some(
           (group) => props?.allowedGroups?.includes(group)
-        )))
-  ) {
-    console.log({ isBrowser, hasFinishedLoadingUser, user });
-    console.log(`redirect to ${props.redirectTo}`);
-    navigate?.(props.redirectTo, false);
-  }
-  return <>{props.children}</>;
+        )));
+
+  useLayoutEffect(() => {
+    if (willRedirect) {
+      console.log({ isBrowser, hasFinishedLoadingUser, user });
+      console.log(`redirect to ${props.redirectTo}`);
+      navigate?.(props.redirectTo, false);
+    }
+  }, [hasFinishedLoadingUser, navigate, props.redirectTo, user, willRedirect]);
+  return <>{willRedirect ? null : props.children}</>;
 };

@@ -28,13 +28,12 @@ interface AuthenticationProviderProps {
 export const LOADING_KEY = 'get-user';
 
 export const AuthenticationProvider = (props: AuthenticationProviderProps) => {
-  const [loaded, setLoaded] = useState(false);
-  const { startLoading, stopLoading } = useContext(LoadingContext);
+  const { useLoading } = useContext(LoadingContext);
+  const { stopLoading, getLoadingState } = useLoading(LOADING_KEY);
   const [user, setUser] = useState<CognitoUser | undefined>();
   useEffect(() => {
-    if (!loaded) {
-      startLoading(LOADING_KEY);
-      (async () => {
+    (async () => {
+      if (getLoadingState() === 'Started') {
         const foundUser = await currentUser();
         setUser(
           foundUser && {
@@ -45,13 +44,11 @@ export const AuthenticationProvider = (props: AuthenticationProviderProps) => {
               ]?.includes('admin'),
           }
         );
-        setLoaded(true);
-      })();
-    } else {
-      stopLoading(LOADING_KEY);
-    }
+        stopLoading();
+      }
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, loaded]);
+  }, [user]);
   return (
     <AuthenticationServiceContext.Provider
       value={{ ...authenticationService, user }}

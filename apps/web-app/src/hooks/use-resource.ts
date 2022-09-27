@@ -1,9 +1,8 @@
-import { LoadingContext } from '@tnmw/components';
-import { useContext } from 'react';
 import toast from 'react-hot-toast';
-import useSWR, { useSWRConfig } from 'swr';
+import { useSWRConfig } from 'swr';
 import useMutation from 'use-mutation';
 import { swrFetcher } from '../utils/swr-fetcher';
+import { useSwrWrapper } from './use-swr-wrapper';
 
 interface Response<T> {
   items: T[];
@@ -31,7 +30,7 @@ export const useResource = <T extends { id: string }>(
     return type;
   };
 
-  const { data: getData } = useSWR<Response<T>>(getType, swrFetcher);
+  const { data: getData } = useSwrWrapper<Response<T>>(getType, swrFetcher, {});
 
   const createItem = async <T extends { id: string }>(input: T): Promise<T> =>
     await swrFetcher<T>(type, {

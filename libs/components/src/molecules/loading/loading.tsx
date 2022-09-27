@@ -1,4 +1,10 @@
-import { ReactNode, useState, createContext } from 'react';
+import {
+  ReactNode,
+  useState,
+  createContext,
+  useLayoutEffect,
+  useEffect,
+} from 'react';
 
 interface LoadingProps {
   children: ReactNode;
@@ -12,63 +18,84 @@ interface LoadingHandles {
 
 interface LoadingContextType {
   isLoading: boolean;
+  useLoading: (id: string, dontStart?: boolean) => UseLoadingReturn;
   startLoading: (id: string) => void;
-  stopLoading: (id: string) => void;
   getLoadingState: (id: string) => LoadingState | undefined;
+}
+
+interface UseLoadingReturn {
+  stopLoading: () => void;
+  getLoadingState: () => LoadingState | undefined;
 }
 
 export const LoadingContext = createContext<LoadingContextType>({
   isLoading: false,
-  startLoading: () => {
-    // Noop
+  startLoading: (id: string) => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  getLoadingState: () => {
+    return undefined;
   },
-  stopLoading: () => {
-    // Noop
+
+  useLoading: () => {
+    return {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      stopLoading: () => {},
+      getLoadingState: () => 'Started',
+    };
   },
-  getLoadingState: () => undefined,
 });
 
-const LOADING_KEY = 'loading-component';
+const loadingHandles: LoadingHandles = {};
+
+const LOADING_KEY = 'loading-handler';
 
 export const Loading = (props: LoadingProps) => {
-  const [loadingHandles, setLoadingHandles] = useState<LoadingHandles>({
-    [LOADING_KEY]: 'Started',
-  });
+  const [isLoading, setIsLoading] = useState(true);
 
-  const isLoading = Object.values(loadingHandles).includes('Started');
+  const startLoading = (id: string) => {
+    loadingHandles[id] = 'Started';
+    setIsLoading(true);
+  };
+
+  const useLoading = (key: string, dontStart?: boolean) => {
+    useLayoutEffect(() => {
+      if (!dontStart) {
+        startLoading(key);
+      }
+    }, [key]);
+
+    const stopLoading = () => {
+      console.log(`Finished loading ${key}`);
+      loadingHandles[key] = 'Finished';
+
+      const isLoadingReally =
+        Object.values(loadingHandles).includes('Started') &&
+        Object.values(loadingHandles).length > 0;
+
+      setIsLoading(isLoadingReally);
+    };
+
+    // eslint-disable-next-line unicorn/consistent-function-scoping
+    const getLoadingState = (): LoadingState | undefined => {
+      return loadingHandles[key];
+    };
+
+    return { stopLoading, getLoadingState };
+  };
+
+  const { stopLoading } = useLoading(LOADING_KEY);
+
+  useEffect(() => {
+    stopLoading();
+  }, []);
 
   const getLoadingState = (id: string): LoadingState | undefined => {
     return loadingHandles[id];
   };
 
-  const startLoading = (id: string) => {
-    console.debug(`Loading ${id}`);
-    if (!isLoading) {
-      console.debug('already finished loading');
-      return;
-    }
-    setLoadingHandles({
-      ...loadingHandles,
-      [LOADING_KEY]: 'Finished',
-      [id]: 'Started',
-    });
-  };
-
-  const stopLoading = (id: string) => {
-    console.log(`Finished loading ${id}`);
-    if (!isLoading) {
-      return;
-    }
-    setLoadingHandles({
-      ...loadingHandles,
-      [LOADING_KEY]: 'Finished',
-      [id]: 'Finished',
-    });
-  };
-
   return (
     <LoadingContext.Provider
-      value={{ isLoading, startLoading, stopLoading, getLoadingState }}
+      value={{ startLoading, useLoading, isLoading, getLoadingState }}
     >
       {props.children}
     </LoadingContext.Provider>

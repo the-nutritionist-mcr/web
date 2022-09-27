@@ -13,8 +13,10 @@ export const RedirectIfLoggedIn = (props: RedirectIfLoggedInProps) => {
   const { navigate } = useContext(NavigationContext);
   const { isLoading } = useContext(LoadingContext);
   const { user } = useContext(AuthenticationServiceContext);
-  if (!isLoading && user && isBrowser) {
-    navigate(props.redirectTo);
+  const willRedirect = !isLoading && user && isBrowser;
+
+  if (willRedirect) {
+    navigate?.(props.redirectTo);
   }
-  return <>{props.children}</>;
+  return <>{willRedirect ? null : props.children}</>;
 };
