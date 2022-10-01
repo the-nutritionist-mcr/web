@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { MenuPaddedContent } from './menu-padded-content';
 import { AdminTemplate } from './admin-template';
 import { EditCustomerPage } from '@tnmw/admin-app';
+import toast from 'react-hot-toast';
 
 import { useRouter } from 'next/router';
 import { useCustomer } from '../../hooks/use-customer';
@@ -19,6 +20,7 @@ const resetPassword = async (payload: {
     method: HTTP.verbs.Post,
     body: JSON.stringify(payload),
   });
+  toast.success('Customers password has been successfully reset!');
 };
 
 const EditCustomer: FC = () => {

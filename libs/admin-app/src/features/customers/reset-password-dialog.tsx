@@ -8,6 +8,7 @@ import {
   FormField,
   Layer,
   Card,
+  Paragraph,
 } from 'grommet';
 import { Checkmark, Close } from 'grommet-icons';
 import { useState } from 'react';
@@ -30,6 +31,15 @@ export const ResetPasswordDialog = (props: ResetPasswordDialogProps) => {
           </Heading>
         </CardHeader>
         <CardBody pad="medium" alignSelf="center">
+          <Paragraph margin={{ bottom: 'medium', left: 'small' }}>
+            When you click OK, the customer's password will be reset as show in
+            the box below.
+          </Paragraph>
+          <Paragraph margin={{ bottom: 'medium', left: 'small' }}>
+            The customer will receive a welcome email containing the new
+            password. When they attempt to log in, they will be required to
+            change to a password that they can remember.
+          </Paragraph>
           <FormField>
             <TextInput
               value={password}
