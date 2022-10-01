@@ -6,6 +6,14 @@ import {
   CognitoIdentityProviderClient,
   AdminSetUserPasswordCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
+import {
+  SendEmailCommand,
+  SendEmailCommandInput,
+  SESClient,
+} from '@aws-sdk/client-ses';
+import { getUserFromAws } from '../../../utils/get-user-from-aws';
+import { makeEmail } from '../chargebee-api/portal-welcome-email';
+import { getDomainName } from '@tnmw/utils';
 
 export interface ResetPassswordPayload {
   username: string;
@@ -18,9 +26,13 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const body = JSON.parse(event.body ?? '{}');
 
-    const client = new CognitoIdentityProviderClient({
+    const user = await getUserFromAws(body.username);
+
+    const cognito = new CognitoIdentityProviderClient({
       region: process.env.AWS_REGION,
     });
+
+    const ses = new SESClient({});
 
     const command = new AdminSetUserPasswordCommand({
       UserPoolId: process.env.COGNITO_POOL_ID,
@@ -29,7 +41,39 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       Permanent: true,
     });
 
-    await client.send(command);
+    await cognito.send(command);
+
+    const domainName = getDomainName(process.env.ENVIRONMENT ?? '');
+
+    const email: SendEmailCommandInput = {
+      Destination: {
+        ToAddresses: [user.email],
+      },
+      Message: {
+        Body: {
+          Html: {
+            // eslint-disable-next-line unicorn/text-encoding-identifier-case
+            Charset: 'UTF-8',
+            Data: makeEmail(
+              user.firstName,
+              user.username ?? '',
+              body.newPassword,
+              `https://${domainName}`
+            ),
+          },
+        },
+        Subject: {
+          // eslint-disable-next-line unicorn/text-encoding-identifier-case
+          Charset: 'UTF-8',
+          Data: 'Your Meal Choices',
+        },
+      },
+      Source: 'no-reply@thenutritionistmcr.com',
+    };
+
+    const sendEmailCommand = new SendEmailCommand(email);
+
+    await ses.send(sendEmailCommand);
 
     return returnOkResponse({});
   } catch (error) {

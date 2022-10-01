@@ -8,6 +8,18 @@ import { useRouter } from 'next/router';
 import { useCustomer } from '../../hooks/use-customer';
 import { useCustomisations } from '../../hooks';
 import { RedirectIfLoggedOut } from '../../components/authentication/redirect-if-logged-out';
+import { swrFetcher } from '../../utils/swr-fetcher';
+import { HTTP } from '../../infrastructure/constants';
+
+const resetPassword = async (payload: {
+  username: string;
+  newPassword: string;
+}): Promise<void> => {
+  await swrFetcher('customer/reset-password', {
+    method: HTTP.verbs.Post,
+    body: JSON.stringify(payload),
+  });
+};
 
 const EditCustomer: FC = () => {
   const router = useRouter();
@@ -25,6 +37,7 @@ const EditCustomer: FC = () => {
         <AdminTemplate>
           {data && customisations && (
             <EditCustomerPage
+              resetPassword={resetPassword}
               saveCustomer={save}
               dirty={dirty}
               customer={data}

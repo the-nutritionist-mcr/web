@@ -13,6 +13,7 @@ import {
   TableHeader,
 } from 'grommet';
 import React, { FC } from 'react';
+import { ResetPasswordDialog } from './reset-password-dialog';
 import {
   planLabels,
   extrasLabels,
@@ -34,6 +35,10 @@ export interface EditCustomerPathParams {
   dirty: boolean;
   updateCustomer: (details: UpdateCustomerBody) => void;
   saveCustomer: (details: UpdateCustomerBody) => void;
+  resetPassword: (payload: {
+    username: string;
+    newPassword: string;
+  }) => Promise<void>;
 }
 
 const EditCustomerPage: FC<EditCustomerPathParams> = ({
@@ -41,10 +46,14 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
   customer,
   updateCustomer,
   saveCustomer,
+  resetPassword,
 }) => {
   const [dirty, setDirty] = React.useState(false);
-  const [planChanged, setPlanChanged] = React.useState(false);
+
   const [showPlanChangedDialog, setShowPlanChangedDialog] =
+    React.useState(false);
+
+  const [showResetPasswordDialog, setShowResetPasswordDialog] =
     React.useState(false);
 
   const onSubmit = debounce(async () => {
@@ -54,7 +63,6 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
     });
 
     setDirty(false);
-    setPlanChanged(false);
     setShowPlanChangedDialog(false);
   }, SUBMIT_DEBOUNCE);
 
@@ -69,12 +77,31 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
         You have made an update to this Customer&apos;s plan. This will result
         in the meals they receive changing. Are you sure you want to do this?
       </OkCancelDialog>
+      {showResetPasswordDialog && (
+        <ResetPasswordDialog
+          onCancel={() => setShowResetPasswordDialog(false)}
+          onSubmit={async (password) => {
+            await resetPassword({
+              username: customer.username,
+              newPassword: password,
+            });
+            setShowResetPasswordDialog(false);
+          }}
+        />
+      )}
       <Header
         justify="start"
         gap="small"
         style={{ marginBottom: '2rem', marginTop: '1rem' }}
       >
         <Heading level={2}>Update Customer</Heading>
+        <Button
+          primary
+          disabled={!dirty}
+          label="Save"
+          name="submit"
+          onClick={() => setShowPlanChangedDialog(true)}
+        />
         <Button
           primary
           disabled={!dirty}
@@ -154,7 +181,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {customer.plans?.map((plan, index) => {
+            {customer.plans?.map((plan) => {
               return (
                 <TableRow>
                   <TableCell scope="row">
@@ -205,7 +232,6 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
               ...customer,
               customPlan: plan,
             });
-            setPlanChanged(true);
             setDirty(true);
           }}
           exclusions={exclusions}

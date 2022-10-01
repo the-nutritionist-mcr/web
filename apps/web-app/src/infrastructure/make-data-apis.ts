@@ -350,6 +350,18 @@ export const makeDataApis = (
   resetPasswordFunction.addToRolePolicy(
     new PolicyStatement({
       effect: Effect.ALLOW,
+      actions: [IAM.actions.ses.sendEmail],
+      resources: [sesIdentityArn],
+    })
+  );
+
+  const resetPassword = customer.addResource('reset-password');
+
+  resetPassword.addMethod('POST', new LambdaIntegration(resetPasswordFunction));
+
+  resetPasswordFunction.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
       actions: [IAM.actions.cognito.adminSetUserPassword],
       resources: [pool.userPoolArn],
     })
