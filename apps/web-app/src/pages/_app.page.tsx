@@ -66,6 +66,10 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
                 <ThemeProvider theme={theme}>
                   <Head>
                     <title>The Nutritionist Manchester</title>
+                    <meta
+                      name="viewport"
+                      content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+                    />
                   </Head>
                   <Toaster
                     toastOptions={{
