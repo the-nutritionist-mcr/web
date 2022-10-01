@@ -9,6 +9,20 @@ const withPWA = require('next-pwa')({
   dest: 'public',
   cacheOnFrontEndNav: true,
   dynamicStartUrlRedirect: true,
+  runtimeCaching: [
+    {
+      handler: 'CacheFirst',
+      urlPattern: '/account',
+    },
+    {
+      handler: 'CacheFirst',
+      urlPattern: '/login',
+    },
+    {
+      handler: 'CacheFirst',
+      urlPattern: '/choose-meals',
+    },
+  ],
 });
 
 /**
