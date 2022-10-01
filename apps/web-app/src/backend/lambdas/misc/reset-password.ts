@@ -38,7 +38,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       UserPoolId: process.env.COGNITO_POOL_ID,
       Username: body.username,
       Password: body.newPassword,
-      Permanent: true,
+      Permanent: false,
     });
 
     await cognito.send(command);

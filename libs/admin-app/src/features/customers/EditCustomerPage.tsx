@@ -97,6 +97,11 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
         <Heading level={2}>Update Customer</Heading>
         <Button
           primary
+          label="Reset Password"
+          onClick={() => setShowResetPasswordDialog(true)}
+        />
+        <Button
+          primary
           disabled={!dirty}
           label="Save"
           name="submit"

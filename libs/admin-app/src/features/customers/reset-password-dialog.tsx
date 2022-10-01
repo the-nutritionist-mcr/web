@@ -9,6 +9,7 @@ import {
 } from 'grommet';
 import { Checkmark, Close } from 'grommet-icons';
 import { useState } from 'react';
+import randomString from 'randomstring';
 
 interface ResetPasswordDialogProps {
   onCancel: () => void;
@@ -16,7 +17,7 @@ interface ResetPasswordDialogProps {
 }
 
 export const ResetPasswordDialog = (props: ResetPasswordDialogProps) => {
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState(randomString.generate(8));
 
   return (
     <>
