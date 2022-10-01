@@ -1,7 +1,24 @@
 {
   "name": "TNM Portal",
   "short_name": "TNM",
-  "icons": [],
+  "icons": [
+    {
+      "src": "/icons/tnm-n-logo.svg",
+      "sizes": "192x192",
+      "type": "image/svg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/tnm-n-logo.svg",
+      "sizes": "384x384",
+      "type": "image/svg"
+    },
+    {
+      "src": "/icons/tnm-n-logo.svg",
+      "sizes": "512x512",
+      "type": "image/svg"
+    }
+  ],
   "theme_color": "#FFFFFF",
   "background_color": "#FFFFFF",
   "start_url": "/account",

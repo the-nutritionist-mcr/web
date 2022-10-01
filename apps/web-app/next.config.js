@@ -11,15 +11,15 @@ const withPWA = require('next-pwa')({
   dynamicStartUrlRedirect: true,
   runtimeCaching: [
     {
-      handler: 'CacheFirst',
+      handler: 'StaleWhileRevalidate',
       urlPattern: '/account',
     },
     {
-      handler: 'CacheFirst',
+      handler: 'StaleWhileRevalidate',
       urlPattern: '/login',
     },
     {
-      handler: 'CacheFirst',
+      handler: 'StaleWhileRevalidate',
       urlPattern: '/choose-meals',
     },
   ],
