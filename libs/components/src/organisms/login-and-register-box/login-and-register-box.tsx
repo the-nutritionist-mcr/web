@@ -2,10 +2,7 @@ import { TabBox, Tab } from '../../containers';
 import styled from '@emotion/styled';
 import { FC } from 'react';
 import LoginBox from './login-box';
-import { ParagraphText } from '../../atoms';
-const Padding = styled.div`
-  padding: 1.5rem 5rem 3rem 5rem;
-`;
+import { padding } from './login-and-register-box.css';
 
 interface LoginAndRegisterBoxProps {
   defaultTab: string;
@@ -40,18 +37,18 @@ const LoginAndRegisterBox: FC<LoginAndRegisterBoxProps> = (props) => (
       }}
     >
       <Tab tabTitle="Login">
-        <Padding>
+        <div className={padding}>
           <LoginBox />
-        </Padding>
+        </div>
       </Tab>
       <Tab tabTitle="Register">
-        <Padding>
+        <div className={padding}>
           <StyledP>
             We are not currently accepting registrations to the portal via the
             website. For more information about our services, you can book a
             consultation via the 'Get Started' button above.
           </StyledP>
-        </Padding>
+        </div>
       </Tab>
     </TabBox>
   </Box>
