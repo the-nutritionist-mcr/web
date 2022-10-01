@@ -1,0 +1,10 @@
+{
+  "name": "TNM Portal",
+  "short_name": "TNM",
+  "icons": [],
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "start_url": "/account",
+  "display": "standalone",
+  "orientation": "portrait"
+}
