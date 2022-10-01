@@ -331,6 +331,30 @@ export const makeDataApis = (
     }
   );
 
+  const resetPasswordFunction = new NodejsFunction(
+    context,
+    `reset-password-function`,
+    {
+      functionName: getResourceName(`reset-password-function`, envName),
+      entry: entryName('misc', 'reset-password.ts'),
+      runtime: Runtime.NODEJS_14_X,
+      memorySize: 2048,
+      environment: defaultEnvironmentVars,
+      bundling: {
+        externalModules: ['dd-trace', 'datadog-lambda-js'],
+        sourceMap: true,
+      },
+    }
+  );
+
+  resetPasswordFunction.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [IAM.actions.cognito.adminSetUserPassword],
+      resources: [pool.userPoolArn],
+    })
+  );
+
   updateCustomerPlanFunction.addToRolePolicy(
     new PolicyStatement({
       effect: Effect.ALLOW,
