@@ -5,6 +5,10 @@ const withVanillaExtract = createVanillaExtractPlugin();
 const withPlugins = require('next-compose-plugins');
 const withOptimizedImages = require('next-optimized-images');
 
+const withPWA = require('next-pwa')({
+  dest: 'public',
+});
+
 /**
  * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
  **/
@@ -17,7 +21,7 @@ const nextConfig = {
 };
 
 module.exports = withPlugins(
-  [withVanillaExtract, withNx, withOptimizedImages],
+  [withVanillaExtract, withNx, withOptimizedImages, withPWA],
 
   {
     outputFileTracing: false,
