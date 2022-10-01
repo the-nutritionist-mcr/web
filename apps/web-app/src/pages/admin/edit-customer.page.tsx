@@ -31,7 +31,7 @@ const EditCustomer: FC = () => {
 
   const userId = Array.isArray(id) ? id[0] : id;
 
-  const { data, update, save, dirty } = useCustomer(userId);
+  const { data, update, save, dirty } = useCustomer(userId ?? '');
 
   return (
     <RedirectIfLoggedOut allowedGroups={['admin']} redirectTo="/login">

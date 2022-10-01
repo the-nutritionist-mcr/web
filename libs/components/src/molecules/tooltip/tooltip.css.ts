@@ -16,6 +16,25 @@ export const tooltipText = style({
   padding: '1.3rem',
   zIndex: '1',
   fontFamily: "'Acumin Pro', Arial, sans-serif",
+  '@media': {
+    'screen and (max-width: 899px)': {
+      left: 'unset',
+      right: '-10px',
+      top: '5rem',
+
+      selectors: {
+        '&::before': {
+          left: 'unset',
+          right: '25px',
+        },
+
+        '&::after': {
+          left: 'unset',
+          right: '26px',
+        },
+      },
+    },
+  },
   selectors: {
     '&::before': {
       content: '',
