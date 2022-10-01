@@ -107,13 +107,6 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
           name="submit"
           onClick={() => setShowPlanChangedDialog(true)}
         />
-        <Button
-          primary
-          disabled={!dirty}
-          label="Save"
-          name="submit"
-          onClick={() => setShowPlanChangedDialog(true)}
-        />
         {customer.plans.length > 0 &&
           (!customer.customPlan ? (
             <Button
