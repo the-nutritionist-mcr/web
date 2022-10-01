@@ -65,7 +65,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         Subject: {
           // eslint-disable-next-line unicorn/text-encoding-identifier-case
           Charset: 'UTF-8',
-          Data: 'Your Meal Choices',
+          Data: 'Welcome to your personal Members Area',
         },
       },
       Source: 'no-reply@thenutritionistmcr.com',
