@@ -20,7 +20,7 @@ const resetPassword = async (payload: {
     method: HTTP.verbs.Post,
     body: JSON.stringify(payload),
   });
-  toast.success('Customers password has been successfully reset!');
+  toast.success('Customer password successfully reset!');
 };
 
 const EditCustomer: FC = () => {
