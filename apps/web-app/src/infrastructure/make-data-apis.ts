@@ -362,7 +362,10 @@ export const makeDataApis = (
   resetPasswordFunction.addToRolePolicy(
     new PolicyStatement({
       effect: Effect.ALLOW,
-      actions: [IAM.actions.cognito.adminSetUserPassword],
+      actions: [
+        IAM.actions.cognito.adminSetUserPassword,
+        IAM.actions.cognito.adminGetUser,
+      ],
       resources: [pool.userPoolArn],
     })
   );
