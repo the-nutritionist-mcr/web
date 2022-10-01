@@ -7,6 +7,8 @@ const withOptimizedImages = require('next-optimized-images');
 
 const withPWA = require('next-pwa')({
   dest: 'public',
+  cacheOnFrontEndNav: true,
+  dynamicStartUrlRedirect: true,
 });
 
 /**
