@@ -4,6 +4,7 @@ export { makeCookPlan } from './lib/make-cook-plan';
 export { createVariant } from './lib/create-variant';
 export { generateLabelData } from './lib/generate-label-data';
 export { getRealRecipe, performSwaps } from './lib/get-real-recipe';
+export { getCookStatus } from './lib/get-cook-status';
 
 export {
   generateDistribution,

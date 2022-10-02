@@ -5,6 +5,7 @@ import TabButton from './tab-button';
 import MealList from './meal-list';
 import { totalOtherSelected } from './total-other-selected';
 import {
+  BackendCustomer,
   MealPlanGeneratedForIndividualCustomer,
   PlannedCook,
   PlanWithMeals,
@@ -14,6 +15,7 @@ import {
 import CombinedBasket from './combined-basket';
 import { updateAllSelectedMeals } from './update-all-selected';
 import { gridParent } from './initial-selections.css';
+import { getCookStatus } from '@tnmw/meal-planning';
 
 export type SelectedMeals = { [key: string]: number }[][];
 
@@ -24,6 +26,7 @@ export interface InitialSelectionsProps {
   onChangeIndex: (index: number) => void;
   recipes: Recipe[];
   cooks: PlannedCook[];
+  customer: BackendCustomer;
 }
 
 const getActivePlan = (plans: PlanWithMeals[], customerPlan: StandardPlan) => {
@@ -40,8 +43,12 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
         currentTabIndex={props.currentTabIndex}
         onChangeIndex={props.onChangeIndex}
       >
-        {defaultDeliveryDays.flatMap((_, dayIndex) => {
-          return props.currentSelection.customer.plans.flatMap((category) => {
+        {props.cooks.flatMap((cook, dayIndex) => {
+          const plans = props.customer.plans.filter(
+            (plan) => getCookStatus(cook.date, plan).status === 'active'
+          );
+
+          return plans.flatMap((category) => {
             const chosenSelection = getActivePlan(
               props.currentSelection.deliveries[dayIndex].plans,
               category

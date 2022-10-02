@@ -22,6 +22,7 @@ import {
 import { goAheadAndSubmit } from './confirm-selections-container.css';
 import { MealPlanGeneratedForIndividualCustomer } from '@tnmw/types';
 import { countRemainingMeals } from './count-remaining-meals';
+import { getCookStatus } from '@tnmw/meal-planning';
 
 export interface ChooseMealsCustomer {
   customisations?: BackendCustomer['customisations'];
@@ -56,10 +57,11 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
   const [submittingOrder, setSubmittingOrder] = useState(false);
   const [complete, setComplete] = useState(false);
 
-  const customerPlans = props.currentSelection.customer.plans;
-
-  const availableMealCategoriesWithoutExtras = customerPlans.filter(
-    (category) => !category.isExtra
+  const customerPlans = props.cooks.flatMap((cook, index) =>
+    props.customer.plans.filter(
+      (plan) =>
+        getCookStatus(cook.date, plan).status === 'active' && !plan.isExtra
+    )
   );
 
   const remainingWithoutExtras = countRemainingMeals(
@@ -81,8 +83,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
 
   const remainingString = `You need to choose ${totalRemaining} meals${remainingBreakdownString}`;
 
-  const tabs =
-    availableMealCategoriesWithoutExtras.length * defaultDeliveryDays.length;
+  const tabs = customerPlans.length;
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -155,6 +156,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
           <InitialSelections
             {...props}
             currentSelection={selectedMeals}
+            customer={props.customer}
             setSelectedMeals={setSelectedMeals}
             recipes={props.recipes}
             currentTabIndex={tabIndex}
