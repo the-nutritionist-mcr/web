@@ -66,7 +66,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
 
   const remainingWithoutExtras = countRemainingMeals(
     selectedMeals,
-    props.customer.plans
+    customerPlans
   );
 
   const totalRemaining = Object.values(remainingWithoutExtras).reduce(
