@@ -43,7 +43,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     await cognito.send(command);
 
-    const domainName = getDomainName(process.env.ENVIRONMENT ?? '');
+    const domainName = getDomainName(process.env.ENVIRONMENT_NAME ?? '');
 
     const email: SendEmailCommandInput = {
       Destination: {
