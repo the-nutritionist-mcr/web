@@ -26,6 +26,8 @@ export interface CognitoUser {
   };
 }
 
+export type LogoutFunc = () => Promise<void>;
+
 export interface AuthenticationContextType {
   login?: LoginFunc;
   register?: RegisterFunc;
@@ -34,6 +36,7 @@ export interface AuthenticationContextType {
   user?: CognitoUser;
   forgotPassword?: ForgotPasswordFunc;
   waitForAuthEvent?: (name: string) => Promise<void>;
+  signOut?: LogoutFunc;
 }
 
 export const AuthenticationServiceContext =

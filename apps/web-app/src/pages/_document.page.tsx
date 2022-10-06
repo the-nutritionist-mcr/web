@@ -8,9 +8,8 @@ const Document = () => {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap"
         />
-
+        <link rel="manifest" href="/manifest.json" />
         <meta name="application-name" content="The Nutritionist Mancheser" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta
           name="apple-mobile-web-app-title"
@@ -26,7 +25,7 @@ const Document = () => {
         <meta name="msapplication-TileColor" content="#2B5797" />
         <meta name="msapplication-tap-highlight" content="no" />
         <meta name="theme-color" content="#000000" />
-
+        <meta name="apple-mobile-web-app-capable" content="yes" />
         {/*
         <link rel="apple-touch-icon" href="/icons/touch-icon-iphone.png" />
         <link

@@ -68,6 +68,8 @@ export const Loading = (props: LoadingProps) => {
       console.log(`Finished loading ${key}`);
       loadingHandles[key] = 'Finished';
 
+      console.log(loadingHandles);
+
       const isLoadingReally =
         Object.values(loadingHandles).includes('Started') &&
         Object.values(loadingHandles).length > 0;

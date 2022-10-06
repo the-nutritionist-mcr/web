@@ -13,7 +13,7 @@ const getConfigurer = () => {
       config = await getAppConfig();
 
       const domain = process.env.NEXT_PUBLIC_IS_LOCAL_DEV
-        ? 'localhost'
+        ? '192.168.1.102'
         : config.DomainName;
       const secure = !process.env.NEXT_PUBLIC_IS_LOCAL_DEV;
 
@@ -31,8 +31,6 @@ const getConfigurer = () => {
           },
         },
       };
-
-      console.log(authConfig);
 
       Auth.configure(authConfig);
     }

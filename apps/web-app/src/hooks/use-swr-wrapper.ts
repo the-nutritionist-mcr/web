@@ -44,8 +44,6 @@ export const useSwrWrapper = <T = unknown>(
     stopLoading();
   }
 
-  console.log(`response`, JSON.stringify(rest, null, 2));
-
   return {
     ...response,
     data: data && recursivelyDeserialiseDate<T>(data),

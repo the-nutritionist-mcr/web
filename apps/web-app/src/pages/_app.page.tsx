@@ -21,12 +21,8 @@ import { RouterLoader } from '../components/router-loader';
 
 const navigator = {
   navigate: async (path: string, withRouter = true) => {
-    if (withRouter) {
-      // eslint-disable-next-line fp/no-mutating-methods
-      await Router.push(path);
-    } else {
-      window.location.href = path;
-    }
+    // eslint-disable-next-line fp/no-mutating-methods
+    await Router.push(path);
   },
 };
 

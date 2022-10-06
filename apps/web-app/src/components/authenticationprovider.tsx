@@ -31,27 +31,43 @@ export const AuthenticationProvider = (props: AuthenticationProviderProps) => {
   const { useLoading } = useContext(LoadingContext);
   const { stopLoading, getLoadingState } = useLoading(LOADING_KEY);
   const [user, setUser] = useState<CognitoUser | undefined>();
+
+  const loadUser = async () => {
+    const foundUser = await currentUser();
+    setUser(
+      foundUser && {
+        ...foundUser,
+        isAdmin:
+          foundUser?.signInUserSession?.accessToken?.payload[
+            'cognito:groups'
+          ]?.includes('admin'),
+      }
+    );
+    stopLoading();
+  };
+
+  const signIn = async (username: string, password: string) => {
+    const response = await login(username, password);
+    await loadUser();
+    return response;
+  };
+
+  const logout = async () => {
+    await signOut();
+    setUser(undefined);
+  };
+
   useEffect(() => {
     (async () => {
       if (getLoadingState() === 'Started') {
-        const foundUser = await currentUser();
-        setUser(
-          foundUser && {
-            ...foundUser,
-            isAdmin:
-              foundUser?.signInUserSession?.accessToken?.payload[
-                'cognito:groups'
-              ]?.includes('admin'),
-          }
-        );
-        stopLoading();
+        await loadUser();
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
   return (
     <AuthenticationServiceContext.Provider
-      value={{ ...authenticationService, user }}
+      value={{ ...authenticationService, user, signOut: logout, login: signIn }}
     >
       {props.children}
     </AuthenticationServiceContext.Provider>

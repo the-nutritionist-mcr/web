@@ -21,7 +21,8 @@
   ],
   "theme_color": "#FFFFFF",
   "background_color": "#FFFFFF",
-  "start_url": "/account",
+  "start_url": "/account/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait"
 }

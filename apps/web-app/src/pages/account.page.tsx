@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import Image from 'next/image';
-import { Hero, Account } from '@tnmw/components';
-import { signOut } from '../aws/authenticate';
+import { Hero, Account, AuthenticationServiceContext } from '@tnmw/components';
 import { PageSpacing } from './page-spacing';
 
 import AccountIcon from '../images/TNM_Icons_Final_Account.png';
@@ -36,13 +35,17 @@ const AccountPage = () => {
   const user = useMe();
 
   const now = new Date(Date.now());
+  const { signOut } = useContext(AuthenticationServiceContext);
+
+  if (!signOut) {
+    throw new Error('Dependencies not configured!');
+  }
 
   const chooseIsOpen = getClosedOrOpenStatus(now, data);
-  const { navigate } = useContext(NavigationContext);
+  // const { navigate } = useContext(NavigationContext);
 
   const logout = async () => {
     await signOut();
-    await navigate?.('/login', false);
   };
 
   return (
