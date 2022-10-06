@@ -18,6 +18,7 @@ export const RedirectIfLoggedIn = (props: RedirectIfLoggedInProps) => {
 
   useEffect(() => {
     if (willRedirect) {
+      console.debug(`Redirecting to ${props.redirectTo}`);
       navigate?.(props.redirectTo);
     }
   }, [willRedirect]);

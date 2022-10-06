@@ -18,6 +18,7 @@ import { DatadogProvider } from '../components/DataDogProvider';
 import { AuthenticationProvider } from '../components/authenticationprovider';
 import { HubCallback } from '@aws-amplify/core';
 import { RouterLoader } from '../components/router-loader';
+import { ConfigProvider } from '../components/config-provider';
 
 const navigator = {
   navigate: async (path: string, withRouter = true) => {
@@ -55,34 +56,36 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
       }}
     >
       <Loading>
-        <AuthenticationProvider>
-          <RouterLoader>
-            <DatadogProvider>
-              <NavigationContext.Provider value={navigator}>
-                <ThemeProvider theme={theme}>
-                  <Head>
-                    <title>The Nutritionist Manchester</title>
-                    <meta
-                      name="viewport"
-                      content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+        <ConfigProvider>
+          <AuthenticationProvider>
+            <RouterLoader>
+              <DatadogProvider>
+                <NavigationContext.Provider value={navigator}>
+                  <ThemeProvider theme={theme}>
+                    <Head>
+                      <title>The Nutritionist Manchester</title>
+                      <meta
+                        name="viewport"
+                        content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+                      />
+                    </Head>
+                    <Toaster
+                      toastOptions={{
+                        style: {
+                          fontFamily: 'Roboto',
+                          maxWidth: 700,
+                        },
+                      }}
                     />
-                  </Head>
-                  <Toaster
-                    toastOptions={{
-                      style: {
-                        fontFamily: 'Roboto',
-                        maxWidth: 700,
-                      },
-                    }}
-                  />
-                  <Layout user={pageProps.user}>
-                    <Component {...pageProps} />
-                  </Layout>
-                </ThemeProvider>
-              </NavigationContext.Provider>
-            </DatadogProvider>
-          </RouterLoader>
-        </AuthenticationProvider>
+                    <Layout user={pageProps.user}>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </ThemeProvider>
+                </NavigationContext.Provider>
+              </DatadogProvider>
+            </RouterLoader>
+          </AuthenticationProvider>
+        </ConfigProvider>
       </Loading>
     </SWRConfig>
   );

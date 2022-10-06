@@ -1,7 +1,8 @@
 import { Grommet } from 'grommet';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Loading } from '@tnmw/components';
+import { prefetch } from '../../hooks/pre-fetch';
 
 const theme = {
   global: {
@@ -21,10 +22,15 @@ interface AdminTemplateProps {
   children: ReactNode;
 }
 
-export const AdminTemplate = (props: AdminTemplateProps) => (
-  <Grommet theme={theme}>
-    <Padding>{props.children}</Padding>
-  </Grommet>
-);
+export const AdminTemplate = (props: AdminTemplateProps) => {
+  // useEffect(() => {
+  //   prefetch(['customers', 'recipe', 'customisation', 'plan']);
+  // }, []);
+  return (
+    <Grommet theme={theme}>
+      <Padding>{props.children}</Padding>
+    </Grommet>
+  );
+};
 
 export default AdminTemplate;
