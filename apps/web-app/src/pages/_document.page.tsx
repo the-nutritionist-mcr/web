@@ -6,7 +6,7 @@ const Document = () => {
       <Head>
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=optional"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap"
         />
 
         <meta name="application-name" content="The Nutritionist Mancheser" />

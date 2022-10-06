@@ -6,7 +6,7 @@ export const hide = style({
 
 export const loader = style({
   width: '100%',
-  paddingTop: '2rem',
+  paddingTop: 'calc(88px + 2rem + 32px)',
   height: '100%',
   justifyContent: 'center',
 });

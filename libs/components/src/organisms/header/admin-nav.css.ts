@@ -7,10 +7,22 @@ export const headerListItem = style({
   fontWeight: 300,
 });
 
+export const adminNavLink = style({
+  textDecoration: 'none',
+  color: 'black',
+  selectors: {
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
+});
+
 export const headerUnorderedList = style({
   display: 'flex',
   width: '100%',
-  fontSize: '16px',
+  fontSize: '22px',
+  height: '32px',
+  fontFamily: "'Acumin Pro', Arial, sans-serif",
   justifyContent: 'center',
   gap: '1rem',
   margin: 0,

@@ -5,7 +5,8 @@ const HeroBox = styled('div')(({ theme }) => {
   return {
     minHeight: '330px',
     width: '100%',
-    height: '330px',
+    height: 'calc(330px + 88px)',
+    padding: '88px 0 0 0',
     borderBottom: '1px solid black',
     fontFamily: '"Acumin Pro Semicondensed", Arial, sans-serif',
     display: 'flex',

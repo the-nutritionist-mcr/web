@@ -14,7 +14,7 @@ const theme = {
 };
 
 const Padding = styled.div`
-  padding: 1rem 1rem;
+  padding: calc(1rem + 108px) 1rem;
 `;
 
 interface AdminTemplateProps {

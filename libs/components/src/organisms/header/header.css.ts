@@ -61,21 +61,32 @@ export const accountButton = style({
   },
 });
 
+export const headerHidden = style({
+  transform: 'translateY(-100%)',
+});
+
 export const header = style({
-  height: '88px',
   display: 'flex',
-  flexDirection: 'row',
+  flexDirection: 'column',
   justifyContent: 'center',
-  alignItems: 'center',
   position: 'fixed',
-  background: 'white',
   fontSize: '21px',
   top: 0,
   left: 0,
   right: 0,
   zIndex: 19,
-  borderBottom: '1px solid #0d0d0d',
   width: '100vw',
+  transition: 'ease transform 0.3s !important',
+});
+
+export const customerHeader = style({
+  borderBottom: '1px solid #0d0d0d',
+  height: '88px',
+  alignItems: 'center',
+  display: 'flex',
+  flexDirection: 'row',
+  width: '100%',
+  background: 'white',
 });
 
 export const headerMobile = style({
