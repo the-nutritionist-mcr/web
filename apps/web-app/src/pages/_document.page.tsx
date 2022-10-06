@@ -26,22 +26,16 @@ const Document = () => {
         <meta name="msapplication-tap-highlight" content="no" />
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        {/*
-        <link rel="apple-touch-icon" href="/icons/touch-icon-iphone.png" />
+        <link rel="apple-touch-icon" href="/icons/TNM-N-152.png" />
         <link
           rel="apple-touch-icon"
           sizes="152x152"
-          href="/icons/touch-icon-ipad.png"
+          href="/icons/TNM-N-152.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href="/icons/touch-icon-iphone-retina.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="167x167"
-          href="/icons/touch-icon-ipad-retina.png"
+          href="/icons/TNM-N-180.png"
         />
 
         <link
@@ -62,7 +56,6 @@ const Document = () => {
           href="/icons/safari-pinned-tab.svg"
           color="#5bbad5"
         />
-        */}
 
         <meta
           name="twitter:card"

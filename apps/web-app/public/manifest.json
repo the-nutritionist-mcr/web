@@ -3,20 +3,54 @@
   "short_name": "TNM",
   "icons": [
     {
-      "src": "/icons/tnm-n-logo.svg",
+      "src": "/icons/TNM-N-72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/TNM-N-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/TNM-N-120.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/TNM-N-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/TNM-N-144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/TNM-N-152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/TNM-N-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/TNM-N-192.png",
       "sizes": "192x192",
-      "type": "image/svg",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
-      "src": "/icons/tnm-n-logo.svg",
+      "src": "/icons/TNM-N-384.png",
       "sizes": "384x384",
-      "type": "image/svg"
+      "type": "image/png"
     },
     {
-      "src": "/icons/tnm-n-logo.svg",
+      "src": "/icons/TNM-N-512.png",
       "sizes": "512x512",
-      "type": "image/svg"
+      "type": "image/png"
     }
   ],
   "theme_color": "#FFFFFF",

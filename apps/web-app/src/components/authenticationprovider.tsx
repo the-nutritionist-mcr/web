@@ -33,10 +33,8 @@ export const AuthenticationProvider = (props: AuthenticationProviderProps) => {
   const { stopLoading, getLoadingState } = useLoading(LOADING_KEY);
   const [user, setUser] = useState<CognitoUser | undefined>();
 
-  const loadUser = async (event) => {
-    console.log(event);
+  const loadUser = async () => {
     const foundUser = await currentUser();
-    console.log(foundUser);
     setUser(
       foundUser && {
         ...foundUser,

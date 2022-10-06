@@ -42,7 +42,6 @@ const AccountPage = () => {
   }
 
   const chooseIsOpen = getClosedOrOpenStatus(now, data);
-  // const { navigate } = useContext(NavigationContext);
 
   const logout = async () => {
     await signOut();
