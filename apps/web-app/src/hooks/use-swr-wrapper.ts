@@ -18,24 +18,19 @@ export const useSwrWrapper = <T = unknown>(
 
   const { stopLoading, getLoadingState } = useLoading(loadingKey);
 
-  type OnSuccessType = Exclude<
-    Exclude<typeof options, undefined>['onSuccess'],
+  type OnErrorType = Exclude<
+    Exclude<typeof options, undefined>['onError'],
     undefined
   >;
 
-  const success = (...args: Parameters<OnSuccessType>) => {
-    options?.onSuccess?.(...args);
+  const error = (...args: Parameters<OnErrorType>) => {
+    options?.onError?.(...args);
     if (getLoadingState() === 'Started') {
       stopLoading();
     }
   };
 
-  const finalArgs = [
-    key,
-    fetcher,
-    options,
-    // { ...options, onSuccess: success },
-  ] as const;
+  const finalArgs = [key, fetcher, { ...options, onError: error }] as const;
 
   const response = useSWR<SerialisedDate<T>>(...finalArgs);
   const { data, ...rest } = response;
