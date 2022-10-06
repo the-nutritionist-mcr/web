@@ -1,4 +1,5 @@
 import { AuthenticationServiceContext, LoadingContext } from '@tnmw/components';
+import { Hub } from 'aws-amplify';
 import { ReactNode, useContext, useEffect, useState } from 'react';
 
 import {
@@ -32,8 +33,10 @@ export const AuthenticationProvider = (props: AuthenticationProviderProps) => {
   const { stopLoading, getLoadingState } = useLoading(LOADING_KEY);
   const [user, setUser] = useState<CognitoUser | undefined>();
 
-  const loadUser = async () => {
+  const loadUser = async (event) => {
+    console.log(event);
     const foundUser = await currentUser();
+    console.log(foundUser);
     setUser(
       foundUser && {
         ...foundUser,
@@ -46,28 +49,19 @@ export const AuthenticationProvider = (props: AuthenticationProviderProps) => {
     stopLoading();
   };
 
-  const signIn = async (username: string, password: string) => {
-    const response = await login(username, password);
-    await loadUser();
-    return response;
-  };
-
-  const logout = async () => {
-    await signOut();
-    setUser(undefined);
-  };
-
   useEffect(() => {
+    Hub.listen('auth', loadUser);
     (async () => {
       if (getLoadingState() === 'Started') {
         await loadUser();
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => Hub.remove('auth', loadUser);
   }, [user]);
   return (
     <AuthenticationServiceContext.Provider
-      value={{ ...authenticationService, user, signOut: logout, login: signIn }}
+      value={{ ...authenticationService, user }}
     >
       {props.children}
     </AuthenticationServiceContext.Provider>

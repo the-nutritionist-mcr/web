@@ -12,6 +12,9 @@ const StyledFooter = styled.footer`
   box-sizing: border-box;
   position: relative;
   background: #253a3d;
+  @media (display-mode: standalone) {
+    display: none;
+  }
 `;
 
 const FooterStrip = styled.div`
