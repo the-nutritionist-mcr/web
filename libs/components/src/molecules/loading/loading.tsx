@@ -26,10 +26,12 @@ interface LoadingContextType {
 interface UseLoadingReturn {
   stopLoading: () => void;
   getLoadingState: () => LoadingState | undefined;
+  resetLoading: () => void;
 }
 
 export const LoadingContext = createContext<LoadingContextType>({
   isLoading: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   startLoading: (id: string) => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   getLoadingState: () => {
@@ -41,11 +43,14 @@ export const LoadingContext = createContext<LoadingContextType>({
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       stopLoading: () => {},
       getLoadingState: () => 'Started',
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      resetLoading: () => {},
     };
   },
 });
 
-const loadingHandles: LoadingHandles = {};
+// eslint-disable-next-line fp/no-let
+let loadingHandles: LoadingHandles = {};
 
 const LOADING_KEY = 'loading-handler';
 
@@ -53,6 +58,7 @@ export const Loading = (props: LoadingProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const startLoading = (id: string) => {
+    console.debug(`Started loading '${id}'`);
     loadingHandles[id] = 'Started';
     setIsLoading(true);
   };
@@ -64,11 +70,14 @@ export const Loading = (props: LoadingProps) => {
       }
     }, [key]);
 
-    const stopLoading = () => {
-      console.log(`Finished loading ${key}`);
-      loadingHandles[key] = 'Finished';
+    // eslint-disable-next-line unicorn/consistent-function-scoping
+    const resetLoading = () => {
+      loadingHandles = {};
+    };
 
-      console.log(loadingHandles);
+    const stopLoading = () => {
+      console.debug(`Finished loading '${key}'`);
+      loadingHandles[key] = 'Finished';
 
       const isLoadingReally =
         Object.values(loadingHandles).includes('Started') &&
@@ -82,7 +91,7 @@ export const Loading = (props: LoadingProps) => {
       return loadingHandles[key];
     };
 
-    return { stopLoading, getLoadingState };
+    return { stopLoading, getLoadingState, resetLoading };
   };
 
   const { stopLoading } = useLoading(LOADING_KEY);

@@ -83,6 +83,7 @@ export const customerHeader = style({
   borderBottom: '1px solid #0d0d0d',
   height: '88px',
   alignItems: 'center',
+  justifyContent: 'center',
   display: 'flex',
   flexDirection: 'row',
   width: '100%',

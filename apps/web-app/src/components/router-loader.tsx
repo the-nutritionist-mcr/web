@@ -9,12 +9,13 @@ interface RouterProps {
 const LOADING_KEY = 'router';
 export const RouterLoader = (props: RouterProps) => {
   const { startLoading, useLoading } = useContext(LoadingContext);
-  const { stopLoading } = useLoading(LOADING_KEY, true);
+  const { stopLoading, resetLoading } = useLoading(LOADING_KEY, true);
 
   const router = useRouter();
 
   useEffect(() => {
     const handleStart = () => {
+      resetLoading();
       startLoading(LOADING_KEY);
     };
 
