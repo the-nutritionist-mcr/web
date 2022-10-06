@@ -8,8 +8,17 @@ const withOptimizedImages = require('next-optimized-images');
 const withPWA = require('next-pwa')({
   dest: 'public',
   cacheOnFrontEndNav: true,
+  cacheStartUrl: true,
   dynamicStartUrlRedirect: true,
   runtimeCaching: [
+    {
+      handler: 'StaleWhileRevalidate',
+      urlPattern: /\.manifest\.json/,
+    },
+    {
+      handler: 'StaleWhileRevalidate',
+      urlPattern: '/_next',
+    },
     {
       handler: 'StaleWhileRevalidate',
       urlPattern: '/account',

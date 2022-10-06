@@ -70,7 +70,8 @@ export const Account: FC<AccountProps> = ({
         <Input label="Postcode" value={userDetails.postcode} disabled />
         <Input label="City" value={userDetails.city} disabled />
       </FormSection>
-      {(plans?.length ?? 0) > 0 && (
+      {(plans?.filter((plan) => plan.subscriptionStatus === 'active')?.length ??
+        0) > 0 && (
         <FormSection heading="Your Plan" showQuestionMarkIcon>
           {plans?.map((plan) => (
             <>
