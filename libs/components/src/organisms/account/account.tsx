@@ -38,7 +38,9 @@ export const Account: FC<AccountProps> = ({
   chooseIsOpen,
   logout,
 }) => {
-  const plans = userDetails.plans?.filter((plan) => plan.totalMeals > 0);
+  const plans = userDetails.plans
+    ?.filter((plan) => plan.totalMeals > 0)
+    .filter((plan) => plan.subscriptionStatus === 'active');
 
   const { navigate } = useContext(NavigationContext);
   return (
@@ -70,8 +72,7 @@ export const Account: FC<AccountProps> = ({
         <Input label="Postcode" value={userDetails.postcode} disabled />
         <Input label="City" value={userDetails.city} disabled />
       </FormSection>
-      {(plans?.filter((plan) => plan.subscriptionStatus === 'active')?.length ??
-        0) > 0 && (
+      {(plans?.length ?? 0) > 0 && (
         <FormSection heading="Your Plan" showQuestionMarkIcon>
           {plans?.map((plan) => (
             <>
