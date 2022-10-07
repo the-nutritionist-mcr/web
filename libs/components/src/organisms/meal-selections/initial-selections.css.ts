@@ -66,8 +66,13 @@ export const planTabRow = style({
 
 globalStyle(`${planTabRow} button`, {
   margin: 0,
-  paddingBottom: 0,
   textDecoration: 0,
+  borderBottom: 0,
+  padding: 0,
+});
+
+globalStyle(`${planTabRow} button.active`, {
+  borderBottom: '4px solid #176D67',
 });
 
 export const headerText = style({});

@@ -62,7 +62,7 @@ const ChooseMealsPage = () => {
     <RedirectIfLoggedOut redirectTo="/login">
       <Hero>
         <ChooseMealsHeaderBox>
-          <ChooseMealsHeader>Meal Selection</ChooseMealsHeader>
+          <ChooseMealsHeader>Choose Meals</ChooseMealsHeader>
         </ChooseMealsHeaderBox>
       </Hero>
       <MealSelections
