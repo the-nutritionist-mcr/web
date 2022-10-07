@@ -1,12 +1,24 @@
 import { style } from '@vanilla-extract/css';
 
+export const deliveryNameHeader = style({
+  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  width: '100%',
+  backgroundColor: '#d4f9e3',
+  padding: '0.3rem 0.5rem',
+  margin: '1rem 0',
+});
+
+export const listBox = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1.5rem',
+  marginBottom: '2rem',
+});
+
 export const selectedBox = style({
   margin: '2.5rem 1rem',
   padding: '1rem',
   border: '1px solid black',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1rem',
   maxWidth: '25rem',
   '@media': {
     'screen and (max-width: 899px)': {

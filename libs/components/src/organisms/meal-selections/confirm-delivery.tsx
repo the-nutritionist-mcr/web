@@ -12,6 +12,7 @@ import {
 import { ActivePlanWithMeals, BackendCustomer, Recipe } from '@tnmw/types';
 import { getRealRecipe } from '@tnmw/meal-planning';
 import { countsFromPlans } from './count-from-plans';
+import { getDeliveryLabel } from './get-delivery-label';
 
 interface Section {
   name: string;
@@ -42,7 +43,9 @@ const getMealTitle = (
 export const ConfirmDelivery = (props: ConfirmDeliveryProps) => {
   return (
     <div className={deliveryContainer}>
-      <h4 className={deliveryNumberHeader}>Delivery {props.deliveryNumber}</h4>
+      <h4 className={deliveryNumberHeader}>
+        {getDeliveryLabel(props.customer, props.deliveryNumber)}
+      </h4>
       {props.sections.map((section) => (
         <div className={sectionContainer}>
           <h5 className={sectionHeader}>{section.name}</h5>

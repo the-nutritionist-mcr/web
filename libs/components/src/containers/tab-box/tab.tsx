@@ -11,6 +11,8 @@ const TabContents = styled.div`
   text-align: center;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Tab = (props: TabProps) => {

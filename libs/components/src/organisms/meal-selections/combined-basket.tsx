@@ -10,7 +10,15 @@ import {
   StandardPlan,
 } from '@tnmw/types';
 import { updateAllSelectedMeals } from './update-all-selected';
-import { basketHeader, selectedBox, divider } from './combined-basket.css';
+import {
+  basketHeader,
+  selectedBox,
+  divider,
+  deliveryNameHeader,
+  listBox,
+} from './combined-basket.css';
+import { deliveryNumberHeader } from './confirm-delivery.css';
+import { getDeliveryLabel } from './get-delivery-label';
 
 interface BasketProps {
   cooks: PlannedCook[];
@@ -23,7 +31,7 @@ const Divider = styled.hr`
   background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='black' stroke-width='3' stroke-dasharray='4%2c 8' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
   width: 100%;
   height: 1px;
-  margin: 0 0 0.5rem 0;
+  margin: 1rem 0 1.5rem 0;
   border: 0;
 `;
 
@@ -43,45 +51,57 @@ const CombinedBasket = ({
       <h2 className={basketHeader}>YOUR SELECTIONS</h2>
       <Divider />
       {defaultDeliveryDays.flatMap((_, dayIndex) => {
-        return currentSelection.customer.plans.flatMap((standardPlan) => {
-          const chosenSelection = getActivePlan(
-            currentSelection.deliveries[dayIndex].plans,
-            standardPlan
-          );
-
-          if (chosenSelection?.status !== 'active' || chosenSelection.isExtra) {
-            return [];
-          }
-
-          return (
-            <Basket
-              key={`${standardPlan.id}-${dayIndex}-basket`}
-              plan={standardPlan}
-              itemWord="meal"
-              customer={currentSelection.customer}
-              title={`${standardPlan.name} - Delivery ${dayIndex + 1}`}
-              itemWordPlural="meals"
-              things={recipes}
-              setSelected={(selected) => {
-                updateAllSelectedMeals(
-                  selected,
-                  currentSelection,
-                  setSelectedMeals,
-                  dayIndex
-                );
-              }}
-              selected={chosenSelection}
-              max={
-                standardPlan.totalMeals -
-                totalOtherSelected(
-                  currentSelection,
-                  chosenSelection,
+        return (
+          <>
+            <h3 className={deliveryNameHeader}>
+              {getDeliveryLabel(currentSelection.customer, dayIndex)}
+            </h3>
+            <div className={listBox}>
+              {currentSelection.customer.plans.flatMap((standardPlan) => {
+                const chosenSelection = getActivePlan(
+                  currentSelection.deliveries[dayIndex].plans,
                   standardPlan
-                )
-              }
-            />
-          );
-        });
+                );
+
+                if (
+                  chosenSelection?.status !== 'active' ||
+                  chosenSelection.isExtra
+                ) {
+                  return [];
+                }
+
+                return (
+                  <Basket
+                    key={`${standardPlan.id}-${dayIndex}-basket`}
+                    plan={standardPlan}
+                    itemWord="meal"
+                    customer={currentSelection.customer}
+                    title={standardPlan.name}
+                    itemWordPlural="meals"
+                    things={recipes}
+                    setSelected={(selected) => {
+                      updateAllSelectedMeals(
+                        selected,
+                        currentSelection,
+                        setSelectedMeals,
+                        dayIndex
+                      );
+                    }}
+                    selected={chosenSelection}
+                    max={
+                      standardPlan.totalMeals -
+                      totalOtherSelected(
+                        currentSelection,
+                        chosenSelection,
+                        standardPlan
+                      )
+                    }
+                  />
+                );
+              })}
+            </div>
+          </>
+        );
       })}
     </div>
   );

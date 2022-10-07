@@ -1,5 +1,11 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 
+export const guidanceText = style({
+  fontFamily: "'IBM Plex Serif', 'Times New Roman', serif",
+  lineHeight: '23px',
+  paddingBottom: '0.5rem',
+});
+
 export const container = style({
   marginTop: '4rem',
   fontWeight: 'normal',
@@ -19,7 +25,9 @@ globalStyle(`${daySelectorRow} button`, {
   whiteSpace: 'nowrap',
   borderRadius: '50px',
   margin: '4px',
+  fontSize: '1.2rem',
   textDecoration: 'none',
+  padding: '0.7rem 0.5rem',
 });
 
 export const daySelectorButtonBox = style({
@@ -76,6 +84,7 @@ globalStyle(`${planTabRow} button`, {
 
 globalStyle(`${planTabRow} button.active`, {
   borderBottom: '4px solid #176D67',
+  textDecoration: 'none',
 });
 
 export const headerText = style({});
@@ -109,6 +118,7 @@ export const tabGrid = style({
   '@media': {
     'screen and (max-width: 899px)': {
       display: 'block',
+      padding: '1rem',
     },
   },
 });

@@ -32,7 +32,6 @@ export const confirmSelectionsImage = style({
 export const confirmSelectionsGrid = style({
   gridTemplateColumns: 'repeat(2, 1fr)',
   display: 'grid',
-  width: '100%',
   columnGap: '3rem',
   marginTop: '2rem',
   '@media': {
@@ -40,7 +39,7 @@ export const confirmSelectionsGrid = style({
       display: 'flex',
       flexDirection: 'column',
       gap: '2rem',
-      width: 'calc(100vw - 2rem)',
+      margin: '1rem',
     },
   },
 });

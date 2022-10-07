@@ -55,4 +55,5 @@ export const mealTitle = style({
 export const sectionHeader = style({
   fontFamily: "'Acumin Pro', Arial, sans-serif",
   margin: '1rem 0',
+  padding: 0,
 });

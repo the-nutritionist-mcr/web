@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { QuantityStepper } from '../../molecules';
 import styled from '@emotion/styled';
 import { getRealRecipe } from '@tnmw/meal-planning';
@@ -10,6 +9,7 @@ import {
 } from '@tnmw/types';
 import { countsFromPlans } from './count-from-plans';
 import { planFromCounts } from './plan-from-counts';
+import { planHeader } from './basket.css';
 
 interface BasketProps {
   things: Recipe[];
@@ -35,14 +35,6 @@ const BasketContainer = styled.div`
   gap: 0.3rem;
 `;
 
-const BasketHeader = styled.h3`
-  font-family: 'Acumin Pro', Arial, sans-serif;
-  font-size: 1.3rem;
-  font-weight: bold;
-  margin: 1rem 0 0 0;
-  padding: 0;
-`;
-
 const Basket = (props: BasketProps) => {
   const counts = countsFromPlans(props.selected);
 
@@ -55,20 +47,9 @@ const Basket = (props: BasketProps) => {
 
   const max = props.max - props.selected.meals.length;
 
-  const remaining = props.max - totalSelected;
-
-  const BasketRemaining = styled.p`
-    font-family: 'Acumin Pro', Arial, sans-serif;
-    color: ${remaining === 0 ? `red` : `default`};
-  `;
-
-  const itemWord = totalSelected > 1 ? props.itemWordPlural : props.itemWord;
   return (
     <BasketContainer>
-      <BasketHeader>{toTitleCase(props.title)}</BasketHeader>
-      <BasketRemaining>
-        {remaining} {itemWord} remaining
-      </BasketRemaining>
+      <h4 className={planHeader}>{toTitleCase(props.title)}</h4>
       {props.things.map((thing) => {
         const realRecipe = getRealRecipe(thing, props.customer, props.things);
 

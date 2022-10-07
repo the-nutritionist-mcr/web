@@ -19,12 +19,14 @@ import {
   daySelectorButtonBox,
   daySelectorRow,
   gridParent,
+  guidanceText,
   header,
   planTabRow,
   tabGrid,
 } from './initial-selections.css';
 import { getCookStatus } from '@tnmw/meal-planning';
 import { useState } from 'react';
+import { getDeliveryLabel } from './get-delivery-label';
 
 export type SelectedMeals = { [key: string]: number }[][];
 
@@ -65,9 +67,12 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
 
             return (
               <Tab
-                tabTitle={`Delivery ${dayIndex + 1}`}
+                tabTitle={getDeliveryLabel(props.customer, dayIndex)}
                 key={`${cook.date.toString()}-${dayIndex}-tab`}
               >
+                <p className={guidanceText}>
+                  Happy with what you see here? You don't need to do anything!
+                </p>
                 <TabBox
                   tabButton={TabButton}
                   rowContainerClass={planTabRow}
