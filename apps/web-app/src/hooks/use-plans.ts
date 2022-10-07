@@ -21,7 +21,7 @@ type GetPlanResponse =
 export const usePlan = () => {
   const { mutate, cache } = useSWRConfig();
 
-  const { data } = useSwrWrapper<GetPlanResponse>('plan', swrFetcher, {
+  const { data } = useSwrWrapper<GetPlanResponse>('plan', {
     revalidateIfStale: true,
     fallback: {
       plan: { available: false, admin: false },

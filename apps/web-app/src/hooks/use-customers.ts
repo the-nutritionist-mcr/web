@@ -8,11 +8,7 @@ interface CustomersResponse {
 }
 
 export const useCustomers = () => {
-  const { data: getData } = useSwrWrapper<CustomersResponse>(
-    'customers',
-    swrFetcher,
-    {}
-  );
+  const { data: getData } = useSwrWrapper<CustomersResponse>('customers');
 
   return { items: getData?.users };
 };

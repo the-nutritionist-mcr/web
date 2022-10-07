@@ -2,12 +2,15 @@ import { LoadingContext } from '@tnmw/components';
 import { recursivelyDeserialiseDate, SerialisedDate } from '@tnmw/utils';
 import { useContext } from 'react';
 import useSWR, { Middleware } from 'swr';
+import { swrFetcher } from '../utils/swr-fetcher';
+
+type ParamsType<T> = Parameters<typeof useSWR<SerialisedDate<T>>>;
 
 export const useSwrWrapper = <T = unknown>(
-  ...args: Parameters<typeof useSWR<SerialisedDate<T>>>
+  key: ParamsType<T>[0],
+  options?: ParamsType<T>[2]
 ) => {
   const { useLoading } = useContext(LoadingContext);
-  const [key, fetcher, options] = args;
 
   const finalKey = typeof key === 'function' ? key() : key;
   if (finalKey && typeof finalKey !== 'string') {
@@ -44,7 +47,7 @@ export const useSwrWrapper = <T = unknown>(
 
   const finalArgs = [
     key,
-    fetcher,
+    swrFetcher,
     { ...options, onError: error, onSuccess: success },
   ] as const;
 

@@ -12,11 +12,7 @@ let originalData: UpdateCustomerBody | undefined;
 export const useCustomer = (username: string) => {
   const key = `customer/${username}`;
   const { mutate, cache } = useSWRConfig();
-  const { data } = useSwrWrapper<BackendCustomer>(
-    `customer/${username}`,
-    swrFetcher,
-    {}
-  );
+  const { data } = useSwrWrapper<BackendCustomer>(`customer/${username}`);
 
   const updateCustomer = async (input: UpdateCustomerBody): Promise<void> => {
     await swrFetcher(key, {
