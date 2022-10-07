@@ -44,9 +44,7 @@ const DivContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-end;
-  max-width: 1460px;
   gap: 2rem;
-  padding: 1rem;
 `;
 
 const MealSelections: FC<MealSelectionsProps> = (props) => {
@@ -152,7 +150,6 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
               </Button>
             </div>
           </h2>
-          <p className={youNeedToChoose}>{remainingString}</p>
           <InitialSelections
             {...props}
             currentSelection={selectedMeals}

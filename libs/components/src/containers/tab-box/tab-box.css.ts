@@ -4,5 +4,9 @@ export const buttonRow = style({
   overflow: 'scroll',
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'flex-start',
+  justifyContent: 'center',
+});
+
+export const tabContainer = style({
+  width: '100%',
 });

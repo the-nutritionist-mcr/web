@@ -10,15 +10,13 @@ interface MealsSelectionsTabButtonProps {
 const MealsSelectionsTabButton: FC<MealsSelectionsTabButtonProps> = (props) => {
   const StyledButton = styled.button`
     font-family: 'Acumin Pro', Arial, sans-serif;
-    width: calc(100% / ${props.tabListLength});
     min-width: 10rem;
-    margin: 0 0 1rem 0;
     border: 0;
     cursor: pointer;
-    padding: 1rem 3rem 0 0;
+    padding: 1rem 3rem;
     text-align: center;
     font-size: 2rem;
-    background: white;
+    background: 0;
     color: ${props.active ? `black` : `#939393`};
     text-decoration: ${props.active ? `underline` : `none`};
   `;

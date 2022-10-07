@@ -8,7 +8,9 @@ export interface TabProps {
 
 const TabContents = styled.div`
   width: 100%;
-  text-align: right;
+  text-align: center;
+  display: flex;
+  justify-content: center;
 `;
 
 const Tab = (props: TabProps) => {

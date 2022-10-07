@@ -1,8 +1,17 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 
 export const container = style({
   marginTop: '4rem',
   fontWeight: 'normal',
+});
+
+export const daySelectorRow = style({
+  marginBottom: '2rem',
+});
+
+export const daySelectorButtonBox = style({
+  border: '1px solid black',
+  borderRadius: '50px',
 });
 
 export const header = style({
@@ -12,6 +21,7 @@ export const header = style({
   display: 'flex',
   gap: '1rem',
   alignItems: 'center',
+  justifyContent: 'center',
 
   '@media': {
     'screen and (max-width: 899px)': {
@@ -20,9 +30,17 @@ export const header = style({
   },
 });
 
-export const headerText = style({
-  flexGrow: '2',
+export const planTabRow = style({
+  borderBottom: '1px solid black',
 });
+
+globalStyle(`${planTabRow} button`, {
+  margin: 0,
+  paddingBottom: 0,
+  textDecoration: 0,
+});
+
+export const headerText = style({});
 
 export const headerButtons = style({
   display: 'flex',
@@ -37,14 +55,17 @@ export const youNeedToChoose = style({
 });
 
 export const gridParent = style({
-  display: 'grid',
-  width: 'calc(100vw - 2rem)',
-  maxWidth: '1460px',
-  gridTemplateColumns: '70% 30%',
+  width: '100vw',
 
   '@media': {
     'screen and (max-width: 899px)': {
       display: 'block',
     },
   },
+});
+
+export const tabGrid = style({
+  display: 'grid',
+  gridTemplateColumns: '70% 30%',
+  maxWidth: '1460px',
 });
