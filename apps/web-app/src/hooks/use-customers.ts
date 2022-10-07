@@ -1,13 +1,14 @@
 import { CustomerWithChargebeePlan } from '@tnmw/types';
 import useSWR from 'swr';
 import { swrFetcher } from '../utils/swr-fetcher';
+import { useSwrWrapper } from './use-swr-wrapper';
 
 interface CustomersResponse {
   users: CustomerWithChargebeePlan[];
 }
 
 export const useCustomers = () => {
-  const { data: getData } = useSWR<CustomersResponse>('customers', swrFetcher);
+  const { data: getData } = useSwrWrapper<CustomersResponse>('customers');
 
   return { items: getData?.users };
 };

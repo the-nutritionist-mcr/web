@@ -28,7 +28,7 @@ export const useResource = <T extends { id: string }>(
     return type;
   };
 
-  const { data: getData } = useSwrWrapper<Response<T>>(getType, swrFetcher, {});
+  const { data: getData } = useSwrWrapper<Response<T>>(getType);
 
   const createItem = async <T extends { id: string }>(input: T): Promise<T> =>
     await swrFetcher<T>(type, {

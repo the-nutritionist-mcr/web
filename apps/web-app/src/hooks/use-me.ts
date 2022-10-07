@@ -4,9 +4,7 @@ import { useSwrWrapper } from './use-swr-wrapper';
 
 export const useMe = () => {
   const { data } = useSwrWrapper<BackendCustomer & { id: string }>(
-    'customers/me',
-    swrFetcher,
-    {}
+    'customers/me'
   );
 
   return data;

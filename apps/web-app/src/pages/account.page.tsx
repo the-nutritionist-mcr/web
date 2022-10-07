@@ -11,8 +11,6 @@ import { getClosedOrOpenStatus } from '../utils/get-closed-or-open-status';
 import { accountContainer } from './account.css';
 import { RedirectIfLoggedOut } from '../components/authentication/redirect-if-logged-out';
 import { useMe } from '../hooks/use-me';
-import { NavigationContext } from '@tnmw/utils';
-import { AddApiPrefetch } from '../components/add-api-prefetch';
 
 const YourAccountHeaderBox = styled('div')`
   text-align: center;

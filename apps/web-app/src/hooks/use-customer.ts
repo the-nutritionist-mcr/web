@@ -4,6 +4,7 @@ import { BackendCustomer, UpdateCustomerBody } from '@tnmw/types';
 import useSWR, { useSWRConfig } from 'swr';
 import useMutation from 'use-mutation';
 import { swrFetcher } from '../utils/swr-fetcher';
+import { useSwrWrapper } from './use-swr-wrapper';
 
 // eslint-disable-next-line fp/no-let
 let originalData: UpdateCustomerBody | undefined;
@@ -11,7 +12,7 @@ let originalData: UpdateCustomerBody | undefined;
 export const useCustomer = (username: string) => {
   const key = `customer/${username}`;
   const { mutate, cache } = useSWRConfig();
-  const { data } = useSWR<BackendCustomer>(`customer/${username}`, swrFetcher);
+  const { data } = useSwrWrapper<BackendCustomer>(`customer/${username}`);
 
   const updateCustomer = async (input: UpdateCustomerBody): Promise<void> => {
     await swrFetcher(key, {
