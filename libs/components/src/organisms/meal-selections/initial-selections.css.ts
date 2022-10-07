@@ -64,6 +64,7 @@ export const chooseDayHeader = style({
 export const planTabRow = style({
   borderBottom: '1px solid black',
   marginTop: '2rem',
+  whiteSpace: 'nowrap',
 });
 
 globalStyle(`${planTabRow} button`, {
