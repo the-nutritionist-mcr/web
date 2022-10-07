@@ -16,6 +16,7 @@ globalStyle(`${daySelectorRow} button.active`, {
 
 globalStyle(`${daySelectorRow} button`, {
   lineHeight: '17px',
+  whiteSpace: 'nowrap',
   borderRadius: '50px',
   margin: '4px',
   textDecoration: 'none',
@@ -62,6 +63,7 @@ export const chooseDayHeader = style({
 
 export const planTabRow = style({
   borderBottom: '1px solid black',
+  marginTop: '2rem',
 });
 
 globalStyle(`${planTabRow} button`, {
@@ -103,4 +105,9 @@ export const tabGrid = style({
   display: 'grid',
   gridTemplateColumns: '70% 30%',
   maxWidth: '1460px',
+  '@media': {
+    'screen and (max-width: 899px)': {
+      display: 'block',
+    },
+  },
 });

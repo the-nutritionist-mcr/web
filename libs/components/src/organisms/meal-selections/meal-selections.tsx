@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import styled from '@emotion/styled';
 import { defaultDeliveryDays } from '@tnmw/config';
 import { Button } from '../../atoms';
@@ -23,6 +23,7 @@ import { goAheadAndSubmit } from './confirm-selections-container.css';
 import { MealPlanGeneratedForIndividualCustomer } from '@tnmw/types';
 import { countRemainingMeals } from './count-remaining-meals';
 import { getCookStatus } from '@tnmw/meal-planning';
+import { NavigationContext } from '@tnmw/utils';
 
 export interface ChooseMealsCustomer {
   customisations?: BackendCustomer['customisations'];
@@ -48,6 +49,7 @@ const DivContainer = styled.div`
 `;
 
 const MealSelections: FC<MealSelectionsProps> = (props) => {
+  const { navigate } = useContext(NavigationContext);
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedMeals, setSelectedMeals] =
     useState<MealPlanGeneratedForIndividualCustomer>(props.currentSelection);
@@ -86,9 +88,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
   const [tabIndex, setTabIndex] = useState(0);
 
   const next = async () => {
-    if (tabIndex < tabs - 1) {
-      setTabIndex((index) => index + 1);
-    } else if (!showConfirm) {
+    if (!showConfirm) {
       setShowConfirm(true);
     } else {
       setSubmittingOrder(true);
@@ -101,8 +101,8 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
   const prev = () => {
     if (showConfirm) {
       setShowConfirm(false);
-    } else if (tabIndex > 0) {
-      setTabIndex((index) => index - 1);
+    } else {
+      navigate?.('/account/');
     }
   };
 
@@ -110,9 +110,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
     margin-top: 1rem;
   `;
 
-  const continueButtonDisabled = tabIndex === tabs - 1 && totalRemaining !== 0;
-
-  const continueText = tabIndex === tabs - 1 ? 'Continue' : 'Next';
+  const continueButtonDisabled = totalRemaining !== 0;
 
   return props.currentSelection.deliveries.length === 0 ? (
     <Label>
@@ -145,7 +143,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
                   ? submittingOrder
                     ? 'Submitting...'
                     : 'Submit'
-                  : continueText}
+                  : 'Continue'}
               </Button>
             </div>
           </h2>
