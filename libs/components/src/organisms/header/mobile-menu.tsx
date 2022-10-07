@@ -45,7 +45,7 @@ export const MobileMenu = (props: MobileMenuProps) =>
           </a>
         </li>
 
-        {process.env['NX_APP_ENV'] !== 'prod' ? (
+        {process.env['APP_VERSION'] !== 'prod' ? (
           <li className={mobileMenuItem}>
             <a className={mobileMenuAnchor} href={`${TNM_SITE}/pricing/`}>
               Pricing
