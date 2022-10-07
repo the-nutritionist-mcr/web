@@ -8,7 +8,6 @@ interface AddApiPrefetchProps {
 
 export const AddApiPrefetch = (props: AddApiPrefetchProps) => {
   const { config } = useContext(ConfigContext);
-  console.log(config);
   return (
     <Head>
       {props.paths

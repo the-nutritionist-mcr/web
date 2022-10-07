@@ -5,6 +5,7 @@ export const buttonRow = style({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'center',
+  width: '100%',
 });
 
 export const tabContainer = style({

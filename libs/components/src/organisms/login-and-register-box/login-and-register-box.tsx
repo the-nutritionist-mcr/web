@@ -2,7 +2,7 @@ import { TabBox, Tab } from '../../containers';
 import styled from '@emotion/styled';
 import { FC } from 'react';
 import LoginBox from './login-box';
-import { padding } from './login-and-register-box.css';
+import { padding, tabButtonBox } from './login-and-register-box.css';
 
 interface LoginAndRegisterBoxProps {
   defaultTab: string;
@@ -26,6 +26,7 @@ const Box = styled.div`
 const LoginAndRegisterBox: FC<LoginAndRegisterBoxProps> = (props) => (
   <Box>
     <TabBox
+      buttonBoxClass={tabButtonBox}
       defaultTab={props.defaultTab}
       onChange={(tab) => {
         window.history.replaceState(
