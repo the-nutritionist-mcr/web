@@ -18,6 +18,15 @@ type GetPlanResponse =
   | GetPlanResponseNonAdmin
   | NotYetPublishedResponse;
 
+const submitOrder = async (
+  details: SubmitCustomerOrderPayload
+): Promise<void> => {
+  return await swrFetcher('plan/submit-order', {
+    method: HTTP.verbs.Post,
+    body: JSON.stringify(details),
+  });
+};
+
 export const usePlan = () => {
   const { mutate, cache } = useSWRConfig();
 
@@ -27,15 +36,6 @@ export const usePlan = () => {
       plan: { available: false, admin: false },
     },
   });
-
-  const submitOrder = async (
-    details: SubmitCustomerOrderPayload
-  ): Promise<void> => {
-    return await swrFetcher('plan/submit-order', {
-      method: HTTP.verbs.Post,
-      body: JSON.stringify(details),
-    });
-  };
 
   const publishPlan = async (): Promise<void> => {
     try {
