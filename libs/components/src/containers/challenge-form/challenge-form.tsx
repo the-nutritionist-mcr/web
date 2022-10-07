@@ -23,6 +23,7 @@ const FlexForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  text-align: 'left';
 `;
 
 const FormHeader = styled.div`

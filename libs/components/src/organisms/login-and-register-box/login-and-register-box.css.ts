@@ -5,6 +5,7 @@ export const tabButtonBox = style({
 });
 
 export const padding = style({
+  textAlign: 'left',
   width: '100%',
   padding: '1.5rem 5rem 3rem 5rem',
   '@media': {

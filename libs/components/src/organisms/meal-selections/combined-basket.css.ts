@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
 export const selectedBox = style({
-  margin: '1rem',
+  margin: '2.5rem 1rem',
   padding: '1rem',
   border: '1px solid black',
   display: 'flex',

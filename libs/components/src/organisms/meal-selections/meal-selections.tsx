@@ -126,7 +126,6 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
       {!showConfirm ? (
         <div className={container}>
           <h2 className={header}>
-            <span className={headerText}>Choose Your Meals</span>
             <div className={headerButtons}>
               <Button
                 size="large"

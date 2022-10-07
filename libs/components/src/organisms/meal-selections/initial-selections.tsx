@@ -15,9 +15,11 @@ import {
 import CombinedBasket from './combined-basket';
 import { updateAllSelectedMeals } from './update-all-selected';
 import {
+  chooseDayHeader,
   daySelectorButtonBox,
   daySelectorRow,
   gridParent,
+  header,
   planTabRow,
   tabGrid,
 } from './initial-selections.css';
@@ -46,88 +48,91 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
   const [currentCook, setCurrentCook] = useState(0);
   const [currentPlan, setCurrentPlan] = useState(0);
   return (
-    <div className={gridParent}>
-      <TabBox
-        tabButton={TabButton}
-        currentTabIndex={currentCook}
-        rowContainerClass={daySelectorRow}
-        buttonBoxClass={daySelectorButtonBox}
-        onChangeIndex={(which) => setCurrentCook(which)}
-      >
-        {props.cooks.flatMap((cook, dayIndex) => {
-          const plans = props.customer.plans.filter(
-            (plan) => getCookStatus(cook.date, plan).status === 'active'
-          );
+    <div>
+      <h2 className={chooseDayHeader}>Delivery Day</h2>
+      <div className={gridParent}>
+        <TabBox
+          tabButton={TabButton}
+          currentTabIndex={currentCook}
+          rowContainerClass={daySelectorRow}
+          buttonBoxClass={daySelectorButtonBox}
+          onChangeIndex={(which) => setCurrentCook(which)}
+        >
+          {props.cooks.flatMap((cook, dayIndex) => {
+            const plans = props.customer.plans.filter(
+              (plan) => getCookStatus(cook.date, plan).status === 'active'
+            );
 
-          return (
-            <Tab
-              tabTitle={`Delivery ${dayIndex + 1}`}
-              key={`${cook.date.toString()}-${dayIndex}-tab`}
-            >
-              <TabBox
-                tabButton={TabButton}
-                rowContainerClass={planTabRow}
-                currentTabIndex={currentPlan}
-                onChangeIndex={(which) => setCurrentPlan(which)}
+            return (
+              <Tab
+                tabTitle={`Delivery ${dayIndex + 1}`}
+                key={`${cook.date.toString()}-${dayIndex}-tab`}
               >
-                {plans.flatMap((category) => {
-                  const chosenSelection = getActivePlan(
-                    props.currentSelection.deliveries[dayIndex].plans,
-                    category
-                  );
+                <TabBox
+                  tabButton={TabButton}
+                  rowContainerClass={planTabRow}
+                  currentTabIndex={currentPlan}
+                  onChangeIndex={(which) => setCurrentPlan(which)}
+                >
+                  {plans.flatMap((category) => {
+                    const chosenSelection = getActivePlan(
+                      props.currentSelection.deliveries[dayIndex].plans,
+                      category
+                    );
 
-                  if (!chosenSelection) {
-                    return [];
-                  }
+                    if (!chosenSelection) {
+                      return [];
+                    }
 
-                  return chosenSelection.status === 'active' &&
-                    !chosenSelection.isExtra ? (
-                    <Tab
-                      tabTitle={category.name}
-                      key={`${category.id}-${dayIndex}-tab`}
-                    >
-                      <div className={tabGrid}>
-                        <MealList
-                          customer={props.currentSelection.customer}
-                          recipes={props.recipes}
-                          things={props.cooks[dayIndex].menu}
-                          selected={chosenSelection}
-                          plan={category}
-                          setSelected={(selected) => {
-                            updateAllSelectedMeals(
-                              selected,
-                              props.currentSelection,
-                              props.setSelectedMeals,
-                              dayIndex
-                            );
-                          }}
-                          max={
-                            category.totalMeals -
-                            totalOtherSelected(
-                              props.currentSelection,
-                              chosenSelection,
-                              category
-                            )
-                          }
-                        />
+                    return chosenSelection.status === 'active' &&
+                      !chosenSelection.isExtra ? (
+                      <Tab
+                        tabTitle={category.name}
+                        key={`${category.id}-${dayIndex}-tab`}
+                      >
+                        <div className={tabGrid}>
+                          <MealList
+                            customer={props.currentSelection.customer}
+                            recipes={props.recipes}
+                            things={props.cooks[dayIndex].menu}
+                            selected={chosenSelection}
+                            plan={category}
+                            setSelected={(selected) => {
+                              updateAllSelectedMeals(
+                                selected,
+                                props.currentSelection,
+                                props.setSelectedMeals,
+                                dayIndex
+                              );
+                            }}
+                            max={
+                              category.totalMeals -
+                              totalOtherSelected(
+                                props.currentSelection,
+                                chosenSelection,
+                                category
+                              )
+                            }
+                          />
 
-                        <CombinedBasket
-                          cooks={props.cooks}
-                          currentSelection={props.currentSelection}
-                          setSelectedMeals={props.setSelectedMeals}
-                          recipes={props.recipes}
-                        />
-                      </div>
-                    </Tab>
-                  ) : (
-                    []
-                  );
-                })}
-              </TabBox>
-            </Tab>
-          );
-        })}
-      </TabBox>
+                          <CombinedBasket
+                            cooks={props.cooks}
+                            currentSelection={props.currentSelection}
+                            setSelectedMeals={props.setSelectedMeals}
+                            recipes={props.recipes}
+                          />
+                        </div>
+                      </Tab>
+                    ) : (
+                      []
+                    );
+                  })}
+                </TabBox>
+              </Tab>
+            );
+          })}
+        </TabBox>
+      </div>
     </div>
   );
 };

@@ -9,14 +9,44 @@ export const daySelectorRow = style({
   marginBottom: '2rem',
 });
 
+globalStyle(`${daySelectorRow} button.active`, {
+  backgroundColor: '#176d67',
+  color: '#D4F9E3',
+});
+
+globalStyle(`${daySelectorRow} button`, {
+  lineHeight: '17px',
+  borderRadius: '50px',
+  margin: '4px',
+  textDecoration: 'none',
+});
+
 export const daySelectorButtonBox = style({
   border: '1px solid black',
   borderRadius: '50px',
+  display: 'flex',
 });
 
 export const header = style({
   fontSize: '2rem',
   marginBottom: '2rem',
+  fontFamily: "'Accumin Pro', Arial, sans-serif",
+  display: 'flex',
+  gap: '1rem',
+  alignItems: 'center',
+  justifyContent: 'center',
+
+  '@media': {
+    'screen and (max-width: 899px)': {
+      flexDirection: 'column',
+    },
+  },
+});
+
+export const chooseDayHeader = style({
+  fontSize: '2rem',
+  marginBottom: '2rem',
+  marginTop: '4rem',
   fontFamily: "'Accumin Pro', Arial, sans-serif",
   display: 'flex',
   gap: '1rem',

@@ -27,6 +27,7 @@ const MealsSelectionsTabButton: FC<MealsSelectionsTabButtonProps> = (props) => {
       role="tab"
       onClick={props.onClick}
       aria-selected={props.active}
+      className={props.active ? 'active' : undefined}
     >
       {props.children}
     </StyledButton>
