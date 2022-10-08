@@ -3,11 +3,11 @@ import { AccountPage } from '../../src/pages/account';
 import { LoginPage } from '../../src/pages/login';
 
 describe('The login page', { scrollBehavior: false }, () => {
-  before(() => {
-    cy.task('deleteWelcomeEmails');
-    cy.task('deleteChargebeeCustomer', E2E.nonExistingUser.username);
-    cy.task('deleteCognitoUser', E2E.nonExistingUser.username);
-  });
+  // before(() => {
+  //   cy.task('deleteWelcomeEmails');
+  //   cy.task('deleteChargebeeCustomer', E2E.nonExistingUser.username);
+  //   cy.task('deleteCognitoUser', E2E.nonExistingUser.username);
+  // });
 
   it('Should load a page with a login form', () => {
     LoginPage.visit();
@@ -36,33 +36,33 @@ describe('The login page', { scrollBehavior: false }, () => {
     LoginPage.getLoginForm().contains('Incorrect username or password');
   });
 
-  it('Creating an account on ChargeBee should result in being sent a password that I can use to login and change my password with', () => {
-    cy.task('createChargebeeCustomer');
+  // it('Creating an account on ChargeBee should result in being sent a password that I can use to login and change my password with', () => {
+  //   cy.task('createChargebeeCustomer');
 
-    cy.task('getPasswordFromWelcomeEmailThenDelete').then(
-      (password: string) => {
-        LoginPage.visit();
-        LoginPage.getLoginForm().should('exist');
-        LoginPage.fillEmailInput(E2E.nonExistingUser.email);
+  //   cy.task('getPasswordFromWelcomeEmailThenDelete').then(
+  //     (password: string) => {
+  //       LoginPage.visit();
+  //       LoginPage.getLoginForm().should('exist');
+  //       LoginPage.fillEmailInput(E2E.nonExistingUser.email);
 
-        LoginPage.fillPasswordInput(password);
-        LoginPage.clickLoginButton();
-        LoginPage.getSubmitButton().should('exist');
-        LoginPage.fillPasswordInput(E2E.nonExistingUser.password);
-        LoginPage.clickSubmitButton();
+  //       LoginPage.fillPasswordInput(password);
+  //       LoginPage.clickLoginButton();
+  //       LoginPage.getSubmitButton().should('exist');
+  //       LoginPage.fillPasswordInput(E2E.nonExistingUser.password);
+  //       LoginPage.clickSubmitButton();
 
-        AccountPage.isInNavbar();
-      }
-    );
-  });
+  //       AccountPage.isInNavbar();
+  //     }
+  //   );
+  // });
 
-  it('redirects you straight to the account page next time you login once the password has been changed', () => {
-    LoginPage.visit();
-    LoginPage.getLoginForm().should('be.visible');
-    LoginPage.fillEmailInput(E2E.nonExistingUser.email);
-    LoginPage.fillPasswordInput(E2E.nonExistingUser.password);
+  // it('redirects you straight to the account page next time you login once the password has been changed', () => {
+  //   LoginPage.visit();
+  //   LoginPage.getLoginForm().should('be.visible');
+  //   LoginPage.fillEmailInput(E2E.nonExistingUser.email);
+  //   LoginPage.fillPasswordInput(E2E.nonExistingUser.password);
 
-    LoginPage.clickLoginButton();
-    AccountPage.isInNavbar();
-  });
+  //   LoginPage.clickLoginButton();
+  //   AccountPage.isInNavbar();
+  // });
 });
