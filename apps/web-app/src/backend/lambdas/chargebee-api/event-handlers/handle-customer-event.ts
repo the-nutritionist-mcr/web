@@ -134,6 +134,7 @@ export const handleCustomerEvent = async (
       new AdminCreateUserCommand({
         ...input,
         DesiredDeliveryMediums: ['EMAIL'],
+        MessageAction: 'SUPPRESS',
       })
     );
 

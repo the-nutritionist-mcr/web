@@ -40,10 +40,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const environment = process.env[ENV.varNames.EnvironmentName];
 
-    if (
-      environment === 'prod' &&
-      (!email || !approvedTesters.includes(email.trim().toLowerCase()))
-    ) {
+    if (!email) {
       return {
         statusCode: HTTP.statusCodes.Ok,
       };
