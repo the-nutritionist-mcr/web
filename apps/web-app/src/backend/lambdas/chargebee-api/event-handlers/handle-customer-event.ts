@@ -146,6 +146,7 @@ export const handleCustomerEvent = async (
           new AdminCreateUserCommand({
             ...input,
             DesiredDeliveryMediums: ['EMAIL'],
+            MessageAction: 'SUPPRESS',
           })
         )
       : cognito.send(new AdminUpdateUserAttributesCommand(input)));
