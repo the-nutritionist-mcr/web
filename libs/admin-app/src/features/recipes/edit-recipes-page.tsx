@@ -18,7 +18,12 @@ import React from 'react';
 import { TagInput } from '../../components';
 import { ParagraphText } from '@tnmw/components';
 import { Exclusion, Recipe, HotOrCold } from '@tnmw/types';
-import { formGrid, alternatesGrid, details } from './edit-recipes.page.css';
+import {
+  formGrid,
+  alternatesGrid,
+  details,
+  editRecipePage,
+} from './edit-recipes.page.css';
 
 export interface EditRecipesPageProps {
   recipe: Recipe;
@@ -52,7 +57,7 @@ export const EditRecipesPage = (props: EditRecipesPageProps) => {
     ),
   };
   return (
-    <Box align="flex-start" gap="small">
+    <div className={editRecipePage}>
       <Header
         justify="start"
         gap="small"
@@ -269,6 +274,6 @@ export const EditRecipesPage = (props: EditRecipesPageProps) => {
           )}
         </Form>
       </Box>
-    </Box>
+    </div>
   );
 };
