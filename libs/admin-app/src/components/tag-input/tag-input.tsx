@@ -32,7 +32,11 @@ export const TagInput = (props: TagInputProps) => {
             value={value.label}
             size="xsmall"
             onRemove={() => {
-              setValues(values.filter((needle) => needle.key !== value.key));
+              const newValues = values.filter(
+                (needle) => needle.key !== value.key
+              );
+              setValues(newValues);
+              props.onChange(newValues);
             }}
           />
         ))}
