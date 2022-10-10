@@ -24,7 +24,7 @@ import { convertPlanFormat } from '@tnmw/utils';
 import { debounce } from 'lodash';
 import PlanPanel from './PlanPanel';
 
-import { OkCancelDialog } from '../../components';
+import { OkCancelDialog, TagInput } from '../../components';
 import { BackendCustomer, Exclusion, UpdateCustomerBody } from '@tnmw/types';
 
 const SUBMIT_DEBOUNCE = 500;
@@ -196,21 +196,26 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
         </Table>
       </Box>
       <Heading level={3}>Customisations</Heading>
-      <Select
-        multiple
-        closeOnChange={false}
-        value={customer.customisations}
-        name="customisations"
-        options={exclusions}
-        labelKey="name"
-        valueKey="name"
-        onChange={(event) => {
+      <TagInput
+        options={exclusions.map((exclusion) => ({
+          key: exclusion.id,
+          label: exclusion.name,
+        }))}
+        onChange={(values) => {
           updateCustomer({
             ...customer,
-            customisations: event.value,
+            customisations: values
+              .map((value) =>
+                exclusions.find((exclusion) => exclusion.id === value.key)
+              )
+              .flatMap((value) => (value ? [value] : [])),
           });
           setDirty(true);
         }}
+        values={customer.customisations.map((exclusion) => ({
+          key: exclusion.id,
+          label: exclusion.name,
+        }))}
       />
       {customer.customPlan && (
         <PlanPanel
