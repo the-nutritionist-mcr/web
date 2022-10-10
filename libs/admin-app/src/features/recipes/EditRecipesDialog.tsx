@@ -17,6 +17,7 @@ import { HotOrCold, Recipe, Exclusion } from '@tnmw/types';
 import React from 'react';
 import { debounce } from 'lodash';
 import { ParagraphText } from '@tnmw/components';
+import { TagInput } from '../../components';
 
 interface EditRecipesDialogProps {
   recipe: Recipe;
@@ -103,13 +104,28 @@ const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
                   <TextInput name="allergens" />
                 </FormField>
                 <FormField name="potentialExclusions" label="Customisations">
-                  <Select
-                    multiple
-                    closeOnChange={false}
-                    name="potentialExclusions"
-                    options={exclusions}
-                    labelKey="name"
-                    valueKey="name"
+                  <TagInput
+                    options={exclusions.map((exclusion) => ({
+                      key: exclusion.id,
+                      label: exclusion.name,
+                    }))}
+                    onChange={(values) => {
+                      const newRecipe = {
+                        ...recipe,
+                        potentialExclusions: values
+                          .map((value) =>
+                            exclusions.find(
+                              (exclusion) => exclusion.id === value.key
+                            )
+                          )
+                          .flatMap((value) => (value ? [value] : [])),
+                      };
+                      setRecipe(newRecipe);
+                    }}
+                    values={formRecipe.potentialExclusions.map((exclusion) => ({
+                      key: exclusion.id,
+                      label: exclusion.name,
+                    }))}
                   />
                 </FormField>
                 <FormField name="invalidExclusions" label="Exclusions">

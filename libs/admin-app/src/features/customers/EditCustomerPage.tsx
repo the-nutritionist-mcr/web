@@ -156,6 +156,18 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
               </TableCell>
               <TableCell>{customer.email}</TableCell>
             </TableRow>
+            <TableRow>
+              <TableCell scope="row">
+                <strong>Delivery Day 1</strong>
+              </TableCell>
+              <TableCell>{customer.deliveryDay1 || 'Not Set'}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell scope="row">
+                <strong>Delivery Day 2</strong>
+              </TableCell>
+              <TableCell>{customer.deliveryDay2 || 'Not Set'}</TableCell>
+            </TableRow>
           </TableBody>
         </Table>
         <Table style={{ maxWidth: '40rem', marginBottom: '2rem' }}>
