@@ -6,7 +6,6 @@ export const gridContainer = style({
   gridColumnGap: '1rem',
   gridRowGap: '1rem',
   marginBottom: '2.2rem',
-  paddingTop: '2.2rem',
 
   '@media': {
     'screen and (max-width: 899px)': {
@@ -14,6 +13,10 @@ export const gridContainer = style({
       flexDirection: 'column',
     },
   },
+});
+
+export const withIcon = style({
+  paddingTop: '2.2rem',
 });
 
 export const sectionContents = style({
