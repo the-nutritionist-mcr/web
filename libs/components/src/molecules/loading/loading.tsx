@@ -52,6 +52,9 @@ export const LoadingContext = createContext<LoadingContextType>({
 // eslint-disable-next-line fp/no-let
 let loadingHandles: LoadingHandles = {};
 
+const layoutEffect =
+  typeof window === 'undefined' ? useEffect : useLayoutEffect;
+
 const LOADING_KEY = 'loading-handler';
 
 export const Loading = (props: LoadingProps) => {
@@ -64,7 +67,7 @@ export const Loading = (props: LoadingProps) => {
   };
 
   const useLoading = (key: string, dontStart?: boolean) => {
-    useLayoutEffect(() => {
+    layoutEffect(() => {
       if (!dontStart) {
         startLoading(key);
       }
@@ -77,7 +80,6 @@ export const Loading = (props: LoadingProps) => {
 
     const stopLoading = () => {
       console.debug(`Finished loading '${key}'`);
-      console.log(loadingHandles);
       loadingHandles[key] = 'Finished';
 
       const isLoadingReally =

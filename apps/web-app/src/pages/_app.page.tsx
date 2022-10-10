@@ -8,6 +8,7 @@ import { Layout, Loading } from '@tnmw/components';
 import { ThemeProvider } from '@emotion/react';
 import { SWRConfig } from 'swr';
 import { NavigationContext } from '@tnmw/utils';
+import { ErrorBoundary } from 'react-error-boundary';
 
 import { theme } from '../theme';
 
@@ -19,6 +20,7 @@ import { AuthenticationProvider } from '../components/authenticationprovider';
 import { HubCallback } from '@aws-amplify/core';
 import { RouterLoader } from '../components/router-loader';
 import { ConfigProvider } from '../components/config-provider';
+import { ErrorFallback } from '../components/error-fallback';
 
 const navigator = {
   navigate: async (path: string, withRouter = true) => {
@@ -77,8 +79,10 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
                         },
                       }}
                     />
-                    <Layout user={pageProps.user}>
-                      <Component {...pageProps} />
+                    <Layout>
+                      <ErrorBoundary FallbackComponent={ErrorFallback}>
+                        <Component {...pageProps} />
+                      </ErrorBoundary>
                     </Layout>
                   </ThemeProvider>
                 </NavigationContext.Provider>
