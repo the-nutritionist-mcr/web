@@ -50,7 +50,10 @@ export const PlanCell = (props: PlanCellProps) => {
           .map((plan) => {
             const colorClass = statusClass[plan.subscriptionStatus] ?? '';
             return (
-              <div className={colorClass}>
+              <div
+                className={colorClass}
+                key={`${props.customer.username}-plan-pill-${plan.name}-${plan.id}`}
+              >
                 <Tag
                   size="xsmall"
                   value={`${

@@ -13,7 +13,11 @@ export const CustomisationsCell = (props: CustomisationsCellProps) => {
   return (
     <Box direction="row" gap="xsmall">
       {(props.customer.customisations ?? []).map((customisation) => (
-        <Tag value={customisation.name} size="xsmall" />
+        <Tag
+          key={`${props.customer.username}-customisations-pill-${customisation.id}`}
+          value={customisation.name}
+          size="xsmall"
+        />
       ))}
     </Box>
   );

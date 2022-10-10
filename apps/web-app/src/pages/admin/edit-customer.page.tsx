@@ -43,7 +43,14 @@ const EditCustomer: FC = () => {
               saveCustomer={save}
               dirty={dirty}
               customer={data}
-              customisations={customisations}
+              // eslint-disable-next-line fp/no-mutating-methods
+              customisations={customisations
+                .slice()
+                .sort((a, b) =>
+                  a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()
+                    ? 1
+                    : -1
+                )}
               updateCustomer={update}
             />
           )}

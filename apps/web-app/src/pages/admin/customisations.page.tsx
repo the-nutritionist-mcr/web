@@ -4,7 +4,6 @@ import { AdminTemplate } from './admin-template';
 
 import { Exclusions } from '@tnmw/admin-app';
 import { useCustomisations } from '../../hooks';
-import { authorizedRoute } from '../../utils/authorised-route';
 import { RedirectIfLoggedOut } from '../../components/authentication/redirect-if-logged-out';
 
 const CustomisationsPage: FC = () => {
@@ -14,7 +13,12 @@ const CustomisationsPage: FC = () => {
       <MenuPaddedContent>
         <AdminTemplate>
           <Exclusions
-            exclusions={items}
+            // eslint-disable-next-line fp/no-mutating-methods
+            exclusions={items
+              ?.slice()
+              .sort((a, b) =>
+                a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase() ? 1 : -1
+              )}
             create={create}
             remove={remove}
             update={update}

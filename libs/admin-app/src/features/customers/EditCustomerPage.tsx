@@ -181,7 +181,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
           <TableBody>
             {customer.plans?.map((plan) => {
               return (
-                <TableRow>
+                <TableRow key={`customer-page-plan-${plan.id}`}>
                   <TableCell scope="row">
                     <strong>{plan.name}</strong>
                   </TableCell>

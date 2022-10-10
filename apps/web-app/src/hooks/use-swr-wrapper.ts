@@ -1,10 +1,22 @@
 import { LoadingContext } from '@tnmw/components';
 import { recursivelyDeserialiseDate, SerialisedDate } from '@tnmw/utils';
 import { useContext } from 'react';
-import useSWR, { Middleware } from 'swr';
+import useSWR, { Key, Middleware } from 'swr';
 import { swrFetcher } from '../utils/swr-fetcher';
 
 type ParamsType<T> = Parameters<typeof useSWR<SerialisedDate<T>>>;
+
+const doStartLoading = (key: Key) => {
+  if (typeof key === 'function') {
+    try {
+      key();
+    } catch {
+      return false;
+    }
+  }
+
+  return Boolean(key);
+};
 
 export const useSwrWrapper = <T = unknown>(
   key: ParamsType<T>[0],
@@ -19,7 +31,10 @@ export const useSwrWrapper = <T = unknown>(
 
   const loadingKey = `swr-${finalKey}`;
 
-  const { stopLoading, getLoadingState } = useLoading(loadingKey);
+  const { stopLoading, getLoadingState } = useLoading(
+    loadingKey,
+    doStartLoading(key)
+  );
 
   type OnErrorType = Exclude<
     Exclude<typeof options, undefined>['onError'],

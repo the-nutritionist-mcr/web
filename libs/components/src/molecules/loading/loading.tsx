@@ -77,13 +77,14 @@ export const Loading = (props: LoadingProps) => {
 
     const stopLoading = () => {
       console.debug(`Finished loading '${key}'`);
+      console.log(loadingHandles);
       loadingHandles[key] = 'Finished';
 
       const isLoadingReally =
         Object.values(loadingHandles).includes('Started') &&
         Object.values(loadingHandles).length > 0;
 
-      setIsLoading(isLoadingReally);
+      setTimeout(() => setIsLoading(isLoadingReally), 0);
     };
 
     // eslint-disable-next-line unicorn/consistent-function-scoping
