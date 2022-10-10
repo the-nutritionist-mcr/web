@@ -1,13 +1,7 @@
-import {
-  BackendCustomer,
-} from '@tnmw/types';
+import { BackendCustomer } from '@tnmw/types';
 
-
-import {
-  ListUsersCommandOutput,
-} from '@aws-sdk/client-cognito-identity-provider';
+import { ListUsersCommandOutput } from '@aws-sdk/client-cognito-identity-provider';
 import { parseCognitoResponse } from './parse-cognito-response';
-
 
 // const getJsonAttributeValue = <T>(
 //   attributes: AttributeType[],
@@ -97,9 +91,12 @@ import { parseCognitoResponse } from './parse-cognito-response';
 export const parseCustomerList = (
   output: ListUsersCommandOutput
 ): (BackendCustomer & { id: string })[] => {
-  return output.Users.map((user) => ({
-    id: user.Username,
-    username: user.Username,
-    ...parseCognitoResponse(user.Attributes)
-  }));
+  return (
+    output.Users?.map((user) => ({
+      id: user.Username ?? '',
+      username: user.Username ?? '',
+      groups: [],
+      ...parseCognitoResponse(user.Attributes ?? []),
+    })) ?? []
+  );
 };

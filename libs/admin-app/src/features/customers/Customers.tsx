@@ -8,13 +8,17 @@ import {
   TableHeader,
   TableRow,
 } from 'grommet';
-import { Exclusion, CustomerWithChargebeePlan } from '@tnmw/types';
+import {
+  Exclusion,
+  CustomerWithChargebeePlan,
+  BackendCustomer,
+} from '@tnmw/types';
 
 import CustomerRow from './CustomerRow';
 import React from 'react';
 
 interface CustomersProps {
-  customers: CustomerWithChargebeePlan[];
+  customers: BackendCustomer[];
   customisations: Exclusion[];
 }
 
@@ -39,7 +43,11 @@ const Customers: React.FC<CustomersProps> = ({ customers }) => {
             </TableCell>
 
             <TableCell scope="col">
-              <strong>Email</strong>
+              <strong>Plan</strong>
+            </TableCell>
+
+            <TableCell scope="col">
+              <strong>Customisations</strong>
             </TableCell>
           </TableRow>
         </TableHeader>
@@ -49,13 +57,12 @@ const Customers: React.FC<CustomersProps> = ({ customers }) => {
             customers
               .slice()
               .reverse()
-              .sort(
-                (a: CustomerWithChargebeePlan, b: CustomerWithChargebeePlan) =>
-                  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-                  a.surname > b.surname ? 1 : -1
+              .sort((a: BackendCustomer, b: BackendCustomer) =>
+                // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+                a.surname > b.surname ? 1 : -1
               )
               .map((customer) => (
-                <CustomerRow key={customer.id} customer={customer} />
+                <CustomerRow key={customer.username} customer={customer} />
               ))
           }
         </TableBody>

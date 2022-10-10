@@ -12,7 +12,7 @@ const CustomersPage: FC = () => {
     <RedirectIfLoggedOut allowedGroups={['admin']} redirectTo="/login">
       <AdminTemplate>
         {items && (
-          <Customers customers={items} customisations={customisations} />
+          <Customers customers={items} customisations={customisations ?? []} />
         )}
       </AdminTemplate>
     </RedirectIfLoggedOut>

@@ -18,34 +18,42 @@ export const itemFamilies = [
   {
     name: 'Equilibrium',
     isExtra: false,
+    shortName: 'EQ',
   },
   {
     name: 'Mass',
     isExtra: false,
+    shortName: 'MA',
   },
   {
     name: 'Micro',
     isExtra: false,
+    shortName: 'MI',
   },
   {
     name: 'Ultra Micro',
     isExtra: false,
+    shortName: 'UM',
   },
   {
     name: 'Low-CHO',
     isExtra: false,
+    shortName: 'LC',
   },
   {
     name: 'Seasonal Soup',
     isExtra: true,
+    shortName: 'SS',
   },
   {
     name: 'Breakfast',
     isExtra: true,
+    shortName: 'B',
   },
   {
     name: 'Snacks',
     isExtra: true,
+    shortName: 'SN',
   },
 ];
 
