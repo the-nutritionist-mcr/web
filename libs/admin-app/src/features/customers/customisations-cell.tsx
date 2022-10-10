@@ -6,7 +6,7 @@ interface CustomisationsCellProps {
   customer: BackendCustomer;
 }
 export const CustomisationsCell = (props: CustomisationsCellProps) => {
-  if (props.customer.plans.length === 0) {
+  if (props.customer.customisations.length === 0) {
     return <span className={noPlan}>None</span>;
   }
 
