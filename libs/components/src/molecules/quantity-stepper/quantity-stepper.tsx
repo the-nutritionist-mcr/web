@@ -30,13 +30,13 @@ const LabelText = styled.label`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-family: 'Acumin Pro', Arial, sans-serif;
+  font-family: acumin-pro-semi-condensed, Arial, sans-serif;
   padding-left: 0.5rem;
 `;
 
 const QuantityStepper: FC<QuantityStepperProps> = (props) => {
   const CountLabel = styled('div')`
-    font-family: 'Acumin Pro', Arial, sans-serif;
+    font-family: acumin-pro-semi-condensed, Arial, sans-serif;
     font-weight: bold;
     flex-grow: ${props.label ? '0' : '999'};
     padding-left: ${props.label ? '0.5rem' : '0'};

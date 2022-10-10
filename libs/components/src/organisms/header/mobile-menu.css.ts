@@ -49,7 +49,7 @@ export const mobileMenuAnchor = style({
   padding: '15px 0',
   width: '100%',
   display: 'block',
-  fontFamily: '"Acumin Pro Semicondensed"',
+  fontFamily: 'acumin-pro-semi-condensed',
   textDecoration: 'none',
   color: 'black',
 });

@@ -11,7 +11,7 @@ export interface ConfirmMobileFormProps {
 }
 
 const StyledP = styled.p`
-  font-family: 'Acumin Pro', Arial, sans-serif;
+  font-family: acumin-pro-semi-condensed, Arial, sans-serif;
 `;
 
 const ConfirmMobileForm: FC<ConfirmMobileFormProps> = (props) => (

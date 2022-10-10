@@ -1,29 +1,29 @@
 @font-face {
-  font-family: 'Acumin Pro';
+  font-family: acumin-pro-semi-condensed;
   src: url('./fonts/acumin-pro/Acumin\ Pro\ Bold.otf');
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Acumin Pro';
+  font-family: acumin-pro-semi-condensed;
   src: url('./fonts/acumin-pro/Acumin\ Pro\ Medium.otf');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Acumin Pro Semicondensed';
+  font-family: acumin-pro-semi-condensed;
   src: url('./fonts/acumin-pro-semi-condensed//Acumin\ Pro\ SemiCond\ Bold.otf');
 }
 
 @font-face {
-  font-family: 'IBM Plex Serif';
+  font-family: ibm-plex-serif;
   src: url('./fonts/ibm-plex-serif//IBMPlexSerif-Regular.ttf');
 }
 
 @font-face {
-  font-family: 'IBM Plex Mono';
+  font-family: ibm-plex-mono;
   src: url('./fonts/ibm-plex-mono/IBMPlexMono-Regular.ttf');
 }
 

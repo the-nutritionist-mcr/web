@@ -10,7 +10,7 @@ export const divider = style({
 });
 
 export const nutritionAndAllergyLink = style({
-  fontFamily: "'IBM Plex Mono', serif",
+  fontFamily: 'ibm-plex-mono, serif',
   fontSize: '0.7rem',
   margin: '0.5rem 0 1rem',
   alignSelf: 'start',
@@ -30,13 +30,13 @@ export const container = style({
 });
 
 export const description = style({
-  fontFamily: "'IBM Plex Serif', 'Times New Roman', serif",
+  fontFamily: "ibm-plex-serif, 'Times New Roman', serif",
   lineHeight: '23px',
   paddingBottom: '0.5rem',
 });
 
 export const header = style({
-  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  fontFamily: 'acumin-pro-semi-condensed, Arial, sans-serif',
   fontSize: '1.7rem',
   alignSelf: 'center',
   textTransform: 'capitalize',

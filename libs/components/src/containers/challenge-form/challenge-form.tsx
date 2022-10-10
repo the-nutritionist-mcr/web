@@ -35,13 +35,13 @@ const FormHeader = styled.div`
 const FormError = styled.div`
   color: red;
   height: 1em;
-  font-family: 'Acumin Pro', Arial, sans-serif;
+  font-family: acumin-pro-semi-condensed, Arial, sans-serif;
   margin-top: 1rem;
   text-align: center;
   font-weight: bold;
 `;
 const StyledH2 = styled.h2`
-  font-family: 'Acumin Pro', Arial, sans-serif;
+  font-family: acumin-pro-semi-condensed, Arial, sans-serif;
   margin: 0 0 0 0;
 `;
 StyledH2.displayName = 'h2';

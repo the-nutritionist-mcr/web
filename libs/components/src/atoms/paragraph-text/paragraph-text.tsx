@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { FC, ReactNode } from 'react';
 
 const StyledP = styled.p`
-  font-family: 'IBM Plex Serif', 'Times New Roman', serif;
+  font-family: ibm-plex-serif, 'Times New Roman', serif;
   line-height: 23px;
 `;
 

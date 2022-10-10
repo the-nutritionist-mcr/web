@@ -8,7 +8,7 @@ export const getStartedButton = style({
   outline: 'none',
   borderRadius: '25px',
   textAlign: 'center',
-  fontFamily: '"Acumin Pro",sans-serif',
+  fontFamily: 'acumin-pro,sans-serif',
   cursor: 'pointer',
   textDecoration: 'none',
   display: 'flex',
@@ -35,7 +35,7 @@ export const getStartedButton = style({
       listStyle: 'none',
       borderRadius: '25px',
       textAlign: 'center',
-      fontFamily: '"Acumin Pro",sans-serif',
+      fontFamily: 'acumin-pro,sans-serif',
       cursor: 'pointer',
       textDecoration: 'none',
       display: 'flex',
@@ -134,7 +134,7 @@ export const headerListItem = style({
 });
 
 export const menuAnchor = style({
-  fontFamily: '"Acumin Pro",sans-serif',
+  fontFamily: 'acumin-pro,sans-serif',
   fontWeight: 'bold',
   textDecoration: 'none',
   color: '#141414',

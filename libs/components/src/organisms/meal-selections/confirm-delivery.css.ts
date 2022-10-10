@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
 export const header = style({
-  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  fontFamily: 'acumin-pro-semi-condensed, Arial, sans-serif',
 });
 
 export const deliveryContainer = style({
@@ -9,7 +9,7 @@ export const deliveryContainer = style({
 });
 
 export const deliveryNumberHeader = style({
-  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  fontFamily: 'acumin-pro-semi-condensed, Arial, sans-serif',
   width: '100%',
   backgroundColor: '#d4f9e3',
   padding: '0.3rem 0.5rem',
@@ -20,14 +20,14 @@ export const sectionContainer = style({
 });
 
 export const noMealsLi = style({
-  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  fontFamily: 'acumin-pro-semi-condensed, Arial, sans-serif',
   listStyle: 'none',
   color: 'red',
   fontStyle: 'italic',
 });
 
 export const mealSelectionLi = style({
-  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  fontFamily: 'acumin-pro-semi-condensed, Arial, sans-serif',
   listStyle: 'none',
   display: 'flex',
   alignItems: 'baseline',
@@ -53,7 +53,7 @@ export const mealTitle = style({
 });
 
 export const sectionHeader = style({
-  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  fontFamily: 'acumin-pro-semi-condensed, Arial, sans-serif',
   margin: '1rem 0',
   padding: 0,
 });

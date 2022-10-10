@@ -1,32 +1,4 @@
 @import '../../../../libs/static-pages/src/styles/main.scss';
-@font-face {
-  font-family: 'Acumin Pro';
-  src: url('./fonts/acumin-pro/Acumin\ Pro\ Bold.otf');
-  font-weight: bold;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Acumin Pro';
-  src: url('./fonts/acumin-pro/Acumin\ Pro\ Medium.otf');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Acumin Pro Semicondensed';
-  src: url('./fonts/acumin-pro-semi-condensed//Acumin\ Pro\ SemiCond\ Bold.otf');
-}
-
-@font-face {
-  font-family: 'IBM Plex Serif';
-  src: url('./fonts/ibm-plex-serif//IBMPlexSerif-Regular.ttf');
-}
-
-@font-face {
-  font-family: 'IBM Plex Mono';
-  src: url('./fonts/ibm-plex-mono/IBMPlexMono-Regular.ttf');
-}
 
 html {
   box-sizing: border-box;

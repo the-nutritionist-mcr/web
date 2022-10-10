@@ -22,7 +22,7 @@ export const headerUnorderedList = style({
   width: '100%',
   fontSize: '22px',
   height: '32px',
-  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  fontFamily: 'acumin-pro-semi-condensed, Arial, sans-serif',
   justifyContent: 'center',
   gap: '1rem',
   margin: 0,

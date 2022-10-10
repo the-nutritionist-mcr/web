@@ -15,7 +15,7 @@ export const tooltipText = style({
   background: 'white',
   padding: '1.3rem',
   zIndex: '1',
-  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  fontFamily: 'acumin-pro-semi-condensed, Arial, sans-serif',
   '@media': {
     'screen and (max-width: 899px)': {
       left: 'unset',

@@ -8,7 +8,14 @@ const Document = () => {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap"
         />
+        <link
+          rel="stylesheet"
+          href="https://use.typekit.net/xqv5xkh.css?ver=6.0.2"
+          type="text/css"
+          media="all"
+        />
         <link rel="manifest" href="/manifest.json" />
+
         <meta name="application-name" content="The Nutritionist Mancheser" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta

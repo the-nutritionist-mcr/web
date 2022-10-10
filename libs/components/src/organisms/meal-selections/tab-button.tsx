@@ -9,7 +9,7 @@ interface MealsSelectionsTabButtonProps {
 
 const MealsSelectionsTabButton: FC<MealsSelectionsTabButtonProps> = (props) => {
   const StyledButton = styled.button`
-    font-family: 'Acumin Pro', Arial, sans-serif;
+    font-family: acumin-pro-semi-condensed, Arial, sans-serif;
     min-width: 10rem;
     border: 0;
     cursor: pointer;

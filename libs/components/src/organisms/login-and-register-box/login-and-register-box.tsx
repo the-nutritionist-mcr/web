@@ -9,7 +9,7 @@ interface LoginAndRegisterBoxProps {
 }
 
 const StyledP = styled.p`
-  font-family: 'IBM Plex Serif', 'Times New Roman', serif;
+  font-family: ibm-plex-serif, 'Times New Roman', serif;
   line-height: 23px;
   text-align: left;
   margin-top: 1.5rem;

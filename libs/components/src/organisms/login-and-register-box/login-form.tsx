@@ -12,7 +12,7 @@ interface LoginFormProps {
 
 const StyledLink = styled.a((props) => {
   return `
-  font-family: "Acumin Pro", Arial, sans-serif;
+  font-family: acumin-pro, Arial, sans-serif;
   color: ${props.theme.colors.buttonBlack};
   text-decoration: 0;
 `;

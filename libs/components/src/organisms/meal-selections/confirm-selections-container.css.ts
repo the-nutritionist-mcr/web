@@ -51,13 +51,13 @@ export const container = style({
 
 export const header = style({
   fontSize: '2rem',
-  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  fontFamily: 'acumin-pro-semi-condensed, Arial, sans-serif',
   marginBottom: '2rem',
 });
 
 export const summaryHeader = style({
   textTransform: 'uppercase',
-  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  fontFamily: 'acumin-pro-semi-condensed, Arial, sans-serif',
   fontSize: '1.7rem',
   margin: '1rem 0 0 0',
   padding: '0',

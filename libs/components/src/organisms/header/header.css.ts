@@ -40,7 +40,7 @@ export const accountWrapper = style({
 
 export const accountButton = style({
   width: '92.3203px',
-  fontFamily: '"Acumin Pro",sans-serif',
+  fontFamily: 'acumin-pro,sans-serif',
   backgroundRepeat: 'no-repeat',
   backgroundPosition: `50%`,
   display: 'block',
@@ -109,7 +109,7 @@ export const headerMobile = style({
 
 export const siteNavbarDesktop = style({
   display: 'flex',
-  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  fontFamily: 'acumin-pro-semi-condensed, Arial, sans-serif',
   justifyContent: 'center',
   width: '100%',
   maxWidth: '1460px',
@@ -118,7 +118,7 @@ export const siteNavbarDesktop = style({
 
 export const siteNavbarMobile = style({
   display: 'flex',
-  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  fontFamily: 'acumin-pro-semi-condensed, Arial, sans-serif',
   fontWeight: 700,
   height: '88px',
   padding: '0 30px',

@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
 export const deliveryNameHeader = style({
-  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  fontFamily: 'acumin-pro-semi-condensed, Arial, sans-serif',
   width: '100%',
   backgroundColor: '#d4f9e3',
   padding: '0.3rem 0.5rem',
@@ -28,7 +28,7 @@ export const selectedBox = style({
 });
 
 export const basketHeader = style({
-  fontFamily: "'Acumin Pro', Arial, sans-serif",
+  fontFamily: 'acumin-pro-semi-condensed, Arial, sans-serif',
   fontSize: '1.7rem',
   fontWeight: 'bold',
   margin: 0,

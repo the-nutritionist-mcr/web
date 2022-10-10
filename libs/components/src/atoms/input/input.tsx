@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { FC, ChangeEvent } from 'react';
 
 const InputContainer = styled.div<InputProps>`
-  font-family: 'Acumin Pro', Arial, sans-serif;
+  font-family: acumin-pro-semi-condensed, Arial, sans-serif;
   display: flex;
   flex-direction: column;
   flex-grow: 999;
@@ -17,7 +17,7 @@ const LabelRow = styled.div`
 `;
 
 const ErrorLabel = styled.label`
-  font-family: 'Acumin Pro', Arial, sans-serif;
+  font-family: acumin-pro-semi-condensed, Arial, sans-serif;
   color: red;
   padding-bottom: 0.5rem;
   font-style: italic;
@@ -28,7 +28,7 @@ ErrorLabel.displayName = 'label';
 const InputLabel = styled.label<InputProps>((props) => {
   const theme = useTheme();
   return {
-    fontFamily: '"Acumin Pro", Arial, sans-serif',
+    fontFamily: 'acumin-pro, Arial, sans-serif',
     fontWeight: 'bold',
     color: props.disabled ? '#B8B8B8' : theme.colors.labelText,
     flexGrow: 999,
@@ -62,7 +62,7 @@ const InputField = styled.input<InputProps>((props) => {
   const borderColor = props.disabled ? '#B8B8B8' : theme.colors.buttonBlack;
 
   return {
-    fontFamily: '"Acumin Pro", Arial, sans-serif',
+    fontFamily: 'acumin-pro, Arial, sans-serif',
     margin: 0,
     borderRadius: 0,
     border: `1px solid ${props.error ? 'red' : borderColor}`,

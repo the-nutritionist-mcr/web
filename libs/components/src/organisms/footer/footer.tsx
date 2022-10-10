@@ -8,7 +8,7 @@ import { TNM_SITE } from '../header/tnm-site';
 
 const StyledFooter = styled.footer`
   width: 100%;
-  font-family: 'Acumin Pro', Arial, sans-serif;
+  font-family: acumin-pro-semi-condensed, Arial, sans-serif;
   box-sizing: border-box;
   position: relative;
   background: #253a3d;

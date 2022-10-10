@@ -1,7 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 
 export const guidanceText = style({
-  fontFamily: "'IBM Plex Serif', 'Times New Roman', serif",
+  fontFamily: "ibm-plex-serif, 'Times New Roman', serif",
   lineHeight: '23px',
   paddingBottom: '0.5rem',
 });
@@ -26,8 +26,9 @@ globalStyle(`${daySelectorRow} button`, {
   borderRadius: '50px',
   margin: '4px',
   fontSize: '1.2rem',
+  fontWeight: 'bold',
   textDecoration: 'none',
-  padding: '0.7rem 0.5rem',
+  padding: '0.7rem 0.5rem calc(0.7rem + 2px) 0.5rem',
 });
 
 export const daySelectorButtonBox = style({
@@ -39,7 +40,7 @@ export const daySelectorButtonBox = style({
 export const header = style({
   fontSize: '2rem',
   marginBottom: '2rem',
-  fontFamily: "'Accumin Pro', Arial, sans-serif",
+  fontFamily: 'acumin-pro, Arial, sans-serif',
   display: 'flex',
   gap: '1rem',
   alignItems: 'center',
@@ -56,7 +57,7 @@ export const chooseDayHeader = style({
   fontSize: '2rem',
   marginBottom: '2rem',
   marginTop: '4rem',
-  fontFamily: "'Accumin Pro', Arial, sans-serif",
+  fontFamily: 'acumin-pro, Arial, sans-serif',
   display: 'flex',
   gap: '1rem',
   alignItems: 'center',

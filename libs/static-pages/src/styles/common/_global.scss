@@ -1,9 +1,8 @@
 .tnm-v1 * {
-  font-family: 'IBM Plex Serif', sans-serif;
+  font-family: ibm-plex-serif, sans-serif;
   font-weight: 300;
   font-size: 21px;
 }
-
 
 /** Many of these styles conflict with the styles
   * I've done in the ordering system
@@ -13,7 +12,7 @@
 
 .tnm-v1 h1 {
   font-size: 72px;
-  font-family: 'Acumin Pro Semicondensed', sans-serif;
+  font-family: acumin-pro-semi-condensed, sans-serif;
   line-height: 76px;
 
   @include mob(1300) {
@@ -34,7 +33,7 @@
 
 .tnm-v1 h2 {
   font-size: 45px;
-  font-family: 'Acumin Pro Semicondensed', sans-serif;
+  font-family: acumin-pro-semi-condensed, sans-serif;
   line-height: 49px;
 
   @include mob(900) {
@@ -50,7 +49,7 @@
 .tnm-v1 h3 {
   font-size: 17px;
   line-height: 21px;
-  font-family: 'Acumin Pro Semicondensed', sans-serif;
+  font-family: acumin-pro-semi-condensed, sans-serif;
 }
 
 .tnm-v1 p {
@@ -67,7 +66,7 @@
   width: 200px;
   margin: 10px 20px;
   border-radius: 25px;
-  font-family: 'Acumin Pro', sans-serif;
+  font-family: acumin-pro-semi-condensed, sans-serif;
   font-weight: 700;
   display: inline-block;
   background: #177f7a;
