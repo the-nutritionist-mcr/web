@@ -1,6 +1,7 @@
 import { Box, Button, Select, Tag } from 'grommet';
 import { useState } from 'react';
 import Fuse from 'fuse.js';
+import { tagContainer } from './tag-input.css';
 
 interface ValueType {
   key: string;
@@ -24,16 +25,18 @@ export const TagInput = (props: TagInputProps) => {
     ? fuse.search(optionsFilter).map((result) => result.item)
     : props.options;
   return (
-    <Box direction="row" gap="xsmall">
-      {values.map((value) => (
-        <Tag
-          value={value.label}
-          size="xsmall"
-          onRemove={() => {
-            setValues(values.filter((needle) => needle.key !== value.key));
-          }}
-        />
-      ))}
+    <>
+      <div className={tagContainer}>
+        {values.map((value) => (
+          <Tag
+            value={value.label}
+            size="xsmall"
+            onRemove={() => {
+              setValues(values.filter((needle) => needle.key !== value.key));
+            }}
+          />
+        ))}
+      </div>
       <Select
         plain
         onSearch={(search) => {
@@ -57,9 +60,9 @@ export const TagInput = (props: TagInputProps) => {
           }
         }}
         valueLabel={() => {
-          return <Button label="Add" />;
+          return <Button label="Add" size="small" />;
         }}
       />
-    </Box>
+    </>
   );
 };
