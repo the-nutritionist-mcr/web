@@ -86,7 +86,7 @@ export const Loading = (props: LoadingProps) => {
         Object.values(loadingHandles).includes('Started') &&
         Object.values(loadingHandles).length > 0;
 
-      setTimeout(() => setIsLoading(isLoadingReally), 0);
+      setIsLoading(isLoadingReally);
     };
 
     // eslint-disable-next-line unicorn/consistent-function-scoping
