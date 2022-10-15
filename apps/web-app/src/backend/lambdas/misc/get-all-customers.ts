@@ -10,6 +10,7 @@ import { returnOkResponse } from '../data-api/return-ok-response';
 import { returnErrorResponse } from '../data-api/return-error-response';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { parseCustomerList } from '../../../utils/parse-customer-list';
+import { BackendCustomer } from '@tnmw/types';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -17,17 +18,32 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const cognito = new CognitoIdentityProviderClient({});
     const poolId = process.env[ENV.varNames.CognitoPoolId];
 
-    const input: ListUsersCommandInput = {
-      UserPoolId: poolId,
-    };
-    const response = await cognito.send(new ListUsersCommand(input));
+    const getAllCustomers = async (
+      paginationToken?: string
+    ): Promise<(BackendCustomer & { id: string })[]> => {
+      const input: ListUsersCommandInput = {
+        UserPoolId: poolId,
+        PaginationToken: paginationToken,
+      };
+      const response = await cognito.send(new ListUsersCommand(input));
 
-    const users = parseCustomerList(response);
+      const users = parseCustomerList(response);
+
+      if (response.PaginationToken) {
+        return [...users, ...(await getAllCustomers(response.PaginationToken))];
+      }
+
+      return users;
+    };
+
+    const users = getAllCustomers();
 
     return returnOkResponse({
       users,
     });
   } catch (error) {
-    return returnErrorResponse(error);
+    return error instanceof Error
+      ? returnErrorResponse(error)
+      : returnErrorResponse();
   }
 };
