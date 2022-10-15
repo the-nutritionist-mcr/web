@@ -21,10 +21,13 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const getAllCustomers = async (
       paginationToken?: string
     ): Promise<(BackendCustomer & { id: string })[]> => {
-      const input: ListUsersCommandInput = {
-        UserPoolId: poolId,
-        PaginationToken: paginationToken,
-      };
+      const input: ListUsersCommandInput = paginationToken
+        ? {
+            UserPoolId: poolId,
+            PaginationToken: paginationToken,
+          }
+        : { UserPoolId: poolId };
+
       const response = await cognito.send(new ListUsersCommand(input));
 
       const users = parseCustomerList(response);
