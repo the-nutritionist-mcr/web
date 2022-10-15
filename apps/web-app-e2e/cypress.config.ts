@@ -11,6 +11,7 @@ export default defineConfig({
   viewportWidth: 1438,
   scrollBehavior: 'center',
   e2e: {
+    baseUrl: 'http://localhost:4200',
     defaultCommandTimeout: 25_000,
     supportFile: './src/support/index.ts',
     specPattern: 'e2e/**/*.cy.{ts,tsx}',
