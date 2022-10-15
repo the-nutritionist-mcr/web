@@ -13,12 +13,14 @@ import {
   TableHeader,
 } from 'grommet';
 import React, { FC } from 'react';
+import moment from 'moment';
 import { ResetPasswordDialog } from './reset-password-dialog';
 import {
   planLabels,
   extrasLabels,
   defaultDeliveryDays,
   itemFamilies,
+  calendarFormat,
 } from '@tnmw/config';
 import { convertPlanFormat } from '@tnmw/utils';
 import { debounce } from 'lodash';
@@ -188,6 +190,12 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
               <TableCell scope="col" border="bottom">
                 <strong>Status</strong>
               </TableCell>
+              <TableCell scope="col" border="bottom">
+                <strong>Pause Start</strong>
+              </TableCell>
+              <TableCell scope="col" border="bottom">
+                <strong>Pause End</strong>
+              </TableCell>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -201,6 +209,16 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
                   <TableCell scope="row">{plan.itemsPerDay}</TableCell>
                   <TableCell scope="row">{plan.totalMeals}</TableCell>
                   <TableCell scope="row">{plan.subscriptionStatus}</TableCell>
+                  <TableCell scope="row">
+                    {plan.pauseStart
+                      ? moment(plan.pauseStart).calendar(null, calendarFormat)
+                      : 'None'}
+                  </TableCell>
+                  <TableCell scope="row">
+                    {plan.pauseEnd
+                      ? moment(plan.pauseEnd).calendar(null, calendarFormat)
+                      : 'None'}
+                  </TableCell>
                 </TableRow>
               );
             })}

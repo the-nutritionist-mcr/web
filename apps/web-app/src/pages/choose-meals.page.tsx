@@ -41,14 +41,14 @@ const ChooseMealsPage = () => {
   useEffect(() => {
     const now = new Date(Date.now());
 
-    if (data?.available) {
-      const go = getClosedOrOpenStatus(now, data);
+    if (data?.available && user) {
+      const go = getClosedOrOpenStatus(now, data, user);
 
       if (!go) {
         window.location.href = '/account';
       }
     }
-  }, [data]);
+  }, [data, user]);
 
   if (!user) {
     return <></>;

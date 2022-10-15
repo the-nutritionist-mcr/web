@@ -40,7 +40,7 @@ const AccountPage = () => {
     throw new Error('Dependencies not configured!');
   }
 
-  const chooseIsOpen = getClosedOrOpenStatus(now, data);
+  const chooseIsOpen = getClosedOrOpenStatus(now, data, user);
 
   const logout = async () => {
     await signOut();

@@ -1,4 +1,23 @@
-import { MealPlanGeneratedForIndividualCustomer } from '@tnmw/types';
+import { getCookStatus } from '@tnmw/meal-planning';
+import {
+  BackendCustomer,
+  MealPlanGeneratedForIndividualCustomer,
+  PlannedCook,
+} from '@tnmw/types';
+
+export const chooseablePlans = (
+  customer: BackendCustomer,
+  cooks: PlannedCook[]
+) => {
+  return customer.plans.filter((plan) => {
+    const every = cooks.every((cook) => {
+      const status = getCookStatus(cook.date, plan).status === 'active';
+      return status;
+    });
+
+    return every;
+  });
+};
 
 const getClosingDate = (date: Date): Date => {
   const newDate = new Date(date.valueOf());
@@ -19,11 +38,12 @@ export const getClosedOrOpenStatus = (
     | {
         published: boolean;
         available: true;
-        plan: { createdOn: Date };
+        plan: { createdOn: Date; cooks: PlannedCook[] };
         currentUserSelection?: MealPlanGeneratedForIndividualCustomer;
       }
     | { available: false }
-    | undefined
+    | undefined,
+  customer: BackendCustomer
 ) => {
   if (!data) {
     return false;
@@ -38,6 +58,11 @@ export const getClosedOrOpenStatus = (
   }
 
   if (!data.published) {
+    return false;
+  }
+  const plans = chooseablePlans(customer, data.plan.cooks);
+
+  if (plans.length === 0) {
     return false;
   }
 
