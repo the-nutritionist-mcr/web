@@ -39,7 +39,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       return users;
     };
 
-    const users = getAllCustomers();
+    const users = await getAllCustomers();
 
     return returnOkResponse({
       users,
