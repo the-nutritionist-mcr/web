@@ -24,7 +24,10 @@ export const getAllUsers = async (
   const users = parseCustomerList(response);
 
   if (response.PaginationToken) {
-    return [...users, ...(await getAllUsers(response.PaginationToken))];
+    return [
+      ...users,
+      ...(await getAllUsers(userPool, response.PaginationToken)),
+    ];
   }
 
   return users;
