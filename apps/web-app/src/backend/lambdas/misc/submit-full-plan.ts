@@ -29,6 +29,7 @@ import { v4 } from 'uuid';
 import { isWeeklyPlan } from '@tnmw/types';
 import { batchArray } from '../../../utils/batch-array';
 import { getUserFromAws } from '../../../utils/get-user-from-aws';
+import { getAllUsers } from '../dynamodb/get-all-users';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -49,13 +50,9 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       throw new HttpError(HTTP.statusCodes.BadRequest, 'Request was invalid');
     }
 
-    const input: ListUsersCommandInput = {
-      UserPoolId: process.env[ENV.varNames.CognitoPoolId],
-    };
-
-    const command = new ListUsersCommand(input);
-
-    const list = parseCustomerList(await cognito.send(command));
+    const list = await getAllUsers(
+      process.env[ENV.varNames.CognitoPoolId] ?? ''
+    );
 
     const cooks = payload.dates.map((date, index) => ({
       date: new Date(Date.parse(date)),
