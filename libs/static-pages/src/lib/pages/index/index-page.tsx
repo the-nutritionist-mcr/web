@@ -2,15 +2,16 @@ import TnmStickerDarkGreyMint from '../../../styles/images/svg/TNM_Sticker2_Dark
 import TnmBack from '../../../styles/images/svg/TNM_Icon__Back.svg';
 import CharredChick from '../../../styles/images/17_ CHARRED CHICKEN + BLACK BEAN BURRITO BOWL TOP.png';
 
-import {
-  addBackgroundImage,
-  addHeroPadding,
-  dishesBlock,
-  header,
-} from './index.page.css';
+// import {
+//   addBackgroundImage,
+//   addHeroPadding,
+//   dishesBlock,
+//   header,
+// } from './index.page.css';
 
 export const IndexPage = () => (
   <div className="tnm-v1 home">
+    {/*
     <div className="wrap container">
       <section className={`page-hero ${addHeroPadding}`}>
         <div className="page-header">
@@ -309,7 +310,7 @@ export const IndexPage = () => (
 </section>  
     </div>
   </div>
-  */}
     </div>
+    */}
   </div>
 );
