@@ -111,6 +111,7 @@ const FinalizeCell = React.memo(
   (oldProps, newProps) => {
     const oldItem = oldProps.selectedItem;
     const newItem = newProps.selectedItem;
+
     if (oldItem.isExtra !== newItem.isExtra) {
       return false;
     }

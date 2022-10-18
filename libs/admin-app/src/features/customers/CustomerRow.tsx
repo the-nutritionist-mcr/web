@@ -33,7 +33,15 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
 const CustomerRow = react.memo(
   UnMemoizedCustomerRow,
   (oldProps, newProps) =>
-    oldProps.customer.username === newProps.customer.username
+    oldProps.customer.username === newProps.customer.username &&
+    oldProps.customer.plans.map((plan) => plan.name).join(',') ===
+      newProps.customer.plans.map((plan) => plan.name).join(',') &&
+    oldProps.customer.customisations
+      .map((customisation) => customisation.name)
+      .join(',') ===
+      newProps.customer.customisations
+        .map((customisation) => customisation.name)
+        .join(',')
 );
 
 export default CustomerRow;
