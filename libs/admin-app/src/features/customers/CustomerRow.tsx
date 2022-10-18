@@ -1,10 +1,10 @@
-import { Tag, TableCell, TableRow, Box } from 'grommet';
+import { Tag, TableCell, TableRow } from 'grommet';
 import { BackendCustomer } from '@tnmw/types';
-import deepMemo from '../../lib/deepMemo';
 import { PlanCell } from './plan-cell';
 import { Link } from '../../components';
 import { customerRow } from './customers.css';
 import { CustomisationsCell } from './customisations-cell';
+import react from 'react';
 
 interface CustomerRowProps {
   customer: BackendCustomer;
@@ -30,6 +30,10 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
   );
 };
 
-const CustomerRow = deepMemo(UnMemoizedCustomerRow);
+const CustomerRow = react.memo(
+  UnMemoizedCustomerRow,
+  (oldProps, newProps) =>
+    oldProps.customer.username === newProps.customer.username
+);
 
 export default CustomerRow;

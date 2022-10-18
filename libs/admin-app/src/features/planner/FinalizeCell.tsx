@@ -1,6 +1,5 @@
 import { Text, Box, Button, Select, TableCell, ThemeContext } from 'grommet';
 import { Trash } from 'grommet-icons';
-import deepMemo from '../../lib/deepMemo';
 import {
   ActivePlanWithMeals,
   BackendCustomer,
@@ -11,6 +10,7 @@ import {
 import { cell } from './finalise.css';
 import { getRealRecipe } from '@tnmw/meal-planning';
 import { useEffect, useState } from 'react';
+import React from 'react';
 
 interface FinalizeCellProps {
   index: number;
@@ -106,6 +106,21 @@ const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
   );
 };
 
-const FinalizeCell = deepMemo(UnMemoizedFinalizeCell);
+const FinalizeCell = React.memo(
+  UnMemoizedFinalizeCell,
+  (oldProps, newProps) => {
+    const oldItem = oldProps.selectedItem;
+    const newItem = newProps.selectedItem;
+    if (oldItem.isExtra !== newItem.isExtra) {
+      return false;
+    }
+
+    if (!oldItem.isExtra && !newItem.isExtra) {
+      return oldItem.recipe.id === newItem.recipe.id;
+    }
+
+    return true;
+  }
+);
 
 export default FinalizeCell;

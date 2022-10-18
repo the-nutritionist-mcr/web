@@ -8,12 +8,10 @@ import {
   TableHeader,
   Button,
   Box,
-  ThemeContext,
 } from 'grommet';
 import { Link } from '@tnmw/components';
 import { Trash, FormAdd } from 'grommet-icons';
 import React, { useState } from 'react';
-import deepMemo from '../../lib/deepMemo';
 import styled from 'styled-components';
 import { batchArray } from '../../lib/batch-array';
 import FinalizeCell from './FinalizeCell';
@@ -26,6 +24,8 @@ import {
 import {
   MealPlanGeneratedForIndividualCustomer,
   PlannedCook,
+  PlannedDelivery,
+  PlanWithMeals,
   Recipe,
 } from '@tnmw/types';
 import {
@@ -44,6 +44,87 @@ interface FinalizeRowProps {
   columns: number;
   update: (item: MealPlanGeneratedForIndividualCustomer) => Promise<void>;
 }
+
+const planIsEqual = (plan: PlanWithMeals, otherPlan: PlanWithMeals) => {
+  if (plan.status !== otherPlan.status) {
+    return false;
+  }
+
+  if (plan.status === 'active' && otherPlan.status === 'active') {
+    if (plan.meals.length !== otherPlan.meals.length) {
+      return false;
+    }
+
+    return plan.meals.every((meal, index) => {
+      const otherMeal = otherPlan.meals[index];
+
+      if (meal.isExtra !== otherMeal.isExtra) {
+        return false;
+      }
+
+      if (meal.isExtra && otherMeal.isExtra) {
+        return meal.extraName !== otherMeal.extraName;
+      }
+
+      if (!meal.isExtra && !otherMeal.isExtra) {
+        return meal.recipe.id !== otherMeal.recipe.id;
+      }
+      return true;
+    });
+  }
+
+  return true;
+};
+
+const deliveryIsEqual = (
+  delivery: PlannedDelivery,
+  otherDelivery: PlannedDelivery
+) => {
+  if (delivery.plans.length !== otherDelivery.plans.length) {
+    return false;
+  }
+
+  if (delivery.dateCooked.toString() !== otherDelivery.dateCooked.toString()) {
+    return false;
+  }
+
+  if (
+    !delivery.plans.every((plan, index) =>
+      planIsEqual(plan, otherDelivery.plans[index])
+    )
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
+const customerPlanIsEqual = (
+  selectionOne: MealPlanGeneratedForIndividualCustomer,
+  selectionTwo: MealPlanGeneratedForIndividualCustomer
+) => {
+  if (selectionOne.customer.username !== selectionTwo.customer.username) {
+    return false;
+  }
+
+  if (selectionOne.deliveries.length !== selectionTwo.deliveries.length) {
+    return false;
+  }
+
+  if (selectionOne.wasUpdatedByCustomer !== selectionTwo.wasUpdatedByCustomer) {
+    return false;
+  }
+
+  if (
+    !selectionOne.deliveries.every((delivery, index) =>
+      deliveryIsEqual(delivery, selectionTwo.deliveries[index])
+    )
+  ) {
+    return false;
+  }
+
+  return true;
+};
 
 const AlternatingTableRow = styled(TableRow)`
   box-sizing: border-box;
@@ -245,6 +326,10 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
   );
 };
 
-const FinalizeCustomerTable = deepMemo(FinalizeCustomerTableUnMemoized);
+const FinalizeCustomerTable = React.memo(
+  FinalizeCustomerTableUnMemoized,
+  (oldProps, newProps) =>
+    customerPlanIsEqual(oldProps.customerSelection, newProps.customerSelection)
+);
 
 export default FinalizeCustomerTable;
