@@ -18,6 +18,7 @@ import { getDomainName } from '@tnmw/utils';
 export interface ResetPassswordPayload {
   username: string;
   newPassword: string;
+  forceChange: boolean;
 }
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
@@ -38,7 +39,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       UserPoolId: process.env.COGNITO_POOL_ID,
       Username: body.username,
       Password: body.newPassword,
-      Permanent: false,
+      Permanent: !body.forceChange,
     });
 
     await cognito.send(command);

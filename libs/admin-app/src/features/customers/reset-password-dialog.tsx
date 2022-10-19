@@ -9,6 +9,7 @@ import {
   Layer,
   Card,
   Paragraph,
+  CheckBox,
 } from 'grommet';
 import { Checkmark, Close } from 'grommet-icons';
 import { useState } from 'react';
@@ -16,11 +17,12 @@ import randomString from 'randomstring';
 
 interface ResetPasswordDialogProps {
   onCancel: () => void;
-  onSubmit: (newPassword: string) => void;
+  onSubmit: (newPassword: string, forceChange: boolean) => void;
 }
 
 export const ResetPasswordDialog = (props: ResetPasswordDialogProps) => {
   const [password, setPassword] = useState(randomString.generate(8));
+  const [forceChange, setForcechange] = useState(false);
 
   return (
     <Layer>
@@ -30,7 +32,7 @@ export const ResetPasswordDialog = (props: ResetPasswordDialogProps) => {
             Reset Customer Password
           </Heading>
         </CardHeader>
-        <CardBody pad="medium" alignSelf="center">
+        <CardBody pad="medium" alignSelf="center" gap="medium">
           <Paragraph margin={{ bottom: 'medium', left: 'small' }}>
             When you click OK, the customer's password will be reset as show in
             the box below.
@@ -46,13 +48,18 @@ export const ResetPasswordDialog = (props: ResetPasswordDialogProps) => {
               onChange={(event) => setPassword(event.target.value)}
             />
           </FormField>
+          <CheckBox
+            checked={forceChange}
+            label="Force Change Password?"
+            onChange={(event) => setForcechange(event.target.checked)}
+          />
         </CardBody>
         <CardFooter pad="medium" alignSelf="center" justify="center">
           <Button
             icon={<Checkmark color="brand" size="small" />}
             label="Ok"
             onClick={() => {
-              props.onSubmit(password);
+              props.onSubmit(password, forceChange);
             }}
           />
           <Button

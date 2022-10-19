@@ -15,6 +15,7 @@ import { HTTP } from '../../infrastructure/constants';
 const resetPassword = async (payload: {
   username: string;
   newPassword: string;
+  forceChange: boolean;
 }): Promise<void> => {
   await swrFetcher('customer/reset-password', {
     method: HTTP.verbs.Post,

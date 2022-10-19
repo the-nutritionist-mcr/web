@@ -40,6 +40,7 @@ export interface EditCustomerPathParams {
   resetPassword: (payload: {
     username: string;
     newPassword: string;
+    forceChange: boolean;
   }) => Promise<void>;
 }
 
@@ -82,10 +83,11 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
       {showResetPasswordDialog && (
         <ResetPasswordDialog
           onCancel={() => setShowResetPasswordDialog(false)}
-          onSubmit={async (password) => {
+          onSubmit={async (password, forceChange) => {
             await resetPassword({
               username: customer.username,
               newPassword: password,
+              forceChange,
             });
             setShowResetPasswordDialog(false);
           }}
