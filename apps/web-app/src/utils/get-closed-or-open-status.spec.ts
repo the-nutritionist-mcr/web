@@ -35,7 +35,7 @@ describe('get closed or open status', () => {
     ${30}  | ${7}     | ${2022} | ${11}   | ${undefined}                                                                                                                    | ${false}
     ${25}  | ${7}     | ${2022} | ${11}   | ${undefined}                                                                                                                    | ${false}
     ${27}  | ${7}     | ${2022} | ${11}   | ${{ available: true, plan: { createdOn: date(25, 7, 2022, 12), cooks }, published: true, currentUserSelection: {}, customer }}  | ${true}
-    ${27}  | ${7}     | ${2022} | ${14}   | ${{ available: true, plan: { createdOn: date(25, 7, 2022, 12), cooks }, published: true, currentUserSelection: {}, customer }}  | ${false}
+    ${28}  | ${7}     | ${2022} | ${0}    | ${{ available: true, plan: { createdOn: date(25, 7, 2022, 12), cooks }, published: true, currentUserSelection: {}, customer }}  | ${false}
     ${26}  | ${7}     | ${2022} | ${11}   | ${{ available: true, plan: { createdOn: date(25, 7, 2022, 12), cooks }, published: true, currentUserSelection: {}, customer }}  | ${true}
     ${26}  | ${7}     | ${2022} | ${11}   | ${{ available: true, plan: { createdOn: date(25, 7, 2022, 12), cooks }, published: false, currentUserSelection: {}, customer }} | ${false}
     ${25}  | ${7}     | ${2022} | ${17}   | ${{ available: true, plan: { createdOn: date(25, 7, 2022, 12), cooks }, published: true, currentUserSelection: {}, customer }}  | ${true}

@@ -27,7 +27,7 @@ const getClosingDate = (date: Date): Date => {
     return getClosingDate(newDate);
   }
 
-  newDate.setHours(12, 0, 0);
+  newDate.setHours(23, 59, 59);
 
   return newDate;
 };
