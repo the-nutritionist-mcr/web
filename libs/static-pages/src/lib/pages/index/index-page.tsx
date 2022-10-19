@@ -1,17 +1,18 @@
-import TnmStickerDarkGreyMint from '../../../styles/images/svg/TNM_Sticker2_DarkGrey+Mint.svg';
-import TnmBack from '../../../styles/images/svg/TNM_Icon__Back.svg';
+// import TnmStickerDarkGreyMint from '../../../styles/images/svg/TNM_Sticker2_DarkGrey+Mint.svg';
+// import TnmBack from '../../../styles/images/svg/TNM_Icon__Back.svg';
 
-import CharredChick from '../../../styles/images/17_ CHARRED CHICKEN + BLACK BEAN BURRITO BOWL TOP.png';
+// import CharredChick from '../../../styles/images/17_ CHARRED CHICKEN + BLACK BEAN BURRITO BOWL TOP.png';
 
-import HeroWebp from '../../../styles/images/Hero.jpg?webp';
-import Hero from '../../../styles/images/Hero.jpg';
+// import HeroWebp from '../../../styles/images/Hero.jpg?webp';
+// import Hero from '../../../styles/images/Hero.jpg';
 
-import { Image } from '@tnmw/components';
-import { dishesBlock, pageHeaderImage } from './index-page.css';
+// import { Image } from '@tnmw/components';
+// import { dishesBlock, pageHeaderImage } from './index-page.css';
 
 export const IndexPage = () => (
   <div className="tnm-v1 home">
     <div className="wrap container">
+      {/*
       <section className={`page-hero`}>
         <div className="page-header">
           <div className="header-text-block">
