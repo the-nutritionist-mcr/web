@@ -31,9 +31,29 @@ export const useSwrWrapper = <T = unknown>(
 
   const loadingKey = `swr-${finalKey}`;
 
-  const { setLoadingState } = useLoading(loadingKey);
+  const { stopLoading, getLoadingState, setLoadingState } =
+    useLoading(loadingKey);
 
-  const response = useSWR<SerialisedDate<T>>(key, swrFetcher, options);
+  type OnErrorType = Exclude<
+    Exclude<typeof options, undefined>['onError'],
+    undefined
+  >;
+
+  type OnSuccessType = Exclude<
+    Exclude<typeof options, undefined>['onSuccess'],
+    undefined
+  >;
+
+  const error = (...args: Parameters<OnErrorType>) => {
+    options?.onError?.(...args);
+    if (getLoadingState() === 'Started') {
+      stopLoading();
+    }
+  };
+
+  const finalArgs = [key, swrFetcher, { ...options, onerror: error }] as const;
+
+  const response = useSWR<SerialisedDate<T>>(...finalArgs);
   const { data, ...rest } = response;
 
   if (data !== undefined) {
