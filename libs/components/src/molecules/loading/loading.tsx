@@ -27,6 +27,7 @@ interface UseLoadingReturn {
   stopLoading: () => void;
   getLoadingState: () => LoadingState | undefined;
   resetLoading: () => void;
+  setLoadingState: (state: LoadingState) => void;
 }
 
 export const LoadingContext = createContext<LoadingContextType>({
@@ -42,6 +43,8 @@ export const LoadingContext = createContext<LoadingContextType>({
     return {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       stopLoading: () => {},
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      setLoadingState: () => {},
       getLoadingState: () => 'Started',
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       resetLoading: () => {},
@@ -78,6 +81,16 @@ export const Loading = (props: LoadingProps) => {
       loadingHandles = {};
     };
 
+    const setLoadingState = (state: LoadingState) => {
+      loadingHandles[key] = state;
+
+      const isLoadingReally =
+        Object.values(loadingHandles).includes('Started') &&
+        Object.values(loadingHandles).length > 0;
+
+      setIsLoading(isLoadingReally);
+    };
+
     const stopLoading = () => {
       console.debug(`Finished loading '${key}'`);
       loadingHandles[key] = 'Finished';
@@ -94,7 +107,7 @@ export const Loading = (props: LoadingProps) => {
       return loadingHandles[key];
     };
 
-    return { stopLoading, getLoadingState, resetLoading };
+    return { stopLoading, getLoadingState, resetLoading, setLoadingState };
   };
 
   const { stopLoading } = useLoading(LOADING_KEY);
