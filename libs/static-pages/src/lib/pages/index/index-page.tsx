@@ -1,30 +1,38 @@
 import TnmStickerDarkGreyMint from '../../../styles/images/svg/TNM_Sticker2_DarkGrey+Mint.svg';
 import TnmBack from '../../../styles/images/svg/TNM_Icon__Back.svg';
+
 import CharredChick from '../../../styles/images/17_ CHARRED CHICKEN + BLACK BEAN BURRITO BOWL TOP.png';
 
-// import {
-//   addBackgroundImage,
-//   addHeroPadding,
-//   dishesBlock,
-//   header,
-// } from './index.page.css';
+import HeroWebp from '../../../styles/images/Hero.jpg?webp';
+import Hero from '../../../styles/images/Hero.jpg';
+
+import { Image } from '@tnmw/components';
+import { dishesBlock, pageHeaderImage } from './index-page.css';
 
 export const IndexPage = () => (
   <div className="tnm-v1 home">
-    {/*
     <div className="wrap container">
-      <section className={`page-hero ${addHeroPadding}`}>
+      <section className={`page-hero`}>
         <div className="page-header">
           <div className="header-text-block">
-            <h1 className={header}>
-              Developed by Nutritionists, Prepared by Chefs
-            </h1>
+            <h1>Developed by Nutritionists, Prepared by Chefs</h1>
             <div className="hero-stamp">
-              <img alt="" className="image" src={TnmStickerDarkGreyMint} />
+              <Image
+                srcWebp={TnmStickerDarkGreyMint}
+                srcFallback={TnmStickerDarkGreyMint}
+                alt=""
+              />
             </div>
           </div>
         </div>
-        <div className={`page-header-img ${addBackgroundImage}`}></div>
+        <div className={`page-header-img`}>
+          <Image
+            className={pageHeaderImage}
+            srcWebp={HeroWebp}
+            srcFallback={Hero}
+            alt="Charred Chicken & Black Bean Burrito Bowl"
+          />
+        </div>
       </section>
       <section className="intro">
         <div className="container">
@@ -310,7 +318,7 @@ export const IndexPage = () => (
 </section>  
     </div>
   </div>
-    </div>
     */}
+    </div>
   </div>
 );
