@@ -11,8 +11,12 @@ import { Construct } from 'constructs';
 import {
   USER_POOL_ID_ENV_KEY_STRING,
   SEED_USERS_ENV_KEY_STRING,
+  SEED_DATA_BUCKET_KEY_STRING,
+  SEED_DATA_FILE_NAME,
 } from './constants';
 import { SeedUser } from './types';
+import { Bucket } from 'aws-cdk-lib/aws-s3';
+import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 
 interface CognitoSeederProps {
   userpool: IUserPool;
@@ -31,18 +35,27 @@ export class CognitoSeeder extends Construct {
       default: now,
     });
 
+    const bucket = new Bucket(context, `${id}-users-bucket`);
+
+    new BucketDeployment(this, 'seed-data-deployment', {
+      sources: [Source.jsonData(SEED_DATA_FILE_NAME, props.users)],
+      destinationBucket: bucket,
+    });
+
     const seederFunction = new NodejsFunction(context, `${id}-seeder-handler`, {
       // eslint-disable-next-line unicorn/prefer-module
       entry: path.resolve(__dirname, 'handler.ts'),
-      runtime: Runtime.NODEJS_14_X,
+      runtime: Runtime.NODEJS_16_X,
       bundling: {
         sourceMap: true,
       },
       environment: {
         [USER_POOL_ID_ENV_KEY_STRING]: props.userpool.userPoolId,
-        [SEED_USERS_ENV_KEY_STRING]: JSON.stringify(props.users),
+        [SEED_DATA_BUCKET_KEY_STRING]: bucket.bucketName,
       },
     });
+
+    bucket.grantRead(seederFunction);
 
     const provider = new Provider(this, `${newId}-provider`, {
       onEventHandler: seederFunction,
