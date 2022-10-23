@@ -38,32 +38,36 @@ export const SEED_USERS: SeedUser[] = [
     email: E2E.normalUserOne.email,
     state: 'Complete',
   },
-  {
-    otherAttributes: [
-      {
-        Name: 'given_name',
-        Value: E2E.testCustomer.firstName,
-      },
-      {
-        Name: 'family_name',
-        Value: E2E.testCustomer.surname,
-      },
-      {
-        Name: 'custom:plans',
-        Value: E2E.testCustomer.plans,
-      },
-      {
-        Name: 'custom:deliveryDay1',
-        Value: E2E.testCustomer.deliveryDay1,
-      },
-      {
-        Name: 'custom:deliveryDay2',
-        Value: E2E.testCustomer.deliveryDay2,
-      },
-    ],
-    username: E2E.testCustomer.username,
-    password: E2E.testCustomer.password,
-    email: E2E.testCustomer.email,
-    state: 'Complete',
-  },
+  ...Array.from({ length: 80 }).map((item, index) => {
+    const user: SeedUser = {
+      otherAttributes: [
+        {
+          Name: 'given_name',
+          Value: E2E.testCustomer.firstName,
+        },
+        {
+          Name: 'family_name',
+          Value: E2E.testCustomer.surname,
+        },
+        {
+          Name: 'custom:plans',
+          Value: E2E.testCustomer.plans,
+        },
+        {
+          Name: 'custom:deliveryDay1',
+          Value: E2E.testCustomer.deliveryDay1,
+        },
+        {
+          Name: 'custom:deliveryDay2',
+          Value: E2E.testCustomer.deliveryDay2,
+        },
+      ],
+      username: `${E2E.testCustomer.username}${index}`,
+      password: E2E.testCustomer.password,
+      email: E2E.testCustomer.email,
+      state: 'Complete',
+    };
+
+    return user;
+  }),
 ];
