@@ -15,7 +15,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const command = new PutCommand({
       TableName: process.env['DYNAMODB_TABLE'],
-      Item: { ...JSON.parse(event.body) },
+      Item: { ...JSON.parse(event.body ?? '') },
       ConditionExpression: 'attribute_exists(id)',
     });
 
@@ -31,6 +31,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       },
     };
   } catch (error) {
-    return returnErrorResponse(error);
+    if (error instanceof Error) {
+      return returnErrorResponse(error);
+    }
+
+    return returnErrorResponse();
   }
 };

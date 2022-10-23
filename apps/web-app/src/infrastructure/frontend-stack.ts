@@ -3,6 +3,7 @@ import { StackConfig } from '@tnmw/types';
 import { getDomainName } from '@tnmw/utils';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
+import { ImageOptimisation } from '@tnmw/image-optimisation';
 import { Distribution } from 'aws-cdk-lib/aws-cloudfront';
 import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { IUserPool, IUserPoolClient } from 'aws-cdk-lib/aws-cognito';
@@ -35,9 +36,11 @@ const DIST_PATH = path.join(
   'dist'
 );
 
-const EXPORTED_PATH = path.join(DIST_PATH, 'apps', 'web-app', 'exported');
+const APP_PATH = path.join(DIST_PATH, 'apps', 'web-app');
 
-const DOT_NEXT_PATH = path.join(DIST_PATH, 'apps', 'web-app', '.next');
+const EXPORTED_PATH = path.join(APP_PATH, 'exported');
+
+const DOT_NEXT_PATH = path.join(APP_PATH, '.next');
 
 export class FrontendStack extends Stack {
   public constructor(scope: Construct, id: string, props: FrontendStackProps) {
@@ -101,6 +104,11 @@ export class FrontendStack extends Stack {
       destinationBucket: staticsBucket,
       destinationKeyPrefix: '_next/static/images',
       distribution,
+    });
+
+    new ImageOptimisation(this, `image-optimsation-api`, {
+      distribution,
+      assetsPath: path.join(APP_PATH, 'public', 'images'),
     });
 
     new BucketDeployment(this, 'exported-bucket-deployment', {

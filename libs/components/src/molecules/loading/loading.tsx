@@ -63,6 +63,8 @@ const LOADING_KEY = 'loading-handler';
 export const Loading = (props: LoadingProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log(JSON.stringify(loadingHandles, null, 2));
+
   const startLoading = (id: string) => {
     console.debug(`Started loading '${id}'`);
     loadingHandles[id] = 'Started';
@@ -87,6 +89,7 @@ export const Loading = (props: LoadingProps) => {
       const isLoadingReally =
         Object.values(loadingHandles).includes('Started') &&
         Object.values(loadingHandles).length > 0;
+      console.log(`${key}: ${state}`);
 
       setIsLoading(isLoadingReally);
     };
@@ -98,6 +101,7 @@ export const Loading = (props: LoadingProps) => {
       const isLoadingReally =
         Object.values(loadingHandles).includes('Started') &&
         Object.values(loadingHandles).length > 0;
+      console.log(JSON.stringify(loadingHandles, null, 2));
 
       setIsLoading(isLoadingReally);
     };

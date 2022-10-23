@@ -21,7 +21,6 @@ export const batchArray = <T>(input: T[], batchSize: number): T[][] =>
   );
 
 const run = async (env: string) => {
-  console.log(`Starting ${env}`);
   const exclusionsTable = `tnm-web-customisation-table-${env}`;
   const recipesTable = `tnm-web-recipe-table-${env}`;
 

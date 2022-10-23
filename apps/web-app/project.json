@@ -77,6 +77,26 @@
         }
       }
     },
+    "deploy:frontend:watch": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/web-app"
+      },
+      "configurations": {
+        "cypress": {
+          "command": "cdk watch tnm-web-cypress-frontend-stack --require-approval never"
+        },
+        "test": {
+          "command": "cdk watch tnm-web-test-frontend-stack --require-approval never"
+        },
+        "dev": {
+          "command": "cdk watch tnm-web-dev-frontend-stack --require-approval never"
+        },
+        "prod": {
+          "command": "cdk watch tnm-web-prod-frontend-stack --require-approval never"
+        }
+      }
+    },
     "synth-cypress": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {

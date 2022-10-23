@@ -8,6 +8,7 @@
     "config": "libs/config",
     "connect-gmail-to-cypress": "apps/connect-gmail-to-cypress",
     "constants": "libs/constants",
+    "image-optimisation": "libs/image-optimisation",
     "meal-planning": "libs/meal-planning",
     "pdf": "libs/pdf",
     "planner": "libs/planner",
