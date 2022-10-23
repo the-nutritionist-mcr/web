@@ -1,4 +1,4 @@
-import { CustomResource, CfnParameter } from 'aws-cdk-lib';
+import { CustomResource, CfnParameter, Duration } from 'aws-cdk-lib';
 import path from 'node:path';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
@@ -10,7 +10,6 @@ import { IAM } from '@tnmw/constants';
 import { Construct } from 'constructs';
 import {
   USER_POOL_ID_ENV_KEY_STRING,
-  SEED_USERS_ENV_KEY_STRING,
   SEED_DATA_BUCKET_KEY_STRING,
   SEED_DATA_FILE_NAME,
 } from './constants';
@@ -37,15 +36,20 @@ export class CognitoSeeder extends Construct {
 
     const bucket = new Bucket(context, `${id}-users-bucket`);
 
-    new BucketDeployment(this, 'seed-data-deployment', {
-      sources: [Source.jsonData(SEED_DATA_FILE_NAME, props.users)],
-      destinationBucket: bucket,
-    });
+    const dataDeployment = new BucketDeployment(
+      this,
+      `${id}-eed-data-deployment`,
+      {
+        sources: [Source.jsonData(SEED_DATA_FILE_NAME, props.users)],
+        destinationBucket: bucket,
+      }
+    );
 
     const seederFunction = new NodejsFunction(context, `${id}-seeder-handler`, {
       // eslint-disable-next-line unicorn/prefer-module
       entry: path.resolve(__dirname, 'handler.ts'),
       runtime: Runtime.NODEJS_16_X,
+      timeout: Duration.minutes(15),
       bundling: {
         sourceMap: true,
       },
@@ -70,6 +74,8 @@ export class CognitoSeeder extends Construct {
     });
 
     seederResource.node.addDependency(props.userpool);
+    seederResource.node.addDependency(bucket);
+    seederResource.node.addDependency(dataDeployment);
 
     seederFunction.addToRolePolicy(
       new PolicyStatement({
