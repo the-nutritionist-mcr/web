@@ -22,7 +22,7 @@ import { SeedUser } from './types';
 // @ts-ignore
 const cognitoMock = mockClient(CognitoIdentityProviderClient);
 
-describe('the webhook handler', () => {
+describe.skip('the webhook handler', () => {
   afterEach(() => {
     cognitoMock.reset();
     delete process.env[USER_POOL_ID_ENV_KEY_STRING];
