@@ -3,10 +3,11 @@ import { IUserPoolClient, UserPool } from 'aws-cdk-lib/aws-cognito';
 import { Construct } from 'constructs';
 import { makeUserPool } from './make-user-pool';
 import { makeDataApis } from './make-data-apis';
-import { IGroup } from 'aws-cdk-lib/aws-iam';
+import { DynamoDBSeeder, Seeds } from '@cloudcomponents/cdk-dynamodb-seeder';
 import { getDomainName } from '@tnmw/utils';
 import { IHostedZone, PublicHostedZone } from 'aws-cdk-lib/aws-route53';
-import path from 'node:path';
+import { recipes } from './seed-data/recipes';
+import { exclusions } from './seed-data/exclusions';
 
 interface BackendStackProps {
   forceUpdateKey: string;
@@ -14,6 +15,7 @@ interface BackendStackProps {
   envName: string;
   gitHash: string | undefined;
   transient: boolean;
+  seed: boolean;
   chargebeeSite: string;
   sesIdentityArn: string;
 }
@@ -40,7 +42,7 @@ export class BackendStack extends Stack {
       props.gitHash
     );
 
-    makeDataApis(
+    const { recipesTable, customisationsTable } = makeDataApis(
       this,
       props.envName,
       userPool,
@@ -50,6 +52,18 @@ export class BackendStack extends Stack {
       props.chargebeeSite,
       props.forceUpdateKey
     );
+
+    if (props.seed && !props.transient) {
+      new DynamoDBSeeder(this, 'seed-recipes', {
+        table: recipesTable,
+        seeds: Seeds.fromInline(recipes),
+      });
+
+      new DynamoDBSeeder(this, 'seed-customisations', {
+        table: customisationsTable,
+        seeds: Seeds.fromInline(exclusions),
+      });
+    }
 
     this.zone = hostedZone;
     this.pool = userPool;

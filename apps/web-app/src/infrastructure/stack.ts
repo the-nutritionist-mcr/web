@@ -43,6 +43,7 @@ const main = async () => {
   interface StackConfig {
     transient: boolean;
     chargebeeSite: string;
+    seed?: boolean;
   }
 
   const stacks: { [key: string]: StackConfig } = {
@@ -62,6 +63,7 @@ const main = async () => {
 
     cypress: {
       transient: true,
+      seed: true,
       chargebeeSite: CHARGEBEE_SITES.test,
     },
 
@@ -80,6 +82,7 @@ const main = async () => {
     const backend = new BackendStack(app, `tnm-web-${envName}-stack`, {
       stackProps: { env },
       sesIdentityArn,
+      seed: Boolean(config.seed),
       envName,
       transient: config.transient,
       chargebeeSite: config.chargebeeSite,

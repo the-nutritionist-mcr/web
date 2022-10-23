@@ -99,7 +99,7 @@ export const makeDataApis = (
     defaultEnvironmentVars
   );
 
-  makeDataApi(
+  const { table: customisationsTable } = makeDataApi(
     context,
     RESOURCES.Customisation,
     envName,
@@ -561,5 +561,5 @@ export const makeDataApis = (
     target: RecordTarget.fromAlias(new ApiGatewayDomain(apiDomainName)),
   });
 
-  return { api };
+  return { api, recipesTable, customisationsTable };
 };

@@ -7535,6 +7535,11 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@cloudcomponents/cdk-dynamodb-seeder@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@cloudcomponents/cdk-dynamodb-seeder/-/cdk-dynamodb-seeder-2.1.0.tgz#07f42008b19e6626d5c6b36a9825eceeca4c3f8a"
+  integrity sha512-yJ4y0ii8RyC0uvP1InVgRSIjILuhi42nfEFN2EvMAWiVvpzvruG0WJ3jEW9yJcTTlBOc03Mi9LmsZgtw56P2wA==
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.npmjs.org/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
