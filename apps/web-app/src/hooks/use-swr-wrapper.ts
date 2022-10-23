@@ -31,8 +31,10 @@ export const useSwrWrapper = <T = unknown>(
 
   const loadingKey = `swr-${finalKey}`;
 
-  const { stopLoading, getLoadingState, setLoadingState } =
-    useLoading(loadingKey);
+  const { stopLoading, getLoadingState, setLoadingState } = useLoading(
+    loadingKey,
+    !finalKey
+  );
 
   type OnErrorType = Exclude<
     Exclude<typeof options, undefined>['onError'],
