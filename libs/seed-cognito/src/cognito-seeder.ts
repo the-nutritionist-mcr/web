@@ -38,26 +38,30 @@ export class CognitoSeeder extends Construct {
 
     const dataDeployment = new BucketDeployment(
       this,
-      `${id}-eed-data-deployment`,
+      `${id}-cognito-seeder-data-deployment`,
       {
         sources: [Source.jsonData(SEED_DATA_FILE_NAME, props.users)],
         destinationBucket: bucket,
       }
     );
 
-    const seederFunction = new NodejsFunction(context, `${id}-seeder-handler`, {
-      // eslint-disable-next-line unicorn/prefer-module
-      entry: path.resolve(__dirname, 'handler.ts'),
-      runtime: Runtime.NODEJS_16_X,
-      timeout: Duration.minutes(15),
-      bundling: {
-        sourceMap: true,
-      },
-      environment: {
-        [USER_POOL_ID_ENV_KEY_STRING]: props.userpool.userPoolId,
-        [SEED_DATA_BUCKET_KEY_STRING]: bucket.bucketName,
-      },
-    });
+    const seederFunction = new NodejsFunction(
+      context,
+      `${id}-cognito-seeder-handler`,
+      {
+        // eslint-disable-next-line unicorn/prefer-module
+        entry: path.resolve(__dirname, 'handler.ts'),
+        runtime: Runtime.NODEJS_16_X,
+        timeout: Duration.minutes(15),
+        bundling: {
+          sourceMap: true,
+        },
+        environment: {
+          [USER_POOL_ID_ENV_KEY_STRING]: props.userpool.userPoolId,
+          [SEED_DATA_BUCKET_KEY_STRING]: bucket.bucketName,
+        },
+      }
+    );
 
     bucket.grantRead(seederFunction);
 
