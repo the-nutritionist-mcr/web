@@ -52,7 +52,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       | undefined;
 
     const currentUserSelection = selections?.find(
-      (selection) => selection.customer.username === currentUser
+      (selection) => selection.customer?.username === currentUser
     );
 
     const thePlan = {
