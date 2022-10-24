@@ -12,7 +12,7 @@ export const doQuery = async <T extends Record<string, unknown>>(
   const dynamodbClient = new DynamoDBClient({});
   const dynamo = DynamoDBDocumentClient.from(dynamodbClient);
   const pageKey = lastEvaluatedKey
-    ? { ExclusiveStartKey: JSON.parse(lastEvaluatedKey) }
+    ? { ExclusiveStartKey: lastEvaluatedKey }
     : {};
   const input = {
     TableName: tableName,
