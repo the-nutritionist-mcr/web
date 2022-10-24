@@ -42,7 +42,7 @@ export class BackendStack extends Stack {
       props.gitHash
     );
 
-    const { recipesTable, customisationsTable } = makeDataApis(
+    makeDataApis(
       this,
       props.envName,
       userPool,
@@ -53,17 +53,17 @@ export class BackendStack extends Stack {
       props.forceUpdateKey
     );
 
-    if (props.seed && props.transient) {
-      new DynamoDBSeeder(this, 'seed-recipes', {
-        table: recipesTable,
-        seeds: Seeds.fromInline(recipes),
-      });
+    // if (props.seed && props.transient) {
+    //   new DynamoDBSeeder(this, 'seed-recipes', {
+    //     table: recipesTable,
+    //     seeds: Seeds.fromInline(recipes),
+    //   });
 
-      new DynamoDBSeeder(this, 'seed-customisations', {
-        table: customisationsTable,
-        seeds: Seeds.fromInline(exclusions),
-      });
-    }
+    //   new DynamoDBSeeder(this, 'seed-customisations', {
+    //     table: customisationsTable,
+    //     seeds: Seeds.fromInline(exclusions),
+    //   });
+    // }
 
     this.zone = hostedZone;
     this.pool = userPool;

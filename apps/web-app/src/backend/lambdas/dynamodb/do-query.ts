@@ -3,7 +3,7 @@ import { DynamoDBDocumentClient, QueryCommand } from '@aws-sdk/lib-dynamodb';
 
 import { createQueryParams } from './create-query-params';
 
-export const doQuery = async <T extends Record<string, unknown>>(
+export const doQueryRecursive = async <T extends Record<string, unknown>>(
   tableName: string,
   query: string,
   values: string[],
@@ -25,9 +25,20 @@ export const doQuery = async <T extends Record<string, unknown>>(
   if (response.LastEvaluatedKey) {
     return [
       response.Items,
-      ...(await doQuery(tableName, query, values, response.LastEvaluatedKey)),
+      ...(await doQueryRecursive(
+        tableName,
+        query,
+        values,
+        response.LastEvaluatedKey
+      )),
     ] as T[];
   }
 
   return response.Items as T[];
 };
+
+export const doQuery = async <T extends Record<string, unknown>>(
+  tableName: string,
+  query: string,
+  values: string[]
+): Promise<T[]> => doQueryRecursive(tableName, query, values);
