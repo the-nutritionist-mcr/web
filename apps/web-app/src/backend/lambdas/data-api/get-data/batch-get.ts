@@ -13,7 +13,7 @@ export const batchGet = async (
 
   const response = await client.send(command);
 
-  if (response.UnprocessedKeys) {
+  if (Object.keys(response.UnprocessedKeys ?? {}).length > 0) {
     const nextResponse = await batchGet(client, {
       RequestItems: response.UnprocessedKeys,
     });
