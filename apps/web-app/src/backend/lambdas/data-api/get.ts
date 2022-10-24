@@ -2,7 +2,7 @@ import '../misc/init-dd-trace';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { authoriseJwt } from './authorise';
 
 import { returnErrorResponse } from './return-error-response';

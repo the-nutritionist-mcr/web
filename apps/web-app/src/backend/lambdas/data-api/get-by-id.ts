@@ -2,10 +2,10 @@ import '../misc/init-dd-trace';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { BatchGetCommand, DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
-import { authoriseJwt } from './authorise';
+import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 
 import { returnErrorResponse } from './return-error-response';
+import { batchGet } from './get-data/batch-get';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -14,22 +14,20 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const dynamodb = new DynamoDBClient({});
     const client = DynamoDBDocumentClient.from(dynamodb);
 
-    const ids = event.queryStringParameters.ids.split(',');
+    const ids = event?.queryStringParameters?.ids?.split(',');
 
-    const command = new BatchGetCommand({
+    const response = await batchGet(client, {
       RequestItems: {
-        [process.env['DYNAMODB_TABLE']]: {
-          Keys: ids.map((id: string) => ({ id })),
+        [process.env['DYNAMODB_TABLE'] ?? '']: {
+          Keys: ids?.map((id: string) => ({ id })) ?? [],
         },
       },
     });
 
-    const response = await client.send(command);
-
-    const items = response.Responses[process.env['DYNAMODB_TABLE']];
+    const items = response?.Responses?.[process.env['DYNAMODB_TABLE'] ?? ''];
 
     const body = JSON.stringify({
-      items: items.filter((item) => !item.deleted),
+      items: items?.filter((item) => !item.deleted),
     });
 
     return {
@@ -41,6 +39,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       },
     };
   } catch (error) {
-    return returnErrorResponse(error);
+    if (error instanceof Error) {
+      return returnErrorResponse(error);
+    }
+
+    return returnErrorResponse();
   }
 };
