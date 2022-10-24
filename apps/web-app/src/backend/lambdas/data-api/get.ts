@@ -6,6 +6,7 @@ import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { authoriseJwt } from './authorise';
 
 import { returnErrorResponse } from './return-error-response';
+import { scan } from './get-data/scan';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -14,11 +15,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const dynamodb = new DynamoDBClient({});
     const client = DynamoDBDocumentClient.from(dynamodb);
 
-    const command = new ScanCommand({
-      TableName: process.env['DYNAMODB_TABLE'],
-    });
-
-    const { Items: items } = await client.send(command);
+    const items = await scan(client, process.env['DYNAMODB_TABLE'] ?? '');
 
     const body = JSON.stringify({
       items: items.filter((item) => !item.deleted),
@@ -33,6 +30,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       },
     };
   } catch (error) {
-    return returnErrorResponse(error);
+    if (error instanceof Error) {
+      return returnErrorResponse(error);
+    }
+
+    return returnErrorResponse();
   }
 };
