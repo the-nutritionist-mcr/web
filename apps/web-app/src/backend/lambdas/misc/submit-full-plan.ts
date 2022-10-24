@@ -3,7 +3,6 @@ import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { chooseMealSelections } from '@tnmw/meal-planning';
 import { ENV } from '@tnmw/constants';
 import { authoriseJwt } from '../data-api/authorise';
-import { parseCustomerList } from '../../../utils/parse-customer-list';
 import {
   StoredPlan,
   StoredMealPlanGeneratedForIndividualCustomer,
@@ -11,12 +10,6 @@ import {
 import { returnErrorResponse } from '../data-api/return-error-response';
 import { HttpError } from '../data-api/http-error';
 import { recursivelySerialiseDate, SerialisedDate } from '@tnmw/utils';
-
-import {
-  CognitoIdentityProviderClient,
-  ListUsersCommand,
-  ListUsersCommandInput,
-} from '@aws-sdk/client-cognito-identity-provider';
 
 import { HTTP } from '@tnmw/constants';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
@@ -33,7 +26,6 @@ import { getAllUsers } from '../dynamodb/get-all-users';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
-    const cognito = new CognitoIdentityProviderClient({});
     const dynamodbClient = new DynamoDBClient({});
     const dynamo = DynamoDBDocumentClient.from(dynamodbClient, {
       marshallOptions: {
