@@ -21,16 +21,16 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const tableName = process.env[ENV.varNames.DynamoDBTable];
 
-    const response = await doQuery(tableName, 'id = :id', ['plan']);
+    const response = await doQuery(tableName ?? '', 'id = :id', ['plan']);
 
-    if (!response.Items?.length) {
+    if (!response?.length) {
       throw new HttpError(
         HTTP.statusCodes.InternalServerError,
         'Dynamodb did not return a response'
       );
     }
 
-    const plans = response.Items as SerialisedDate<StoredPlan>[] | undefined;
+    const plans = response as SerialisedDate<StoredPlan>[] | undefined;
 
     // eslint-disable-next-line fp/no-mutating-methods
     const plan = plans
@@ -39,7 +39,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const { planId, menus, published, createdBy, createdOn, sort } = plan;
 
-    const selectionResponse = await doQuery(tableName, `id = :id`, [
+    const selectionResponse = await doQuery(tableName ?? '', `id = :id`, [
       `plan-${planId}-selection`,
     ]);
 
@@ -47,11 +47,11 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       return returnOkResponse({ available: false, admin: false });
     }
 
-    const selections = selectionResponse.Items as
+    const selections = selectionResponse as
       | SerialisedDate<StoredMealPlanGeneratedForIndividualCustomer>[]
       | undefined;
 
-    const currentUserSelection = selections.find(
+    const currentUserSelection = selections?.find(
       (selection) => selection.customer.username === currentUser
     );
 
