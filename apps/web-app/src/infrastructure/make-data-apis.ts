@@ -1,4 +1,4 @@
-import { CfnOutput } from 'aws-cdk-lib';
+import { CfnOutput, Duration } from 'aws-cdk-lib';
 import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { ARecord, RecordTarget } from 'aws-cdk-lib/aws-route53';
 import { ApiGatewayDomain } from 'aws-cdk-lib/aws-route53-targets';
@@ -151,6 +151,7 @@ export const makeDataApis = (
     entry: entryName('misc', 'submit-full-plan.ts'),
     runtime: Runtime.NODEJS_14_X,
     memorySize: 2048,
+    timeout: Duration.minutes(1),
     environment: {
       ...defaultEnvironmentVars,
       [ENV.varNames.DynamoDBTable]: planDataTable.tableName,

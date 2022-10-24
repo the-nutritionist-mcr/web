@@ -7,7 +7,7 @@ export const doQuery = async <T extends Record<string, unknown>>(
   tableName: string,
   query: string,
   values: string[],
-  lastEvaluatedKey?: string
+  lastEvaluatedKey?: Record<string, unknown>
 ): Promise<T[]> => {
   const dynamodbClient = new DynamoDBClient({});
   const dynamo = DynamoDBDocumentClient.from(dynamodbClient);
@@ -25,7 +25,7 @@ export const doQuery = async <T extends Record<string, unknown>>(
   if (response.LastEvaluatedKey) {
     return [
       response.Items,
-      ...(await doQuery(tableName, query, values, lastEvaluatedKey)),
+      ...(await doQuery(tableName, query, values, response.LastEvaluatedKey)),
     ] as T[];
   }
 

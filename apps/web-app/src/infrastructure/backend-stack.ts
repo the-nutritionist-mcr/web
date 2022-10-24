@@ -53,7 +53,7 @@ export class BackendStack extends Stack {
       props.forceUpdateKey
     );
 
-    if (props.seed && !props.transient) {
+    if (props.seed && props.transient) {
       new DynamoDBSeeder(this, 'seed-recipes', {
         table: recipesTable,
         seeds: Seeds.fromInline(recipes),
