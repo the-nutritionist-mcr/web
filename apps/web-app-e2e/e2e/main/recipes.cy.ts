@@ -1,5 +1,9 @@
 import { E2E } from '@tnmw/constants';
-import { Recipes, CreateRecipeDialog } from '../../src/pages/recipes';
+import {
+  Recipes,
+  CreateRecipeDialog,
+  ConfirmDeleteDialog,
+} from '../../src/pages/recipes';
 
 describe('The recipes page', { scrollBehavior: false }, () => {
   beforeEach(() => {
@@ -42,5 +46,33 @@ describe('The recipes page', { scrollBehavior: false }, () => {
     CreateRecipeDialog.editExclusionsField('No Brocc');
     CreateRecipeDialog.clickOk();
     Recipes.getTable().contains('tuna-b');
+  });
+
+  it('Added recipe should persist across pageload', () => {
+    Recipes.visit();
+    Recipes.getTable().contains('tuna-b');
+  });
+
+  it('Added recipe should have all its data correctly persisted', () => {
+    Recipes.visit();
+    Recipes.clickRecipeEdit('tuna-b');
+    CreateRecipeDialog.getEditNameField().should('have.value', 'Tuna Bake');
+    CreateRecipeDialog.getEditShortnameField().should('have.value', 'tuna-b');
+    CreateRecipeDialog.getEditDescriptionField().should(
+      'have.value',
+      'A delicious tuna bake'
+    );
+  });
+
+  it('Should remove a row when you click the delete button and confirm', () => {
+    Recipes.visit();
+    Recipes.clickRecipeDelete('tuna-b');
+    ConfirmDeleteDialog.clickOk();
+    Recipes.getTable().contains('tuna-b').should('not.exist');
+  });
+
+  it('Removed recipe should persist across pageload', () => {
+    Recipes.visit();
+    Recipes.getTable().contains('tuna-b').should('not.exist');
   });
 });

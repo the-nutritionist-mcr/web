@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-array-callback-reference */
 import { selectFromGrommetDrop } from '../support/cypress-helpers';
 
 export const Recipes = {
@@ -11,7 +12,26 @@ export const Recipes = {
 
   clickNewButton: () => cy.contains('button', 'New').click(),
 
+  clickRecipeDelete: (shortName: string) =>
+    cy
+      .contains(shortName)
+      .parent('tr')
+      .find('button[aria-label="Delete"]')
+      .click({ force: true }),
+
+  clickRecipeEdit: (shortName: string) =>
+    cy
+      .contains(shortName)
+      .parent('tr')
+      .find('button[aria-label="Edit"]')
+      .click({ force: true }),
+
   getCreateRecipeHeader: () => cy.contains('h3', 'Create Recipe'),
+};
+
+export const ConfirmDeleteDialog = {
+  clickOk: () => cy.contains('button', 'Ok').click(),
+  clickCancel: () => cy.contains('button', 'Cancel').click(),
 };
 
 export const CreateRecipeDialog = {
@@ -20,11 +40,18 @@ export const CreateRecipeDialog = {
   editNameField: (text: string) =>
     cy.get('form').find(`input[name='name']`).type(text),
 
+  getEditNameField: () => cy.get('form').find(`input[name='name']`),
+
   editShortnameField: (text: string) =>
     cy.get('form').find(`input[name='shortName']`).type(text),
 
+  getEditShortnameField: () => cy.get('form').find(`input[name='shortName']`),
+
   editDescriptionField: (text: string) =>
     cy.get('form').find(`input[name='description']`).type(text),
+
+  getEditDescriptionField: () =>
+    cy.get('form').find(`input[name='description']`),
 
   editServedField: (text: string) => selectFromGrommetDrop('hotOrCold', text),
 
