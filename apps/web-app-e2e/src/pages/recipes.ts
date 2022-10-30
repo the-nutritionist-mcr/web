@@ -40,17 +40,17 @@ export const CreateRecipeDialog = {
   getEditDialog: () => cy.get('form'),
 
   editNameField: (text: string) =>
-    cy.get('form').find(`input[name='name']`).type(text),
+    cy.get('form').find(`input[name='name']`).clear().type(text),
 
   getEditNameField: () => cy.get('form').find(`input[name='name']`),
 
   editShortnameField: (text: string) =>
-    cy.get('form').find(`input[name='shortName']`).type(text),
+    cy.get('form').find(`input[name='shortName']`).clear().type(text),
 
   getEditShortnameField: () => cy.get('form').find(`input[name='shortName']`),
 
   editDescriptionField: (text: string) =>
-    cy.get('form').find(`input[name='description']`).type(text),
+    cy.get('form').find(`input[name='description']`).clear().type(text),
 
   getEditDescriptionField: () =>
     cy.get('form').find(`input[name='description']`),
@@ -62,7 +62,7 @@ export const CreateRecipeDialog = {
   getAllergensField: () => cy.get('form').find(`input[name='allergens']`),
 
   editAllergensField: (text: string) =>
-    cy.get('form').find(`input[name='allergens']`).type(text),
+    cy.get('form').find(`input[name='allergens']`).clear().type(text),
 
   addToCustomisationField: (text: string) => {
     cy.get('form').contains('button', 'Add').click();
@@ -75,6 +75,9 @@ export const CreateRecipeDialog = {
   editExclusionsField: (text: string) =>
     selectFromGrommetDrop('invalidExclusions', text),
 
-  clickOk: () => cy.contains('button', 'Ok').click(),
-  clickCancel: () => cy.contains('button', 'Cancel').click(),
+  getExclusionsField: () =>
+    cy.get('form').find(`input[name='invalidExclusions']`),
+
+  clickOk: () => cy.contains('button', 'Ok').click({ force: true }),
+  clickCancel: () => cy.contains('button', 'Cancel').click({ force: true }),
 };

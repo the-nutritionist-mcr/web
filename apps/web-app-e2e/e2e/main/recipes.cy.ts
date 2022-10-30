@@ -64,8 +64,43 @@ describe('The recipes page', { scrollBehavior: false }, () => {
     );
     CreateRecipeDialog.getServedField().should('have.value', 'Cold');
     CreateRecipeDialog.getAllergensField().should('have.value', 'Cheese');
+    CreateRecipeDialog.getExclusionsField().should('have.value', 'No Brocc');
     CreateRecipeDialog.getEditDialog().contains('span', 'Extra Veg');
     CreateRecipeDialog.getEditDialog().contains('span', 'No Alcohol');
+  });
+
+  it('Should persist changes to recipes', () => {
+    Recipes.visit();
+    Recipes.clickRecipeEdit('7 SPICE CHIX');
+    CreateRecipeDialog.editNameField('A different kind of recipe');
+    CreateRecipeDialog.editShortnameField('8 SPICE CHIX');
+    CreateRecipeDialog.editDescriptionField('A description');
+    CreateRecipeDialog.editServedField('Cold');
+    CreateRecipeDialog.editAllergensField('Has allergens');
+    CreateRecipeDialog.addToCustomisationField('No Brocc');
+    CreateRecipeDialog.editExclusionsField('No Alcohol');
+    CreateRecipeDialog.clickOk();
+    Recipes.getTable().contains('8 SPICE CHIX');
+    Recipes.visit();
+    Recipes.clickRecipeEdit('8 SPICE CHIX');
+    CreateRecipeDialog.getEditNameField().should(
+      'have.value',
+      'A different kind of recipe'
+    );
+    CreateRecipeDialog.getEditShortnameField().should(
+      'have.value',
+      '8 SPICE CHIX'
+    );
+    CreateRecipeDialog.getEditDescriptionField().should(
+      'have.value',
+      'A description'
+    );
+    CreateRecipeDialog.getServedField().should('have.value', 'Cold');
+    CreateRecipeDialog.getAllergensField().should(
+      'have.value',
+      'Has allergens'
+    );
+    CreateRecipeDialog.getEditDialog().contains('span', 'No Brocc');
   });
 
   it('Should remove a row when you click the delete button and confirm', () => {
