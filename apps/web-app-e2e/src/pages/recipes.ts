@@ -35,7 +35,9 @@ export const ConfirmDeleteDialog = {
 };
 
 export const CreateRecipeDialog = {
-  getDialog: () => cy.contains('h3', 'Create Recipe').parentsUntil('form'),
+  getCreateDialog: () => cy.get('form'),
+
+  getEditDialog: () => cy.get('form'),
 
   editNameField: (text: string) =>
     cy.get('form').find(`input[name='name']`).type(text),
@@ -54,6 +56,10 @@ export const CreateRecipeDialog = {
     cy.get('form').find(`input[name='description']`),
 
   editServedField: (text: string) => selectFromGrommetDrop('hotOrCold', text),
+
+  getServedField: () => cy.get('form').find(`input[name='hotOrCold']`),
+
+  getAllergensField: () => cy.get('form').find(`input[name='allergens']`),
 
   editAllergensField: (text: string) =>
     cy.get('form').find(`input[name='allergens']`).type(text),

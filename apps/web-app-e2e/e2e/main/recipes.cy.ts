@@ -29,13 +29,13 @@ describe('The recipes page', { scrollBehavior: false }, () => {
   it('Should pop up a dialog when you click new', () => {
     Recipes.visit();
     Recipes.clickNewButton();
-    CreateRecipeDialog.getDialog();
+    CreateRecipeDialog.getCreateDialog();
   });
 
   it('Should add an extra row in the recipes table when you fill in the Create Dialog', () => {
     Recipes.visit();
     Recipes.clickNewButton();
-    CreateRecipeDialog.getDialog();
+    CreateRecipeDialog.getCreateDialog();
     CreateRecipeDialog.editNameField('Tuna Bake');
     CreateRecipeDialog.editShortnameField('tuna-b');
     CreateRecipeDialog.editDescriptionField('A delicious tuna bake');
@@ -62,6 +62,10 @@ describe('The recipes page', { scrollBehavior: false }, () => {
       'have.value',
       'A delicious tuna bake'
     );
+    CreateRecipeDialog.getServedField().should('have.value', 'Cold');
+    CreateRecipeDialog.getAllergensField().should('have.value', 'Cheese');
+    CreateRecipeDialog.getEditDialog().contains('span', 'Extra Veg');
+    CreateRecipeDialog.getEditDialog().contains('span', 'No Alcohol');
   });
 
   it('Should remove a row when you click the delete button and confirm', () => {
