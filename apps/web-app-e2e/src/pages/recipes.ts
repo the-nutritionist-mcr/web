@@ -5,7 +5,7 @@ export const Recipes = {
 
   getHeader: () => cy.contains('h2', 'Recipes'),
 
-  getTable: () => cy.contains('table'),
+  getTable: () => cy.get('table'),
 
   getTableRows: () => cy.get('table').find('tr'),
 

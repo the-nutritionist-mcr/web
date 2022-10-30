@@ -17,9 +17,9 @@ describe('The recipes page', { scrollBehavior: false }, () => {
     Recipes.getHeader();
   });
 
-  it('should contain a table with more than one row of data', () => {
+  it('should contain a table with 215 rows of data and a header row', () => {
     Recipes.visit();
-    Recipes.getTableRows().should('have.length.gt', 1);
+    Recipes.getTableRows().should('have.length', 216);
   });
 
   it('Should pop up a dialog when you click new', () => {
@@ -41,6 +41,6 @@ describe('The recipes page', { scrollBehavior: false }, () => {
     CreateRecipeDialog.addToCustomisationField('No Alcohol');
     CreateRecipeDialog.editExclusionsField('No Brocc');
     CreateRecipeDialog.clickOk();
-    Recipes.getTableRows().contains('tuna-b');
+    Recipes.getTable().contains('tuna-b');
   });
 });
