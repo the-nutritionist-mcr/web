@@ -23,6 +23,7 @@ import { isWeeklyPlan } from '@tnmw/types';
 import { batchArray } from '../../../utils/batch-array';
 import { getUserFromAws } from '../../../utils/get-user-from-aws';
 import { getAllUsers } from '../dynamodb/get-all-users';
+import { batchWrite } from '../data-api/get-data/batch-write';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -93,8 +94,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
           },
         };
 
-        const batchWriteCommand = new BatchWriteCommand(input);
-        await dynamo.send(batchWriteCommand);
+        await batchWrite(dynamo, input);
       })
     );
 

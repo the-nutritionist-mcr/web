@@ -13,12 +13,11 @@ import {
   WeeklyCookPlan,
   MealSelectionPayload,
   MealPlanGeneratedForIndividualCustomer,
+  BackendCustomer,
 } from '@tnmw/types';
 import { DownloadLabelsDialog } from '@tnmw/components';
 import {
   generateLabelData,
-  getRealRecipe,
-  isSelectedMeal,
   makeCookPlan,
   performSwaps,
 } from '@tnmw/meal-planning';
@@ -30,6 +29,7 @@ interface PlannerProps {
   createdBy: string;
   creationDate: Date;
   plan: WeeklyCookPlan;
+  customers: BackendCustomer[];
   recipes: Recipe[];
   update: (item: MealPlanGeneratedForIndividualCustomer) => Promise<void>;
   publish: () => Promise<void>;
@@ -123,6 +123,7 @@ const Planner: React.FC<PlannerProps> = (props) => {
           update={props.update}
           creationDate={props.creationDate}
           generatedBy={props.createdBy}
+          customers={props.customers}
         />
       )}
     </>

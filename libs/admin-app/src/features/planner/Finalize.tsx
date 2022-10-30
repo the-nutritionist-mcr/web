@@ -1,4 +1,5 @@
 import {
+  BackendCustomer,
   ChangePlanRecipeBody,
   MealPlanGeneratedForIndividualCustomer,
   MealSelectionPayload,
@@ -10,7 +11,7 @@ import { Paragraph } from 'grommet';
 import moment from 'moment';
 import React from 'react';
 import FinalizeCustomerTable from './FinalizeCustomerTable';
-import { plannerInfoLi, plannerInfoUl } from './finalise.css';
+import { plannerInfoLi, plannerInfoUl, plannerWarningLi } from './finalise.css';
 
 interface FinalizeProps {
   customerMeals: MealPlanGeneratedForIndividualCustomer[];
@@ -18,6 +19,7 @@ interface FinalizeProps {
   cooks: PlannedCook[];
   published: boolean;
   generatedBy: string;
+  customers: BackendCustomer[];
   creationDate: Date;
   update: (item: MealPlanGeneratedForIndividualCustomer) => Promise<void>;
 }
@@ -30,7 +32,9 @@ const Finalize: React.FC<FinalizeProps> = ({
   creationDate,
   generatedBy,
   published,
+  customers,
 }) => {
+  const wrongNumber = customerMeals.length !== customers.length;
   if (!customerMeals) {
     return (
       <Paragraph fill>
@@ -51,6 +55,10 @@ const Finalize: React.FC<FinalizeProps> = ({
         <li className={plannerInfoLi}>
           This plan <strong>{published ? 'has' : 'has not'}</strong> been
           published to customers
+        </li>
+        <li className={plannerWarningLi}>
+          The planner has generated the wrong number of rows. This is probably a
+          bug - please let Ben know that you&apos;ve seen this message
         </li>
       </ul>
       {

@@ -12,3 +12,8 @@ export const cell = style({
 export const plannerInfoLi = style({
   listStyle: 'none',
 });
+
+export const plannerWarningLi = style({
+  listStyle: 'none',
+  color: 'red',
+});
