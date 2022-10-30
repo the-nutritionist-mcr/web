@@ -15,3 +15,18 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands';
+
+import addContext from 'mochawesome/addContext';
+
+Cypress.on('test:after:run', (test, runnable) => {
+  // eslint-disable-next-line fp/no-let
+  let videoName = Cypress.spec.name;
+  videoName = videoName.replace('/.js.*', '.js');
+  const videoUrl = 'videos/' + videoName + '.mp4';
+
+  console.log('RUNNING');
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  addContext({ test }, videoUrl);
+});

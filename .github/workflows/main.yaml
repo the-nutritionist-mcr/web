@@ -10,6 +10,7 @@ on:
       - main
     paths-ignore:
       - '**.md'
+      - './docs'
 
 jobs:
   deploy-permissions-changes:
@@ -149,6 +150,7 @@ jobs:
 
       - name: Run E2E tests
         run: yarn nx run web-app-e2e:e2e --baseUrl=https://cypress.app.thenutritionistmcr.com --skipServe=true --skip-nx-cache
+        continue-on-error: true
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -158,12 +160,24 @@ jobs:
           NX_CHARGEBEE_TOKEN: ${{ secrets.CHARGEBEE_TOKEN }}
           NX_COGNITO_POOL_ID: eu-west-2_77z37j3Fb
 
-      - name: Upload videos if failed
-        if: failure()
-        uses: actions/upload-artifact@v1
+      - name: Copy execution videos
+        run: |
+          mkdir docs
+          cp -r dist/cypress/apps/web-app-e2e/videos cos/videos
+
+      - name: Merge test results into one
+        run: yarn report:merge
+
+      - name: Generate HTML test report
+        run: yarn report:generate
+
+      - name: Deploy report page
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          name: Cypress videos
-          path: dist/cypress/apps/web-app-e2e/videos
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          user_name: 'github-actions[bot]'
+          user_email: actions[bot]@users.noreply.github.com
 
   deploy-for-test:
     name: Test Deploy

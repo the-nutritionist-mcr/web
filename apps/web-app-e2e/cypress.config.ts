@@ -15,6 +15,10 @@ export default defineConfig({
     defaultCommandTimeout: 25_000,
     supportFile: './src/support/index.ts',
     specPattern: 'e2e/**/*.cy.{ts,tsx}',
+    reporter: 'cypress-multi-reporters',
+    reporterOptions: {
+      configFile: 'reporter-config.json',
+    },
     setupNodeEvents(on) {
       on('task', {
         deleteWelcomeEmails: () => {
