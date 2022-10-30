@@ -525,6 +525,7 @@ export const makeDataApis = (
         IAM.actions.cognito.adminGetUser,
         IAM.actions.cognito.adminCreateUser,
         IAM.actions.cognito.adminUpdateUserAttributes,
+        IAM.actions.cognito.adminDeleteUser,
       ],
       resources: [pool.userPoolArn],
     })
