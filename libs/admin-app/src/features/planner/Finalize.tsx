@@ -56,10 +56,12 @@ const Finalize: React.FC<FinalizeProps> = ({
           This plan <strong>{published ? 'has' : 'has not'}</strong> been
           published to customers
         </li>
-        <li className={plannerWarningLi}>
-          The planner has generated the wrong number of rows. This is probably a
-          bug - please let Ben know that you&apos;ve seen this message
-        </li>
+        {wrongNumber && (
+          <li className={plannerWarningLi}>
+            The planner has generated the wrong number of rows. This is probably
+            a bug - please let Ben know that you&apos;ve seen this message
+          </li>
+        )}
       </ul>
       {
         // eslint-disable-next-line fp/no-mutating-methods
