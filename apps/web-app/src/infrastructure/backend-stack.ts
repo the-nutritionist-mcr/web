@@ -3,11 +3,9 @@ import { IUserPoolClient, UserPool } from 'aws-cdk-lib/aws-cognito';
 import { Construct } from 'constructs';
 import { makeUserPool } from './make-user-pool';
 import { makeDataApis } from './make-data-apis';
-import { DynamoDBSeeder, Seeds } from '@cloudcomponents/cdk-dynamodb-seeder';
 import { getDomainName } from '@tnmw/utils';
 import { IHostedZone, PublicHostedZone } from 'aws-cdk-lib/aws-route53';
-import { recipes } from './seed-data/recipes';
-import { exclusions } from './seed-data/exclusions';
+import { ITable } from 'aws-cdk-lib/aws-dynamodb';
 
 interface BackendStackProps {
   forceUpdateKey: string;
