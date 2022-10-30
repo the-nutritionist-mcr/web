@@ -105,7 +105,7 @@
       },
       "configurations": {
         "cypress": {
-          "command": "cdk watch tnm-web-cypress-seed-stack --require-approval never"
+          "command": "cdk deploy tnm-web-cypress-seed-stack --require-approval never"
         }
       }
     },
