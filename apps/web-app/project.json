@@ -97,6 +97,19 @@
         }
       }
     },
+
+    "deploy:seed": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/web-app"
+      },
+      "configurations": {
+        "cypress": {
+          "command": "cdk watch tnm-web-cypress-seed-stack --require-approval never"
+        }
+      }
+    },
+
     "synth-cypress": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {

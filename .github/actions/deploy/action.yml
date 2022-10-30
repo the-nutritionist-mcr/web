@@ -28,11 +28,6 @@ inputs:
     required: false
     default: 'true'
 
-  do-hotswap:
-    description: Whether to do hotswap deployments
-    required: false
-    default: 'false'
-
   datadog-api-key:
     description: Datadog API Key
     required: true
@@ -44,6 +39,11 @@ inputs:
   datadog-client-token:
     description: Datadog Client Token
     required: true
+    default: 'false'
+
+  seed:
+    description: Whether to seed the deployment or not
+    required: false
 
 runs:
   using: 'composite'
@@ -75,19 +75,12 @@ runs:
         DATADOG_SITE: datadoghq.eu
         DATADOG_API_HOST: api.datadoghq.eu
 
-    # - name: Download Storybook
-    #   uses: actions/download-artifact@v3
-    #   if: ${{ inputs.do-storybook == 'true' }}
-    #   with:
-    #     name: storybook
-    #     path: storybook
-
-    # - name: Upload Storybook
-    #   uses: shallwefootball/s3-upload-action@master
-    #   if: ${{ inputs.do-storybook == 'true' }}
-    #   with:
-    #     aws_key_id: ${{ inputs.aws-access-key-id }}
-    #     aws_secret_access_key: ${{ inputs.aws-secret-access-key }}
-    #     aws_bucket: ${{ env.BUCKET }}
-    #     source_dir: storybook
-    #     destination_dir: 'storybook'
+    - name: Seed
+      shell: bash
+      if: ${{ inputs.seed == 'true' }}
+      run: yarn nx deploy:seed web-app --configuration=${{ inputs.env-name }}
+      env:
+        AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
+        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
+        AWS_REGION: us-east-1
+        DATADOG_API_KEY: ${{ inputs.datadog-api-key }}

@@ -13,3 +13,4 @@ export {
 } from './lib/recursively-serialise-date';
 
 export { removeNullish } from './lib/remove-nullish';
+export { batchArray } from './lib/batch-array';

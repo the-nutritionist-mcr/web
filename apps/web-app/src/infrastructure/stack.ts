@@ -5,6 +5,7 @@ import { UsersStack } from './permissions-stack';
 import { BackendStack } from './backend-stack';
 import { AccountUsersStack } from './account-users-stack';
 import { FrontendStack } from './frontend-stack';
+import { SeedStack } from './seed-stack';
 
 const app = new App();
 
@@ -98,6 +99,15 @@ const main = async () => {
       poolClient: backend.client,
       userPool: backend.pool,
     });
+
+    if (config.seed) {
+      new SeedStack(app, `tnm-web-${envName}-seed-stack`, {
+        stackProps: { env },
+        customisationsTable: backend.customisationsTable,
+        recipesTable: backend.recipesTable,
+        userPool: backend.pool,
+      });
+    }
   });
 
   new UsersStack(app, 'tnm-web-users-stack', {

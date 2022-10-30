@@ -24,6 +24,8 @@ export class BackendStack extends Stack {
   public pool: UserPool;
   public zone: IHostedZone;
   public client: IUserPoolClient;
+  public recipesTable: ITable;
+  public customisationsTable: ITable;
 
   public constructor(scope: Construct, id: string, props: BackendStackProps) {
     super(scope, id, props.stackProps);
@@ -42,7 +44,7 @@ export class BackendStack extends Stack {
       props.gitHash
     );
 
-    makeDataApis(
+    const { recipesTable, customisationsTable } = makeDataApis(
       this,
       props.envName,
       userPool,
@@ -53,18 +55,8 @@ export class BackendStack extends Stack {
       props.forceUpdateKey
     );
 
-    // if (props.seed && props.transient) {
-    //   new DynamoDBSeeder(this, 'seed-recipes', {
-    //     table: recipesTable,
-    //     seeds: Seeds.fromInline(recipes),
-    //   });
-
-    //   new DynamoDBSeeder(this, 'seed-customisations', {
-    //     table: customisationsTable,
-    //     seeds: Seeds.fromInline(exclusions),
-    //   });
-    // }
-
+    this.recipesTable = recipesTable;
+    this.customisationsTable = customisationsTable;
     this.zone = hostedZone;
     this.pool = userPool;
     this.client = client;
