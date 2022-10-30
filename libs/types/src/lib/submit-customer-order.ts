@@ -11,17 +11,6 @@ export const isSubmitCustomerOrderPayload = (
 ): body is SubmitCustomerOrderPayload => {
   const bodyAsAny = body as any;
 
-  // if (
-  //   typeof bodyAsAny.deliveries !== 'undefined' &&
-  //   !Array.isArray(bodyAsAny.deliveries) &&
-  //   !bodyAsAny.deliveries.every(
-  //     (delivery: Recipe[]) =>
-  //       Array.isArray(delivery) && delivery.every((meal) => assertIsRecipe(meal))
-  //   )
-  // ) {
-  //   return false;
-  // }
-
   if (typeof bodyAsAny.plan !== 'string') {
     return false;
   }
