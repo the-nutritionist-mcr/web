@@ -119,12 +119,5 @@ export class FrontendStack extends Stack {
       destinationBucket: staticsBucket,
       distribution,
     });
-
-    if (props.transient) {
-      new CognitoSeeder(this, `cognito-seeder`, {
-        userpool: props.userPool,
-        users: SEED_USERS,
-      });
-    }
   }
 }
