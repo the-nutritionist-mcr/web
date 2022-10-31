@@ -36,27 +36,23 @@ const EditCustomer: FC = () => {
 
   return (
     <RedirectIfLoggedOut allowedGroups={['admin']} redirectTo="/login">
-      <MenuPaddedContent>
-        <AdminTemplate>
-          {data && customisations && (
-            <EditCustomerPage
-              resetPassword={resetPassword}
-              saveCustomer={save}
-              dirty={dirty}
-              customer={data}
-              // eslint-disable-next-line fp/no-mutating-methods
-              customisations={customisations
-                .slice()
-                .sort((a, b) =>
-                  a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()
-                    ? 1
-                    : -1
-                )}
-              updateCustomer={update}
-            />
-          )}
-        </AdminTemplate>
-      </MenuPaddedContent>
+      <AdminTemplate>
+        {data && customisations && (
+          <EditCustomerPage
+            resetPassword={resetPassword}
+            saveCustomer={save}
+            dirty={dirty}
+            customer={data}
+            // eslint-disable-next-line fp/no-mutating-methods
+            customisations={customisations
+              .slice()
+              .sort((a, b) =>
+                a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase() ? 1 : -1
+              )}
+            updateCustomer={update}
+          />
+        )}
+      </AdminTemplate>
     </RedirectIfLoggedOut>
   );
 };
