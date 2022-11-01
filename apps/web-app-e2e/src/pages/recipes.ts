@@ -37,6 +37,8 @@ export const ConfirmDeleteDialog = {
 export const CreateRecipeDialog = {
   getCreateDialog: () => cy.get('form'),
 
+  getHeader: (text: string) => cy.contains('h2', text),
+
   getEditDialog: () => cy.get('form'),
 
   editNameField: (text: string) =>
@@ -64,12 +66,11 @@ export const CreateRecipeDialog = {
   editAllergensField: (text: string) =>
     cy.get('form').find(`input[name='allergens']`).clear().type(text),
 
+  getCustomisationsField: () =>
+    cy.get('form').find(`input[name='potentialExclusions']`),
+
   addToCustomisationField: (text: string) => {
-    cy.get('form').contains('button', 'Add').click();
-    cy.get('[data-g-portal-id]')
-      .find("div[role='listbox']")
-      .contains(text)
-      .click({ force: true });
+    selectFromGrommetDrop('potentialExclusions', text);
   },
 
   editExclusionsField: (text: string) =>
@@ -78,6 +79,6 @@ export const CreateRecipeDialog = {
   getExclusionsField: () =>
     cy.get('form').find(`input[name='invalidExclusions']`),
 
-  clickOk: () => cy.contains('button', 'Ok').click({ force: true }),
+  clickSave: () => cy.contains('button', 'Save').click({ force: true }),
   clickCancel: () => cy.contains('button', 'Cancel').click({ force: true }),
 };

@@ -13,6 +13,8 @@ export const deleteAll = async (
 
   const keys = data.map((item) => item.id);
 
+  console.log(`Deleting ${keys.length} items`);
+
   const batches = batchArray(keys, 25);
 
   await Promise.all(

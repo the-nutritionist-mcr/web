@@ -42,9 +42,12 @@ describe('The recipes page', { scrollBehavior: false }, () => {
     CreateRecipeDialog.editServedField('Cold');
     CreateRecipeDialog.editAllergensField('Cheese');
     CreateRecipeDialog.addToCustomisationField('Extra Veg');
+    CreateRecipeDialog.getHeader('Create Recipe').click();
     CreateRecipeDialog.addToCustomisationField('No Alcohol');
+    CreateRecipeDialog.getHeader('Create Recipe').click();
     CreateRecipeDialog.editExclusionsField('No Brocc');
-    CreateRecipeDialog.clickOk();
+    CreateRecipeDialog.getHeader('Create Recipe').click();
+    CreateRecipeDialog.clickSave();
     Recipes.getTable().contains('tuna-b');
   });
 
@@ -65,8 +68,10 @@ describe('The recipes page', { scrollBehavior: false }, () => {
     CreateRecipeDialog.getServedField().should('have.value', 'Cold');
     CreateRecipeDialog.getAllergensField().should('have.value', 'Cheese');
     CreateRecipeDialog.getExclusionsField().should('have.value', 'No Brocc');
-    CreateRecipeDialog.getEditDialog().contains('span', 'Extra Veg');
-    CreateRecipeDialog.getEditDialog().contains('span', 'No Alcohol');
+    CreateRecipeDialog.getCustomisationsField().should(
+      'have.value',
+      'multiple'
+    );
   });
 
   it('Should persist changes to recipes', () => {
@@ -79,7 +84,7 @@ describe('The recipes page', { scrollBehavior: false }, () => {
     CreateRecipeDialog.editAllergensField('Has allergens');
     CreateRecipeDialog.addToCustomisationField('No Brocc');
     CreateRecipeDialog.editExclusionsField('No Alcohol');
-    CreateRecipeDialog.clickOk();
+    CreateRecipeDialog.clickSave();
     Recipes.getTable().contains('8 SPICE CHIX');
     Recipes.visit();
     Recipes.clickRecipeEdit('8 SPICE CHIX');
@@ -100,7 +105,10 @@ describe('The recipes page', { scrollBehavior: false }, () => {
       'have.value',
       'Has allergens'
     );
-    CreateRecipeDialog.getEditDialog().contains('span', 'No Brocc');
+    CreateRecipeDialog.getCustomisationsField().should(
+      'have.value',
+      'multiple'
+    );
   });
 
   it('Should remove a row when you click the delete button and confirm', () => {

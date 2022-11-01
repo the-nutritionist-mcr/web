@@ -13,11 +13,12 @@ import {
 import { table } from './recipes.css';
 
 import EditRecipesDialog from './EditRecipesDialog';
-import React from 'react';
+import React, { useContext } from 'react';
 import RecipesRow from '../recipes/RecipesRow';
 import { defaultDeliveryDays } from '@tnmw/config';
 import PlanningModeSummary from './PlanningModeSummary';
 import { Recipe, Exclusion, WeeklyPlan, HotOrCold } from '@tnmw/types';
+import { NavigationContext } from '@tnmw/utils';
 
 interface RecipesProps {
   recipes?: Recipe[];
@@ -34,6 +35,7 @@ const Recipes: React.FC<RecipesProps> = (props) => {
   const [planningMode, setPlanningMode] = React.useState(false);
   const [showCreate, setShowCreate] = React.useState(false);
   const [selectedDelivery, setSelectedDelivery] = React.useState(-1);
+  const { navigate } = useContext(NavigationContext);
   const [plannerSelection, setPlannerSelection] = React.useState<Recipe[][]>(
     defaultDeliveryDays.map(() => [])
   );
@@ -55,7 +57,7 @@ const Recipes: React.FC<RecipesProps> = (props) => {
           label="New"
           a11yTitle="New Customer"
           onClick={(): void => {
-            setShowCreate(true);
+            navigate?.(`/admin/create-recipe`);
           }}
         />
         {!planningMode && (

@@ -1,11 +1,10 @@
-import { Checkmark, Close, Trash } from 'grommet-icons';
+import { Trash } from 'grommet-icons';
 import {
   Header,
   Heading,
   Button,
   Box,
   Form,
-  CardHeader,
   CardBody,
   FormField,
   TextInput,
@@ -15,7 +14,6 @@ import {
 } from 'grommet';
 import React from 'react';
 
-import { TagInput } from '../../components';
 import { ParagraphText } from '@tnmw/components';
 import { Exclusion, Recipe, HotOrCold } from '@tnmw/types';
 import {
@@ -24,18 +22,30 @@ import {
   details,
   editRecipePage,
 } from './edit-recipes.page.css';
+import { v4 } from 'uuid';
 
 export interface EditRecipesPageProps {
-  recipe: Recipe;
+  recipe?: Recipe;
   customisations?: Exclusion[];
-  onSave: (recipe: Recipe) => void;
+  onSave: (recipe: Recipe) => Promise<void>;
   recipes?: Recipe[];
   title: string;
 }
 
 export const EditRecipesPage = (props: EditRecipesPageProps) => {
   const [dirty, setDirty] = React.useState(false);
-  const [recipe, setRecipe] = React.useState(props.recipe);
+  const defaultRecipe = props.recipe ?? {
+    id: v4(),
+    name: '',
+    shortName: '',
+    hotOrCold: HotOrCold.Hot,
+    description: '',
+    allergens: '',
+    potentialExclusions: [],
+    invalidExclusions: [],
+    alternates: [],
+  };
+  const [recipe, setRecipe] = React.useState<Recipe>(defaultRecipe);
   // eslint-disable-next-line fp/no-mutating-methods
   const exclusions = (props.customisations ?? [])
     .slice()
@@ -52,9 +62,10 @@ export const EditRecipesPage = (props: EditRecipesPageProps) => {
 
   const formRecipe = {
     ...recipe,
-    invalidExclusions: recipe.invalidExclusions?.map((exclusionId) =>
-      exclusions.find((otherExclusion) => otherExclusion.id === exclusionId)
-    ),
+    invalidExclusions:
+      recipe?.invalidExclusions?.map((exclusionId) =>
+        exclusions.find((otherExclusion) => otherExclusion.id === exclusionId)
+      ) ?? [],
   };
   return (
     <div className={editRecipePage}>
@@ -70,7 +81,8 @@ export const EditRecipesPage = (props: EditRecipesPageProps) => {
           label="Save"
           name="submit"
           onClick={() => {
-            props.onSave(recipe);
+            const id = recipe.id ?? v4();
+            props.onSave({ ...recipe, id });
           }}
         />
       </Header>
@@ -78,7 +90,7 @@ export const EditRecipesPage = (props: EditRecipesPageProps) => {
         style={{ width: '100%', maxWidth: '1460px' }}
         value={formRecipe}
         onReset={(): void => {
-          setRecipe(props.recipe);
+          setRecipe(defaultRecipe);
         }}
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onChange={(nextRecipeData: any): void => {
@@ -171,7 +183,7 @@ export const EditRecipesPage = (props: EditRecipesPageProps) => {
             />
           </Box>
         </Heading>
-        {(recipe.alternates?.length ?? 0) === 0 ? (
+        {(recipe?.alternates?.length ?? 0) === 0 ? (
           <ParagraphText>
             No alternates configured for this recipe. Click the button below to
             add one.

@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { RedirectIfLoggedOut } from '../../components/authentication/redirect-if-logged-out';
 import { useCustomisations, useRecipes } from '../../hooks';
 import AdminTemplate from './admin-template';
@@ -7,31 +6,23 @@ import { EditRecipesPage } from '@tnmw/admin-app';
 import { useContext } from 'react';
 import { NavigationContext } from '@tnmw/utils';
 
-const EditRecipe = () => {
-  const router = useRouter();
+const CreateRecipe = () => {
   const { items: customisations } = useCustomisations();
   const { items: recipes } = useRecipes();
 
-  const id = router.query.recipeId;
-
-  const recipeId = Array.isArray(id) ? id[0] : id;
-
-  const { items, update } = useRecipes(recipeId ? [recipeId] : []);
-  const recipe = items?.[0];
-
+  const { create } = useRecipes([]);
   const { navigate } = useContext(NavigationContext);
 
   return (
     <RedirectIfLoggedOut allowedGroups={['admin']} redirectTo="/login">
       <MenuPaddedContent>
         <AdminTemplate>
-          {recipe && recipes && customisations && (
+          {recipes && customisations && (
             <EditRecipesPage
               recipes={recipes}
-              title={items ? 'Edit Recipe' : 'Create Recipe'}
-              recipe={recipe}
+              title="Create Recipe"
               onSave={async (recipe) => {
-                await update(recipe);
+                await create(recipe);
                 navigate?.(`/admin/recipes`);
               }}
               // eslint-disable-next-line fp/no-mutating-methods
@@ -50,4 +41,4 @@ const EditRecipe = () => {
   );
 };
 
-export default EditRecipe;
+export default CreateRecipe;

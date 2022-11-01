@@ -2,10 +2,11 @@ import { Button, CheckBox, TableCell, TableRow } from 'grommet';
 import { Edit, Trash } from 'grommet-icons';
 
 import EditRecipesDialog from './EditRecipesDialog';
-import { OkCancelDialog } from '../../components';
-import React from 'react';
+import { Link, OkCancelDialog } from '../../components';
+import React, { useContext } from 'react';
 import { Recipe, Exclusion } from '@tnmw/types';
 import styled from 'styled-components';
+import { NavigationContext } from '@tnmw/utils';
 
 const SlimButton = styled(Button)`
   padding: 0 5px 0 5px;
@@ -28,6 +29,8 @@ interface RecipesRowProps {
 const RecipesRow: React.FC<RecipesRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
+
+  const { navigate } = useContext(NavigationContext);
 
   const selectedDelivery =
     props.plannerSelection[props.selectedDeliveryDay] ?? [];
@@ -101,7 +104,9 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
 
           <SlimButton
             secondary
-            onClick={(): void => setShowEdit(true)}
+            onClick={() =>
+              navigate?.(`/admin/edit-recipe?recipeId=${props.recipe.id}`)
+            }
             a11yTitle="Edit"
             icon={<Edit color="light-6" />}
           />
