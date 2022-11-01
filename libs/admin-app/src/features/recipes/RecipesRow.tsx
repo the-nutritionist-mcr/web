@@ -1,11 +1,13 @@
 import { Button, CheckBox, TableCell, TableRow } from 'grommet';
 import { Edit, Trash } from 'grommet-icons';
 
-import { Link, OkCancelDialog } from '../../components';
+import { OkCancelDialog } from '../../components';
 import React, { useContext } from 'react';
 import { Recipe, Exclusion } from '@tnmw/types';
 import styled from 'styled-components';
 import { NavigationContext } from '@tnmw/utils';
+import { CustomisationsCell } from '../customers/customisations-cell';
+import { actionsCell } from '../customers/customers.css';
 
 const SlimButton = styled(Button)`
   padding: 0 5px 0 5px;
@@ -67,51 +69,48 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
         </TableCell>
       )}
       {!props.plannerMode && <TableCell>{props.recipe.shortName}</TableCell>}
-      <TableCell>
-        <Link path={`/admin/edit-recipe?recipeId=${props.recipe.id}`}>
-          {props.recipe.name}
-        </Link>
-      </TableCell>
+      <TableCell>props.recipe.name</TableCell>
       <TableCell>{props.recipe.description}</TableCell>
       {!props.plannerMode && (
         <TableCell>
-          {props.recipe.potentialExclusions.length > 0
-            ? props.recipe.potentialExclusions
-                .map((exclusion) => exclusion.name)
-                .join(', ')
-            : 'None'}
+          <CustomisationsCell
+            keyPrefix={`recipe-${props.recipe.id}`}
+            customisations={props.recipe.potentialExclusions}
+          />
         </TableCell>
       )}
 
       {!props.plannerMode && (
         <TableCell>
-          <SlimButton
-            onClick={(): void => setShowDoDelete(true)}
-            icon={<Trash color="light-6" />}
-            a11yTitle="Delete"
-          />
+          <div className={actionsCell}>
+            <SlimButton
+              onClick={(): void => setShowDoDelete(true)}
+              icon={<Trash color="light-6" />}
+              a11yTitle="Delete"
+            />
 
-          <OkCancelDialog
-            show={showDoDelete}
-            header="Are you sure?"
-            thing={props.recipe}
-            onOk={(): void => {
-              setShowDoDelete(false);
-              props.remove(props.recipe);
-            }}
-            onCancel={(): void => setShowDoDelete(false)}
-          >
-            Are you sure you want to delete this recipe?
-          </OkCancelDialog>
+            <OkCancelDialog
+              show={showDoDelete}
+              header="Are you sure?"
+              thing={props.recipe}
+              onOk={(): void => {
+                setShowDoDelete(false);
+                props.remove(props.recipe);
+              }}
+              onCancel={(): void => setShowDoDelete(false)}
+            >
+              Are you sure you want to delete this recipe?
+            </OkCancelDialog>
 
-          <SlimButton
-            secondary
-            onClick={() =>
-              navigate?.(`/admin/edit-recipe?recipeId=${props.recipe.id}`)
-            }
-            a11yTitle="Edit"
-            icon={<Edit color="light-6" />}
-          />
+            <SlimButton
+              secondary
+              onClick={() =>
+                navigate?.(`/admin/edit-recipe?recipeId=${props.recipe.id}`)
+              }
+              a11yTitle="Edit"
+              icon={<Edit color="light-6" />}
+            />
+          </div>
         </TableCell>
       )}
     </TableRow>

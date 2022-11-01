@@ -8,10 +8,6 @@ export const customerRow = style({
   },
 });
 
-export const noPlan = style({
-  color: '#ECECEC',
-});
-
 export const planTagActive = style({
   color: 'green',
 });
@@ -30,4 +26,9 @@ export const planTagCancelled = style({
 
 export const planTagNonRenewing = style({
   color: 'orange',
+});
+
+export const actionsCell = style({
+  display: 'flex',
+  flexWrap: 'nowrap',
 });

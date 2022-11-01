@@ -24,7 +24,10 @@ const UnMemoizedCustomerRow: React.FC<CustomerRowProps> = (props) => {
         <PlanCell customer={props.customer} />
       </TableCell>
       <TableCell scope="row">
-        <CustomisationsCell customer={props.customer} />
+        <CustomisationsCell
+          keyPrefix={props.customer.username}
+          customisations={props.customer.customisations}
+        />
       </TableCell>
     </TableRow>
   );
