@@ -1,7 +1,6 @@
 import { Button, CheckBox, TableCell, TableRow } from 'grommet';
 import { Edit, Trash } from 'grommet-icons';
 
-import EditRecipesDialog from './EditRecipesDialog';
 import { Link, OkCancelDialog } from '../../components';
 import React, { useContext } from 'react';
 import { Recipe, Exclusion } from '@tnmw/types';
@@ -28,7 +27,6 @@ interface RecipesRowProps {
 
 const RecipesRow: React.FC<RecipesRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
-  const [showEdit, setShowEdit] = React.useState(false);
 
   const { navigate } = useContext(NavigationContext);
 
@@ -69,7 +67,11 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
         </TableCell>
       )}
       {!props.plannerMode && <TableCell>{props.recipe.shortName}</TableCell>}
-      <TableCell>{props.recipe.name}</TableCell>
+      <TableCell>
+        <Link path={`/admin/edit-recipe?recipeId=${props.recipe.id}`}>
+          {props.recipe.name}
+        </Link>
+      </TableCell>
       <TableCell>{props.recipe.description}</TableCell>
       {!props.plannerMode && (
         <TableCell>
@@ -110,21 +112,6 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
             a11yTitle="Edit"
             icon={<Edit color="light-6" />}
           />
-          {showEdit && (
-            <EditRecipesDialog
-              recipe={props.recipe}
-              recipes={props.recipes}
-              exclusions={props.exclusions}
-              title="Edit Recipe"
-              onOk={(recipe: Recipe): void => {
-                setShowEdit(false);
-                props.update(recipe);
-              }}
-              onCancel={(): void => {
-                setShowEdit(false);
-              }}
-            />
-          )}
         </TableCell>
       )}
     </TableRow>
