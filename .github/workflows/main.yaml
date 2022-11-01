@@ -201,27 +201,27 @@ jobs:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
           url: https://test.app.thenutritionistmcr.com
 
-  deploy-for-dev:
-    name: Dev Deploy
-    runs-on: ubuntu-latest
-    needs: [build-next-app, build-storybook]
+  # deploy-for-dev:
+  #   name: Dev Deploy
+  #   runs-on: ubuntu-latest
+  #   needs: [build-next-app, build-storybook]
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Setup node environment
-        uses: ./.github/actions/setup-node-job
+  #     - name: Setup node environment
+  #       uses: ./.github/actions/setup-node-job
 
-      - name: Deploy
-        uses: ./.github/actions/deploy
-        with:
-          env-name: dev
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          datadog-app-id: ${{ secrets.DATADOG_APP_ID }}
-          datadog-client-token: ${{ secrets.DATADOG_CLIENT_TOKEN }}
-          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
-          url: https://dev.app.thenutritionistmcr.com
+  #     - name: Deploy
+  #       uses: ./.github/actions/deploy
+  #       with:
+  #         env-name: dev
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         datadog-app-id: ${{ secrets.DATADOG_APP_ID }}
+  #         datadog-client-token: ${{ secrets.DATADOG_CLIENT_TOKEN }}
+  #         datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+  #         url: https://dev.app.thenutritionistmcr.com
 
   deploy-for-prod:
     name: Production Deploy
