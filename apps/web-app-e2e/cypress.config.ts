@@ -5,6 +5,7 @@ import { pollForPasswordFromMostRecentWelcomeEmailThenDelete } from './src/suppo
 import { deleteAllCypressWelcomeEmails } from './src/support/google/delete-all-cypress-welcome-emails';
 import { defineConfig } from 'cypress';
 import { E2E } from '@tnmw/constants';
+import { addSubscription } from './src/support/add-subscription';
 
 export default defineConfig({
   viewportHeight: 1011,
@@ -24,6 +25,11 @@ export default defineConfig({
         deleteWelcomeEmails: () => {
           return deleteAllCypressWelcomeEmails(E2E.nonExistingUser.email);
         },
+        addSubscription: (input: {
+          customerId: string;
+          planId: string;
+          price: number;
+        }) => addSubscription(input.customerId, input.planId, input.price),
         deleteCognitoUser: deleteCognitoUser,
         deleteChargebeeCustomer: deleteChargebeeCustomer,
         createChargebeeCustomer: createChargebeeCustomer,
