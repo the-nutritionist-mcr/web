@@ -6,4 +6,8 @@ export const Customers = {
   getHeader: () => {
     cy.contains('h2', 'Customers');
   },
+
+  getTable: () => cy.get('table'),
+
+  clickEditLink: (text: string) => cy.get('table').contains('a', text).click(),
 };

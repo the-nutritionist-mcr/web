@@ -53,7 +53,13 @@ export const useSwrWrapper = <T = unknown>(
     }
   };
 
-  const finalArgs = [key, swrFetcher, { ...options, onerror: error }] as const;
+  const refreshInterval = options?.refreshInterval ?? 10_000;
+
+  const finalArgs = [
+    key,
+    swrFetcher,
+    { ...options, onerror: error, refreshInterval },
+  ] as const;
 
   const response = useSWR<SerialisedDate<T>>(...finalArgs);
   const { data, ...rest } = response;

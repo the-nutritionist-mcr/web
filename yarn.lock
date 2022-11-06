@@ -15623,6 +15623,11 @@ cypress-multi-reporters@^1.6.1:
     debug "^4.1.1"
     lodash "^4.17.15"
 
+cypress-recurse@^1.23.0:
+  version "1.23.0"
+  resolved "https://registry.npmjs.org/cypress-recurse/-/cypress-recurse-1.23.0.tgz#f87334747516de6737bc4708754e8f429057bc6d"
+  integrity sha512-CAsdvynhuR3SUEXVJRO2jBEnZRJ6nJp7nMXHwzV4UQq9Lap3Bj72AwcJK0cl51fJXcTaGDXYTQQ9zvGe3TyaQA==
+
 cypress@10.3.1:
   version "10.3.1"
   resolved "https://registry.yarnpkg.com/cypress/-/cypress-10.3.1.tgz#7fab4ef43481c05a9a17ebe9a0ec860e15b95a19"
