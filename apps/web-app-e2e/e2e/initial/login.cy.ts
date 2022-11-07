@@ -1,7 +1,6 @@
 import { E2E } from '@tnmw/constants';
 // import { AccountPage } from '../../src/pages/account';
 import { LoginPage } from '../../src/pages/login';
-import { Customers } from '../../src/pages/customers';
 
 describe('The login page', { scrollBehavior: false }, () => {
   it('Should load a page with a login form', () => {

@@ -107,7 +107,7 @@ describe('The recipes page', { scrollBehavior: false }, () => {
     CreateRecipeDialog.getExclusionsField().should('have.value', 'No Brocc');
     CreateRecipeDialog.getCustomisationsField().should(
       'have.value',
-      'Multiple'
+      'multiple'
     );
   });
 
@@ -144,7 +144,7 @@ describe('The recipes page', { scrollBehavior: false }, () => {
     );
     CreateRecipeDialog.getCustomisationsField().should(
       'have.value',
-      'Multiple'
+      'multiple'
     );
   });
 
