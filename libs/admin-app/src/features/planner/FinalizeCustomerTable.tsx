@@ -9,6 +9,7 @@ import {
   Button,
   Box,
 } from 'grommet';
+import { cell } from './finalise.css';
 import { Link } from '@tnmw/components';
 import { Trash, FormAdd } from 'grommet-icons';
 import React, { useState } from 'react';
@@ -254,15 +255,13 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                   props.columns
                 ).map((row, batchIndex) => (
                   <AlternatingTableRow>
-                    <td scope="row" align="center" style={{ padding: 0 }}>
+                    <td style={{ padding: 0 }}>
                       {batchIndex === 0 && (
                         <Text>
-                          <Box align="center" direction="row">
-                            <Box flex={{ grow: 2 }}>
-                              <strong>
-                                D{deliveryIndex + 1} ({plan.name})
-                              </strong>
-                            </Box>
+                          <Box justify="start" align="center" direction="row">
+                            <strong style={{ flexGrow: 2, textAlign: 'left' }}>
+                              D{deliveryIndex + 1} ({plan.name})
+                            </strong>
                             <Button
                               key={`${props.customerSelection.customer.username}-${deliveryIndex}-${planIndex}-trash-button`}
                               icon={<Trash />}
@@ -301,22 +300,34 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                         </Text>
                       )}
                     </td>
-                    {row}
+                    {row.length < props.columns
+                      ? [
+                          ...row,
+                          Array.from({
+                            length:
+                              props.columns -
+                              row.length -
+                              (batchIndex === 0 ? 1 : 0),
+                          }).map(() => <td className={cell}></td>),
+                        ]
+                      : row}
                   </AlternatingTableRow>
                 ))}
               </>
             ) : (
               <AlternatingTableRow>
-                <TableCell scope="row" plain>
+                <td style={{ padding: 0, color: 'grey' }}>
                   <Text>
-                    <strong>
-                      D{deliveryIndex + 1} ({plan.name})
-                    </strong>
+                    <Box justify="start" align="center" direction="row">
+                      <strong style={{ flexGrow: 2, textAlign: 'left' }}>
+                        D{deliveryIndex + 1} ({plan.name})
+                      </strong>
+                    </Box>
                   </Text>
-                </TableCell>
-                <TableCell scope="row">
+                </td>
+                <td style={{ padding: '6px', color: 'grey' }}>
                   <Text>{plan.status}</Text>
-                </TableCell>
+                </td>
               </AlternatingTableRow>
             )
           )
