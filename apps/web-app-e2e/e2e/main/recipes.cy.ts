@@ -24,6 +24,43 @@ describe('The recipes page', { scrollBehavior: false }, () => {
   it('should contain a table with 215 rows of data and a header row', () => {
     Recipes.visit();
     Recipes.getTableRows().should('have.length', 216);
+
+    Recipes.getTableRows()
+      .contains('TERIYAKI SAL')
+      .parent('tr')
+      .find('td')
+      .eq(0)
+      .contains('TERIYAKI SAL');
+
+    Recipes.getTableRows()
+      .contains('TERIYAKI SAL')
+      .parent('tr')
+      .find('td')
+      .eq(1)
+      .contains('TERIYAKI GLAZED SALMON');
+
+    Recipes.getTableRows()
+      .contains('TERIYAKI SAL')
+      .parent('tr')
+      .find('td')
+      .eq(2)
+      .contains(
+        'Fragrant jasmine rice, sriracha dressed slaw, toasted peanuts, spring onions, chilli coriander dressing'
+      );
+
+    Recipes.getTableRows()
+      .contains('TERIYAKI SAL')
+      .parent('tr')
+      .find('td')
+      .eq(3)
+      .contains('Extra Meat');
+
+    Recipes.getTableRows()
+      .contains('TERIYAKI SAL')
+      .parent('tr')
+      .find('td')
+      .eq(3)
+      .contains('No Brocc');
   });
 
   it('Should pop up a dialog when you click new', () => {
@@ -70,7 +107,7 @@ describe('The recipes page', { scrollBehavior: false }, () => {
     CreateRecipeDialog.getExclusionsField().should('have.value', 'No Brocc');
     CreateRecipeDialog.getCustomisationsField().should(
       'have.value',
-      'multiple'
+      'Multiple'
     );
   });
 
@@ -107,7 +144,7 @@ describe('The recipes page', { scrollBehavior: false }, () => {
     );
     CreateRecipeDialog.getCustomisationsField().should(
       'have.value',
-      'multiple'
+      'Multiple'
     );
   });
 
