@@ -69,7 +69,7 @@ const RecipesRow: React.FC<RecipesRowProps> = (props) => {
         </TableCell>
       )}
       {!props.plannerMode && <TableCell>{props.recipe.shortName}</TableCell>}
-      <TableCell>props.recipe.name</TableCell>
+      <TableCell>{props.recipe.name}</TableCell>
       <TableCell>{props.recipe.description}</TableCell>
       {!props.plannerMode && (
         <TableCell>
