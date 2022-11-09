@@ -11,7 +11,13 @@ import { Paragraph } from 'grommet';
 import moment from 'moment';
 import React from 'react';
 import FinalizeCustomerTable from './FinalizeCustomerTable';
-import { plannerInfoLi, plannerInfoUl, plannerWarningLi } from './finalise.css';
+import {
+  plannerIndentedLi,
+  plannerIndentedUl,
+  plannerInfoLi,
+  plannerInfoUl,
+  plannerWarningLi,
+} from './finalise.css';
 
 interface FinalizeProps {
   customerMeals: MealPlanGeneratedForIndividualCustomer[];
@@ -35,6 +41,16 @@ const Finalize: React.FC<FinalizeProps> = ({
   customers,
 }) => {
   const wrongNumber = customerMeals.length !== customers.length;
+
+  const customerUsernames = new Set(
+    customerMeals
+      .map((meal) => meal.customer.username)
+      .filter((item, index) => index > 3)
+  );
+  const missingCustomers = customers.filter(
+    (customer) => !customerUsernames.has(customer.username)
+  );
+
   if (!customerMeals) {
     return (
       <Paragraph fill>
@@ -56,10 +72,19 @@ const Finalize: React.FC<FinalizeProps> = ({
           This plan <strong>{published ? 'has' : 'has not'}</strong> been
           published to customers
         </li>
-        {wrongNumber && (
+        {missingCustomers.length > 0 && (
           <li className={plannerWarningLi}>
-            The planner has generated the wrong number of rows. This is probably
-            a bug - please let Ben know that you&apos;ve seen this message
+            The planner is missing an entry for the following customer(s):{' '}
+            <ul className={plannerIndentedUl}>
+              {missingCustomers.map((customer) => (
+                <li className={plannerIndentedLi}>
+                  {customer.firstName} {customer.surname}
+                </li>
+              ))}
+            </ul>
+            If customer(s) were added <strong>after</strong> the current plan
+            was generated, this is normal behaviour and you can ignore this
+            message. If not, please get in touch with Ben.
           </li>
         )}
       </ul>
