@@ -64,7 +64,7 @@ const Finalize: React.FC<FinalizeProps> = ({
     <>
       <ul className={plannerInfoUl}>
         <li className={plannerInfoLi}>
-          Plan generated on{' '}
+          Plan generated{' '}
           <strong>{moment(creationDate).calendar(null, calendarFormat)}</strong>{' '}
           by <strong>{generatedBy}</strong>
         </li>

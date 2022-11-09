@@ -1,10 +1,10 @@
 const calendarFormat = {
   sameDay: '[Today]',
   nextDay: '[Tomorrow]',
-  nextWeek: 'dddd',
+  nextWeek: '[this] dddd',
   lastDay: '[Yesterday]',
-  lastWeek: '[Last] dddd',
-  sameElse: 'MMM Do',
+  lastWeek: '[on] dddd',
+  sameElse: '[on] MMM Do',
 };
 
 export default calendarFormat;
