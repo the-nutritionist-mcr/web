@@ -32,7 +32,9 @@ const EditCustomer: FC = () => {
 
   const userId = Array.isArray(id) ? id[0] : id;
 
-  const { data, update, save, dirty } = useCustomer(userId ?? '');
+  const { data, save, dirty } = useCustomer(userId);
+
+  console.log(data, customisations);
 
   return (
     <RedirectIfLoggedOut allowedGroups={['admin']} redirectTo="/login">
@@ -43,13 +45,11 @@ const EditCustomer: FC = () => {
             saveCustomer={save}
             dirty={dirty}
             customer={data}
-            // eslint-disable-next-line fp/no-mutating-methods
             customisations={customisations
               .slice()
               .sort((a, b) =>
                 a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase() ? 1 : -1
               )}
-            updateCustomer={update}
           />
         )}
       </AdminTemplate>

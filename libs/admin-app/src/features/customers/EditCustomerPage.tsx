@@ -1,10 +1,7 @@
 import {
-  Form,
   Header,
   Heading,
   Button,
-  Paragraph,
-  Select,
   Box,
   Table,
   TableBody,
@@ -35,7 +32,6 @@ export interface EditCustomerPathParams {
   customer: BackendCustomer;
   customisations: Exclusion[];
   dirty: boolean;
-  updateCustomer: (details: UpdateCustomerBody) => void;
   saveCustomer: (details: UpdateCustomerBody) => void;
   resetPassword: (payload: {
     username: string;
@@ -46,12 +42,13 @@ export interface EditCustomerPathParams {
 
 const EditCustomerPage: FC<EditCustomerPathParams> = ({
   customisations: exclusions,
-  customer,
-  updateCustomer,
+  customer: apiCustomer,
   saveCustomer,
   resetPassword,
 }) => {
   const [dirty, setDirty] = React.useState(false);
+
+  const [customer, setCustomer] = React.useState(apiCustomer);
 
   const [showPlanChangedDialog, setShowPlanChangedDialog] =
     React.useState(false);
@@ -122,7 +119,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
                   customer.plans,
                   itemFamilies
                 ).deliveries;
-                updateCustomer({
+                setCustomer({
                   ...customer,
                   customPlan: deliveries,
                 });
@@ -133,7 +130,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
             <Button
               primary
               onClick={() => {
-                updateCustomer({
+                setCustomer({
                   ...customer,
                   customPlan: undefined,
                 });
@@ -201,9 +198,9 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {customer.plans?.map((plan) => {
+            {customer.plans?.map((plan, index) => {
               return (
-                <TableRow key={`customer-page-plan-${plan.id}`}>
+                <TableRow key={`customer-page-plan-${plan.name}-${index}`}>
                   <TableCell scope="row">
                     <strong>{plan.name}</strong>
                   </TableCell>
@@ -234,7 +231,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
           label: exclusion.name,
         }))}
         onChange={(values) => {
-          updateCustomer({
+          setCustomer({
             ...customer,
             customisations: values
               .map((value) =>
@@ -263,7 +260,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
             customer.deliveryDay3,
           ]}
           onChange={(plan) => {
-            updateCustomer({
+            setCustomer({
               ...customer,
               customPlan: plan,
             });

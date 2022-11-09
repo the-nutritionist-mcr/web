@@ -1,4 +1,4 @@
-import { Update } from '@aws-sdk/client-dynamodb';
+import toast from 'react-hot-toast';
 import { HTTP } from '@tnmw/constants';
 import { BackendCustomer, UpdateCustomerBody } from '@tnmw/types';
 import useSWR, { useSWRConfig } from 'swr';
@@ -9,10 +9,12 @@ import { useSwrWrapper } from './use-swr-wrapper';
 // eslint-disable-next-line fp/no-let
 let originalData: UpdateCustomerBody | undefined;
 
-export const useCustomer = (username: string) => {
+export const useCustomer = (username: string | undefined) => {
   const key = `customer/${username}`;
   const { mutate, cache } = useSWRConfig();
-  const { data } = useSwrWrapper<BackendCustomer>(`customer/${username}`);
+  const { data } = useSwrWrapper<BackendCustomer>(
+    username && `customer/${username}`
+  );
 
   const updateCustomer = async (input: UpdateCustomerBody): Promise<void> => {
     await swrFetcher(key, {
@@ -47,6 +49,7 @@ export const useCustomer = (username: string) => {
 
       switch (status) {
         case 'success':
+          toast.success(`Customer record saved successfully`);
           mutate(key, newCustomer, false);
           break;
         case 'failure':
@@ -54,6 +57,11 @@ export const useCustomer = (username: string) => {
           originalData = undefined;
           break;
       }
+    },
+
+    onFailure(error) {
+      console.log(error);
+      toast.error(`failed to update customer record`);
     },
   });
 
