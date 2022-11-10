@@ -45,6 +45,7 @@ const EditCustomer: FC = () => {
             saveCustomer={save}
             dirty={dirty}
             customer={data}
+            // eslint-disable-next-line fp/no-mutating-methods
             customisations={customisations
               .slice()
               .sort((a, b) =>
