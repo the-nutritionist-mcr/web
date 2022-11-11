@@ -40,12 +40,8 @@ const Finalize: React.FC<FinalizeProps> = ({
   published,
   customers,
 }) => {
-  const wrongNumber = customerMeals.length !== customers.length;
-
   const customerUsernames = new Set(
-    customerMeals
-      .map((meal) => meal.customer.username)
-      .filter((item, index) => index > 3)
+    customerMeals.map((meal) => meal.customer.username)
   );
   const missingCustomers = customers.filter(
     (customer) => !customerUsernames.has(customer.username)
