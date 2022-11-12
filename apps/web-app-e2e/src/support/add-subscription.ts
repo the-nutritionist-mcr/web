@@ -18,33 +18,31 @@ export const addSubscription = async (
 
   console.log(`Creating item price id ${itemPriceId}`);
 
-  await new Promise((accept, reject) => {
-    chargebee.item_price
-      .create({
-        id: itemPriceId,
-        name: 'Price ID',
-        item_id: planId,
-        currency_code: 'GBP',
-        period: 2,
-        period_unit: 'year',
-        price,
-      })
-      .request((error, result) => {
-        if (error) {
-          reject(error);
-        } else {
-          accept(result);
-        }
-      });
-  });
+  const result = await new Promise<{ list: { item_price: { id: string } }[] }>(
+    (accept, reject) => {
+      chargebee.item_price
+        .list({
+          item_id: { is: planId },
+        })
+        .request((error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            accept(result);
+          }
+        });
+    }
+  );
 
-  console.log(`Creating subscription for customer ${customerId}`);
+  const entry = result.list[0];
+  const itemPrice = entry.item_price;
+
   await new Promise((accept, reject) => {
     chargebee.subscription
       .create_with_items(customerId, {
         subscription_items: [
           {
-            item_price_id: itemPriceId,
+            item_price_id: itemPrice.id,
             quantity: 1,
           },
         ],
@@ -57,4 +55,5 @@ export const addSubscription = async (
         }
       });
   });
+  return null;
 };

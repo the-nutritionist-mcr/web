@@ -1,4 +1,5 @@
 import { E2E } from '@tnmw/constants';
+import { EditCustomer } from 'apps/web-app-e2e/src/pages/edit-customer';
 import { Customers } from '../../src/pages/customers';
 
 const customerNameString = `${E2E.e2eCustomer.surname}, ${E2E.e2eCustomer.firstName}`;
@@ -68,13 +69,29 @@ describe('The customers page', { scrollBehavior: false }, () => {
     cy.contains(`${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`);
   });
 
-  // it('Should pick up subscription details on the customer page', () => {
-  //   cy.task('addSubscription', {
-  //     customerId: E2E.e2eCustomer.username,
-  //     planId: 'EQ-1-Monthly-5-2022',
-  //     price: 100,
-  //   });
-  // });
+  it('Should pick up subscription details on the customer list', () => {
+    Customers.visit();
+    cy.task('addTestCard', E2E.e2eCustomer.username);
+    cy.task('addSubscription', {
+      customerId: E2E.e2eCustomer.username,
+      planId: 'EQ-1-Monthly-5-2022',
+      price: 100,
+    });
+
+    Customers.getTableRows()
+      .contains(customerNameString)
+      .parents('tr')
+      .contains('EQ-5');
+
+    Customers.clickEditLink(customerNameString);
+    EditCustomer.getHeader();
+  });
+
+  it('Should correctly display added subscription details on the edit customer page', () => {
+    Customers.visit();
+    Customers.clickEditLink(customerNameString);
+    EditCustomer.getHeader();
+  });
 
   it('Deleting a customer on ChargeBee results in a customer vanishing from the list', () => {
     cy.task('deleteChargebeeCustomer', E2E.e2eCustomer.username);

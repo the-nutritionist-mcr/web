@@ -8,6 +8,7 @@ export const Customers = {
   },
 
   getTable: () => cy.get('table'),
+  getTableRows: () => cy.get('table').find('tr'),
 
   clickEditLink: (text: string) => cy.get('table').contains('a', text).click(),
 };

@@ -108,6 +108,7 @@ export const Loading = (props: LoadingProps) => {
 
     // eslint-disable-next-line unicorn/consistent-function-scoping
     const getLoadingState = (): LoadingState | undefined => {
+      console.log();
       return loadingHandles[key];
     };
 
@@ -121,6 +122,7 @@ export const Loading = (props: LoadingProps) => {
   }, []);
 
   const getLoadingState = (id: string): LoadingState | undefined => {
+    console.log(JSON.stringify(loadingHandles, null, 2));
     return loadingHandles[id];
   };
 

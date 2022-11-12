@@ -9,6 +9,7 @@ interface LoaderProps {
 
 export const Loader = (props: LoaderProps) => {
   const { isLoading } = useContext(LoadingContext);
+  console.log(`LOADING`, isLoading);
   return (
     <>
       <div

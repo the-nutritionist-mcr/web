@@ -34,8 +34,6 @@ const EditCustomer: FC = () => {
 
   const { data, save, dirty } = useCustomer(userId);
 
-  console.log(data, customisations);
-
   return (
     <RedirectIfLoggedOut allowedGroups={['admin']} redirectTo="/login">
       <AdminTemplate>

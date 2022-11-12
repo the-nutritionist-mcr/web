@@ -6,6 +6,7 @@ import { deleteAllCypressWelcomeEmails } from './src/support/google/delete-all-c
 import { defineConfig } from 'cypress';
 import { E2E } from '@tnmw/constants';
 import { addSubscription } from './src/support/add-subscription';
+import { addTestCard } from './src/support/add-test-card';
 
 export default defineConfig({
   viewportHeight: 1011,
@@ -26,6 +27,7 @@ export default defineConfig({
         deleteWelcomeEmails: () => {
           return deleteAllCypressWelcomeEmails(E2E.nonExistingUser.email);
         },
+        addTestCard: (id: string) => addTestCard(id),
         addSubscription: (input: {
           customerId: string;
           planId: string;
