@@ -82,15 +82,20 @@ describe('The customers page', { scrollBehavior: false }, () => {
       .contains(customerNameString)
       .parents('tr')
       .contains('EQ-5');
-
-    Customers.clickEditLink(customerNameString);
-    EditCustomer.getHeader();
   });
 
   it('Should correctly display added subscription details on the edit customer page', () => {
     Customers.visit();
     Customers.clickEditLink(customerNameString);
-    EditCustomer.getHeader();
+    EditCustomer.getPlansTableRows().should('have.length', 2);
+    EditCustomer.getPlansTableRows()
+      .eq(1)
+      .find('td')
+      .eq(0)
+      .contains('Equilibrium');
+    // EditCustomer.getPlansTableRows().eq(1).find('td').eq(1);
+    // EditCustomer.getPlansTableRows().eq(1).find('td').eq(2).contains('1');
+    // EditCustomer.getPlansTableRows().eq(1).find('td').eq(3).contains('5');
   });
 
   it('Deleting a customer on ChargeBee results in a customer vanishing from the list', () => {
