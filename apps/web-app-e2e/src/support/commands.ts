@@ -46,59 +46,54 @@ Cypress.Commands.add('seed', () => {
 Cypress.Commands.add(
   'loginByCognitoApi',
   (arg: { user: string; password: string }) => {
-    const log = Cypress.log({
-      displayName: 'COGNITO LOGIN',
-      message: [],
-      autoEnd: false,
-    });
+    cy.session(
+      [arg.user, arg.password],
+      () => {
+        const signIn = configureCognitoAndSignIn(arg.user, arg.password);
 
-    const signIn = configureCognitoAndSignIn(arg.user, arg.password);
+        type ExtractPromiseType<T> = T extends Promise<infer P> ? P : never;
+        cy.wrap(signIn, { log: false }).then(
+          (cognitoResponse: ExtractPromiseType<typeof signIn>) => {
+            const log = Cypress.log({
+              displayName: 'Here',
+              message: [`🔐 Authenticated, saving tokens`],
+            });
 
-    log.snapshot('before');
+            const keyPrefixWithUsername = `${cognitoResponse.keyPrefix}.${cognitoResponse.username}`;
 
-    type ExtractPromiseType<T> = T extends Promise<infer P> ? P : never;
+            cy.setCookie(
+              `${keyPrefixWithUsername}.idToken`,
+              cognitoResponse.signInUserSession.idToken.jwtToken
+            );
 
-    cy.wrap(signIn, { log: false }).then(
-      (cognitoResponse: ExtractPromiseType<typeof signIn>) => {
-        const log = Cypress.log({
-          displayName: 'Here',
-          message: [
-            `🔐 Authenticated, saving tokens: `,
-            // eslint-disable-next-line unicorn/no-null
-            JSON.stringify(cognitoResponse, null, 2),
-          ],
-        });
+            cy.setCookie(
+              `${keyPrefixWithUsername}.accessToken`,
+              cognitoResponse.signInUserSession.accessToken.jwtToken
+            );
 
-        const keyPrefixWithUsername = `${cognitoResponse.keyPrefix}.${cognitoResponse.username}`;
+            cy.setCookie(
+              `${keyPrefixWithUsername}.refreshToken`,
+              cognitoResponse.signInUserSession.refreshToken.token
+            );
 
-        cy.setCookie(
-          `${keyPrefixWithUsername}.idToken`,
-          cognitoResponse.signInUserSession.idToken.jwtToken
+            cy.setCookie(
+              `${keyPrefixWithUsername}.clockDrift`,
+              String(cognitoResponse.signInUserSession.clockDrift)
+            );
+
+            cy.setCookie(
+              `${cognitoResponse.keyPrefix}.LastAuthUser`,
+              cognitoResponse.username
+            );
+
+            cy.setCookie('amplify-authenticator-authState', 'signedIn');
+            log.snapshot('after');
+            log.end();
+          }
         );
-
-        cy.setCookie(
-          `${keyPrefixWithUsername}.accessToken`,
-          cognitoResponse.signInUserSession.accessToken.jwtToken
-        );
-
-        cy.setCookie(
-          `${keyPrefixWithUsername}.refreshToken`,
-          cognitoResponse.signInUserSession.refreshToken.token
-        );
-
-        cy.setCookie(
-          `${keyPrefixWithUsername}.clockDrift`,
-          String(cognitoResponse.signInUserSession.clockDrift)
-        );
-
-        cy.setCookie(
-          `${cognitoResponse.keyPrefix}.LastAuthUser`,
-          cognitoResponse.username
-        );
-
-        cy.setCookie('amplify-authenticator-authState', 'signedIn');
-        log.snapshot('after');
-        log.end();
+      },
+      {
+        cacheAcrossSpecs: true,
       }
     );
   }

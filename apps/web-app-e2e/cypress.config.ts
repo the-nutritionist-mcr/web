@@ -12,6 +12,7 @@ export default defineConfig({
   viewportWidth: 1438,
   scrollBehavior: 'center',
   e2e: {
+    experimentalSessionAndOrigin: true,
     baseUrl: 'http://localhost:4200',
     defaultCommandTimeout: 25_000,
     supportFile: './src/support/index.ts',
