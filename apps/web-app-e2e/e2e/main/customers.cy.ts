@@ -18,6 +18,36 @@ describe('The customers page', { scrollBehavior: false }, () => {
     });
   });
 
+  it.skip('Adding a custom plan is persisted between page loads');
+
+  it.skip('Adding customisation tags is persisted between pageloads');
+
+  it.skip(
+    'Customisation tags that are added are visible on the customers list'
+  );
+
+  it.skip(
+    'Clicking the reset password link results in the customer being sent an email containing a password they can login with'
+  );
+
+  it.skip(
+    'Changing the customer name on Chargebee results on the name change appearing on the edit customer page'
+  );
+
+  it.skip(
+    'Changing the customer email  on Chargebee results on the name change appearing on the edit customer page'
+  );
+
+  it.skip(
+    'Changing the customer first delivery day  on Chargebee results on the name change appearing on the edit customer page'
+  );
+
+  it.skip(
+    'Changing the customer second delivery day  on Chargebee results on the name change appearing on the edit customer page'
+  );
+
+  it.skip('Adding a pause is correctly picked up on the edit customer page');
+
   it("Should load a page titled 'customers'", () => {
     Customers.visit();
 
