@@ -7,8 +7,6 @@ import {
 
 describe('The recipes page', { scrollBehavior: false }, () => {
   beforeEach(() => {
-    Recipes.visit();
-
     cy.loginByCognitoApi({
       user: E2E.adminUserOne.email,
       password: E2E.adminUserOne.password,
@@ -144,7 +142,7 @@ describe('The recipes page', { scrollBehavior: false }, () => {
     );
     CreateRecipeDialog.getCustomisationsField().should(
       'have.value',
-      'multiple'
+      'Multiple'
     );
   });
 

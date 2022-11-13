@@ -1,12 +1,64 @@
 /* eslint-disable unicorn/no-array-callback-reference */
 import { selectFromGrommetDrop } from '../support/cypress-helpers';
 
+const monthDiff = (dateFrom: Date, dateTo: Date) =>
+  dateTo.getMonth() -
+  dateFrom.getMonth() +
+  12 * (dateTo.getFullYear() - dateFrom.getFullYear());
+
+const months = {
+  January: 0,
+  February: 1,
+  March: 2,
+  April: 3,
+  May: 4,
+  June: 5,
+  July: 6,
+  August: 7,
+  September: 8,
+  October: 9,
+  November: 10,
+  December: 11,
+};
+
+const selectFromDatePicker = (targetDate: Date) => {
+  return cy.get('[data-g-portal-id]').within(() => {
+    cy.get('h3').then((header) => {
+      const parts = header.text().split(' ');
+      const month = months[parts[0].trim()];
+      const year = Number.parseInt(parts[1].trim(), 10);
+
+      const currentDate = new Date();
+
+      currentDate.setMonth(month);
+      currentDate.setFullYear(year);
+      const difference = monthDiff(currentDate, targetDate);
+
+      const nextOrPrevious = difference > 0 ? 'Next' : 'Previous';
+
+      [...Array.from({ length: Math.abs(difference) })].forEach(() => {
+        cy.get(`[aria-label='${nextOrPrevious}']`).click();
+      });
+
+      Cypress.log({
+        message: [targetDate.getDate()],
+      });
+
+      cy.get('button').contains(targetDate.getDate()).click();
+    });
+  });
+};
+
 export const Recipes = {
   visit: () => cy.visit('/admin/recipes'),
 
   getHeader: () => cy.contains('h2', 'Recipes'),
 
   getTable: () => cy.get('table'),
+
+  clickPlanningMode: () => cy.contains('button', 'Planning Mode').click(),
+
+  clickSendToPlanner: () => cy.contains('button', 'Send to Planner').click(),
 
   getTableRows: () => cy.get('table').find('tr'),
 
@@ -27,6 +79,28 @@ export const Recipes = {
       .click({ force: true }),
 
   getCreateRecipeHeader: () => cy.contains('h3', 'Create Recipe'),
+
+  chooseCookDateSelect: (which: number, date: Date) => {
+    cy.contains(`Cook ${which}`)
+      .parent('header')
+      .parent('div')
+      .find('svg')
+      .parent('button')
+      .click();
+
+    selectFromDatePicker(date);
+  },
+
+  clickPickMeals: (which: number) =>
+    cy
+      .contains(`Cook ${which}`)
+      .parent('header')
+      .parent('div')
+      .contains('button', 'Pick Meals')
+      .click(),
+
+  addRecipeToSelectedCook: (shortName: string) =>
+    cy.contains(shortName).parents('tr').find('input').parent().click(),
 };
 
 export const ConfirmDeleteDialog = {

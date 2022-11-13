@@ -80,6 +80,7 @@ const PlanningModeSummary: React.FC<PlanningModeSummaryProps> = (props) => {
               }
             </ul>
             <DateInput
+              className="pickDate"
               value={
                 // eslint-disable-next-line security/detect-object-injection
                 cookDates[index]
