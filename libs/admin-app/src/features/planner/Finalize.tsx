@@ -18,6 +18,7 @@ import {
   plannerInfoUl,
   plannerWarningLi,
 } from './finalise.css';
+import { getCookStatus } from '@tnmw/meal-planning';
 
 interface FinalizeProps {
   customerMeals: MealPlanGeneratedForIndividualCustomer[];
@@ -43,9 +44,15 @@ const Finalize: React.FC<FinalizeProps> = ({
   const customerUsernames = new Set(
     customerMeals.map((meal) => meal.customer.username)
   );
-  const missingCustomers = customers.filter(
-    (customer) => !customerUsernames.has(customer.username)
-  );
+  const missingCustomers = customers
+    .filter((customer) => !customerUsernames.has(customer.username))
+    .filter((customer) =>
+      customer.plans.some((plan) =>
+        cooks.some(
+          (cook) => getCookStatus(cook.date, plan).status !== 'cancelled'
+        )
+      )
+    );
 
   if (!customerMeals) {
     return (
