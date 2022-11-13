@@ -16,7 +16,6 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
   DynamoDBDocumentClient,
   BatchWriteCommandInput,
-  BatchWriteCommand,
 } from '@aws-sdk/lib-dynamodb';
 import { v4 } from 'uuid';
 import { isWeeklyPlan } from '@tnmw/types';
@@ -54,9 +53,20 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const meals = chooseMealSelections(cooks, list, `${firstName} ${surname}`);
 
+    const removeCancelled = meals.customerPlans.filter((plan) =>
+      plan.deliveries.some((delivery) =>
+        delivery.plans.some((plan) => plan.status !== 'cancelled')
+      )
+    );
+
+    const finalMeals = {
+      ...meals,
+      customerPlans: removeCancelled,
+    };
+
     const planId = v4();
 
-    const serialisedMeals = recursivelySerialiseDate(meals);
+    const serialisedMeals = recursivelySerialiseDate(finalMeals);
 
     const plan: SerialisedDate<StoredPlan> = {
       id: 'plan',
