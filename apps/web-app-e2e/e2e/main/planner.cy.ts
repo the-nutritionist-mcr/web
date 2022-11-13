@@ -1,8 +1,17 @@
 import { E2E } from '@tnmw/constants';
 import { Planner } from '../../src/pages/planner';
 import { Recipes } from '../../src/pages/recipes';
+import { Customers } from '../../src/pages/customers';
+import { EditCustomer } from 'apps/web-app-e2e/src/pages/edit-customer';
+
+const customerNameString = `${E2E.e2eCustomer.surname}, ${E2E.e2eCustomer.firstName}`;
 
 describe('The planner', () => {
+  before(() => {
+    cy.task('deleteChargebeeCustomer', E2E.e2eCustomer.username);
+    cy.task('deleteCognitoUser', E2E.e2eCustomer.username);
+  });
+
   beforeEach(() => {
     cy.loginByCognitoApi({
       user: E2E.adminUserOne.email,
@@ -12,6 +21,39 @@ describe('The planner', () => {
   });
 
   it('You can generate a plan on the recipes page that is then available on the planner', () => {
+    const user = {
+      username: E2E.e2eCustomer.username,
+      country: 'England',
+      deliveryDay1: E2E.e2eCustomer.deliveryDay1,
+      deliveryDay2: E2E.e2eCustomer.deliveryDay2,
+      addressLine1: E2E.e2eCustomer.addressLine1,
+      addressLine2: E2E.e2eCustomer.addressLine2,
+      phoneNumber: E2E.e2eCustomer.phoneNumber,
+      addressLine3: E2E.e2eCustomer.addressLine3,
+      firstName: E2E.e2eCustomer.firstName,
+      surname: E2E.e2eCustomer.surname,
+      email: E2E.e2eCustomer.email,
+      city: E2E.e2eCustomer.city,
+      postcode: E2E.e2eCustomer.postcode,
+    };
+
+    cy.task('createChargebeeCustomer', user);
+
+    Customers.visit();
+    Customers.getTable().contains(customerNameString, { timeout: 60_000 });
+
+    cy.task('addTestCard', E2E.e2eCustomer.username);
+    cy.task('addSubscription', {
+      customerId: E2E.e2eCustomer.username,
+      planId: 'EQ-1-Monthly-5-2022',
+      price: 100,
+    });
+
+    Customers.getTableRows()
+      .contains(customerNameString)
+      .parents('tr')
+      .contains('EQ-5');
+
     Recipes.visit();
     Recipes.getHeader();
     Recipes.clickPlanningMode();
@@ -44,15 +86,70 @@ describe('The planner', () => {
     });
   });
 
-  it.skip(
-    'Customers with an active plan get the correct selection of meals generated for them on the planner'
-  );
+  it('Customers with an active plan get the correct selection of meals generated for them on the planner', () => {
+    Planner.visit();
+
+    Planner.getPlanRow(
+      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
+      1,
+      'Equilibrium'
+    )
+      .parents('tr')
+      .find('td')
+      .eq(1)
+      .contains('TORN CHILLI CHICKEN');
+
+    Planner.getPlanRow(
+      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
+      1,
+      'Equilibrium'
+    )
+      .parents('tr')
+      .find('td')
+      .eq(2)
+      .contains('7 SPICE ROAST CHICKEN');
+
+    Planner.getPlanRow(
+      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
+      1,
+      'Equilibrium'
+    )
+      .parents('tr')
+      .find('td')
+      .eq(3)
+      .contains('ACHIOTE SLOW COOKED SHOULDER OF PORK');
+
+    Planner.getPlanRow(
+      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
+      2,
+      'Equilibrium'
+    )
+      .parents('tr')
+      .find('td')
+      .eq(1)
+      .contains('LEMON + HERB ROAST CHICKEN ORZO');
+
+    Planner.getPlanRow(
+      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
+      2,
+      'Equilibrium'
+    )
+      .parents('tr')
+      .find('td')
+      .eq(2)
+      .contains('SLOW COOKED BEEF BURRITO BOWL');
+  });
 
   it.skip(
     'If a customer is paused on the day of the cook, then no meals are chosen for them'
   );
 
-  it.skip('Clicking on the customers name takes you to the edit customer page');
+  it('Clicking on the customers name takes you to the edit customer page', () => {
+    Planner.visit();
+    Planner.clickCustomerName('Ben Wainwright');
+    EditCustomer.getHeader();
+    cy.contains('Ben Wainwright');
+  });
 
   it.skip('Clicking the small trash button removes individual recipe entries');
 
