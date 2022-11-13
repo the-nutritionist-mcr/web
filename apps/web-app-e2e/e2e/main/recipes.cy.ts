@@ -142,7 +142,7 @@ describe('The recipes page', { scrollBehavior: false }, () => {
     );
     CreateRecipeDialog.getCustomisationsField().should(
       'have.value',
-      'Multiple'
+      'multiple'
     );
   });
 
