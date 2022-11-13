@@ -80,7 +80,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     };
 
     const selections: StoredMealPlanGeneratedForIndividualCustomer[] =
-      meals.customerPlans.map((customerPlan) => ({
+      finalMeals.customerPlans.map((customerPlan) => ({
         id: `plan-${planId}-selection`,
         sort: customerPlan.customer.username,
         ...customerPlan,
