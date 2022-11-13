@@ -104,11 +104,9 @@ const Recipes: React.FC<RecipesProps> = (props) => {
                     <strong>Selected</strong>
                   </TableCell>
                 )}
-                {!planningMode && (
-                  <TableCell>
-                    <strong>Short Name</strong>
-                  </TableCell>
-                )}
+                <TableCell>
+                  <strong>Short Name</strong>
+                </TableCell>
                 <TableCell>
                   <strong>Name</strong>
                 </TableCell>
