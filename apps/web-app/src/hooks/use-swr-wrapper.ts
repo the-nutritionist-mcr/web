@@ -53,7 +53,7 @@ export const useSwrWrapper = <T = unknown>(
     }
   };
 
-  const refreshInterval = options?.refreshInterval ?? 10_000;
+  const refreshInterval = options?.refreshInterval ?? 5000;
 
   const finalArgs = [
     key,

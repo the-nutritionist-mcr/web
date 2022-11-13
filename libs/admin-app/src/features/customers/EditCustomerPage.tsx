@@ -204,16 +204,16 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
                   <TableCell scope="row">
                     <strong>{plan.name}</strong>
                   </TableCell>
-                  <TableCell scope="row">{plan.daysPerWeek}</TableCell>
-                  <TableCell scope="row">{plan.itemsPerDay}</TableCell>
-                  <TableCell scope="row">{plan.totalMeals}</TableCell>
-                  <TableCell scope="row">{plan.subscriptionStatus}</TableCell>
-                  <TableCell scope="row">
+                  <TableCell>{plan.daysPerWeek}</TableCell>
+                  <TableCell>{plan.itemsPerDay}</TableCell>
+                  <TableCell>{plan.totalMeals}</TableCell>
+                  <TableCell>{plan.subscriptionStatus}</TableCell>
+                  <TableCell>
                     {plan.pauseStart
                       ? moment(plan.pauseStart).calendar(null, calendarFormat)
                       : 'None'}
                   </TableCell>
-                  <TableCell scope="row">
+                  <TableCell>
                     {plan.pauseEnd
                       ? moment(plan.pauseEnd).calendar(null, calendarFormat)
                       : 'None'}

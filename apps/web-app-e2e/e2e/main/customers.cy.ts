@@ -1,11 +1,10 @@
 import { E2E } from '@tnmw/constants';
-import { EditCustomer } from 'apps/web-app-e2e/src/pages/edit-customer';
+import { EditCustomer } from '../../src/pages/edit-customer';
 import { Customers } from '../../src/pages/customers';
 
 const customerNameString = `${E2E.e2eCustomer.surname}, ${E2E.e2eCustomer.firstName}`;
 describe('The customers page', { scrollBehavior: false }, () => {
   before(() => {
-    cy.task('deleteWelcomeEmails');
     cy.task('deleteChargebeeCustomer', E2E.e2eCustomer.username);
     cy.task('deleteCognitoUser', E2E.e2eCustomer.username);
   });
@@ -26,10 +25,6 @@ describe('The customers page', { scrollBehavior: false }, () => {
   });
 
   it('Shouldnt have the test customer on the list from the start', () => {
-    cy.loginByCognitoApi({
-      user: E2E.adminUserOne.email,
-      password: E2E.adminUserOne.password,
-    });
     Customers.visit();
     Customers.getTable().contains(customerNameString).should('not.exist');
   });
@@ -87,15 +82,12 @@ describe('The customers page', { scrollBehavior: false }, () => {
   it('Should correctly display added subscription details on the edit customer page', () => {
     Customers.visit();
     Customers.clickEditLink(customerNameString);
+    EditCustomer.getHeader();
     EditCustomer.getPlansTableRows().should('have.length', 2);
-    EditCustomer.getPlansTableRows()
-      .eq(1)
-      .find('td')
-      .eq(0)
-      .contains('Equilibrium');
-    // EditCustomer.getPlansTableRows().eq(1).find('td').eq(1);
-    // EditCustomer.getPlansTableRows().eq(1).find('td').eq(2).contains('1');
-    // EditCustomer.getPlansTableRows().eq(1).find('td').eq(3).contains('5');
+    EditCustomer.getPlansTableRows().eq(1).find('th').contains('Equilibrium');
+    EditCustomer.getPlansTableRows().eq(1).find('td').eq(0).contains('5');
+    EditCustomer.getPlansTableRows().eq(1).find('td').eq(1).contains('1');
+    EditCustomer.getPlansTableRows().eq(1).find('td').eq(2).contains('5');
   });
 
   it('Deleting a customer on ChargeBee results in a customer vanishing from the list', () => {
