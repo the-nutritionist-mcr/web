@@ -40,9 +40,9 @@ interface ArbitraryObjectType {
   [key: string]: ValueType;
 }
 
-const generateCsvStringFromObjectArray = (
+const generateIndividualCsv = (
   inputObjectArray: ReadonlyArray<ArbitraryObjectType>
-): string => {
+) => {
   if (inputObjectArray.length === 0) {
     throw new Error(
       'inputObjectArray.length must have a length greater than zero'
@@ -61,6 +61,26 @@ const generateCsvStringFromObjectArray = (
   const headerRow = createCsvRowString(columnHeaders);
 
   return `${headerRow}\r\n${rows}`;
+};
+
+const generateCsvStringFromObjectArray = (
+  inputObjectArray: ReadonlyArray<ArbitraryObjectType>
+): { filename: string; data: string }[] => {
+  const mealNameMap = inputObjectArray.reduce<
+    Record<string, ReadonlyArray<ArbitraryObjectType>>
+  >((accum, row) => {
+    const name = row['mealName'];
+    if (!(typeof name === 'string')) {
+      throw new TypeError('mealName not present');
+    }
+    accum[name] = [...(accum[name] ?? []), row];
+    return accum;
+  }, {});
+
+  return Object.entries(mealNameMap).map(([key, value]) => ({
+    filename: key,
+    data: generateIndividualCsv(value),
+  }));
 };
 
 export default generateCsvStringFromObjectArray;

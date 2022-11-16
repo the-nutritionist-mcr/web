@@ -83,15 +83,15 @@ const makeLabelObject = (
 
       // eslint-disable-next-line unicorn/consistent-destructuring
       description: item.recipe.description ?? '',
-      allergens: `Contains ${
+      allergens:
         // eslint-disable-next-line unicorn/consistent-destructuring
         item.recipe.allergens?.trim()
           ? // eslint-disable-next-line unicorn/consistent-destructuring
             item.recipe.allergens.trim()
-          : 'no allergens'
-      }`,
-      itemPlan: item.chosenVariant,
-      customisations: variant.string ?? '',
+          : 'no allergens',
+      itemPlan:
+        item.chosenVariant === 'Equilibrium' ? 'EQ' : item.chosenVariant,
+      customisations: variant.customisations,
       hotOrCold: `Enjoy ${hotOrCold}`,
       useBy: `Use by ${formatDate(useByDate)}`,
     };

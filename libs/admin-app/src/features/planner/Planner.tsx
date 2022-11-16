@@ -1,4 +1,5 @@
 import { Heading, Header, Button } from 'grommet';
+import JSZip from 'jszip';
 
 import React, { useState } from 'react';
 import Finalize from './Finalize';
@@ -58,13 +59,17 @@ const Planner: React.FC<PlannerProps> = (props) => {
         {showLabelsDialog && (
           <DownloadLabelsDialog
             onClose={() => setShowLabelDialog(false)}
-            onDownload={(useBy, cook) => {
+            onDownload={async (useBy, cook) => {
               const data = generateLabelData(swappedPlan, useBy, recipes, cook);
               setShowLabelDialog(false);
-              fileDownload(
-                generateCsvStringFromObjectArray(data),
-                generateDatestampedFilename('labels', 'csv')
+              const csvData = generateCsvStringFromObjectArray(data);
+
+              const zip = new JSZip();
+              csvData.forEach((csvData) =>
+                zip.file(`${csvData.filename}.csv`, csvData.data)
               );
+              const file = await zip.generateAsync({ type: 'blob' });
+              fileDownload(file, generateDatestampedFilename('labels', 'zip'));
             }}
           />
         )}

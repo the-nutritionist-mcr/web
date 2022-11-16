@@ -1,4 +1,4 @@
-type ValidExtension = 'pdf' | 'csv';
+type ValidExtension = 'pdf' | 'csv' | 'zip';
 
 export const generateDatestampedFilename = (
   name: string,
