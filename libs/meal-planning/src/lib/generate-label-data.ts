@@ -77,6 +77,7 @@ const makeLabelObject = (
     return {
       // eslint-disable-next-line unicorn/consistent-destructuring
       customerName: titleCase(`${customer.firstName} ${customer.surname}`),
+      surname: customer.surname,
 
       // eslint-disable-next-line unicorn/consistent-destructuring
       mealName: titleCase(item.recipe.name),
@@ -99,6 +100,7 @@ const makeLabelObject = (
   return {
     // eslint-disable-next-line unicorn/consistent-destructuring
     customerName: titleCase(`${customer.firstName} ${customer.surname}`),
+    surname: customer.surname,
     mealName: titleCase(item.extraName),
     description: '',
     allergens: '',
@@ -164,4 +166,6 @@ export const generateLabelData = (
     // eslint-disable-next-line unicorn/no-array-callback-reference
     .map((item) => normalize(item))
     .slice()
-    .sort(sortFunction);
+    .sort(sortFunction)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .map(({ surname, ...rest }) => rest);
