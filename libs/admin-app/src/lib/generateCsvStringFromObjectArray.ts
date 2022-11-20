@@ -66,6 +66,17 @@ const generateIndividualCsv = (
 const generateCsvStringFromObjectArray = (
   inputObjectArray: ReadonlyArray<ArbitraryObjectType>
 ): { filename: string; data: string }[] => {
+  const flags = inputObjectArray.reduce<ReadonlyArray<ArbitraryObjectType>>(
+    (accum, row) => {
+      const customisations = row['customisations'];
+      if (customisations) {
+        return [...accum, row];
+      }
+      return accum;
+    },
+    []
+  );
+
   const mealNameMap = inputObjectArray.reduce<
     Record<string, ReadonlyArray<ArbitraryObjectType>>
   >((accum, row) => {
@@ -77,10 +88,12 @@ const generateCsvStringFromObjectArray = (
     return accum;
   }, {});
 
-  return Object.entries(mealNameMap).map(([key, value]) => ({
-    filename: key,
-    data: generateIndividualCsv(value),
-  }));
+  return Object.entries({ ...mealNameMap, ['Custom Flags']: flags }).map(
+    ([key, value]) => ({
+      filename: key,
+      data: generateIndividualCsv(value),
+    })
+  );
 };
 
 export default generateCsvStringFromObjectArray;
