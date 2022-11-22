@@ -116,14 +116,6 @@ const makeLabelObject = (
 };
 
 const sortFunction = (a: Record<string, string>, b: Record<string, string>) => {
-  if (a['mealName'] > b['mealName']) {
-    return 1;
-  }
-
-  if (a['mealName'] < b['mealName']) {
-    return -1;
-  }
-
   if (a['itemPlan'] > b['itemPlan']) {
     return 1;
   }
