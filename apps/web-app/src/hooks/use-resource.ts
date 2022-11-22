@@ -22,7 +22,8 @@ export const useResource = <T extends { id: string }>(
     }
 
     if (ids) {
-      return `${type}/get-by-id?ids=${ids.join(',')}`;
+      const deDupedIds = Array.from(new Set(ids));
+      return `${type}/get-by-id?ids=${deDupedIds.join(',')}`;
     }
 
     return type;
