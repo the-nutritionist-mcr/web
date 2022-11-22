@@ -5,6 +5,8 @@ import {
   DeliveryItem,
   BackendCustomer,
   DeliveryMeal,
+  SwappedMealPlan,
+  Swapped,
 } from '@tnmw/types';
 
 const stringifyValue = (thing: unknown) =>
@@ -66,15 +68,17 @@ const isSelectedMeal = (item: unknown): item is DeliveryMeal => {
 
 const makeLabelObject = (
   customer: BackendCustomer,
-  item: DeliveryItem,
+  item: Swapped<DeliveryItem>,
   useByDate: Date,
   allMeals: Recipe[]
 ): Record<string, string> => {
   if (isSelectedMeal(item)) {
     const variant = createVariant(customer, item, allMeals);
-    const { hotOrCold } = item.recipe;
+
+    const { hotOrCold, originalName } = item.recipe;
 
     return {
+      originalName: titleCase(originalName),
       // eslint-disable-next-line unicorn/consistent-destructuring
       customerName: titleCase(`${customer.firstName} ${customer.surname}`),
 
@@ -138,7 +142,7 @@ const sortFunction = (a: Record<string, string>, b: Record<string, string>) => {
 };
 
 export const generateLabelData = (
-  selections: MealPlanGeneratedForIndividualCustomer[],
+  selections: SwappedMealPlan[],
   useByDate: Date,
   allMeals: Recipe[],
   deliveryNumber: number

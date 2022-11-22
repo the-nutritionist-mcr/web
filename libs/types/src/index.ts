@@ -71,6 +71,8 @@ export type {
   PlanWithMeals,
   PlannedDelivery,
   MealPlanGeneratedForIndividualCustomer,
+  Swapped,
+  SwappedMealPlan,
   WeeklyCookPlan,
   WeeklyCookPlanWithoutCustomerPlans,
   PlannedCook,

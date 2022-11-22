@@ -69,9 +69,9 @@ const generateCsvStringFromObjectArray = (
   const mealNameMap = inputObjectArray.reduce<
     Record<string, ReadonlyArray<ArbitraryObjectType>>
   >((accum, row) => {
-    const name = row['mealName'];
+    const name = row['originalName'] ?? row['mealName'];
     if (!(typeof name === 'string')) {
-      throw new TypeError('mealName not present');
+      throw new TypeError('originalName or mealName not present');
     }
     accum[name] = [...(accum[name] ?? []), row];
     return accum;

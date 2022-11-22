@@ -7,6 +7,7 @@ import {
   MealPlanGeneratedForIndividualCustomer,
   Recipe,
   RecipeVariantMap,
+  Swapped,
 } from '@tnmw/types';
 
 const isSelectedMeal = (item: unknown): item is DeliveryMeal => {
@@ -43,7 +44,7 @@ const updateVariantMap = (
 };
 
 export const makeCookPlan = (
-  selections: MealPlanGeneratedForIndividualCustomer[],
+  selections: Swapped<MealPlanGeneratedForIndividualCustomer>[],
   allMeals: Recipe[]
 ): Map<string, RecipeVariantMap>[] => {
   return defaultDeliveryDays.map((day, deliveryIndex) =>

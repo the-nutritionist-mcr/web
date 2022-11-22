@@ -7,6 +7,12 @@ export interface DeliveryMeal {
   chosenVariant: string;
 }
 
+export type Swapped<T> = {
+  [K in keyof T]: T[K] extends Recipe
+    ? Recipe & { originalName: string }
+    : Swapped<T[K]>;
+};
+
 export interface DeliveryExtra {
   isExtra: true;
   extraName: string;
@@ -95,6 +101,8 @@ export interface MealPlanGeneratedForIndividualCustomer {
   deliveries: PlannedDelivery[];
   wasUpdatedByCustomer: boolean;
 }
+
+export type SwappedMealPlan = Swapped<MealPlanGeneratedForIndividualCustomer>;
 
 export type StoredMealPlanGeneratedForIndividualCustomer =
   MealPlanGeneratedForIndividualCustomer & {

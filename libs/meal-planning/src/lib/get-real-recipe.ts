@@ -2,6 +2,7 @@ import {
   BackendCustomer,
   DeliveryMeal,
   MealPlanGeneratedForIndividualCustomer,
+  SwappedMealPlan,
   Recipe,
 } from '@tnmw/types';
 
@@ -51,7 +52,10 @@ export const getRealRecipe = (
   recipe: Recipe,
   customer: BackendCustomer,
   recipes: Recipe[]
-): Recipe => getRealRecipeHelper(recipe, customer, recipes);
+): Recipe & { originalName: string } => ({
+  ...getRealRecipeHelper(recipe, customer, recipes),
+  originalName: recipe.name,
+});
 
 const isSelectedMeal = (item: unknown): item is DeliveryMeal => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -64,7 +68,7 @@ export const performSwaps = (
   plan: MealPlanGeneratedForIndividualCustomer,
   customer: BackendCustomer,
   recipes: Recipe[]
-): MealPlanGeneratedForIndividualCustomer => {
+): SwappedMealPlan => {
   return {
     ...plan,
     deliveries: plan.deliveries.map((delivery) => ({

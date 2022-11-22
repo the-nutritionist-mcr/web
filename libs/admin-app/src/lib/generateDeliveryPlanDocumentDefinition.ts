@@ -9,6 +9,7 @@ import {
   BackendCustomer,
   MealPlanGeneratedForIndividualCustomer,
   PlannedDelivery,
+  Swapped,
 } from '@tnmw/types';
 
 const COLUMNS = 6;
@@ -19,7 +20,7 @@ interface CustomerMealDaySelection {
 }
 
 const makeRowsFromSelections = (
-  customerSelections: CustomerMealDaySelection[],
+  customerSelections: Swapped<CustomerMealDaySelection>[],
   allMeals: Recipe[]
 ) =>
   // eslint-disable-next-line fp/no-mutating-methods
@@ -76,7 +77,7 @@ const options = {
 };
 
 const generateDeliveryPlanDocumentDefinition = (
-  selections: MealPlanGeneratedForIndividualCustomer[],
+  selections: Swapped<MealPlanGeneratedForIndividualCustomer>[],
   allMeals: Recipe[]
 ): DocumentDefinition => {
   const date = new Date(Date.now());
