@@ -149,7 +149,10 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
   ('');
 
   return (
-    <Table alignSelf="start" style={{ marginTop: '2rem' }}>
+    <Table
+      alignSelf="start"
+      style={{ marginTop: '2rem', tableLayout: 'fixed' }}
+    >
       {showAddPlanRowDialog && (
         <UpdatePlanRowDialog
           options={itemFamilies.map((family) => family.name)}
@@ -213,8 +216,11 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
       </TableHeader>
       <TableBody>
         {deliveries.flatMap((delivery, deliveryIndex) =>
-          delivery.plans.map((plan, planIndex) =>
-            plan.status === 'active' ? (
+          delivery.plans.map((plan, planIndex) => {
+            if (plan.status === 'cancelled') {
+              return null;
+            }
+            return plan.status === 'active' ? (
               <>
                 {batchArray(
                   [
@@ -305,6 +311,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                           ...row,
                           Array.from({
                             length:
+                              1 +
                               props.columns -
                               row.length -
                               (batchIndex === 0 ? 1 : 0),
@@ -329,8 +336,8 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                   <Text>{plan.status}</Text>
                 </td>
               </AlternatingTableRow>
-            )
-          )
+            );
+          })
         )}
       </TableBody>
     </Table>
