@@ -55,6 +55,19 @@ export const Planner = {
       .contains(`D${deliveryNumber} (${planName})`);
   },
 
+  deleteDeliveryRow: (
+    customerName: string,
+    deliveryNumber: number,
+    planName: string
+  ) => {
+    cy.contains(customerName)
+      .parents('table')
+      .contains(`D${deliveryNumber} (${planName})`)
+      .parents('tr')
+      .find('button[aria-label="Delete Row"]')
+      .click();
+  },
+
   getPlanRowCell: (
     customerName: string,
     deliveryNumber: number,

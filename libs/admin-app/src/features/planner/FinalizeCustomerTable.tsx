@@ -271,6 +271,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                             <Button
                               key={`${props.customerSelection.customer.username}-${deliveryIndex}-${planIndex}-trash-button`}
                               icon={<Trash />}
+                              a11yTitle="Delete Row"
                               size="small"
                               hoverIndicator={true}
                               onClick={() =>

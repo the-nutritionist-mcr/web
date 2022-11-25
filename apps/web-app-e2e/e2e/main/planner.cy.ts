@@ -153,7 +153,7 @@ describe('The planner', () => {
       'BUDDHA BOWL'
     );
 
-    Planner.getPlanRowCell(notReversedName, 1, 'Equilibrium', 1).contains(
+    Planner.getPlanRowCell(notReversedName, 1, 'Equilibrium', 0).contains(
       'BABY SPINACH'
     );
 
@@ -175,7 +175,11 @@ describe('The planner', () => {
     );
   });
 
-  it.skip('Clicking on the large trash button removes the row');
+  it('Clicking on the large trash button removes the row', () => {
+    Planner.visit();
+    Planner.deleteDeliveryRow(notReversedName, 2, 'Equilibrium');
+    Planner.getPlanRow(notReversedName, 2, 'Equilibrium').should('not.exist');
+  });
 
   it.skip(
     'The add plan row button provides a mechanism to add a row to a customers plan'
