@@ -32,9 +32,6 @@ export const usePlan = () => {
 
   const { data } = useSwrWrapper<GetPlanResponse>('plan', {
     revalidateIfStale: true,
-    fallback: {
-      plan: { available: false, admin: false },
-    },
   });
 
   const publishPlan = async (): Promise<void> => {
