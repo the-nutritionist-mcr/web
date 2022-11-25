@@ -128,11 +128,9 @@ describe('The planner', () => {
       'BUDDHA BOWL'
     );
 
-    Planner.getPlanRow(notReversedName, 1, 'Equilibrium')
-      .parents('tr')
-      .find('td')
-      .eq(1)
-      .contains('BUDDHA BOWL');
+    Planner.getPlanRowCell(notReversedName, 1, 'Equilibrium', 0).contains(
+      'BUDDHA BOWL'
+    );
   });
 
   it('When you change individual plan items, it does not override previous changes', () => {
@@ -165,6 +163,7 @@ describe('The planner', () => {
   it('Clicking the small trash button removes individual recipe entries', () => {
     Planner.visit();
     Planner.deletePlanEntry(notReversedName, 1, 'Equilibrium', 1);
+    cy.contains('successfully');
 
     Planner.getPlanRowCell(notReversedName, 1, 'Equilibrium', 0).contains(
       'GRATIN'
@@ -178,12 +177,27 @@ describe('The planner', () => {
   it('Clicking on the large trash button removes the row', () => {
     Planner.visit();
     Planner.deleteDeliveryRow(notReversedName, 2, 'Equilibrium');
+    cy.contains('successfully');
     Planner.getPlanRow(notReversedName, 2, 'Equilibrium').should('not.exist');
   });
 
-  it.skip(
-    'The add plan row button provides a mechanism to add a row to a customers plan'
-  );
+  it('The add plan row button provides a mechanism to add a row to a customers plan', () => {
+    Planner.visit();
+    Planner.addPlanRow(notReversedName, 2, 'Mass');
+    cy.contains('successfully');
+    Planner.getPlanRow(notReversedName, 2, 'Mass').should('exist');
+  });
+
+  it('Clicking the plus button adds a recipe to the row', () => {
+    Planner.visit();
+    Planner.addToPlan(notReversedName, 2, 'Mass');
+    Planner.addToPlan(notReversedName, 2, 'Mass');
+    Planner.addToPlan(notReversedName, 2, 'Mass');
+    cy.contains('successfully');
+    Planner.getPlanRowCell(notReversedName, 2, 'Mass', 0).contains('ORZO');
+    Planner.getPlanRowCell(notReversedName, 2, 'Mass', 1).contains('ORZO');
+    Planner.getPlanRowCell(notReversedName, 2, 'Mass', 2).contains('ORZO');
+  });
 
   it.skip(
     'When extras rows are added, there is no way of changing the individual option'
@@ -192,9 +206,6 @@ describe('The planner', () => {
   it.skip(
     'If a customer is paused on the day of the cook, then no meals are chosen for them'
   );
-
-  it.skip('Clicking the plus button adds a recipe to the row');
-
   it.skip('The pack plan button downloads a PDF');
 
   it.skip('The pack plan PDF has a page for each cook');

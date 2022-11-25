@@ -38,6 +38,8 @@ export const UpdatePlanRowDialog = (props: UpdatePlanRowDialogProps) => {
           </Paragraph>
           <FormField label="Option">
             <Select
+              a11yTitle="Plan Name"
+              name="plan"
               options={props.options}
               value={option}
               onChange={(event) => {
@@ -48,7 +50,7 @@ export const UpdatePlanRowDialog = (props: UpdatePlanRowDialogProps) => {
 
           <FormField label="Delivery">
             <Select
-              name="plan"
+              name="delivery"
               options={defaultDeliveryDays.map((item, index) =>
                 String(index + 1)
               )}

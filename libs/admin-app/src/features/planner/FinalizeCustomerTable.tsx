@@ -286,6 +286,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                             />
                             <Button
                               key={`${props.customerSelection.customer.username}-${deliveryIndex}-${planIndex}-add-button`}
+                              a11yTitle="Add Meal"
                               icon={<FormAdd />}
                               hoverIndicator={true}
                               onClick={() =>

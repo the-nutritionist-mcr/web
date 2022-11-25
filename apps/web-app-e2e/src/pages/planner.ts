@@ -1,3 +1,5 @@
+import { selectFromGrommetDrop } from '../support/cypress-helpers';
+
 export const Planner = {
   visit: () => {
     cy.visit('/admin/planner/');
@@ -66,6 +68,34 @@ export const Planner = {
       .parents('tr')
       .find('button[aria-label="Delete Row"]')
       .click();
+  },
+
+  addToPlan: (
+    customerName: string,
+    deliveryNumber: number,
+    planName: string
+  ) => {
+    cy.contains(customerName)
+      .parents('table')
+      .contains(`D${deliveryNumber} (${planName})`)
+      .parents('tr')
+      .find('button[aria-label="Add Meal"]')
+      .click();
+  },
+
+  addPlanRow: (
+    customerName: string,
+    deliveryNumber: number,
+    planName: string
+  ) => {
+    cy.contains(customerName)
+      .parents('table')
+      .contains('button', 'Add Plan Row')
+      .click();
+
+    selectFromGrommetDrop('plan', planName);
+    selectFromGrommetDrop('delivery', String(deliveryNumber));
+    cy.contains('button', 'save').click();
   },
 
   getPlanRowCell: (
