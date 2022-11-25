@@ -7,6 +7,7 @@ import { defineConfig } from 'cypress';
 import { E2E } from '@tnmw/constants';
 import { addSubscription } from './src/support/add-subscription';
 import { addTestCard } from './src/support/add-test-card';
+import { deleteFolder } from './src/support/delete-folder';
 
 export default defineConfig({
   viewportHeight: 1011,
@@ -34,6 +35,10 @@ export default defineConfig({
           price: number;
         }) => addSubscription(input.customerId, input.planId, input.price),
         deleteCognitoUser: deleteCognitoUser,
+        deleteFolder: (input: string) => {
+          deleteFolder(input);
+          return null;
+        },
         deleteChargebeeCustomer: deleteChargebeeCustomer,
         createChargebeeCustomer: createChargebeeCustomer,
         getPasswordFromWelcomeEmailThenDelete: () => {

@@ -3,12 +3,15 @@ import { Planner } from '../../src/pages/planner';
 import { Recipes } from '../../src/pages/recipes';
 import { Customers } from '../../src/pages/customers';
 import { EditCustomer } from '../../src/pages/edit-customer';
+// eslint-disable-next-line unicorn/prefer-node-protocol
+import path from 'path';
 
 const customerNameString = `${E2E.e2eCustomer.surname}, ${E2E.e2eCustomer.firstName}`;
 const notReversedName = `${E2E.e2eCustomer.firstName}`;
 
 describe('The planner', () => {
   before(() => {
+    cy.task('deleteFolder', Cypress.config('downloadsFolder'));
     cy.task('deleteChargebeeCustomer', E2E.e2eCustomer.username);
     cy.task('deleteCognitoUser', E2E.e2eCustomer.username);
   });
@@ -85,6 +88,13 @@ describe('The planner', () => {
       cy.contains('Plan generated Today by Cypress Tester');
       cy.contains('This plan has not been published to customers');
     });
+  });
+
+  it('Download buttons should be disabled initially', () => {
+    Planner.visit();
+    Planner.getDownloadLabelDataButton().should('be.disabled');
+    Planner.getCookPlanButton().should('be.disabled');
+    Planner.getPackPlanButton().should('be.disabled');
   });
 
   it('Customers with an active plan get the correct selection of meals generated for them on the planner', () => {
@@ -199,6 +209,47 @@ describe('The planner', () => {
     Planner.getPlanRowCell(notReversedName, 2, 'Mass', 2).contains('ORZO');
   });
 
+  it('Publishing the plan enables the download buttons', () => {
+    Planner.visit();
+    Planner.clickPublish();
+    Planner.getDownloadLabelDataButton().should('not.be.disabled');
+    Planner.getCookPlanButton().should('not.be.disabled');
+    Planner.getPackPlanButton().should('not.be.disabled');
+  });
+
+  it('The pack plan button downloads a PDF', () => {
+    Planner.visit();
+    Planner.clickPackPlanButton();
+    const downloadsFolder = Cypress.config('downloadsFolder');
+    const downloadedFilename = path.join(downloadsFolder, 'pack-plan.pdf');
+    cy.readFile(downloadedFilename, 'binary', { timeout: 15_000 }).should(
+      (buffer) => expect(buffer.length).to.be.gt(100)
+    );
+  });
+
+  it('The cook plan button downloads a PDF', () => {
+    Planner.visit();
+    Planner.clickCookPlanButton();
+
+    const date = new Date(Date.now());
+    const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
+    const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(date);
+    const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
+
+    const filename = `cook-plan-${da}-${mo}-${ye}.pdf`;
+
+    const downloadsFolder = Cypress.config('downloadsFolder');
+    const downloadedFilename = path.join(downloadsFolder, filename);
+
+    cy.readFile(downloadedFilename, 'binary', { timeout: 15_000 }).should(
+      (buffer) => expect(buffer.length).to.be.gt(100)
+    );
+  });
+
+  it.skip('The download label data button allows you to download a CSV file for each delivery', () => {
+    Planner.visit();
+  });
+
   it.skip(
     'When extras rows are added, there is no way of changing the individual option'
   );
@@ -206,7 +257,6 @@ describe('The planner', () => {
   it.skip(
     'If a customer is paused on the day of the cook, then no meals are chosen for them'
   );
-  it.skip('The pack plan button downloads a PDF');
 
   it.skip('The pack plan PDF has a page for each cook');
 

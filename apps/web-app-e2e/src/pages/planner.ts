@@ -5,6 +5,30 @@ export const Planner = {
     cy.visit('/admin/planner/');
   },
 
+  clickPublish: () => {
+    cy.contains('button', 'Publish').click();
+  },
+
+  getDownloadLabelDataButton: () => {
+    return cy.contains('button', 'Download Label Data');
+  },
+
+  getPackPlanButton: () => {
+    return cy.contains('button', 'Pack Plan');
+  },
+
+  getCookPlanButton: () => {
+    return cy.contains('button', 'Cook Plan');
+  },
+
+  clickPackPlanButton: () => {
+    return cy.contains('button', 'Pack Plan').click();
+  },
+
+  clickCookPlanButton: () => {
+    return cy.contains('button', 'Cook Plan').click();
+  },
+
   getCustomerRowTable: (name: string) => {
     return cy.contains(name).parents('table');
   },
