@@ -153,17 +153,13 @@ describe('The planner', () => {
       'BUDDHA BOWL'
     );
 
-    Planner.getPlanRow(notReversedName, 1, 'Equilibrium')
-      .parents('tr')
-      .find('td')
-      .eq(1)
-      .contains('BABY SPINACH');
+    Planner.getPlanRowCell(notReversedName, 1, 'Equilibrium', 1).contains(
+      'BABY SPINACH'
+    );
 
-    Planner.getPlanRow(notReversedName, 1, 'Equilibrium')
-      .parents('tr')
-      .find('td')
-      .eq(2)
-      .contains('BUDDHA BOWL');
+    Planner.getPlanRowCell(notReversedName, 1, 'Equilibrium', 1).contains(
+      'BUDDHA BOWL'
+    );
   });
 
   it('Clicking the small trash button removes individual recipe entries', () => {
