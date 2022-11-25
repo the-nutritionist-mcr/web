@@ -28,6 +28,22 @@ export const Planner = {
     cy.contains(newMeal).click();
   },
 
+  deletePlanEntry: (
+    customerName: string,
+    deliveryNumber: number,
+    planName: string,
+    deliveryIndex: number
+  ) => {
+    cy.contains(customerName)
+      .parents('table')
+      .contains(`D${deliveryNumber} (${planName})`)
+      .parents('tr')
+      .find('td')
+      .eq(deliveryIndex + 1)
+      .find('button[aria-label=Delete]')
+      .click();
+  },
+
   getPlanRow: (
     customerName: string,
     deliveryNumber: number,

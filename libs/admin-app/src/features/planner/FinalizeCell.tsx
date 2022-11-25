@@ -74,6 +74,7 @@ const FinalizeCell = (props: FinalizeCellProps) => {
         <Box direction="row" align="center">
           <Button
             hoverIndicator
+            a11yTitle="Delete"
             icon={<Trash size="small" />}
             onClick={props.onDelete}
           />

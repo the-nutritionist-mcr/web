@@ -5,6 +5,7 @@ import { Customers } from '../../src/pages/customers';
 import { EditCustomer } from '../../src/pages/edit-customer';
 
 const customerNameString = `${E2E.e2eCustomer.surname}, ${E2E.e2eCustomer.firstName}`;
+const notReversedName = `${E2E.e2eCustomer.firstName}`;
 
 describe('The planner', () => {
   before(() => {
@@ -89,51 +90,31 @@ describe('The planner', () => {
   it('Customers with an active plan get the correct selection of meals generated for them on the planner', () => {
     Planner.visit();
 
-    Planner.getPlanRow(
-      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
-      1,
-      'Equilibrium'
-    )
+    Planner.getPlanRow(notReversedName, 1, 'Equilibrium')
       .parents('tr')
       .find('td')
       .eq(1)
       .contains('TORN CHILLI CHICKEN');
 
-    Planner.getPlanRow(
-      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
-      1,
-      'Equilibrium'
-    )
+    Planner.getPlanRow(notReversedName, 1, 'Equilibrium')
       .parents('tr')
       .find('td')
       .eq(2)
       .contains('ANCHO CHILLI BARBECUE PULLED CHICKEN');
 
-    Planner.getPlanRow(
-      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
-      1,
-      'Equilibrium'
-    )
+    Planner.getPlanRow(notReversedName, 1, 'Equilibrium')
       .parents('tr')
       .find('td')
       .eq(3)
       .contains('ACHIOTE SLOW COOKED SHOULDER OF PORK');
 
-    Planner.getPlanRow(
-      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
-      2,
-      'Equilibrium'
-    )
+    Planner.getPlanRow(notReversedName, 2, 'Equilibrium')
       .parents('tr')
       .find('td')
       .eq(1)
       .contains('LEMON + HERB ROAST CHICKEN ORZO');
 
-    Planner.getPlanRow(
-      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
-      2,
-      'Equilibrium'
-    )
+    Planner.getPlanRow(notReversedName, 2, 'Equilibrium')
       .parents('tr')
       .find('td')
       .eq(2)
@@ -151,7 +132,20 @@ describe('The planner', () => {
     cy.contains('Ben Wainwright');
   });
 
-  it.skip('Clicking the small trash button removes individual recipe entries');
+  it('Clicking the small trash button removes individual recipe entries', () => {
+    Planner.visit();
+    Planner.deletePlanEntry(notReversedName, 1, 'Equilibrium', 1);
+    Planner.getPlanRow(notReversedName, 1, 'Equilibrium')
+      .parents('tr')
+      .find('td')
+      .eq(1)
+      .contains('CHILLI CHICKEN');
+    Planner.getPlanRow(notReversedName, 1, 'Equilibrium')
+      .parents('tr')
+      .find('td')
+      .eq(2)
+      .contains('SHOULDER OF PORK');
+  });
 
   it.skip('Clicking on the large trash button removes the row');
 
@@ -166,18 +160,14 @@ describe('The planner', () => {
   it('For meal plan rows, you can click on the individual recipe entry to change to a different one', () => {
     Planner.visit();
     Planner.changePlanEntry(
-      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
+      notReversedName,
       1,
       'Equilibrium',
       'TORN CHILLI CHICKEN',
       'BUDDHA BOWL'
     );
 
-    Planner.getPlanRow(
-      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
-      1,
-      'Equilibrium'
-    )
+    Planner.getPlanRow(notReversedName, 1, 'Equilibrium')
       .parents('tr')
       .find('td')
       .eq(1)
@@ -187,7 +177,7 @@ describe('The planner', () => {
   it('When you change individual plan items, it does not override previous changes', () => {
     Planner.visit();
     Planner.changePlanEntry(
-      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
+      notReversedName,
       1,
       'Equilibrium',
       'BUDDHA BOWL',
@@ -195,28 +185,20 @@ describe('The planner', () => {
     );
 
     Planner.changePlanEntry(
-      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
+      notReversedName,
       1,
       'Equilibrium',
       'ANCHO CHILLI',
       'BUDDHA BOWL'
     );
 
-    Planner.getPlanRow(
-      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
-      1,
-      'Equilibrium'
-    )
+    Planner.getPlanRow(notReversedName, 1, 'Equilibrium')
       .parents('tr')
       .find('td')
       .eq(1)
       .contains('BABY SPINACH');
 
-    Planner.getPlanRow(
-      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
-      1,
-      'Equilibrium'
-    )
+    Planner.getPlanRow(notReversedName, 1, 'Equilibrium')
       .parents('tr')
       .find('td')
       .eq(2)
