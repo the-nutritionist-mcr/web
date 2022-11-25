@@ -10,7 +10,6 @@ import {
 import { cell } from './finalise.css';
 import { getRealRecipe } from '@tnmw/meal-planning';
 import { useEffect, useState } from 'react';
-import React from 'react';
 
 interface FinalizeCellProps {
   index: number;
@@ -24,7 +23,7 @@ interface FinalizeCellProps {
   recipes: Recipe[];
 }
 
-const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
+const FinalizeCell = (props: FinalizeCellProps) => {
   const renderEntry = (recipe: Recipe) => {
     const realRecipe = getRealRecipe(recipe, props.customer, props.recipes);
     const isAlternate = realRecipe.name !== realRecipe.originalName;
@@ -105,23 +104,5 @@ const UnMemoizedFinalizeCell = (props: FinalizeCellProps) => {
     </ThemeContext.Extend>
   );
 };
-
-const FinalizeCell = React.memo(
-  UnMemoizedFinalizeCell,
-  (oldProps, newProps) => {
-    const oldItem = oldProps.selectedItem;
-    const newItem = newProps.selectedItem;
-
-    if (oldItem.isExtra !== newItem.isExtra) {
-      return false;
-    }
-
-    if (!oldItem.isExtra && !newItem.isExtra) {
-      return oldItem.recipe.id === newItem.recipe.id;
-    }
-
-    return true;
-  }
-);
 
 export default FinalizeCell;

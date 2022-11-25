@@ -89,7 +89,7 @@ export const Loading = (props: LoadingProps) => {
       const isLoadingReally =
         Object.values(loadingHandles).includes('Started') &&
         Object.values(loadingHandles).length > 0;
-      console.log(`${key}: ${state}`);
+      console.debug(`${key}: ${state}`);
 
       setIsLoading(isLoadingReally);
     };
@@ -101,14 +101,13 @@ export const Loading = (props: LoadingProps) => {
       const isLoadingReally =
         Object.values(loadingHandles).includes('Started') &&
         Object.values(loadingHandles).length > 0;
-      console.log(JSON.stringify(loadingHandles, null, 2));
+      console.debug(JSON.stringify(loadingHandles, null, 2));
 
       setIsLoading(isLoadingReally);
     };
 
     // eslint-disable-next-line unicorn/consistent-function-scoping
     const getLoadingState = (): LoadingState | undefined => {
-      console.log();
       return loadingHandles[key];
     };
 
@@ -122,7 +121,6 @@ export const Loading = (props: LoadingProps) => {
   }, []);
 
   const getLoadingState = (id: string): LoadingState | undefined => {
-    console.log(JSON.stringify(loadingHandles, null, 2));
     return loadingHandles[id];
   };
 

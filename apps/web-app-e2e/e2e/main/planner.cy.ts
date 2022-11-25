@@ -2,7 +2,7 @@ import { E2E } from '@tnmw/constants';
 import { Planner } from '../../src/pages/planner';
 import { Recipes } from '../../src/pages/recipes';
 import { Customers } from '../../src/pages/customers';
-import { EditCustomer } from 'apps/web-app-e2e/src/pages/edit-customer';
+import { EditCustomer } from '../../src/pages/edit-customer';
 
 const customerNameString = `${E2E.e2eCustomer.surname}, ${E2E.e2eCustomer.firstName}`;
 
@@ -60,7 +60,7 @@ describe('The planner', () => {
     cy.clock(Date.UTC(2022, 10, 8)).then((clock) => {
       Recipes.clickPickMeals(1);
       Recipes.addRecipeToSelectedCook('PAD THAI');
-      Recipes.addRecipeToSelectedCook('7 SPICE CHIX');
+      Recipes.addRecipeToSelectedCook('ANCHO BBQ CHIX');
       Recipes.addRecipeToSelectedCook('ACHIOTE PORK');
       Recipes.addRecipeToSelectedCook('RICOTTA');
       Recipes.addRecipeToSelectedCook('BUDDHA BOWL');
@@ -107,7 +107,7 @@ describe('The planner', () => {
       .parents('tr')
       .find('td')
       .eq(2)
-      .contains('7 SPICE ROAST CHICKEN');
+      .contains('ANCHO CHILLI BARBECUE PULLED CHICKEN');
 
     Planner.getPlanRow(
       `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
@@ -163,9 +163,65 @@ describe('The planner', () => {
     'When extras rows are added, there is no way of changing the individual option'
   );
 
-  it.skip(
-    'For meal plan rows, you can click on the individual recipe entry to change to a different one'
-  );
+  it('For meal plan rows, you can click on the individual recipe entry to change to a different one', () => {
+    Planner.visit();
+    Planner.changePlanEntry(
+      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
+      1,
+      'Equilibrium',
+      'TORN CHILLI CHICKEN',
+      'BUDDHA BOWL'
+    );
+
+    Planner.getPlanRow(
+      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
+      1,
+      'Equilibrium'
+    )
+      .parents('tr')
+      .find('td')
+      .eq(1)
+      .contains('BUDDHA BOWL');
+  });
+
+  it('When you change individual plan items, it does not override previous changes', () => {
+    Planner.visit();
+    Planner.changePlanEntry(
+      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
+      1,
+      'Equilibrium',
+      'BUDDHA BOWL',
+      'BABY SPINACH'
+    );
+
+    Planner.changePlanEntry(
+      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
+      1,
+      'Equilibrium',
+      'ANCHO CHILLI',
+      'BUDDHA BOWL'
+    );
+
+    Planner.getPlanRow(
+      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
+      1,
+      'Equilibrium'
+    )
+      .parents('tr')
+      .find('td')
+      .eq(1)
+      .contains('BABY SPINACH');
+
+    Planner.getPlanRow(
+      `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`,
+      1,
+      'Equilibrium'
+    )
+      .parents('tr')
+      .find('td')
+      .eq(2)
+      .contains('BUDDHA BOWL');
+  });
 
   it.skip('Clicking the plus button adds a recipe to the row');
 
