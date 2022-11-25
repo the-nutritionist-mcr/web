@@ -54,4 +54,19 @@ export const Planner = {
       .parents('table')
       .contains(`D${deliveryNumber} (${planName})`);
   },
+
+  getPlanRowCell: (
+    customerName: string,
+    deliveryNumber: number,
+    planName: string,
+    rowNumber: number
+  ) => {
+    return cy
+      .contains(customerName)
+      .parents('table')
+      .contains(`D${deliveryNumber} (${planName})`)
+      .parents('tr')
+      .find('td')
+      .eq(rowNumber + 1);
+  },
 };

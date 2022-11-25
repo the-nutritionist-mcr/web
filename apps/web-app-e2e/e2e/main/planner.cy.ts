@@ -90,40 +90,26 @@ describe('The planner', () => {
   it('Customers with an active plan get the correct selection of meals generated for them on the planner', () => {
     Planner.visit();
 
-    Planner.getPlanRow(notReversedName, 1, 'Equilibrium')
-      .parents('tr')
-      .find('td')
-      .eq(1)
-      .contains('TORN CHILLI CHICKEN');
+    Planner.getPlanRowCell(notReversedName, 1, 'Equilibrium', 0).contains(
+      'TORN CHILLI CHICKEN'
+    );
 
-    Planner.getPlanRow(notReversedName, 1, 'Equilibrium')
-      .parents('tr')
-      .find('td')
-      .eq(2)
-      .contains('ANCHO CHILLI BARBECUE PULLED CHICKEN');
+    Planner.getPlanRowCell(notReversedName, 1, 'Equilibrium', 1).contains(
+      'ANCHO CHILLI BARBECUE PULLED CHICKEN'
+    );
 
-    Planner.getPlanRow(notReversedName, 1, 'Equilibrium')
-      .parents('tr')
-      .find('td')
-      .eq(3)
-      .contains('ACHIOTE SLOW COOKED SHOULDER OF PORK');
+    Planner.getPlanRowCell(notReversedName, 1, 'Equilibrium', 2).contains(
+      'ACHIOTE SLOW COOKED SHOULDER OF PORK'
+    );
 
-    Planner.getPlanRow(notReversedName, 2, 'Equilibrium')
-      .parents('tr')
-      .find('td')
-      .eq(1)
-      .contains('LEMON + HERB ROAST CHICKEN ORZO');
+    Planner.getPlanRowCell(notReversedName, 2, 'Equilibrium', 0).contains(
+      'LEMON + HERB ROAST CHICKEN ORZO'
+    );
 
-    Planner.getPlanRow(notReversedName, 2, 'Equilibrium')
-      .parents('tr')
-      .find('td')
-      .eq(2)
-      .contains('SLOW COOKED BEEF BURRITO BOWL');
+    Planner.getPlanRowCell(notReversedName, 2, 'Equilibrium', 1).contains(
+      'SLOW COOKED BEEF BURRITO BOWL'
+    );
   });
-
-  it.skip(
-    'If a customer is paused on the day of the cook, then no meals are chosen for them'
-  );
 
   it('Clicking on the customers name takes you to the edit customer page', () => {
     Planner.visit();
@@ -131,31 +117,6 @@ describe('The planner', () => {
     EditCustomer.getHeader();
     cy.contains('Ben Wainwright');
   });
-
-  it('Clicking the small trash button removes individual recipe entries', () => {
-    Planner.visit();
-    Planner.deletePlanEntry(notReversedName, 1, 'Equilibrium', 1);
-    Planner.getPlanRow(notReversedName, 1, 'Equilibrium')
-      .parents('tr')
-      .find('td')
-      .eq(1)
-      .contains('CHILLI CHICKEN');
-    Planner.getPlanRow(notReversedName, 1, 'Equilibrium')
-      .parents('tr')
-      .find('td')
-      .eq(2)
-      .contains('SHOULDER OF PORK');
-  });
-
-  it.skip('Clicking on the large trash button removes the row');
-
-  it.skip(
-    'The add plan row button provides a mechanism to add a row to a customers plan'
-  );
-
-  it.skip(
-    'When extras rows are added, there is no way of changing the individual option'
-  );
 
   it('For meal plan rows, you can click on the individual recipe entry to change to a different one', () => {
     Planner.visit();
@@ -204,6 +165,33 @@ describe('The planner', () => {
       .eq(2)
       .contains('BUDDHA BOWL');
   });
+
+  it('Clicking the small trash button removes individual recipe entries', () => {
+    Planner.visit();
+    Planner.deletePlanEntry(notReversedName, 1, 'Equilibrium', 1);
+
+    Planner.getPlanRowCell(notReversedName, 1, 'Equilibrium', 0).contains(
+      'GRATIN'
+    );
+
+    Planner.getPlanRowCell(notReversedName, 1, 'Equilibrium', 1).contains(
+      'SHOULDER OF PORK'
+    );
+  });
+
+  it.skip('Clicking on the large trash button removes the row');
+
+  it.skip(
+    'The add plan row button provides a mechanism to add a row to a customers plan'
+  );
+
+  it.skip(
+    'When extras rows are added, there is no way of changing the individual option'
+  );
+
+  it.skip(
+    'If a customer is paused on the day of the cook, then no meals are chosen for them'
+  );
 
   it.skip('Clicking the plus button adds a recipe to the row');
 
