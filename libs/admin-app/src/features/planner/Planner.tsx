@@ -80,7 +80,7 @@ const Planner: React.FC<PlannerProps> = (props) => {
               swappedPlan,
               recipes
             );
-            downloadPdf(plan, 'pack-plan.pdf');
+            downloadPdf(plan, generateDatestampedFilename('pack-plan', 'pdf'));
           }}
         />
         <Button

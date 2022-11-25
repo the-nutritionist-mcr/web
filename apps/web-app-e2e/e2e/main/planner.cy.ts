@@ -9,6 +9,15 @@ import path from 'path';
 const customerNameString = `${E2E.e2eCustomer.surname}, ${E2E.e2eCustomer.firstName}`;
 const notReversedName = `${E2E.e2eCustomer.firstName}`;
 
+const todaysDatestamp = () => {
+  const date = new Date(Date.now());
+  const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
+  const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(date);
+  const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
+
+  return `${da}-${mo}-${ye}`;
+};
+
 describe('The planner', () => {
   before(() => {
     cy.task('deleteFolder', Cypress.config('downloadsFolder'));
@@ -221,7 +230,8 @@ describe('The planner', () => {
     Planner.visit();
     Planner.clickPackPlanButton();
     const downloadsFolder = Cypress.config('downloadsFolder');
-    const downloadedFilename = path.join(downloadsFolder, 'pack-plan.pdf');
+    const filename = `pack-plan-${todaysDatestamp()}.pdf`;
+    const downloadedFilename = path.join(downloadsFolder, filename);
     cy.readFile(downloadedFilename, 'binary', { timeout: 15_000 }).should(
       (buffer) => expect(buffer.length).to.be.gt(100)
     );
@@ -231,13 +241,7 @@ describe('The planner', () => {
     Planner.visit();
     Planner.clickCookPlanButton();
 
-    const date = new Date(Date.now());
-    const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
-    const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(date);
-    const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
-
-    const filename = `cook-plan-${da}-${mo}-${ye}.pdf`;
-
+    const filename = `cook-plan-${todaysDatestamp()}.pdf`;
     const downloadsFolder = Cypress.config('downloadsFolder');
     const downloadedFilename = path.join(downloadsFolder, filename);
 
