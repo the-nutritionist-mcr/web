@@ -312,11 +312,7 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                       ? [
                           ...row,
                           Array.from({
-                            length:
-                              1 +
-                              props.columns -
-                              row.length -
-                              (batchIndex === 0 ? 1 : 0),
+                            length: props.columns - row.length,
                           }).map(() => <td className={cell}></td>),
                         ]
                       : row}
