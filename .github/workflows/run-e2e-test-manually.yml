@@ -10,7 +10,6 @@ jobs:
   cypress-run:
     name: E2E Tests
     runs-on: ubuntu-latest
-    needs: [deploy-for-cypress]
     container: cypress/browsers:node12.18.3-chrome87-ff82
     steps:
       - name: Checkout
