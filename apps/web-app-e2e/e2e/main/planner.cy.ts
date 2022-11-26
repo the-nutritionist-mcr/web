@@ -315,13 +315,20 @@ describe('The planner', () => {
     });
   });
 
+  it('When extras rows are added, there is no way of changing the individual option', () => {
+    Planner.visit();
+    Planner.addPlanRow(notReversedName, 2, 'Breakfast');
+    Planner.addToPlan(notReversedName, 2, 'Breakfast');
+    Planner.addToPlan(notReversedName, 2, 'Breakfast');
+    Planner.addToPlan(notReversedName, 2, 'Breakfast');
+    Planner.getPlanRowCell(notReversedName, 2, 'Breakfast', 2)
+      .find('input')
+      .should('not.exist');
+  });
+
   it.skip('The download label data button allows you to download a CSV file for each delivery', () => {
     Planner.visit();
   });
-
-  it.skip(
-    'When extras rows are added, there is no way of changing the individual option'
-  );
 
   it.skip(
     'If a customer is paused on the day of the cook, then no meals are chosen for them'
