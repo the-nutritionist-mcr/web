@@ -22,5 +22,5 @@ runs:
     - name: Save dist folder
       uses: actions/upload-artifact@v3
       with:
-        name: dist-${{ input.env-name }}
+        name: dist-${{ inputs.env-name }}
         path: dist
