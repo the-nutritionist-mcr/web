@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'planner',
   preset: '../../jest.preset.js',
