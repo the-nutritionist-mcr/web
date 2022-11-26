@@ -111,11 +111,15 @@ describe('The customers page', { scrollBehavior: false }, () => {
     Customers.visit();
     Customers.clickEditLink(customerNameString);
     EditCustomer.getHeader();
-    EditCustomer.getPlansTableRows().should('have.length', 2);
-    EditCustomer.getPlansTableRows().eq(1).find('th').contains('Equilibrium');
-    EditCustomer.getPlansTableRows().eq(1).find('td').eq(0).contains('5');
-    EditCustomer.getPlansTableRows().eq(1).find('td').eq(1).contains('1');
-    EditCustomer.getPlansTableRows().eq(1).find('td').eq(2).contains('5');
+    EditCustomer.getPlansSection()
+      .children('div')
+      .children()
+      .should('have.length', 1);
+    EditCustomer.getPlansSection().contains('header', 'Equilibrium');
+    EditCustomer.getPlanTableRows(0).eq(0).find('td').contains('5');
+    EditCustomer.getPlanTableRows(0).eq(1).find('td').contains('5');
+    EditCustomer.getPlanTableRows(0).eq(2).find('td').contains('1');
+    EditCustomer.getPlanTableRows(0).eq(3).find('td').contains('No pause');
   });
 
   it('Deleting a customer on ChargeBee results in a customer vanishing from the list', () => {

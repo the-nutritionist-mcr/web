@@ -10,6 +10,21 @@ export const EditCustomer = {
     return cy.contains('table', 'Plan');
   },
 
+  getPlanTableRows: (index: number) => {
+    return cy
+      .contains('h3', 'Plans')
+      .parent('div')
+      .children('div')
+      .children()
+      .eq(index)
+      .find('table')
+      .find('tr');
+  },
+
+  getPlansSection: () => {
+    return cy.contains('h3', 'Plans').parent('div');
+  },
+
   getPlansTableRows: () => {
     return cy.contains('table', 'Plan').find('tr');
   },
