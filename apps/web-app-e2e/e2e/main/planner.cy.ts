@@ -3,8 +3,12 @@ import { Planner } from '../../src/pages/planner';
 import { Recipes } from '../../src/pages/recipes';
 import { Customers } from '../../src/pages/customers';
 import { EditCustomer } from '../../src/pages/edit-customer';
+import { PageTablesOutput } from 'pdf-table-extractor';
 // eslint-disable-next-line unicorn/prefer-node-protocol
-import path from 'path';
+import {
+  getDownloadedFilename,
+  readDownloadedFile,
+} from '../../src/support/cypress-helpers';
 
 const customerNameString = `${E2E.e2eCustomer.surname}, ${E2E.e2eCustomer.firstName}`;
 const notReversedName = `${E2E.e2eCustomer.firstName}`;
@@ -182,7 +186,6 @@ describe('The planner', () => {
   it('Clicking the small trash button removes individual recipe entries', () => {
     Planner.visit();
     Planner.deletePlanEntry(notReversedName, 1, 'Equilibrium', 1);
-    cy.contains('successfully');
 
     Planner.getPlanRowCell(notReversedName, 1, 'Equilibrium', 0).contains(
       'GRATIN'
@@ -196,14 +199,12 @@ describe('The planner', () => {
   it('Clicking on the large trash button removes the row', () => {
     Planner.visit();
     Planner.deleteDeliveryRow(notReversedName, 2, 'Equilibrium');
-    cy.contains('successfully');
     Planner.getPlanRow(notReversedName, 2, 'Equilibrium').should('not.exist');
   });
 
   it('The add plan row button provides a mechanism to add a row to a customers plan', () => {
     Planner.visit();
     Planner.addPlanRow(notReversedName, 2, 'Mass');
-    cy.contains('successfully');
     Planner.getPlanRow(notReversedName, 2, 'Mass').should('exist');
   });
 
@@ -212,7 +213,6 @@ describe('The planner', () => {
     Planner.addToPlan(notReversedName, 2, 'Mass');
     Planner.addToPlan(notReversedName, 2, 'Mass');
     Planner.addToPlan(notReversedName, 2, 'Mass');
-    cy.contains('successfully');
     Planner.getPlanRowCell(notReversedName, 2, 'Mass', 0).contains('ORZO');
     Planner.getPlanRowCell(notReversedName, 2, 'Mass', 1).contains('ORZO');
     Planner.getPlanRowCell(notReversedName, 2, 'Mass', 2).contains('ORZO');
@@ -229,11 +229,9 @@ describe('The planner', () => {
   it('The pack plan button downloads a PDF', () => {
     Planner.visit();
     Planner.clickPackPlanButton();
-    const downloadsFolder = Cypress.config('downloadsFolder');
     const filename = `pack-plan-${todaysDatestamp()}.pdf`;
-    const downloadedFilename = path.join(downloadsFolder, filename);
-    cy.readFile(downloadedFilename, 'binary', { timeout: 15_000 }).should(
-      (buffer) => expect(buffer.length).to.be.gt(100)
+    readDownloadedFile(filename).should((buffer) =>
+      expect(buffer.length).to.be.gt(100)
     );
   });
 
@@ -242,12 +240,79 @@ describe('The planner', () => {
     Planner.clickCookPlanButton();
 
     const filename = `cook-plan-${todaysDatestamp()}.pdf`;
-    const downloadsFolder = Cypress.config('downloadsFolder');
-    const downloadedFilename = path.join(downloadsFolder, filename);
-
-    cy.readFile(downloadedFilename, 'binary', { timeout: 15_000 }).should(
-      (buffer) => expect(buffer.length).to.be.gt(100)
+    readDownloadedFile(filename).should((buffer) =>
+      expect(buffer.length).to.be.gt(100)
     );
+  });
+
+  it.only('The cook plan contains three pages', () => {
+    Planner.visit();
+    Planner.clickCookPlanButton();
+
+    const stampedName = `cook-plan-${todaysDatestamp()}.pdf`;
+
+    readDownloadedFile(stampedName).should((buffer) =>
+      expect(buffer.length).to.be.gt(100)
+    );
+
+    const filename = getDownloadedFilename(stampedName);
+
+    cy.task('extractTable', filename).should((table: PageTablesOutput) => {
+      expect(table.numPages).to.eq(3);
+    });
+  });
+
+  it.only('The cook plan contains a row for each of the recipes in the first delivery', () => {
+    const stampedName = `cook-plan-${todaysDatestamp()}.pdf`;
+
+    readDownloadedFile(stampedName).should((buffer) =>
+      expect(buffer.length).to.be.gt(100)
+    );
+
+    const filename = getDownloadedFilename(stampedName);
+
+    const normalise = (line: string) => line.split(`\n`).join('').trim();
+
+    cy.task('extractTable', filename).should((table: PageTablesOutput) => {
+      const cookOne = table.pageTables.find((page) => page.page === 2);
+      expect(normalise(cookOne.tables[0][0])).to.eq(
+        `TORN CHILLI CHICKEN ‘PAD THAI’ (x 5)`
+      );
+
+      expect(normalise(cookOne.tables[1][0])).to.eq(
+        `ANCHO CHILLI BARBECUE PULLED CHICKEN (x 5)`
+      );
+
+      expect(normalise(cookOne.tables[2][0])).to.eq(
+        `ACHIOTE SLOW COOKED SHOULDER OF PORK (x 6)`
+      );
+
+      expect(normalise(cookOne.tables[3][0])).to.eq(`Breakfast (x 3)`);
+
+      expect(normalise(cookOne.tables[4][0])).to.eq(
+        `BABY SPINACH + RICOTTA GRATIN (x 1)`
+      );
+
+      const cookTwo = table.pageTables.find((page) => page.page === 3);
+
+      expect(normalise(cookTwo.tables[0][0])).to.eq(
+        `LEMON + HERB ROAST CHICKEN ORZO (x 7)`
+      );
+
+      expect(normalise(cookTwo.tables[1][0])).to.eq(
+        `SLOW COOKED BEEF BURRITO BOWL (x 5)`
+      );
+
+      expect(normalise(cookTwo.tables[2][0])).to.eq(
+        `TERIYAKI GLAZED SALMON (x 5)`
+      );
+
+      expect(normalise(cookTwo.tables[3][0])).to.eq(
+        `ANCHO CHILLI TORN CHICKEN  (x 3)`
+      );
+
+      expect(normalise(cookTwo.tables[4][0])).to.eq(`Breakfast (x 4)`);
+    });
   });
 
   it.skip('The download label data button allows you to download a CSV file for each delivery', () => {

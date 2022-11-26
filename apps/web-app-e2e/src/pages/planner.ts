@@ -7,6 +7,7 @@ export const Planner = {
 
   clickPublish: () => {
     cy.contains('button', 'Publish').click();
+    cy.contains('successfully');
   },
 
   getDownloadLabelDataButton: () => {
@@ -52,6 +53,7 @@ export const Planner = {
       .click();
 
     cy.contains(newMeal).click();
+    cy.contains('successfully');
   },
 
   deletePlanEntry: (
@@ -68,6 +70,8 @@ export const Planner = {
       .eq(deliveryIndex + 1)
       .find('button[aria-label=Delete]')
       .click();
+
+    cy.contains('successfully');
   },
 
   getPlanRow: (
@@ -92,6 +96,8 @@ export const Planner = {
       .parents('tr')
       .find('button[aria-label="Delete Row"]')
       .click();
+
+    cy.contains('successfully');
   },
 
   addToPlan: (
@@ -105,6 +111,8 @@ export const Planner = {
       .parents('tr')
       .find('button[aria-label="Add Meal"]')
       .click();
+
+    cy.contains('successfully');
   },
 
   addPlanRow: (
@@ -120,6 +128,8 @@ export const Planner = {
     selectFromGrommetDrop('plan', planName);
     selectFromGrommetDrop('delivery', String(deliveryNumber));
     cy.contains('button', 'save').click();
+
+    cy.contains('successfully');
   },
 
   getPlanRowCell: (

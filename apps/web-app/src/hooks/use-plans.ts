@@ -44,6 +44,7 @@ export const usePlan = () => {
         }),
       };
       await swrFetcher('plan/publish', args);
+      toast.success('Plan successfully published!');
     } catch (error) {
       console.log(error);
     }

@@ -3,11 +3,16 @@ import { deleteChargebeeCustomer } from './src/support/delete-chargebee-customer
 import { deleteCognitoUser } from './src/support/delete-cognito-user';
 import { pollForPasswordFromMostRecentWelcomeEmailThenDelete } from './src/support/google/get-password-from-welcome-email';
 import { deleteAllCypressWelcomeEmails } from './src/support/google/delete-all-cypress-welcome-emails';
+import pdfToHtml from 'pdf2html';
+import extractor from 'pdf-table-extractor';
+
 import { defineConfig } from 'cypress';
 import { E2E } from '@tnmw/constants';
 import { addSubscription } from './src/support/add-subscription';
 import { addTestCard } from './src/support/add-test-card';
 import { deleteFolder } from './src/support/delete-folder';
+import { promisify } from 'node:util';
+import { readPdf } from './src/support/read-pdf';
 
 export default defineConfig({
   viewportHeight: 1011,
@@ -27,6 +32,15 @@ export default defineConfig({
       on('task', {
         deleteWelcomeEmails: () => {
           return deleteAllCypressWelcomeEmails(E2E.nonExistingUser.email);
+        },
+        pdfToHtml: promisify(pdfToHtml.html),
+        extractTable: (fileName: string) => {
+          return new Promise((accept, reject) => {
+            extractor(fileName, accept, reject);
+          });
+        },
+        readPdf: (filename: string) => {
+          return readPdf(filename);
         },
         addTestCard: (id: string) => addTestCard(id),
         addSubscription: (input: {
