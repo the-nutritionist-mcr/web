@@ -1,5 +1,9 @@
 import { style } from '@vanilla-extract/css';
 
+export const windowContainer = style({
+  width: '100%',
+});
+
 export const plannerInfoUl = style({
   margin: '1rem 0 3rem',
 });

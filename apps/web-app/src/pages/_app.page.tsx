@@ -83,9 +83,7 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
                       }}
                     />
                     <Layout>
-                      <ErrorBoundary FallbackComponent={ErrorFallback}>
-                        <Component {...pageProps} />
-                      </ErrorBoundary>
+                      <Component {...pageProps} />
                     </Layout>
                   </ThemeProvider>
                 </NavigationContext.Provider>

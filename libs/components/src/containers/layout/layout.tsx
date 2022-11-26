@@ -10,6 +10,7 @@ const MainContainer = styled('main')`
   flex-direction: column;
   padding: 0 0 1rem;
   min-height: 80vh;
+  width: 100%;
 `;
 
 interface LayoutProps {

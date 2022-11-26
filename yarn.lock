@@ -31251,6 +31251,11 @@ vinyl@1.X, vinyl@^1.0.0:
     clone-stats "^0.0.1"
     replace-ext "0.0.1"
 
+virtual-window@^1.0.20:
+  version "1.0.20"
+  resolved "https://registry.npmjs.org/virtual-window/-/virtual-window-1.0.20.tgz#b0ca653a5afc63e987e308c6121afeda085ea188"
+  integrity sha512-/1BLIcz1gwiDv1woF23/kvADubNsOxrCJvsqhA2dl8F519YEF8wrSxXLWZymkKNzsII3jDWHFBw5RSzoxuKX4g==
+
 vm-browserify@1.1.2, vm-browserify@^1.0.1:
   version "1.1.2"
   resolved "https://registry.npmjs.org/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"

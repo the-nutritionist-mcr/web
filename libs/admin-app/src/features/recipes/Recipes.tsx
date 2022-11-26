@@ -10,6 +10,7 @@ import {
   TableRow,
   Text,
 } from 'grommet';
+import { VirtualWindow } from 'virtual-window';
 import { table } from './recipes.css';
 
 import EditRecipesDialog from './EditRecipesDialog';
@@ -41,6 +42,33 @@ const Recipes: React.FC<RecipesProps> = (props) => {
   );
 
   const showCheckBoxes = selectedDelivery !== -1 && planningMode;
+
+  /* eslint-disable fp/no-mutating-methods */
+  const recipesRows = recipes
+    .slice()
+    .sort((a, b) => (a.name < b.name ? 1 : -1))
+    .reverse()
+    .map((recipe) => (
+      /* eslint-enable fp/no-mutating-methods */
+      <RecipesRow
+        recipes={props.recipes}
+        exclusions={props.customisations}
+        update={props.update}
+        remove={props.remove}
+        plannerSelection={plannerSelection}
+        selectedDeliveryDay={selectedDelivery}
+        onSelect={(newPlannerSelection) =>
+          setPlannerSelection(newPlannerSelection)
+        }
+        showCheckBoxes={showCheckBoxes}
+        plannerMode={planningMode}
+        key={recipe.id}
+        recipe={recipe}
+        onChange={(): void => {
+          // Noop
+        }}
+      />
+    ));
 
   return (
     <React.Fragment>
@@ -125,36 +153,7 @@ const Recipes: React.FC<RecipesProps> = (props) => {
                 )}
               </TableRow>
             </TableHeader>
-            <TableBody>
-              {
-                /* eslint-disable fp/no-mutating-methods */
-                recipes
-                  .slice()
-                  .sort((a, b) => (a.name < b.name ? 1 : -1))
-                  .reverse()
-                  .map((recipe) => (
-                    /* eslint-enable fp/no-mutating-methods */
-                    <RecipesRow
-                      recipes={props.recipes}
-                      exclusions={props.customisations}
-                      update={props.update}
-                      remove={props.remove}
-                      plannerSelection={plannerSelection}
-                      selectedDeliveryDay={selectedDelivery}
-                      onSelect={(newPlannerSelection) =>
-                        setPlannerSelection(newPlannerSelection)
-                      }
-                      showCheckBoxes={showCheckBoxes}
-                      plannerMode={planningMode}
-                      key={recipe.id}
-                      recipe={recipe}
-                      onChange={(): void => {
-                        // Noop
-                      }}
-                    />
-                  ))
-              }
-            </TableBody>
+            <TableBody>{recipesRows}</TableBody>
           </Table>
           {planningMode && (
             <PlanningModeSummary

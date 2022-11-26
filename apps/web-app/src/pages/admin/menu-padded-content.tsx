@@ -1,5 +1,8 @@
 import styled from '@emotion/styled';
 
 export const MenuPaddedContent = styled('div')(({ theme }) => {
-  return {};
+  return {
+    width: '100%',
+    maxWidth: 1460,
+  };
 });
