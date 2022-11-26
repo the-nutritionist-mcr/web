@@ -89,7 +89,7 @@ jobs:
           env-name: test
 
   build-next-app-for-prod:
-    name: Build NextJS app (Test)
+    name: Build NextJS app (Production)
     runs-on: ubuntu-latest
 
     steps:
