@@ -13,4 +13,18 @@ export const EditCustomer = {
   getPlansTableRows: () => {
     return cy.contains('table', 'Plan').find('tr');
   },
+
+  resetPassword: (forceChange: boolean, password?: string) => {
+    cy.contains('button', 'Reset Password').click();
+    if (password) {
+      cy.get('input[name="password"]').clear().type(password);
+    }
+
+    if (forceChange) {
+      cy.get('input[name="force"]').click();
+    }
+
+    cy.contains('button', 'Ok').click();
+    cy.contains('successfully');
+  },
 };

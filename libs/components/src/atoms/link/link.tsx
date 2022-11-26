@@ -12,6 +12,7 @@ export const Link = (props: LinkProps) => {
   useEffect(() => {
     prefetch?.(props.path);
   }, [prefetch, props.path]);
+
   return (
     <a
       className={props.className}

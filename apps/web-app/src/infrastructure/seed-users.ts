@@ -21,6 +21,26 @@ export const SEED_USERS: SeedUser[] = [
     state: 'Complete',
     groups: ['admin'],
   },
+
+  {
+    otherAttributes: [
+      {
+        Name: 'given_name',
+        Value: 'Cypress',
+      },
+
+      {
+        Name: 'family_name',
+        Value: 'Tester',
+      },
+    ],
+
+    username: E2E.adminUserTwo.username,
+    password: E2E.adminUserTwo.password,
+    email: E2E.adminUserTwo.email,
+    state: 'Complete',
+    groups: ['admin'],
+  },
   {
     otherAttributes: [
       {

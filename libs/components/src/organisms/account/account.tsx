@@ -51,31 +51,54 @@ export const Account: FC<AccountProps> = ({
   return (
     <div>
       <FormSection heading="Your Details" showQuestionMarkIcon>
-        <Input label="First Name" value={userDetails.firstName} disabled />
-        <Input label="Last Name" value={userDetails.surname} disabled />
+        <Input
+          name="firstName"
+          label="First Name"
+          value={userDetails.firstName}
+          disabled
+        />
+        <Input
+          name="surname"
+          label="Last Name"
+          value={userDetails.surname}
+          disabled
+        />
       </FormSection>
       <FormSection showQuestionMarkIcon>
-        <Input label="Email" value={userDetails.email} disabled />
+        <Input name="email" label="Email" value={userDetails.email} disabled />
         <Input
           label="Contact Number"
+          name="phoneNumber"
           value={userDetails.phoneNumber}
           disabled
         />
       </FormSection>
       <FormSection showQuestionMarkIcon>
         <Input
+          name="addressLine1"
           label="Address Line 1"
           value={userDetails.addressLine1}
           disabled
         />
         <Input
+          name="addressLine2"
           label="Address Line 2"
           value={userDetails.addressLine2}
           disabled
         />
-        <Input label="Country" value={userDetails.country} disabled />
-        <Input label="Postcode" value={userDetails.postcode} disabled />
-        <Input label="City" value={userDetails.city} disabled />
+        <Input
+          name="country"
+          label="Country"
+          value={userDetails.country}
+          disabled
+        />
+        <Input
+          name="postcode"
+          label="Postcode"
+          value={userDetails.postcode}
+          disabled
+        />
+        <Input name="city" label="City" value={userDetails.city} disabled />
       </FormSection>
       {(plans?.length ?? 0) > 0 && (
         <FormSection heading="Your Plan" showQuestionMarkIcon>

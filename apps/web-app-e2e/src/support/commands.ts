@@ -24,6 +24,7 @@ declare global {
   namespace Cypress {
     interface Chainable {
       loginByCognitoApi(arg: { user: string; password: string }): Chainable;
+      logoutByCognitoApi(): Chainable;
       seed(): void;
       addStubs(): void;
     }

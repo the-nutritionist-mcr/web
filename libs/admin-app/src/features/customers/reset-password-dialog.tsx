@@ -46,10 +46,12 @@ export const ResetPasswordDialog = (props: ResetPasswordDialogProps) => {
             <TextInput
               value={password}
               onChange={(event) => setPassword(event.target.value)}
+              name="password"
             />
           </FormField>
           <CheckBox
             checked={forceChange}
+            name="force"
             label="Force Change Password?"
             onChange={(event) => setForcechange(event.target.checked)}
           />

@@ -34,7 +34,6 @@ describe('The planner', () => {
       user: E2E.adminUserOne.email,
       password: E2E.adminUserOne.password,
     });
-    // cy.clock(Date.UTC(2022, 13, 1));
   });
 
   it('You can generate a plan on the recipes page that is then available on the planner', () => {

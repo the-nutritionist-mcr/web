@@ -10,8 +10,6 @@ describe('The customers page', { scrollBehavior: false }, () => {
   });
 
   beforeEach(() => {
-    Customers.visit();
-
     cy.loginByCognitoApi({
       user: E2E.adminUserOne.email,
       password: E2E.adminUserOne.password,

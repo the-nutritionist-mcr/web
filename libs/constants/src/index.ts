@@ -13,23 +13,29 @@ export const E2E = {
   nonExistingUser: {
     username: 'test-chargebee-cypress-user-2',
     email: 'ben+e2etestinguser@thenutritionistmcr.com',
-    password: 'the-cypress-test-password',
+    password: 'password',
   },
   adminUserOne: {
     username: 'cypress-test-user',
-    password: 'Cypress-test-password-1',
+    password: 'password',
     email: 'cypress@test.com',
+  },
+  adminUserTwo: {
+    username: 'cypress-test-user-2',
+    password: 'password',
+    email: 'cypress2@test.com',
   },
   normalUserOne: {
     username: 'cypress-test-user-two',
-    password: 'Cypress-test-password-2',
+    password: 'password',
     email: 'cypress2@test.com',
   },
   e2eCustomer: {
     username: 'e2e-customer',
     postcode: 'M1 2AB',
-    password: 'test-customer-password',
+    password: 'password',
     email: 'ben+testcustomeragain@thenutritionistmcr.com',
+    country: 'England',
     firstName: 'E2E',
     phoneNumber: '07812345678',
     surname: 'Customer',
@@ -45,7 +51,7 @@ export const E2E = {
   testCustomer: {
     username: 'test-customer-1',
     postcode: 'M1 2AB',
-    password: 'test-customer-password',
+    password: 'password',
     email: 'ben+testcustomer@thenutritionistmcr.com',
     firstName: 'Ben (test customer)',
     phoneNumber: '07812345678',
