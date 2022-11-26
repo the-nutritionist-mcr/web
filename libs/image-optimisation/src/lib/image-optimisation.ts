@@ -1,4 +1,8 @@
-import { Distribution } from 'aws-cdk-lib/aws-cloudfront';
+import {
+  CachePolicy,
+  CacheQueryStringBehavior,
+  Distribution,
+} from 'aws-cdk-lib/aws-cloudfront';
 import { RestApiOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import path from 'node:path';
@@ -57,7 +61,11 @@ export class ImageOptimisation extends Construct {
       },
     });
 
-    props.distribution.addBehavior('/images/*', new RestApiOrigin(api));
+    props.distribution.addBehavior('/images/*', new RestApiOrigin(api), {
+      cachePolicy: new CachePolicy(this, id('cache-policy'), {
+        queryStringBehavior: CacheQueryStringBehavior.all(),
+      }),
+    });
 
     const images = api.root.addResource('images');
     const getImage = images.addResource('{file}');
@@ -73,6 +81,7 @@ export class ImageOptimisation extends Construct {
       sources: [Source.asset(props.assetsPath)],
       destinationBucket: bucket,
       distribution: props.distribution,
+      destinationKeyPrefix: `raw/`,
       distributionPaths: ['/images/*'],
     });
   }

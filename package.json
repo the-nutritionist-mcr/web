@@ -28,6 +28,7 @@
     "@aws-sdk/client-secrets-manager": "3.141.0",
     "@aws-sdk/client-ses": "3.141.0",
     "@aws-sdk/lib-dynamodb": "3.141.0",
+    "@aws-sdk/lib-storage": "^3.216.0",
     "@axe-core/react": "4.4.3",
     "@cloudcomponents/cdk-dynamodb-seeder": "^2.1.0",
     "@commitlint/cli": "^17.0.3",
