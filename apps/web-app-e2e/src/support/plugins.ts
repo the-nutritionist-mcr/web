@@ -31,13 +31,11 @@ export interface Customer {
 const plugins = (on, config) => {
   on('task', {
     async createChargebeeCustomer(customer: Customer) {
-      console.log('Creating Chargebee Customer');
+      console.log(`Creating Chargebee Customer: ${customer.username}`);
       chargebee.configure({
         site: CHARGEBEE_SITES.test,
         api_key: process.env[`NX_${ENV.varNames.ChargeBeeToken}`],
       });
-
-      console.log(customer);
 
       await new Promise((accept, reject) => {
         chargebee.customer

@@ -10958,6 +10958,11 @@
   resolved "https://registry.npmjs.org/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
 
+"@trumbitta/nx-plugin-unused-deps@^1.12.1":
+  version "1.12.1"
+  resolved "https://registry.npmjs.org/@trumbitta/nx-plugin-unused-deps/-/nx-plugin-unused-deps-1.12.1.tgz#d3b0f00f8daf8d0c20bf03cf546e137504d5cbfd"
+  integrity sha512-TmSp/rl0wvJ95CEQNxe/lBTYua9G4oCYVKcHdnTbhKbJWMWUuL6H3Tc5GiP9GMav9fb/BJUK33mfXlR+zjxHrQ==
+
 "@trysound/sax@0.2.0":
   version "0.2.0"
   resolved "https://registry.npmjs.org/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"

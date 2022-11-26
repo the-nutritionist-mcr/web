@@ -40,6 +40,7 @@ export const createChargebeeCustomer = async (customer: Customer) => {
           first_name: customer.firstName,
           last_name: customer.surname,
           line1: customer.addressLine1,
+          line2: customer.addressLine2,
           city: customer.city,
           zip: customer.postcode,
           country: 'GB',

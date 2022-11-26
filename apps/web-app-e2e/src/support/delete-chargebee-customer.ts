@@ -43,11 +43,7 @@ export const deleteChargebeeCustomer = async (id: string) => {
     // eslint-disable-next-line fp/no-loops
     do {
       customer = await getCustomer(id);
-      console.log('Waiting for customer be deleted...');
-      console.log(customer);
-      console.log('After log');
     } while (customer && customer?.deleted === false);
-    console.log('Exited loop');
 
     return null;
   } catch (error) {
