@@ -5,4 +5,5 @@ export type StackConfig = {
   DomainName: string;
   ApiDomainName: string;
   AwsRegion: string;
+  ChargebeeUrl: string;
 };

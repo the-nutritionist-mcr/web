@@ -98,6 +98,7 @@ const main = async () => {
       hostedZone: backend.zone,
       poolClient: backend.client,
       userPool: backend.pool,
+      chargebeeUrl: `https://${config.chargebeeSite}.chargebee.com`,
     });
 
     if (config.seed) {

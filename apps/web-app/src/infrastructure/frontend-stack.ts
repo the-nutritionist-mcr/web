@@ -1,4 +1,3 @@
-import { CognitoSeeder } from '@tnmw/seed-cognito';
 import { StackConfig } from '@tnmw/types';
 import { getDomainName } from '@tnmw/utils';
 import { Stack, StackProps } from 'aws-cdk-lib';
@@ -15,12 +14,12 @@ import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 import { Construct } from 'constructs';
 import path from 'node:path';
 import { getResourceName } from './get-resource-name';
-import { SEED_USERS } from './seed-users';
 
 interface FrontendStackProps {
   stackProps: StackProps;
   envName: string;
   transient: boolean;
+  chargebeeUrl: string;
   hostedZone: IHostedZone;
   poolClient: IUserPoolClient;
   userPool: IUserPool;
@@ -97,6 +96,7 @@ export class FrontendStack extends Stack {
       ApiDomainName: apiDomainName,
       DomainName: domainName,
       AwsRegion: Stack.of(this).region,
+      ChargebeeUrl: props.chargebeeUrl,
     };
 
     new BucketDeployment(this, 'dot-next-bucket-deployment', {
