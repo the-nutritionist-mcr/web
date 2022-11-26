@@ -38,6 +38,7 @@ export const E2E = {
     country: 'England',
     firstName: 'E2E',
     phoneNumber: '07812345678',
+    phoneNumberFull: '+447812345678',
     surname: 'Customer',
     deliveryDay1: 'Monday',
     deliveryDay2: 'Wednesday',

@@ -97,7 +97,7 @@ describe('The login page', { scrollBehavior: false }, () => {
 
     AccountPage.getPhonenumberField().should(
       'have.value',
-      E2E.e2eCustomer.phoneNumber
+      E2E.e2eCustomer.phoneNumberFull
     );
 
     AccountPage.getAddress1Field().should(
