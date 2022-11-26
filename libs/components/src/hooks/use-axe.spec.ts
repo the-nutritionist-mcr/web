@@ -2,7 +2,7 @@ import axe from '@axe-core/react';
 import { renderHook } from '@testing-library/react';
 import React from 'react';
 import ReactDom from 'react-dom';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import { useAxe } from './use-axe';
 
 jest.mock('react-dom');

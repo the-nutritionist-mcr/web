@@ -1,4 +1,5 @@
 {
+  "name": "pdf",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/pdf/src",
   "projectType": "library",
@@ -12,7 +13,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/pdf"],
+      "outputs": ["{workspaceRoot}/coverage/libs/pdf"],
       "options": {
         "jestConfig": "libs/pdf/jest.config.ts",
         "passWithNoTests": true

@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default {
   displayName: 'components',
   preset: '../../jest.preset.js',
@@ -7,7 +8,7 @@ export default {
   ],
   transform: {
     '^.+\\.(svg|css|png)$': 'jest-transform-stub',
-    '^.+\\.[tj]sx?$': 'babel-jest',
+    '^.+\\.[tj]sx?$': ['babel-jest', { presets: ['@nrwl/react/babel'] }],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../coverage/libs/components',

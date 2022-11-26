@@ -1,7 +1,7 @@
 import * as database from '../backend/database';
 import { resetAllWhenMocks, when } from 'jest-when';
 import clearTable from './clear-table';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 
 jest.mock('../backend/database');
 

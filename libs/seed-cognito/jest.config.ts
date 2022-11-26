@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default {
   displayName: 'seed-cognito',
   preset: '../../jest.preset.js',

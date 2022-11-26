@@ -1,6 +1,6 @@
 import { render, screen } from '../../test-support';
 import LoginBox from './login-box';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import { LoginState, useLoginBox } from './use-login-box';
 
 jest.mock('./use-login-box');

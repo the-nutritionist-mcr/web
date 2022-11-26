@@ -1,6 +1,6 @@
 import { DaysOfWeek } from '../types';
 import { CookDay } from './cook-day';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import { mock } from 'jest-mock-extended';
 import { MealsToCook } from './meals-to-cook';
 import { ImmutableDate } from '../utils/immutable-date';

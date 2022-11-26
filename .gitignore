@@ -40,3 +40,6 @@ Thumbs.db
 node_modules
 .local.env
 apps/web-app-e2e/cypress/downloads
+
+# Next.js
+.next

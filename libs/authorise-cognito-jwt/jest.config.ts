@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default {
   displayName: 'authorise-cognito-jwt',
   preset: '../../jest.preset.js',

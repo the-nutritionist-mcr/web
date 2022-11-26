@@ -1,7 +1,7 @@
 import { mock } from 'jest-mock-extended';
 import * as jsonwebtoken from 'jsonwebtoken';
 import { Secret } from 'jsonwebtoken';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import { PublicKeyMeta } from './public-key-meta';
 import { verify } from './verify';
 

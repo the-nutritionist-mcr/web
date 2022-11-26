@@ -533,7 +533,7 @@ describe('the webhook handler', () => {
 
     const now = new Date('2020-01-01').getTime();
 
-    jest.useFakeTimers().setSystemTime(now);
+    jest.useFakeTimers();
 
     const input: AdminUpdateUserAttributesCommandInput = {
       UserPoolId: 'test-pool-id',
@@ -815,7 +815,7 @@ describe('the webhook handler', () => {
 
     const now = new Date('2020-01-01').getTime();
 
-    jest.useFakeTimers().setSystemTime(now);
+    jest.useFakeTimers();
 
     const input: AdminUpdateUserAttributesCommandInput = {
       UserPoolId: 'test-pool-id',
@@ -992,7 +992,7 @@ describe('the webhook handler', () => {
 
     const now = new Date('2020-01-01').getTime();
 
-    jest.useFakeTimers().setSystemTime(now);
+    jest.useFakeTimers();
 
     const mockEvent = mock<APIGatewayProxyEventV2>();
 
@@ -1178,7 +1178,7 @@ describe('the webhook handler', () => {
 
     const now = new Date('2020-01-01').getTime();
 
-    jest.useFakeTimers().setSystemTime(now);
+    jest.useFakeTimers();
 
     const mockEvent = mock<APIGatewayProxyEventV2>();
 
@@ -1385,7 +1385,7 @@ describe('the webhook handler', () => {
 
     const now = new Date('2020-01-01').getTime();
 
-    jest.useFakeTimers().setSystemTime(now);
+    jest.useFakeTimers();
 
     const response = await handler(mockEvent, mock(), mock());
 

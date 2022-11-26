@@ -4,7 +4,7 @@ import clearDatabaseTables, {
 } from './clear-database';
 import clearTable from './clear-table';
 import execa from 'execa';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 
 jest.mock('./clear-table');
 

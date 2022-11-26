@@ -2,7 +2,7 @@ import Header from './header';
 import MobileHeader from './mobile-header';
 import DesktopHeader from './desktop-header';
 import { useBreakpoints } from '../../hooks';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import { shallow } from 'enzyme';
 
 jest.mock('../../hooks');

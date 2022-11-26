@@ -1,6 +1,6 @@
 import { render, screen } from '../../test-support';
 import RegisterBox from './register-box';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import { RegisterState, useRegisterBox } from './use-register-box';
 
 jest.mock('./use-register-box');

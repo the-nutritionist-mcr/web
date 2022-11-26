@@ -4,7 +4,7 @@ export default {
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
-    '^.+\\.[tj]s$': 'babel-jest',
+    '^.+\\.[tj]s$': ['babel-jest', { presets: ['@nrwl/react/babel'] }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/apps/connect-gmail-to-cypress',

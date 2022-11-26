@@ -32,7 +32,7 @@ export default {
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
   transform: {
     '^.+\\.[t]sx?$': 'ts-jest',
-    '^.+.js$': 'babel-jest',
+    '^.+.js$': ['babel-jest', { presets: ['@nrwl/react/babel'] }],
   },
   // transformIgnorePatterns: [
   //   `/node_modules/(?!${es6Packages.join('|')})`,

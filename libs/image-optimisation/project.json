@@ -1,4 +1,5 @@
 {
+  "name": "image-optimisation",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/image-optimisation/src",
   "projectType": "library",
@@ -12,7 +13,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/image-optimisation"],
+      "outputs": ["{workspaceRoot}/coverage/libs/image-optimisation"],
       "options": {
         "jestConfig": "libs/image-optimisation/jest.config.ts",
         "passWithNoTests": true

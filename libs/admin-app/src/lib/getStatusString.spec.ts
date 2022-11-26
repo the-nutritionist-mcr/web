@@ -3,7 +3,7 @@ import moment, { Moment } from 'moment';
 import getStatusString from './getStatusString';
 import isActive from './isActive';
 import { mock } from 'jest-mock-extended';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 
 jest.mock('./isActive');
 jest.mock('moment');

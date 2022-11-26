@@ -21,5 +21,6 @@
     "**/*.jsx",
     "next-env.d.ts",
     "src/global.d.ts"
-  ]
+  ],
+  "exclude": ["jest.config.ts"]
 }

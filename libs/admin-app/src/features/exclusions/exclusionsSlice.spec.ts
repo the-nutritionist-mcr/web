@@ -3,7 +3,7 @@ import { resetAllWhenMocks, when } from 'jest-when';
 import { fetchExclusions } from './exclusionsSlice';
 
 import { listExclusionsQuery } from './graphql';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 
 jest.mock('@aws-amplify/api');
 

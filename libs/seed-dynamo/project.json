@@ -1,4 +1,5 @@
 {
+  "name": "seed-dynamo",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/seed-dynamo/src",
   "projectType": "library",
@@ -12,7 +13,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/seed-dynamo"],
+      "outputs": ["{workspaceRoot}/coverage/libs/seed-dynamo"],
       "options": {
         "jestConfig": "libs/seed-dynamo/jest.config.ts",
         "passWithNoTests": true

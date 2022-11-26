@@ -1,18 +1,18 @@
-import moment, { Moment } from "moment";
-import Customer from "../../domain/Customer";
-import MockDate from "mockdate";
-import PauseDialog from "./pause-dialog";
-import React from "react";
+import moment, { Moment } from 'moment';
+import Customer from '../../domain/Customer';
+import MockDate from 'mockdate';
+import PauseDialog from './pause-dialog';
+import React from 'react';
 
-import { act } from "react-dom/test-utils";
-import { mock } from "jest-mock-extended";
-import { mocked } from "ts-jest/utils";
-import { mount } from "enzyme";
+import { act } from 'react-dom/test-utils';
+import { mock } from 'jest-mock-extended';
+import { mocked } from 'jest-mock';
+import { mount } from 'enzyme';
 
-jest.mock("react-redux");
-jest.mock("moment");
+jest.mock('react-redux');
+jest.mock('moment');
 
-describe("The pause dialog", () => {
+describe('The pause dialog', () => {
   const oldDateNow = Date.now.bind(global.Date);
   beforeEach(() => {
     // 17th November 2020
@@ -27,9 +27,9 @@ describe("The pause dialog", () => {
     MockDate.reset();
   });
 
-  it("Allows you to select dates in the future and changes the friendly text when you do", () => {
+  it('Allows you to select dates in the future and changes the friendly text when you do', () => {
     const mockMoment = mock<Moment>();
-    mockMoment.calendar.mockReturnValue("The Date");
+    mockMoment.calendar.mockReturnValue('The Date');
     mocked(moment, true).mockReturnValue(mockMoment);
 
     const customer = mock<Customer>();
@@ -47,24 +47,24 @@ describe("The pause dialog", () => {
 
     const twentySecondOfMonthButton = wrapper
       .find("[aria-label='Start Pause']")
-      .findWhere((node) => node.text() === "22")
-      .find("div")
-      .find("button");
+      .findWhere((node) => node.text() === '22')
+      .find('div')
+      .find('button');
 
     act(() => {
-      twentySecondOfMonthButton.prop("onClick")?.({} as React.MouseEvent);
+      twentySecondOfMonthButton.prop('onClick')?.({} as React.MouseEvent);
     });
 
     const selectedStartDate = wrapper.find(
       "[aria-label='Selected start date']"
     );
 
-    expect(selectedStartDate.at(0).text()).toEqual("from The Date");
+    expect(selectedStartDate.at(0).text()).toEqual('from The Date');
   });
 
   it("Doesn't allow you to select dates in the past for end pause", () => {
     const mockMoment = mock<Moment>();
-    mockMoment.calendar.mockReturnValue("The Date");
+    mockMoment.calendar.mockReturnValue('The Date');
     mocked(moment, true).mockReturnValue(mockMoment);
 
     const customer = mock<Customer>();
@@ -82,16 +82,16 @@ describe("The pause dialog", () => {
 
     const firstOfMonthButton = wrapper
       .find("[aria-label='End Pause']")
-      .findWhere((node) => node.text() === "1")
-      .find("div")
-      .find("button");
+      .findWhere((node) => node.text() === '1')
+      .find('div')
+      .find('button');
 
-    expect(firstOfMonthButton.at(0).prop("disabled")).toEqual(true);
+    expect(firstOfMonthButton.at(0).prop('disabled')).toEqual(true);
   });
 
   it("Doesn't allow you to select end pause dates before start pause dates", () => {
     const mockMoment = mock<Moment>();
-    mockMoment.calendar.mockReturnValue("The Date");
+    mockMoment.calendar.mockReturnValue('The Date');
     mocked(moment, true).mockReturnValue(mockMoment);
 
     const customer = mock<Customer>();
@@ -109,12 +109,12 @@ describe("The pause dialog", () => {
 
     const twentyEightOfMonthStartPauseButton = wrapper
       .find("[aria-label='Start Pause']")
-      .findWhere((node) => node.text() === "28")
-      .find("div")
-      .find("button");
+      .findWhere((node) => node.text() === '28')
+      .find('div')
+      .find('button');
 
     act(() => {
-      twentyEightOfMonthStartPauseButton.prop("onClick")?.(
+      twentyEightOfMonthStartPauseButton.prop('onClick')?.(
         {} as React.MouseEvent
       );
     });
@@ -123,10 +123,10 @@ describe("The pause dialog", () => {
 
     const twentySecondOfMonthEndPauseButton = wrapper
       .find("[aria-label='End Pause']")
-      .findWhere((node) => node.text() === "22")
-      .find("div")
-      .find("button");
-    expect(twentySecondOfMonthEndPauseButton.at(0).prop("disabled")).toEqual(
+      .findWhere((node) => node.text() === '22')
+      .find('div')
+      .find('button');
+    expect(twentySecondOfMonthEndPauseButton.at(0).prop('disabled')).toEqual(
       true
     );
   });

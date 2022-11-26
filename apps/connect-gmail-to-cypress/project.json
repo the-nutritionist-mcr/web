@@ -1,16 +1,19 @@
 {
+  "name": "connect-gmail-to-cypress",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/connect-gmail-to-cypress/src",
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/connect-gmail-to-cypress",
         "main": "apps/connect-gmail-to-cypress/src/main.ts",
         "tsConfig": "apps/connect-gmail-to-cypress/tsconfig.app.json",
-        "assets": ["apps/connect-gmail-to-cypress/src/assets"]
+        "assets": ["apps/connect-gmail-to-cypress/src/assets"],
+        "target": "node",
+        "compiler": "tsc"
       },
       "configurations": {
         "production": {
@@ -41,7 +44,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/connect-gmail-to-cypress"],
+      "outputs": ["{workspaceRoot}/coverage/apps/connect-gmail-to-cypress"],
       "options": {
         "jestConfig": "apps/connect-gmail-to-cypress/jest.config.ts",
         "passWithNoTests": true

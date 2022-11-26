@@ -1,16 +1,19 @@
 {
+  "name": "read-gmail",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/read-gmail/src",
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/read-gmail",
         "main": "apps/read-gmail/src/main.ts",
         "tsConfig": "apps/read-gmail/tsconfig.app.json",
-        "assets": ["apps/read-gmail/src/assets"]
+        "assets": ["apps/read-gmail/src/assets"],
+        "target": "node",
+        "compiler": "tsc"
       },
       "configurations": {
         "production": {
@@ -41,7 +44,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/read-gmail"],
+      "outputs": ["{workspaceRoot}/coverage/apps/read-gmail"],
       "options": {
         "jestConfig": "apps/read-gmail/jest.config.ts",
         "passWithNoTests": true

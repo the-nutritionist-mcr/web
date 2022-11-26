@@ -1,10 +1,11 @@
 {
+  "name": "web-app",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/web-app",
   "projectType": "application",
   "targets": {
     "deploy": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "apps/web-app"
       },
@@ -24,7 +25,7 @@
       }
     },
     "deploy:backend": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "apps/web-app"
       },
@@ -44,21 +45,21 @@
       }
     },
     "deploy:users": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "apps/web-app",
         "command": "cdk deploy tnm-web-credentials-stack --require-approval never"
       }
     },
     "deploy-users:old": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "cdk deploy tnm-web-users-stack --require-approval never",
         "cwd": "apps/web-app"
       }
     },
     "deploy:backend:watch": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "apps/web-app"
       },
@@ -78,7 +79,7 @@
       }
     },
     "deploy:frontend:watch": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "apps/web-app"
       },
@@ -97,9 +98,8 @@
         }
       }
     },
-
     "deploy:seed": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "cwd": "apps/web-app"
       },
@@ -109,9 +109,8 @@
         }
       }
     },
-
     "synth-cypress": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "cdk synth tnm-web-cypress-stack --require-approval never --outputs-file public/app-config.json",
         "cwd": "apps/web-app"
@@ -123,7 +122,7 @@
     },
     "build": {
       "executor": "@nrwl/next:build",
-      "outputs": ["{options.outputPath}", "apps/web-app/out_lambda"],
+      "outputs": ["{options.outputPath}", "{projectRoot}/out_lambda"],
       "defaultConfiguration": "production",
       "options": {
         "root": "apps/web-app",
@@ -131,7 +130,9 @@
       },
       "configurations": {
         "production": {},
-        "development": {}
+        "development": {
+          "outputPath": "apps/web-app"
+        }
       }
     },
     "serve": {
@@ -161,7 +162,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/web-app"],
+      "outputs": ["{workspaceRoot}/coverage/apps/web-app"],
       "options": {
         "jestConfig": "apps/web-app/jest.config.ts",
         "passWithNoTests": true

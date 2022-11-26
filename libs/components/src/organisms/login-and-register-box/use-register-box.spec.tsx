@@ -4,7 +4,7 @@ import { RegisterFormData } from './types/srp-data';
 import { RegisterResponse } from './types/register';
 import { mock } from 'jest-mock-extended';
 import { when } from 'jest-when';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import { RegisterState, useRegisterBox } from './use-register-box';
 
 afterEach(() => jest.clearAllMocks());
