@@ -21,6 +21,8 @@ jobs:
       - run: env
       - run: ls -al
       - run: pwd
+      - run: ls ~ -al
+      - run: echo $HOME
 
       - name: Run E2E tests
         run: yarn nx run web-app-e2e:e2e --baseUrl=https://cypress.app.thenutritionistmcr.com --skipServe=true --skip-nx-cache
