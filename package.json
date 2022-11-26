@@ -163,7 +163,6 @@
     "use-deep-compare-effect": "1.8.1",
     "use-mutation": "2.2.1",
     "uuid": "8.3.2",
-    "virtual-window": "^1.0.20",
     "webp-loader": "^0.6.0",
     "webpack-bundle-analyzer": "^4.5.0"
   },
