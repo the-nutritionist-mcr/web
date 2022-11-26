@@ -155,6 +155,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - run: env
+
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
 
