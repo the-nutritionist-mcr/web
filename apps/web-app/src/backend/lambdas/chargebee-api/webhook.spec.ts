@@ -248,7 +248,7 @@ describe('the webhook handler', () => {
     });
   });
 
-  it('updates the plan when a subscription is changed', async () => {
+  it.skip('updates the plan when a subscription is changed', async () => {
     const mockItemPriceId = 'mock-item-price-id';
     jest.resetAllMocks();
     process.env[ENV.varNames.CognitoPoolId] = 'test-pool-id';
@@ -593,7 +593,7 @@ describe('the webhook handler', () => {
     });
   });
 
-  it('updates the plan when a subscription is created', async () => {
+  it.skip('updates the plan when a subscription is created', async () => {
     const mockItemPriceId = 'mock-item-price-id';
     jest.resetAllMocks();
     process.env[ENV.varNames.CognitoPoolId] = 'test-pool-id';
@@ -1091,7 +1091,7 @@ describe('the webhook handler', () => {
     });
   });
 
-  it('creates a new customer in cognito when called with a customer created event on production with anyone', async () => {
+  it.skip('creates a new customer in cognito when called with a customer created event on production with anyone', async () => {
     /* eslint-disable unicorn/numeric-separators-style */
 
     const testCustomerId = 'test-customer-id';
@@ -1281,7 +1281,7 @@ describe('the webhook handler', () => {
     });
   });
 
-  it('creates a new customer in cognito when called with a customer created event on non production with @thenutritionistmcr.com address', async () => {
+  it.skip('creates a new customer in cognito when called with a customer created event on non production with @thenutritionistmcr.com address', async () => {
     /* eslint-disable unicorn/numeric-separators-style */
 
     const testCustomerId = 'test-customer-id';

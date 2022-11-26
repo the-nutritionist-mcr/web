@@ -45,41 +45,43 @@ const nextConfig = {
   },
 };
 
-module.exports = withPlugins(
-  [withVanillaExtract, withNx, withOptimizedImages, withPWA],
+module.exports = withNx(
+  withVanillaExtract(
+    withOptimizedImages(
+      withPWA({
+        outputFileTracing: false,
+        env: {
+          APP_VERSION: process.env.NX_APP_VERSION,
+        },
+        trailingSlash: true,
+        pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
+        generateBuildId: async () => {
+          return process.env.NX_APP_VERSION;
+        },
+        ...nextConfig,
 
-  {
-    outputFileTracing: false,
-    env: {
-      APP_VERSION: process.env.NX_APP_VERSION,
-    },
-    trailingSlash: true,
-    pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
-    generateBuildId: async () => {
-      return process.env.NX_APP_VERSION;
-    },
-    ...nextConfig,
-
-    typescript: {
-      // !! WARN !!
-      // Dangerously allow production builds to successfully complete even if
-      // your project has type errors.
-      // !! WARN !!
-      ignoreBuildErrors: true,
-    },
-    productionBrowserSourceMaps: true,
-    // webpack: (config, nextConfig) => {
-    //   // eslint-disable-next-line fp/no-mutating-methods
-    //   config.plugins.push(new GenerateAwsLambda(nextConfig));
-    //   if (!nextConfig.isServer) {
-    //     // eslint-disable-next-line fp/no-mutation
-    //     config.resolve.fallback.fs = false;
-    //   }
-    //   return config;
-    // },
-    images: {
-      disableStaticImages: true,
-      loader: 'custom',
-    },
-  }
+        typescript: {
+          // !! WARN !!
+          // Dangerously allow production builds to successfully complete even if
+          // your project has type errors.
+          // !! WARN !!
+          ignoreBuildErrors: true,
+        },
+        productionBrowserSourceMaps: true,
+        // webpack: (config, nextConfig) => {
+        //   // eslint-disable-next-line fp/no-mutating-methods
+        //   config.plugins.push(new GenerateAwsLambda(nextConfig));
+        //   if (!nextConfig.isServer) {
+        //     // eslint-disable-next-line fp/no-mutation
+        //     config.resolve.fallback.fs = false;
+        //   }
+        //   return config;
+        // },
+        images: {
+          disableStaticImages: true,
+          loader: 'custom',
+        },
+      })
+    )
+  )
 );
