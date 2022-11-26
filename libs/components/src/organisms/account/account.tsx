@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import { StandardPlan } from '@tnmw/types';
 import { Button, Input } from '../../atoms';
@@ -42,7 +42,12 @@ export const Account: FC<AccountProps> = ({
     ?.filter((plan) => plan.totalMeals > 0)
     .filter((plan) => plan.subscriptionStatus === 'active');
 
-  const { navigate } = useContext(NavigationContext);
+  const { navigate, prefetch } = useContext(NavigationContext);
+
+  useEffect(() => {
+    prefetch?.('/choose-meals/');
+  }, [prefetch]);
+
   return (
     <div>
       <FormSection heading="Your Details" showQuestionMarkIcon>
