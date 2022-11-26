@@ -27,6 +27,9 @@ const navigator = {
     // eslint-disable-next-line fp/no-mutating-methods
     await Router.push(path);
   },
+  prefetch: (path: string) => {
+    Router.prefetch(path);
+  },
 };
 
 const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {

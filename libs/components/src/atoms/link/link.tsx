@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { NavigationContext } from '@tnmw/utils';
 
 interface LinkProps {
@@ -8,7 +8,10 @@ interface LinkProps {
 }
 
 export const Link = (props: LinkProps) => {
-  const { navigate } = useContext(NavigationContext);
+  const { navigate, prefetch } = useContext(NavigationContext);
+  useEffect(() => {
+    prefetch?.(props.path);
+  }, [prefetch, props.path]);
   return (
     <a
       className={props.className}
