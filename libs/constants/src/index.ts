@@ -35,7 +35,7 @@ export const E2E = {
     postcode: 'M1 2AB',
     password: 'password',
     email: 'ben+testcustomeragain@thenutritionistmcr.com',
-    country: 'England',
+    country: 'GB',
     firstName: 'E2E',
     phoneNumber: '07812345678',
     phoneNumberFull: '+447812345678',
