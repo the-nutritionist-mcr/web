@@ -3,6 +3,9 @@ name: Manually run Cypress tests
 on:
   workflow_dispatch:
 
+env:
+  CYPRESS_CACHE_FOLDER: /__w/web/.cache/Cypress
+
 jobs:
   cypress-run:
     name: E2E Tests
@@ -12,12 +15,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - run: env
-
-      - run: ls -al
-
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
+
+      - run: env
+      - run: ls -al
+      - run: pwd
 
       - name: Run E2E tests
         run: yarn nx run web-app-e2e:e2e --baseUrl=https://cypress.app.thenutritionistmcr.com --skipServe=true --skip-nx-cache
