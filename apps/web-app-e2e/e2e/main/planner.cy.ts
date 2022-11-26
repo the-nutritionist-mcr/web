@@ -296,7 +296,7 @@ describe('The planner', () => {
       const cookTwo = table.pageTables.find((page) => page.page === 3);
 
       expect(normalise(cookTwo.tables[0][0])).to.eq(
-        `LEMON + HERB ROAST CHICKEN ORZO (x 7)`
+        `LEMON + HERB ROAST CHICKEN ORZO (x 8)`
       );
 
       expect(normalise(cookTwo.tables[1][0])).to.eq(
