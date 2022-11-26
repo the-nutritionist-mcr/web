@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'cloudflore-dns-linker',
   preset: '../../jest.preset.js',
