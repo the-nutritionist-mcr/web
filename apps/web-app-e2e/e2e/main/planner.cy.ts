@@ -245,7 +245,7 @@ describe('The planner', () => {
     );
   });
 
-  it.only('The cook plan contains three pages', () => {
+  it('The cook plan contains three pages', () => {
     Planner.visit();
     Planner.clickCookPlanButton();
 
@@ -262,7 +262,7 @@ describe('The planner', () => {
     });
   });
 
-  it.only('The cook plan contains a row for each of the recipes in the first delivery', () => {
+  it('The cook plan contains a row for each of the recipes in the first delivery', () => {
     const stampedName = `cook-plan-${todaysDatestamp()}.pdf`;
 
     readDownloadedFile(stampedName).should((buffer) =>
