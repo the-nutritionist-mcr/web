@@ -4,5 +4,6 @@
   "ClientId": "gefuduan1mfq083dc2gr8b3",
   "ApiDomainName": "api.cypress.app.thenutritionistmcr.com",
   "DomainName": "cypress.app.thenutritionistmcr.com",
-  "AwsRegion": "eu-west-2"
+  "AwsRegion": "eu-west-2",
+  "ChargebeeUrl": "https://thenutritionist-test.chargebee.com"
 }

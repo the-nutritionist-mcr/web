@@ -7,7 +7,10 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  TableHeader,
+  Card,
+  CardHeader,
+  CardBody,
+  Tag,
 } from 'grommet';
 import React, { FC } from 'react';
 import moment from 'moment';
@@ -17,14 +20,25 @@ import {
   extrasLabels,
   defaultDeliveryDays,
   itemFamilies,
-  calendarFormat,
 } from '@tnmw/config';
 import { convertPlanFormat } from '@tnmw/utils';
 import { debounce } from 'lodash';
 import PlanPanel from './PlanPanel';
 
 import { OkCancelDialog, TagInput } from '../../components';
-import { BackendCustomer, Exclusion, UpdateCustomerBody } from '@tnmw/types';
+import {
+  BackendCustomer,
+  Exclusion,
+  SubscriptionStatus,
+  UpdateCustomerBody,
+} from '@tnmw/types';
+import {
+  planGrid,
+  planTagActive,
+  planTagCancelled,
+  planTagFuture,
+  planTagPaused,
+} from './edit-customer-page.css';
 
 const SUBMIT_DEBOUNCE = 500;
 
@@ -33,6 +47,7 @@ export interface EditCustomerPathParams {
   customisations: Exclusion[];
   dirty: boolean;
   saveCustomer: (details: UpdateCustomerBody) => void;
+  chargebeeUrl: string;
   resetPassword: (payload: {
     username: string;
     newPassword: string;
@@ -40,13 +55,52 @@ export interface EditCustomerPathParams {
   }) => Promise<void>;
 }
 
+const calendarFormat = {
+  sameDay: '[Today]',
+  nextDay: '[Tomorrow]',
+  nextWeek: '[this] dddd',
+  lastDay: '[Yesterday]',
+  lastWeek: 'dddd',
+  sameElse: 'MMM Do',
+};
+
+const makePauseString = (start?: number, end?: number) => {
+  const startWord = start && moment(start).calendar(null, calendarFormat);
+  const endWord = end && moment(end).calendar(null, calendarFormat);
+  if (!startWord && !endWord) {
+    return 'No pause';
+  }
+
+  if (!startWord) {
+    return `Until ${endWord}`;
+  }
+
+  if (!endWord) {
+    return `Indefinite pause from ${startWord}`;
+  }
+
+  return `From ${startWord} to ${endWord}`;
+};
+
 const EditCustomerPage: FC<EditCustomerPathParams> = ({
   customisations: exclusions,
   customer: apiCustomer,
   saveCustomer,
+  chargebeeUrl,
   resetPassword,
 }) => {
   const [dirty, setDirty] = React.useState(false);
+
+  type StatusClasses = { [K in SubscriptionStatus]: string };
+
+  const statusClasses: StatusClasses = {
+    active: planTagActive,
+    future: planTagFuture,
+    in_trial: '',
+    non_renewing: planTagActive,
+    paused: planTagPaused,
+    cancelled: planTagCancelled,
+  };
 
   const [customer, setCustomer] = React.useState(apiCustomer);
 
@@ -67,7 +121,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
   }, SUBMIT_DEBOUNCE);
 
   return (
-    <Box align="flex-start" gap="small">
+    <>
       <OkCancelDialog
         header="Plan Changed"
         onOk={onSubmit}
@@ -93,7 +147,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
       <Header
         justify="start"
         gap="small"
-        style={{ marginBottom: '2rem', marginTop: '1rem' }}
+        style={{ marginTop: '2rem', marginBottom: '2rem' }}
       >
         <Heading level={2}>Update Customer</Heading>
         <Button
@@ -140,8 +194,8 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
             />
           ))}
       </Header>
-      <Box direction="column">
-        <Table style={{ maxWidth: '40rem', marginBottom: '2rem' }}>
+      <Box align="flex-start" gap="large">
+        <Table style={{ maxWidth: '40rem', tableLayout: 'fixed' }}>
           <TableBody>
             <TableRow>
               <TableCell scope="row">
@@ -169,107 +223,116 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
               </TableCell>
               <TableCell>{customer.deliveryDay2 || 'Not Set'}</TableCell>
             </TableRow>
-          </TableBody>
-        </Table>
-        <Table style={{ maxWidth: '40rem', marginBottom: '2rem' }}>
-          <TableHeader>
             <TableRow>
-              <TableCell scope="col" border="bottom">
-                <strong>Plan</strong>
+              <TableCell scope="row">
+                <strong>Chargebee</strong>
               </TableCell>
-              <TableCell scope="col" border="bottom">
-                <strong>Days per Week</strong>
-              </TableCell>
-              <TableCell scope="col" border="bottom">
-                <strong>Meals per Day</strong>
-              </TableCell>
-              <TableCell scope="col" border="bottom">
-                <strong>Total meals</strong>
-              </TableCell>
-              <TableCell scope="col" border="bottom">
-                <strong>Status</strong>
-              </TableCell>
-              <TableCell scope="col" border="bottom">
-                <strong>Pause Start</strong>
-              </TableCell>
-              <TableCell scope="col" border="bottom">
-                <strong>Pause End</strong>
+              <TableCell>
+                <a href={`${chargebeeUrl}/d/customers/${customer.username}`}>
+                  Go to profile
+                </a>
               </TableCell>
             </TableRow>
-          </TableHeader>
-          <TableBody>
-            {customer.plans?.map((plan, index) => {
-              return (
-                <TableRow key={`customer-page-plan-${plan.name}-${index}`}>
-                  <TableCell scope="row">
-                    <strong>{plan.name}</strong>
-                  </TableCell>
-                  <TableCell>{plan.daysPerWeek}</TableCell>
-                  <TableCell>{plan.itemsPerDay}</TableCell>
-                  <TableCell>{plan.totalMeals}</TableCell>
-                  <TableCell>{plan.subscriptionStatus}</TableCell>
-                  <TableCell>
-                    {plan.pauseStart
-                      ? moment(plan.pauseStart).calendar(null, calendarFormat)
-                      : 'None'}
-                  </TableCell>
-                  <TableCell>
-                    {plan.pauseEnd
-                      ? moment(plan.pauseEnd).calendar(null, calendarFormat)
-                      : 'None'}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
           </TableBody>
         </Table>
+        <Box>
+          <Heading level={3}>Customisations</Heading>
+          <TagInput
+            options={exclusions.map((exclusion) => ({
+              key: exclusion.id,
+              label: exclusion.name,
+            }))}
+            onChange={(values) => {
+              setCustomer({
+                ...customer,
+                customisations: values
+                  .map((value) =>
+                    exclusions.find((exclusion) => exclusion.id === value.key)
+                  )
+                  .flatMap((value) => (value ? [value] : [])),
+              });
+              setDirty(true);
+            }}
+            values={customer.customisations.map((exclusion) => ({
+              key: exclusion.id,
+              label: exclusion.name,
+            }))}
+          />
+        </Box>
+        {customer.customPlan && (
+          <PlanPanel
+            customPlan={customer.customPlan}
+            plannerConfig={{
+              planLabels: [...planLabels],
+              extrasLabels: [...extrasLabels],
+              defaultDeliveryDays,
+            }}
+            deliveryDays={[
+              customer.deliveryDay1,
+              customer.deliveryDay2,
+              customer.deliveryDay3,
+            ]}
+            onChange={(plan) => {
+              setCustomer({
+                ...customer,
+                customPlan: plan,
+              });
+              setDirty(true);
+            }}
+            exclusions={exclusions}
+          />
+        )}
+
+        <Box width="100%">
+          <Heading level={3}>Plans</Heading>
+          <div className={planGrid}>
+            {customer.plans?.map((plan) => {
+              return (
+                <Card pad="medium">
+                  <CardHeader>
+                    <Heading level={3}>{plan.name}</Heading>
+                    <span className={statusClasses[plan.subscriptionStatus]}>
+                      <Tag value={plan.subscriptionStatus} />
+                    </span>
+                  </CardHeader>
+                  <CardBody pad="small">
+                    <Table style={{ tableLayout: 'fixed', width: '100%' }}>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell scope="row">
+                            <strong>Days</strong>
+                          </TableCell>
+                          <TableCell>{plan.daysPerWeek}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell scope="row">
+                            <strong>Total meals</strong>
+                          </TableCell>
+                          <TableCell>{plan.totalMeals}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell scope="row">
+                            <strong>Meals per day</strong>
+                          </TableCell>
+                          <TableCell>{plan.itemsPerDay}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell colSpan={2}>
+                            <em>
+                              {makePauseString(plan.pauseStart, plan.pauseEnd)}
+                            </em>
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </CardBody>
+                </Card>
+              );
+            })}
+          </div>
+        </Box>
       </Box>
-      <Heading level={3}>Customisations</Heading>
-      <TagInput
-        options={exclusions.map((exclusion) => ({
-          key: exclusion.id,
-          label: exclusion.name,
-        }))}
-        onChange={(values) => {
-          setCustomer({
-            ...customer,
-            customisations: values
-              .map((value) =>
-                exclusions.find((exclusion) => exclusion.id === value.key)
-              )
-              .flatMap((value) => (value ? [value] : [])),
-          });
-          setDirty(true);
-        }}
-        values={customer.customisations.map((exclusion) => ({
-          key: exclusion.id,
-          label: exclusion.name,
-        }))}
-      />
-      {customer.customPlan && (
-        <PlanPanel
-          customPlan={customer.customPlan}
-          plannerConfig={{
-            planLabels: [...planLabels],
-            extrasLabels: [...extrasLabels],
-            defaultDeliveryDays,
-          }}
-          deliveryDays={[
-            customer.deliveryDay1,
-            customer.deliveryDay2,
-            customer.deliveryDay3,
-          ]}
-          onChange={(plan) => {
-            setCustomer({
-              ...customer,
-              customPlan: plan,
-            });
-            setDirty(true);
-          }}
-          exclusions={exclusions}
-        />
-      )}
-    </Box>
+    </>
   );
 };
 

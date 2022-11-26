@@ -3,12 +3,12 @@ import { Tag, Box } from 'grommet';
 import { itemFamilies } from '@tnmw/config';
 
 import {
-  noPlan,
   planTagActive,
   planTagCancelled,
   planTagFuture,
   planTagPaused,
 } from './customers.css';
+import { noPlan } from './customisations-cell.css';
 
 type StatusClasses = { [K in SubscriptionStatus]: string };
 

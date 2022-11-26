@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 
 import { MenuPaddedContent } from './menu-padded-content';
 import { AdminTemplate } from './admin-template';
@@ -11,6 +11,7 @@ import { useCustomisations } from '../../hooks';
 import { RedirectIfLoggedOut } from '../../components/authentication/redirect-if-logged-out';
 import { swrFetcher } from '../../utils/swr-fetcher';
 import { HTTP } from '../../infrastructure/constants';
+import { ConfigContext } from '../../components/config-provider';
 
 const resetPassword = async (payload: {
   username: string;
@@ -34,24 +35,31 @@ const EditCustomer: FC = () => {
 
   const { data, save, dirty } = useCustomer(userId);
 
+  const { config } = useContext(ConfigContext);
+
   return (
     <RedirectIfLoggedOut allowedGroups={['admin']} redirectTo="/login">
-      <AdminTemplate>
-        {data && customisations && (
-          <EditCustomerPage
-            resetPassword={resetPassword}
-            saveCustomer={save}
-            dirty={dirty}
-            customer={data}
-            // eslint-disable-next-line fp/no-mutating-methods
-            customisations={customisations
-              .slice()
-              .sort((a, b) =>
-                a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase() ? 1 : -1
-              )}
-          />
-        )}
-      </AdminTemplate>
+      <MenuPaddedContent>
+        <AdminTemplate>
+          {data && customisations && (
+            <EditCustomerPage
+              chargebeeUrl={config?.ChargebeeUrl ?? ''}
+              resetPassword={resetPassword}
+              saveCustomer={save}
+              dirty={dirty}
+              customer={data}
+              // eslint-disable-next-line fp/no-mutating-methods
+              customisations={customisations
+                .slice()
+                .sort((a, b) =>
+                  a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()
+                    ? 1
+                    : -1
+                )}
+            />
+          )}
+        </AdminTemplate>
+      </MenuPaddedContent>
     </RedirectIfLoggedOut>
   );
 };
