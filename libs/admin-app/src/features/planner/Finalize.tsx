@@ -4,7 +4,6 @@ import {
   PlannedCook,
   Recipe,
 } from '@tnmw/types';
-import { VirtualWindow } from 'virtual-window';
 import { calendarFormat } from '@tnmw/config';
 import { Paragraph } from 'grommet';
 import moment from 'moment';
@@ -62,27 +61,6 @@ const Finalize: React.FC<FinalizeProps> = ({
       </Paragraph>
     );
   }
-
-  // eslint-disable-next-line fp/no-mutating-methods
-  const customerTables = customerMeals
-    .slice()
-    .sort((a, b) =>
-      a.customer.surname.toLowerCase() > b.customer.surname.toLowerCase()
-        ? 1
-        : // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-          -1
-    )
-    .filter((customerPlan) => customerPlan.customer.plans.length > 0)
-    .map((customerPlan) => (
-      <FinalizeCustomerTable
-        key={`${customerPlan.customer.username}-finalize-table`}
-        customerSelection={customerPlan}
-        deliveryMeals={cooks}
-        allRecipes={recipes}
-        columns={5}
-        update={update}
-      />
-    ));
   return (
     <>
       <ul className={plannerInfoUl}>
@@ -111,7 +89,28 @@ const Finalize: React.FC<FinalizeProps> = ({
           </li>
         )}
       </ul>
-      <VirtualWindow list={customerTables} />
+      {
+        // eslint-disable-next-line fp/no-mutating-methods
+        customerMeals
+          .slice()
+          .sort((a, b) =>
+            a.customer.surname.toLowerCase() > b.customer.surname.toLowerCase()
+              ? 1
+              : // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+                -1
+          )
+          .filter((customerPlan) => customerPlan.customer.plans.length > 0)
+          .map((customerPlan) => (
+            <FinalizeCustomerTable
+              key={`${customerPlan.customer.username}-finalize-table`}
+              customerSelection={customerPlan}
+              deliveryMeals={cooks}
+              allRecipes={recipes}
+              columns={5}
+              update={update}
+            />
+          ))
+      }
     </>
   );
 };
