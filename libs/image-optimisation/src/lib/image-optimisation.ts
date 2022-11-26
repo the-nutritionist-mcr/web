@@ -59,7 +59,8 @@ export class ImageOptimisation extends Construct {
 
     props.distribution.addBehavior('/images/*', new RestApiOrigin(api));
 
-    const getImage = api.root.addResource('{file}');
+    const images = api.root.addResource('images');
+    const getImage = images.addResource('{file}');
 
     getImage.addMethod(
       HTTP.verbs.Get,
