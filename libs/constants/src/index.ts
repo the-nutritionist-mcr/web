@@ -28,7 +28,7 @@ export const E2E = {
   normalUserOne: {
     username: 'cypress-test-user-two',
     password: 'password',
-    email: 'cypress2@test.com',
+    email: 'cypress3@test.com',
   },
   e2eCustomer: {
     username: 'e2e-customer',
