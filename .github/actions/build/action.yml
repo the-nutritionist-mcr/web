@@ -1,0 +1,26 @@
+name: 'build'
+description: 'Builds the application'
+
+inputs:
+  env-name:
+    description: Name of the environment being deployed
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Get App Version
+      shell: bash
+      run: echo "APP_VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+    - name: Build Application
+      shell: bash
+      run: yarn nx build web-app && yarn nx export web-app
+      env:
+        NX_APP_VERSION: ${{ inputs.env-name }}
+
+    - name: Save dist folder
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist-${{ input.env-name }}
+        path: dist

@@ -58,38 +58,50 @@ jobs:
       - name: Run ${{ matrix.target }}
         run: yarn nx ${{ matrix.target }} ${{ matrix.project }}
 
-  build-next-app:
-    name: Build NextJS app
+  build-next-app-for-cypress:
+    name: Build NextJS app (Cypress)
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: false
-      matrix:
-        env:
-          - dev
-          - cypress
-          - prod
-          - test
     steps:
       - uses: actions/checkout@v3
 
       - name: Setup node environment
         uses: ./.github/actions/setup-node-job
 
-      - name: Get App Version
-        shell: bash
-        run: echo "APP_VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      - name: Build Application
+        uses: ./.github/actions/build
+        with:
+          env-name: cypress
+            k
+  build-next-app-for-test:
+    name: Build NextJS app (Test)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup node environment
+        uses: ./.github/actions/setup-node-job
 
       - name: Build Application
-        run: yarn nx build web-app && yarn nx export web-app
-        env:
-          NX_APP_VERSION: ${{ matrix.env }}
-
-      - name: Save dist folder
-        uses: actions/upload-artifact@v3
+        uses: ./.github/actions/build
         with:
-          name: dist-${{ matrix.env }}
-          path: dist
+          env-name: test
+
+  build-next-app-for-prod:
+    name: Build NextJS app (Test)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup node environment
+        uses: ./.github/actions/setup-node-job
+
+      - name: Build Application
+        uses: ./.github/actions/build
+        with:
+          env-name: test
 
   build-storybook:
     name: Build Storybook
@@ -113,7 +125,7 @@ jobs:
   deploy-for-cypress:
     name: Cypress Deploy
     runs-on: ubuntu-latest
-    needs: [build-next-app]
+    needs: [build-next-app-for-cypress]
 
     steps:
       - uses: actions/checkout@v3
@@ -158,29 +170,11 @@ jobs:
           NX_CHARGEBEE_TOKEN: ${{ secrets.CHARGEBEE_TOKEN }}
           NX_COGNITO_POOL_ID: eu-west-2_77z37j3Fb
 
-      # - name: Copy execution videos
-      #   run: |
-      #     mkdir docs
-      #     cp -r dist/cypress/apps/web-app-e2e/videos cos/videos
-
-      # - name: Merge test results into one
-      #   run: yarn report:merge
-
-      # - name: Generate HTML test report
-      #   run: yarn report:generate
-
-      # - name: Deploy report page
-      #   uses: peaceiris/actions-gh-pages@v3
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_dir: ./docs
-      #     user_name: 'github-actions[bot]'
-      #     user_email: actions[bot]@users.noreply.github.com
-
   deploy-for-test:
     name: Test Deploy
     runs-on: ubuntu-latest
-    needs: [build-next-app, static-checks, cypress-run, build-storybook]
+    needs:
+      [build-next-app-for-test, static-checks, cypress-run, build-storybook]
 
     steps:
       - uses: actions/checkout@v3
@@ -199,32 +193,11 @@ jobs:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
           url: https://test.app.thenutritionistmcr.com
 
-  # deploy-for-dev:
-  #   name: Dev Deploy
-  #   runs-on: ubuntu-latest
-  #   needs: [build-next-app, build-storybook]
-
-  #   steps:
-  #     - uses: actions/checkout@v3
-
-  #     - name: Setup node environment
-  #       uses: ./.github/actions/setup-node-job
-
-  #     - name: Deploy
-  #       uses: ./.github/actions/deploy
-  #       with:
-  #         env-name: dev
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         datadog-app-id: ${{ secrets.DATADOG_APP_ID }}
-  #         datadog-client-token: ${{ secrets.DATADOG_CLIENT_TOKEN }}
-  #         datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
-  #         url: https://dev.app.thenutritionistmcr.com
-
   deploy-for-prod:
     name: Production Deploy
     runs-on: ubuntu-latest
-    needs: [build-next-app, static-checks, cypress-run, build-storybook]
+    needs:
+      [build-next-app-for-prod, static-checks, cypress-run, build-storybook]
 
     steps:
       - uses: actions/checkout@v3
