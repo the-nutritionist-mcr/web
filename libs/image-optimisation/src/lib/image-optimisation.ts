@@ -50,6 +50,7 @@ export class ImageOptimisation extends Construct {
     });
 
     const api = new RestApi(context, id('image-api'), {
+      binaryMediaTypes: ['image/jpeg'],
       defaultCorsPreflightOptions: {
         allowMethods: [HTTP.verbs.Get],
         allowOrigins: ['*'],
