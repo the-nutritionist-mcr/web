@@ -29,12 +29,12 @@ runs:
       with:
         path: |
           node_modules
-          ~/.cache/yarn
+          CypressCache
         key: ${{ runner.os }}-build-cache-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-build-cache-
           ${{ runner.os }}-
 
-    - name: Install dependencies
+    - name: Install Dependencies
       shell: 'bash'
       run: CYPRESS_CACHE_FOLDER=$PWD/CypressCache yarn install --frozen-lockfile
