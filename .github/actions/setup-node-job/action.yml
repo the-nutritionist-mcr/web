@@ -37,4 +37,4 @@ runs:
 
     - name: Install dependencies
       shell: 'bash'
-      run: yarn install --frozen-lockfile
+      run: CYPRESS_CACHE_FOLDER=$PWD/CypressCache yarn install --frozen-lockfile
