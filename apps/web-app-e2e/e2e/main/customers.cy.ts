@@ -60,7 +60,7 @@ describe('The customers page', { scrollBehavior: false }, () => {
   it('Creating an account on Chargebee should result in a customer appearing on the customer list', () => {
     const user = {
       username: E2E.e2eCustomer.username,
-      country: 'England',
+      country: E2E.e2eCustomer.country,
       deliveryDay1: E2E.e2eCustomer.deliveryDay1,
       deliveryDay2: E2E.e2eCustomer.deliveryDay2,
       addressLine1: E2E.e2eCustomer.addressLine1,

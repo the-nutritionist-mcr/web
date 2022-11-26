@@ -39,7 +39,7 @@ describe('The planner', () => {
   it('You can generate a plan on the recipes page that is then available on the planner', () => {
     const user = {
       username: E2E.e2eCustomer.username,
-      country: 'England',
+      country: E2E.e2eCustomer.country,
       deliveryDay1: E2E.e2eCustomer.deliveryDay1,
       deliveryDay2: E2E.e2eCustomer.deliveryDay2,
       addressLine1: E2E.e2eCustomer.addressLine1,
