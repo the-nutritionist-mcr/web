@@ -223,6 +223,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
               </TableCell>
               <TableCell>{customer.deliveryDay2 || 'Not Set'}</TableCell>
             </TableRow>
+            {/*
             <TableRow>
               <TableCell scope="row">
                 <strong>Chargebee</strong>
@@ -233,6 +234,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
                 </a>
               </TableCell>
             </TableRow>
+            */}
           </TableBody>
         </Table>
         <Box>
