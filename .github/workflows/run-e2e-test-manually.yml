@@ -25,3 +25,4 @@ jobs:
           google-refresh-token: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
           chargebee-token: ${{ secrets.CHARGEBEE_TOKEN }}
           cognito-pool-id: eu-west-2_77z37j3Fb
+          github-token: ${{ secrets.GITHUB_TOKEN }}
