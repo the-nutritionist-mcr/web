@@ -62,7 +62,6 @@ runs:
       run: yarn report:generate
 
     - name: Deploy report page
-      shell: bash
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
