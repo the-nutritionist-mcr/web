@@ -11,6 +11,7 @@ import { getClosedOrOpenStatus } from '../utils/get-closed-or-open-status';
 import { accountContainer } from './account.css';
 import { RedirectIfLoggedOut } from '../components/authentication/redirect-if-logged-out';
 import { useMe } from '../hooks/use-me';
+import { loader } from '../utils/loader';
 
 const YourAccountHeaderBox = styled('div')`
   text-align: center;
@@ -51,6 +52,7 @@ const AccountPage = () => {
       <Hero>
         <YourAccountHeaderBox>
           <Image
+            loader={loader}
             src={AccountIcon as unknown as string}
             alt=""
             height="80"

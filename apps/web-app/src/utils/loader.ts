@@ -7,8 +7,9 @@ export const loader = ({
   width: number;
   quality?: number;
 }) => {
-  if (quality) {
-    return `/images/${src}?width=${width}&quality=${quality}`;
-  }
-  return `/images/${src}?width=${width}`;
+  return src;
+  // if (quality) {
+  //   return `/images/${src}?width=${width}&quality=${quality}`;
+  // }
+  // return `/images/${src}?width=${width}`;
 };
