@@ -51,7 +51,7 @@ runs:
       shell: bash
       run: |
         mkdir docs
-        cp -r dist/cypress/apps/web-app-e2e/videos docs/videos
+        cp -r dist/cypress/apps/web-app-e2e/videos/* docs/videos
 
     - name: Merge test results into one
       shell: bash
