@@ -3,6 +3,15 @@
   "version": "0.0.0",
   "foo": "foo",
   "license": "MIT",
+  "nohoist": [
+    "**/cypress-multi-reporters",
+    "**/mochawesome",
+    "**/mochawesome/**",
+    "**/mocha",
+    "**/mocha/**",
+    "**/cypress",
+    "**/cypress/**"
+  ],
   "scripts": {
     "prepare": "husky install",
     "report:merge": "mochawesome-merge dist/cypress/results/json/*.json > index.json",
