@@ -13,7 +13,6 @@ chargebee.configure({
 const getCustomer = async (id: string) => {
   const result = await new Promise((accept, reject) => {
     chargebee.customer.retrieve(id).request(function (error, result) {
-      console.log(error);
       if (error) {
         reject(error);
       } else {
@@ -47,8 +46,7 @@ export const deleteChargebeeCustomer = async (id: string) => {
 
     return null;
   } catch (error) {
-    console.log('Failed to delete chargebee user');
-    console.log(error);
+    console.log(`Failed to delete chargebee user: ${error.message}`);
     return null;
   }
 };

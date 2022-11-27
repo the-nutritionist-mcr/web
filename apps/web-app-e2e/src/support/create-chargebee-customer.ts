@@ -21,7 +21,7 @@ export interface Customer {
 export const createChargebeeCustomer = async (customer: Customer) => {
   const chargebee = new ChargeBee();
   const key = process.env[`NX_${ENV.varNames.ChargeBeeToken}`];
-  console.log(`Creating customer ${JSON.stringify(customer, null, 2)}`);
+  console.log(`Creating customer with username ${customer.username}`);
   chargebee.configure({
     site: CHARGEBEE.sites.test,
     api_key: key,

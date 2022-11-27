@@ -7,7 +7,9 @@ jobs:
   cypress-run:
     name: E2E Tests
     runs-on: ubuntu-latest
-    container: bwainwrighttnm/cypress:latest
+    container:
+      image: bwainwrighttnm/cypress:latest
+      options: --ipc=host
     steps:
       - name: Checkout
         uses: actions/checkout@v3

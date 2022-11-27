@@ -149,7 +149,10 @@ jobs:
     name: E2E Tests
     runs-on: ubuntu-latest
     needs: [deploy-for-cypress]
-    container: bwainwrighttnm/cypress:latest
+    container:
+      image: bwainwrighttnm/cypress:latest
+      options: --ipc=host
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -168,6 +171,24 @@ jobs:
           chargebee-token: ${{ secrets.CHARGEBEE_TOKEN }}
           cognito-pool-id: eu-west-2_77z37j3Fb
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  zap_scan:
+    runs-on: ubuntu-latest
+    name: Scan the Cypress application
+    needs: [cypress-run]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: ZAP Scan
+        uses: zaproxy/action-full-scan@v0.4.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          docker_name: 'owasp/zap2docker-stable'
+          target: https://cypress.app.thenutritionistmcr.com
+          fail_action: false
+          allow_issue_writing: true
 
   deploy-for-test:
     name: Test Deploy
