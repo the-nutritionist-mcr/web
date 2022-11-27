@@ -44,6 +44,7 @@ export class ImageOptimisation extends Construct {
       entry: `${path.join(
         // eslint-disable-next-line unicorn/prefer-module
         __dirname,
+        `handler`,
         `handler.ts`
       )}`,
       timeout: Duration.minutes(5),
