@@ -190,22 +190,22 @@ jobs:
         with:
           path: ./docs
 
-  zap_scan:
-    runs-on: ubuntu-latest
-    name: Scan the Cypress application
-    needs: [cypress-run]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  # zap_scan:
+  #   runs-on: ubuntu-latest
+  #   name: Scan the Cypress application
+  #   needs: [cypress-run]
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - name: ZAP Scan
-        uses: zaproxy/action-full-scan@v0.4.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          docker_name: 'owasp/zap2docker-stable'
-          target: https://cypress.app.thenutritionistmcr.com
-          fail_action: false
-          allow_issue_writing: true
+  #     - name: ZAP Scan
+  #       uses: zaproxy/action-full-scan@v0.4.0
+  #       with:
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         docker_name: 'owasp/zap2docker-stable'
+  #         target: https://cypress.app.thenutritionistmcr.com
+  #         fail_action: false
+  #         allow_issue_writing: true
 
   deploy-for-test:
     name: Test Deploy
