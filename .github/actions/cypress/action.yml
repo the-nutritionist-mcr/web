@@ -54,7 +54,7 @@ runs:
     - name: Copy test execution videos
       shell: bash
       run: |
-        mkdir docs
+        mkdir -p docs/videos
         cp -r dist/cypress/apps/web-app-e2e/videos/* docs/videos
 
     - name: Merge test results into one
