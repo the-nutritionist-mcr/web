@@ -29,6 +29,16 @@ export interface Customer {
 }
 
 const plugins = (on, config) => {
+  on('before:browser:launch', (browser = {}, launchOptions) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (browser.family === 'chromium' && browser.name !== 'electron') {
+      // eslint-disable-next-line fp/no-mutating-methods
+      launchOptions.args.push('--disable-dev-shm-usage');
+    }
+    return launchOptions;
+  });
+
   on('task', {
     async createChargebeeCustomer(customer: Customer) {
       console.log(`Creating Chargebee Customer: ${customer.username}`);
