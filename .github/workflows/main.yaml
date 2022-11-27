@@ -145,6 +145,11 @@ jobs:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
           url: https://cypress.app.thenutritionistmcr.com
 
+      - name: Upload report
+        uses: ./.github/actions/upload-pages
+        with:
+          path: ./docs
+
   cypress-run:
     name: E2E Tests
     runs-on: ubuntu-latest

@@ -1,0 +1,75 @@
+name: 'Upload GitHub Pages artifact'
+description: 'A composite action that prepares your static assets to be deployed to GitHub Pages'
+author: 'GitHub'
+inputs:
+  path:
+    description: 'Path of the directory containing the static assets.'
+    required: true
+    default: '_site/'
+  retention-days:
+    description: 'Duration after which artifact will expire in days.'
+    required: false
+    default: '1'
+
+runs:
+  using: composite
+  steps:
+    - name: Archive artifact
+      shell: sh
+      if: runner.os == 'Linux'
+      run: |
+        for f in $(chmod -c -R +r . | awk '{print substr($3, 2, length($3)-2)}')
+        do
+          echo "::warning::Added read permission to $f"
+        done
+        tar \
+          --dereference --hard-dereference \
+          --directory "$INPUT_PATH" \
+          -cvf "$RUNNER_TEMP/artifact.tar" \
+          --exclude=.git \
+          --exclude=.github \
+          .
+      env:
+        INPUT_PATH: ${{ inputs.path }}
+
+    # Switch to gtar (GNU tar instead of bsdtar which is the default in the MacOS runners so we can use --hard-dereference)
+    - name: Archive artifact
+      shell: sh
+      if: runner.os == 'macOS'
+      run: |
+        for f in $(chmod -v -R +r .)
+        do
+          echo "::warning::Added read permission to $f"
+        done
+        gtar \
+          --dereference --hard-dereference \
+          --directory "$INPUT_PATH" \
+          -cvf "$RUNNER_TEMP/artifact.tar" \
+          --exclude=.git \
+          --exclude=.github \
+          .
+      env:
+        INPUT_PATH: ${{ inputs.path }}
+
+    # Massage the paths for Windows only
+    - name: Archive artifact
+      shell: bash
+      if: runner.os == 'Windows'
+      run: |
+        tar \
+          --dereference --hard-dereference \
+          --directory "$INPUT_PATH" \
+          -cvf "$RUNNER_TEMP\artifact.tar" \
+          --exclude=.git \
+          --exclude=.github \
+          --force-local \
+          "."
+      env:
+        INPUT_PATH: ${{ inputs.path }}
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@main
+      with:
+        name: github-pages
+        path: ${{ runner.temp }}/artifact.tar
+        retention-days: ${{ inputs.retention-days }}

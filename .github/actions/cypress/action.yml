@@ -64,11 +64,3 @@ runs:
     - name: Generate HTML report
       shell: bash
       run: yarn report:generate
-
-    - name: Deploy report page
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ inputs.github-token }}
-        publish_dir: ./docs
-        user_name: 'github-actions[bot]'
-        user_email: 'github-actions[bot]@users.noreply.github.com'
