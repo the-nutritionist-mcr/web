@@ -1,19 +1,19 @@
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import {
   GetObjectCommand,
-  GetObjectCommandOutput,
   HeadObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
 import sharp from 'sharp';
 import { asStream } from './as-stream';
-import { getS3Stream } from './write-stream-to-s3';
+import { Upload } from '@aws-sdk/lib-storage';
 
 interface KeyProps {
   fileName: string;
   format: string;
   height?: number;
   width?: number;
+  quality?: number;
   size?: number;
 }
 
@@ -22,16 +22,24 @@ const getSharpStream = ({
   height,
   width,
   size,
+  quality,
 }: Omit<KeyProps, 'fileName'>) => {
+  const options = quality ? { quality } : {};
+  if (!height && width) {
+    return sharp()
+      .resize(width)
+      .toFormat(format as 'jpeg', options);
+  }
+
   if (size) {
     return sharp()
       .resize(size)
-      .toFormat(format as 'jpeg');
+      .toFormat(format as 'jpeg', options);
   }
 
   return sharp()
     .resize(width, height)
-    .toFormat(format as 'jpeg');
+    .toFormat(format as 'jpeg', options);
 };
 
 const getProcessedKey = ({
@@ -40,15 +48,18 @@ const getProcessedKey = ({
   height,
   width,
   size,
+  quality,
 }: KeyProps) => {
   const sizeString = size ? [`size:${size}`] : [];
   const heightString = height ? [`height:${height}`] : [];
   const widthString = width ? [`width:${width}`] : [];
+  const qualityString = quality ? [`quality:${quality}`] : [];
 
   const finalString = [
     ...sizeString,
     ...heightString,
     ...widthString,
+    ...qualityString,
     `format:${format}`,
   ].join(':');
 
@@ -96,21 +107,19 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
       const response = await s3.send(command);
 
-      const s3Stream = getS3Stream(
-        bucket ?? '',
-        processedKey,
-        `image/${format}`
-      );
+      const stream = asStream(response).pipe(getSharpStream(options));
 
-      const stream = asStream(response)
-        .pipe(getSharpStream(options))
-        .pipe(s3Stream);
+      const upload = new Upload({
+        client: s3,
+        params: {
+          Bucket: bucket,
+          Key: processedKey,
+          Body: stream,
+          ContentType: `image/${format}`,
+        },
+      });
 
-      await new Promise<void>((accept, reject) =>
-        stream.on('end', () => {
-          accept();
-        })
-      );
+      await upload.done();
     }
   }
 

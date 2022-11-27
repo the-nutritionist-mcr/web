@@ -52,7 +52,6 @@ const AccountPage = () => {
         <YourAccountHeaderBox>
           <Image
             src={AccountIcon as unknown as string}
-            loader={({ src }) => src}
             alt=""
             height="80"
             width="80"

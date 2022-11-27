@@ -35,7 +35,10 @@ export class ImageOptimisation extends Construct {
 
     const { id } = namer(resourceId);
 
-    const bucket = new Bucket(this, id('image-bucket'));
+    const bucket = new Bucket(this, id('image-bucket'), {
+      publicReadAccess: true,
+      websiteIndexDocument: 'index.html',
+    });
 
     const optimisationFunction = new NodejsFunction(this, id('function'), {
       entry: `${path.join(
@@ -75,7 +78,7 @@ export class ImageOptimisation extends Construct {
       new LambdaIntegration(optimisationFunction)
     );
 
-    bucket.grantRead(optimisationFunction);
+    bucket.grantReadWrite(optimisationFunction);
 
     new BucketDeployment(this, id('bucket-deployment'), {
       sources: [Source.asset(props.assetsPath)],

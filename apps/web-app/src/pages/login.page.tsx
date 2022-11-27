@@ -1,5 +1,7 @@
 import { FC } from 'react';
 import { LoginAndRegisterBox, Hero, Layout } from '@tnmw/components';
+import Image from 'next/image';
+import { loader } from '../utils/loader';
 import { RedirectIfLoggedIn } from '../components/authentication/redirect-if-logged-in';
 import AccountIcon from '../images/TNM_Icons_Final_Account.png';
 import styled from '@emotion/styled';
@@ -32,7 +34,13 @@ const Login: FC = () => {
     <RedirectIfLoggedIn redirectTo="/account/">
       <Hero>
         <YourAccountHeaderBox>
-          <img src={AccountIcon} alt="" height="80" width="80" />
+          <Image
+            loader={loader}
+            src={AccountIcon as unknown as string}
+            alt=""
+            height="80"
+            width="80"
+          />
           <YourAccountHeader>Your Account</YourAccountHeader>
         </YourAccountHeaderBox>
       </Hero>
