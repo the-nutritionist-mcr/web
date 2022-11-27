@@ -17,9 +17,10 @@
   },
   "private": true,
   "dependencies": {
-    "@aws-amplify/api": "4.0.48",
-    "@aws-amplify/auth": "4.6.1",
-    "@aws-amplify/core": "4.6.1",
+    "@aws-amplify/api": "5.0.4",
+    "@aws-amplify/auth": "5.0.4",
+    "@aws-amplify/core": "5.0.4",
+    "@aws-amplify/ui-react": "^4.0.3",
     "@aws-cdk/aws-cognito-identitypool-alpha": "^2.35.0-alpha.0",
     "@aws-cdk/aws-s3objectlambda-alpha": "^2.47.0-alpha.0",
     "@aws-sdk/client-cognito-identity-provider": "3.141.0",
