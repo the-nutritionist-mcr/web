@@ -1,0 +1,71 @@
+name: 'Run E2E'
+description: 'Runs the Cypress end to end tests'
+
+inputs:
+  aws-access-key-id:
+    description: AWS Access Key ID
+    required: true
+
+  aws-secret-access-key:
+    description: AWS Secret Access Key
+    required: true
+
+  google-client-id:
+    description: Client ID for the Google API
+    required: true
+
+  google-client-secret:
+    description: Client Secret for the Google API
+    required: true
+
+  google-refresh-token:
+    description: Client refresh token for the Google API
+    required: true
+
+  chargebee-token:
+    description: Token for the Chargebee API
+    required: true
+
+  cognito-pool-id:
+    description: User Pool ID
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Run E2E tests
+      shell: bash
+      run: yarn nx run web-app-e2e:e2e --baseUrl=https://cypress.app.thenutritionistmcr.com --skipServe=true --skip-nx-cache
+      continue-on-error: true
+      env:
+        AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
+        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
+        NX_GOOGLE_CLIENT_ID: ${{ inputs.google-client-id }}
+        NX_GOOGLE_CLIENT_SECRET: ${{ inputs.google-client-secret }}
+        NX_GOOGLE_REFRESH_TOKEN: ${{ inputs.google-refresh-token }}
+        NX_CHARGEBEE_TOKEN: ${{ inputs.chargebee-token }}
+        NX_COGNITO_POOL_ID: ${{ inputs.cognito-pool-id }}
+        CYPRESS_CACHE_FOLDER: /__w/web/web/CypressCache
+
+    - name: Copy test execution videos
+      shell: bash
+      run: |
+        mkdir docs
+        cp -r dist/cypress/apps/web-app-e2e/videos docs/videos
+
+    - name: Merge test results into one
+      shell: bash
+      run: yarn report:merge
+
+    - name: Generate HTML report
+      shell: bash
+      run: yarn report:generate
+
+    - name: Deploy report page
+      shell: bash
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'

@@ -21,7 +21,7 @@ import addContext from 'mochawesome/addContext';
 Cypress.on('test:after:run', (test, runnable) => {
   // eslint-disable-next-line fp/no-let
   let videoName = Cypress.spec.name;
-  videoName = videoName.replace('/.js.*', '.js');
+  videoName = videoName.replace('/.ts.*', '.ts');
   const videoUrl = 'videos/' + videoName + '.mp4';
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

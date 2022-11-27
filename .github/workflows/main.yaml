@@ -169,6 +169,11 @@ jobs:
           NX_COGNITO_POOL_ID: eu-west-2_77z37j3Fb
           CYPRESS_CACHE_FOLDER: /__w/web/web/CypressCache
 
+      - name: Copy test execution videos
+        run: |
+          mkdir docs
+          cp -r dist/cypress/apps/web-app-e2e/videos docs/videos
+
   deploy-for-test:
     name: Test Deploy
     runs-on: ubuntu-latest
