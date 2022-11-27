@@ -39,7 +39,7 @@ runs:
   steps:
     - name: Run E2E tests
       shell: bash
-      run: yarn nx run web-app-e2e:e2e --baseUrl=https://cypress.app.thenutritionistmcr.com --skipServe=true --skip-nx-cache
+      run: yarn nx run web-app-e2e:e2e --browser=chrome --baseUrl=https://cypress.app.thenutritionistmcr.com --skipServe=true --skip-nx-cache
       continue-on-error: true
       env:
         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
