@@ -158,21 +158,16 @@ jobs:
         uses: ./.github/actions/setup-node-job
 
       - name: Run E2E tests
-        run: yarn nx run web-app-e2e:e2e --baseUrl=https://cypress.app.thenutritionistmcr.com --skipServe=true --skip-nx-cache
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          NX_GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          NX_GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          NX_GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
-          NX_CHARGEBEE_TOKEN: ${{ secrets.CHARGEBEE_TOKEN }}
-          NX_COGNITO_POOL_ID: eu-west-2_77z37j3Fb
-          CYPRESS_CACHE_FOLDER: /__w/web/web/CypressCache
-
-      - name: Copy test execution videos
-        run: |
-          mkdir docs
-          cp -r dist/cypress/apps/web-app-e2e/videos docs/videos
+        uses: ./.github/actions/cypress
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          google-client-id: ${{ secrets.GOOGLE_CLIENT_ID }}
+          google-client-secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          google-refresh-token: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          chargebee-token: ${{ secrets.CHARGEBEE_TOKEN }}
+          cognito-pool-id: eu-west-2_77z37j3Fb
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-for-test:
     name: Test Deploy
