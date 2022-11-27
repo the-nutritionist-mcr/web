@@ -131,6 +131,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-next-app-for-cypress]
 
+    environment:
+      name: Cypress
+      url: https://cypress.app.thenutritionistmcr.com
+
     steps:
       - uses: actions/checkout@v3
 
@@ -209,6 +213,10 @@ jobs:
     needs:
       [build-next-app-for-test, static-checks, cypress-run, build-storybook]
 
+    environment:
+      name: Test
+      url: https://test.app.thenutritionistmcr.com
+
     steps:
       - uses: actions/checkout@v3
 
@@ -231,6 +239,10 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       [build-next-app-for-prod, static-checks, cypress-run, build-storybook]
+
+    environment:
+      name: Production
+      url: https://portal.thenutritionistmcr.com
 
     steps:
       - uses: actions/checkout@v3
