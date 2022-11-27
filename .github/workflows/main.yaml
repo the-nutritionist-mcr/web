@@ -186,6 +186,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload report
+        if: always()
         uses: ./.github/actions/upload-pages
         with:
           path: ./docs
