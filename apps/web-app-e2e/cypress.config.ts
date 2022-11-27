@@ -13,6 +13,15 @@ import { addTestCard } from './src/support/add-test-card';
 import { deleteFolder } from './src/support/delete-folder';
 import { promisify } from 'node:util';
 import { readPdf } from './src/support/read-pdf';
+// eslint-disable-next-line unicorn/prefer-node-protocol
+import path from 'path';
+
+const PROJECT_ROOT_NODE_MODULES = path.join(
+  __dirname,
+  '..',
+  '..',
+  'node_modules'
+);
 
 export default defineConfig({
   viewportHeight: 1011,
@@ -24,7 +33,11 @@ export default defineConfig({
     defaultCommandTimeout: 25_000,
     supportFile: './src/support/index.ts',
     specPattern: 'e2e/**/*.cy.{ts,tsx}',
-    reporter: 'cypress-multi-reporters',
+    reporter: path.join(
+      PROJECT_ROOT_NODE_MODULES,
+      'cypress-multi-reporters',
+      'index.js'
+    ),
     reporterOptions: {
       configFile: 'reporter-config.json',
     },
