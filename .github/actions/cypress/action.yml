@@ -70,6 +70,5 @@ runs:
       with:
         github_token: ${{ inputs.github-token }}
         publish_dir: ./docs
-        publish_branch: main
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'

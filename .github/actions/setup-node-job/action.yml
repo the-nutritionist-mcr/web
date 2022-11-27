@@ -30,7 +30,7 @@ runs:
         path: |
           node_modules
           CypressCache
-        key: ${{ runner.os }}-build-cache-${{ hashFiles('**/yarn.lock') }}
+        key: ${{ runner.os }}-build-cache-${{ hashFiles('yarn.lock', 'apps/web-app-e2e/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-build-cache-
           ${{ runner.os }}-
