@@ -11,6 +11,10 @@ export const verify = async (
       if (error) {
         reject(error);
       } else {
+        if (typeof data === 'string') {
+          reject(new Error('verify did not return claim details'));
+          return;
+        }
         if (!data) {
           reject(new Error('claim returned no data'));
           return;
@@ -21,6 +25,8 @@ export const verify = async (
           authTime: data.auth_time,
           clientId: data.client_id,
           username: data.username,
+          given_name: data.given_name,
+          family_name: data.family_name,
           ...data,
         };
         resolve(claim);

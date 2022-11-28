@@ -9,9 +9,11 @@ describe('verify JWT', () => {
     jest.resetAllMocks();
     process.env.COGNITO_POOL_ID = 'us-east-1_nfWupeuVh';
     process.env.AWS_REGION = 'us-east-1';
-    jest
-      .useFakeTimers('modern')
-      .setSystemTime(new Date('2021-09-14').getTime());
+    jest.useFakeTimers().setSystemTime(new Date('2021-09-14').getTime());
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   it('throws an error if the claim does not match the public keys', async () => {
@@ -65,6 +67,8 @@ describe('verify JWT', () => {
       tokenUse: 'id',
       authTime: Math.floor(new Date('2021-09-14').getTime() / 1000),
       iss: 'the-wrong-issuer',
+      given_name: 'Ben',
+      family_name: 'Wainwright',
       exp: Math.floor(new Date('2021-09-14').getTime() / 1000) + 1000,
       'cognito:groups': [],
       username: 'ben',
@@ -90,6 +94,8 @@ describe('verify JWT', () => {
       tokenUse: 'id',
       authTime: Math.floor(new Date('2021-09-14').getTime() / 1000),
       iss: getIssuer(),
+      given_name: 'Ben',
+      family_name: 'Wainwright',
       exp: Math.floor(new Date('2021-09-14').getTime() / 1000) + 1000,
       username: 'ben',
       clientId: 'bar',
@@ -112,6 +118,8 @@ describe('verify JWT', () => {
       tokenUse: 'something-else',
       authTime: Math.floor(new Date('2021-09-14').getTime() / 1000),
       iss: getIssuer(),
+      given_name: 'Ben',
+      family_name: 'Wainwright',
       exp: Math.floor(new Date('2021-09-14').getTime() / 1000) + 1000,
       'cognito:groups': [],
       username: 'ben',
@@ -183,9 +191,9 @@ describe('verify JWT', () => {
   });
 
   it('fails verification when passed a valid token that has expired', async () => {
-    jest.setSystemTime(new Date('2020-09-14T12:20:00'));
+    jest.setSystemTime(new Date('2022-09-19T12:20:00'));
     const result = await verifyJwtToken({ token: validToken });
     expect(result.isValid).toBeFalse();
-    expect(result.error?.message).toEqual('Token has expired');
+    expect(result.error?.message).toEqual('jwt expired');
   });
 });

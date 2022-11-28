@@ -49,6 +49,7 @@ jobs:
           - constants
           - utils
           - web-app
+          - authorise-cognito-jwt
 
         target:
           - test
