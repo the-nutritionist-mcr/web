@@ -105,8 +105,8 @@ function ChallengeForm<T>(
         onClick={(event) => {
           if (data) {
             props.onSubmit?.(data);
-            event.preventDefault();
           }
+          event.preventDefault();
         }}
       >
         {props.submitText ?? 'Submit'}
