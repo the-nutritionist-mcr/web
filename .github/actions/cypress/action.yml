@@ -51,20 +51,24 @@ runs:
         CYPRESS_CACHE_FOLDER: /__w/web/web/CypressCache
 
     - name: Copy test execution videos
+      if: always()
       shell: bash
       run: |
         mkdir -p docs/videos
         cp -r dist/cypress/apps/web-app-e2e/videos/* docs/videos
 
     - name: Merge test results into one
+      if: always()
       shell: bash
       run: yarn report:merge
 
     - name: Generate HTML report
+      if: always()
       shell: bash
       run: yarn report:generate
 
     - name: Save reports
+      if: always()
       uses: actions/upload-artifact@v3
       with:
         name: cypress-report
