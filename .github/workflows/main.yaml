@@ -190,6 +190,7 @@ jobs:
 
     environment:
       name: github-pages
+      url: https://the-nutritionist-mcr.github.io/web/
 
     steps:
       - name: Checkout
