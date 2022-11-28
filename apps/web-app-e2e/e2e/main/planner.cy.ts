@@ -56,7 +56,7 @@ describe('The planner', () => {
     cy.task('createChargebeeCustomer', user);
 
     Customers.visit();
-    Customers.getTable().contains(customerNameString, { timeout: 60_000 });
+    Customers.getTable().contains(customerNameString, { timeout: 5 * 60_000 });
 
     cy.task('addTestCard', E2E.e2eCustomer.username);
     cy.task('addSubscription', {
@@ -68,7 +68,7 @@ describe('The planner', () => {
     Customers.getTableRows()
       .contains(customerNameString)
       .parents('tr')
-      .contains('EQ-5');
+      .contains('EQ-5', { timeout: 5 * 60_000 });
 
     Recipes.visit();
     Recipes.getHeader();

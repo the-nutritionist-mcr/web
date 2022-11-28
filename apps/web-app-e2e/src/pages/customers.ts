@@ -10,5 +10,9 @@ export const Customers = {
   getTable: () => cy.get('table'),
   getTableRows: () => cy.get('table').find('tr'),
 
-  clickEditLink: (name: string) => cy.get('table').contains('a', name).click(),
+  clickEditLink: (name: string, timeout?: number) =>
+    cy
+      .get('table')
+      .contains('a', name, { timeout: timeout ?? 30_000 })
+      .click(),
 };

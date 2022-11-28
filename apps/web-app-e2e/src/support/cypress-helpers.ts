@@ -19,3 +19,7 @@ export const readDownloadedFile = (name: string) => {
   const downloadedFilename = getDownloadedFilename(name);
   return cy.readFile(downloadedFilename, 'binary', { timeout: 15_000 });
 };
+
+export const terminalLog = (message: string) => {
+  console.log(`     ${message}`);
+};

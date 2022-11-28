@@ -20,6 +20,10 @@ describe('The recipes page', { scrollBehavior: false }, () => {
   });
 
   it('should contain a table with 215 rows of data and a header row', () => {
+    const timeout = setTimeout(() => {
+      throw new Error('Timed out');
+    }, 10 * 60_000);
+
     Recipes.visit();
     Recipes.getTableRows().should('have.length', 216);
 
@@ -59,6 +63,8 @@ describe('The recipes page', { scrollBehavior: false }, () => {
       .find('td')
       .eq(3)
       .contains('No Brocc');
+
+    clearTimeout(timeout);
   });
 
   it('Should pop up a dialog when you click new', () => {

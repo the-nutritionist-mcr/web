@@ -65,7 +65,7 @@ describe('The login page', { scrollBehavior: false }, () => {
     cy.task('createChargebeeCustomer', user);
 
     Customers.visit();
-    Customers.clickEditLink(customerNameString);
+    Customers.clickEditLink(customerNameString, 5 * 60_000);
     EditCustomer.getHeader();
     EditCustomer.resetPassword(false, E2E.e2eCustomer.password);
     cy.clearCookies();
