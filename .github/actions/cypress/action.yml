@@ -63,3 +63,9 @@ runs:
     - name: Generate HTML report
       shell: bash
       run: yarn report:generate
+
+    - name: Save reports
+      uses: actions/upload-artifact@v3
+      with:
+        name: cypress-report
+        path: docs
