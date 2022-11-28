@@ -179,13 +179,14 @@ export const EditRecipesPage = (props: EditRecipesPageProps) => {
                     },
                   ],
                 });
+                setDirty(true);
               }}
             />
           </Box>
         </Heading>
         {(recipe?.alternates?.length ?? 0) === 0 ? (
           <ParagraphText>
-            No alternates configured for this recipe. Click the button below to
+            No alternates configured for this recipe. Click the button above to
             add one.
           </ParagraphText>
         ) : (
@@ -206,6 +207,7 @@ export const EditRecipesPage = (props: EditRecipesPageProps) => {
                           ...recipe,
                           alternates: newAlternates,
                         });
+                        setDirty(true);
                       }}
                       labelKey="name"
                       valueKey={{ reduce: true, key: 'id' }}
@@ -221,6 +223,7 @@ export const EditRecipesPage = (props: EditRecipesPageProps) => {
                           ...recipe,
                           alternates: newAlternates,
                         });
+                        setDirty(true);
                       }}
                       options={allRecipes}
                       value={alternate.recipeId}
@@ -243,6 +246,7 @@ export const EditRecipesPage = (props: EditRecipesPageProps) => {
                         ...recipe,
                         alternates: newAlternates,
                       });
+                      setDirty(true);
                     }}
                   />
                 </CardFooter>
