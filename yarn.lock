@@ -12505,10 +12505,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/pdfmake@0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@types/pdfmake/-/pdfmake-0.2.1.tgz#5a2b4f6af28721413bc0c3c2278ec763b89e6e11"
-  integrity sha512-Of8rbi5CuMZrzyUDwEQE+8krGUstQ5SYKYsa1oIx8Z/ed0mh4LnpyMnz+ibYc7vw9RVmTsW2kLMdPOReZCeb3g==
+"@types/pdfmake@0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@types/pdfmake/-/pdfmake-0.2.2.tgz#5683262e97e9b0189745a8572c49c51ba87c1573"
+  integrity sha512-CBtkugrgklpXsZ9Wj/+cw+zYoeDnJxVev62ahwpdPCz/O405Wxr+iq76JgUiZc/QAo3P2lWbI2nYA5GrrSL8VQ==
   dependencies:
     "@types/node" "*"
     "@types/pdfkit" "*"
@@ -27367,10 +27367,10 @@ pdfjs-dist@^1.5.446:
     node-ensure "^0.0.0"
     worker-loader "^1.0.0"
 
-pdfmake@0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/pdfmake/-/pdfmake-0.2.5.tgz#48b17670d69dae3860a5d8721ff12f7988140613"
-  integrity sha512-NlayjehMtuZEdw2Lyipf/MxOCR2vATZQ7jn8cH0/dHwsNb+mqof9/6SW4jZT5p+So4qz+0mD21KG81+dDQSEhA==
+pdfmake@0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/pdfmake/-/pdfmake-0.2.6.tgz#322d6ef94e2503d29353529286e452c801921966"
+  integrity sha512-gZARnKLJjTuHWKIkqF4G6dafIaPfH7NFqBz9U9wb26PV5koHQ5eeQ/0rgZmIdfJzMKqHzXB9aK25ykG2AnnzEQ==
   dependencies:
     "@foliojs-fork/linebreak" "^1.1.1"
     "@foliojs-fork/pdfkit" "^0.13.0"
