@@ -14630,13 +14630,13 @@ babel-plugin-named-exports-order@^0.0.2:
   resolved "https://registry.yarnpkg.com/babel-plugin-named-exports-order/-/babel-plugin-named-exports-order-0.0.2.tgz#ae14909521cf9606094a2048239d69847540cb09"
   integrity sha512-OgOYHOLoRK+/mvXU9imKHlG6GkPLYrUCvFXG/CM93R/aNNO8pOOF4aS+S8CCHMDQoNSeiOYEZb/G6RwL95Jktw==
 
-babel-plugin-polyfill-corejs2@0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/babel-plugin-polyfill-corejs2/-/babel-plugin-polyfill-corejs2-0.3.2.tgz#e4c31d4c89b56f3cf85b92558954c66b54bd972d"
-  integrity sha512-LPnodUl3lS0/4wN3Rb+m+UK8s7lj2jcLRrjho4gLw+OJs+I4bvGXshINesY5xx/apM+biTnQ9reDI8yj+0M5+Q==
+babel-plugin-polyfill-corejs2@0.3.3, babel-plugin-polyfill-corejs2@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/babel-plugin-polyfill-corejs2/-/babel-plugin-polyfill-corejs2-0.3.3.tgz#5d1bd3836d0a19e1b84bbf2d9640ccb6f951c122"
+  integrity sha512-8hOdmFYFSZhqg2C/JgLUQ+t52o5nirNwaWM2B9LWteozwIvM14VSwdsCAUET10qT+kmySAlseadmfeeSWFCy+Q==
   dependencies:
     "@babel/compat-data" "^7.17.7"
-    "@babel/helper-define-polyfill-provider" "^0.3.2"
+    "@babel/helper-define-polyfill-provider" "^0.3.3"
     semver "^6.1.1"
 
 babel-plugin-polyfill-corejs2@^0.3.0:
@@ -14655,15 +14655,6 @@ babel-plugin-polyfill-corejs2@^0.3.1:
   dependencies:
     "@babel/compat-data" "^7.13.11"
     "@babel/helper-define-polyfill-provider" "^0.3.1"
-    semver "^6.1.1"
-
-babel-plugin-polyfill-corejs2@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/babel-plugin-polyfill-corejs2/-/babel-plugin-polyfill-corejs2-0.3.3.tgz#5d1bd3836d0a19e1b84bbf2d9640ccb6f951c122"
-  integrity sha512-8hOdmFYFSZhqg2C/JgLUQ+t52o5nirNwaWM2B9LWteozwIvM14VSwdsCAUET10qT+kmySAlseadmfeeSWFCy+Q==
-  dependencies:
-    "@babel/compat-data" "^7.17.7"
-    "@babel/helper-define-polyfill-provider" "^0.3.3"
     semver "^6.1.1"
 
 babel-plugin-polyfill-corejs3@^0.1.0:

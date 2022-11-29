@@ -90,7 +90,7 @@
     "aws-sdk": "2.1186.0",
     "aws-sdk-client-mock": "1.0.0",
     "axios": "0.27.2",
-    "babel-plugin-polyfill-corejs2": "0.3.2",
+    "babel-plugin-polyfill-corejs2": "0.3.3",
     "babel-plugin-polyfill-regenerator": "0.4.0",
     "chargebee-typescript": "2.10.0",
     "constructs": "10.1.64",
