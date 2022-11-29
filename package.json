@@ -65,7 +65,7 @@
     "@types/deep-equal": "^1.0.1",
     "@types/imap-simple": "4.2.5",
     "@types/jest-when": "^3.5.2",
-    "@types/jsonwebtoken": "8.5.8",
+    "@types/jsonwebtoken": "8.5.9",
     "@types/jwk-to-pem": "2.0.1",
     "@types/lodash": "4.14.182",
     "@types/mochawesome": "^6.2.1",
