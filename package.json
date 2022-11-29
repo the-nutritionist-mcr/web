@@ -128,7 +128,7 @@
     "jwk-to-pem": "2.0.5",
     "lint-staged": "13.0.4",
     "lodash": "4.17.21",
-    "loglevel": "1.8.0",
+    "loglevel": "1.8.1",
     "mailslurp-client": "15.13.1",
     "minipass": "^4.0.0",
     "mocha": "^10.1.0",
