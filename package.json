@@ -59,7 +59,7 @@
     "@storybook/core-server": "6.5.13",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react-hooks": "8.0.1",
-    "@testing-library/user-event": "14.4.0",
+    "@testing-library/user-event": "14.4.3",
     "@trumbitta/nx-plugin-unused-deps": "^1.12.1",
     "@types/aws-lambda": "8.10.101",
     "@types/deep-equal": "^1.0.1",
