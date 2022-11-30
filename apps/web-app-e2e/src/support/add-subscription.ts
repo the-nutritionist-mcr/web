@@ -14,6 +14,7 @@ export const addSubscription = async (
     site: CHARGEBEE.sites.test,
     api_key: key,
   });
+
   const itemPriceId = v4();
 
   console.log(`Creating item price id ${itemPriceId}`);

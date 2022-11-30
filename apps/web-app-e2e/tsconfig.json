@@ -4,7 +4,12 @@
     "sourceMap": false,
     "outDir": "../../dist/out-tsc",
     "allowJs": true,
-    "types": ["cypress", "node", "aws-amplify__auth"]
+    "types": [
+      "cypress",
+      "node",
+      "aws-amplify__auth",
+      "@testing-library/cypress"
+    ]
   },
   "include": ["src/**/*.ts", "e2e/**/*.ts", "cypress.config.ts"]
 }

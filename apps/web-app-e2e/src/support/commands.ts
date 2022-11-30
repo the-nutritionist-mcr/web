@@ -1,6 +1,8 @@
 import { Auth } from '@aws-amplify/auth';
 import { getAppConfig } from '@tnmw/utils';
 
+import '@testing-library/cypress/add-commands';
+
 const configureCognitoAndSignIn = async (
   username: string,
   password: string

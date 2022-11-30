@@ -6,24 +6,29 @@ import {
 } from '../../src/pages/recipes';
 
 describe('The recipes page', { scrollBehavior: false }, () => {
+  // eslint-disable-next-line fp/no-let
+  let timeout: NodeJS.Timeout | undefined;
   beforeEach(() => {
+    timeout = setTimeout(() => {
+      throw new Error('Timed out');
+    }, 10 * 60_000);
+
     cy.loginByCognitoApi({
       user: E2E.adminUserOne.email,
       password: E2E.adminUserOne.password,
     });
   });
 
+  afterEach(() => {
+    clearTimeout(timeout);
+  });
+
   it("Should load a page titled 'recipes'", () => {
     Recipes.visit();
-
     Recipes.getHeader();
   });
 
   it('should contain a table with 215 rows of data and a header row', () => {
-    const timeout = setTimeout(() => {
-      throw new Error('Timed out');
-    }, 10 * 60_000);
-
     Recipes.visit();
     Recipes.getTableRows().should('have.length', 216);
 
