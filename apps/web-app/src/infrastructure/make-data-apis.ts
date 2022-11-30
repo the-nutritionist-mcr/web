@@ -17,6 +17,8 @@ import { entryName } from './entry-name';
 import { AttributeType, BillingMode, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Construct } from 'constructs';
 import { instrumentFunctions } from './instrument-functions';
+import { Rule, Schedule } from 'aws-cdk-lib/aws-events';
+import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 
 export const makeDataApis = (
   context: Construct,
@@ -107,6 +109,26 @@ export const makeDataApis = (
     api,
     defaultEnvironmentVars
   );
+
+  const reportsFunction = new NodejsFunction(context, `reports-function`, {
+    functionName: getResourceName(`reports-function`, envName),
+    entry: entryName('misc', 'reports-function.ts'),
+    runtime: Runtime.NODEJS_16_X,
+    memorySize: 2048,
+    environment: {
+      ...defaultEnvironmentVars,
+    },
+    bundling: {
+      externalModules: ['dd-trace', 'datadog-lambda-js'],
+      sourceMap: true,
+    },
+  });
+
+  const eventRule = new Rule(context, 'rule', {
+    schedule: Schedule.rate(Duration.days(7)),
+  });
+
+  eventRule.addTarget(new LambdaFunction(reportsFunction));
 
   const planDataTable = new Table(context, `plan-table`, {
     tableName: getResourceName(`plan-table-table`, envName),
