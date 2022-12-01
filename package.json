@@ -50,7 +50,7 @@
     "@emotion/react": "11.10.5",
     "@emotion/server": "11.10.0",
     "@emotion/styled": "11.10.5",
-    "@mui/material": "5.9.3",
+    "@mui/material": "5.10.16",
     "@nrwl/next": "15.2.4",
     "@reduxjs/toolkit": "1.8.4",
     "@seeebiii/ses-verify-identities": "^4.1.0",
