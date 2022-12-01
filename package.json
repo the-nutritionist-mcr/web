@@ -52,7 +52,7 @@
     "@emotion/styled": "11.10.5",
     "@mui/material": "5.10.16",
     "@nrwl/next": "15.2.4",
-    "@reduxjs/toolkit": "1.8.4",
+    "@reduxjs/toolkit": "1.9.1",
     "@seeebiii/ses-verify-identities": "^4.1.0",
     "@sls-next/cdk-construct": "^3.7.0",
     "@sls-next/lambda-at-edge": "^3.7.0",
