@@ -15806,10 +15806,10 @@ charenc@0.0.2:
   resolved "https://registry.npmjs.org/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
   integrity sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==
 
-chargebee-typescript@2.10.0:
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/chargebee-typescript/-/chargebee-typescript-2.10.0.tgz#844a9d30dab4db112e1cb0fd56f0f7f5279a184d"
-  integrity sha512-9RMfEEe+h9Vs6u1BtgvbwOypjZtYza5IWZZZVx+oHae2uX2oQ8Y9A4iM6SLkY9IoeKyeydBsgC85wkNVD2DxdQ==
+chargebee-typescript@2.15.0:
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/chargebee-typescript/-/chargebee-typescript-2.15.0.tgz#d3fe4f7e86ef4cc4536fd26f523a9b0f0126b6a7"
+  integrity sha512-NysUb7TDL2n8J6QVJuldZqUfIAtnLDGorL++35Z5nbznv2xrktlZJ1/W59l3sFF1Zp3X9CvRZ6CNRfatm7s8ug==
   dependencies:
     q ">=1.0.1"
 
