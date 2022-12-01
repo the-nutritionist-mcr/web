@@ -1,9 +1,9 @@
 import { E2E } from '@tnmw/constants';
-import {
-  Recipes,
-  CreateRecipeDialog,
-  ConfirmDeleteDialog,
-} from '../../src/pages/recipes';
+import { Recipes, CreateRecipeDialog } from '../../src/pages/recipes';
+import { ConfirmDeleteDialog } from '../../src/pages/confirm-delete-dialog';
+
+const recipes = new Recipes();
+const confirmDeleteDialog = new ConfirmDeleteDialog();
 
 describe('The recipes page', { scrollBehavior: false }, () => {
   // eslint-disable-next-line fp/no-let
@@ -24,29 +24,32 @@ describe('The recipes page', { scrollBehavior: false }, () => {
   });
 
   it("Should load a page titled 'recipes'", () => {
-    Recipes.visit();
-    Recipes.getHeader();
+    recipes.visit();
+    recipes.getHeader();
   });
 
   it('should contain a table with 215 rows of data and a header row', () => {
-    Recipes.visit();
-    Recipes.getTableRows().should('have.length', 216);
+    recipes.visit();
+    recipes.getTableRows().should('have.length', 216);
 
-    Recipes.getTableRows()
+    recipes
+      .getTableRows()
       .contains('TERIYAKI SAL')
       .parent('tr')
       .find('td')
       .eq(0)
       .contains('TERIYAKI SAL');
 
-    Recipes.getTableRows()
+    recipes
+      .getTableRows()
       .contains('TERIYAKI SAL')
       .parent('tr')
       .find('td')
       .eq(1)
       .contains('TERIYAKI GLAZED SALMON');
 
-    Recipes.getTableRows()
+    recipes
+      .getTableRows()
       .contains('TERIYAKI SAL')
       .parent('tr')
       .find('td')
@@ -55,14 +58,16 @@ describe('The recipes page', { scrollBehavior: false }, () => {
         'Fragrant jasmine rice, sriracha dressed slaw, toasted peanuts, spring onions, chilli coriander dressing'
       );
 
-    Recipes.getTableRows()
+    recipes
+      .getTableRows()
       .contains('TERIYAKI SAL')
       .parent('tr')
       .find('td')
       .eq(3)
       .contains('Extra Meat');
 
-    Recipes.getTableRows()
+    recipes
+      .getTableRows()
       .contains('TERIYAKI SAL')
       .parent('tr')
       .find('td')
@@ -73,14 +78,14 @@ describe('The recipes page', { scrollBehavior: false }, () => {
   });
 
   it('Should pop up a dialog when you click new', () => {
-    Recipes.visit();
-    Recipes.clickNewButton();
+    recipes.visit();
+    recipes.getNewButton().click();
     CreateRecipeDialog.getCreateDialog();
   });
 
   it('Should add an extra row in the recipes table when you fill in the Create Dialog', () => {
-    Recipes.visit();
-    Recipes.clickNewButton();
+    recipes.visit();
+    recipes.getNewButton().click();
     CreateRecipeDialog.getCreateDialog();
     CreateRecipeDialog.editNameField('Tuna Bake');
     CreateRecipeDialog.editShortnameField('tuna-b');
@@ -94,17 +99,18 @@ describe('The recipes page', { scrollBehavior: false }, () => {
     CreateRecipeDialog.editExclusionsField('No Brocc');
     CreateRecipeDialog.getHeader('Create Recipe').click();
     CreateRecipeDialog.clickSave();
-    Recipes.getTable().contains('tuna-b');
+    recipes.getTable().contains('tuna-b');
   });
 
   it('Added recipe should persist across pageload', () => {
-    Recipes.visit();
-    Recipes.getTable().contains('tuna-b');
+    recipes.visit();
+    recipes.getTable().contains('tuna-b');
   });
 
   it('Added recipe should have all its data correctly persisted', () => {
-    Recipes.visit();
-    Recipes.clickRecipeEdit('tuna-b');
+    recipes.visit();
+    recipes.getRecipeEdit('tuna-b').click({ force: true });
+
     CreateRecipeDialog.getEditNameField().should('have.value', 'Tuna Bake');
     CreateRecipeDialog.getEditShortnameField().should('have.value', 'tuna-b');
     CreateRecipeDialog.getEditDescriptionField().should(
@@ -121,8 +127,8 @@ describe('The recipes page', { scrollBehavior: false }, () => {
   });
 
   it('Should persist changes to recipes', () => {
-    Recipes.visit();
-    Recipes.clickRecipeEdit('7 SPICE CHIX');
+    recipes.visit();
+    recipes.getRecipeEdit('7 SPICE CHIX').click();
     CreateRecipeDialog.editNameField('A different kind of recipe');
     CreateRecipeDialog.editShortnameField('8 SPICE CHIX');
     CreateRecipeDialog.editDescriptionField('A description');
@@ -131,9 +137,9 @@ describe('The recipes page', { scrollBehavior: false }, () => {
     CreateRecipeDialog.addToCustomisationField('No Brocc');
     CreateRecipeDialog.editExclusionsField('No Alcohol');
     CreateRecipeDialog.clickSave();
-    Recipes.getTable().contains('8 SPICE CHIX');
-    Recipes.visit();
-    Recipes.clickRecipeEdit('8 SPICE CHIX');
+    recipes.getTable().contains('8 SPICE CHIX');
+    recipes.visit();
+    recipes.getRecipeEdit('8 SPICE CHIX').click();
     CreateRecipeDialog.getEditNameField().should(
       'have.value',
       'A different kind of recipe'
@@ -158,14 +164,14 @@ describe('The recipes page', { scrollBehavior: false }, () => {
   });
 
   it('Should remove a row when you click the delete button and confirm', () => {
-    Recipes.visit();
-    Recipes.clickRecipeDelete('tuna-b');
-    ConfirmDeleteDialog.clickOk();
-    Recipes.getTable().contains('tuna-b').should('not.exist');
+    recipes.visit();
+    recipes.getRecipeDelete('tuna-b').click();
+    confirmDeleteDialog.getOkButton().click();
+    recipes.getTable().contains('tuna-b').should('not.exist');
   });
 
   it('Removed recipe should persist across pageload', () => {
-    Recipes.visit();
-    Recipes.getTable().contains('tuna-b').should('not.exist');
+    recipes.visit();
+    recipes.getTable().contains('tuna-b').should('not.exist');
   });
 });

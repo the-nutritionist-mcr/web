@@ -10,6 +10,8 @@ import {
   readDownloadedFile,
 } from '../../src/support/cypress-helpers';
 
+const recipes = new Recipes();
+
 const customerNameString = `${E2E.e2eCustomer.surname}, ${E2E.e2eCustomer.firstName}`;
 const notReversedName = `${E2E.e2eCustomer.firstName}`;
 
@@ -70,29 +72,29 @@ describe('The planner', () => {
       .parents('tr')
       .contains('EQ-5', { timeout: 5 * 60_000 });
 
-    Recipes.visit();
-    Recipes.getHeader();
-    Recipes.clickPlanningMode();
+    recipes.visit();
+    recipes.getHeader();
+    recipes.getPlanningModeButton().click();
     cy.clock(Date.UTC(2022, 10, 8)).then((clock) => {
-      Recipes.clickPickMeals(1);
-      Recipes.addRecipeToSelectedCook('PAD THAI');
-      Recipes.addRecipeToSelectedCook('ANCHO BBQ CHIX');
-      Recipes.addRecipeToSelectedCook('ACHIOTE PORK');
-      Recipes.addRecipeToSelectedCook('RICOTTA');
-      Recipes.addRecipeToSelectedCook('BUDDHA BOWL');
-      Recipes.addRecipeToSelectedCook('SAGE RISO');
-      Recipes.chooseCookDateSelect(1, new Date(Date.UTC(2022, 10, 13)));
+      recipes.getPickMealsButton(1).click();
+      recipes.getAddRecipeToCookCheckbox('PAD THAI').click();
+      recipes.getAddRecipeToCookCheckbox('ANCHO BBQ CHIX').click();
+      recipes.getAddRecipeToCookCheckbox('ACHIOTE PORK').click();
+      recipes.getAddRecipeToCookCheckbox('RICOTTA').click();
+      recipes.getAddRecipeToCookCheckbox('BUDDHA BOWL').click();
+      recipes.getAddRecipeToCookCheckbox('SAGE RISO').click();
+      recipes.selectChooseCookDate(1, new Date(Date.UTC(2022, 10, 13)));
 
-      Recipes.clickPickMeals(2);
-      Recipes.addRecipeToSelectedCook('CHIX ORZO');
-      Recipes.addRecipeToSelectedCook('BEEF BURRITO');
-      Recipes.addRecipeToSelectedCook('TERIYAKI SAL');
-      Recipes.addRecipeToSelectedCook('CHIX ANCHO');
-      Recipes.addRecipeToSelectedCook('SAL HOI SIN');
-      Recipes.addRecipeToSelectedCook('GOAT NUT SAL');
-      Recipes.chooseCookDateSelect(2, new Date(Date.UTC(2022, 10, 16)));
+      recipes.getPickMealsButton(2).click();
+      recipes.getAddRecipeToCookCheckbox('CHIX ORZO').click();
+      recipes.getAddRecipeToCookCheckbox('BEEF BURRITO').click();
+      recipes.getAddRecipeToCookCheckbox('TERIYAKI SAL').click();
+      recipes.getAddRecipeToCookCheckbox('CHIX ANCHO').click();
+      recipes.getAddRecipeToCookCheckbox('SAL HOI SIN').click();
+      recipes.getAddRecipeToCookCheckbox('GOAT NUT SAL').click();
+      recipes.selectChooseCookDate(2, new Date(Date.UTC(2022, 10, 16)));
 
-      Recipes.clickSendToPlanner();
+      recipes.getSendToPlannerButton().click();
       cy.contains('New plan successfully generated!');
       clock.restore();
       Planner.visit();

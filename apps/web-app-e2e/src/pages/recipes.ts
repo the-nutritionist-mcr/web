@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-array-callback-reference */
 import { selectFromGrommetDrop } from '../support/cypress-helpers';
 
 const monthDiff = (dateFrom: Date, dateTo: Date) =>
@@ -49,38 +48,54 @@ const selectFromDatePicker = (targetDate: Date) => {
   });
 };
 
-export const Recipes = {
-  visit: () => cy.visit('/admin/recipes'),
+export class Recipes {
+  visit() {
+    return cy.visit('/admin/recipes');
+  }
 
-  getHeader: () => cy.contains('h2', 'Recipes'),
+  getHeader() {
+    return cy.contains('h2', 'Recipes');
+  }
 
-  getTable: () => cy.get('table'),
+  getTable() {
+    return cy.get('table');
+  }
 
-  clickPlanningMode: () => cy.contains('button', 'Planning Mode').click(),
+  getPlanningModeButton() {
+    return cy.contains('button', 'Planning Mode');
+  }
 
-  clickSendToPlanner: () => cy.contains('button', 'Send to Planner').click(),
+  getSendToPlannerButton() {
+    return cy.contains('button', 'Send to Planner');
+  }
 
-  getTableRows: () => cy.get('table').find('tr'),
+  getTableRows() {
+    return cy.get('table').find('tr');
+  }
 
-  clickNewButton: () => cy.contains('button', 'New').click(),
+  getNewButton() {
+    return cy.contains('button', 'New');
+  }
 
-  clickRecipeDelete: (shortName: string) =>
-    cy
+  getRecipeEdit(shortName: string) {
+    return cy
       .contains(shortName)
       .parent('tr')
-      .find('button[aria-label="Delete"]')
-      .click({ force: true }),
+      .find('button[aria-label="Edit"]');
+  }
 
-  clickRecipeEdit: (shortName: string) =>
-    cy
+  getRecipeDelete(shortName: string) {
+    return cy
       .contains(shortName)
       .parent('tr')
-      .find('button[aria-label="Edit"]')
-      .click({ force: true }),
+      .find('button[aria-label="Delete"]');
+  }
 
-  getCreateRecipeHeader: () => cy.contains('h3', 'Create Recipe'),
+  getCreateRecipeHeader() {
+    return cy.contains('h3', 'Create Recipe');
+  }
 
-  chooseCookDateSelect: (which: number, date: Date) => {
+  selectChooseCookDate(which: number, date: Date) {
     cy.contains(`Cook ${which}`)
       .parent('header')
       .parent('div')
@@ -89,24 +104,20 @@ export const Recipes = {
       .click();
 
     selectFromDatePicker(date);
-  },
+  }
 
-  clickPickMeals: (which: number) =>
-    cy
+  getPickMealsButton(which: number) {
+    return cy
       .contains(`Cook ${which}`)
       .parent('header')
       .parent('div')
-      .contains('button', 'Pick Meals')
-      .click(),
+      .contains('button', 'Pick Meals');
+  }
 
-  addRecipeToSelectedCook: (shortName: string) =>
-    cy.contains(shortName).parents('tr').find('input').parent().click(),
-};
-
-export const ConfirmDeleteDialog = {
-  clickOk: () => cy.contains('button', 'Ok').click(),
-  clickCancel: () => cy.contains('button', 'Cancel').click(),
-};
+  getAddRecipeToCookCheckbox(shortName: string) {
+    return cy.contains(shortName).parents('tr').find('input').parent();
+  }
+}
 
 export const CreateRecipeDialog = {
   getCreateDialog: () => cy.get('form'),
