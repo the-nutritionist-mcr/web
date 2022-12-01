@@ -88,7 +88,7 @@
     "aws-cdk": "2.53.0",
     "aws-cdk-lib": "2.53.0",
     "aws-crt": "1.14.8",
-    "aws-sdk": "2.1265.0",
+    "aws-sdk": "2.1266.0",
     "aws-sdk-client-mock": "1.0.0",
     "axios": "0.27.2",
     "babel-plugin-polyfill-corejs2": "0.3.3",
