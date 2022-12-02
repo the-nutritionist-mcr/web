@@ -45,7 +45,7 @@
     "@commitlint/config-conventional": "^17.0.3",
     "@cypress/code-coverage": "3.10.0",
     "@datadog/browser-rum": "^4.16.1",
-    "@datadog/datadog-ci": "^1.12.0",
+    "@datadog/datadog-ci": "^2.0.0",
     "@emotion/jest": "11.10.5",
     "@emotion/react": "11.10.5",
     "@emotion/server": "11.10.0",
