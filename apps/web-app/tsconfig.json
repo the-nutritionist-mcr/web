@@ -22,5 +22,5 @@
     "next-env.d.ts",
     "src/global.d.ts"
   ],
-  "exclude": ["jest.config.ts"]
+  "exclude": ["jest.config.ts", "cdk.out", "out_lambda"]
 }
