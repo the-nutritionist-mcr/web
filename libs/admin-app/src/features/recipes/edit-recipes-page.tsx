@@ -225,7 +225,14 @@ export const EditRecipesPage = (props: EditRecipesPageProps) => {
                         });
                         setDirty(true);
                       }}
-                      options={allRecipes}
+                      // eslint-disable-next-line fp/no-mutating-methods
+                      options={allRecipes
+                        .slice()
+                        .sort((a, b) =>
+                          a.shortName.toLowerCase() > b.shortName.toLowerCase()
+                            ? 1
+                            : -1
+                        )}
                       value={alternate.recipeId}
                       labelKey="shortName"
                       valueKey={{ key: 'id', reduce: true }}
