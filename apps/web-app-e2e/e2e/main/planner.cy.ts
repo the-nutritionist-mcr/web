@@ -67,6 +67,7 @@ describe('The planner', () => {
 
     cy.task('createChargebeeCustomer', user);
 
+    console.log('getting table');
     Customers.visit();
     Customers.getTable().contains(customerNameString, { timeout: 5 * 60_000 });
 
