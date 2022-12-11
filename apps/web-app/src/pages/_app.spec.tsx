@@ -5,6 +5,8 @@ import { mock } from 'jest-mock-extended';
 import { screen } from '@testing-library/react';
 import { getAppConfig } from '@tnmw/utils';
 
+// eslint-disable-next-line unicorn/prefer-module
+jest.mock('next/router', () => require('next-router-mock'));
 jest.mock('@tnmw/utils');
 jest.mock('../aws/authenticate');
 
@@ -12,9 +14,10 @@ beforeEach(() => {
   jest.mocked(getAppConfig).mockResolvedValue({
     DomainName: 'foo',
     UserPoolId: 'pool-id',
+    AwsRegion: 'eu-west-2',
+    Environment: 'test',
+    ChargebeeUrl: 'url',
     ClientId: 'client-id',
-    RedirectUrl: 'redirect-url',
-    AuthUrl: 'auth-url',
     ApiDomainName: 'locahost',
   });
 });
