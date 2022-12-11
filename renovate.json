@@ -5,6 +5,10 @@
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true
+    },
+    {
+      "matchPackageNames": ["aws-sdk-js-v3 monorepo"],
+      "allowedVersions": "<=3.141.0"
     }
   ]
 }
