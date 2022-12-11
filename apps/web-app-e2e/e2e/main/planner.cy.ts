@@ -32,7 +32,6 @@ describe('The planner', () => {
   before(() => {
     cy.task('deleteFolder', Cypress.config('downloadsFolder'));
     cy.task('deleteChargebeeCustomer', E2E.e2eCustomer.username);
-    cy.task('waitUntilUserDoesntExist', E2E.e2eCustomer.username);
   });
 
   beforeEach(() => {
@@ -66,6 +65,7 @@ describe('The planner', () => {
       postcode: E2E.e2eCustomer.postcode,
     };
 
+    cy.task('waitUntilUserDoesntExist', E2E.e2eCustomer.username);
     cy.task('createChargebeeCustomer', user);
 
     console.log('getting table');

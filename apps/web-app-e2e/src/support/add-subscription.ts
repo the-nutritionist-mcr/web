@@ -58,5 +58,6 @@ export const addSubscription = async (
         }
       });
   });
+  console.log(`Subscription created`);
   return null;
 };
