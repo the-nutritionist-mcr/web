@@ -15,6 +15,7 @@ import { promisify } from 'node:util';
 import { readPdf } from './src/support/read-pdf';
 // eslint-disable-next-line unicorn/prefer-node-protocol
 import path from 'path';
+import { waitUntil } from './src/support/wait-until';
 
 const PROJECT_ROOT_NODE_MODULES = path.join(
   __dirname,
@@ -51,6 +52,9 @@ export default defineConfig({
           return new Promise((accept, reject) => {
             extractor(fileName, accept, reject);
           });
+        },
+        waitUntilUserDoesntExist: (username: string) => {
+          return waitUntil(username);
         },
         readPdf: (filename: string) => {
           return readPdf(filename);

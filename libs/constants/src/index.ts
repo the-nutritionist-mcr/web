@@ -49,6 +49,25 @@ export const E2E = {
     plans:
       '[{"name":"Equilibrium","daysPerWeek":6,"itemsPerDay":1,"isExtra":false,"totalMeals":6},{"name":"Breakfast","daysPerWeek":7,"itemsPerDay":1,"isExtra":true,"totalMeals":7}]',
   },
+  e2eCustomer2: {
+    username: 'e2e-customer-two',
+    postcode: 'M1 2AB',
+    password: 'password',
+    email: 'ben+testcustomeragain2@thenutritionistmcr.com',
+    country: 'GB',
+    firstName: 'E2E',
+    phoneNumber: '07812345674',
+    phoneNumberFull: '+447812345673',
+    surname: 'Customer',
+    deliveryDay1: 'Monday',
+    deliveryDay2: 'Wednesday',
+    addressLine1: 'Flat 5, Block C',
+    addressLine2: 'Albion Works',
+    addressLine3: 'New Islington',
+    city: 'Manchester',
+    plans:
+      '[{"name":"Equilibrium","daysPerWeek":6,"itemsPerDay":1,"isExtra":false,"totalMeals":6},{"name":"Breakfast","daysPerWeek":7,"itemsPerDay":1,"isExtra":true,"totalMeals":7}]',
+  },
   testCustomer: {
     username: 'test-customer-1',
     postcode: 'M1 2AB',

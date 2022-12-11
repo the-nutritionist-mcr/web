@@ -1,4 +1,4 @@
-import { E2E } from '@tnmw/constants';
+import { E2E, ENV } from '@tnmw/constants';
 import { Planner } from '../../src/pages/planner';
 import { Recipes } from '../../src/pages/recipes';
 import { Customers } from '../../src/pages/customers';
@@ -9,6 +9,7 @@ import {
   getDownloadedFilename,
   readDownloadedFile,
 } from '../../src/support/cypress-helpers';
+import { userExists } from 'apps/web-app-e2e/src/support/user-exists';
 
 const recipes = new Recipes();
 
@@ -31,7 +32,7 @@ describe('The planner', () => {
   before(() => {
     cy.task('deleteFolder', Cypress.config('downloadsFolder'));
     cy.task('deleteChargebeeCustomer', E2E.e2eCustomer.username);
-    cy.task('deleteCognitoUser', E2E.e2eCustomer.username);
+    cy.task('waitUntilUserDoesntExist', E2E.e2eCustomer.username);
   });
 
   beforeEach(() => {
@@ -292,18 +293,18 @@ describe('The planner', () => {
       );
 
       expect(normalise(cookOne.tables[1][0])).to.eq(
-        `ANCHO CHILLI BARBECUE PULLED CHICKEN (x 5)`
-      );
-
-      expect(normalise(cookOne.tables[2][0])).to.eq(
         `ACHIOTE SLOW COOKED SHOULDER OF PORK (x 6)`
       );
 
-      expect(normalise(cookOne.tables[3][0])).to.eq(`Breakfast (x 3)`);
+      expect(normalise(cookOne.tables[2][0])).to.eq(
+        `ANCHO CHILLI BARBECUE PULLED CHICKEN (x 5)`
+      );
 
-      expect(normalise(cookOne.tables[4][0])).to.eq(
+      expect(normalise(cookOne.tables[3][0])).to.eq(
         `BABY SPINACH + RICOTTA GRATIN (x 1)`
       );
+
+      expect(normalise(cookOne.tables[4][0])).to.eq(`Breakfast (x 3)`);
 
       const cookTwo = table.pageTables.find((page) => page.page === 3);
 
