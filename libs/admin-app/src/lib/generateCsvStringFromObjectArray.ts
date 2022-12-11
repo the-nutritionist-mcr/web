@@ -69,8 +69,10 @@ const generateCsvStringFromObjectArray = (
   const flags = inputObjectArray.reduce<ReadonlyArray<ArbitraryObjectType>>(
     (accum, row) => {
       const customisations = row['customisations'];
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { originalName, ...restOfData } = row;
       if (customisations) {
-        return [...accum, row];
+        return [...accum, restOfData];
       }
       return accum;
     },
@@ -80,11 +82,12 @@ const generateCsvStringFromObjectArray = (
   const mealNameMap = inputObjectArray.reduce<
     Record<string, ReadonlyArray<ArbitraryObjectType>>
   >((accum, row) => {
-    const name = row['originalName'] ?? row['mealName'];
+    const { originalName, ...restOfData } = row;
+    const name = originalName ?? row['mealName'];
     if (!(typeof name === 'string')) {
       throw new TypeError('originalName or mealName not present');
     }
-    accum[name] = [...(accum[name] ?? []), row];
+    accum[name] = [...(accum[name] ?? []), restOfData];
     return accum;
   }, {});
 

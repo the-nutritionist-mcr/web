@@ -105,6 +105,7 @@ const makeLabelObject = (
     // eslint-disable-next-line unicorn/consistent-destructuring
     customerName: titleCase(`${customer.firstName} ${customer.surname}`),
     surname: customer.surname,
+    originalName: '',
     mealName: titleCase(item.extraName),
     description: '',
     allergens: '',
@@ -116,6 +117,10 @@ const makeLabelObject = (
 };
 
 const sortFunction = (a: Record<string, string>, b: Record<string, string>) => {
+  if (a['originalName'] > b['originalName']) {
+    return 1;
+  }
+
   if (a['itemPlan'] > b['itemPlan']) {
     return 1;
   }
