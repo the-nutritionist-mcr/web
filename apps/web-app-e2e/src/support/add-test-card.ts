@@ -15,6 +15,8 @@ export const addTestCard = async (id: string) => {
   const TEST_CARD_EXPIRY_MONTH = 12;
   const TEST_CARD_EXPIRY_YEAR = 2023;
 
+  console.log('Adding test card');
+
   await new Promise<{ list: { item_price: { id: string } }[] }>(
     (accept, reject) => {
       chargebee.payment_source

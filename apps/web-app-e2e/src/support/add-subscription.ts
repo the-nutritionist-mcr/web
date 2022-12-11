@@ -38,6 +38,8 @@ export const addSubscription = async (
   const entry = result.list[0];
   const itemPrice = entry.item_price;
 
+  console.log(`Creating subscription`);
+
   await new Promise((accept, reject) => {
     chargebee.subscription
       .create_with_items(customerId, {

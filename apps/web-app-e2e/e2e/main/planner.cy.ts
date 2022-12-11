@@ -24,6 +24,9 @@ const todaysDatestamp = () => {
   return `${da}-${mo}-${ye}`;
 };
 
+// eslint-disable-next-line fp/no-let
+let timeout: NodeJS.Timeout | undefined;
+
 describe('The planner', () => {
   before(() => {
     cy.task('deleteFolder', Cypress.config('downloadsFolder'));
@@ -36,6 +39,13 @@ describe('The planner', () => {
       user: E2E.adminUserOne.email,
       password: E2E.adminUserOne.password,
     });
+    timeout = setTimeout(() => {
+      throw new Error('Timed out');
+    }, 10 * 60_000);
+  });
+
+  afterEach(() => {
+    clearTimeout(timeout);
   });
 
   it('You can generate a plan on the recipes page that is then available on the planner', () => {
