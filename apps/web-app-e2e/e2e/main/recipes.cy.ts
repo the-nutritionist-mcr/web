@@ -165,7 +165,7 @@ describe('The recipes page', { scrollBehavior: false }, () => {
 
   it('Should remove a row when you click the delete button and confirm', () => {
     recipes.visit();
-    recipes.getRecipeDelete('tuna-b').click();
+    recipes.getRecipeDelete('tuna-b').click({ force: true });
     confirmDeleteDialog.getOkButton().click();
     recipes.getTable().contains('tuna-b').should('not.exist');
   });
