@@ -12,13 +12,14 @@ type CookPlan = {
   };
 }[];
 
-export interface RecipeVariantMap {
+export type RecipeVariantMap = {
   [variantName: string]: {
     customers: BackendCustomer[];
     count: number;
     allergen: boolean;
     customisation: boolean;
+    originalName: string;
   };
-}
+};
 
 export default CookPlan;

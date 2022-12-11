@@ -1,4 +1,4 @@
-import Customer from '../domain/Customer';
+import { BackendCustomer } from '@tnmw/types';
 import { RecipeVariantMap } from '../types/CookPlan';
 import { DocumentDefinition } from './downloadPdf';
 import formatPlanItem from './formatPlanItem';
@@ -26,6 +26,7 @@ const generateCookPlanDocumentDefinition = (
   )})`;
 
   const formatRecipeVariantMapCustomisationsCell = (map: RecipeVariantMap) => {
+    // eslint-disable-next-line fp/no-mutating-methods
     const items = Object.keys(map)
       .slice()
       // eslint-disable-next-line @typescript-eslint/no-magic-numbers
@@ -44,7 +45,7 @@ const generateCookPlanDocumentDefinition = (
           count: number;
           item: RecipeVariantMap[string];
           key: string;
-          customer: Customer;
+          customer: BackendCustomer;
         }[]
       >((accum, item) => {
         const found = accum.find(
@@ -88,6 +89,7 @@ const generateCookPlanDocumentDefinition = (
   const formatRecipeVariantMapNoCustomisationsCell = (
     map: RecipeVariantMap
   ) => ({
+    // eslint-disable-next-line fp/no-mutating-methods
     ul: Object.keys(map)
       .slice()
       // eslint-disable-next-line @typescript-eslint/no-magic-numbers
@@ -106,7 +108,18 @@ const generateCookPlanDocumentDefinition = (
   const convertPlanToRows = (
     individualCookPlan: Map<string, RecipeVariantMap>
   ) => {
-    const all = Array.from(individualCookPlan.entries());
+    // eslint-disable-next-line fp/no-mutating-methods
+    const all = Array.from(individualCookPlan.entries())
+      .slice()
+      .sort((a, b) => {
+        const aRecipe = Object.values(a[1])[0];
+        const bRecipe = Object.values(b[1])[0];
+        if (aRecipe.originalName > bRecipe.originalName) {
+          return 1;
+        }
+
+        return -1;
+      });
     return all.map(([recipeName, value]) => [
       makeLabelCell(recipeName, value),
       formatRecipeVariantMapNoCustomisationsCell(value),

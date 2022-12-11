@@ -19,11 +19,15 @@ const isSelectedMeal = (item: unknown): item is DeliveryMeal => {
 const updateVariantMap = (
   map: Map<string, RecipeVariantMap>,
   customer: BackendCustomer,
-  item: DeliveryItem,
+  item: Swapped<DeliveryItem>,
   allMeals: Recipe[]
 ) => {
   const variant = createVariant(customer, item, allMeals);
   const key = isSelectedMeal(item) ? item.recipe.name : item.extraName;
+
+  const originalName = isSelectedMeal(item)
+    ? item.recipe.originalName
+    : item.extraName;
 
   const newMap = new Map(map);
 
@@ -34,6 +38,7 @@ const updateVariantMap = (
     [variant.string]: {
       ...variant,
       ...previousVariant,
+      originalName,
       count: (previousVariant?.count ?? 0) + 1,
       customers: previousVariant?.customers
         ? [...previousVariant.customers, customer]

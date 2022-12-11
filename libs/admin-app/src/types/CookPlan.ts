@@ -18,6 +18,7 @@ export interface RecipeVariantMap {
     count: number;
     allergen: boolean;
     customisation: boolean;
+    originalName: string;
   };
 }
 
