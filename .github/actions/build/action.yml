@@ -27,7 +27,7 @@ runs:
       env:
         NX_APP_VERSION: ${{ inputs.env-name }}
         NX_DATADOG_APP_ID: ${{ inputs.datadog-app-id }}
-        NX_DATDOG_CLIENT_TOKEN: ${{ inputs.datadog-client-token }}
+        NX_DATADOG_CLIENT_TOKEN: ${{ inputs.datadog-client-token }}
 
     - name: Save dist folder
       uses: actions/upload-artifact@v3
