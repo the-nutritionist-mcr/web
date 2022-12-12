@@ -78,6 +78,9 @@ jobs:
         uses: ./.github/actions/build
         with:
           env-name: cypress
+          datadog-app-id: ${{ secrets.DATADOG_APP_ID_CYPRESS }}
+          datadog-client-token: ${{ secrets.DATADOG_CLIENT_TOKEN_CYPRESS }}
+
   build-next-app-for-test:
     name: Build NextJS app (Test)
     runs-on: ubuntu-latest
@@ -92,6 +95,8 @@ jobs:
         uses: ./.github/actions/build
         with:
           env-name: test
+          datadog-app-id: ${{ secrets.DATADOG_APP_ID_TEST }}
+          datadog-client-token: ${{ secrets.DATADOG_CLIENT_TOKEN_TEST }}
 
   build-next-app-for-prod:
     name: Build NextJS app (Production)
@@ -107,6 +112,8 @@ jobs:
         uses: ./.github/actions/build
         with:
           env-name: prod
+          datadog-app-id: ${{ secrets.DATADOG_APP_ID }}
+          datadog-client-token: ${{ secrets.DATADOG_CLIENT_TOKEN }}
 
   build-storybook:
     name: Build Storybook

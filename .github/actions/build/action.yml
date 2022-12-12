@@ -6,6 +6,14 @@ inputs:
     description: Name of the environment being deployed
     required: true
 
+  datadog-app-id:
+    description: Datadog Application Id
+    required: false
+
+  datadog-client-token:
+    description: Datadog Client Token
+    required: false
+
 runs:
   using: 'composite'
   steps:
@@ -18,6 +26,8 @@ runs:
       run: yarn nx build web-app && yarn nx export web-app
       env:
         NX_APP_VERSION: ${{ inputs.env-name }}
+        NX_DATADOG_APP_ID: ${{ inputs.datadog-app-id }}
+        NX_DATDOG_CLIENT_TOKEN: ${{ inputs.datadog-client-token }}
 
     - name: Save dist folder
       uses: actions/upload-artifact@v3
