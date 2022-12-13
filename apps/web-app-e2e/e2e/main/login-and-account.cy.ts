@@ -8,7 +8,6 @@ import { AccountPage } from '../../src/pages/account';
 describe('The login page', { scrollBehavior: false }, () => {
   before(() => {
     cy.task('deleteChargebeeCustomer', E2E.e2eCustomer.username);
-    cy.task('deleteCognitoUser', E2E.e2eCustomer.username);
   });
 
   const customerNameString = `${E2E.e2eCustomer.surname}, ${E2E.e2eCustomer.firstName}`;
@@ -62,22 +61,24 @@ describe('The login page', { scrollBehavior: false }, () => {
       postcode: E2E.e2eCustomer.postcode,
     };
 
-    cy.task('createChargebeeCustomer', user);
+    cy.task('waitUntilUserDoesntExist', E2E.e2eCustomer.username).then(() => {
+      cy.task('createChargebeeCustomer', user);
 
-    Customers.visit();
-    Customers.clickEditLink(customerNameString, 5 * 60_000);
-    EditCustomer.getHeader();
-    EditCustomer.resetPassword(false, E2E.e2eCustomer.password);
-    cy.clearCookies();
+      Customers.visit();
+      Customers.clickEditLink(customerNameString, 5 * 60_000);
+      EditCustomer.getHeader();
+      EditCustomer.resetPassword(false, E2E.e2eCustomer.password);
+      cy.clearCookies();
 
-    LoginPage.visit();
-    LoginPage.getLoginForm().should('exist');
-    LoginPage.fillEmailInput(E2E.e2eCustomer.email);
-    LoginPage.fillPasswordInput(E2E.e2eCustomer.password);
-    LoginPage.clickLoginButton();
+      LoginPage.visit();
+      LoginPage.getLoginForm().should('exist');
+      LoginPage.fillEmailInput(E2E.e2eCustomer.email);
+      LoginPage.fillPasswordInput(E2E.e2eCustomer.password);
+      LoginPage.clickLoginButton();
 
-    AccountPage.isInNavbar();
-    AccountPage.getYourDetailsHeader();
+      AccountPage.isInNavbar();
+      AccountPage.getYourDetailsHeader();
+    });
   });
 
   it('Account page should contain all the details from the Chargeebee record', () => {
