@@ -65,54 +65,57 @@ describe('The planner', () => {
       postcode: E2E.e2eCustomer.postcode,
     };
 
-    cy.task('waitUntilUserDoesntExist', E2E.e2eCustomer.username);
-    cy.task('createChargebeeCustomer', user);
+    cy.task('waitUntilUserDoesntExist', E2E.e2eCustomer.username).then(() => {
+      cy.task('createChargebeeCustomer', user);
 
-    console.log('getting table');
-    Customers.visit();
-    Customers.getTable().contains(customerNameString, { timeout: 5 * 60_000 });
+      console.log('getting table');
+      Customers.visit();
+      Customers.getTable().contains(customerNameString, {
+        timeout: 5 * 60_000,
+      });
 
-    cy.task('addTestCard', E2E.e2eCustomer.username);
-    cy.task('addSubscription', {
-      customerId: E2E.e2eCustomer.username,
-      planId: 'EQ-1-Monthly-5-2022',
-      price: 100,
-    });
+      cy.task('addTestCard', E2E.e2eCustomer.username);
+      cy.task('addSubscription', {
+        customerId: E2E.e2eCustomer.username,
+        planId: 'EQ-1-Monthly-5-2022',
+        price: 100,
+      });
 
-    Customers.getTableRows()
-      .contains(customerNameString)
-      .parents('tr')
-      .contains('EQ-5', { timeout: 5 * 60_000 });
+      Customers.getTableRows()
+        .contains(customerNameString)
+        .parents('tr')
+        .contains('EQ-5', { timeout: 5 * 60_000 });
 
-    recipes.visit();
-    recipes.getHeader();
-    recipes.getPlanningModeButton().click();
-    cy.clock(Date.UTC(2022, 10, 8)).then((clock) => {
-      recipes.getPickMealsButton(1).click();
-      recipes.getAddRecipeToCookCheckbox('PAD THAI').click();
-      recipes.getAddRecipeToCookCheckbox('ANCHO BBQ CHIX').click();
-      recipes.getAddRecipeToCookCheckbox('ACHIOTE PORK').click();
-      recipes.getAddRecipeToCookCheckbox('RICOTTA').click();
-      recipes.getAddRecipeToCookCheckbox('BUDDHA BOWL').click();
-      recipes.getAddRecipeToCookCheckbox('SAGE RISO').click();
-      recipes.selectChooseCookDate(1, new Date(Date.UTC(2022, 10, 13)));
+      recipes.visit();
+      recipes.getHeader();
+      recipes.getPlanningModeButton().click();
+      cy.clock(Date.UTC(2022, 10, 8)).then((clock) => {
+        recipes.getPickMealsButton(1).click();
+        recipes.getAddRecipeToCookCheckbox('PAD THAI').click();
+        recipes.getAddRecipeToCookCheckbox('ANCHO BBQ CHIX').click();
+        recipes.getAddRecipeToCookCheckbox('ACHIOTE PORK').click();
+        recipes.getAddRecipeToCookCheckbox('RICOTTA').click();
+        recipes.getAddRecipeToCookCheckbox('BUDDHA BOWL').click();
+        recipes.getAddRecipeToCookCheckbox('SAGE RISO').click();
+        recipes.selectChooseCookDate(1, new Date(Date.UTC(2022, 10, 13)));
 
-      recipes.getPickMealsButton(2).click();
-      recipes.getAddRecipeToCookCheckbox('CHIX ORZO').click();
-      recipes.getAddRecipeToCookCheckbox('BEEF BURRITO').click();
-      recipes.getAddRecipeToCookCheckbox('TERIYAKI SAL').click();
-      recipes.getAddRecipeToCookCheckbox('CHIX ANCHO').click();
-      recipes.getAddRecipeToCookCheckbox('SAL HOI SIN').click();
-      recipes.getAddRecipeToCookCheckbox('GOAT NUT SAL').click();
-      recipes.selectChooseCookDate(2, new Date(Date.UTC(2022, 10, 16)));
+        recipes.getPickMealsButton(2).click();
+        recipes.getAddRecipeToCookCheckbox('CHIX ORZO').click();
+        recipes.getAddRecipeToCookCheckbox('BEEF BURRITO').click();
+        recipes.getAddRecipeToCookCheckbox('TERIYAKI SAL').click();
+        recipes.getAddRecipeToCookCheckbox('CHIX ANCHO').click();
+        recipes.getAddRecipeToCookCheckbox('SAL HOI SIN').click();
+        recipes.getAddRecipeToCookCheckbox('GOAT NUT SAL').click();
+        recipes.selectChooseCookDate(2, new Date(Date.UTC(2022, 10, 16)));
 
-      recipes.getSendToPlannerButton().click();
-      cy.contains('New plan successfully generated!');
-      clock.restore();
-      Planner.visit();
+        recipes.getSendToPlannerButton().click();
+        cy.contains('New plan successfully generated!');
+        clock.restore();
+        Planner.visit();
 
-      cy.contains('Plan generated Today by Cypress Tester');
-      cy.contains('This plan has not been published to customers');
+        cy.contains('Plan generated Today by Cypress Tester');
+        cy.contains('This plan has not been published to customers');
+      });
     });
   });
 
