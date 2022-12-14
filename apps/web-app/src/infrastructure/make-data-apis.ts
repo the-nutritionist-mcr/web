@@ -19,6 +19,7 @@ import { Construct } from 'constructs';
 import { instrumentFunctions } from './instrument-functions';
 import { Rule, Schedule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
+import { allowHeaders } from '../backend/allow-headers';
 
 export const makeDataApis = (
   context: Construct,
@@ -71,16 +72,7 @@ export const makeDataApis = (
   const api = new RestApi(context, 'data-api', {
     restApiName: getResourceName('data-api', envName),
     defaultCorsPreflightOptions: {
-      allowHeaders: [
-        HTTP.headerNames.XDatadogOrigin,
-        HTTP.headerNames.XDatadogTraceId,
-        HTTP.headerNames.XDatadogParentId,
-        HTTP.headerNames.XDatadogSamplingPriority,
-        HTTP.headerNames.ContentType,
-        HTTP.headerNames.XAmxDate,
-        HTTP.headerNames.Authorization,
-        HTTP.headerNames.XApiKey,
-      ],
+      allowHeaders,
       allowMethods: [
         HTTP.verbs.Get,
         HTTP.verbs.Put,

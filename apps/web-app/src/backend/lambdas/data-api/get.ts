@@ -7,6 +7,7 @@ import { authoriseJwt } from './authorise';
 
 import { returnErrorResponse } from './return-error-response';
 import { scan } from './get-data/scan';
+import { allowHeaders } from '../../allow-headers';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -26,7 +27,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       body,
       headers: {
         'access-control-allow-origin': '*',
-        'access-control-allow-headers': '*',
+        'access-control-allow-headers': allowHeaders.join(', '),
       },
     };
   } catch (error) {
