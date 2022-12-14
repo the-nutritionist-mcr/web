@@ -68,6 +68,13 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const serialisedMeals = recursivelySerialiseDate(finalMeals);
 
+    const selections: StoredMealPlanGeneratedForIndividualCustomer[] =
+      finalMeals.customerPlans.map((customerPlan) => ({
+        id: `plan-${planId}-selection`,
+        sort: customerPlan.customer.username,
+        ...customerPlan,
+      }));
+
     const plan: SerialisedDate<StoredPlan> = {
       id: 'plan',
       sort: String(payload.timestamp),
@@ -77,14 +84,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       createdBy: serialisedMeals.createdBy,
       createdOn: serialisedMeals.createdOn,
       menus: serialisedMeals.cooks,
+      count: selections.length,
     };
-
-    const selections: StoredMealPlanGeneratedForIndividualCustomer[] =
-      finalMeals.customerPlans.map((customerPlan) => ({
-        id: `plan-${planId}-selection`,
-        sort: customerPlan.customer.username,
-        ...customerPlan,
-      }));
 
     const batches = batchArray(
       [plan, ...recursivelySerialiseDate(selections)],
