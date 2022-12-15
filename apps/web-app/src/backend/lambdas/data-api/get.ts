@@ -7,7 +7,7 @@ import { authoriseJwt } from './authorise';
 
 import { returnErrorResponse } from './return-error-response';
 import { scan } from './get-data/scan';
-import { allowHeaders } from '../../allow-headers';
+import { returnOkResponse } from './return-ok-response';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
@@ -18,23 +18,12 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const items = await scan(client, process.env['DYNAMODB_TABLE'] ?? '');
 
-    const body = JSON.stringify({
+    const body = {
       items: items.filter((item) => !item.deleted),
-    });
-
-    return {
-      statusCode: 200,
-      body,
-      headers: {
-        'access-control-allow-origin': '*',
-        'access-control-allow-headers': allowHeaders.join(', '),
-      },
     };
-  } catch (error) {
-    if (error instanceof Error) {
-      return returnErrorResponse(error);
-    }
 
-    return returnErrorResponse();
+    returnOkResponse(body);
+  } catch (error) {
+    return returnErrorResponse(error);
   }
 };

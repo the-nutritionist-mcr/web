@@ -39,10 +39,6 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       },
     };
   } catch (error) {
-    if (error instanceof Error) {
-      return returnErrorResponse(error);
-    }
-
-    return returnErrorResponse();
+    return returnErrorResponse(error);
   }
 };
