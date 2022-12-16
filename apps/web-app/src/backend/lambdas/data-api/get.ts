@@ -22,7 +22,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       items: items.filter((item) => !item.deleted),
     };
 
-    returnOkResponse(body);
+    return returnOkResponse(body);
   } catch (error) {
     return returnErrorResponse(error);
   }
