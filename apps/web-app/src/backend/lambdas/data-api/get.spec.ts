@@ -6,6 +6,7 @@ import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { authoriseJwt } from './authorise';
 import { HttpError } from './http-error';
 import { HTTP } from '../../../infrastructure/constants';
+import { allowHeaders } from '../../allow-headers';
 
 const dynamodbMock = mockClient(DynamoDBDocumentClient);
 
@@ -72,7 +73,7 @@ describe('the get handler', () => {
       body: JSON.stringify({ items: expectedItems }),
       headers: {
         'access-control-allow-origin': '*',
-        'access-control-allow-headers': '*',
+        'access-control-allow-headers': allowHeaders.join(', '),
       },
     });
   });
@@ -103,7 +104,7 @@ describe('the get handler', () => {
       body: JSON.stringify({ items: [{ foo: 'baz' }] }),
       headers: {
         'access-control-allow-origin': '*',
-        'access-control-allow-headers': '*',
+        'access-control-allow-headers': allowHeaders.join(', '),
       },
     });
   });
