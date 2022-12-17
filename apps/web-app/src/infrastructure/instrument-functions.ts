@@ -19,7 +19,7 @@ export const instrumentFunctions = (
   if (!(context.node.id in contexts)) {
     contexts[context.node.id] = new Datadog(
       context,
-      'datadog-instrumentation',
+      `datadog-instrumentation-${context.node.id}`,
       {
         site: 'datadoghq.eu',
         apiKeySecretArn: DATADOG_API_KEY_SECRET_ARN,

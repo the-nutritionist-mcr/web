@@ -1,12 +1,10 @@
 import { IRestApi, LambdaIntegration } from 'aws-cdk-lib/aws-apigateway';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Table, AttributeType, BillingMode } from 'aws-cdk-lib/aws-dynamodb';
-import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { ENV, HTTP, IAM } from '@tnmw/constants';
 import { getResourceName } from './get-resource-name';
 import { entryName } from './entry-name';
 import { Construct } from 'constructs';
-import { instrumentFunctions } from './instrument-functions';
+import { makeInstrumentedFunctionGenerator } from './instrumented-nodejs-function';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export enum ReadWriteMode {
@@ -34,23 +32,20 @@ export const makeDataApi = (
     },
   });
 
+  const makeFunction = makeInstrumentedFunctionGenerator(
+    context,
+    environment,
+    gitHash
+  );
+
   const makeCrudFunction = (entry: string, opName: string) => {
-    const crudFunction = new NodejsFunction(context, `${opName}${name}`, {
-      functionName: getResourceName(`${opName}-${name}-handler`, environment),
+    const crudFunction = makeFunction(`${opName}${name}`, {
       entry,
-      runtime: Runtime.NODEJS_14_X,
-      memorySize: 2048,
       environment: {
         ...defaultEnvironmentVars,
         [ENV.varNames.DynamoDBTable]: dataTable.tableName,
       },
-      bundling: {
-        externalModules: ['dd-trace', 'datadog-lambda-js'],
-        sourceMap: true,
-      },
     });
-
-    instrumentFunctions(context, environment, gitHash, crudFunction);
 
     return crudFunction;
   };

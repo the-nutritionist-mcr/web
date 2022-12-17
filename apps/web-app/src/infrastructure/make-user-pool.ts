@@ -5,14 +5,12 @@ import {
   UserPoolEmail,
   StringAttribute,
 } from 'aws-cdk-lib/aws-cognito';
-import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { CfnOutput, Duration, RemovalPolicy } from 'aws-cdk-lib';
 import { getResourceName } from './get-resource-name';
 import { COGNITO } from '@tnmw/constants';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import path from 'node:path';
 import { Construct } from 'constructs';
-import { instrumentFunctions } from './instrument-functions';
+import { makeInstrumentedFunctionGenerator } from './instrumented-nodejs-function';
 
 const entryName = (folder: string, name: string) =>
   // eslint-disable-next-line unicorn/prefer-module
@@ -28,55 +26,32 @@ export const makeUserPool = (
     ? RemovalPolicy.DESTROY
     : RemovalPolicy.RETAIN;
 
-  const adminCreateUserEmailSender = new NodejsFunction(
-    context,
-    `admin-create-user-email-sender`,
-    {
-      functionName: getResourceName(
-        `admin-create-user-email-sender`,
-        environmentName
-      ),
-      entry: entryName('chargebee-api', 'joining-email-sender.ts'),
-      runtime: Runtime.NODEJS_14_X,
-      timeout: Duration.seconds(10),
-      environment: {
-        ENVIRONMENT: environmentName,
-      },
-      bundling: {
-        externalModules: ['dd-trace', 'datadog-lambda-js'],
-        sourceMap: true,
-      },
-    }
-  );
-
-  const preTokenGenerationTriggerHandler = new NodejsFunction(
-    context,
-    `pre-token-generation-trigger`,
-    {
-      functionName: getResourceName(
-        `pre-token-generation-trigger`,
-        environmentName
-      ),
-      timeout: Duration.seconds(20),
-      memorySize: 2048,
-      entry: entryName('misc', 'suppress-cognito-claims.ts'),
-      runtime: Runtime.NODEJS_14_X,
-      environment: {
-        ENVIRONMENT: environmentName,
-      },
-      bundling: {
-        externalModules: ['dd-trace', 'datadog-lambda-js'],
-        sourceMap: true,
-      },
-    }
-  );
-
-  instrumentFunctions(
+  const makeFunction = makeInstrumentedFunctionGenerator(
     context,
     environmentName,
-    gitHash,
-    preTokenGenerationTriggerHandler,
-    adminCreateUserEmailSender
+    gitHash
+  );
+
+  const adminCreateUserEmailSender = makeFunction(
+    `admin-create-user-email-sender`,
+    {
+      entry: entryName('chargebee-api', 'joining-email-sender.ts'),
+      environment: {
+        ENVIRONMENT: environmentName,
+      },
+      timeout: Duration.seconds(10),
+    }
+  );
+
+  const preTokenGenerationTriggerHandler = makeFunction(
+    `pre-token-generation-trigger`,
+    {
+      timeout: Duration.seconds(20),
+      entry: entryName('misc', 'suppress-cognito-claims.ts'),
+      environment: {
+        ENVIRONMENT: environmentName,
+      },
+    }
   );
 
   const email = UserPoolEmail.withSES({

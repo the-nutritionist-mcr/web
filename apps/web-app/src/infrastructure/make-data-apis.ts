@@ -2,11 +2,9 @@ import { CfnOutput, Duration } from 'aws-cdk-lib';
 import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { ARecord, RecordTarget } from 'aws-cdk-lib/aws-route53';
 import { ApiGatewayDomain } from 'aws-cdk-lib/aws-route53-targets';
-import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { IHostedZone } from 'aws-cdk-lib/aws-route53';
 import { getResourceName } from './get-resource-name';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { LambdaIntegration, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { getDomainName } from '@tnmw/utils';
@@ -16,7 +14,6 @@ import { makeDataApi } from './make-data-api';
 import { entryName } from './entry-name';
 import { AttributeType, BillingMode, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Construct } from 'constructs';
-import { instrumentFunctions } from './instrument-functions';
 import { Rule, Schedule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { allowHeaders } from '../backend/allow-headers';
@@ -133,19 +130,11 @@ export const makeDataApis = (
     },
   });
 
-  const planFunction = new NodejsFunction(context, `plan-function`, {
-    functionName: getResourceName(`plan-function`, envName),
+  const planFunction = makeFunction(`plan-function`, {
     entry: entryName('misc', 'submit-full-plan.ts'),
-    runtime: Runtime.NODEJS_14_X,
-    memorySize: 2048,
-    timeout: Duration.minutes(1),
     environment: {
       ...defaultEnvironmentVars,
       [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
-    },
-    bundling: {
-      externalModules: ['dd-trace', 'datadog-lambda-js'],
-      sourceMap: true,
     },
   });
 
@@ -162,24 +151,13 @@ export const makeDataApis = (
     })
   );
 
-  const submitOrderFunction = new NodejsFunction(
-    context,
-    `submit-order-function`,
-    {
-      functionName: getResourceName(`order-function`, envName),
-      entry: entryName('misc', 'customer-submit-order.ts'),
-      runtime: Runtime.NODEJS_14_X,
-      memorySize: 2048,
-      environment: {
-        ...defaultEnvironmentVars,
-        [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
-      },
-      bundling: {
-        externalModules: ['dd-trace', 'datadog-lambda-js'],
-        sourceMap: true,
-      },
-    }
-  );
+  const submitOrderFunction = makeFunction(`submit-order-function`, {
+    entry: entryName('misc', 'customer-submit-order.ts'),
+    environment: {
+      ...defaultEnvironmentVars,
+      [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
+    },
+  });
 
   submitOrderFunction.addToRolePolicy(
     new PolicyStatement({
@@ -196,18 +174,11 @@ export const makeDataApis = (
   );
   planDataTable.grantReadWriteData(submitOrderFunction);
 
-  const getPlanFunction = new NodejsFunction(context, `get-plan-function`, {
-    functionName: getResourceName(`get-plan-function`, envName),
+  const getPlanFunction = makeFunction(`get-plan-function`, {
     entry: entryName('misc', 'get-current-plan.ts'),
-    runtime: Runtime.NODEJS_14_X,
-    memorySize: 2048,
     environment: {
       ...defaultEnvironmentVars,
       [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
-    },
-    bundling: {
-      externalModules: ['dd-trace', 'datadog-lambda-js'],
-      sourceMap: true,
     },
   });
 
@@ -217,24 +188,13 @@ export const makeDataApis = (
   );
   planDataTable.grantReadData(getPlanFunction);
 
-  const changePlanFunction = new NodejsFunction(
-    context,
-    `change-plan-function`,
-    {
-      functionName: getResourceName(`change-plan-function`, envName),
-      entry: entryName('misc', 'change-plan-recipe.ts'),
-      runtime: Runtime.NODEJS_14_X,
-      memorySize: 2048,
-      environment: {
-        ...defaultEnvironmentVars,
-        [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
-      },
-      bundling: {
-        externalModules: ['dd-trace', 'datadog-lambda-js'],
-        sourceMap: true,
-      },
-    }
-  );
+  const changePlanFunction = makeFunction(`change-plan-function`, {
+    entry: entryName('misc', 'change-plan-recipe.ts'),
+    environment: {
+      ...defaultEnvironmentVars,
+      [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
+    },
+  });
 
   planResource.addMethod(
     HTTP.verbs.Put,
@@ -242,24 +202,13 @@ export const makeDataApis = (
   );
   planDataTable.grantReadWriteData(changePlanFunction);
 
-  const publishPlanFunction = new NodejsFunction(
-    context,
-    `publish-plan-function`,
-    {
-      functionName: getResourceName(`publish-plan`, envName),
-      entry: entryName('misc', 'publish-plan.ts'),
-      runtime: Runtime.NODEJS_14_X,
-      memorySize: 2048,
-      environment: {
-        ...defaultEnvironmentVars,
-        [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
-      },
-      bundling: {
-        externalModules: ['dd-trace', 'datadog-lambda-js'],
-        sourceMap: true,
-      },
-    }
-  );
+  const publishPlanFunction = makeFunction(`publish-plan-function`, {
+    functionName: getResourceName(`publish-plan`, envName),
+    environment: {
+      ...defaultEnvironmentVars,
+      [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
+    },
+  });
 
   const publishResource = planResource.addResource('publish');
 
@@ -274,22 +223,10 @@ export const makeDataApis = (
 
   const username = customer.addResource('{username}');
 
-  const getCustomerFunction = new NodejsFunction(
-    context,
-    `get-customer-function`,
-    {
-      functionName: getResourceName(`get-customer-function`, envName),
-      entry: entryName('misc', 'get-customer.ts'),
-      runtime: Runtime.NODEJS_14_X,
-      memorySize: 2048,
-      environment: defaultEnvironmentVars,
-      bundling: {
-        externalModules: ['dd-trace', 'datadog-lambda-js'],
-        sourceMap: true,
-      },
-    }
-  );
-  username.addMethod('GET', new LambdaIntegration(getCustomerFunction));
+  const getCustomerFunction = makeFunction(`get-customer-function`, {
+    entry: entryName('misc', 'get-customer.ts'),
+    environment: defaultEnvironmentVars,
+  });
 
   getCustomerFunction.addToRolePolicy(
     new PolicyStatement({
@@ -312,21 +249,10 @@ export const makeDataApis = (
     }
   );
 
-  const resetPasswordFunction = new NodejsFunction(
-    context,
-    `reset-password-function`,
-    {
-      functionName: getResourceName(`reset-password-function`, envName),
-      entry: entryName('misc', 'reset-password.ts'),
-      runtime: Runtime.NODEJS_14_X,
-      memorySize: 2048,
-      environment: defaultEnvironmentVars,
-      bundling: {
-        externalModules: ['dd-trace', 'datadog-lambda-js'],
-        sourceMap: true,
-      },
-    }
-  );
+  const resetPasswordFunction = makeFunction(`reset-password-function`, {
+    entry: entryName('misc', 'reset-password.ts'),
+    environment: defaultEnvironmentVars,
+  });
 
   resetPasswordFunction.addToRolePolicy(
     new PolicyStatement({
@@ -385,21 +311,10 @@ export const makeDataApis = (
   planDataTable.grantReadWriteData(updateCustomerPlanFunction);
   recipesTable.grantReadData(updateCustomerPlanFunction);
 
-  const updateCustomerFunction = new NodejsFunction(
-    context,
-    `update-customer-function`,
-    {
-      functionName: getResourceName(`update-customer`, envName),
-      entry: entryName('misc', 'update-customer.ts'),
-      runtime: Runtime.NODEJS_14_X,
-      memorySize: 2048,
-      environment: defaultEnvironmentVars,
-      bundling: {
-        externalModules: ['dd-trace', 'datadog-lambda-js'],
-        sourceMap: true,
-      },
-    }
-  );
+  const updateCustomerFunction = makeFunction(`update-customer-function`, {
+    entry: entryName('misc', 'update-customer.ts'),
+    environment: defaultEnvironmentVars,
+  });
 
   updateCustomerFunction.addToRolePolicy(
     new PolicyStatement({
@@ -413,21 +328,10 @@ export const makeDataApis = (
 
   const customers = api.root.addResource('customers');
 
-  const getAllCustomersFunction = new NodejsFunction(
-    context,
-    `get-all-customers-function`,
-    {
-      functionName: getResourceName(`get-all-customers-function`, envName),
-      entry: entryName('misc', 'get-all-customers.ts'),
-      runtime: Runtime.NODEJS_14_X,
-      memorySize: 2048,
-      environment: defaultEnvironmentVars,
-      bundling: {
-        externalModules: ['dd-trace', 'datadog-lambda-js'],
-        sourceMap: true,
-      },
-    }
-  );
+  const getAllCustomersFunction = makeFunction(`get-all-customers-function`, {
+    entry: entryName('misc', 'get-all-customers.ts'),
+    environment: defaultEnvironmentVars,
+  });
 
   customers.addMethod('GET', new LambdaIntegration(getAllCustomersFunction));
 
@@ -441,21 +345,10 @@ export const makeDataApis = (
 
   const me = customers.addResource('me');
 
-  const individualAcccessFunction = new NodejsFunction(
-    context,
-    `chargebe-me-function`,
-    {
-      functionName: getResourceName(`chargebee-me-handler`, envName),
-      entry: entryName('misc', 'me.ts'),
-      runtime: Runtime.NODEJS_14_X,
-      memorySize: 2048,
-      environment: defaultEnvironmentVars,
-      bundling: {
-        externalModules: ['dd-trace', 'datadog-lambda-js'],
-        sourceMap: true,
-      },
-    }
-  );
+  const individualAcccessFunction = makeFunction(`chargebee-me-function`, {
+    entry: entryName('misc', 'me.ts'),
+    environment: defaultEnvironmentVars,
+  });
 
   individualAcccessFunction.addToRolePolicy(
     new PolicyStatement({
@@ -473,21 +366,10 @@ export const makeDataApis = (
     'receive-chargebee-webhook'
   );
 
-  const chargeBeeWebhookFunction = new NodejsFunction(
-    context,
-    `chargebee-webhook-function`,
-    {
-      functionName: getResourceName(`chargebee-event-handler`, envName),
-      entry: entryName('chargebee-api', 'webhook.ts'),
-      runtime: Runtime.NODEJS_14_X,
-      memorySize: 2048,
-      environment: { ...defaultEnvironmentVars, FORCE_DEPLOY: 'true' },
-      bundling: {
-        externalModules: ['dd-trace', 'datadog-lambda-js'],
-        sourceMap: true,
-      },
-    }
-  );
+  const chargeBeeWebhookFunction = makeFunction(`chargebee-webhook-function`, {
+    entry: entryName('chargebee-api', 'webhook.ts'),
+    environment: { ...defaultEnvironmentVars, FORCE_DEPLOY: 'true' },
+  });
 
   chargeBeeWebhookUsername.grantRead(chargeBeeWebhookFunction);
   chargeWebhookPassword.grantRead(chargeBeeWebhookFunction);
@@ -509,23 +391,6 @@ export const makeDataApis = (
       ],
       resources: [pool.userPoolArn],
     })
-  );
-
-  instrumentFunctions(
-    context,
-    envName,
-    gitHash,
-    chargeBeeWebhookFunction,
-    getAllCustomersFunction,
-    updateCustomerFunction,
-    individualAcccessFunction,
-    getCustomerFunction,
-    publishPlanFunction,
-    changePlanFunction,
-    getPlanFunction,
-    submitOrderFunction,
-    planFunction,
-    resetPasswordFunction
   );
 
   const apiCert = new DnsValidatedCertificate(context, 'apiCertificate', {

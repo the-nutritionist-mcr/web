@@ -8,7 +8,6 @@ import {
 import { Construct } from 'constructs';
 import { Datadog } from 'datadog-cdk-constructs-v2';
 import { getResourceName } from './get-resource-name';
-type Args = ConstructorParameters<typeof NodejsFunction>;
 
 export const DATADOG_API_KEY_SECRET_ARN =
   'arn:aws:secretsmanager:us-east-1:568693217207:secret:tnm-app/datadog-api-key-8qKjFO';
