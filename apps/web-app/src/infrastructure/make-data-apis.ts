@@ -20,6 +20,7 @@ import { instrumentFunctions } from './instrument-functions';
 import { Rule, Schedule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { allowHeaders } from '../backend/allow-headers';
+import { makeInstrumentedFunctionGenerator } from './instrumented-nodejs-function';
 
 export const makeDataApis = (
   context: Construct,
@@ -102,18 +103,15 @@ export const makeDataApis = (
     defaultEnvironmentVars
   );
 
-  const reportsFunction = new NodejsFunction(context, `reports-function`, {
-    functionName: getResourceName(`reports-function`, envName),
+  const makeFunction = makeInstrumentedFunctionGenerator(
+    context,
+    envName,
+    gitHash
+  );
+
+  const reportsFunction = makeFunction(`reports-function`, {
     entry: entryName('misc', 'reports-function.ts'),
-    runtime: Runtime.NODEJS_16_X,
-    memorySize: 2048,
-    environment: {
-      ...defaultEnvironmentVars,
-    },
-    bundling: {
-      externalModules: ['dd-trace', 'datadog-lambda-js'],
-      sourceMap: true,
-    },
+    environment: defaultEnvironmentVars,
   });
 
   const eventRule = new Rule(context, 'rule', {
@@ -134,31 +132,6 @@ export const makeDataApis = (
       type: AttributeType.STRING,
     },
   });
-
-  // const statement = new PolicyStatement({
-  //   actions: [IAM.actions.dynamodb.putItem],
-  //   effect: Effect.ALLOW,
-  //   resources: [planDataTable.tableArn],
-  //   conditions: {
-  //     'ForAllValues:StringEquals': {
-  //       'dynamodb:Attributes': ['deleted'],
-  //     },
-  //     StringEqualsIfExists: {
-  //       'dynamodb:Select': 'SPECIFIC_ATTRIBUTES',
-  //       'dynamodb:ReturnValues': ['NONE', 'UPDATED_OLD', 'UPDATED_NEW'],
-  //     },
-  //   },
-  // });
-
-  // developerGroup.addManagedPolicy(
-  //   new ManagedPolicy(context, `restore-item-permission`, {
-  //     managedPolicyName: getResourceName(
-  //       `restricted-db-access-policy`,
-  //       envName
-  //     ),
-  //     statements: [statement],
-  //   })
-  // );
 
   const planFunction = new NodejsFunction(context, `plan-function`, {
     functionName: getResourceName(`plan-function`, envName),
@@ -326,23 +299,16 @@ export const makeDataApis = (
     })
   );
 
-  const updateCustomerPlanFunction = new NodejsFunction(
-    context,
+  const updateCustomerPlanFunction = makeFunction(
     `update-customer-plan-function`,
     {
-      functionName: getResourceName(`update-customer-plan`, envName),
       entry: entryName('misc', 'update-customer-plan.ts'),
-      runtime: Runtime.NODEJS_14_X,
-      memorySize: 2048,
       environment: {
         ...defaultEnvironmentVars,
         [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
         [ENV.varNames.RecipesDynamoDBTable]: recipesTable.tableName,
       },
-      bundling: {
-        externalModules: ['dd-trace', 'datadog-lambda-js'],
-        sourceMap: true,
-      },
+      memorySize: 2048,
     }
   );
 
