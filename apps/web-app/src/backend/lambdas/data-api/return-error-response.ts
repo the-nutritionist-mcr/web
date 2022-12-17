@@ -1,5 +1,5 @@
 import { HTTP } from '@tnmw/constants';
-import { setTag } from '../misc/init-dd-trace';
+import { setErrorOnServiceEntrySpan } from '../misc/init-dd-trace';
 import { HttpError } from './http-error';
 
 export const returnErrorResponse = (error?: Error | unknown) => {
@@ -16,8 +16,7 @@ export const returnErrorResponse = (error?: Error | unknown) => {
       : HTTP.statusCodes.InternalServerError;
 
   if (error instanceof Error) {
-    setTag('error.message', error.message);
-    setTag('error.stack', error.stack);
+    setErrorOnServiceEntrySpan(error);
   }
 
   console.log(error);
