@@ -558,7 +558,8 @@ export const makeDataApis = (
     changePlanFunction,
     getPlanFunction,
     submitOrderFunction,
-    planFunction
+    planFunction,
+    resetPasswordFunction
   );
 
   const apiCert = new DnsValidatedCertificate(context, 'apiCertificate', {
