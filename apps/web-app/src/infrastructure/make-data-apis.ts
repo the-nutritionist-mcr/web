@@ -106,6 +106,21 @@ export const makeDataApis = (
     gitHash
   );
 
+  if (envName === 'cypress') {
+    const seed = makeFunction(`seed-function`, {
+      entry: entryName('misc', 'seed.ts'),
+      environment: {
+        ...defaultEnvironmentVars,
+        RECIPES_TABLE: recipesTable.tableName,
+        CUSTOMISATIONS_TABLE: customisationsTable.tableName,
+      },
+    });
+    customisationsTable.grantReadWriteData(seed);
+    recipesTable.grantReadWriteData(seed);
+    const seedResource = api.root.addResource('seed');
+    seedResource.addMethod('POST', new LambdaIntegration(seed));
+  }
+
   const reportsFunction = makeFunction(`reports-function`, {
     entry: entryName('misc', 'reports-function.ts'),
     environment: defaultEnvironmentVars,
