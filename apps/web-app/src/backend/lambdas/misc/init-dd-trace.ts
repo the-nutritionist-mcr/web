@@ -23,7 +23,7 @@ const assertsHasUnderscoreTrace: (
   const contextAny = context as any;
 
   const errorMessage =
-    'Tried to set span on service entry tag using undocumented API that appears to no longer exist';
+    'Tried to get service entry tag in order to set a tag using an undocumented API. That API now no longer appears to exist';
 
   if (!contextAny._trace) {
     throw new Error(errorMessage);
