@@ -203,7 +203,7 @@ export const makeDataApis = (
   planDataTable.grantReadWriteData(changePlanFunction);
 
   const publishPlanFunction = makeFunction(`publish-plan-function`, {
-    functionName: getResourceName(`publish-plan`, envName),
+    entry: entryName('misc', 'publish-plan.ts'),
     environment: {
       ...defaultEnvironmentVars,
       [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
