@@ -228,6 +228,8 @@ export const makeDataApis = (
     environment: defaultEnvironmentVars,
   });
 
+  username.addMethod('GET', new LambdaIntegration(getCustomerFunction));
+
   getCustomerFunction.addToRolePolicy(
     new PolicyStatement({
       effect: Effect.ALLOW,
