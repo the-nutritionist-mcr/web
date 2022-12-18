@@ -52,7 +52,7 @@ export const makeInstrumentedFunctionGenerator = (
 
   return (id: string, props?: NodejsFunctionProps | undefined) => {
     const defaultProps: NodejsFunctionProps = {
-      runtime: Runtime.NODEJS_16_X,
+      runtime: Runtime.NODEJS_18_X,
       functionName: getResourceName(id, envName),
       memorySize: 2048,
       bundling: {
