@@ -1,6 +1,5 @@
 import { ENV } from '@tnmw/constants';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
-import { authoriseJwt } from '../data-api/authorise';
 import { returnErrorResponse } from '../data-api/return-error-response';
 import { returnOkResponse } from '../data-api/return-ok-response';
 import { seedCognito } from './seed/cognito/cognito';
@@ -10,8 +9,6 @@ import { recipes } from './seed/dynamodb/seed-recipes';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   try {
-    await authoriseJwt(event, ['admin']);
-
     const env = process.env[ENV.varNames.EnvironmentName];
 
     if (env !== 'cypress') {
