@@ -14,17 +14,19 @@ export const writeData = async (
 
   await Promise.all(
     batches.map(async (batch) => {
-      const input: BatchWriteCommandInput = {
-        RequestItems: {
-          [table]: batch.map((item) => ({
-            PutRequest: {
-              Item: item,
-            },
-          })),
-        },
-      };
+      if (batch.length > 0) {
+        const input: BatchWriteCommandInput = {
+          RequestItems: {
+            [table]: batch.map((item) => ({
+              PutRequest: {
+                Item: item,
+              },
+            })),
+          },
+        };
 
-      await batchWrite(client, input);
+        await batchWrite(client, input);
+      }
     })
   );
 };
