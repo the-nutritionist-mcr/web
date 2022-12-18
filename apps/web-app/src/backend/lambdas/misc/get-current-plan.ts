@@ -37,6 +37,13 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       ?.slice()
       .sort((a, b) => (Number(a.sort) < Number(b.sort) ? 1 : -1))?.[0];
 
+    if (!plan) {
+      throw new HttpError(
+        HTTP.statusCodes.InternalServerError,
+        'A plan was not found in the database'
+      );
+    }
+
     const { planId, menus, published, createdBy, createdOn, sort } = plan;
 
     const selectionResponse = await doQuery(tableName ?? '', `id = :id`, [
@@ -48,8 +55,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     }
 
     const selections = selectionResponse as
-      | SerialisedDate<StoredMealPlanGeneratedForIndividualCustomer>[]
-      | undefined;
+      | SerialisedDate<StoredMealPlanGeneratedForIndividualCustomer>[];
 
     const currentUserSelection = selections?.find(
       (selection) => selection.customer?.username === currentUser
@@ -90,6 +96,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       available: true,
       admin: false,
     };
+
     return returnOkResponse(finalResponse);
   } catch (error) {
     return returnErrorResponse(error);

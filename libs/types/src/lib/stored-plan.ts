@@ -32,7 +32,7 @@ export interface StoredMealSelection {
 export interface GetPlanResponseAdmin {
   planId: string;
   plan: WeeklyCookPlan;
-  currentUserSelection: MealPlanGeneratedForIndividualCustomer;
+  currentUserSelection?: MealPlanGeneratedForIndividualCustomer | undefined;
   published: boolean;
   available: true;
   sort: string;
@@ -42,7 +42,7 @@ export interface GetPlanResponseAdmin {
 export interface GetPlanResponseNonAdmin {
   planId: string;
   plan: WeeklyCookPlanWithoutCustomerPlans;
-  currentUserSelection?: MealPlanGeneratedForIndividualCustomer;
+  currentUserSelection?: MealPlanGeneratedForIndividualCustomer | undefined;
   published: boolean;
   available: true;
   sort: string;
