@@ -6,6 +6,8 @@ import {
 } from '@aws-sdk/client-cognito-identity-provider';
 import { SeedUser } from './types';
 
+const createUser = () => {};
+
 export const createUsers = async (
   cognito: CognitoIdentityProviderClient,
   poolId: string,

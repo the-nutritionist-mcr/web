@@ -17,13 +17,16 @@ export interface SeedUser {
   otherAttributes?: AttributeType[];
 }
 
-export const createUsers = async (
+const wait = (duration: number) =>
+  new Promise((accept) => setTimeout(accept, duration));
+
+const createUser = async (
   cognito: CognitoIdentityProviderClient,
   poolId: string,
-  users: SeedUser[]
+  user: SeedUser,
+  attempt?: number
 ) => {
-  await users.reduce(async (lastPromise, user) => {
-    await lastPromise;
+  try {
     const initialPassword =
       user.state === 'Complete' ? '^2Y.AD`5`$A!&pS\\' : user.password;
 
@@ -55,9 +58,24 @@ export const createUsers = async (
         Username: user.username,
         UserPoolId: poolId,
       });
-
       await cognito.send(changeCommand);
     }
+  } catch {
+    if (!attempt || attempt < 4) {
+      await wait(1000);
+      await createUser(cognito, poolId, user, (attempt ?? 0) + 1);
+    }
+  }
+};
+
+export const createUsers = async (
+  cognito: CognitoIdentityProviderClient,
+  poolId: string,
+  users: SeedUser[]
+) => {
+  await users.reduce(async (lastPromise, user) => {
+    await lastPromise;
+    await createUser(cognito, poolId, user);
   }, Promise.resolve());
 
   await users.reduce(async (lastPromise, user) => {

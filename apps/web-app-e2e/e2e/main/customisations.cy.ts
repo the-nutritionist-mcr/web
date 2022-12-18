@@ -6,8 +6,11 @@ import {
 } from '../../src/pages/customisations';
 
 describe('The customisations page', { scrollBehavior: false }, () => {
-  beforeEach(() => {
+  before(() => {
     cy.seed();
+  });
+
+  beforeEach(() => {
     Customisations.visit();
 
     cy.loginByCognitoApi({
