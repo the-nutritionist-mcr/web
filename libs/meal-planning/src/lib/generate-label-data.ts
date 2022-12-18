@@ -121,6 +121,10 @@ const sortFunction = (a: Record<string, string>, b: Record<string, string>) => {
     return 1;
   }
 
+  if (a['originalName'] < b['originalName']) {
+    return -1;
+  }
+
   if (a['itemPlan'] > b['itemPlan']) {
     return 1;
   }
