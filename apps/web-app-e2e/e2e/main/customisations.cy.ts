@@ -7,6 +7,7 @@ import {
 
 describe('The customisations page', { scrollBehavior: false }, () => {
   beforeEach(() => {
+    cy.seed();
     Customisations.visit();
 
     cy.loginByCognitoApi({

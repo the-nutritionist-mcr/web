@@ -6,6 +6,10 @@ const recipes = new Recipes();
 const confirmDeleteDialog = new ConfirmDeleteDialog();
 
 describe('The recipes page', { scrollBehavior: false }, () => {
+  before(() => {
+    cy.seed();
+  });
+
   // eslint-disable-next-line fp/no-let
   let timeout: NodeJS.Timeout | undefined;
   beforeEach(() => {

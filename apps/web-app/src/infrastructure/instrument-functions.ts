@@ -1,6 +1,8 @@
 import { IAM } from '@tnmw/constants';
+import { ITable } from 'aws-cdk-lib/aws-dynamodb';
 import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Function } from 'aws-cdk-lib/aws-lambda';
+import { ISecret } from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';
 import { Datadog } from 'datadog-cdk-constructs-v2';
 

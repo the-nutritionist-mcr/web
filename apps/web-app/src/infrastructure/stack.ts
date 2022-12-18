@@ -64,7 +64,6 @@ const main = async () => {
 
     cypress: {
       transient: true,
-      seed: true,
       chargebeeSite: CHARGEBEE_SITES.test,
     },
 
@@ -100,15 +99,6 @@ const main = async () => {
       userPool: backend.pool,
       chargebeeUrl: `https://${config.chargebeeSite}.chargebee.com`,
     });
-
-    if (config.seed) {
-      new SeedStack(app, `tnm-web-${envName}-seed-stack`, {
-        stackProps: { env },
-        customisationsTable: backend.customisationsTable,
-        recipesTable: backend.recipesTable,
-        userPool: backend.pool,
-      });
-    }
   });
 
   new UsersStack(app, 'tnm-web-users-stack', {

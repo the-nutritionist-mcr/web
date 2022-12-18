@@ -9,7 +9,6 @@ import {
   getDownloadedFilename,
   readDownloadedFile,
 } from '../../src/support/cypress-helpers';
-import { userExists } from 'apps/web-app-e2e/src/support/user-exists';
 
 const recipes = new Recipes();
 
@@ -30,6 +29,7 @@ let timeout: NodeJS.Timeout | undefined;
 
 describe('The planner', () => {
   before(() => {
+    cy.seed();
     cy.task('deleteFolder', Cypress.config('downloadsFolder'));
     cy.task('deleteChargebeeCustomer', E2E.e2eCustomer.username);
   });

@@ -7,6 +7,7 @@ import {
 } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 import { Datadog } from 'datadog-cdk-constructs-v2';
+import path from 'node:path';
 import { getResourceName } from './get-resource-name';
 
 export const DATADOG_API_KEY_SECRET_ARN =
@@ -46,6 +47,9 @@ export const makeInstrumentedFunctionGenerator = (
     resources: [DATADOG_API_KEY_SECRET_ARN],
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unicorn/prefer-module
+  const projectRoot = path.join(__dirname, '..', '..', '..', '..');
+
   return (id: string, props?: NodejsFunctionProps | undefined) => {
     const defaultProps: NodejsFunctionProps = {
       runtime: Runtime.NODEJS_16_X,
@@ -54,6 +58,16 @@ export const makeInstrumentedFunctionGenerator = (
       bundling: {
         externalModules: ['dd-trace', 'datadog-lambda-js'],
         sourceMap: true,
+        commandHooks: {
+          beforeInstall: () => [],
+          beforeBundling: () => [],
+          afterBundling: (inputDir, outputDir) => {
+            return [
+              `mkdir -p ${projectRoot}/dist/nodejs-bundled-func-output`,
+              `cp -r ${outputDir} ${projectRoot}/dist/nodejs-bundled-func-output`,
+            ];
+          },
+        },
       },
     };
 

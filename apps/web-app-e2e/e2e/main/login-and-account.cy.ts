@@ -7,6 +7,7 @@ import { AccountPage } from '../../src/pages/account';
 
 describe('The login page', { scrollBehavior: false }, () => {
   before(() => {
+    cy.seed();
     cy.task('deleteChargebeeCustomer', E2E.e2eCustomer.username);
   });
 

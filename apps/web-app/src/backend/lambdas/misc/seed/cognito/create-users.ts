@@ -58,19 +58,6 @@ export const createUsers = async (
 
       await cognito.send(changeCommand);
     }
-
-    const groupPromises =
-      user.groups?.map(async (group) => {
-        const addToGroupCommand = new AdminAddUserToGroupCommand({
-          UserPoolId: poolId,
-          Username: user.username,
-          GroupName: group,
-        });
-
-        await cognito.send(addToGroupCommand);
-      }) ?? [];
-
-    await Promise.all(groupPromises);
   }, Promise.resolve());
 
   await users.reduce(async (lastPromise, user) => {

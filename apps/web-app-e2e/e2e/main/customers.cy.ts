@@ -5,8 +5,8 @@ import { Customers } from '../../src/pages/customers';
 const customerNameString = `${E2E.e2eCustomer.surname}, ${E2E.e2eCustomer.firstName}`;
 describe('The customers page', { scrollBehavior: false }, () => {
   before(() => {
+    cy.seed();
     cy.task('deleteChargebeeCustomer', E2E.e2eCustomer.username);
-    cy.task('deleteCognitoUser', E2E.e2eCustomer.username);
   });
 
   beforeEach(() => {

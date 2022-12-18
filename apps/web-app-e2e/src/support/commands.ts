@@ -1,25 +1,7 @@
-import { Auth } from '@aws-amplify/auth';
-import { getAppConfig } from '@tnmw/utils';
-
 import '@testing-library/cypress/add-commands';
-
-const configureCognitoAndSignIn = async (
-  username: string,
-  password: string
-) => {
-  const outputs = await getAppConfig();
-
-  const REGION = 'eu-west-2';
-
-  Auth.configure({
-    Auth: {
-      region: REGION,
-      userPoolId: outputs.UserPoolId,
-      userPoolWebClientId: outputs.ClientId,
-    },
-  });
-  return Auth.signIn({ username, password });
-};
+import { E2E } from '@tnmw/constants';
+import { configureCognitoAndSignIn } from './configure-cognito-and-sign-in';
+import { seed } from './seed-app';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -27,7 +9,7 @@ declare global {
     interface Chainable {
       loginByCognitoApi(arg: { user: string; password: string }): Chainable;
       logoutByCognitoApi(): Chainable;
-      seed(): void;
+      seed(): Chainable;
       addStubs(): void;
     }
   }
@@ -43,6 +25,10 @@ Cypress.Commands.add('seed', () => {
     testUserPassword: Cypress.env('INT_TEST_PASSWORD'),
   });
 });
+
+Cypress.Commands.add('seed', () =>
+  seed(E2E.adminUserOne.username, E2E.adminUserOne.password)
+);
 
 // Taken from https://docs.cypress.io/guides/testing-strategies/amazon-cognito-authentication#Custom-Command-for-Amazon-Cognito-Authentication
 // Amazon Cognito

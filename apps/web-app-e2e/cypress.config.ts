@@ -1,5 +1,6 @@
 import { createChargebeeCustomer } from './src/support/create-chargebee-customer';
 import { deleteChargebeeCustomer } from './src/support/delete-chargebee-customer';
+import { seed } from './src/support/seed-app';
 import { deleteCognitoUser } from './src/support/delete-cognito-user';
 import { pollForPasswordFromMostRecentWelcomeEmailThenDelete } from './src/support/google/get-password-from-welcome-email';
 import { deleteAllCypressWelcomeEmails } from './src/support/google/delete-all-cypress-welcome-emails';
@@ -46,6 +47,7 @@ export default defineConfig({
         deleteWelcomeEmails: () => {
           return deleteAllCypressWelcomeEmails(E2E.nonExistingUser.email);
         },
+        seed: () => seed(),
         pdfToHtml: promisify(pdfToHtml.html),
         extractTable: (fileName: string) => {
           return new Promise((accept, reject) => {
