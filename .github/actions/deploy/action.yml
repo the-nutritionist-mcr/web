@@ -41,10 +41,6 @@ inputs:
     required: true
     default: 'false'
 
-  seed:
-    description: Whether to seed the deployment or not
-    required: false
-
 runs:
   using: 'composite'
   steps:
@@ -82,13 +78,3 @@ runs:
         DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
         DATADOG_SITE: datadoghq.eu
         DATADOG_API_HOST: api.datadoghq.eu
-
-    - name: Seed
-      shell: bash
-      if: ${{ inputs.seed == 'true' }}
-      run: yarn nx deploy:seed web-app --configuration=${{ inputs.env-name }}
-      env:
-        AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
-        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
-        AWS_REGION: us-east-1
-        DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
