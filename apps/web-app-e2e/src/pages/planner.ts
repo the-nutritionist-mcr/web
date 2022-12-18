@@ -50,9 +50,13 @@ export const Planner = {
       .contains(`D${deliveryNumber} (${planName})`)
       .parents('tr')
       .contains(oldMeal)
+      .click({ force: true });
+
+    cy.get('[data-g-portal-id]')
+      .find("div[role='listbox']")
+      .contains(newMeal)
       .click();
 
-    cy.contains(newMeal).click();
     cy.contains('successfully');
   },
 

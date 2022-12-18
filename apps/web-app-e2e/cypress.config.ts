@@ -67,8 +67,8 @@ export default defineConfig({
           price: number;
         }) => addSubscription(input.customerId, input.planId, input.price),
         deleteCognitoUser: deleteCognitoUser,
-        deleteFolder: (input: string) => {
-          deleteFolder(input);
+        deleteFolder: async (input: string) => {
+          await deleteFolder(input);
           return null;
         },
         deleteChargebeeCustomer: deleteChargebeeCustomer,
