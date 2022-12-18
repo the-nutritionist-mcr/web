@@ -43,3 +43,4 @@ apps/web-app-e2e/cypress/downloads
 
 # Next.js
 .next
+tsconfig.tsbuildinfo
