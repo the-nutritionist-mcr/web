@@ -4,6 +4,16 @@
   "sourceRoot": "apps/web-app",
   "projectType": "application",
   "targets": {
+    "types": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --noEmit -p apps/web-app/tsconfig.json"
+          }
+        ]
+      }
+    },
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
