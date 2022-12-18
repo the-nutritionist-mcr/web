@@ -109,6 +109,7 @@ export const makeDataApis = (
   if (envName === 'cypress') {
     const seed = makeFunction(`seed-function`, {
       entry: entryName('misc', 'seed.ts'),
+      timeout: Duration.minutes(15),
       environment: {
         ...defaultEnvironmentVars,
         RECIPES_TABLE: recipesTable.tableName,
