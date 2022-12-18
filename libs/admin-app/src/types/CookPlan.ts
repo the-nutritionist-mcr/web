@@ -1,5 +1,5 @@
-import Customer from '../domain/Customer';
-import Recipe from '../domain/Recipe';
+import { Recipe } from '@tnmw/types';
+import { Customer } from '..';
 
 type CookPlan = {
   recipe: Recipe | string;

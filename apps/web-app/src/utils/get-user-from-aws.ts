@@ -15,8 +15,8 @@ export const getUserFromAws = async (username: string) => {
   );
 
   return {
-    ...parseCognitoResponse(userResult.UserAttributes),
-    username: userResult.Username,
-    id: userResult.Username,
+    ...parseCognitoResponse(userResult.UserAttributes ?? []),
+    username: userResult.Username ?? '',
+    id: userResult.Username ?? '',
   };
 };

@@ -25,7 +25,7 @@ const getCookie = <Q extends ParsedUrlQuery, D extends PreviewData>(
   callback: (key: string, value: string) => boolean
 ) =>
   Object.entries(context.req.cookies).find(([key, value]) =>
-    callback(key, value)
+    callback(key, value ?? '')
   )?.[1];
 
 export const authorizedRoute: AuthorizedRouteWrapper = ({
@@ -65,6 +65,7 @@ export const authorizedRoute: AuthorizedRouteWrapper = ({
           user: {
             ...(await getUserFromAws(verifyResult.userName)),
             admin: verifyResult.groups.includes('admin'),
+            groups: verifyResult.groups,
           },
         },
       }
