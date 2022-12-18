@@ -119,6 +119,19 @@ export const makeDataApis = (
     recipesTable.grantReadWriteData(seed);
     const seedResource = api.root.addResource('seed');
     seedResource.addMethod('POST', new LambdaIntegration(seed));
+
+    seed.addToRolePolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: [
+          IAM.actions.cognito.adminDeleteUser,
+          IAM.actions.cognito.adminCreateUser,
+          IAM.actions.cognito.adminSetUserPassword,
+          IAM.actions.cognito.adminAddUserToGroup,
+        ],
+        resources: [pool.userPoolArn],
+      })
+    );
   }
 
   const reportsFunction = makeFunction(`reports-function`, {
