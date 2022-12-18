@@ -229,7 +229,7 @@ const customerThree: BackendCustomer = {
       itemsPerDay: 2,
       termEnd: 123_123,
       isExtra: false,
-      totalMeals: 30,
+      totalMeals: 12,
       subscriptionStatus: 'active',
     },
     {
@@ -239,7 +239,7 @@ const customerThree: BackendCustomer = {
       itemsPerDay: 2,
       termEnd: 123_123,
       isExtra: false,
-      totalMeals: 30,
+      totalMeals: 12,
       subscriptionStatus: 'active',
     },
   ],
@@ -455,13 +455,16 @@ describe('Choose Meals', () => {
 
     expect(result).toBeDefined();
     const firstPlan = result.customerPlans[0].deliveries[0].plans[0];
+
     if (firstPlan.status === 'active') {
       expect(firstPlan.meals).toHaveLength(15);
       expect(firstPlan.meals[0].isExtra).toBeFalsy();
+
       if (firstPlan.meals[0].isExtra === false) {
         expect(firstPlan.meals[0].recipe).toBe(recipeOne);
         expect(firstPlan.name).toBe('Equilibrium');
       }
+
       expect(firstPlan.meals[6].isExtra).toBeFalsy();
       if (firstPlan.meals[6].isExtra === false) {
         expect(firstPlan.meals[6].recipe).toBe(recipeOne);
@@ -471,6 +474,39 @@ describe('Choose Meals', () => {
     const secondPlan = result.customerPlans[1].deliveries[0].plans[1];
     if (secondPlan.status === 'active') {
       expect(secondPlan.meals).toHaveLength(5);
+    }
+  });
+
+  it('When there is multiple plans, the picking algorithm does not start again for the second plan', () => {
+    const notSixPlannedCooks: Cook[] = [
+      {
+        date: new Date(),
+        menu: [recipeOne, recipeTwo, recipeThree, recipeFour],
+      },
+
+      {
+        date: new Date(),
+        menu: [
+          recipeSeven,
+          recipeEight,
+          recipeNine,
+          recipeTen,
+          recipeEleven,
+          recipeTwelve,
+        ],
+      },
+    ];
+    const customers: BackendCustomer[] = [
+      customerOne,
+      customerTwo,
+      customerThree,
+    ];
+    const result = chooseMealSelections(notSixPlannedCooks, customers, 'me');
+
+    const secondPlan = result.customerPlans[2].deliveries[0].plans[1];
+
+    if (secondPlan.status === 'active' && !secondPlan.meals[0].isExtra) {
+      expect(secondPlan.meals[0].recipe).toBe(recipeTwo);
     }
   });
 

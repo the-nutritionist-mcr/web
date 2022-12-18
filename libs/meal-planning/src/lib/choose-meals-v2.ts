@@ -63,14 +63,16 @@ const selectPlanMealsForDelivery = (
   cook: Cook,
   plan: StandardPlan,
   distribution: Delivery,
-  customer: BackendCustomer
-): PlanWithMeals => {
+  customer: BackendCustomer,
+  startIndex: number
+): PlanWithMeals & { nextIndex: number } => {
   const statusResult = getCookStatus(cook.date, plan);
 
   if (statusResult.status !== 'active') {
     return {
       id: v4(),
       name: plan.name,
+      nextIndex: startIndex,
       ...statusResult,
     };
   }
@@ -86,8 +88,13 @@ const selectPlanMealsForDelivery = (
     (item) => !isExcluded(item, customer)
   );
 
+  const nextIndex = plan.isExtra
+    ? startIndex
+    : meals.length % menuAfterExclusions.length;
+
   return {
     ...statusResult,
+    nextIndex,
     name: plan.name,
     id: v4(),
     planId: plan.id,
@@ -98,7 +105,10 @@ const selectPlanMealsForDelivery = (
         : {
             isExtra: false,
             chosenVariant: item.name,
-            recipe: menuAfterExclusions[index % menuAfterExclusions.length],
+            recipe:
+              menuAfterExclusions[
+                (index + startIndex) % menuAfterExclusions.length
+              ],
           }
     ),
   };
@@ -108,12 +118,24 @@ const generateCustomerDeliveryFromCook = (
   cook: Cook & { index: number },
   customer: BackendCustomer
 ): PlannedDelivery => {
+  // eslint-disable-next-line fp/no-let
+  let lastIndex = 0;
   return {
     plans: customer.plans.map((plan) => {
       const distribution = getDistribution(plan, customer.customPlan)[
         cook.index
       ];
-      return selectPlanMealsForDelivery(cook, plan, distribution, customer);
+      const result = selectPlanMealsForDelivery(
+        cook,
+        plan,
+        distribution,
+        customer,
+        lastIndex
+      );
+
+      lastIndex = result.nextIndex;
+
+      return result;
     }),
     dateCooked: cook.date,
   };
