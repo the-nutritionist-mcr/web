@@ -8700,27 +8700,30 @@
     "@datadog/browser-core" "4.16.1"
     "@datadog/browser-rum-core" "4.16.1"
 
-"@datadog/datadog-ci@^1.12.0":
-  version "1.12.0"
-  resolved "https://registry.npmjs.org/@datadog/datadog-ci/-/datadog-ci-1.12.0.tgz#1d48b83ac8eeba7a98299b6737fe9ad84bbd4e54"
-  integrity sha512-sv4hcFtX5s47o7oyEneFA2bjhguoU4qMFCw4BRtunOkCGudCBDT+zs7TJe9XH9F8cBti+w2iB0FffjqGdRa+yg==
+"@datadog/datadog-ci@^2.0.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@datadog/datadog-ci/-/datadog-ci-2.1.0.tgz#61345e33f6fe564fda6d00e2a90eaa3eef5158c7"
+  integrity sha512-JQZWHlcWuNdsW66e6ZtvM5C9vdfZyYiBvDEqCQ4snV1qfHItVFWqUKAqgpN0QPGm0/Zi935c320hMd1U8okzUQ==
   dependencies:
     "@types/datadog-metrics" "0.6.1"
     async-retry "1.3.1"
-    aws-sdk "2.1012.0"
+    aws-sdk "^2.1012.0"
     axios "0.21.4"
     chalk "3.0.0"
     clipanion "2.2.2"
     datadog-metrics "0.9.3"
     deep-extend "0.6.0"
-    fast-xml-parser "3.19.0"
+    fast-xml-parser "4.0.11"
     form-data "3.0.0"
     fuzzy "^0.1.3"
     glob "7.1.4"
     inquirer "8.2.0"
     inquirer-checkbox-plus-prompt "^1.0.1"
+    js-yaml "3.13.1"
+    ora "5.4.1"
     proxy-agent "5.0.0"
     rimraf "^3.0.2"
+    semver "^7.3.7"
     simple-git "3.5.0"
     ssh2 "1.9.0"
     ssh2-streams "0.4.10"
@@ -8728,7 +8731,7 @@
     tiny-async-pool "1.2.0"
     ws "7.4.6"
     xml2js "0.4.23"
-    yamux-js "0.1.0"
+    yamux-js "0.1.1"
 
 "@datadog/native-appsec@^1.2.1":
   version "1.2.1"
@@ -14878,22 +14881,7 @@ aws-sdk-client-mock@1.0.0:
     sinon "^11.1.1"
     tslib "^2.1.0"
 
-aws-sdk@2.1012.0:
-  version "2.1012.0"
-  resolved "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.1012.0.tgz#93618320cf1ff274389d8fcc563d62974545e1f9"
-  integrity sha512-5F/tC+mOJSTq4BTWqg6DepDIC7h+OeUycCYsFU6fMblQCUEBuI11o8z/+2DxGt4c40f52OstalYNiSlP2RuZvw==
-  dependencies:
-    buffer "4.9.2"
-    events "1.1.1"
-    ieee754 "1.1.13"
-    jmespath "0.15.0"
-    querystring "0.2.0"
-    sax "1.2.1"
-    url "0.10.3"
-    uuid "3.3.2"
-    xml2js "0.4.19"
-
-aws-sdk@2.1266.0:
+aws-sdk@2.1266.0, aws-sdk@^2.1012.0:
   version "2.1266.0"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1266.0.tgz#38e7bb8ce4e4af16acd20b4ceea2832e82f60b68"
   integrity sha512-UUj4TXP/V0rCbBmuIu7NLQyX4j2ZU81iEiM856eGvhWGha2M3LnKteA6JqKMjGx2weKRVaIcfkgLCyKIs3KEAg==
@@ -24068,11 +24056,6 @@ jest@28.1.3:
     import-local "^3.0.2"
     jest-cli "^28.1.3"
 
-jmespath@0.15.0:
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/jmespath/-/jmespath-0.15.0.tgz#a3f222a9aae9f966f5d27c796510e28091764217"
-  integrity sha512-+kHj8HXArPfpPEKGLZ+kB5ONRTCiGQXo8RQYL0hH8t6pWXUBBK5KkkQmTNOwKK4LEsd0yTsgtjJVm4UBSZea4w==
-
 jmespath@0.16.0:
   version "0.16.0"
   resolved "https://registry.yarnpkg.com/jmespath/-/jmespath-0.16.0.tgz#b15b0a85dfd4d930d43e69ed605943c802785076"
@@ -24107,6 +24090,14 @@ js-string-escape@^1.0.1:
   version "4.0.0"
   resolved "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
+
+js-yaml@3.13.1:
+  version "3.13.1"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
+  integrity sha512-YfbcO7jXDdyj0DGxYVSlSeQNHbD7XPWvrVWeVUujrQEoZzWJIRrCPoyk6kL6IAjAG2IolMK4T0hNUe0HOUs5Jw==
+  dependencies:
+    argparse "^1.0.7"
+    esprima "^4.0.0"
 
 js-yaml@3.14.1, js-yaml@^3.10.0, js-yaml@^3.13.1:
   version "3.14.1"
@@ -27388,7 +27379,7 @@ optipng-bin@^7.0.0:
     bin-build "^3.0.0"
     bin-wrapper "^4.0.0"
 
-ora@^5.4.1:
+ora@5.4.1, ora@^5.4.1:
   version "5.4.1"
   resolved "https://registry.npmjs.org/ora/-/ora-5.4.1.tgz#1b2678426af4ac4a509008e5e4ac9e9959db9e18"
   integrity sha512-5b6Y85tPxZZ7QytO+BQzysW31HJku27cRIlkbAXaNx+BdcVi+LlRFmVXzeF6a7JCwJpyw5c4b+YSVImQIrBpuQ==
@@ -32780,7 +32771,16 @@ tsconfig-paths-webpack-plugin@3.5.2:
     enhanced-resolve "^5.7.0"
     tsconfig-paths "^3.9.0"
 
-tsconfig-paths@3.14.1, tsconfig-paths@^3.14.1:
+tsconfig-paths@4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-4.1.1.tgz#7f23094ce897fcf4a93f67c4776e813003e48b75"
+  integrity sha512-VgPrtLKpRgEAJsMj5Q/I/mXouC6A/7eJ/X4Nuk6o0cRPwBtznYxTCU4FodbexbzH9somBPEXYi0ZkUViUpJ21Q==
+  dependencies:
+    json5 "^2.2.1"
+    minimist "^1.2.6"
+    strip-bom "^3.0.0"
+
+tsconfig-paths@^3.14.1:
   version "3.14.1"
   resolved "https://registry.npmjs.org/tsconfig-paths/-/tsconfig-paths-3.14.1.tgz#ba0734599e8ea36c862798e920bcf163277b137a"
   integrity sha512-fxDhWnFSLt3VuTwtvJt5fpwxBHg5AdKWMsgcPOOIilyjymcYVZoCQF8fvFRezCNfblEXmi+PcM1eYHeOAgXCOQ==
@@ -34774,10 +34774,10 @@ yaml@^2.1.3:
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.1.3.tgz#9b3a4c8aff9821b696275c79a8bee8399d945207"
   integrity sha512-AacA8nRULjKMX2DvWvOAdBZMOfQlypSFkjcOcu9FalllIDJ1kvlREzcdIZmidQUqqeMv7jorHjq2HlLv/+c2lg==
 
-yamux-js@0.1.0:
-  version "0.1.0"
-  resolved "https://registry.npmjs.org/yamux-js/-/yamux-js-0.1.0.tgz#a0215b8cc315533f6bb3189769febe337ec7440f"
-  integrity sha512-Bg/H2ZIV/FZ2O7LZ4nNYBoE69KPljE6Vo47p5gC7flCxSQQLmbCy1EKYqvq6tLBVBb/ep+6I2niKtPuNlj6hyw==
+yamux-js@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/yamux-js/-/yamux-js-0.1.1.tgz#69dbd63a9a3896d2417fb879ed49d14e461c1dae"
+  integrity sha512-R4cSoIIuhHTDsp0yR99nghTk8va86Z4EC2aFwemZ5QCIqfUUul9U4Fay7b6O/UnSIdiyLtqwvhwu8w50ptTpiw==
 
 yargs-parser@20.2.4:
   version "20.2.4"
