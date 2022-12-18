@@ -19,19 +19,21 @@ export const deleteAll = async (
 
   await Promise.all(
     batches.map(async (batch) => {
-      const input: BatchWriteCommandInput = {
-        RequestItems: {
-          [table]: batch.map((item) => ({
-            DeleteRequest: {
-              Key: {
-                id: item,
+      if (batch.length > 0) {
+        const input: BatchWriteCommandInput = {
+          RequestItems: {
+            [table]: batch.map((item) => ({
+              DeleteRequest: {
+                Key: {
+                  id: item,
+                },
               },
-            },
-          })),
-        },
-      };
+            })),
+          },
+        };
 
-      await batchWrite(client, input);
+        await batchWrite(client, input);
+      }
     })
   );
 };
