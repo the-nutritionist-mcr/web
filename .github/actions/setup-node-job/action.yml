@@ -10,18 +10,18 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Configure node 14
+    - name: Configure node 18
       uses: actions/setup-node@v3
       if: ${{ inputs.cache-node-modules != 'true' }}
       with:
-        node-version: '14'
+        node-version: '18'
         cache: 'yarn'
 
-    - name: Configure node 14
+    - name: Configure node 18
       uses: actions/setup-node@v3
       if: ${{ inputs.cache-node-modules == 'true' }}
       with:
-        node-version: '14'
+        node-version: '18'
 
     - name: Cache node_modules
       if: ${{ inputs.cache-node-modules == 'true' }}
