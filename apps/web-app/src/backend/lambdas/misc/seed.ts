@@ -17,19 +17,11 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       );
     }
 
-    const cognitoPromise = seedCognito();
+    await seedCognito();
 
-    const recipesPromise = seedDynamodb(
-      process.env['RECIPES_TABLE'] ?? '',
-      recipes
-    );
+    await seedDynamodb(process.env['RECIPES_TABLE'] ?? '', recipes);
 
-    const customisationsPromise = seedDynamodb(
-      process.env['CUSTOMISATIONS_TABLE'] ?? '',
-      exclusions
-    );
-
-    await Promise.all([cognitoPromise, recipesPromise, customisationsPromise]);
+    await seedDynamodb(process.env['CUSTOMISATIONS_TABLE'] ?? '', exclusions);
 
     return returnOkResponse({ result: 'success' });
   } catch (error) {
