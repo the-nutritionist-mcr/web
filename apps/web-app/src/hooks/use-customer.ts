@@ -1,13 +1,13 @@
 import toast from 'react-hot-toast';
 import { HTTP } from '@tnmw/constants';
 import { BackendCustomer, UpdateCustomerBody } from '@tnmw/types';
-import useSWR, { useSWRConfig } from 'swr';
+import { useSWRConfig } from 'swr';
 import useMutation from 'use-mutation';
 import { swrFetcher } from '../utils/swr-fetcher';
 import { useSwrWrapper } from './use-swr-wrapper';
 
 // eslint-disable-next-line fp/no-let
-let originalData: UpdateCustomerBody | undefined;
+let originalData: BackendCustomer | undefined;
 
 export const useCustomer = (username: string | undefined) => {
   const key = `customer/${username}`;
@@ -24,7 +24,7 @@ export const useCustomer = (username: string | undefined) => {
   };
 
   const update = (input: UpdateCustomerBody) => {
-    const data = cache.get(key);
+    const data = cache.get(key) as BackendCustomer;
     if (!originalData) {
       originalData = data;
     }
@@ -39,7 +39,7 @@ export const useCustomer = (username: string | undefined) => {
 
   const [save] = useMutation(updateCustomer, {
     onSettled({ input, status }) {
-      const data = cache.get(key);
+      const data = cache.get(key) as BackendCustomer;
 
       const newCustomer: BackendCustomer = {
         ...data,
