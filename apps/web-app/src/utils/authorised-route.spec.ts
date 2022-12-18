@@ -1,8 +1,9 @@
 import { mock } from 'jest-mock-extended';
-import { GetServerSidePropsContext } from 'next';
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { verifyJwtToken } from '@tnmw/authorise-cognito-jwt';
-import { authorizedRoute } from './authorised-route';
+import { authorizedRoute, AuthorizedRouteProps } from './authorised-route';
 import { getUserFromAws } from './get-user-from-aws';
+import { BackendCustomer } from '@tnmw/types';
 
 jest.mock('@tnmw/authorise-cognito-jwt');
 jest.mock('./get-user-from-aws');
@@ -46,12 +47,17 @@ describe('authorised route', () => {
       'CognitoIdentityServiceProvider.5cduopruc8j1ped1ccrpe2mout.cypress-test-user.refreshToken':
         'my-refresh-token',
     };
+    const mockProps = {
+      props: { user: mock<BackendCustomer & { admin: boolean }>() },
+    };
 
-    const mockProps = { props: {} };
-    const getServerSideProps = jest.fn(() => Promise.resolve(mockProps));
+    const getServerSideProps = jest.fn<
+      Promise<GetServerSidePropsResult<AuthorizedRouteProps>>,
+      [GetServerSidePropsContext]
+    >(() => Promise.resolve(mockProps));
 
     const serversidePropsCallback = authorizedRoute({ getServerSideProps });
-    const response = await serversidePropsCallback(mockContext);
+    await serversidePropsCallback(mockContext);
 
     expect(getServerSideProps).toHaveBeenCalled();
     expect(jest.mocked(verifyJwtToken)).toHaveBeenCalledWith({
@@ -171,8 +177,13 @@ describe('authorised route', () => {
       LastAuthUser: 'foo',
     };
 
-    const mockProps = { props: {} };
-    const getServerSideProps = jest.fn(() => Promise.resolve(mockProps));
+    const mockProps = {
+      props: { user: mock<BackendCustomer & { admin: boolean }>() },
+    };
+    const getServerSideProps = jest.fn<
+      Promise<GetServerSidePropsResult<AuthorizedRouteProps>>,
+      [GetServerSidePropsContext]
+    >(() => Promise.resolve(mockProps));
 
     const serversidePropsCallback = authorizedRoute({ getServerSideProps });
     const response = await serversidePropsCallback(mockContext);
