@@ -49,6 +49,7 @@ jobs:
           - constants
           - utils
           - web-app
+          - meal-planning
           - authorise-cognito-jwt
 
         target:

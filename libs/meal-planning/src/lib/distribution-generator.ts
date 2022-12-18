@@ -88,6 +88,7 @@ const distributeAndMultiply = curry(
         ...a: Delivery[]
       ) => Delivery[],
       multiplyItems(target, multiple)
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
     )(inputPlan)
 );
@@ -248,6 +249,7 @@ export const generateDistribution = (
   config: PlanConfiguration,
   defaultSettings: PlannerConfig
 ): Delivery[] =>
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   pipe(
     () => makeDefaultDeliveryPlan(defaultSettings, config),
@@ -258,6 +260,7 @@ export const generateDistribution = (
       'items',
       config.mealsPerDay * config.totalPlans
     ),
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     config.extrasChosen.reduce(
       (func, extra) =>

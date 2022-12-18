@@ -18,14 +18,16 @@ describe('get real recipe', () => {
         alternates: [],
       }),
     ];
-    const recipe = mock<Recipe>();
+    const recipe = mock<Recipe>({
+      id: 'foo-bar',
+    });
     const customer = mock<BackendCustomer>();
 
     recipe.alternates = undefined;
 
     const result = getRealRecipe(recipe, customer, recipes);
 
-    expect(result).toBe(recipe);
+    expect(result.id).toBe('foo-bar');
   });
 
   it('returns the recipe if alternates is an empty array', () => {
@@ -43,14 +45,16 @@ describe('get real recipe', () => {
         alternates: [],
       }),
     ];
-    const recipe = mock<Recipe>();
+    const recipe = mock<Recipe>({
+      id: 'originalRecipe',
+    });
     const customer = mock<BackendCustomer>();
 
     recipe.alternates = [];
 
     const result = getRealRecipe(recipe, customer, recipes);
 
-    expect(result).toBe(recipe);
+    expect(result.id).toBe('originalRecipe');
   });
 
   it('returns the recipe if there are alternates but they dont match the customers customisations', () => {
@@ -68,7 +72,9 @@ describe('get real recipe', () => {
         alternates: [],
       }),
     ];
-    const recipe = mock<Recipe>();
+    const recipe = mock<Recipe>({
+      id: 'originalRecipe',
+    });
     const customer = mock<BackendCustomer>({
       customisations: [
         mock<Exclusion>({
@@ -87,7 +93,7 @@ describe('get real recipe', () => {
 
     const result = getRealRecipe(recipe, customer, recipes);
 
-    expect(result).toBe(recipe);
+    expect(result.id).toBe('originalRecipe');
   });
 
   it('returns the alternate recipe if there is an alternate that matches the customers customisations', () => {
@@ -125,7 +131,7 @@ describe('get real recipe', () => {
 
     const result = getRealRecipe(recipe, customer, recipes);
 
-    expect(result).toBe(recipeTwo);
+    expect(result.id).toBe('recipe-two');
   });
 
   it('picks the first recipe when there are multiple matches', () => {
@@ -169,7 +175,7 @@ describe('get real recipe', () => {
 
     const result = getRealRecipe(recipe, customer, recipes);
 
-    expect(result).toBe(recipeTwo);
+    expect(result.id).toBe('recipe-two');
   });
 
   it('Throws an error if there is a cycle', () => {
@@ -272,6 +278,6 @@ describe('get real recipe', () => {
 
     const result = getRealRecipe(recipe, customer, recipes);
 
-    expect(result).toBe(recipeOne);
+    expect(result.id).toBe('recipe-one');
   });
 });

@@ -1,4 +1,3 @@
-export { chooseMeals } from './lib/choose-meals';
 export { chooseMealSelections } from './lib/choose-meals-v2';
 export { makeCookPlan } from './lib/make-cook-plan';
 export { createVariant } from './lib/create-variant';
