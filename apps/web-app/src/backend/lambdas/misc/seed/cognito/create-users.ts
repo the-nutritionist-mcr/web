@@ -22,7 +22,8 @@ export const createUsers = async (
   poolId: string,
   users: SeedUser[]
 ) => {
-  const userPromises = users.map(async (user) => {
+  await users.reduce(async (lastPromise, user) => {
+    await lastPromise;
     const initialPassword =
       user.state === 'Complete' ? '^2Y.AD`5`$A!&pS\\' : user.password;
 
@@ -70,10 +71,10 @@ export const createUsers = async (
       }) ?? [];
 
     await Promise.all(groupPromises);
-  });
-  await Promise.all(userPromises);
+  }, Promise.resolve());
 
-  const groupPromisesAll = users.map(async (user) => {
+  await users.reduce(async (lastPromise, user) => {
+    await lastPromise;
     const groupPromises =
       user.groups?.map(async (group) => {
         const addToGroupCommand = new AdminAddUserToGroupCommand({
@@ -86,7 +87,5 @@ export const createUsers = async (
       }) ?? [];
 
     await Promise.all(groupPromises);
-  });
-
-  await Promise.all(groupPromisesAll);
+  }, Promise.resolve());
 };
