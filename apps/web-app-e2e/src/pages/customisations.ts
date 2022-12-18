@@ -12,12 +12,12 @@ export const Customisations = {
   getNameField: () => cy.get('form').find(`input[name='name']`),
   getAllergenField: () => cy.get('form').find(`input[name='allergen']`),
 
-  clickCustomisationDelete: (name: string) =>
-    cy
-      .contains(name)
+  clickCustomisationDelete: (name: string) => {
+    cy.contains(name)
       .parent('tr')
       .find('button[aria-label="Delete"]')
-      .click({ force: true }),
+      .click({ force: true });
+  },
 
   clickCustomisationEdit: (name: string) =>
     cy
@@ -28,7 +28,10 @@ export const Customisations = {
 };
 
 export const ConfirmDeleteDialog = {
-  clickOk: () => cy.contains('button', 'Ok').click(),
+  clickOk: () => {
+    cy.contains('button', 'Ok').click();
+    cy.contains('successfully');
+  },
   clickCancel: () => cy.contains('button', 'Cancel').click(),
 };
 
@@ -44,5 +47,8 @@ export const CreateCustomisationsDialog = {
       : cy.get('form').find(`input[name='allergen']`).uncheck({ force: true });
   },
 
-  clickOk: () => cy.get('form').contains('button', 'Ok').click({ force: true }),
+  clickOk: () => {
+    cy.get('form').contains('button', 'Ok').click({ force: true });
+    cy.contains('successfully');
+  },
 };
