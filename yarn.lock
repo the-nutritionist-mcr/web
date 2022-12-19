@@ -53,16 +53,16 @@
     uuid "^3.2.1"
     zen-observable-ts "0.8.19"
 
-"@aws-amplify/api-graphql@3.0.4":
-  version "3.0.4"
-  resolved "https://registry.npmjs.org/@aws-amplify/api-graphql/-/api-graphql-3.0.4.tgz#ac32a9dadaa0bd27491f4f47c197e7adb909bd1d"
-  integrity sha512-undlUsCxNIurMXyIG38HJNzWf0HbKSKrFsoDEAaARDJh4kCgL9M/WzDVpG/QHoMValL4q8132Qh4rsObcc7yuA==
+"@aws-amplify/api-graphql@3.0.7":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/api-graphql/-/api-graphql-3.0.7.tgz#1621942d572ec878e9ba28e380f650e5ba30cf92"
+  integrity sha512-A8Cv5eIQMY2yeIpx/MC1dpEU4xeM60ahGNJDOkaK8MO0Keb8Xed8dbmANTGlcTLI6SHO0jZVdVK3xcRaML94KA==
   dependencies:
-    "@aws-amplify/api-rest" "3.0.4"
-    "@aws-amplify/auth" "5.0.4"
-    "@aws-amplify/cache" "5.0.4"
-    "@aws-amplify/core" "5.0.4"
-    "@aws-amplify/pubsub" "5.0.4"
+    "@aws-amplify/api-rest" "3.0.7"
+    "@aws-amplify/auth" "5.1.1"
+    "@aws-amplify/cache" "5.0.7"
+    "@aws-amplify/core" "5.0.7"
+    "@aws-amplify/pubsub" "5.0.7"
     graphql "15.8.0"
     tslib "^1.8.0"
     uuid "^3.2.1"
@@ -76,12 +76,12 @@
     "@aws-amplify/core" "4.7.12"
     axios "0.26.0"
 
-"@aws-amplify/api-rest@3.0.4":
-  version "3.0.4"
-  resolved "https://registry.npmjs.org/@aws-amplify/api-rest/-/api-rest-3.0.4.tgz#c906d0c86be15ed9029a29d124698e0b6ca1619f"
-  integrity sha512-+Zu4ujIjwaosx5J1ChWRxadRU/z5cDtPj3z1H7YGKzgywqDQz1rTZBEuS5++bHvFt3EWGurSWEGDY7iDgAh9GA==
+"@aws-amplify/api-rest@3.0.7":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/api-rest/-/api-rest-3.0.7.tgz#50f2864959eeab6bb4837a0c8a73ef3709106d07"
+  integrity sha512-aeC0ppW4q1Lc1usL2MN15wRdCxdfO7wIoHovQ4cBD6jN47QQ4HGUpF06roAxSp6JDpEVzlP5pHPogJAKycawiw==
   dependencies:
-    "@aws-amplify/core" "5.0.4"
+    "@aws-amplify/core" "5.0.7"
     axios "0.26.0"
     tslib "^1.8.0"
 
@@ -93,13 +93,13 @@
     "@aws-amplify/api-graphql" "2.3.25"
     "@aws-amplify/api-rest" "2.0.61"
 
-"@aws-amplify/api@5.0.4":
-  version "5.0.4"
-  resolved "https://registry.npmjs.org/@aws-amplify/api/-/api-5.0.4.tgz#c41538af87608c7d2c897a65204b94a5997ac7e7"
-  integrity sha512-4YVW1lprAexfNhhlJD0leFVCZqsjvI0xFpf7GAIo+QORHxGso9KSCfepVVs8Rxnjr2D+tD0WJ2N5tWMAXXGTcA==
+"@aws-amplify/api@5.0.7":
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/api/-/api-5.0.7.tgz#0b1fb7c6ff82050ba2841c760baeb4f6eb56fe25"
+  integrity sha512-tOSDIgyl2OF3jtAfen4Bhpy0/LUDgBHXVbbAHpp0rXFUZpS8uEvKmKESgi72rlHVsIPZN2OcU6jBb3Tb0WTxog==
   dependencies:
-    "@aws-amplify/api-graphql" "3.0.4"
-    "@aws-amplify/api-rest" "3.0.4"
+    "@aws-amplify/api-graphql" "3.0.7"
+    "@aws-amplify/api-rest" "3.0.7"
     tslib "^1.8.0"
 
 "@aws-amplify/auth@4.6.14":
@@ -121,6 +121,15 @@
     amazon-cognito-identity-js "6.0.1"
     tslib "^1.8.0"
 
+"@aws-amplify/auth@5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/auth/-/auth-5.1.1.tgz#cac3b36316b39fbd36e2b9bcf5fca200bf119d28"
+  integrity sha512-NucpdoPdwvEIxT08EBVk4sQSMD24WESaJhDiHlQ4dpFVWV8M3uoPSRebs+DrGH5KBXIW1F2AcX63tCapv7Q8uA==
+  dependencies:
+    "@aws-amplify/core" "5.0.7"
+    amazon-cognito-identity-js "6.1.1"
+    tslib "^1.8.0"
+
 "@aws-amplify/cache@4.0.63":
   version "4.0.63"
   resolved "https://registry.yarnpkg.com/@aws-amplify/cache/-/cache-4.0.63.tgz#64fd6d5d04d5dcec1afb2d57f72e4a4de7114c8c"
@@ -128,12 +137,12 @@
   dependencies:
     "@aws-amplify/core" "4.7.12"
 
-"@aws-amplify/cache@5.0.4":
-  version "5.0.4"
-  resolved "https://registry.npmjs.org/@aws-amplify/cache/-/cache-5.0.4.tgz#83c25ea219569ef9853ff3d039e6a376b4d9b833"
-  integrity sha512-rGxictqBYbXC356LSbHcvQcGGfuccL238QrEmaUCCFbejWnMIK5JlyixPD7n26jJRIQbsZm/vfH+0AoeMbit+g==
+"@aws-amplify/cache@5.0.7":
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/cache/-/cache-5.0.7.tgz#4850e2b0eaea1b84c3750ae9ad42e2f4ba294c63"
+  integrity sha512-JwX5hLPEasvdF4RLkl1ZuNcDqR3AEX0roGBsk6SujmV8+1atNCCbdgCgIU8j/dl2RNRKHKp6WVIgEErav3wNrw==
   dependencies:
-    "@aws-amplify/core" "5.0.4"
+    "@aws-amplify/core" "5.0.7"
     tslib "^1.8.0"
 
 "@aws-amplify/core@4.7.12":
@@ -154,6 +163,21 @@
   version "5.0.4"
   resolved "https://registry.npmjs.org/@aws-amplify/core/-/core-5.0.4.tgz#10dd4229d8cd2e787a9ffc7ef3f78fb819b43e91"
   integrity sha512-Lx/TpzHpqFm4RAZCahV1Voi+MP9rcWG6fU2a/Oa2fwaGKOYv/S2E7CMxmgQpPV83wWSu8i2Bm9YujtjG9fVxHQ==
+  dependencies:
+    "@aws-crypto/sha256-js" "1.2.2"
+    "@aws-sdk/client-cloudwatch-logs" "3.6.1"
+    "@aws-sdk/client-cognito-identity" "3.6.1"
+    "@aws-sdk/credential-provider-cognito-identity" "3.6.1"
+    "@aws-sdk/types" "3.6.1"
+    "@aws-sdk/util-hex-encoding" "3.6.1"
+    tslib "^1.8.0"
+    universal-cookie "^4.0.4"
+    zen-observable-ts "0.8.19"
+
+"@aws-amplify/core@5.0.7":
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/core/-/core-5.0.7.tgz#311b955e1143d67fa5bdad3f0ae2cf57998975a4"
+  integrity sha512-Y4Wryidok42O5U6OiE/xi18EwkshI523SneBdpjszj4Cs+Mn4vZIKfnSRuTxvAt7PcZ2K4fMQ/uahigB3HkKhA==
   dependencies:
     "@aws-crypto/sha256-js" "1.2.2"
     "@aws-sdk/client-cloudwatch-logs" "3.6.1"
@@ -233,14 +257,14 @@
     uuid "^3.2.1"
     zen-observable-ts "0.8.19"
 
-"@aws-amplify/pubsub@5.0.4":
-  version "5.0.4"
-  resolved "https://registry.npmjs.org/@aws-amplify/pubsub/-/pubsub-5.0.4.tgz#a176ce09ff47ee0eb6b08d30c997753f60cf56a8"
-  integrity sha512-+cyynvnQtJPr5SYwQxIUl1gyp0jeyesYsOgxlkSr2/0j6nfZPv8YREhZXh+86l3BPELankd7E8CB6kVOLZ1/nQ==
+"@aws-amplify/pubsub@5.0.7":
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/pubsub/-/pubsub-5.0.7.tgz#1f6f78b9d1826bf33ed2ae085ef57717aaa641f2"
+  integrity sha512-UnLLm+A9Fmln5V6soWuwOwvwPs7eAmr/B36m5XqRXJFI0zRwpSwjaMXDPsXt0HSSHwVqrpM2vN2yDaJZNZU4dQ==
   dependencies:
-    "@aws-amplify/auth" "5.0.4"
-    "@aws-amplify/cache" "5.0.4"
-    "@aws-amplify/core" "5.0.4"
+    "@aws-amplify/auth" "5.1.1"
+    "@aws-amplify/cache" "5.0.7"
+    "@aws-amplify/core" "5.0.7"
     graphql "15.8.0"
     paho-mqtt "^1.1.0"
     tslib "^1.8.0"
@@ -14209,6 +14233,17 @@ amazon-cognito-identity-js@6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/amazon-cognito-identity-js/-/amazon-cognito-identity-js-6.0.1.tgz#d0de66a6cbed41413b202066f7b2acbb35c00de8"
   integrity sha512-j96DHquV9Jiabs+3/fuQwrSK+1WcxzmEfRuZlhajGxxUplzjt046pedCYiSkcFY+Wilun+I57iri5dXiaNDOsg==
+  dependencies:
+    "@aws-crypto/sha256-js" "1.2.2"
+    buffer "4.9.2"
+    fast-base64-decode "^1.0.0"
+    isomorphic-unfetch "^3.0.0"
+    js-cookie "^2.2.1"
+
+amazon-cognito-identity-js@6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/amazon-cognito-identity-js/-/amazon-cognito-identity-js-6.1.1.tgz#9b9915f1a752da80c08496fcb56f5dbbfa79a46f"
+  integrity sha512-udhv6lQhcL2Tw8Y/xDiLg+h+2e0d+G4/vJyTRGVdDpvQiypMFjw/FOt7xyFtklk2EdQFXo3HDc3IMoQ19H2gqg==
   dependencies:
     "@aws-crypto/sha256-js" "1.2.2"
     buffer "4.9.2"
