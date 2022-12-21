@@ -112,15 +112,6 @@
     amazon-cognito-identity-js "5.2.13"
     crypto-js "^4.1.1"
 
-"@aws-amplify/auth@5.0.4":
-  version "5.0.4"
-  resolved "https://registry.npmjs.org/@aws-amplify/auth/-/auth-5.0.4.tgz#69f85a68e708ccf9ba16182bd3bf229ed90d44c2"
-  integrity sha512-B+f2haptQPLU+TqObOAI9oFCOtH/RmLbwKM7yblyfljpG42Msm89+2m0BBIDOrVu6ZeOkIs+vHUSGZralzcX3Q==
-  dependencies:
-    "@aws-amplify/core" "5.0.4"
-    amazon-cognito-identity-js "6.0.1"
-    tslib "^1.8.0"
-
 "@aws-amplify/auth@5.1.1":
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/@aws-amplify/auth/-/auth-5.1.1.tgz#cac3b36316b39fbd36e2b9bcf5fca200bf119d28"
@@ -156,21 +147,6 @@
     "@aws-sdk/credential-provider-cognito-identity" "3.6.1"
     "@aws-sdk/types" "3.6.1"
     "@aws-sdk/util-hex-encoding" "3.6.1"
-    universal-cookie "^4.0.4"
-    zen-observable-ts "0.8.19"
-
-"@aws-amplify/core@5.0.4":
-  version "5.0.4"
-  resolved "https://registry.npmjs.org/@aws-amplify/core/-/core-5.0.4.tgz#10dd4229d8cd2e787a9ffc7ef3f78fb819b43e91"
-  integrity sha512-Lx/TpzHpqFm4RAZCahV1Voi+MP9rcWG6fU2a/Oa2fwaGKOYv/S2E7CMxmgQpPV83wWSu8i2Bm9YujtjG9fVxHQ==
-  dependencies:
-    "@aws-crypto/sha256-js" "1.2.2"
-    "@aws-sdk/client-cloudwatch-logs" "3.6.1"
-    "@aws-sdk/client-cognito-identity" "3.6.1"
-    "@aws-sdk/credential-provider-cognito-identity" "3.6.1"
-    "@aws-sdk/types" "3.6.1"
-    "@aws-sdk/util-hex-encoding" "3.6.1"
-    tslib "^1.8.0"
     universal-cookie "^4.0.4"
     zen-observable-ts "0.8.19"
 
@@ -14024,17 +14000,6 @@ amazon-cognito-identity-js@5.2.13:
   dependencies:
     buffer "4.9.2"
     crypto-js "^4.1.1"
-    fast-base64-decode "^1.0.0"
-    isomorphic-unfetch "^3.0.0"
-    js-cookie "^2.2.1"
-
-amazon-cognito-identity-js@6.0.1:
-  version "6.0.1"
-  resolved "https://registry.npmjs.org/amazon-cognito-identity-js/-/amazon-cognito-identity-js-6.0.1.tgz#d0de66a6cbed41413b202066f7b2acbb35c00de8"
-  integrity sha512-j96DHquV9Jiabs+3/fuQwrSK+1WcxzmEfRuZlhajGxxUplzjt046pedCYiSkcFY+Wilun+I57iri5dXiaNDOsg==
-  dependencies:
-    "@aws-crypto/sha256-js" "1.2.2"
-    buffer "4.9.2"
     fast-base64-decode "^1.0.0"
     isomorphic-unfetch "^3.0.0"
     js-cookie "^2.2.1"
