@@ -1,6 +1,7 @@
 import {
   BackendCustomer,
   DeliveryMeal,
+  Exclusion,
   MealPlanGeneratedForIndividualCustomer,
   Recipe,
 } from '@tnmw/types';
@@ -27,6 +28,733 @@ const generateDeliveryMeals = (
   });
 
 describe('make cook plan', () => {
+  it(`doesn't include alternates in the primaries count`, () => {
+    const [customerOne, customerThree] = generateCustomers(3);
+
+    const noBroccoli = mock<Exclusion>({
+      id: 'no-broccoli',
+    });
+
+    const customerTwo = mock<BackendCustomer>({
+      customisations: [noBroccoli],
+    });
+
+    const [one, four, three, nine, five, six, seven, eight] = Array.from({
+      length: 8,
+    }).map((_, index) =>
+      mock<Recipe>({
+        id: `recipe-${index}`,
+        name: `recipe-${index}`,
+        potentialExclusions: [],
+        alternates: [],
+      })
+    );
+
+    const recipeToSwap = mock<Recipe>({
+      id: `recipe-to-swap`,
+      name: `recipe-to-swap`,
+      alternates: [],
+      potentialExclusions: [],
+    });
+
+    const two = mock<Recipe>({
+      id: `recipe-9`,
+      name: `recipe-9`,
+      potentialExclusions: [],
+      alternates: [
+        {
+          customisationId: noBroccoli.id,
+          recipeId: recipeToSwap.id,
+        },
+      ],
+    });
+
+    const plan: MealPlanGeneratedForIndividualCustomer[] = [
+      {
+        wasUpdatedByCustomer: false,
+        customer: customerOne,
+        deliveries: [
+          {
+            dateCooked: new Date(),
+            plans: [
+              {
+                status: 'active',
+                id: `plan0`,
+                planId: `plan0`,
+                name: `Mass`,
+                meals: [
+                  ...generateDeliveryMeals('Mass', [one, two, three, four]),
+                ],
+                isExtra: false,
+              },
+            ],
+          },
+          {
+            dateCooked: new Date(),
+            plans: [
+              {
+                status: 'active',
+                id: `plan3`,
+                planId: `plan3`,
+                name: `Mass`,
+                meals: [...generateDeliveryMeals('Mass', [five, six, seven])],
+                isExtra: false,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        wasUpdatedByCustomer: false,
+        customer: customerTwo,
+        deliveries: [
+          {
+            dateCooked: new Date(),
+            plans: [
+              {
+                status: 'active',
+                id: `plan1`,
+                planId: `plan1`,
+                name: `Micro`,
+                meals: [...generateDeliveryMeals('Micro', [one, two])],
+                isExtra: false,
+              },
+            ],
+          },
+          {
+            dateCooked: new Date(),
+            plans: [
+              {
+                status: 'active',
+                id: `plan2`,
+                planId: `plan2`,
+                name: `Micro`,
+                meals: [
+                  ...generateDeliveryMeals('Micro', [five, six, seven, eight]),
+                ],
+                isExtra: false,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        wasUpdatedByCustomer: false,
+        customer: customerThree,
+        deliveries: [
+          {
+            dateCooked: new Date(),
+            plans: [
+              {
+                status: 'active',
+                id: `plan4`,
+                planId: `plan4`,
+                name: `Mass`,
+                meals: [...generateDeliveryMeals('Mass', [one, two, three])],
+                isExtra: false,
+              },
+            ],
+          },
+          {
+            dateCooked: new Date(),
+            plans: [
+              {
+                status: 'active',
+                id: `plan7`,
+                planId: `plan7`,
+                name: `Mass`,
+                meals: [...generateDeliveryMeals('Mass', [seven, nine])],
+                isExtra: false,
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const plannedCooks = [
+      {
+        date: new Date(),
+        menu: [one, two, three, four],
+      },
+      {
+        date: new Date(),
+        menu: [five, six, seven, eight, nine],
+      },
+    ];
+
+    const result = makeCookPlan(
+      plan,
+      [one, two, three, four, five, six, seven, eight, nine, recipeToSwap],
+      plannedCooks
+    );
+
+    expect(result).toHaveLength(2);
+    expect(result[0]).toHaveLength(4);
+    expect(result[1]).toHaveLength(5);
+
+    expect(result[0]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: one,
+          alternates: [],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Mass',
+              planName: 'Mass',
+              count: 2,
+            }),
+            expect.objectContaining({
+              fullName: 'Micro',
+              planName: 'Micro',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[0]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: two,
+          alternates: [
+            [
+              expect.objectContaining({
+                fullName: 'Micro',
+                planName: 'Micro',
+                count: 1,
+              }),
+            ],
+          ],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Mass',
+              planName: 'Mass',
+              count: 2,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[0]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: three,
+          alternates: [],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Mass',
+              planName: 'Mass',
+              count: 2,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[0]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: four,
+          alternates: [],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Mass',
+              planName: 'Mass',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[1]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: five,
+          alternates: [],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Mass',
+              planName: 'Mass',
+              count: 1,
+            }),
+            expect.objectContaining({
+              fullName: 'Micro',
+              planName: 'Micro',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[1]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          alternates: [],
+          mainRecipe: six,
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Mass',
+              planName: 'Mass',
+              count: 1,
+            }),
+            expect.objectContaining({
+              fullName: 'Micro',
+              planName: 'Micro',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[1]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: seven,
+          alternates: [],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Mass',
+              planName: 'Mass',
+              count: 2,
+            }),
+            expect.objectContaining({
+              fullName: 'Micro',
+              planName: 'Micro',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[1]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: eight,
+          alternates: [],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Micro',
+              planName: 'Micro',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[1]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: eight,
+          alternates: [],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Micro',
+              planName: 'Micro',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[1]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: nine,
+          alternates: [],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Mass',
+              planName: 'Mass',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+  });
+
+  it(`Correctly separates customised meals`, () => {
+    const [customerThree] = generateCustomers(3);
+
+    const noBroccoli = mock<Exclusion>({
+      id: 'no-broccoli',
+      name: 'no-cheese',
+      allergen: false,
+    });
+
+    const noCheese = mock<Exclusion>({
+      id: 'no-cheese',
+      name: 'no-cheese',
+      allergen: false,
+    });
+
+    const customerTwo = mock<BackendCustomer>({
+      customisations: [noBroccoli, noCheese],
+    });
+
+    const customerOne = mock<BackendCustomer>({
+      customisations: [noCheese],
+    });
+
+    const [one, four, nine, five, six, seven, eight] = Array.from({
+      length: 8,
+    }).map((_, index) =>
+      mock<Recipe>({
+        id: `recipe-${index}`,
+        name: `recipe-${index}`,
+        potentialExclusions: [],
+        alternates: [],
+      })
+    );
+
+    const three = mock<Recipe>({
+      id: `recipe-three`,
+      name: `recipe-three`,
+      alternates: [],
+      potentialExclusions: [noCheese],
+    });
+
+    const recipeToSwap = mock<Recipe>({
+      id: `recipe-to-swap`,
+      name: `recipe-to-swap`,
+      alternates: [],
+      potentialExclusions: [noCheese],
+    });
+
+    const two = mock<Recipe>({
+      id: `recipe-9`,
+      name: `recipe-9`,
+      potentialExclusions: [],
+      alternates: [
+        {
+          customisationId: noBroccoli.id,
+          recipeId: recipeToSwap.id,
+        },
+      ],
+    });
+
+    const plan: MealPlanGeneratedForIndividualCustomer[] = [
+      {
+        wasUpdatedByCustomer: false,
+        customer: customerOne,
+        deliveries: [
+          {
+            dateCooked: new Date(),
+            plans: [
+              {
+                status: 'active',
+                id: `plan0`,
+                planId: `plan0`,
+                name: `Mass`,
+                meals: [
+                  ...generateDeliveryMeals('Mass', [one, two, three, four]),
+                ],
+                isExtra: false,
+              },
+            ],
+          },
+          {
+            dateCooked: new Date(),
+            plans: [
+              {
+                status: 'active',
+                id: `plan3`,
+                planId: `plan3`,
+                name: `Mass`,
+                meals: [...generateDeliveryMeals('Mass', [five, six, seven])],
+                isExtra: false,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        wasUpdatedByCustomer: false,
+        customer: customerTwo,
+        deliveries: [
+          {
+            dateCooked: new Date(),
+            plans: [
+              {
+                status: 'active',
+                id: `plan1`,
+                planId: `plan1`,
+                name: `Micro`,
+                meals: [...generateDeliveryMeals('Micro', [one, two])],
+                isExtra: false,
+              },
+            ],
+          },
+          {
+            dateCooked: new Date(),
+            plans: [
+              {
+                status: 'active',
+                id: `plan2`,
+                planId: `plan2`,
+                name: `Micro`,
+                meals: [
+                  ...generateDeliveryMeals('Micro', [five, six, seven, eight]),
+                ],
+                isExtra: false,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        wasUpdatedByCustomer: false,
+        customer: customerThree,
+        deliveries: [
+          {
+            dateCooked: new Date(),
+            plans: [
+              {
+                status: 'active',
+                id: `plan4`,
+                planId: `plan4`,
+                name: `Mass`,
+                meals: [...generateDeliveryMeals('Mass', [one, two, three])],
+                isExtra: false,
+              },
+            ],
+          },
+          {
+            dateCooked: new Date(),
+            plans: [
+              {
+                status: 'active',
+                id: `plan7`,
+                planId: `plan7`,
+                name: `Mass`,
+                meals: [...generateDeliveryMeals('Mass', [seven, nine])],
+                isExtra: false,
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const plannedCooks = [
+      {
+        date: new Date(),
+        menu: [one, two, three, four],
+      },
+      {
+        date: new Date(),
+        menu: [five, six, seven, eight, nine],
+      },
+    ];
+
+    const result = makeCookPlan(
+      plan,
+      [one, two, three, four, five, six, seven, eight, nine, recipeToSwap],
+      plannedCooks
+    );
+
+    expect(result).toHaveLength(2);
+    expect(result[0]).toHaveLength(4);
+    expect(result[1]).toHaveLength(5);
+
+    expect(result[0]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: one,
+          alternates: [],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Mass',
+              planName: 'Mass',
+              count: 2,
+            }),
+            expect.objectContaining({
+              fullName: 'Micro',
+              planName: 'Micro',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[0]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: two,
+          alternates: [
+            [
+              expect.objectContaining({
+                fullName: 'Micro (no-cheese)',
+                planName: 'Micro',
+                count: 1,
+              }),
+            ],
+          ],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Mass',
+              planName: 'Mass',
+              count: 2,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[0]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: three,
+          alternates: [],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Mass',
+              planName: 'Mass',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[0]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: four,
+          alternates: [],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Mass',
+              planName: 'Mass',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[1]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: five,
+          alternates: [],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Mass',
+              planName: 'Mass',
+              count: 1,
+            }),
+            expect.objectContaining({
+              fullName: 'Micro',
+              planName: 'Micro',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[1]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          alternates: [],
+          mainRecipe: six,
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Mass',
+              planName: 'Mass',
+              count: 1,
+            }),
+            expect.objectContaining({
+              fullName: 'Micro',
+              planName: 'Micro',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[1]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: seven,
+          alternates: [],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Mass',
+              planName: 'Mass',
+              count: 2,
+            }),
+            expect.objectContaining({
+              fullName: 'Micro',
+              planName: 'Micro',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[1]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: eight,
+          alternates: [],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Micro',
+              planName: 'Micro',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[1]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: eight,
+          alternates: [],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Micro',
+              planName: 'Micro',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+
+    expect(result[1]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          mainRecipe: nine,
+          alternates: [],
+          primaries: expect.arrayContaining([
+            expect.objectContaining({
+              fullName: 'Mass',
+              planName: 'Mass',
+              count: 1,
+            }),
+          ]),
+        }),
+      ])
+    );
+  });
+
   it('Correctly counts meals when there is no customisations or alternates at all', () => {
     const [customerOne, customerTwo, customerThree] = generateCustomers(3);
 
@@ -37,6 +765,7 @@ describe('make cook plan', () => {
         id: `recipe-${index}`,
         name: `recipe-${index}`,
         potentialExclusions: [],
+        alternates: [],
       })
     );
 
