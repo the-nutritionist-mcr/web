@@ -19,8 +19,7 @@ const ErrorHeader = styled('h1')`
 `;
 
 const Label = styled('div')`
-  margin-top: 1rem;
-  max-width: 1460px;
+  max-width: 600px;
   margin: 1rem;
 `;
 
