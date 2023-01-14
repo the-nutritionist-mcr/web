@@ -223,8 +223,7 @@ jobs:
   deploy-for-test:
     name: Test Deploy
     runs-on: ubuntu-latest
-    needs:
-      [build-next-app-for-test, static-checks, cypress-run, build-storybook]
+    needs: [build-next-app-for-test, static-checks, cypress-run]
 
     environment:
       name: Test
@@ -250,8 +249,7 @@ jobs:
   deploy-for-prod:
     name: Production Deploy
     runs-on: ubuntu-latest
-    needs:
-      [build-next-app-for-prod, static-checks, cypress-run, build-storybook]
+    needs: [build-next-app-for-prod, static-checks, cypress-run]
 
     environment:
       name: Production
