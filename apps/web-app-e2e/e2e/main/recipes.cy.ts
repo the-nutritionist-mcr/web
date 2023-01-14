@@ -141,6 +141,7 @@ describe('The recipes page', { scrollBehavior: false }, () => {
     CreateRecipeDialog.addToCustomisationField('No Brocc');
     CreateRecipeDialog.editExclusionsField('No Alcohol');
     CreateRecipeDialog.clickSave();
+    recipes.visit();
     recipes.getTable().contains('8 SPICE CHIX');
     recipes.visit();
     recipes.getRecipeEdit('8 SPICE CHIX').click();

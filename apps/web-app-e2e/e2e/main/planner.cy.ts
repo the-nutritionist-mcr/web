@@ -21,7 +21,7 @@ const todaysDatestamp = () => {
   const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(date);
   const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
 
-  return `${da}-${mo}-${ye}`;
+  return `${da}-${Number.parseInt(mo, 10)}-${ye}`;
 };
 
 // eslint-disable-next-line fp/no-let
