@@ -116,24 +116,24 @@ jobs:
           datadog-app-id: ${{ secrets.DATADOG_APP_ID }}
           datadog-client-token: ${{ secrets.DATADOG_CLIENT_TOKEN }}
 
-  build-storybook:
-    name: Build Storybook
-    runs-on: ubuntu-latest
+  # build-storybook:
+  #   name: Build Storybook
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Setup node environment
-        uses: ./.github/actions/setup-node-job
+  #     - name: Setup node environment
+  #       uses: ./.github/actions/setup-node-job
 
-      - name: Run
-        run: yarn nx run components:build-storybook
+  #     - name: Run
+  #       run: yarn nx run components:build-storybook
 
-      - name: Save Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: storybook
-          path: dist/storybook/components
+  #     - name: Save Artifact
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: storybook
+  #         path: dist/storybook/components
 
   deploy-for-cypress:
     name: Cypress Deploy
