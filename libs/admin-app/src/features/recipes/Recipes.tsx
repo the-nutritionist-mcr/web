@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  FormField,
   Header,
   Heading,
   Table,
@@ -9,12 +10,14 @@ import {
   TableHeader,
   TableRow,
   Text,
+  TextInput,
 } from 'grommet';
 import { VirtualWindow } from 'virtual-window';
+import Fuse from 'fuse.js';
 import { table } from './recipes.css';
 
 import EditRecipesDialog from './EditRecipesDialog';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import RecipesRow from '../recipes/RecipesRow';
 import { defaultDeliveryDays } from '@tnmw/config';
 import PlanningModeSummary from './PlanningModeSummary';
@@ -41,10 +44,8 @@ const Recipes: React.FC<RecipesProps> = (props) => {
     defaultDeliveryDays.map(() => [])
   );
 
-  const showCheckBoxes = selectedDelivery !== -1 && planningMode;
-
-  /* eslint-disable fp/no-mutating-methods */
-  const recipesRows = recipes
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, fp/no-mutating-methods
+  const initialRecipes = recipes
     .slice()
     .sort((a, b) => (a.name < b.name ? 1 : -1))
     .filter(
@@ -53,28 +54,40 @@ const Recipes: React.FC<RecipesProps> = (props) => {
           (exclusion) => exclusion.name === 'Alternate'
         )
     )
-    .reverse()
-    .map((recipe) => (
-      /* eslint-enable fp/no-mutating-methods */
-      <RecipesRow
-        recipes={props.recipes}
-        exclusions={props.customisations}
-        update={props.update}
-        remove={props.remove}
-        plannerSelection={plannerSelection}
-        selectedDeliveryDay={selectedDelivery}
-        onSelect={(newPlannerSelection) =>
-          setPlannerSelection(newPlannerSelection)
-        }
-        showCheckBoxes={showCheckBoxes}
-        plannerMode={planningMode}
-        key={recipe.id}
-        recipe={recipe}
-        onChange={(): void => {
-          // Noop
-        }}
-      />
-    ));
+    .reverse();
+
+  const [filter, setFilter] = useState('');
+
+  const fuse = new Fuse(initialRecipes, {
+    keys: ['name', 'shortName', 'description'],
+  });
+
+  const showCheckBoxes = selectedDelivery !== -1 && planningMode;
+
+  /* eslint-disable fp/no-mutating-methods */
+  const recipesRows = (
+    filter ? fuse.search(filter).map((result) => result.item) : initialRecipes
+  ).map((recipe) => (
+    /* eslint-enable fp/no-mutating-methods */
+    <RecipesRow
+      recipes={props.recipes}
+      exclusions={props.customisations}
+      update={props.update}
+      remove={props.remove}
+      plannerSelection={plannerSelection}
+      selectedDeliveryDay={selectedDelivery}
+      onSelect={(newPlannerSelection) =>
+        setPlannerSelection(newPlannerSelection)
+      }
+      showCheckBoxes={showCheckBoxes}
+      plannerMode={planningMode}
+      key={recipe.id}
+      recipe={recipe}
+      onChange={(): void => {
+        // Noop
+      }}
+    />
+  ));
 
   return (
     <React.Fragment>
@@ -85,6 +98,7 @@ const Recipes: React.FC<RecipesProps> = (props) => {
         style={{ marginBottom: '2rem', marginTop: '1rem' }}
       >
         <Heading level={2}>Recipes</Heading>
+
         <Button
           primary
           size="small"
@@ -103,6 +117,16 @@ const Recipes: React.FC<RecipesProps> = (props) => {
             onClick={() => setPlanningMode(true)}
           />
         )}
+        <Box direction="row" style={{ flexGrow: '3' }} justify="end">
+          <FormField>
+            <TextInput
+              placeholder="filter"
+              onChange={(event) => {
+                setFilter(event.target.value);
+              }}
+            />
+          </FormField>
+        </Box>
 
         {showCreate && (
           <EditRecipesDialog
@@ -127,6 +151,7 @@ const Recipes: React.FC<RecipesProps> = (props) => {
           />
         )}
       </Header>
+
       {error && <Text color="status-error">{error}</Text>}
       {recipes.length > 0 ? (
         <Box direction="row" gap="large">
