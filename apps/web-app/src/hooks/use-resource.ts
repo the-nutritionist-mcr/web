@@ -16,6 +16,14 @@ export const useResource = <T extends { id: string }>(
 ) => {
   const { mutate, cache } = useSWRConfig();
 
+  const getCache = <T extends { id: string }>(type: string) => {
+    return cache.get(type) as {
+      data: {
+        items: T[];
+      };
+    };
+  };
+
   const getType = () => {
     if (ids && ids.length === 0) {
       return false;
@@ -39,7 +47,7 @@ export const useResource = <T extends { id: string }>(
 
   const [create] = useMutation(createItem, {
     onMutate({ input }: { input: T }) {
-      const data = cache.get(type);
+      const { data } = getCache<T>(type);
       const items = [...data.items, { ...input, id: '0' }];
       mutate(type, { items }, false);
 
@@ -55,7 +63,7 @@ export const useResource = <T extends { id: string }>(
       input: T;
       data: ExtractPromiseType<ReturnType<typeof createItem>>;
     }) {
-      const oldData = cache.get(type);
+      const { data: oldData } = getCache<T>(type);
       const newData = {
         items: oldData.items.map((item: T) => {
           return item.id === '0' ? { ...input, id: data.id } : item;
@@ -80,7 +88,7 @@ export const useResource = <T extends { id: string }>(
 
   const [update] = useMutation(updateItem, {
     onMutate({ input }: { input: T }) {
-      const data = cache.get(type);
+      const { data } = getCache<T>(type);
       const index = data.items.findIndex(
         (dataItem: T) => dataItem.id === input.id
       );
@@ -113,7 +121,7 @@ export const useResource = <T extends { id: string }>(
 
   const [remove] = useMutation(removeItem, {
     onMutate({ input }: { input: T }) {
-      const data = cache.get(type);
+      const { data } = getCache<T>(type);
       const items = data.items.filter(
         (dataItem: T) => dataItem.id !== input.id
       );
