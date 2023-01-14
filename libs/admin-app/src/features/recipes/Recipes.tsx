@@ -47,6 +47,12 @@ const Recipes: React.FC<RecipesProps> = (props) => {
   const recipesRows = recipes
     .slice()
     .sort((a, b) => (a.name < b.name ? 1 : -1))
+    .filter(
+      (recipe) =>
+        !recipe.potentialExclusions.some(
+          (exclusion) => exclusion.name === 'Alternate'
+        )
+    )
     .reverse()
     .map((recipe) => (
       /* eslint-enable fp/no-mutating-methods */
