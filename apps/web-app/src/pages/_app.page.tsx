@@ -32,6 +32,10 @@ const navigator = {
   },
 };
 
+const errorHandler = (error: Error, info: { componentStack: string }) => {
+  console.log(error);
+};
+
 const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
     const callback: HubCallback = (data) => {
@@ -46,9 +50,6 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
     return () => Hub.remove('auth', callback);
   }, []);
 
-  const errorHandler = (error: Error, info: { componentStack: string }) => {
-    console.log(error);
-  };
   return (
     <SWRConfig
       value={{
