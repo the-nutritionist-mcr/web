@@ -23,6 +23,7 @@ import {
   editRecipePage,
 } from './edit-recipes.page.css';
 import { v4 } from 'uuid';
+import { Link } from '../../components';
 
 export interface EditRecipesPageProps {
   recipe?: Recipe;
@@ -256,6 +257,11 @@ export const EditRecipesPage = (props: EditRecipesPageProps) => {
                       setDirty(true);
                     }}
                   />
+                  <Link
+                    path={`/admin/edit-recipe/?recipeId=${alternate.recipeId}`}
+                  >
+                    Edit
+                  </Link>
                 </CardFooter>
               </Card>
             ))}

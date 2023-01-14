@@ -121,7 +121,7 @@ export const useResource = <T extends { id: string }>(
 
   const [remove] = useMutation(removeItem, {
     onMutate({ input }: { input: T }) {
-      const { data } = getCache<T>(type);
+      const { data } = cache;
       const items = data.items.filter(
         (dataItem: T) => dataItem.id !== input.id
       );

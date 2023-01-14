@@ -4,20 +4,35 @@ import { useCustomisations, useRecipes } from '../../hooks';
 import AdminTemplate from './admin-template';
 import { MenuPaddedContent } from './menu-padded-content';
 import { EditRecipesPage } from '@tnmw/admin-app';
-import { useContext } from 'react';
-import { NavigationContext } from '@tnmw/utils';
+import { useEffect, useState } from 'react';
 
 const EditRecipe = () => {
   const router = useRouter();
   const { items: customisations } = useCustomisations();
   const { items: recipes } = useRecipes();
 
-  const id = router.query.recipeId;
+  const firstId = router.query.recipeId;
 
-  const recipeId = Array.isArray(id) ? id[0] : id;
+  const recipeId = Array.isArray(firstId) ? firstId[0] : firstId;
 
-  const { items, update } = useRecipes(recipeId ? [recipeId] : []);
+  const [id, setId] = useState(recipeId);
+
+  const { items, update } = useRecipes(id ? [id] : []);
   const recipe = items?.[0];
+
+  useEffect(() => {
+    const routeChangeComplete = () => {
+      const newId = router.query.recipeId;
+
+      const recipeId = Array.isArray(newId) ? newId[0] : newId;
+      if (recipeId !== recipe?.id) {
+        setId(recipeId);
+      }
+    };
+
+    router.events.on('routeChangeComplete', routeChangeComplete);
+    return () => router.events.off('routeChangeComplete', routeChangeComplete);
+  }, [id, recipe?.id, router.events, router.query.recipeId]);
 
   return (
     <RedirectIfLoggedOut allowedGroups={['admin']} redirectTo="/login">
@@ -25,6 +40,7 @@ const EditRecipe = () => {
         <AdminTemplate>
           {recipe && recipes && customisations && (
             <EditRecipesPage
+              key={recipe.id}
               recipes={recipes}
               title={items ? 'Edit Recipe' : 'Create Recipe'}
               recipe={recipe}
