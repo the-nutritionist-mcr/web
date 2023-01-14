@@ -45,6 +45,10 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
     Hub.listen('auth', callback);
     return () => Hub.remove('auth', callback);
   }, []);
+
+  const errorHandler = (error: Error, info: { componentStack: string }) => {
+    console.log(error);
+  };
   return (
     <SWRConfig
       value={{
@@ -83,7 +87,10 @@ const TnmApp: FC<AppProps> = ({ Component, pageProps }) => {
                       }}
                     />
                     <Layout>
-                      <ErrorBoundary fallbackRender={ErrorFallback}>
+                      <ErrorBoundary
+                        fallbackRender={ErrorFallback}
+                        onError={errorHandler}
+                      >
                         <Component {...pageProps} />
                       </ErrorBoundary>
                     </Layout>
