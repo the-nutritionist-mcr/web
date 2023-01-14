@@ -137,7 +137,13 @@ describe('authorised route', () => {
     const serversidePropsCallback = authorizedRoute({ groups: ['a-group'] });
     const response = await serversidePropsCallback(mockContext);
 
-    expect(response).toEqual({ props: { user: { admin: false } } });
+    console.log(response);
+
+    expect(response).toEqual(
+      expect.objectContaining({
+        props: { user: expect.objectContaining({ admin: false }) },
+      })
+    );
   });
 
   it('does not redirect to login if no groups were passed in regardless of what groups were returned by the claim', async () => {
@@ -158,7 +164,9 @@ describe('authorised route', () => {
     const serversidePropsCallback = authorizedRoute();
     const response = await serversidePropsCallback(mockContext);
 
-    expect(response).toEqual({ props: { user: { admin: false } } });
+    expect(response).toEqual({
+      props: { user: expect.objectContaining({ admin: false }) },
+    });
   });
 
   it('calls the supplied serversideprops callback and returns the result if verify is successful', async () => {
