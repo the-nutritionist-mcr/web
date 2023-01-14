@@ -19,8 +19,6 @@ const EditRecipe = () => {
   const { items, update } = useRecipes(recipeId ? [recipeId] : []);
   const recipe = items?.[0];
 
-  const { navigate } = useContext(NavigationContext);
-
   return (
     <RedirectIfLoggedOut allowedGroups={['admin']} redirectTo="/login">
       <MenuPaddedContent>
@@ -32,7 +30,6 @@ const EditRecipe = () => {
               recipe={recipe}
               onSave={async (recipe) => {
                 await update(recipe);
-                navigate?.(`/admin/recipes`);
               }}
               // eslint-disable-next-line fp/no-mutating-methods
               customisations={customisations
