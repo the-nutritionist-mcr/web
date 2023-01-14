@@ -17,11 +17,19 @@ export const useResource = <T extends { id: string }>(
   const { mutate, cache } = useSWRConfig();
 
   const getCache = <T extends { id: string }>(type: string) => {
-    return cache.get(type) as {
-      data: {
-        items: T[];
-      };
-    };
+    const response = cache.get(type) as
+      | {
+          data: {
+            items: T[];
+          };
+        }
+      | undefined;
+
+    if (!response) {
+      return { data: undefined };
+    }
+
+    return response;
   };
 
   const getType = () => {
@@ -48,7 +56,7 @@ export const useResource = <T extends { id: string }>(
   const [create] = useMutation(createItem, {
     onMutate({ input }: { input: T }) {
       const { data } = getCache<T>(type);
-      const items = [...data.items, { ...input, id: '0' }];
+      const items = [...(data?.items ?? []), { ...input, id: '0' }];
       mutate(type, { items }, false);
 
       return () => {
@@ -65,7 +73,7 @@ export const useResource = <T extends { id: string }>(
     }) {
       const { data: oldData } = getCache<T>(type);
       const newData = {
-        items: oldData.items.map((item: T) => {
+        items: oldData?.items.map((item: T) => {
           return item.id === '0' ? { ...input, id: data.id } : item;
         }),
       };
@@ -89,11 +97,13 @@ export const useResource = <T extends { id: string }>(
   const [update] = useMutation(updateItem, {
     onMutate({ input }: { input: T }) {
       const { data } = getCache<T>(type);
-      const index = data.items.findIndex(
+      const index = data?.items.findIndex(
         (dataItem: T) => dataItem.id === input.id
       );
-      data.items[index] = input;
-      mutate(type, { items: data.items }, false);
+      if (data && index) {
+        data.items[index] = input;
+      }
+      mutate(type, { items: data?.items }, false);
 
       return () => {
         mutate(type, data, false);
@@ -121,8 +131,8 @@ export const useResource = <T extends { id: string }>(
 
   const [remove] = useMutation(removeItem, {
     onMutate({ input }: { input: T }) {
-      const { data } = cache;
-      const items = data.items.filter(
+      const { data } = getCache<T>(type);
+      const items = data?.items.filter(
         (dataItem: T) => dataItem.id !== input.id
       );
       mutate(type, { items }, false);
