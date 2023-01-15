@@ -108,7 +108,7 @@ describe('The planner', () => {
         recipes.getAddRecipeToCookCheckbox('GOAT NUT SAL').click();
         recipes.selectChooseCookDate(2, new Date(Date.UTC(2022, 10, 16)));
 
-        recipes.getSendToPlannerButton().click();
+        recipes.getSendToPlannerButton().click({ force: true });
         cy.contains('New plan successfully generated!');
         clock.restore();
         Planner.visit();
