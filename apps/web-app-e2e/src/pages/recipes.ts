@@ -43,7 +43,7 @@ const selectFromDatePicker = (targetDate: Date) => {
         message: [targetDate.getDate()],
       });
 
-      cy.get('button').contains(targetDate.getDate()).click();
+      cy.get('button').contains(targetDate.getDate()).click({ force: true });
     });
   });
 };
@@ -101,7 +101,7 @@ export class Recipes {
       .parent('div')
       .find('svg')
       .parent('button')
-      .click();
+      .click({ force: true });
 
     selectFromDatePicker(date);
   }
