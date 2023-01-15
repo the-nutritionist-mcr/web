@@ -164,6 +164,9 @@ export const CreateRecipeDialog = {
   getExclusionsField: () =>
     cy.get('form').find(`input[name='invalidExclusions']`),
 
-  clickSave: () => cy.contains('button', 'Save').click({ force: true }),
+  clickSave: () => {
+    cy.contains('button', 'Save').click({ force: true });
+    cy.contains('successfully');
+  },
   clickCancel: () => cy.contains('button', 'Cancel').click({ force: true }),
 };
