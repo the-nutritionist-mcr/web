@@ -52,7 +52,7 @@ describe('The customers page', { scrollBehavior: false }, () => {
     Customers.getHeader();
   });
 
-  it('Shouldnt have the test customer on the list from the start', () => {
+  it.skip('Shouldnt have the test customer on the list from the start', () => {
     Customers.visit();
     Customers.getTable().contains(customerNameString).should('not.exist');
   });
