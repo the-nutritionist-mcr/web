@@ -104,6 +104,7 @@ export const useResource = <T extends { id: string }>(
         data.items[index] = input;
       }
       mutate(type, { items: data?.items }, false);
+      mutate(`${type}/get-by-id?ids=${input.id}`);
 
       return () => {
         mutate(type, data, false);

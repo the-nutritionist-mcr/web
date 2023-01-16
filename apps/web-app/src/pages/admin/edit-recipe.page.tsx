@@ -25,7 +25,7 @@ const EditRecipe = () => {
       const newId = router.query.recipeId;
 
       const recipeId = Array.isArray(newId) ? newId[0] : newId;
-      if (recipeId !== recipe?.id) {
+      if (recipeId && recipeId !== recipe?.id) {
         setId(recipeId);
       }
     };
