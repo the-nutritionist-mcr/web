@@ -13,26 +13,12 @@ const EditRecipe = () => {
 
   const firstId = router.query.recipeId;
 
+  console.log(firstId);
+
   const recipeId = Array.isArray(firstId) ? firstId[0] : firstId;
 
-  const [id, setId] = useState(recipeId);
-
-  const { items, update } = useRecipes(id ? [id] : []);
+  const { items, update } = useRecipes(recipeId ? [recipeId] : []);
   const recipe = items?.[0];
-
-  useEffect(() => {
-    const routeChangeComplete = () => {
-      const newId = router.query.recipeId;
-
-      const recipeId = Array.isArray(newId) ? newId[0] : newId;
-      if (recipeId && recipeId !== recipe?.id) {
-        setId(recipeId);
-      }
-    };
-
-    router.events.on('routeChangeComplete', routeChangeComplete);
-    return () => router.events.off('routeChangeComplete', routeChangeComplete);
-  }, [id, recipe?.id, router.events, router.query.recipeId]);
 
   return (
     <RedirectIfLoggedOut allowedGroups={['admin']} redirectTo="/login">
