@@ -38,8 +38,9 @@ export const makeDataApi = (
     gitHash
   );
 
-  const makeCrudFunction = (entry: string, opName: string) => {
-    const crudFunction = makeFunction(`${opName}${name}`, {
+  const makeCrudFunction = (entry: string, opName: string, suffix?: string) => {
+    const finalName = suffix ? `${opName}${name}${suffix}` : `${opName}${name}`;
+    const crudFunction = makeFunction(finalName, {
       entry,
       environment: {
         ...defaultEnvironmentVars,
@@ -52,7 +53,18 @@ export const makeDataApi = (
 
   const getFunction = makeCrudFunction(entryName('data-api', 'get.ts'), `get`);
 
+  const getFilterFunction = makeCrudFunction(
+    entryName('data-api', 'get-filter.ts'),
+    `get`,
+    `filter`
+  );
+
   apiResource.addMethod(HTTP.verbs.Get, new LambdaIntegration(getFunction));
+
+  apiResource
+    .addResource('search')
+    .addMethod(HTTP.verbs.Get, new LambdaIntegration(getFilterFunction));
+
   dataTable.grantReadData(getFunction);
 
   const getByIdFunction = makeCrudFunction(
