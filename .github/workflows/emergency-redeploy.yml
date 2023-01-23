@@ -31,7 +31,7 @@ jobs:
       - name: Deploy
         uses: ./.github/actions/deploy
         with:
-          env-name: { { inputs.env } }
+          env-name: ${{ inputs.env }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           datadog-app-id: ${{ secrets.DATADOG_APP_ID }}
