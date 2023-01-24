@@ -64,6 +64,7 @@ export const makeDataApi = (
   apiResource
     .addResource('search')
     .addMethod(HTTP.verbs.Get, new LambdaIntegration(getFilterFunction));
+  dataTable.grantReadData(getFilterFunction);
 
   dataTable.grantReadData(getFunction);
 
