@@ -12,8 +12,6 @@ import {
   Text,
   TextInput,
 } from 'grommet';
-import { VirtualWindow } from 'virtual-window';
-import Fuse from 'fuse.js';
 import { table } from './recipes.css';
 
 import EditRecipesDialog from './EditRecipesDialog';
@@ -23,6 +21,7 @@ import { defaultDeliveryDays } from '@tnmw/config';
 import PlanningModeSummary from './PlanningModeSummary';
 import { Recipe, Exclusion, WeeklyPlan, HotOrCold } from '@tnmw/types';
 import { NavigationContext } from '@tnmw/utils';
+import { debounce } from 'lodash';
 
 interface RecipesProps {
   recipes?: Recipe[];
@@ -31,6 +30,7 @@ interface RecipesProps {
   create: (newRecipe: Recipe) => Promise<void>;
   remove: (recipeToRemove: Recipe) => Promise<void>;
   update: (recipeToUpdate: Recipe) => Promise<void>;
+  onFilter: (filter: string) => void;
 }
 
 const Recipes: React.FC<RecipesProps> = (props) => {
@@ -56,18 +56,10 @@ const Recipes: React.FC<RecipesProps> = (props) => {
     )
     .reverse();
 
-  const [filter, setFilter] = useState('');
-
-  const fuse = new Fuse(initialRecipes, {
-    keys: ['name', 'shortName', 'description'],
-  });
-
   const showCheckBoxes = selectedDelivery !== -1 && planningMode;
 
   /* eslint-disable fp/no-mutating-methods */
-  const recipesRows = (
-    filter ? fuse.search(filter).map((result) => result.item) : initialRecipes
-  ).map((recipe) => (
+  const recipesRows = initialRecipes.map((recipe) => (
     /* eslint-enable fp/no-mutating-methods */
     <RecipesRow
       recipes={props.recipes}
@@ -122,7 +114,7 @@ const Recipes: React.FC<RecipesProps> = (props) => {
             <TextInput
               placeholder="filter"
               onChange={(event) => {
-                setFilter(event.target.value);
+                props.onFilter(event.target.value);
               }}
             />
           </FormField>

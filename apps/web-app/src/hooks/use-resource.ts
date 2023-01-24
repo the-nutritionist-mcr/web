@@ -12,7 +12,7 @@ type ExtractPromiseType<T> = T extends Promise<infer P> ? P : never;
 
 export const useResource = <T extends { id: string }>(
   type: string,
-  ids?: string[]
+  idsOrSearchTerm?: string[] | string
 ) => {
   const { mutate, cache } = useSWRConfig();
 
@@ -33,19 +33,27 @@ export const useResource = <T extends { id: string }>(
   };
 
   const getType = () => {
-    if (ids && ids.length === 0) {
+    if (typeof idsOrSearchTerm === 'string') {
+      return `${type}/search?searchTerm=${idsOrSearchTerm}`;
+    }
+
+    if (Array.isArray(idsOrSearchTerm) && idsOrSearchTerm.length === 0) {
       return false;
     }
 
-    if (ids) {
-      const deDupedIds = Array.from(new Set(ids));
+    if (idsOrSearchTerm) {
+      const deDupedIds = Array.from(new Set(idsOrSearchTerm));
       return `${type}/get-by-id?ids=${deDupedIds.join(',')}`;
     }
 
     return type;
   };
 
-  const { data: getData } = useSwrWrapper<Response<T>>(getType);
+  const { data: getData } = useSwrWrapper<Response<T>>(
+    getType,
+    {},
+    typeof idsOrSearchTerm !== 'string'
+  );
 
   const createItem = async <T extends { id: string }>(input: T): Promise<T> =>
     await swrFetcher<T>(type, {
@@ -152,14 +160,6 @@ export const useResource = <T extends { id: string }>(
       toast.error(`failed to remove ${type}`);
     },
   });
-
-  // if (!getData) {
-  //   startLoading(loadingKey);
-  // }
-
-  // if (getData && isLoading) {
-  //   stopLoading(loadingKey);
-  // }
 
   return { items: getData?.items, create, remove, update };
 };

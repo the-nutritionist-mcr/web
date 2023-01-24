@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { MenuPaddedContent } from './menu-padded-content';
 import { AdminTemplate } from './admin-template';
 import toast, { Toaster } from 'react-hot-toast';
@@ -8,7 +8,8 @@ import { swrFetcher } from '../../utils/swr-fetcher';
 import { RedirectIfLoggedOut } from '../../components/authentication/redirect-if-logged-out';
 
 const RecipesPage: FC = () => {
-  const { items, create, remove, update } = useRecipes();
+  const [filter, setFilter] = useState<string | undefined>();
+  const { items, create, remove, update } = useRecipes(filter);
   const { items: customisations } = useCustomisations();
 
   return (
@@ -28,6 +29,7 @@ const RecipesPage: FC = () => {
             customisations={customisations}
             recipes={items}
             create={create}
+            onFilter={(filter: string) => setFilter(filter)}
             remove={remove}
             update={update}
           />

@@ -8,7 +8,8 @@ type ParamsType<T> = Parameters<typeof useSWR<SerialisedDate<T>>>;
 
 export const useSwrWrapper = <T = unknown>(
   key: ParamsType<T>[0],
-  options?: ParamsType<T>[2]
+  options?: ParamsType<T>[2],
+  useLoader?: boolean
 ) => {
   const { useLoading } = useContext(LoadingContext);
 
@@ -18,10 +19,11 @@ export const useSwrWrapper = <T = unknown>(
   }
 
   const loadingKey = `swr-${finalKey}`;
+  console.log({ finalKey, loadingKey, useLoader });
 
   const { stopLoading, getLoadingState, setLoadingState } = useLoading(
     loadingKey,
-    !finalKey
+    !finalKey || !useLoader
   );
 
   type OnErrorType = Exclude<
