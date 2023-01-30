@@ -4,7 +4,8 @@ import { useCustomisations, useRecipes } from '../../hooks';
 import AdminTemplate from './admin-template';
 import { MenuPaddedContent } from './menu-padded-content';
 import { EditRecipesPage } from '@tnmw/admin-app';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
+import { NavigationContext } from '@tnmw/utils';
 
 const EditRecipe = () => {
   const router = useRouter();
@@ -13,11 +14,11 @@ const EditRecipe = () => {
 
   const firstId = router.query.recipeId;
 
-  console.log(firstId);
+  const { navigate } = useContext(NavigationContext);
 
   const recipeId = Array.isArray(firstId) ? firstId[0] : firstId;
 
-  const { items, update } = useRecipes(recipeId ? [recipeId] : []);
+  const { items, update, create } = useRecipes(recipeId ? [recipeId] : []);
   const recipe = items?.[0];
 
   return (
@@ -30,6 +31,15 @@ const EditRecipe = () => {
               recipes={recipes}
               title={items ? 'Edit Recipe' : 'Create Recipe'}
               recipe={recipe}
+              onDuplicate={async (recipe) => {
+                const response = await create({
+                  ...recipe,
+                  name: `${recipe.name} (copy)`,
+                  shortName: `${recipe.shortName} (copy)`,
+                });
+
+                navigate?.(`/admin/edit-recipe/?recipeId=${response.id}`);
+              }}
               onSave={async (recipe) => {
                 await update(recipe);
               }}

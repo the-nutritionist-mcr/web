@@ -29,6 +29,7 @@ export interface EditRecipesPageProps {
   recipe?: Recipe;
   customisations?: Exclusion[];
   onSave: (recipe: Recipe) => Promise<void>;
+  onDuplicate: (recipe: Recipe) => Promise<void>;
   recipes?: Recipe[];
   title: string;
 }
@@ -84,6 +85,15 @@ export const EditRecipesPage = (props: EditRecipesPageProps) => {
           onClick={() => {
             const id = recipe.id ?? v4();
             props.onSave({ ...recipe, id });
+          }}
+        />
+
+        <Button
+          primary
+          label="Duplicate"
+          name="duplicate"
+          onClick={() => {
+            props.onDuplicate({ ...recipe, id: v4() });
           }}
         />
       </Header>
