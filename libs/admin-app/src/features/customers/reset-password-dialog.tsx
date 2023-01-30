@@ -22,7 +22,7 @@ interface ResetPasswordDialogProps {
 
 export const ResetPasswordDialog = (props: ResetPasswordDialogProps) => {
   const [password, setPassword] = useState(randomString.generate(8));
-  const [forceChange, setForcechange] = useState(false);
+  const [forceChange, setForcechange] = useState(true);
 
   return (
     <Layer>
