@@ -36,7 +36,7 @@ const selectFromDatePicker = (targetDate: Date) => {
       const nextOrPrevious = difference > 0 ? 'Next' : 'Previous';
 
       [...Array.from({ length: Math.abs(difference) })].forEach(() => {
-        cy.get(`[aria-label='${nextOrPrevious}']`).click();
+        cy.get(`[aria-label='${nextOrPrevious}']`).click({ force: true });
       });
 
       Cypress.log({
