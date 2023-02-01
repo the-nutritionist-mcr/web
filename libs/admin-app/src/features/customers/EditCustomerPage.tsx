@@ -109,6 +109,10 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
 
   const [showResetPasswordDialog, setShowResetPasswordDialog] =
     React.useState(false);
+  const defaultPlanDeliveries = convertPlanFormat(
+    customer.plans,
+    itemFamilies
+  ).deliveries;
 
   const onSubmit = debounce(async () => {
     saveCustomer({
@@ -162,37 +166,6 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
           name="submit"
           onClick={() => setShowPlanChangedDialog(true)}
         />
-        {customer.plans.length > 0 &&
-          (!customer.customPlan ? (
-            <Button
-              primary
-              label="Create custom plan"
-              type="submit"
-              onClick={() => {
-                const deliveries = convertPlanFormat(
-                  customer.plans,
-                  itemFamilies
-                ).deliveries;
-                setCustomer({
-                  ...customer,
-                  customPlan: deliveries,
-                });
-                setDirty(true);
-              }}
-            />
-          ) : (
-            <Button
-              primary
-              onClick={() => {
-                setCustomer({
-                  ...customer,
-                  customPlan: undefined,
-                });
-                setDirty(true);
-              }}
-              label="Remove custom plan"
-            />
-          ))}
       </Header>
       <Box align="flex-start" gap="large">
         <Table style={{ maxWidth: '40rem', tableLayout: 'fixed' }}>
@@ -261,29 +234,35 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
             }))}
           />
         </Box>
-        {customer.customPlan && (
-          <PlanPanel
-            customPlan={customer.customPlan}
-            plannerConfig={{
-              planLabels: [...planLabels],
-              extrasLabels: [...extrasLabels],
-              defaultDeliveryDays,
-            }}
-            deliveryDays={[
-              customer.deliveryDay1,
-              customer.deliveryDay2,
-              customer.deliveryDay3,
-            ]}
-            onChange={(plan) => {
-              setCustomer({
-                ...customer,
-                customPlan: plan,
-              });
-              setDirty(true);
-            }}
-            exclusions={exclusions}
-          />
-        )}
+        <PlanPanel
+          onClear={() => {
+            setCustomer({
+              ...customer,
+              customPlan: undefined,
+            });
+            setDirty(true);
+          }}
+          customPlan={customer.customPlan}
+          defaultPlan={defaultPlanDeliveries}
+          plannerConfig={{
+            planLabels: [...planLabels],
+            extrasLabels: [...extrasLabels],
+            defaultDeliveryDays,
+          }}
+          deliveryDays={[
+            customer.deliveryDay1,
+            customer.deliveryDay2,
+            customer.deliveryDay3,
+          ]}
+          onChange={(plan) => {
+            setCustomer({
+              ...customer,
+              customPlan: plan,
+            });
+            setDirty(true);
+          }}
+          exclusions={exclusions}
+        />
 
         <Box width="100%">
           <Heading level={3}>Plans</Heading>
