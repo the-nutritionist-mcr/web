@@ -131,7 +131,7 @@ export const Account: FC<AccountProps> = ({
             <>
               <p className={text}>
                 Meal selections for this week's cook have now closed. Check back
-                here on Monday for next week's meal choices.
+                here from 6am on Tuesday for next week's meal choices.
               </p>
 
               <Button primary disabled>
