@@ -98,6 +98,10 @@ export const makeUserPool = (
         mutable: true,
       }),
 
+      [COGNITO.customAttributes.DeliveryNotes]: new StringAttribute({
+        mutable: true,
+      }),
+
       [COGNITO.customAttributes.DeliveryDay1]: new StringAttribute({
         mutable: true,
       }),
