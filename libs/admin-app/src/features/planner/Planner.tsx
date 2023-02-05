@@ -30,6 +30,14 @@ const Planner: React.FC<PlannerProps> = (props) => {
 
   return (
     <>
+      {showLabelsDialog && (
+        <DownloadLabelsDialog
+          onClose={() => setShowLabelDialog(false)}
+          recipes={recipes}
+          customers={props.customers}
+          plan={props.plan}
+        />
+      )}
       <Header
         align="center"
         justify="start"
@@ -37,14 +45,6 @@ const Planner: React.FC<PlannerProps> = (props) => {
         style={{ marginBottom: '2rem', marginTop: '1rem' }}
       >
         <Heading level={2}>Planner</Heading>
-        {showLabelsDialog && (
-          <DownloadLabelsDialog
-            onClose={() => setShowLabelDialog(false)}
-            recipes={recipes}
-            customers={props.customers}
-            plan={props.plan}
-          />
-        )}
 
         <Button
           primary
