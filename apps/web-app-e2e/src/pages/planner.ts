@@ -10,8 +10,12 @@ export const Planner = {
     cy.contains('successfully');
   },
 
-  getDownloadLabelDataButton: () => {
-    return cy.contains('button', 'Download Label Data');
+  getDownloadsButton: () => {
+    return cy.contains('button', 'Downloads');
+  },
+
+  clickDownloadsButton: () => {
+    return cy.contains('button', 'Downloads').click();
   },
 
   getPackPlanButton: () => {

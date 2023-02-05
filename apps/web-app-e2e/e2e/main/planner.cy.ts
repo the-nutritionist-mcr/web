@@ -121,9 +121,7 @@ describe('The planner', () => {
 
   it('Download buttons should be disabled initially', () => {
     Planner.visit();
-    Planner.getDownloadLabelDataButton().should('be.disabled');
-    Planner.getCookPlanButton().should('be.disabled');
-    Planner.getPackPlanButton().should('be.disabled');
+    Planner.getDownloadsButton().should('be.disabled');
   });
 
   it('Customers with an active plan get the correct selection of meals generated for them on the planner', () => {
@@ -237,13 +235,12 @@ describe('The planner', () => {
   it('Publishing the plan enables the download buttons', () => {
     Planner.visit();
     Planner.clickPublish();
-    Planner.getDownloadLabelDataButton().should('not.be.disabled');
-    Planner.getCookPlanButton().should('not.be.disabled');
-    Planner.getPackPlanButton().should('not.be.disabled');
+    Planner.getDownloadsButton().should('not.be.disabled');
   });
 
   it('The pack plan button downloads a PDF', () => {
     Planner.visit();
+    Planner.clickDownloadsButton();
     Planner.clickPackPlanButton();
     const filename = `pack-plan-${todaysDatestamp()}.pdf`;
     readDownloadedFile(filename).should((buffer) =>
@@ -253,6 +250,7 @@ describe('The planner', () => {
 
   it('The cook plan button downloads a PDF', () => {
     Planner.visit();
+    Planner.clickDownloadsButton();
     Planner.clickCookPlanButton();
 
     const filename = `cook-plan-${todaysDatestamp()}.pdf`;
@@ -263,6 +261,7 @@ describe('The planner', () => {
 
   it('The cook plan contains three pages', () => {
     Planner.visit();
+    Planner.clickDownloadsButton();
     Planner.clickCookPlanButton();
 
     const stampedName = `cook-plan-${todaysDatestamp()}.pdf`;
