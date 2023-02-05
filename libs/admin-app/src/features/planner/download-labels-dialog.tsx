@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Layer,
   Card,
@@ -19,13 +18,17 @@ import JSZip from 'jszip';
 import { FC, useState } from 'react';
 import { defaultDeliveryDays } from '@tnmw/config';
 import {
+  BackendCustomer,
   MealPlanGeneratedForIndividualCustomer,
   Recipe,
   Swapped,
   WeeklyCookPlan,
 } from '@tnmw/types';
 import generateCookPlanDocumentDefinition from '../../lib/generateCookPlanDocumentDefinition';
-import generateCsvStringFromObjectArray from '../../lib/generateCsvStringFromObjectArray';
+import {
+  generateMealsCsvFromObjectArray,
+  generateIndividualCsv,
+} from '../../lib/generateCsvStringFromObjectArray';
 
 import {
   generateLabelData,
@@ -35,10 +38,12 @@ import {
 import { generateDatestampedFilename } from '@tnmw/utils';
 import generateDeliveryPlanDocumentDefinition from '../../lib/generateDeliveryPlanDocumentDefinition';
 import downloadPdf from '../../lib/downloadPdf';
+import { generateAddressDownload } from './generate-address-download';
 
 interface DownloadLabelsDialogProps {
   onClose: () => void;
   plan: WeeklyCookPlan;
+  customers: BackendCustomer[];
   recipes: Recipe[];
 }
 
@@ -49,7 +54,7 @@ const downloadLabels = async (
   cook: number
 ) => {
   const data = generateLabelData(swappedPlan, useBy, recipes, cook);
-  const csvData = generateCsvStringFromObjectArray(data);
+  const csvData = generateMealsCsvFromObjectArray(data);
 
   const zip = new JSZip();
   csvData.forEach((csvData) =>
@@ -63,6 +68,7 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
   onClose,
   recipes,
   plan,
+  customers,
 }) => {
   const [cookNumber, setCookNumber] = useState('1');
   const [useBy, setUseBy] = useState('');
@@ -140,7 +146,22 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
                 );
               }}
             />
-            <Button primary label="Address Data" />
+            <Button
+              primary
+              label="Address Data"
+              onClick={() => {
+                const addresses = generateAddressDownload(
+                  swappedPlan,
+                  customers,
+                  Number(cookNumber) - 1
+                );
+                const csvData = generateIndividualCsv(addresses);
+                fileDownload(
+                  csvData,
+                  generateDatestampedFilename('addresses', 'csv')
+                );
+              }}
+            />
             <Button
               primary
               label="Pack Plan"

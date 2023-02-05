@@ -18,7 +18,7 @@ import {
   makeCookPlan,
   performSwaps,
 } from '@tnmw/meal-planning';
-import generateCsvStringFromObjectArray from '../../lib/generateCsvStringFromObjectArray';
+import generateMealsCsvFromObjectArray from '../../lib/generateCsvStringFromObjectArray';
 import { downloadPdf } from '@tnmw/pdf';
 import generateCookPlanDocumentDefinition from '../../lib/generateCookPlanDocumentDefinition';
 
@@ -52,6 +52,7 @@ const Planner: React.FC<PlannerProps> = (props) => {
           <DownloadLabelsDialog
             onClose={() => setShowLabelDialog(false)}
             recipes={recipes}
+            customers={props.customers}
             plan={props.plan}
           />
         )}

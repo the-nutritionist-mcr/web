@@ -40,7 +40,7 @@ interface ArbitraryObjectType {
   [key: string]: ValueType;
 }
 
-const generateIndividualCsv = (
+export const generateIndividualCsv = (
   inputObjectArray: ReadonlyArray<ArbitraryObjectType>
 ) => {
   if (inputObjectArray.length === 0) {
@@ -63,7 +63,7 @@ const generateIndividualCsv = (
   return Buffer.from(`${headerRow}\r\n${rows}`, 'utf8').toString();
 };
 
-const generateCsvStringFromObjectArray = (
+export const generateMealsCsvFromObjectArray = (
   inputObjectArray: ReadonlyArray<ArbitraryObjectType>
 ): { filename: string; data: string }[] => {
   const flags = inputObjectArray.reduce<ReadonlyArray<ArbitraryObjectType>>(
@@ -98,5 +98,3 @@ const generateCsvStringFromObjectArray = (
     })
   );
 };
-
-export default generateCsvStringFromObjectArray;
