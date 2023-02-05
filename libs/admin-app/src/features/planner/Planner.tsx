@@ -39,10 +39,6 @@ const Planner: React.FC<PlannerProps> = (props) => {
 
   const customerMeals = props.published && props.plan;
 
-  const swappedPlan = props.plan.customerPlans.map((plan) =>
-    performSwaps(plan, plan.customer, recipes)
-  );
-
   return (
     <>
       <Header
@@ -60,32 +56,6 @@ const Planner: React.FC<PlannerProps> = (props) => {
           />
         )}
 
-        <Button
-          primary
-          size="small"
-          label="Pack Plan"
-          disabled={Boolean(!customerMeals || !recipes)}
-          onClick={() => {
-            const plan = generateDeliveryPlanDocumentDefinition(
-              swappedPlan,
-              recipes
-            );
-            downloadPdf(plan, generateDatestampedFilename('pack-plan', 'pdf'));
-          }}
-        />
-        <Button
-          primary
-          size="small"
-          label="Cook Plan"
-          disabled={Boolean(!customerMeals || !recipes)}
-          onClick={() => {
-            const plan = makeCookPlan(swappedPlan, recipes);
-            downloadPdf(
-              generateCookPlanDocumentDefinition(plan),
-              generateDatestampedFilename('cook-plan', 'pdf')
-            );
-          }}
-        />
         <Button
           primary
           size="small"

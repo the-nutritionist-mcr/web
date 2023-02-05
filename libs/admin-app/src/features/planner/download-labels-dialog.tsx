@@ -19,7 +19,6 @@ import JSZip from 'jszip';
 import { FC, useState } from 'react';
 import { defaultDeliveryDays } from '@tnmw/config';
 import {
-  BackendCustomer,
   MealPlanGeneratedForIndividualCustomer,
   Recipe,
   Swapped,
@@ -161,17 +160,12 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
         <CardFooter pad="small" alignSelf="center" justify="center">
           <Button
             icon={<Checkmark color="brand" size="small" />}
-            label="Ok"
+            label="Close"
             type="submit"
             name="submit"
             onClick={() => {
-              onDownload(new Date(useBy), Number.parseInt(cookNumber, 10) - 1);
+              onClose();
             }}
-          />
-          <Button
-            icon={<Close color="brand" size="small" />}
-            onClick={onClose}
-            label="Cancel"
           />
         </CardFooter>
       </Card>
