@@ -8,8 +8,9 @@ import { authoriseJwt } from './authorise';
 import { returnErrorResponse } from './return-error-response';
 import { scan } from './get-data/scan';
 import { returnOkResponse } from './return-ok-response';
+import { warmer } from '../misc/warmer';
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
   try {
     await authoriseJwt(event, ['admin']);
 
@@ -26,4 +27,4 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   } catch (error) {
     return returnErrorResponse(error);
   }
-};
+});

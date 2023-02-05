@@ -23,8 +23,9 @@ import { batchArray } from '../../../utils/batch-array';
 import { getUserFromAws } from '../../../utils/get-user-from-aws';
 import { getAllUsers } from '../dynamodb/get-all-users';
 import { batchWrite } from '../data-api/get-data/batch-write';
+import { warmer } from './warmer';
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
   try {
     const dynamodbClient = new DynamoDBClient({});
     const dynamo = DynamoDBDocumentClient.from(dynamodbClient, {
@@ -123,4 +124,4 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     }
     return returnErrorResponse();
   }
-};
+});

@@ -14,8 +14,9 @@ import { authoriseJwt } from '../data-api/authorise';
 import { HttpError } from '../data-api/http-error';
 import { doQuery } from '../dynamodb';
 import { SerialisedDate } from '@tnmw/utils';
+import { warmer } from './warmer';
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
   try {
     const { groups, username: currentUser } = await authoriseJwt(event);
 
@@ -101,4 +102,4 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   } catch (error) {
     return returnErrorResponse(error);
   }
-};
+});

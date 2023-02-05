@@ -1,4 +1,7 @@
 import { ENV, IAM, NODE_OPTS } from '@tnmw/constants';
+import { Duration } from 'aws-cdk-lib';
+import { Rule, Schedule } from 'aws-cdk-lib/aws-events';
+import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import {
@@ -61,7 +64,7 @@ export const makeInstrumentedFunctionGenerator = (
         commandHooks: {
           beforeInstall: () => [],
           beforeBundling: () => [],
-          afterBundling: (inputDir, outputDir) => {
+          afterBundling: (_, outputDir) => {
             return [
               `mkdir -p ${projectRoot}/dist/nodejs-bundled-func-output`,
               `cp -r ${outputDir} ${projectRoot}/dist/nodejs-bundled-func-output`,
@@ -86,6 +89,13 @@ export const makeInstrumentedFunctionGenerator = (
       ...mergedProps,
       environment,
     });
+
+    const eventRule = new Rule(context, `${id}-lambda-warming-schedule`, {
+      schedule: Schedule.rate(Duration.minutes(5)),
+    });
+
+    eventRule.addTarget(new LambdaFunction(func));
+
     func.addToRolePolicy(getDatadogSecretPolicy);
     if (gitHash) {
       contexts[context.node.id].addGitCommitMetadata([func], gitHash);

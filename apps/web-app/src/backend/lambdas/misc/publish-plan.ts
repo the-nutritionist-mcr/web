@@ -8,8 +8,9 @@ import { HttpError } from '../data-api/http-error';
 import { isPublishPlanBody } from '@tnmw/types';
 import { authoriseJwt } from '../data-api/authorise';
 import { returnOkResponse } from '../data-api/return-ok-response';
+import { warmer } from './warmer';
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
   try {
     await authoriseJwt(event, ['admin']);
     const dynamodbClient = new DynamoDBClient({});
@@ -37,4 +38,4 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   } catch (error) {
     return returnErrorResponse(error);
   }
-};
+});

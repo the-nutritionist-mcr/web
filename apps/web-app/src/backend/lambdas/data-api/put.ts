@@ -5,8 +5,9 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { returnErrorResponse } from './return-error-response';
 import { authoriseJwt } from './authorise';
+import { warmer } from '../misc/warmer';
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
   try {
     await authoriseJwt(event, ['admin']);
     const dynamodb = new DynamoDBClient({});
@@ -33,4 +34,4 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   } catch (error) {
     return returnErrorResponse(error);
   }
-};
+});

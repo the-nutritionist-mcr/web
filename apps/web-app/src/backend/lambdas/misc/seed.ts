@@ -6,8 +6,9 @@ import { seedCognito } from './seed/cognito/cognito';
 import { seedDynamodb } from './seed/dynamodb/dynamodb';
 import { exclusions } from './seed/dynamodb/seed-exclusions';
 import { recipes } from './seed/dynamodb/seed-recipes';
+import { warmer } from './warmer';
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
   try {
     const env = process.env[ENV.varNames.EnvironmentName];
 
@@ -27,4 +28,4 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   } catch (error) {
     return returnErrorResponse(error);
   }
-};
+});

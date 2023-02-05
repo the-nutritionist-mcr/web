@@ -14,6 +14,7 @@ import {
 import { getUserFromAws } from '../../../utils/get-user-from-aws';
 import { makeEmail } from '../chargebee-api/portal-welcome-email';
 import { getDomainName } from '@tnmw/utils';
+import { warmer } from './warmer';
 
 export interface ResetPassswordPayload {
   username: string;
@@ -21,7 +22,7 @@ export interface ResetPassswordPayload {
   forceChange: boolean;
 }
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
   try {
     await authoriseJwt(event, ['admin']);
 
@@ -83,4 +84,4 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     }
     return returnErrorResponse();
   }
-};
+});
