@@ -12,7 +12,7 @@ import {
   MealPlanGeneratedForIndividualCustomer,
   BackendCustomer,
 } from '@tnmw/types';
-import { DownloadLabelsDialog } from '@tnmw/components';
+import { DownloadLabelsDialog } from './download-labels-dialog';
 import {
   generateLabelData,
   makeCookPlan,
@@ -55,18 +55,8 @@ const Planner: React.FC<PlannerProps> = (props) => {
         {showLabelsDialog && (
           <DownloadLabelsDialog
             onClose={() => setShowLabelDialog(false)}
-            onDownload={async (useBy, cook) => {
-              const data = generateLabelData(swappedPlan, useBy, recipes, cook);
-              setShowLabelDialog(false);
-              const csvData = generateCsvStringFromObjectArray(data);
-
-              const zip = new JSZip();
-              csvData.forEach((csvData) =>
-                zip.file(`${csvData.filename}.csv`, csvData.data)
-              );
-              const file = await zip.generateAsync({ type: 'blob' });
-              fileDownload(file, generateDatestampedFilename('labels', 'zip'));
-            }}
+            recipes={recipes}
+            plan={props.plan}
           />
         )}
 
@@ -99,7 +89,7 @@ const Planner: React.FC<PlannerProps> = (props) => {
         <Button
           primary
           size="small"
-          label="Download Label Data"
+          label="Downloads"
           disabled={Boolean(!customerMeals || !recipes)}
           onClick={() => {
             setShowLabelDialog(true);
