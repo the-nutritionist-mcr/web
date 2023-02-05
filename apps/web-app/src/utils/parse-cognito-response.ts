@@ -33,7 +33,7 @@ export const parseCognitoResponse = (
     ),
     deliveryNotes: getAttributeValue(
       attributes,
-      `custom: ${COGNITO.customAttributes.DeliveryNotes}`
+      `custom:${COGNITO.customAttributes.DeliveryNotes}`
     ),
     deliveryDay1: getAttributeValue(
       attributes,
