@@ -10,6 +10,7 @@ export interface BackendCustomer {
   deliveryDay2: string;
   deliveryDay3: string;
   customerUpdateTime: string;
+  deliveryNotes?: string;
   addressLine1: string;
   addressLine2: string;
   phoneNumber: string;

@@ -6,7 +6,7 @@ const makeLabelObject = (customer: BackendCustomer) => {
     address: `${customer.addressLine1} ${customer.addressLine2} ${customer.addressLine3} ${customer.postcode}`,
     phone: customer.phoneNumber,
     email: customer.email,
-    notes: '',
+    notes: customer.deliveryNotes,
   };
 };
 export const generateAddressDownload = (

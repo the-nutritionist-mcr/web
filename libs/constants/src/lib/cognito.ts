@@ -17,6 +17,7 @@ export const COGNITO = {
     Country: 'country',
     CustomerUpdateTimestamp: 'cxUpdateTime',
     SubscriptionUpdateTimestamp: 'subUpdateTime',
+    DeliveryNotes: 'deliveryNotes',
   },
 
   standardAttributes: {

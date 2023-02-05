@@ -31,6 +31,10 @@ export const parseCognitoResponse = (
       attributes,
       `custom:${COGNITO.customAttributes.Country}`
     ),
+    deliveryNotes: getAttributeValue(
+      attributes,
+      `custom: ${COGNITO.customAttributes.DeliveryNotes}`
+    ),
     deliveryDay1: getAttributeValue(
       attributes,
       `custom:${COGNITO.customAttributes.DeliveryDay1}`

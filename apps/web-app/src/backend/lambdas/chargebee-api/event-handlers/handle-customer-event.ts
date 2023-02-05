@@ -21,16 +21,17 @@ export const handleCustomerEvent = async (
   const { id, email, first_name, last_name, billing_address, phone } =
     event.content.customer;
 
-  const delivery1 =
-    event.content.customer[CHARGEBEE.customFields.customer.deliveryDay1];
-  const delivery2 =
-    event.content.customer[CHARGEBEE.customFields.customer.deliveryDay2];
-  const delivery3 =
-    event.content.customer[CHARGEBEE.customFields.customer.deliveryDay3];
+  const customer = event.content.customer as unknown as {
+    [key: string]: string | undefined;
+  };
+
+  const delivery1 = customer[CHARGEBEE.customFields.customer.deliveryDay1];
+  const delivery2 = customer[CHARGEBEE.customFields.customer.deliveryDay2];
+  const delivery3 = customer[CHARGEBEE.customFields.customer.deliveryDay3];
   const profileNotes =
-    event.content.customer[
-      CHARGEBEE.customFields.customer.customerProfileNotes
-    ];
+    customer[CHARGEBEE.customFields.customer.customerProfileNotes];
+
+  const deliveryNotes = customer[CHARGEBEE.customFields.customer.deliveryNotes];
 
   const {
     line1,
@@ -98,6 +99,10 @@ export const handleCustomerEvent = async (
       {
         Name: `custom:${COGNITO.customAttributes.DeliveryDay3}`,
         Value: delivery3 ?? '',
+      },
+      {
+        Name: `custom:${COGNITO.customAttributes.DeliveryNotes}`,
+        Value: deliveryNotes ?? '',
       },
       {
         Name: `custom:${COGNITO.customAttributes.CustomerUpdateTimestamp}`,
