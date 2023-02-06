@@ -4,7 +4,8 @@ import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 export const scan = async (
   client: DynamoDBDocumentClient,
   table: string,
-  lastEvaludatedKey?: Record<string, unknown>
+  lastEvaludatedKey?: Record<string, unknown>,
+  projection?: string[]
 ): Promise<Record<string, AttributeValue>[]> => {
   const key = lastEvaludatedKey
     ? {
@@ -12,9 +13,16 @@ export const scan = async (
       }
     : {};
 
+  const projectionExpression = projection
+    ? {
+        ProjectionExpression: projection.join(', '),
+      }
+    : {};
+
   const command = new ScanCommand({
     TableName: process.env['DYNAMODB_TABLE'],
     ...key,
+    ...projectionExpression,
   });
 
   const response = await client.send(command);
@@ -22,7 +30,7 @@ export const scan = async (
   if (response.LastEvaluatedKey) {
     return [
       ...(response?.Items ?? []),
-      ...(await scan(client, table, response.LastEvaluatedKey)),
+      ...(await scan(client, table, response.LastEvaluatedKey, projection)),
     ];
   }
 
