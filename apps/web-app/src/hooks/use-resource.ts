@@ -10,11 +10,17 @@ interface Response<T> {
 
 type ExtractPromiseType<T> = T extends Promise<infer P> ? P : never;
 
-export const useResource = <T extends { id: string }>(
+export const useResource = <
+  T extends { id: string },
+  P extends readonly (keyof T)[] | undefined = undefined
+>(
   type: string,
-  idsOrSearchTerm?: string[] | string
+  idsOrSearchTerm?: string[] | string,
+  projection?: P
 ) => {
   const { mutate, cache } = useSWRConfig();
+
+  type R = P extends readonly (keyof T)[] ? Pick<T, P[number]> : T;
 
   const getCache = <T extends { id: string }>(type: string) => {
     const response = cache.get(type) as
@@ -33,6 +39,11 @@ export const useResource = <T extends { id: string }>(
   };
 
   const getType = () => {
+    console.log(typeof projection);
+    if (typeof projection !== 'undefined') {
+      return `${type}?projection=${projection?.join(',')}`;
+    }
+
     if (typeof idsOrSearchTerm === 'string') {
       return `${type}/search?searchTerm=${idsOrSearchTerm}`;
     }
@@ -49,7 +60,7 @@ export const useResource = <T extends { id: string }>(
     return type;
   };
 
-  const { data: getData } = useSwrWrapper<Response<T>>(
+  const { data: getData } = useSwrWrapper<Response<R>>(
     getType,
     {},
     typeof idsOrSearchTerm !== 'string'

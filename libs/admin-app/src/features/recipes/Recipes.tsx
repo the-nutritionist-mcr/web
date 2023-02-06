@@ -21,15 +21,19 @@ import { defaultDeliveryDays } from '@tnmw/config';
 import PlanningModeSummary from './PlanningModeSummary';
 import { Recipe, Exclusion, WeeklyPlan, HotOrCold } from '@tnmw/types';
 import { NavigationContext } from '@tnmw/utils';
-import { debounce } from 'lodash';
+
+export type ProjectedRecipe = Pick<
+  Recipe,
+  'id' | 'shortName' | 'name' | 'description' | 'potentialExclusions'
+>;
 
 interface RecipesProps {
-  recipes?: Recipe[];
+  recipes?: ProjectedRecipe[];
   customisations?: Exclusion[];
   onSubmitPlan: (plan: WeeklyPlan) => void;
-  create: (newRecipe: Recipe) => Promise<void>;
-  remove: (recipeToRemove: Recipe) => Promise<void>;
-  update: (recipeToUpdate: Recipe) => Promise<void>;
+  create: (newRecipe: ProjectedRecipe) => Promise<void>;
+  remove: (recipeToRemove: ProjectedRecipe) => Promise<void>;
+  update: (recipeToUpdate: ProjectedRecipe) => Promise<void>;
   onFilter: (filter: string) => void;
 }
 
@@ -40,9 +44,9 @@ const Recipes: React.FC<RecipesProps> = (props) => {
   const [showCreate, setShowCreate] = React.useState(false);
   const [selectedDelivery, setSelectedDelivery] = React.useState(-1);
   const { navigate } = useContext(NavigationContext);
-  const [plannerSelection, setPlannerSelection] = React.useState<Recipe[][]>(
-    defaultDeliveryDays.map(() => [])
-  );
+  const [plannerSelection, setPlannerSelection] = React.useState<
+    ProjectedRecipe[][]
+  >(defaultDeliveryDays.map(() => []));
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, fp/no-mutating-methods
   const initialRecipes = recipes
@@ -133,7 +137,7 @@ const Recipes: React.FC<RecipesProps> = (props) => {
               potentialExclusions: [],
             }}
             title="Create Recipe"
-            onOk={(recipe: Recipe): void => {
+            onOk={(recipe: ProjectedRecipe): void => {
               props.create(recipe);
               setShowCreate(false);
             }}

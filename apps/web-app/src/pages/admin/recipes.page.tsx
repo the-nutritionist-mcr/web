@@ -9,7 +9,14 @@ import { RedirectIfLoggedOut } from '../../components/authentication/redirect-if
 
 const RecipesPage: FC = () => {
   const [filter, setFilter] = useState<string | undefined>();
-  const { items, create, remove, update } = useRecipes(filter);
+  const { items, create, remove, update } = useRecipes(filter, [
+    'id',
+    'shortName',
+    'name',
+    'description',
+    'potentialExclusions',
+  ] as const);
+
   const { items: customisations } = useCustomisations();
 
   return (
