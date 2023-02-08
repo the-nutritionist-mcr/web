@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { NavigationContext } from '@tnmw/utils';
+import NextLink from 'next/link';
 
 interface LinkProps {
   children?: React.ReactNode;
@@ -9,7 +10,7 @@ interface LinkProps {
 export const Link = (props: LinkProps) => {
   const { navigate } = useContext(NavigationContext);
   return (
-    <a
+    <NextLink
       href={props.path}
       onClick={(event) => {
         navigate?.(props.path);
@@ -17,6 +18,6 @@ export const Link = (props: LinkProps) => {
       }}
     >
       {props.children}
-    </a>
+    </NextLink>
   );
 };
