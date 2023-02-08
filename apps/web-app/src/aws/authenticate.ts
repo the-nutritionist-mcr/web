@@ -139,7 +139,7 @@ export const signOut = async () => {
   if (datadogAppId) {
     datadogRum.removeUser();
   }
-  window.location.href = '/login';
+  // window.location.href = '/login';
   return result;
 };
 

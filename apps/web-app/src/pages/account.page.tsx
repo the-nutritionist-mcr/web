@@ -45,6 +45,7 @@ const AccountPage = () => {
 
   const logout = async () => {
     await signOut();
+    window.location.href = '/login';
   };
 
   return (
