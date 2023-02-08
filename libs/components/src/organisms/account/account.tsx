@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react';
 
 import { StandardPlan } from '@tnmw/types';
-import { Button, Input } from '../../atoms';
+import { Button, Input, Link } from '../../atoms';
 import { FormSection } from '../../containers';
 import { useContext } from 'react';
 import { NavigationContext } from '@tnmw/utils';
@@ -123,9 +123,9 @@ export const Account: FC<AccountProps> = ({
                 the meals you will be receiving for the week or to make
                 alternative choices.
               </p>
-              <Button onClick={() => navigate?.('/choose-meals/')} primary>
-                Make Choices
-              </Button>
+              <Link path="/choose-meals/">
+                <Button primary>Make Choices</Button>
+              </Link>
             </>
           ) : (
             <>
