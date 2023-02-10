@@ -17,17 +17,16 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
     const dynamodb = new DynamoDBClient({});
     const client = DynamoDBDocumentClient.from(dynamodb);
 
-    const projection = [
-      ...(event.queryStringParameters?.projection?.split(',') ?? []),
-      'deleted',
-    ];
+    const projection = event.queryStringParameters?.projection?.split(',');
 
     const items = await scan(
       client,
       process.env['DYNAMODB_TABLE'] ?? '',
       undefined,
-      projection
+      projection ? [...projection, 'deleted'] : undefined
     );
+
+    console.log(JSON.stringify(items, null, 2));
 
     const body = {
       items: items.filter((item) => !item.deleted),
