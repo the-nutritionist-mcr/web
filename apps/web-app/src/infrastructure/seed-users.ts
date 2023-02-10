@@ -58,7 +58,7 @@ export const SEED_USERS: SeedUser[] = [
     email: E2E.normalUserOne.email,
     state: 'Complete',
   },
-  ...Array.from({ length: 80 }).map((item, index) => {
+  ...Array.from({ length: 40 }).map((item, index) => {
     const [first, second] = E2E.testCustomer.email.split('+');
     const email = [first, '+', String(index), second].join('');
     const user: SeedUser = {

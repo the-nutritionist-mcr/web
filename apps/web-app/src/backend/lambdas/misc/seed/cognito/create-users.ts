@@ -1,6 +1,7 @@
 import {
   AdminAddUserToGroupCommand,
   AdminCreateUserCommand,
+  AdminDeleteUserCommand,
   AdminSetUserPasswordCommand,
   AttributeType,
   CognitoIdentityProviderClient,
@@ -27,6 +28,19 @@ const createUser = async (
   attempt?: number
 ) => {
   try {
+    try {
+      console.log(`Deleting ${user.username}`);
+      const deleteCommand = new AdminDeleteUserCommand({
+        UserPoolId: poolId,
+        Username: user.username,
+      });
+
+      await cognito.send(deleteCommand);
+      console.log(`Deleted ${user.username}`);
+    } catch {
+      // Swallow failures
+    }
+
     const initialPassword =
       user.state === 'Complete' ? '^2Y.AD`5`$A!&pS\\' : user.password;
 
@@ -58,8 +72,9 @@ const createUser = async (
         Username: user.username,
         UserPoolId: poolId,
       });
+      console.log(`Creating ${user.username}`);
       await cognito.send(changeCommand);
-      console.log('success!');
+      console.log(`Created ${user.username}`);
     }
   } catch {
     if (!attempt || attempt < 10) {

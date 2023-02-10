@@ -92,11 +92,13 @@ export const parseCustomerList = (
   output: ListUsersCommandOutput
 ): (BackendCustomer & { id: string })[] => {
   return (
-    output.Users?.map((user) => ({
-      id: user.Username ?? '',
-      username: user.Username ?? '',
-      groups: [],
-      ...parseCognitoResponse(user.Attributes ?? []),
-    })) ?? []
+    output.Users?.map((user) => {
+      return {
+        id: user.Username ?? '',
+        username: user.Username ?? '',
+        groups: [],
+        ...parseCognitoResponse(user.Attributes ?? []),
+      };
+    }) ?? []
   );
 };

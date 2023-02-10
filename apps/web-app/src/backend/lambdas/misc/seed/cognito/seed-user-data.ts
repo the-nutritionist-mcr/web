@@ -89,11 +89,9 @@ export const SEED_USERS: SeedUser[] = [
     []
   ),
   toDynamo(E2E.e2eCustomer2, E2E.e2eCustomer2.password, 'Complete', []),
-  ...Array.from({ length: 80 }).map((item, index) => {
+  ...Array.from({ length: 40 }).map((item, index) => {
     const [first, second] = E2E.testCustomer.email.split('+');
     const email = [first, '+', String(index), second].join('');
-
-    console.log(email);
 
     return toDynamo(
       { ...E2E.testCustomer, email, username: `test-customer-${index}` },

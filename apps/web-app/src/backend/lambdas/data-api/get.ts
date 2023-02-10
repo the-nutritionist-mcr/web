@@ -23,12 +23,13 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
       client,
       process.env['DYNAMODB_TABLE'] ?? '',
       undefined,
-      projection ? [...projection, 'deleted'] : undefined
+      projection ? [...projection, 'deleted', 'count'] : undefined
     );
 
     console.log(JSON.stringify(items, null, 2));
 
     const body = {
+      total: items.find((item) => item.id === 'count'),
       items: items.filter((item) => !item.deleted && item.id !== 'count'),
     };
 

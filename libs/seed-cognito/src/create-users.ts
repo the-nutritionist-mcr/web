@@ -3,6 +3,7 @@ import {
   AdminAddUserToGroupCommand,
   AdminSetUserPasswordCommand,
   CognitoIdentityProviderClient,
+  AdminDeleteUserCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
 import { SeedUser } from './types';
 
@@ -14,6 +15,17 @@ export const createUsers = async (
   const userPromises = users.map(async (user) => {
     const initialPassword =
       user.state === 'Complete' ? '^2Y.AD`5`$A!&pS\\' : user.password;
+
+    try {
+      const deleteCommand = new AdminDeleteUserCommand({
+        UserPoolId: poolId,
+        Username: user.username,
+      });
+
+      await cognito.send(deleteCommand);
+    } catch {
+      // Swallow failures
+    }
 
     const command = new AdminCreateUserCommand({
       UserPoolId: poolId,
