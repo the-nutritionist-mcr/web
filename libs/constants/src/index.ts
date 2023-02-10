@@ -66,7 +66,7 @@ export const E2E = {
     addressLine3: 'New Islington',
     city: 'Manchester',
     plans:
-      '[{"name":"Mass","daysPerWeek":5,"itemsPerDay":2,"isExtra":false,"totalMeals":10},{"name":"Micro","daysPerWeek":7,"itemsPerDay":3,"isExtra":true,"totalMeals":21}{"name":"Ultra Micro","daysPerWeek":6,"itemsPerDay":2,"isExtra":false,"totalMeals":12}]',
+      '[{"name":"Mass","daysPerWeek":5,"itemsPerDay":2,"isExtra":false,"totalMeals":10},{"name":"Micro","daysPerWeek":7,"itemsPerDay":3,"isExtra":true,"totalMeals":21},{"name":"Ultra Micro","daysPerWeek":6,"itemsPerDay":2,"isExtra":false,"totalMeals":12}]',
   },
   anotherE2ECustomerAgain: {
     username: 'e2e-customer3',
@@ -85,7 +85,7 @@ export const E2E = {
     addressLine3: 'New Islington',
     city: 'Manchester',
     plans:
-      '[{"name":"Mass","daysPerWeek":5,"itemsPerDay":2,"isExtra":false,"totalMeals":10},{"name":"Micro","daysPerWeek":7,"itemsPerDay":3,"isExtra":true,"totalMeals":21}{"name":"Ultra Micro","daysPerWeek":6,"itemsPerDay":2,"isExtra":false,"totalMeals":12}]',
+      '[{"name":"Mass","daysPerWeek":5,"itemsPerDay":2,"isExtra":false,"totalMeals":10},{"name":"Micro","daysPerWeek":7,"itemsPerDay":3,"isExtra":true,"totalMeals":21},{"name":"Ultra Micro","daysPerWeek":6,"itemsPerDay":2,"isExtra":false,"totalMeals":12}]',
   },
   e2eCustomer2: {
     username: 'e2e-customer-two',
