@@ -9,7 +9,10 @@ export const deleteUsers = async (
   poolId: string,
   users: SeedUser[]
 ) => {
-  const userPromises = users.map(async (user) => {
+  const extraUsers = Array.from({ length: 80 })
+    .map((_, index) => index + 110)
+    .map((number) => ({ username: `test-customer-${number}` }));
+  const userPromises = [...users, ...extraUsers].map(async (user) => {
     try {
       const deleteCommand = new AdminDeleteUserCommand({
         UserPoolId: poolId,
@@ -18,6 +21,7 @@ export const deleteUsers = async (
 
       await cognito.send(deleteCommand);
     } catch {
+      console.log(`Failed to delete`);
       // Swallow failure - in case seed data was deleted in test
     }
   });

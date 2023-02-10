@@ -12,7 +12,7 @@ export const handler: DynamoDBStreamHandler = async (event) => {
 
   const client = DynamoDBDocumentClient.from(dynamodb);
 
-  await event.Records.reduce(async (previous, record) => {
+  await event.Records?.reduce(async (previous, record) => {
     await previous;
     const { eventName } = record;
     try {

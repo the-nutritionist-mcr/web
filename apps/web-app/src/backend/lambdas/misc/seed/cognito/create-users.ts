@@ -59,11 +59,15 @@ const createUser = async (
         UserPoolId: poolId,
       });
       await cognito.send(changeCommand);
+      console.log('success!');
     }
   } catch {
-    if (!attempt || attempt < 4) {
+    if (!attempt || attempt < 10) {
       await wait(1000);
       await createUser(cognito, poolId, user, (attempt ?? 0) + 1);
+    } else {
+      console.log(`failed: ${user.username}`);
+      // throw error;
     }
   }
 };

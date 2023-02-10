@@ -1,5 +1,10 @@
 import { IRestApi, LambdaIntegration } from 'aws-cdk-lib/aws-apigateway';
-import { Table, AttributeType, BillingMode } from 'aws-cdk-lib/aws-dynamodb';
+import {
+  Table,
+  AttributeType,
+  BillingMode,
+  StreamViewType,
+} from 'aws-cdk-lib/aws-dynamodb';
 import { ENV, HTTP, IAM } from '@tnmw/constants';
 import { getResourceName } from './get-resource-name';
 import { entryName } from './entry-name';
@@ -28,6 +33,7 @@ export const makeDataApi = (
   const dataTable = new Table(context, `${name}Table`, {
     tableName: getResourceName(`${name}-table`, environment),
     billingMode: BillingMode.PAY_PER_REQUEST,
+    stream: StreamViewType.KEYS_ONLY,
     partitionKey: {
       name: 'id',
       type: AttributeType.STRING,
