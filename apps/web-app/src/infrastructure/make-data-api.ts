@@ -59,6 +59,16 @@ export const makeDataApi = (
     },
   });
 
+  const getCountLambda = makeFunction(`${name}-getcount`, {
+    entry: entryName('misc', 'get-count.ts'),
+    environment: {
+      ...defaultEnvironmentVars,
+      [ENV.varNames.DynamoDBTable]: dataTable.tableName,
+    },
+  });
+
+  dataTable.grantReadData(getCountLambda);
+
   countLambda.addEventSource(source);
 
   dataTable.grantReadWriteData(countLambda);
