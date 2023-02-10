@@ -5,6 +5,8 @@ import { getResourceName } from './get-resource-name';
 import { entryName } from './entry-name';
 import { Construct } from 'constructs';
 import { makeInstrumentedFunctionGenerator } from './instrumented-nodejs-function';
+import { DynamoEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
+import { StartingPosition } from 'aws-cdk-lib/aws-lambda';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export enum ReadWriteMode {
@@ -37,6 +39,23 @@ export const makeDataApi = (
     environment,
     gitHash
   );
+
+  const source = new DynamoEventSource(dataTable, {
+    batchSize: 1,
+    startingPosition: StartingPosition.LATEST,
+  });
+
+  const countLambda = makeFunction(`${name}-count-lambda`, {
+    entry: entryName('misc', 'pagination.ts'),
+    environment: {
+      ...defaultEnvironmentVars,
+      [ENV.varNames.DynamoDBTable]: dataTable.tableName,
+    },
+  });
+
+  countLambda.addEventSource(source);
+
+  dataTable.grantReadWriteData(countLambda);
 
   const makeCrudFunction = (entry: string, opName: string, suffix?: string) => {
     const finalName = suffix ? `${opName}${name}${suffix}` : `${opName}${name}`;
