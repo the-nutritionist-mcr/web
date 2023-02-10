@@ -29,7 +29,7 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
     console.log(JSON.stringify(items, null, 2));
 
     const body = {
-      items: items.filter((item) => !item.deleted && item.id.S !== 'count'),
+      items: items.filter((item) => !item.deleted && item.id !== 'count'),
     };
 
     return returnOkResponse(body);

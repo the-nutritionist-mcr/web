@@ -9,10 +9,7 @@ export const deleteUsers = async (
   poolId: string,
   users: SeedUser[]
 ) => {
-  const extraUsers = Array.from({ length: 80 })
-    .map((_, index) => index + 50)
-    .map((number) => ({ username: `test-customer-${number}` }));
-  const userPromises = [...extraUsers, ...users].map(async (user) => {
+  const userPromises = users.map(async (user) => {
     try {
       const deleteCommand = new AdminDeleteUserCommand({
         UserPoolId: poolId,

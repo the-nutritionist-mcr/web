@@ -28,6 +28,7 @@ describe('the get handler', () => {
 
     const expectedItems = [
       {
+        id: 'foo',
         foo: 'bar',
       },
       {
@@ -53,6 +54,7 @@ describe('the get handler', () => {
 
     const expectedItems = [
       {
+        id: 'foo',
         foo: 'bar',
       },
       {
@@ -83,7 +85,7 @@ describe('the get handler', () => {
 
     const expectedItems = [
       {
-        foo: 'bar',
+        id: 'foo',
         deleted: true,
       },
       {

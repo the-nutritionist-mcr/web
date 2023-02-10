@@ -616,7 +616,7 @@ export const scan = async (
   table: string,
   lastEvaludatedKey?: Record<string, unknown>,
   projection?: string[]
-): Promise<Record<string, AttributeValue>[]> => {
+): Promise<Record<string, string>[]> => {
   const key = lastEvaludatedKey
     ? {
         ExlusiveStartKey: lastEvaludatedKey,
