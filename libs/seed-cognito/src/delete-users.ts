@@ -9,7 +9,7 @@ export const deleteUsers = async (
   poolId: string,
   users: SeedUser[]
 ) => {
-  const userPromises = [...users, ...extraUsers].map(async (user) => {
+  const userPromises = users.map(async (user) => {
     try {
       const deleteCommand = new AdminDeleteUserCommand({
         UserPoolId: poolId,
