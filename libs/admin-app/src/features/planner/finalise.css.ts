@@ -4,16 +4,18 @@ export const windowContainer = style({
   width: '100%',
 });
 
-export const plannerInfoUl = style({
-  margin: '1rem 0 3rem',
-});
-
 export const cell = style({
   padding: '0',
   margin: 0,
 });
 
+export const icon = style({
+  marginRight: '0.5rem',
+});
+
 export const plannerInfoLi = style({
+  display: 'flex',
+  alignItems: 'center',
   listStyle: 'none',
 });
 

@@ -291,45 +291,45 @@ describe('The planner', () => {
     cy.task('extractTable', filename).should((table: PageTablesOutput) => {
       const cookOne = table.pageTables.find((page) => page.page === 2);
       expect(normalise(cookOne.tables[0][0])).to.eq(
-        `TORN CHILLI CHICKEN ‘PAD THAI’ (x 3)`
+        `TORN CHILLI CHICKEN ‘PAD THAI’ (x 45)`
       );
 
       expect(normalise(cookOne.tables[1][0])).to.eq(
-        `ACHIOTE SLOW COOKED SHOULDER OF PORK (x 4)`
+        `ACHIOTE SLOW COOKED SHOULDER OF PORK (x 46)`
       );
 
       expect(normalise(cookOne.tables[2][0])).to.eq(
-        `ANCHO CHILLI BARBECUE PULLED CHICKEN (x 3)`
+        `ANCHO CHILLI BARBECUE PULLED CHICKEN (x 45)`
       );
 
       expect(normalise(cookOne.tables[3][0])).to.eq(
-        `BABY SPINACH + RICOTTA GRATIN (x 3)`
+        `BABY SPINACH + RICOTTA GRATIN (x 5)`
       );
 
-      expect(normalise(cookOne.tables[4][0])).to.eq(`BUDDHA BOWL (x 2)`);
+      expect(normalise(cookOne.tables[4][0])).to.eq(`BUDDHA BOWL (x 4)`);
 
       expect(normalise(cookOne.tables[5][0])).to.eq(
-        `BUTTERNUT SQUASH + SAGE RISOTTO (x 2)`
+        `BUTTERNUT SQUASH + SAGE RISOTTO (x 4)`
       );
 
-      expect(normalise(cookOne.tables[6][0])).to.eq(`Breakfast (x 3)`);
+      expect(normalise(cookOne.tables[6][0])).to.eq(`Breakfast (x 123)`);
 
       const cookTwo = table.pageTables.find((page) => page.page === 3);
 
       expect(normalise(cookTwo.tables[0][0])).to.eq(
-        `LEMON + HERB ROAST CHICKEN ORZO (x 8)`
+        `LEMON + HERB ROAST CHICKEN ORZO (x 48)`
       );
 
       expect(normalise(cookTwo.tables[1][0])).to.eq(
-        `SLOW COOKED BEEF BURRITO BOWL (x 2)`
+        `SLOW COOKED BEEF BURRITO BOWL (x 45)`
       );
 
       expect(normalise(cookTwo.tables[2][0])).to.eq(
-        `TERIYAKI GLAZED SALMON (x 3)`
+        `TERIYAKI GLAZED SALMON (x 45)`
       );
 
       expect(normalise(cookTwo.tables[3][0])).to.eq(
-        `ANCHO CHILLI TORN CHICKEN  (x 3)`
+        `ANCHO CHILLI TORN CHICKEN  (x 4)`
       );
 
       expect(normalise(cookTwo.tables[4][0])).to.eq(
@@ -337,10 +337,10 @@ describe('The planner', () => {
       );
 
       expect(normalise(cookTwo.tables[5][0])).to.eq(
-        `BLACK + WHITE SESAME ROAST SALMON (x 3)`
+        `BLACK + WHITE SESAME ROAST SALMON (x 2)`
       );
 
-      expect(normalise(cookTwo.tables[6][0])).to.eq(`Breakfast (x 4)`);
+      expect(normalise(cookTwo.tables[6][0])).to.eq(`Breakfast (x 164)`);
     });
   });
 

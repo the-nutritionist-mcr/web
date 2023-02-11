@@ -4,16 +4,18 @@ import {
   PlannedCook,
   Recipe,
 } from '@tnmw/types';
+import { FaInfo } from 'react-icons/fa';
+import { RiNumber1, RiNumber2 } from 'react-icons/ri';
 import { calendarFormat } from '@tnmw/config';
-import { Paragraph } from 'grommet';
+import { Card, Paragraph } from 'grommet';
 import moment from 'moment';
 import React from 'react';
 import FinalizeCustomerTable from './FinalizeCustomerTable';
 import {
+  icon,
   plannerIndentedLi,
   plannerIndentedUl,
   plannerInfoLi,
-  plannerInfoUl,
   plannerWarningLi,
 } from './finalise.css';
 import { getCookStatus } from '@tnmw/meal-planning';
@@ -52,6 +54,46 @@ const Finalize: React.FC<FinalizeProps> = ({
       )
     );
 
+  const customersCookedFor = customers
+    .filter((customer) => !customerUsernames.has(customer.username))
+    .filter((customer) =>
+      customer.plans.some((plan) =>
+        cooks.some(
+          (cook) => getCookStatus(cook.date, plan).status !== 'cancelled'
+        )
+      )
+    );
+
+  const customersCookedForOne = customerMeals.filter((meal) =>
+    meal.deliveries[0].plans.some(
+      (plan) => plan.status === 'active' && plan.meals.length > 0
+    )
+  ).length;
+
+  const mealsForOne = customerMeals.reduce((accum, item) => {
+    return (
+      accum +
+      item.deliveries[0].plans.reduce((accum2, plan) => {
+        return plan.status === 'active' ? plan.meals.length + accum2 : accum2;
+      }, 0)
+    );
+  }, 0);
+
+  const mealsForTwo = customerMeals.reduce((accum, item) => {
+    return (
+      accum +
+      item.deliveries[1].plans.reduce((accum2, plan) => {
+        return plan.status === 'active' ? plan.meals.length + accum2 : accum2;
+      }, 0)
+    );
+  }, 0);
+
+  const customersCookedForTwo = customerMeals.filter((meal) =>
+    meal.deliveries[1].plans.some(
+      (plan) => plan.status === 'active' && plan.meals.length > 0
+    )
+  ).length;
+
   if (!customerMeals) {
     return (
       <Paragraph fill>
@@ -63,32 +105,57 @@ const Finalize: React.FC<FinalizeProps> = ({
   }
   return (
     <>
-      <ul className={plannerInfoUl}>
-        <li className={plannerInfoLi}>
-          Plan generated{' '}
-          <strong>{moment(creationDate).calendar(null, calendarFormat)}</strong>{' '}
-          by <strong>{generatedBy}</strong>
-        </li>
-        <li className={plannerInfoLi}>
-          This plan <strong>{published ? 'has' : 'has not'}</strong> been
-          published to customers
-        </li>
-        {missingCustomers.length > 0 && (
-          <li className={plannerWarningLi}>
-            The planner is missing an entry for the following customer(s):{' '}
-            <ul className={plannerIndentedUl}>
-              {missingCustomers.map((customer) => (
-                <li className={plannerIndentedLi}>
-                  {customer.firstName} {customer.surname}
-                </li>
-              ))}
-            </ul>
-            If customer(s) were added <strong>after</strong> the current plan
-            was generated, this is normal behaviour and you can ignore this
-            message. If not, please get in touch with Ben.
+      <Card pad="medium">
+        <ul>
+          <li className={plannerInfoLi}>
+            <FaInfo size="25px" className={icon} />
+            <span>
+              Plan generated{' '}
+              <strong>
+                {moment(creationDate).calendar(null, calendarFormat)}
+              </strong>{' '}
+              by <strong>{generatedBy}</strong>
+            </span>
           </li>
-        )}
-      </ul>
+          <li className={plannerInfoLi}>
+            <FaInfo size="25px" className={icon} />
+            <span>
+              This plan <strong>{published ? 'has' : 'has not'}</strong> been
+              published to customers
+            </span>
+          </li>
+
+          <li className={plannerInfoLi}>
+            <RiNumber1 size="25px" className={icon} />
+            <span>
+              <strong>{mealsForOne}</strong> meals for{' '}
+              <strong>{customersCookedForOne}</strong> customers
+            </span>
+          </li>
+          <li className={plannerInfoLi}>
+            <RiNumber2 size="25px" className={icon} />
+            <span>
+              <strong>{mealsForTwo}</strong> meals for{' '}
+              <strong>{customersCookedForTwo}</strong> customers
+            </span>
+          </li>
+          {missingCustomers.length > 0 && (
+            <li className={plannerWarningLi}>
+              The planner is missing an entry for the following customer(s):{' '}
+              <ul className={plannerIndentedUl}>
+                {missingCustomers.map((customer) => (
+                  <li className={plannerIndentedLi}>
+                    {customer.firstName} {customer.surname}
+                  </li>
+                ))}
+              </ul>
+              If customer(s) were added <strong>after</strong> the current plan
+              was generated, this is normal behaviour and you can ignore this
+              message. If not, please get in touch with Ben.
+            </li>
+          )}
+        </ul>
+      </Card>
       {
         // eslint-disable-next-line fp/no-mutating-methods
         customerMeals
