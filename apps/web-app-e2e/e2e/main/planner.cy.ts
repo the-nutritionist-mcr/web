@@ -150,9 +150,9 @@ describe('The planner', () => {
 
   it('Clicking on the customers name takes you to the edit customer page', () => {
     Planner.visit();
-    Planner.clickCustomerName('Ben Wainwright');
+    Planner.clickCustomerName('Fake Customer');
     EditCustomer.getHeader();
-    cy.contains('Ben Wainwright');
+    cy.contains('Fake Customer');
   });
 
   it('For meal plan rows, you can click on the individual recipe entry to change to a different one', () => {

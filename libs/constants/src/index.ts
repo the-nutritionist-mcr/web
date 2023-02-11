@@ -17,11 +17,15 @@ export const E2E = {
   },
   adminUserOne: {
     username: 'cypress-test-user',
+    firstName: 'Cypress',
+    surname: 'Tester',
     password: 'password',
     email: 'cypress@test.com',
   },
   adminUserTwo: {
     username: 'cypress-test-user-2',
+    firstName: 'Cypress',
+    surname: 'Tester',
     password: 'password',
     email: 'cypress2@test.com',
   },
@@ -47,7 +51,7 @@ export const E2E = {
     addressLine3: 'New Islington',
     city: 'Manchester',
     plans:
-      '[{"name":"Equilibrium","daysPerWeek":6,"itemsPerDay":1,"isExtra":false,"totalMeals":6},{"name":"Breakfast","daysPerWeek":7,"itemsPerDay":1,"isExtra":true,"totalMeals":7}]',
+      '[{"subscriptionStatus":"active","name":"Equilibrium","daysPerWeek":6,"itemsPerDay":1,"isExtra":false,"totalMeals":6},{"subscriptionStatus":"active","name":"Breakfast","daysPerWeek":7,"itemsPerDay":1,"isExtra":true,"totalMeals":7}]',
   },
   anotherE2ECustomer: {
     username: 'e2e-customer2',
@@ -55,7 +59,7 @@ export const E2E = {
     password: 'password',
     email: 'ben+testcustomeragain3@thenutritionistmcr.com',
     country: 'GB',
-    firstName: 'Another E2E',
+    firstName: 'Another Test',
     phoneNumber: '07812345678',
     phoneNumberFull: '+447812345678',
     surname: 'Customer',
@@ -66,7 +70,7 @@ export const E2E = {
     addressLine3: 'New Islington',
     city: 'Manchester',
     plans:
-      '[{"name":"Mass","daysPerWeek":5,"itemsPerDay":2,"isExtra":false,"totalMeals":10},{"name":"Micro","daysPerWeek":7,"itemsPerDay":3,"isExtra":true,"totalMeals":21},{"name":"Ultra Micro","daysPerWeek":6,"itemsPerDay":2,"isExtra":false,"totalMeals":12}]',
+      '[{"name":"Mass","subscriptionStatus":"active","daysPerWeek":5,"itemsPerDay":2,"isExtra":false,"totalMeals":10},{"subscriptionStatus":"active","name":"Micro","daysPerWeek":7,"itemsPerDay":3,"isExtra":true,"totalMeals":21},{"subscriptionStatus":"active","name":"Ultra Micro","daysPerWeek":6,"itemsPerDay":2,"isExtra":false,"totalMeals":12}]',
   },
   anotherE2ECustomerAgain: {
     username: 'e2e-customer3',
@@ -74,7 +78,7 @@ export const E2E = {
     password: 'password',
     email: 'ben+testcustomeragain4@thenutritionistmcr.com',
     country: 'GB',
-    firstName: 'Another E2E 2',
+    firstName: 'More Test',
     phoneNumber: '07812345678',
     phoneNumberFull: '+447812345678',
     surname: 'Customer',
@@ -85,7 +89,7 @@ export const E2E = {
     addressLine3: 'New Islington',
     city: 'Manchester',
     plans:
-      '[{"name":"Mass","daysPerWeek":5,"itemsPerDay":2,"isExtra":false,"totalMeals":10},{"name":"Micro","daysPerWeek":7,"itemsPerDay":3,"isExtra":true,"totalMeals":21},{"name":"Ultra Micro","daysPerWeek":6,"itemsPerDay":2,"isExtra":false,"totalMeals":12}]',
+      '[{"subscriptionStatus":"active","name":"Mass","daysPerWeek":5,"itemsPerDay":2,"isExtra":false,"totalMeals":10},{"subscriptionStatus":"active","name":"Micro","daysPerWeek":7,"itemsPerDay":3,"isExtra":true,"totalMeals":21},{"subscriptionStatus":"active","name":"Ultra Micro","daysPerWeek":6,"itemsPerDay":2,"isExtra":false,"totalMeals":12}]',
   },
   e2eCustomer2: {
     username: 'e2e-customer-two',
@@ -104,7 +108,7 @@ export const E2E = {
     addressLine3: 'New Islington',
     city: 'Manchester',
     plans:
-      '[{"name":"Equilibrium","daysPerWeek":6,"itemsPerDay":1,"isExtra":false,"totalMeals":6},{"name":"Breakfast","daysPerWeek":7,"itemsPerDay":1,"isExtra":true,"totalMeals":7}]',
+      '[{"subscriptionStatus":"active","name":"Equilibrium","daysPerWeek":6,"itemsPerDay":1,"isExtra":false,"totalMeals":6},{"subscriptionStatus":"active","name":"Breakfast","daysPerWeek":7,"itemsPerDay":1,"isExtra":true,"totalMeals":7}]',
   },
   testCustomer: {
     username: 'test-customer-1',
@@ -121,7 +125,7 @@ export const E2E = {
     addressLine3: 'New Islington',
     city: 'Manchester',
     plans:
-      '[{"name":"Equilibrium","daysPerWeek":6,"itemsPerDay":1,"isExtra":false,"totalMeals":6},{"name":"Breakfast","daysPerWeek":7,"itemsPerDay":1,"isExtra":true,"totalMeals":7}]',
+      '[{"subscriptionStatus":"active","name":"Equilibrium","daysPerWeek":6,"itemsPerDay":1,"isExtra":false,"totalMeals":6},{"subscriptionStatus":"active","name":"Breakfast","daysPerWeek":7,"itemsPerDay":1,"isExtra":true,"totalMeals":7}]',
   },
 };
 

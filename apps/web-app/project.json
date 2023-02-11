@@ -21,16 +21,16 @@
       },
       "configurations": {
         "cypress": {
-          "command": "cdk deploy tnm-web-cypress-frontend-stack --require-approval never"
+          "command": "cdk deploy tnm-web-cypress-frontend-stack --require-approval never --method=direct"
         },
         "test": {
-          "command": "cdk deploy tnm-web-test-frontend-stack --require-approval never"
+          "command": "cdk deploy tnm-web-test-frontend-stack --require-approval never --method=direct"
         },
         "dev": {
-          "command": "cdk deploy tnm-web-dev-frontend-stack --require-approval never"
+          "command": "cdk deploy tnm-web-dev-frontend-stack --require-approval never --method=direct"
         },
         "prod": {
-          "command": "cdk deploy tnm-web-prod-frontend-stack --require-approval never"
+          "command": "cdk deploy tnm-web-prod-frontend-stack --require-approval never --method=direct"
         }
       }
     },
@@ -41,16 +41,16 @@
       },
       "configurations": {
         "cypress": {
-          "command": "cdk deploy tnm-web-cypress-stack --require-approval never"
+          "command": "cdk deploy tnm-web-cypress-stack --require-approval never --method=direct"
         },
         "test": {
-          "command": "cdk deploy tnm-web-test-stack --require-approval never"
+          "command": "cdk deploy tnm-web-test-stack --require-approval never --method=direct"
         },
         "dev": {
-          "command": "cdk deploy tnm-web-dev-stack --require-approval never"
+          "command": "cdk deploy tnm-web-dev-stack --require-approval never --method=direct"
         },
         "prod": {
-          "command": "cdk deploy tnm-web-prod-stack --require-approval never"
+          "command": "cdk deploy tnm-web-prod-stack --require-approval never --method=direct"
         }
       }
     },
