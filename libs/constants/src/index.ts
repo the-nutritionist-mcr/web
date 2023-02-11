@@ -93,7 +93,7 @@ export const E2E = {
     password: 'password',
     email: 'ben+testcustomeragain2@thenutritionistmcr.com',
     country: 'GB',
-    firstName: 'E2E',
+    firstName: 'Fake',
     phoneNumber: '07812345674',
     phoneNumberFull: '+447812345673',
     surname: 'Customer',
