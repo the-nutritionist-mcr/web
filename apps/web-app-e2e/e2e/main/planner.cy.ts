@@ -291,7 +291,7 @@ describe('The planner', () => {
     cy.task('extractTable', filename).should((table: PageTablesOutput) => {
       const cookOne = table.pageTables.find((page) => page.page === 2);
       expect(normalise(cookOne.tables[0][0])).to.eq(
-        `TORN CHILLI CHICKEN ‘PAD THAI’ (x 45)`
+        `TORN CHILLI CHICKEN ‘PAD THAI’ (x 46)`
       );
 
       expect(normalise(cookOne.tables[1][0])).to.eq(
