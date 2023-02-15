@@ -624,7 +624,6 @@ export const scan = async (
   projection?: string[],
   limit?: number
 ): Promise<Record<string, string>[]> => {
-  console.log(limit);
   const limitArgs = limit
     ? {
         Limit: limit,
@@ -644,11 +643,13 @@ export const scan = async (
     : {};
 
   const args = {
-    TableName: process.env['DYNAMODB_TABLE'],
+    TableName: table,
     ...key,
     ...projectionExpression,
     ...limitArgs,
   };
+
+  console.log(args);
 
   const command = new ScanCommand(args);
 
