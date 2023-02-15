@@ -2,7 +2,11 @@ import { mock } from 'jest-mock-extended';
 import { handler } from './get';
 
 import { mockClient } from 'aws-sdk-client-mock';
-import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
+import {
+  DynamoDBDocumentClient,
+  GetCommand,
+  ScanCommand,
+} from '@aws-sdk/lib-dynamodb';
 import { authoriseJwt } from './authorise';
 import { HttpError } from './http-error';
 import { HTTP } from '../../../infrastructure/constants';
@@ -32,9 +36,24 @@ describe('the get handler', () => {
         foo: 'bar',
       },
       {
+        id: 'another',
         foo: 'baz',
       },
     ];
+
+    const pages = ['foo'];
+
+    dynamodbMock
+      .on(GetCommand, {
+        TableName: 'foo-table',
+        Key: { id: 'pages' },
+      })
+      .resolves({
+        Item: {
+          pages,
+          count: 1,
+        },
+      });
 
     dynamodbMock
       .on(ScanCommand, {
@@ -62,6 +81,20 @@ describe('the get handler', () => {
       },
     ];
 
+    const pages = ['foo'];
+
+    dynamodbMock
+      .on(GetCommand, {
+        TableName: 'foo-table',
+        Key: { id: 'pages' },
+      })
+      .resolves({
+        Item: {
+          pages,
+          count: 1,
+        },
+      });
+
     dynamodbMock
       .on(ScanCommand, {
         TableName: 'foo-table',
@@ -72,7 +105,7 @@ describe('the get handler', () => {
 
     expect(response).toStrictEqual({
       statusCode: 200,
-      body: JSON.stringify({ items: expectedItems }),
+      body: JSON.stringify({ count: 1, items: expectedItems }),
       headers: {
         'access-control-allow-origin': '*',
         'access-control-allow-headers': allowHeaders.join(', '),
@@ -93,6 +126,20 @@ describe('the get handler', () => {
       },
     ];
 
+    const pages = ['foo'];
+
+    dynamodbMock
+      .on(GetCommand, {
+        TableName: 'foo-table',
+        Key: { id: 'pages' },
+      })
+      .resolves({
+        Item: {
+          pages,
+          count: 1,
+        },
+      });
+
     dynamodbMock
       .on(ScanCommand, {
         TableName: 'foo-table',
@@ -103,7 +150,7 @@ describe('the get handler', () => {
 
     expect(response).toStrictEqual({
       statusCode: 200,
-      body: JSON.stringify({ items: [{ foo: 'baz' }] }),
+      body: JSON.stringify({ count: 1, items: [{ foo: 'baz' }] }),
       headers: {
         'access-control-allow-origin': '*',
         'access-control-allow-headers': allowHeaders.join(', '),
