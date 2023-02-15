@@ -1,4 +1,3 @@
-import { AttributeValue } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 
 const reserved = new Set([
@@ -614,12 +613,13 @@ export const createProjectionExpression = (
 export const scan = async (
   client: DynamoDBDocumentClient,
   table: string,
-  lastEvaludatedKey?: Record<string, unknown>,
-  projection?: string[]
+  lastEvaluatedKey?: Record<string, unknown>,
+  projection?: string[],
+  limit?: number
 ): Promise<Record<string, string>[]> => {
-  const key = lastEvaludatedKey
+  const key = lastEvaluatedKey
     ? {
-        ExlusiveStartKey: lastEvaludatedKey,
+        ExlusiveStartKey: lastEvaluatedKey,
       }
     : {};
 

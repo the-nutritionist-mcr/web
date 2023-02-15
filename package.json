@@ -54,6 +54,7 @@
     "@emotion/styled": "11.10.5",
     "@mui/material": "5.11.1",
     "@nrwl/next": "15.4.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@reduxjs/toolkit": "1.9.1",
     "@seeebiii/ses-verify-identities": "^4.1.0",
     "@sls-next/cdk-construct": "^3.7.0",

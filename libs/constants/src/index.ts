@@ -8,6 +8,8 @@ export const CONTACT_EMAIL = 'hello@thenutritionistmcr.com';
 
 export const ORDERS_EMAIL = 'jess+orders@thenutritionistmcr.com';
 
+export const PAGE_SIZE = 20;
+
 export const E2E = {
   testPassword: 'test-password',
   nonExistingUser: {

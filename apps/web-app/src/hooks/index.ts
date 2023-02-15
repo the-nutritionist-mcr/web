@@ -2,13 +2,18 @@ import { useResource } from './use-resource';
 import { Exclusion, Recipe } from '@tnmw/types';
 export { usePlan } from './use-plans';
 
-export const useCustomisations = () => useResource<Exclusion>('customisation');
+export const useCustomisations = (page?: number) =>
+  useResource<Exclusion>({ type: 'customisation', page });
 
 export const useRecipes = <P extends readonly (keyof Recipe)[]>(
   ids?: string[] | string,
   projection?: P
 ) => {
-  const result = useResource<Recipe, P>('recipe', ids, projection);
+  const result = useResource<Recipe, P>({
+    type: 'recipe',
+    idsOrSearchTerm: ids,
+    projection,
+  });
 
   return {
     ...result,

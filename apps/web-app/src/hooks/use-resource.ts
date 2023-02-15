@@ -6,6 +6,7 @@ import { useSwrWrapper } from './use-swr-wrapper';
 
 interface Response<T> {
   items: T[];
+  count: number;
 }
 
 type ExtractPromiseType<T> = T extends Promise<infer P> ? P : never;
@@ -13,11 +14,17 @@ type ExtractPromiseType<T> = T extends Promise<infer P> ? P : never;
 export const useResource = <
   T extends { id: string },
   P extends readonly (keyof T)[] | undefined = undefined
->(
-  type: string,
-  idsOrSearchTerm?: string[] | string,
-  projection?: P
-) => {
+>({
+  type,
+  idsOrSearchTerm,
+  projection,
+  page,
+}: {
+  type: string;
+  idsOrSearchTerm?: string[] | string;
+  projection?: P;
+  page?: number;
+}) => {
   const { mutate, cache } = useSWRConfig();
 
   type R = P extends readonly (keyof T)[] ? Pick<T, P[number]> : T;
@@ -39,9 +46,10 @@ export const useResource = <
   };
 
   const getType = () => {
-    console.log(typeof projection);
+    const pageString = page ? `&page=${page}` : ``;
+
     if (typeof projection !== 'undefined') {
-      return `${type}?projection=${projection?.join(',')}`;
+      return `${type}?projection=${projection?.join(',')}${pageString}`;
     }
 
     if (typeof idsOrSearchTerm === 'string') {
@@ -57,7 +65,8 @@ export const useResource = <
       return `${type}/get-by-id?ids=${deDupedIds.join(',')}`;
     }
 
-    return type;
+    const typePageString = page ? `?page=${page}` : ``;
+    return `${type}${typePageString}`;
   };
 
   const { data: getData } = useSwrWrapper<Response<R>>(
@@ -172,5 +181,11 @@ export const useResource = <
     },
   });
 
-  return { items: getData?.items, create, remove, update };
+  return {
+    items: getData?.items,
+    count: getData?.count,
+    create,
+    remove,
+    update,
+  };
 };

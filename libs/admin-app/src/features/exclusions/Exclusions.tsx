@@ -2,6 +2,7 @@ import {
   Button,
   Header,
   Heading,
+  Pagination,
   Table,
   TableBody,
   TableCell,
@@ -13,17 +14,22 @@ import EditExclusionDialog from './EditExclusionDialog';
 import ExclusionRow from './ExclusionRow';
 import React from 'react';
 import Exclusion from '../../domain/Exclusion';
+import { PAGE_SIZE } from '@tnmw/constants';
+import { useRouter } from 'next/router';
 
 interface ExclusionsProps {
   exclusions?: Exclusion[];
   create: (newExclusion: Exclusion) => Promise<void>;
   remove: (exclusionToRemove: Exclusion) => Promise<void>;
   update: (exclusionToUpdate: Exclusion) => Promise<void>;
+  totalCount: number;
 }
 
 const Exclusions: React.FC<ExclusionsProps> = (props) => {
   const exclusions = props.exclusions ?? [];
   const [showCreate, setShowCreate] = React.useState(false);
+
+  const router = useRouter();
 
   return (
     <React.Fragment>
@@ -41,6 +47,14 @@ const Exclusions: React.FC<ExclusionsProps> = (props) => {
           a11yTitle="New Customer"
           onClick={(): void => {
             setShowCreate(true);
+          }}
+        />
+        <Pagination
+          numberItems={props.totalCount}
+          step={PAGE_SIZE}
+          onChange={({ page }) => {
+            // eslint-disable-next-line fp/no-mutating-methods
+            router.push(`/admin/customisations/?page=${page}`);
           }}
         />
         <EditExclusionDialog

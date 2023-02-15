@@ -1,11 +1,8 @@
 import { DynamoDBStreamHandler } from 'aws-lambda';
-import {
-  DynamoDBDocumentClient,
-  PutCommand,
-  UpdateCommand,
-} from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { scan } from '@tnmw/dynamo';
+import { PAGE_SIZE } from '@tnmw/constants';
 
 export const handler: DynamoDBStreamHandler = async (event) => {
   const dynamodb = new DynamoDBClient({});
@@ -15,31 +12,30 @@ export const handler: DynamoDBStreamHandler = async (event) => {
   await event.Records?.reduce(async (previous, record) => {
     await previous;
     const { eventName } = record;
-    try {
-      if (eventName === 'INSERT' || eventName === 'REMOVE') {
-        const inc = eventName === 'INSERT' ? 1 : -1;
-        const command = new UpdateCommand({
-          TableName: process.env['DYNAMODB_TABLE'],
-          Key: { id: 'count' },
-          ExpressionAttributeValues: { ':inc': inc },
-          UpdateExpression: 'ADD count :inc',
-          ConditionExpression: 'attribute_exists(id)',
-        });
-
-        await client.send(command);
-      }
-    } catch {
-      const items = await scan(
+    if (
+      eventName === 'INSERT' ||
+      eventName === 'REMOVE' ||
+      eventName === 'MODIFY'
+    ) {
+      const keys = await scan(
         client,
         process.env['DYNAMODB_TABLE'] ?? '',
-        undefined
+        undefined,
+        ['id', 'deleted']
       );
 
-      const count = items.length;
+      const dataItems = keys
+        .filter((key) => !key.deleted)
+        .map((key) => key.id)
+        .filter((key) => key !== 'count' && key !== 'pages');
+
+      const pages = dataItems.filter(
+        (_, index) => (index + 1) % PAGE_SIZE === 0
+      );
 
       const command = new PutCommand({
         TableName: process.env['DYNAMODB_TABLE'],
-        Item: { id: 'count', count },
+        Item: { id: 'pages', pages, count: dataItems.length },
       });
       await client.send(command);
     }
