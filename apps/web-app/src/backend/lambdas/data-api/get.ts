@@ -44,14 +44,6 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
       pageParam ? PAGE_SIZE : undefined
     );
 
-    const items = await scan(
-      client,
-      table,
-      pageParam ? start : undefined,
-      projection ? [...projection, 'deleted', 'count', 'pages'] : undefined,
-      pageParam ? PAGE_SIZE : undefined
-    );
-
     const body = {
       count: pages.Item?.count,
       items: items.filter(
