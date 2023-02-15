@@ -2,7 +2,11 @@ import '../misc/init-dd-trace';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
+import {
+  BatchGetCommand,
+  DynamoDBDocumentClient,
+  GetCommand,
+} from '@aws-sdk/lib-dynamodb';
 import { authoriseJwt } from './authorise';
 
 import { returnErrorResponse } from './return-error-response';
@@ -18,6 +22,7 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
     const dynamodb = new DynamoDBClient({});
     const client = DynamoDBDocumentClient.from(dynamodb);
     const table = process.env['DYNAMODB_TABLE'] ?? '';
+    const metaTable = process.env['DYNAMODB_TABLE_META'] ?? '';
 
     const projection = event.queryStringParameters?.projection?.split(',');
 
@@ -25,14 +30,24 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
 
     const page = Number(pageParam);
 
-    const getPagesCommand = new GetCommand({
-      TableName: table,
-      Key: { id: 'pages' },
+    const batchGet = new BatchGetCommand({
+      RequestItems: {
+        [`${table}`]: {
+          Keys: [{ name: 'count' }, { name: 'pages' }],
+        },
+      },
     });
 
-    const pages = await client.send(getPagesCommand);
+    const pages = await client.send(batchGet);
 
-    const pageId = pages.Item?.pages[page - 2];
+    const pagesArray = pages?.Responses?.[metaTable].find(
+      (item) => item.name === 'pages'
+    );
+    const count = pages?.Responses?.[metaTable].find(
+      (item) => item.name === 'count'
+    );
+
+    const pageId = pagesArray?.[page - 2];
 
     const start = pageParam && page !== 1 ? { id: pageId } : undefined;
 
@@ -45,7 +60,7 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
     );
 
     const body = {
-      count: pages.Item?.count,
+      count: count?.value ?? 0,
       items: items.filter(
         (item) => !item.deleted && item.id !== 'count' && item.id !== 'pages'
       ),

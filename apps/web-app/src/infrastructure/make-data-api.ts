@@ -40,6 +40,16 @@ export const makeDataApi = (
     },
   });
 
+  const metaTable = new Table(context, `${name}MetaTable`, {
+    tableName: getResourceName(`${name}-meta-table`, environment),
+    billingMode: BillingMode.PAY_PER_REQUEST,
+    stream: StreamViewType.KEYS_ONLY,
+    partitionKey: {
+      name: 'name',
+      type: AttributeType.STRING,
+    },
+  });
+
   const makeFunction = makeInstrumentedFunctionGenerator(
     context,
     environment,
@@ -51,14 +61,6 @@ export const makeDataApi = (
     startingPosition: StartingPosition.LATEST,
   });
 
-  const countLambda = makeFunction(`${name}-count-lambda`, {
-    entry: entryName('misc', 'pagination.ts'),
-    environment: {
-      ...defaultEnvironmentVars,
-      [ENV.varNames.DynamoDBTable]: dataTable.tableName,
-    },
-  });
-
   const getCountLambda = makeFunction(`${name}-getcount`, {
     entry: entryName('misc', 'get-count.ts'),
     environment: {
@@ -67,6 +69,16 @@ export const makeDataApi = (
     },
   });
 
+  const countLambda = makeFunction(`${name}-count-lambda`, {
+    entry: entryName('misc', 'pagination.ts'),
+    environment: {
+      ...defaultEnvironmentVars,
+      [ENV.varNames.DynamoDBTable]: dataTable.tableName,
+      [ENV.varNames.MetaTable]: metaTable.tableName,
+    },
+  });
+
+  metaTable.grantReadWriteData(countLambda);
   dataTable.grantReadData(getCountLambda);
 
   countLambda.addEventSource(source);

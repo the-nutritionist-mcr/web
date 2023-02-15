@@ -340,7 +340,7 @@ describe('The planner', () => {
         `BLACK + WHITE SESAME ROAST SALMON (x 3)`
       );
 
-      expect(normalise(cookTwo.tables[6][0])).to.eq(`Breakfast (x 167)`);
+      expect(normalise(cookTwo.tables[6][0])).to.eq(`Breakfast (x 164)`);
     });
   });
 

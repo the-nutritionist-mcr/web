@@ -34,10 +34,16 @@ export const handler: DynamoDBStreamHandler = async (event) => {
       );
 
       const command = new PutCommand({
-        TableName: process.env['DYNAMODB_TABLE'],
-        Item: { id: 'pages', pages, count: dataItems.length },
+        TableName: process.env['DYNAMODB_TABLE_META'],
+        Item: { name: 'pages', value: pages },
       });
       await client.send(command);
+
+      const command2 = new PutCommand({
+        TableName: process.env['DYNAMODB_TABLE_META'],
+        Item: { name: 'count', value: dataItems.length },
+      });
+      await client.send(command2);
     }
   }, Promise.resolve());
 };
