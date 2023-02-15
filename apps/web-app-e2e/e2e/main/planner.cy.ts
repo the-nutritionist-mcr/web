@@ -295,21 +295,21 @@ describe('The planner', () => {
       );
 
       expect(normalise(cookOne.tables[1][0])).to.eq(
-        `ACHIOTE SLOW COOKED SHOULDER OF PORK (x 46)`
+        `ACHIOTE SLOW COOKED SHOULDER OF PORK (x 47)`
       );
 
       expect(normalise(cookOne.tables[2][0])).to.eq(
-        `ANCHO CHILLI BARBECUE PULLED CHICKEN (x 45)`
+        `ANCHO CHILLI BARBECUE PULLED CHICKEN (x 46)`
       );
 
       expect(normalise(cookOne.tables[3][0])).to.eq(
-        `BABY SPINACH + RICOTTA GRATIN (x 5)`
+        `BABY SPINACH + RICOTTA GRATIN (x 6)`
       );
 
-      expect(normalise(cookOne.tables[4][0])).to.eq(`BUDDHA BOWL (x 4)`);
+      expect(normalise(cookOne.tables[4][0])).to.eq(`BUDDHA BOWL (x 5)`);
 
       expect(normalise(cookOne.tables[5][0])).to.eq(
-        `BUTTERNUT SQUASH + SAGE RISOTTO (x 4)`
+        `BUTTERNUT SQUASH + SAGE RISOTTO (x 5)`
       );
 
       expect(normalise(cookOne.tables[6][0])).to.eq(`Breakfast (x 123)`);
@@ -317,30 +317,30 @@ describe('The planner', () => {
       const cookTwo = table.pageTables.find((page) => page.page === 3);
 
       expect(normalise(cookTwo.tables[0][0])).to.eq(
-        `LEMON + HERB ROAST CHICKEN ORZO (x 48)`
+        `LEMON + HERB ROAST CHICKEN ORZO (x 50)`
       );
 
       expect(normalise(cookTwo.tables[1][0])).to.eq(
-        `SLOW COOKED BEEF BURRITO BOWL (x 45)`
+        `SLOW COOKED BEEF BURRITO BOWL (x 46)`
       );
 
       expect(normalise(cookTwo.tables[2][0])).to.eq(
-        `TERIYAKI GLAZED SALMON (x 45)`
+        `TERIYAKI GLAZED SALMON (x 46)`
       );
 
       expect(normalise(cookTwo.tables[3][0])).to.eq(
-        `ANCHO CHILLI TORN CHICKEN  (x 4)`
+        `ANCHO CHILLI TORN CHICKEN  (x 5)`
       );
 
       expect(normalise(cookTwo.tables[4][0])).to.eq(
-        `AUTUMN SALAD OF FRENCH GOATS’ CHEESE [V] (x 2)`
+        `AUTUMN SALAD OF FRENCH GOATS’ CHEESE [V] (x 3)`
       );
 
       expect(normalise(cookTwo.tables[5][0])).to.eq(
-        `BLACK + WHITE SESAME ROAST SALMON (x 2)`
+        `BLACK + WHITE SESAME ROAST SALMON (x 3)`
       );
 
-      expect(normalise(cookTwo.tables[6][0])).to.eq(`Breakfast (x 164)`);
+      expect(normalise(cookTwo.tables[6][0])).to.eq(`Breakfast (x 167)`);
     });
   });
 

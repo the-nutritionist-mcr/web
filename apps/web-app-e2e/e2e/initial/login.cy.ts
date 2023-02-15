@@ -2,7 +2,7 @@ import { E2E } from '@tnmw/constants';
 import { AccountPage } from '../../src/pages/account';
 import { LoginPage } from '../../src/pages/login';
 
-describe('The login page', { scrollBehaviour: false }, () => {
+describe('The login page', { scrollBehavior: false }, () => {
   before(() => {
     cy.task('deleteWelcomeEmails');
     cy.task('deleteChargebeeCustomer', E2E.nonExistingUser.username);
@@ -37,21 +37,23 @@ describe('The login page', { scrollBehaviour: false }, () => {
   });
 
   it('Creating an account on ChargeBee should result in being sent a password that I can use to login and change my password with', () => {
-    cy.task('createChargebeeCustomer');
+    cy.task('createChargebeeCustomer', E2E.nonExistingUser);
 
-    cy.task('getPasswordFromWelcomeEmailThenDelete').then((password) => {
-      LoginPage.visit();
-      LoginPage.getLoginForm().should('exist');
-      LoginPage.fillEmailInput(E2E.nonExistingUser.email);
+    cy.task('getPasswordFromWelcomeEmailThenDelete').then(
+      (password: string) => {
+        LoginPage.visit();
+        LoginPage.getLoginForm().should('exist');
+        LoginPage.fillEmailInput(E2E.nonExistingUser.email);
 
-      LoginPage.fillPasswordInput(password);
-      LoginPage.clickLoginButton();
-      LoginPage.getSubmitButton().should('exist');
-      LoginPage.fillPasswordInput(E2E.nonExistingUser.password);
-      LoginPage.clickSubmitButton();
+        LoginPage.fillPasswordInput(password);
+        LoginPage.clickLoginButton();
+        LoginPage.getSubmitButton().should('exist');
+        LoginPage.fillPasswordInput(E2E.nonExistingUser.password);
+        LoginPage.clickSubmitButton();
 
-      AccountPage.isInNavbar();
-    });
+        AccountPage.isInNavbar();
+      }
+    );
   });
 
   it('redirects you straight to the account page next time you login once the password has been changed', () => {
