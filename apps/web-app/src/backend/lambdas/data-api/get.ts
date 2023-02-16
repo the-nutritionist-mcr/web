@@ -20,7 +20,10 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
     await authoriseJwt(event, ['admin']);
 
     const dynamodb = new DynamoDBClient({});
-    const client = DynamoDBDocumentClient.from(dynamodb);
+    const client = DynamoDBDocumentClient.from(dynamodb, {
+      marshallOptions: { removeUndefinedValues: true },
+    });
+
     const table = process.env['DYNAMODB_TABLE'] ?? '';
     const metaTable = process.env['DYNAMODB_TABLE_META'] ?? '';
 
@@ -44,10 +47,10 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
 
     const pagesArray = pages?.Responses?.[metaTable].find(
       (item) => item.name === 'pages'
-    );
+    )?.value;
     const count = pages?.Responses?.[metaTable].find(
       (item) => item.name === 'count'
-    );
+    )?.value;
 
     const pageId = pagesArray?.[page - 2];
 
@@ -57,12 +60,12 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
       client,
       table,
       pageParam ? start : undefined,
-      projection ? [...projection, 'deleted', 'count', 'pages'] : undefined,
+      projection ? [...projection, 'deleted'] : undefined,
       pageParam ? PAGE_SIZE : undefined
     );
 
     const body = {
-      count: count?.value ?? 0,
+      count: count ?? 0,
       items: items.filter(
         (item) => !item.deleted && item.id !== 'count' && item.id !== 'pages'
       ),

@@ -66,6 +66,7 @@ export const makeDataApi = (
     environment: {
       ...defaultEnvironmentVars,
       [ENV.varNames.DynamoDBTable]: dataTable.tableName,
+      [ENV.varNames.MetaTable]: metaTable.tableName,
     },
   });
 
@@ -92,6 +93,7 @@ export const makeDataApi = (
       environment: {
         ...defaultEnvironmentVars,
         [ENV.varNames.DynamoDBTable]: dataTable.tableName,
+        [ENV.varNames.MetaTable]: metaTable.tableName,
       },
     });
 
@@ -114,6 +116,7 @@ export const makeDataApi = (
   dataTable.grantReadData(getFilterFunction);
 
   dataTable.grantReadData(getFunction);
+  metaTable.grantReadData(getFunction);
 
   const getByIdFunction = makeCrudFunction(
     entryName('data-api', 'get-by-id.ts'),

@@ -649,6 +649,8 @@ export const scan = async (
     ...limitArgs,
   };
 
+  console.log(args);
+
   const command = new ScanCommand(args);
 
   const response = await client.send(command);
