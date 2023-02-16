@@ -3,8 +3,8 @@ import { handler } from './get';
 
 import { mockClient } from 'aws-sdk-client-mock';
 import {
+  BatchGetCommand,
   DynamoDBDocumentClient,
-  GetCommand,
   ScanCommand,
 } from '@aws-sdk/lib-dynamodb';
 import { authoriseJwt } from './authorise';
@@ -20,6 +20,7 @@ beforeEach(() => {
   jest.resetAllMocks();
   dynamodbMock.reset();
   delete process.env['DYNAMODB_TABLE'];
+  delete process.env['DYNAMODB_TABLE_META'];
 });
 
 describe('the get handler', () => {
@@ -29,6 +30,7 @@ describe('the get handler', () => {
       .mockRejectedValue(new HttpError(HTTP.statusCodes.Forbidden, 'oh no!'));
 
     process.env['DYNAMODB_TABLE'] = 'foo-table';
+    process.env['DYNAMODB_TABLE_META'] = 'bar-table';
 
     const expectedItems = [
       {
@@ -43,17 +45,30 @@ describe('the get handler', () => {
 
     const pages = ['foo'];
 
-    dynamodbMock
-      .on(GetCommand, {
-        TableName: 'foo-table',
-        Key: { id: 'pages' },
-      })
-      .resolves({
-        Item: {
-          pages,
-          count: 1,
+    const metaTable = process.env['DYNAMODB_TABLE_META'];
+
+    const params = {
+      RequestItems: {
+        [`${metaTable}`]: {
+          Keys: [{ name: 'count' }, { name: 'pages' }],
         },
-      });
+      },
+    };
+
+    dynamodbMock.on(BatchGetCommand, params).resolves({
+      Responses: {
+        [`bar-table`]: [
+          {
+            name: 'count',
+            value: 1,
+          },
+          {
+            name: 'pages',
+            value: pages,
+          },
+        ],
+      },
+    });
 
     dynamodbMock
       .on(ScanCommand, {
@@ -70,6 +85,7 @@ describe('the get handler', () => {
 
   it('returns the response from a call to the dynmodb scan operation for a given table', async () => {
     process.env['DYNAMODB_TABLE'] = 'foo-table';
+    process.env['DYNAMODB_TABLE_META'] = 'bar-table';
 
     const expectedItems = [
       {
@@ -83,17 +99,30 @@ describe('the get handler', () => {
 
     const pages = ['foo'];
 
-    dynamodbMock
-      .on(GetCommand, {
-        TableName: 'foo-table',
-        Key: { id: 'pages' },
-      })
-      .resolves({
-        Item: {
-          pages,
-          count: 1,
+    const metaTable = process.env['DYNAMODB_TABLE_META'];
+
+    const params = {
+      RequestItems: {
+        [`${metaTable}`]: {
+          Keys: [{ name: 'count' }, { name: 'pages' }],
         },
-      });
+      },
+    };
+
+    dynamodbMock.on(BatchGetCommand, params).resolves({
+      Responses: {
+        [`bar-table`]: [
+          {
+            name: 'count',
+            value: 1,
+          },
+          {
+            name: 'pages',
+            value: pages,
+          },
+        ],
+      },
+    });
 
     dynamodbMock
       .on(ScanCommand, {
@@ -115,6 +144,7 @@ describe('the get handler', () => {
 
   it('does not return items marked as deleted', async () => {
     process.env['DYNAMODB_TABLE'] = 'foo-table';
+    process.env['DYNAMODB_TABLE_META'] = 'bar-table';
 
     const expectedItems = [
       {
@@ -128,17 +158,30 @@ describe('the get handler', () => {
 
     const pages = ['foo'];
 
-    dynamodbMock
-      .on(GetCommand, {
-        TableName: 'foo-table',
-        Key: { id: 'pages' },
-      })
-      .resolves({
-        Item: {
-          pages,
-          count: 1,
+    const metaTable = process.env['DYNAMODB_TABLE_META'];
+
+    const params = {
+      RequestItems: {
+        [`${metaTable}`]: {
+          Keys: [{ name: 'count' }, { name: 'pages' }],
         },
-      });
+      },
+    };
+
+    dynamodbMock.on(BatchGetCommand, params).resolves({
+      Responses: {
+        [`bar-table`]: [
+          {
+            name: 'count',
+            value: 1,
+          },
+          {
+            name: 'pages',
+            value: pages,
+          },
+        ],
+      },
+    });
 
     dynamodbMock
       .on(ScanCommand, {

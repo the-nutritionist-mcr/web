@@ -30,13 +30,15 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
 
     const page = Number(pageParam);
 
-    const batchGet = new BatchGetCommand({
+    const params = {
       RequestItems: {
-        [`${table}`]: {
+        [`${metaTable}`]: {
           Keys: [{ name: 'count' }, { name: 'pages' }],
         },
       },
-    });
+    };
+
+    const batchGet = new BatchGetCommand(params);
 
     const pages = await client.send(batchGet);
 
