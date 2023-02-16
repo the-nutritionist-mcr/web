@@ -10,6 +10,7 @@ import {
   BackendCustomer,
 } from '@tnmw/types';
 import { DownloadLabelsDialog } from './download-labels-dialog';
+import { v4 } from 'uuid';
 
 interface PlannerProps {
   createdBy: string;
@@ -53,6 +54,61 @@ const Planner: React.FC<PlannerProps> = (props) => {
           disabled={Boolean(!customerMeals || !recipes)}
           onClick={() => {
             setShowLabelDialog(true);
+          }}
+        />
+
+        <Button
+          primary
+          size="small"
+          label="Add Hoc Row"
+          onClick={() => {
+            props.update({
+              wasUpdatedByCustomer: false,
+              deliveries: [
+                {
+                  dateCooked: new Date(),
+                  plans: [],
+                },
+                {
+                  dateCooked: new Date(),
+                  plans: [],
+                },
+              ],
+              customer: {
+                groups: [],
+                username: v4(),
+                country: '',
+                deliveryDay1: '',
+                deliveryDay2: '',
+                deliveryDay3: '',
+                customerUpdateTime: '',
+                deliveryNotes: '',
+                addressLine1: '',
+                addressLine2: '',
+                phoneNumber: '',
+                addressLine3: '',
+                subscriptionUpdateTime: '',
+                firstName: 'Ad Hoc2',
+                surname: 'Customer',
+                salutation: '',
+                email: '',
+                city: '',
+                postcode: '',
+                plans: [
+                  {
+                    termEnd: 0,
+                    subscriptionStatus: 'active',
+                    id: '1',
+                    name: 'Dummy',
+                    daysPerWeek: 0,
+                    itemsPerDay: 0,
+                    isExtra: false,
+                    totalMeals: 0,
+                  },
+                ],
+                customisations: [],
+              },
+            });
           }}
         />
 

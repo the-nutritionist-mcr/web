@@ -97,7 +97,7 @@ export const assertsMealSelectionForIndividualCustomer: (
 };
 
 export interface MealPlanGeneratedForIndividualCustomer {
-  customer: BackendCustomer;
+  customer: BackendCustomer | undefined;
   deliveries: PlannedDelivery[];
   wasUpdatedByCustomer: boolean;
 }

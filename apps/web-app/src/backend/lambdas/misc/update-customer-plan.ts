@@ -49,8 +49,13 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
       marshallOptions,
     });
 
+    /**
+     * There is a bug here that the application now kind of depends on
+     * Selection contains 'id' because it is pulled from the database - this
+     * is overwriting the previous id in the spread. LOL.
+     */
     const selection: StoredMealPlanGeneratedForIndividualCustomer = {
-      id: payload.id,
+      id: `plan-${payload.id}-selection`,
       sort: payload.selection.customer.username,
       ...payload.selection,
     };
