@@ -72,7 +72,7 @@ export const useResource = <
   const { data: getData } = useSwrWrapper<Response<R>>(
     getType,
     {},
-    typeof idsOrSearchTerm !== 'string'
+    typeof idsOrSearchTerm !== 'string' && !page
   );
 
   const createItem = async <T extends { id: string }>(input: T): Promise<T> =>

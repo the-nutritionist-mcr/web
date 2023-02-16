@@ -14,12 +14,15 @@ export const RouterLoader = (props: RouterProps) => {
   const router = useRouter();
 
   useEffect(() => {
-    const handleStart = () => {
-      resetLoading();
-      startLoading(LOADING_KEY);
+    const handleStart = (path, config) => {
+      if (!config.shallow) {
+        resetLoading();
+        startLoading(LOADING_KEY);
+      }
     };
 
     const handleStop = () => {
+      console.log('finished router');
       stopLoading();
     };
     router?.events?.on('routeChangeStart', handleStart);

@@ -9,12 +9,12 @@ import { useRouter } from 'next/router';
 
 const CustomisationsPage: FC = () => {
   const router = useRouter();
-  const page = Number(router.query.page ?? 1);
+  const routerPage = Number(router.query.page ?? 1);
+  const [page, setPage] = useState(routerPage);
   const { items, count, create, remove, update } = useCustomisations(page);
 
   // eslint-disable-next-line fp/no-mutating-methods
   useEffect(() => {
-    console.log({ page: router.query.page });
     if (!router.query.page) {
       // eslint-disable-next-line fp/no-mutating-methods
       router.push(`/admin/customisations?page=${page}`);
@@ -26,6 +26,7 @@ const CustomisationsPage: FC = () => {
       <MenuPaddedContent>
         <AdminTemplate>
           <Exclusions
+            setPage={setPage}
             // eslint-disable-next-line fp/no-mutating-methods
             exclusions={items
               ?.slice()

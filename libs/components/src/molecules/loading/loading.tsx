@@ -74,6 +74,7 @@ export const Loading = (props: LoadingProps) => {
   const useLoading = (key: string, dontStart?: boolean) => {
     layoutEffect(() => {
       if (!dontStart) {
+        console.log('start!', dontStart);
         startLoading(key);
       }
     }, [key]);

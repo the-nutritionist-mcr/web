@@ -16,7 +16,7 @@ const SlimButton = styled(Button)`
   padding: 0 5px 0 5px;
 `;
 
-const ExclusionRow: React.FC<ExclusionRowProps> = props => {
+const ExclusionRow: React.FC<ExclusionRowProps> = (props) => {
   const [showDoDelete, setShowDoDelete] = React.useState(false);
   const [showEdit, setShowEdit] = React.useState(false);
   return (
@@ -25,7 +25,16 @@ const ExclusionRow: React.FC<ExclusionRowProps> = props => {
       <TableCell scope="row">
         {props.exclusion.allergen ? 'Yes' : 'No'}
       </TableCell>
-      <TableCell scope="row">
+      <TableCell
+        scope="row"
+        style={{
+          textAlign: 'right',
+          whiteSpace: 'nowrap',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+        }}
+      >
         <SlimButton
           secondary
           onClick={(): void => setShowDoDelete(true)}
@@ -56,8 +65,8 @@ const ExclusionRow: React.FC<ExclusionRowProps> = props => {
           title="Edit Customisation"
           onOk={(newExclusion: Exclusion | undefined): void => {
             setShowEdit(false);
-            if(newExclusion) {
-              props.update(newExclusion)
+            if (newExclusion) {
+              props.update(newExclusion);
             }
           }}
           show={showEdit}
