@@ -31,6 +31,10 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
 
     const pageParam = event.queryStringParameters?.page;
 
+    const sort = event.queryStringParameters?.sort;
+
+    const asc = event.queryStringParameters?.asc;
+
     const page = Number(pageParam);
 
     const params = {
@@ -64,11 +68,23 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
       pageParam ? PAGE_SIZE : undefined
     );
 
+    const finalItems = items.filter(
+      (item) => !item.deleted && item.id !== 'count' && item.id !== 'pages'
+    );
+
+    const ascending = Boolean(asc);
+
     const body = {
       count: count ?? 0,
-      items: items.filter(
-        (item) => !item.deleted && item.id !== 'count' && item.id !== 'pages'
-      ),
+      items: sort
+        ? // eslint-disable-next-line fp/no-mutating-methods
+          finalItems.slice().sort((a, b) => {
+            if (a[sort] > b[sort]) {
+              return ascending ? -1 : 1;
+            }
+            return ascending ? 1 : -1;
+          })
+        : finalItems,
     };
 
     return returnOkResponse(body);

@@ -28,11 +28,7 @@ const CustomisationsPage: FC = () => {
           <Exclusions
             setPage={setPage}
             // eslint-disable-next-line fp/no-mutating-methods
-            exclusions={items
-              ?.slice()
-              .sort((a, b) =>
-                a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase() ? 1 : -1
-              )}
+            exclusions={items?.slice()}
             create={create}
             totalCount={count ?? 0}
             remove={remove}
