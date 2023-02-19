@@ -27,8 +27,11 @@ export const generateAddressDownload = (
     });
   });
 
+  // eslint-disable-next-line fp/no-mutating-methods
   return Array.from(includeCustomers)
     .map((username) => customerMap.get(username))
     .flatMap((customer) => (customer ? [customer] : []))
+    .slice()
+    .sort((a, b) => (a.surname > b.surname ? 1 : -1))
     .map((customer) => makeLabelObject(customer));
 };
