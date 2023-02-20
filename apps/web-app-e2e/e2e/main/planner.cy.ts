@@ -291,15 +291,15 @@ describe('The planner', () => {
     cy.task('extractTable', filename).should((table: PageTablesOutput) => {
       const cookOne = table.pageTables.find((page) => page.page === 2);
       expect(normalise(cookOne.tables[0][0])).to.eq(
-        `TORN CHILLI CHICKEN ‘PAD THAI’ (x 46)`
+        `TORN CHILLI CHICKEN ‘PAD THAI’ (x 47)`
       );
 
       expect(normalise(cookOne.tables[1][0])).to.eq(
-        `ACHIOTE SLOW COOKED SHOULDER OF PORK (x 47)`
+        `ACHIOTE SLOW COOKED SHOULDER OF PORK (x 48)`
       );
 
       expect(normalise(cookOne.tables[2][0])).to.eq(
-        `ANCHO CHILLI BARBECUE PULLED CHICKEN (x 46)`
+        `ANCHO CHILLI BARBECUE PULLED CHICKEN (x 47)`
       );
 
       expect(normalise(cookOne.tables[3][0])).to.eq(
@@ -317,19 +317,19 @@ describe('The planner', () => {
       const cookTwo = table.pageTables.find((page) => page.page === 3);
 
       expect(normalise(cookTwo.tables[0][0])).to.eq(
-        `LEMON + HERB ROAST CHICKEN ORZO (x 50)`
+        `LEMON + HERB ROAST CHICKEN ORZO (x 51)`
       );
 
       expect(normalise(cookTwo.tables[1][0])).to.eq(
-        `SLOW COOKED BEEF BURRITO BOWL (x 46)`
+        `SLOW COOKED BEEF BURRITO BOWL (x 47)`
       );
 
       expect(normalise(cookTwo.tables[2][0])).to.eq(
-        `TERIYAKI GLAZED SALMON (x 46)`
+        `TERIYAKI GLAZED SALMON (x 47)`
       );
 
       expect(normalise(cookTwo.tables[3][0])).to.eq(
-        `ANCHO CHILLI TORN CHICKEN  (x 5)`
+        `ANCHO CHILLI TORN CHICKEN  (x 6)`
       );
 
       expect(normalise(cookTwo.tables[4][0])).to.eq(
