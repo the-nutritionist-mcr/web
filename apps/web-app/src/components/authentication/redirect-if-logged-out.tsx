@@ -31,7 +31,7 @@ export const RedirectIfLoggedOut = (props: RedirectIfLoggedOutProps) => {
   useEffect(() => {
     if (willRedirect) {
       console.debug(`Redirecting to ${props.redirectTo}`);
-      navigate?.(props.redirectTo, false);
+      window.location.href = props.redirectTo;
     }
   }, [hasFinishedLoadingUser, navigate, props.redirectTo, user, willRedirect]);
   return <>{willRedirect ? null : props.children}</>;

@@ -10,8 +10,6 @@ interface RedirectIfLoggedInProps {
 const isBrowser = typeof window !== 'undefined';
 
 export const RedirectIfLoggedIn = (props: RedirectIfLoggedInProps) => {
-  console.log('two');
-  const { navigate } = useContext(NavigationContext);
   const { isLoading } = useContext(LoadingContext);
   const { user } = useContext(AuthenticationServiceContext);
   const willRedirect = !isLoading && user && isBrowser;
@@ -19,7 +17,7 @@ export const RedirectIfLoggedIn = (props: RedirectIfLoggedInProps) => {
   useEffect(() => {
     if (willRedirect) {
       console.debug(`Redirecting to ${props.redirectTo}`);
-      navigate?.(props.redirectTo);
+      window.location.href = props.redirectTo;
     }
   }, [willRedirect]);
 
