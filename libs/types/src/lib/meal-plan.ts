@@ -97,6 +97,7 @@ export const assertsMealSelectionForIndividualCustomer: (
 };
 
 export interface MealPlanGeneratedForIndividualCustomer {
+  sortingPriority?: boolean;
   customer: BackendCustomer;
   deliveries: PlannedDelivery[];
   wasUpdatedByCustomer: boolean;

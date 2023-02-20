@@ -1,5 +1,6 @@
 import { Heading, Header, Button } from 'grommet';
 import JSZip from 'jszip';
+import { AddAdHocRowDialog } from './add-ad-hoc-row-dialog';
 
 import React, { useState } from 'react';
 import Finalize from './Finalize';
@@ -26,6 +27,7 @@ interface PlannerProps {
 const Planner: React.FC<PlannerProps> = (props) => {
   const recipes = props.recipes;
   const [showLabelsDialog, setShowLabelDialog] = useState(false);
+  const [showAdhocDialog, setShowAdhocDialog] = useState(false);
 
   const customerMeals = props.published && props.plan;
 
@@ -37,6 +39,15 @@ const Planner: React.FC<PlannerProps> = (props) => {
           recipes={recipes}
           customers={props.customers}
           plan={props.plan}
+        />
+      )}
+      {showAdhocDialog && (
+        <AddAdHocRowDialog
+          onOk={async (plan) => {
+            await props.update(plan);
+            return setShowAdhocDialog(false);
+          }}
+          onCancel={() => setShowAdhocDialog(false)}
         />
       )}
       <Header
@@ -60,55 +71,10 @@ const Planner: React.FC<PlannerProps> = (props) => {
         <Button
           primary
           size="small"
-          label="Add Hoc Row"
+          label="Add Ad-hoc Customer"
+          disabled={Boolean(!customerMeals || !recipes)}
           onClick={() => {
-            props.update({
-              wasUpdatedByCustomer: false,
-              deliveries: [
-                {
-                  dateCooked: new Date(),
-                  plans: [],
-                },
-                {
-                  dateCooked: new Date(),
-                  plans: [],
-                },
-              ],
-              customer: {
-                groups: [],
-                username: v4(),
-                country: '',
-                deliveryDay1: '',
-                deliveryDay2: '',
-                deliveryDay3: '',
-                customerUpdateTime: '',
-                deliveryNotes: '',
-                addressLine1: '',
-                addressLine2: '',
-                phoneNumber: '',
-                addressLine3: '',
-                subscriptionUpdateTime: '',
-                firstName: 'Ad Hoc2',
-                surname: 'Customer',
-                salutation: '',
-                email: '',
-                city: '',
-                postcode: '',
-                plans: [
-                  {
-                    termEnd: 0,
-                    subscriptionStatus: 'active',
-                    id: '1',
-                    name: 'Dummy',
-                    daysPerWeek: 0,
-                    itemsPerDay: 0,
-                    isExtra: false,
-                    totalMeals: 0,
-                  },
-                ],
-                customisations: [],
-              },
-            });
+            setShowAdhocDialog(true);
           }}
         />
 

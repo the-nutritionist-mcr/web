@@ -162,12 +162,18 @@ const Finalize: React.FC<FinalizeProps> = ({
         // eslint-disable-next-line fp/no-mutating-methods
         customerMeals
           .slice()
-          .sort((a, b) =>
-            a.customer.surname.toLowerCase() > b.customer.surname.toLowerCase()
-              ? 1
-              : // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-                -1
-          )
+          .sort((a, b) => {
+            if ((a?.sortingPriority ?? 0) > (b?.sortingPriority ?? 0)) {
+              return 1;
+            }
+            if (
+              a.customer.surname.toLowerCase() >
+              b.customer.surname.toLowerCase()
+            ) {
+              return 1;
+            }
+            return -1;
+          })
           .filter((customerPlan) => customerPlan.customer.plans.length > 0)
           .map((customerPlan) => (
             <FinalizeCustomerTable
