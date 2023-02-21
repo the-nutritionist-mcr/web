@@ -52,10 +52,15 @@ export const getRealRecipe = (
   recipe: Recipe,
   customer: BackendCustomer,
   recipes: Recipe[]
-): Recipe & { originalName: string } => ({
-  ...getRealRecipeHelper(recipe, customer, recipes),
-  originalName: recipe.name,
-});
+): Recipe & { originalName: string } => {
+  const liveRecipe =
+    recipes.find((needle) => needle.id === recipe.id) ?? recipe;
+
+  return {
+    ...getRealRecipeHelper(liveRecipe, customer, recipes),
+    originalName: recipe.name,
+  };
+};
 
 const isSelectedMeal = (item: unknown): item is DeliveryMeal => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

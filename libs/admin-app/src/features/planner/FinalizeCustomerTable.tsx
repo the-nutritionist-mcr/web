@@ -28,6 +28,7 @@ import {
   PlannedDelivery,
   PlanWithMeals,
   Recipe,
+  Swapped,
 } from '@tnmw/types';
 import {
   addPlanRowToDelivery,
@@ -39,7 +40,7 @@ import {
 import { itemFamilies } from '@tnmw/config';
 
 interface FinalizeRowProps {
-  customerSelection: MealPlanGeneratedForIndividualCustomer;
+  customerSelection: Swapped<MealPlanGeneratedForIndividualCustomer>;
   deliveryMeals: PlannedCook[];
   allRecipes: Recipe[];
   columns: number;

@@ -28,11 +28,14 @@ const ChooseMealsPage = () => {
   const { data, update } = usePlan();
   const user = useMe();
 
-  const recipes = data?.available
+  const initialRecipes = data?.available
     ? data.plan.cooks.flatMap((cook) => cook.menu)
     : [];
 
-  const alternateRecipeIds = recipes
+  const recipeIds = initialRecipes.map((recipe) => recipe.id);
+  const { items: recipes } = useRecipes(recipeIds);
+
+  const alternateRecipeIds = (recipes ?? [])
     .flatMap((recipe) => recipe.alternates ?? [])
     .map((alternate) => alternate.recipeId);
 
@@ -70,7 +73,7 @@ const ChooseMealsPage = () => {
         currentSelection={data.currentUserSelection}
         cooks={data.plan.cooks}
         submitOrder={update}
-        recipes={[...recipes, ...(alternateRecipes ?? [])]}
+        recipes={[...(recipes ?? []), ...(alternateRecipes ?? [])]}
         customer={user}
       />
     </RedirectIfLoggedOut>
