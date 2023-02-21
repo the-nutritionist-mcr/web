@@ -97,7 +97,7 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
                       >
                         <div className={tabGrid}>
                           <MealList
-                            customer={props.currentSelection.customer}
+                            customer={props.customer}
                             recipes={props.recipes}
                             things={props.cooks[dayIndex].menu}
                             selected={chosenSelection}
@@ -121,6 +121,7 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
                           />
 
                           <CombinedBasket
+                            customer={props.customer}
                             cooks={props.cooks}
                             currentSelection={props.currentSelection}
                             setSelectedMeals={props.setSelectedMeals}

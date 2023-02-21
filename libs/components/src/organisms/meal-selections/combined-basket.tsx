@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { defaultDeliveryDays } from '@tnmw/config';
 import { totalOtherSelected } from './total-other-selected';
 import {
+  BackendCustomer,
   MealPlanGeneratedForIndividualCustomer,
   PlannedCook,
   PlanWithMeals,
@@ -25,6 +26,7 @@ interface BasketProps {
   currentSelection: MealPlanGeneratedForIndividualCustomer;
   setSelectedMeals: (newPlan: MealPlanGeneratedForIndividualCustomer) => void;
   recipes: Recipe[];
+  customer: BackendCustomer;
 }
 
 const Divider = styled.hr`
@@ -45,6 +47,7 @@ const CombinedBasket = ({
   setSelectedMeals,
   recipes,
   currentSelection,
+  customer,
 }: BasketProps) => {
   return (
     <div className={selectedBox}>
@@ -75,7 +78,7 @@ const CombinedBasket = ({
                     key={`${standardPlan.id}-${dayIndex}-basket`}
                     plan={standardPlan}
                     itemWord="meal"
-                    customer={currentSelection.customer}
+                    customer={customer}
                     title={standardPlan.name}
                     itemWordPlural="meals"
                     things={recipes}
