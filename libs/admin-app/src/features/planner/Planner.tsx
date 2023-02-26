@@ -9,6 +9,7 @@ import {
   WeeklyCookPlan,
   MealPlanGeneratedForIndividualCustomer,
   BackendCustomer,
+  Exclusion,
 } from '@tnmw/types';
 import { DownloadLabelsDialog } from './download-labels-dialog';
 import { v4 } from 'uuid';
@@ -18,6 +19,7 @@ interface PlannerProps {
   creationDate: Date;
   plan: WeeklyCookPlan;
   customers: BackendCustomer[];
+  customisations: Exclusion[];
   recipes: Recipe[];
   update: (item: MealPlanGeneratedForIndividualCustomer) => Promise<void>;
   publish: () => Promise<void>;
@@ -43,6 +45,7 @@ const Planner: React.FC<PlannerProps> = (props) => {
       )}
       {showAdhocDialog && (
         <AddAdHocRowDialog
+          customisations={props.customisations}
           onOk={async (plan) => {
             await props.update(plan);
             return setShowAdhocDialog(false);

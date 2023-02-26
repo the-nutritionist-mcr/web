@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Box,
   Button,
   Card,
   CardBody,
@@ -9,18 +10,22 @@ import {
   FormField,
   Heading,
   Layer,
+  Select,
   TextInput,
 } from 'grommet';
 
 import {
   BackendCustomer,
+  Exclusion,
   MealPlanGeneratedForIndividualCustomer,
 } from '@tnmw/types';
 import { v4 } from 'uuid';
+import { TagInput } from '../../components';
 
 interface AddAdHocRowDialogProps {
   onOk: (customer: MealPlanGeneratedForIndividualCustomer) => void;
   onCancel: () => void;
+  customisations: Exclusion[];
 }
 
 export const defaultCustomer = (): BackendCustomer => ({
@@ -110,6 +115,32 @@ export const AddAdHocRowDialog = (props: AddAdHocRowDialogProps) => {
             <FormField label="Surname" name="surname" required width="100%">
               <TextInput name="surname" />
             </FormField>
+
+            <Box width="100%">
+              <Heading level={3}>Customisations</Heading>
+              <TagInput
+                options={props.customisations.map((exclusion) => ({
+                  key: exclusion.id,
+                  label: exclusion.name,
+                }))}
+                onChange={(values) => {
+                  setCustomer({
+                    ...customer,
+                    customisations: values
+                      .map((value) =>
+                        props.customisations.find(
+                          (exclusion) => exclusion.id === value.key
+                        )
+                      )
+                      .flatMap((value) => (value ? [value] : [])),
+                  });
+                }}
+                values={customer.customisations.map((exclusion) => ({
+                  key: exclusion.id,
+                  label: exclusion.name,
+                }))}
+              />
+            </Box>
           </CardBody>
 
           <CardFooter pad="small" alignSelf="center" justify="center">
