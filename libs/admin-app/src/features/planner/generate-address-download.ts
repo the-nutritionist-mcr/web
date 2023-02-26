@@ -15,7 +15,17 @@ export const generateAddressDownload = (
   deliveryNumber: number
 ) => {
   const customerMap = new Map<string, BackendCustomer>();
-  customers.forEach((customer) => customerMap.set(customer.username, customer));
+
+  selections.forEach((selections) =>
+    customerMap.set(selections.customer.username, selections.customer)
+  );
+
+  customers.forEach((customer) => {
+    if (customerMap.has(customer.username)) {
+      customerMap.set(customer.username, customer);
+    }
+  });
+
   const includeCustomers = new Set<string>();
   // eslint-disable-next-line fp/no-mutating-methods
   selections.forEach((selection) => {

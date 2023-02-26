@@ -21,6 +21,7 @@ import {
 } from '@tnmw/types';
 import { v4 } from 'uuid';
 import { TagInput } from '../../components';
+import { editGrid } from './add-ad-hoc-row-dialog.css';
 
 interface AddAdHocRowDialogProps {
   onOk: (customer: MealPlanGeneratedForIndividualCustomer) => void;
@@ -97,27 +98,69 @@ export const AddAdHocRowDialog = (props: AddAdHocRowDialogProps) => {
             </Heading>
           </CardHeader>
 
-          <CardBody
-            margin="none"
-            pad="medium"
-            gap="medium"
-            align="center"
-            width="400px"
-          >
-            <FormField
-              label="First Name"
-              name="firstName"
-              required
-              width="100%"
-            >
-              <TextInput name="firstName" />
-            </FormField>
-            <FormField label="Surname" name="surname" required width="100%">
-              <TextInput name="surname" />
-            </FormField>
+          <CardBody margin="none" pad="medium" gap="medium" align="center">
+            <div className={editGrid}>
+              <FormField
+                label="First Name"
+                name="firstName"
+                required
+                width="100%"
+              >
+                <TextInput name="firstName" />
+              </FormField>
+              <FormField label="Surname" name="surname" required width="100%">
+                <TextInput name="surname" />
+              </FormField>
 
+              <FormField
+                label="Address Line 1"
+                name="addressLine1"
+                required
+                width="100%"
+              >
+                <TextInput name="addressLine1" />
+              </FormField>
+              <FormField
+                label="Address Line 2"
+                name="addressLine2"
+                required
+                width="100%"
+              >
+                <TextInput name="addressLine2" />
+              </FormField>
+
+              <FormField
+                label="Address Line 3"
+                name="addressLine3"
+                required
+                width="100%"
+              >
+                <TextInput name="addressLine3" />
+              </FormField>
+
+              <FormField label="City" name="city" required width="100%">
+                <TextInput name="city" />
+              </FormField>
+
+              <FormField label="postcode" name="postcode" required width="100%">
+                <TextInput name="postcode" />
+              </FormField>
+
+              <FormField
+                label="phoneNumber"
+                name="phoneNumber"
+                required
+                width="100%"
+              >
+                <TextInput name="phoneNumber" />
+              </FormField>
+
+              <FormField label="email" name="email" required width="100%">
+                <TextInput name="email" />
+              </FormField>
+            </div>
             <Box width="100%">
-              <Heading level={3}>Customisations</Heading>
+              <Heading level={4}>Customisations</Heading>
               <TagInput
                 options={props.customisations.map((exclusion) => ({
                   key: exclusion.id,

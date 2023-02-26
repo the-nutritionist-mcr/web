@@ -135,7 +135,6 @@ export const usePlan = () => {
   return {
     data,
     update,
-    publish,
     submitOrder,
   };
 };
