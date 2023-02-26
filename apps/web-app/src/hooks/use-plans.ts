@@ -83,13 +83,20 @@ export const usePlan = () => {
 
       if (available && admin) {
         const { plan } = data;
+        const existing = plan?.customerPlans.find(
+          (plan) => plan.customer.username === input.customer.username
+        );
         const newData: GetPlanResponseAdmin = {
           ...data,
           plan: {
             ...plan,
-            customerPlans: plan?.customerPlans.map((plan) =>
-              plan.customer.username === input.customer.username ? input : plan
-            ),
+            customerPlans: existing
+              ? plan?.customerPlans.map((plan) =>
+                  plan.customer.username === input.customer.username
+                    ? input
+                    : plan
+                )
+              : [...(plan?.customerPlans ?? []), input],
           },
         };
         mutate('plan', newData, false);

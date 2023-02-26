@@ -164,6 +164,10 @@ const Finalize: React.FC<FinalizeProps> = ({
           .slice()
           .sort((a, b) => {
             if ((a?.sortingPriority ?? 0) > (b?.sortingPriority ?? 0)) {
+              return -1;
+            }
+
+            if ((b?.sortingPriority ?? 0) > (a?.sortingPriority ?? 0)) {
               return 1;
             }
             if (
