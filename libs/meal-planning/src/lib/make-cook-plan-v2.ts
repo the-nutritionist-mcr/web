@@ -53,7 +53,7 @@ const countPrimaries = (
             newMap.set(variant.string, {
               fullName: variant.string,
               planName: plan.name,
-              customers: [...(previous?.customers ?? [])],
+              customers: [...(previous?.customers ?? []), selection.customer],
               count: (previous?.count ?? 0) + 1,
               recipe: meal.recipe,
               allergen: variant.allergen,
@@ -75,7 +75,10 @@ const countAlternates = (
   allRecipes: Recipe[]
 ) => {
   const selectionsMap = selections.reduce((primaryMap, selection) => {
-    const newMap = new Map<string, PlanVariantConfiguration>(primaryMap);
+    const newMap: Map<string, PlanVariantConfiguration> = new Map<
+      string,
+      PlanVariantConfiguration
+    >(primaryMap);
     const delivery = selection.deliveries[deliveryIndex];
 
     delivery.plans.forEach((plan) => {
@@ -102,9 +105,9 @@ const countAlternates = (
             newMap.set(variant.string, {
               fullName: variant.string,
               planName: plan.name,
-              customers: [...(previous?.customers ?? [])],
+              customers: [...(previous?.customers ?? []), selection.customer],
               count: (previous?.count ?? 0) + 1,
-              recipe: meal.recipe,
+              recipe: realRecipe,
               allergen: variant.allergen,
               customisation: variant.customisation,
             });

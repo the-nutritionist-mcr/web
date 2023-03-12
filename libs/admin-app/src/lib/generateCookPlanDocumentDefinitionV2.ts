@@ -1,9 +1,11 @@
 import { CookPlanGroup, PlanVariantConfiguration } from '@tnmw/meal-planning';
 import { BackendCustomer } from '@tnmw/types';
+import { Content } from 'pdfmake/interfaces';
 import { RecipeVariantMap } from '../types/CookPlan';
 import { DocumentDefinition } from './downloadPdf';
 import formatPlanItem from './formatPlanItem';
 import { PdfBuilder } from './pdf-builder';
+import { TableRowBorders, TableRowStyle } from './pdf-table';
 
 const getCountString = (count: number) => (count > 1 ? ` x ${count}` : ``);
 const mainPartOfPlan = (thing: string) => thing.split(' ')[0];
@@ -35,6 +37,29 @@ const formatRecipeVariantMapNoCustomisationsCell = (
     ),
 });
 
+const formatTotalPlanItemsCell = (
+  variantConfigs: PlanVariantConfiguration[],
+  rowSpan: number
+) => {
+  const countMap = new Map<string, number>();
+
+  variantConfigs.forEach((config) =>
+    countMap.set(
+      config.planName,
+      (countMap.get(config.planName) ?? 0) + config.count
+    )
+  );
+
+  return {
+    rowSpan,
+    fillColor: 'white',
+    // eslint-disable-next-line fp/no-mutating-methods
+    ul: Array.from(countMap.entries()).map(
+      ([plan, count]) => `${plan} x ${count}`
+    ),
+  };
+};
+
 const formatRecipeVariantMapCustomisationsCell = (
   variantConfigs: PlanVariantConfiguration[]
 ) => {
@@ -42,15 +67,17 @@ const formatRecipeVariantMapCustomisationsCell = (
   const items = variantConfigs
     .slice()
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-    .filter((config) => config.customisation)
-    .flatMap((config) =>
-      config.customers.map((customer) => ({
+    .filter((config) => {
+      return config.customisation;
+    })
+    .flatMap((config) => {
+      return config.customers.map((customer) => ({
         string: `${config.fullName} - ${customer.surname}, ${customer.firstName}`,
         customer,
         item: config,
         key: config.fullName,
-      }))
-    )
+      }));
+    })
     .reduce<
       {
         string: string;
@@ -113,7 +140,9 @@ const generateCookPlanDocumentDefinition = (
     options as any
   )})`;
 
-  const convertPlanToRows = (individualCookPlan: CookPlanGroup[]) => {
+  type Row = Content[] | { content: Content[]; style: TableRowStyle };
+
+  const convertPlanToRows = (individualCookPlan: CookPlanGroup[]): Row[] => {
     // eslint-disable-next-line fp/no-mutating-methods
     const all = Array.from(individualCookPlan.values())
       .slice()
@@ -126,31 +155,59 @@ const generateCookPlanDocumentDefinition = (
 
         return -1;
       });
-    return all.flatMap((group) => {
+    const result = all.map((group) => {
+      const borders: TableRowBorders = [
+        {
+          width: 0,
+        },
+        {
+          width: 0,
+        },
+        {
+          width: 5,
+        },
+        {
+          width: 0,
+        },
+      ];
       return [
-        [
-          makeLabelCell(group.mainRecipe.name, group.primaries),
-          formatRecipeVariantMapNoCustomisationsCell(group.primaries),
-          formatRecipeVariantMapCustomisationsCell(group.primaries),
-        ],
-        group.alternates.map((alternateGroup) => [
+        {
+          content: [
+            makeLabelCell(group.mainRecipe.name, group.primaries),
+            formatRecipeVariantMapNoCustomisationsCell(group.primaries),
+            formatRecipeVariantMapCustomisationsCell(group.primaries),
+            formatTotalPlanItemsCell(
+              [...group.primaries, ...group.alternates.flat()],
+              1 + group.alternates.length
+            ),
+          ],
+          style: {
+            background: '#D3D3D3',
+            borders,
+          },
+        },
+        ...group.alternates.map((alternateGroup) => [
           makeLabelCell(alternateGroup[0].recipe.name, alternateGroup),
           formatRecipeVariantMapNoCustomisationsCell(alternateGroup),
           formatRecipeVariantMapCustomisationsCell(alternateGroup),
+          { text: '' },
         ]),
       ];
     });
+
+    return result.flat();
   };
 
   const returnVal = cookPlan.reduce<PdfBuilder>(
     (builder, plan, index) =>
       builder
         .header(`Cook ${index + 1}`)
-        .table(convertPlanToRows(plan), 2, [200, '*', '*'])
+        .table(convertPlanToRows(plan), 3, [200, '*', '*', '*'])
         .pageBreak(),
     new PdfBuilder(title, true)
   );
-  return returnVal.toDocumentDefinition();
+  const dd = returnVal.toDocumentDefinition();
+  return dd;
 };
 
 export default generateCookPlanDocumentDefinition;

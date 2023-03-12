@@ -139,7 +139,7 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
             />
             <Button
               primary
-              label="Cook Plan"
+              label="Cook Plan V2"
               onClick={() => {
                 const plan = makeCookPlanV2(
                   originalPlan.customerPlans,
@@ -154,7 +154,7 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
             />
             <Button
               primary
-              label="Cook Plan V2"
+              label="Cook Plan"
               onClick={() => {
                 const plan = makeCookPlan(swappedPlan, recipes);
                 downloadPdf(

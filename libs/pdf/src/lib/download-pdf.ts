@@ -39,6 +39,10 @@ export const makePdf = (
       alignment: 'center',
       bold: true,
     },
+    rowSubheader: {
+      fontSize: 14,
+      alignment: 'center',
+    },
     coverPage: {
       fontSize: 35,
       bold: true,

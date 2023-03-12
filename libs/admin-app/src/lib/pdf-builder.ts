@@ -1,9 +1,10 @@
 /* eslint-disable fp/no-mutating-methods */
 /* eslint-disable fp/no-this */
-// eslint-disable-next-line import/no-unresolved
 import { Content, Size } from 'pdfmake/interfaces';
 import { DocumentDefinition, makePdf } from './downloadPdf';
-import { PdfTable } from './pdf-table';
+import { PdfTable, TableRowStyle } from './pdf-table';
+
+type Row = Content[] | { content: Content[]; style: TableRowStyle };
 
 export class PdfBuilder {
   private content: Content[] = [];
@@ -53,17 +54,21 @@ export class PdfBuilder {
     }
   }
 
-  public table(rows: Content[][], columns: number, widths?: Size[]): this {
+  public table(rows: Row[], columns: number, widths?: Size[]): this {
     const initialTable = new PdfTable(columns, widths);
 
     const table = rows
-      .reduce<PdfTable>(
-        (currentTable, [header, ...row]) => currentTable.row(header, row),
-        initialTable
-      )
+      .reduce<PdfTable>((currentTable, current) => {
+        if (Array.isArray(current)) {
+          const [header, ...row] = current;
+          return currentTable.row(header, row);
+        }
+        const [header, ...row] = current.content;
+        return currentTable.row(header, row, current.style);
+      }, initialTable)
       .get();
 
-    this.content.push({ table });
+    this.content.push(table);
     return this;
   }
 

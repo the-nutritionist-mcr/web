@@ -9,17 +9,17 @@ interface FormattedPlanItem {
 
 const formatPlanItem = (
   text: string,
-  planItem: { allergen: boolean; customisation: boolean }
+  planItem?: { allergen: boolean; customisation: boolean }
 ): FormattedPlanItem | string => {
-  if (!planItem.customisation && !planItem.allergen) {
+  if (!planItem?.customisation && !planItem?.allergen) {
     return text;
   }
 
-  const color = planItem.customisation
+  const color = planItem?.customisation
     ? base.global?.colors?.['status-error']
     : '#000000';
 
-  const finalColor = planItem.allergen ? base.global?.colors?.brand : color;
+  const finalColor = planItem?.allergen ? base.global?.colors?.brand : color;
 
   const bold = finalColor !== '#000000';
 
