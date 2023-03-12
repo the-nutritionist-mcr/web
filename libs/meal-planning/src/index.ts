@@ -1,5 +1,10 @@
 export { chooseMealSelections } from './lib/choose-meals-v2';
 export { makeCookPlan } from './lib/make-cook-plan';
+export { makeCookPlan as makeCookPlanV2 } from './lib/make-cook-plan-v2';
+export type {
+  PlanVariantConfiguration,
+  CookPlanGroup,
+} from './lib/make-cook-plan-v2';
 export { createVariant } from './lib/create-variant';
 export { generateLabelData } from './lib/generate-label-data';
 export { getRealRecipe, performSwaps } from './lib/get-real-recipe';

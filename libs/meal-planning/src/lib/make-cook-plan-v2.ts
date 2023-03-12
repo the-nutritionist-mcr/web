@@ -8,7 +8,7 @@ import {
 } from '@tnmw/types';
 import { createVariant } from './create-variant';
 
-interface PlanVariantConfiguration {
+export interface PlanVariantConfiguration {
   fullName: string;
   planName: string;
   customers: BackendCustomer[];
@@ -18,7 +18,7 @@ interface PlanVariantConfiguration {
   customisation: boolean;
 }
 
-interface CookPlanGroup {
+export interface CookPlanGroup {
   mainRecipe: Recipe;
   primaries: PlanVariantConfiguration[];
   alternates: PlanVariantConfiguration[][];
