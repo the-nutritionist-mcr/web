@@ -33,10 +33,12 @@ import {
 import {
   generateLabelData,
   makeCookPlan,
+  makeCookPlanV2,
   performSwaps,
 } from '@tnmw/meal-planning';
 import { generateDatestampedFilename } from '@tnmw/utils';
 import generateDeliveryPlanDocumentDefinition from '../../lib/generateDeliveryPlanDocumentDefinition';
+import generateCookPlanDocumentDefinitionV2 from '../../lib/generateCookPlanDocumentDefinitionV2';
 import downloadPdf from '../../lib/downloadPdf';
 import { generateAddressDownload } from './generate-address-download';
 
@@ -67,7 +69,7 @@ const downloadLabels = async (
 export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
   onClose,
   recipes,
-  plan,
+  plan: originalPlan,
   customers,
 }) => {
   const [cookNumber, setCookNumber] = useState('1');
@@ -76,7 +78,7 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
     String(i + 1)
   );
 
-  const swappedPlan = plan.customerPlans.map((plan) =>
+  const swappedPlan = originalPlan.customerPlans.map((plan) =>
     performSwaps(plan, plan.customer, recipes)
   );
 
@@ -138,6 +140,21 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
             <Button
               primary
               label="Cook Plan"
+              onClick={() => {
+                const plan = makeCookPlanV2(
+                  originalPlan.customerPlans,
+                  recipes,
+                  originalPlan.cooks
+                );
+                downloadPdf(
+                  generateCookPlanDocumentDefinitionV2(plan),
+                  generateDatestampedFilename('cook-plan', 'pdf')
+                );
+              }}
+            />
+            <Button
+              primary
+              label="Cook Plan V2"
               onClick={() => {
                 const plan = makeCookPlan(swappedPlan, recipes);
                 downloadPdf(
