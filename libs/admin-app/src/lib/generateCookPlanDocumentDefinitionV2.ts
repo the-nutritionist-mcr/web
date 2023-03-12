@@ -202,7 +202,7 @@ const generateCookPlanDocumentDefinition = (
     (builder, plan, index) =>
       builder
         .header(`Cook ${index + 1}`)
-        .table(convertPlanToRows(plan), 3, [200, '*', '*', '*'])
+        .table(convertPlanToRows(plan), 3, [200, '*', '*', 75])
         .pageBreak(),
     new PdfBuilder(title, true)
   );
