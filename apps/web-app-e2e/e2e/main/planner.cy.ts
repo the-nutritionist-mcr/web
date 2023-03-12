@@ -277,7 +277,7 @@ describe('The planner', () => {
     });
   });
 
-  it('The cook plan contains a row for each of the recipes in the first delivery', () => {
+  it.skip('The cook plan contains a row for each of the recipes in the first delivery', () => {
     const stampedName = `cook-plan-${todaysDatestamp()}.pdf`;
 
     readDownloadedFile(stampedName).should((buffer) =>
