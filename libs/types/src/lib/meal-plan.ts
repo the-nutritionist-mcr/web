@@ -65,9 +65,18 @@ export type PlanWithMeals =
   | CancelledPlan
   | InTrialPlan;
 
-export interface PlannedDelivery {
+export type PlannedDelivery = UnPausedPlannedDelivery | PausedDelivery;
+
+export interface UnPausedPlannedDelivery {
+  paused: false;
   dateCooked: Date;
   plans: PlanWithMeals[];
+}
+
+export interface PausedDelivery {
+  paused: true;
+  pausedFrom?: Date;
+  pausedUntil?: Date;
 }
 
 export interface MealSelectionPayload {

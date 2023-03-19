@@ -28,6 +28,31 @@ const makeRowsFromSelections = (
   customerSelections
     .slice()
     .sort((a, b) => (a.customer.surname > b.customer.surname ? 1 : -1))
+    .filter((customerSelection) => {
+      if (!customerSelection.delivery.paused) {
+        return true;
+      }
+      const {
+        delivery: { paused, pausedUntil, pausedFrom },
+      } = customerSelection;
+
+      if (paused && !pausedUntil) {
+        return false;
+      }
+
+      if (paused && pausedFrom && pausedUntil) {
+        const diff = Number.parseInt(
+          `${
+            (Number(pausedUntil) - Number(pausedFrom)) / (1000 * 60 * 60 * 24)
+          }`,
+          10
+        );
+
+        return diff < 7 * 4;
+      }
+
+      return true;
+    })
     .map((customerSelection, customerIndex) => ({
       style: {
         background: customerIndex % 2 === 0 ? '#D3D3D3' : 'white',
@@ -39,35 +64,13 @@ const makeRowsFromSelections = (
             text: generateNameString(customerSelection.customer),
             bold: true,
           },
-          typeof customerSelection.delivery !== 'string'
-            ? {
-                ul: Object.entries(
-                  customerSelection.delivery.plans
-                    .flatMap((plan) =>
-                      plan.status === 'active' ? plan.meals : []
-                    )
-                    .map((item) =>
-                      item.isExtra ? item.extraName : item.chosenVariant
-                    )
-                    .reduce<Record<string, number>>(
-                      (variantMap, variant) => ({
-                        ...variantMap,
-                        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                        [variant]: (variantMap[variant] ?? 0) + 1,
-                      }),
-                      {}
-                    )
-                ).map(([key, value]) => `${key} x ${value}`),
-              }
-            : '',
         ],
-        ...(typeof customerSelection.delivery === 'string'
-          ? [customerSelection.delivery]
+        ...(customerSelection.delivery.paused
+          ? [`Paused until ${customerSelection.delivery}`]
           : // eslint-disable-next-line fp/no-mutating-methods
             customerSelection.delivery.plans
               .slice()
               .sort((a, b) => {
-                console.log(a.name);
                 const labels = itemFamilies.map((family) => family.name);
                 const aIndex = labels.indexOf(a.name);
                 const bIndex = labels.indexOf(b.name);

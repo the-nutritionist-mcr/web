@@ -120,25 +120,51 @@ const generateCustomerDeliveryFromCook = (
 ): PlannedDelivery => {
   // eslint-disable-next-line fp/no-let
   let lastIndex = 0;
-  return {
-    plans: customer.plans.map((plan) => {
-      const distribution = getDistribution(plan, customer.customPlan)[
-        cook.index
-      ];
-      const result = selectPlanMealsForDelivery(
-        cook,
-        plan,
-        distribution,
-        customer,
-        lastIndex
-      );
 
-      lastIndex = result.nextIndex;
+  const notPaused = customer.plans.some((plan) => {
+    const status = getCookStatus(cook.date, plan);
 
-      return result;
-    }),
-    dateCooked: cook.date,
-  };
+    return status.status !== 'paused';
+  });
+
+  const firstPaused = customer.plans.find((plan) => {
+    const status = getCookStatus(cook.date, plan);
+
+    status.status === 'paused';
+  });
+
+  return !notPaused
+    ? {
+        paused: true,
+        pausedFrom:
+          firstPaused?.pauseStart !== undefined
+            ? new Date(firstPaused?.pauseStart)
+            : undefined,
+        pausedUntil:
+          firstPaused?.pauseEnd !== undefined
+            ? new Date(firstPaused?.pauseEnd)
+            : undefined,
+      }
+    : {
+        paused: false,
+        plans: customer.plans.map((plan) => {
+          const distribution = getDistribution(plan, customer.customPlan)[
+            cook.index
+          ];
+          const result = selectPlanMealsForDelivery(
+            cook,
+            plan,
+            distribution,
+            customer,
+            lastIndex
+          );
+
+          lastIndex = result.nextIndex;
+
+          return result;
+        }),
+        dateCooked: cook.date,
+      };
 };
 
 const generateCustomerDeliveries = (
