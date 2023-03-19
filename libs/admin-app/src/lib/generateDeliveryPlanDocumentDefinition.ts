@@ -28,67 +28,65 @@ const makeRowsFromSelections = (
   customerSelections
     .slice()
     .sort((a, b) => (a.customer.surname > b.customer.surname ? 1 : -1))
-    .map((customerSelection) => [
-      [
-        {
-          fontSize: 10,
-          text: generateNameString(customerSelection.customer),
-          bold: true,
-        },
-        typeof customerSelection.delivery !== 'string'
-          ? {
-              ul: Object.entries(
-                customerSelection.delivery.plans
-                  .flatMap((plan) =>
-                    plan.status === 'active' ? plan.meals : []
-                  )
-                  .map((item) =>
-                    item.isExtra ? item.extraName : item.chosenVariant
-                  )
-                  .reduce<Record<string, number>>(
-                    (variantMap, variant) => ({
-                      ...variantMap,
-                      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                      [variant]: (variantMap[variant] ?? 0) + 1,
-                    }),
-                    {}
-                  )
-              ).map(([key, value]) => `${key} x ${value}`),
-            }
-          : '',
-      ],
-      ...(typeof customerSelection.delivery === 'string'
-        ? [customerSelection.delivery]
-        : // eslint-disable-next-line fp/no-mutating-methods
-          customerSelection.delivery.plans
-            .slice()
-            .sort((a, b) => {
-              console.log(a.name);
-              const labels = itemFamilies.map((family) => family.name);
-              const aIndex = labels.indexOf(a.name);
-              const bIndex = labels.indexOf(b.name);
-
-              console.log({
-                aName: a.name,
-                aIndex,
-                bName: b.name,
-                bIndex,
-              });
-
-              if (aIndex > bIndex) {
-                return 1;
-              } else if (aIndex < bIndex) {
-                return -1;
+    .map((customerSelection, customerIndex) => ({
+      style: {
+        background: customerIndex % 2 === 0 ? '#D3D3D3' : 'white',
+      },
+      content: [
+        [
+          {
+            fontSize: 10,
+            text: generateNameString(customerSelection.customer),
+            bold: true,
+          },
+          typeof customerSelection.delivery !== 'string'
+            ? {
+                ul: Object.entries(
+                  customerSelection.delivery.plans
+                    .flatMap((plan) =>
+                      plan.status === 'active' ? plan.meals : []
+                    )
+                    .map((item) =>
+                      item.isExtra ? item.extraName : item.chosenVariant
+                    )
+                    .reduce<Record<string, number>>(
+                      (variantMap, variant) => ({
+                        ...variantMap,
+                        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                        [variant]: (variantMap[variant] ?? 0) + 1,
+                      }),
+                      {}
+                    )
+                ).map(([key, value]) => `${key} x ${value}`),
               }
+            : '',
+        ],
+        ...(typeof customerSelection.delivery === 'string'
+          ? [customerSelection.delivery]
+          : // eslint-disable-next-line fp/no-mutating-methods
+            customerSelection.delivery.plans
+              .slice()
+              .sort((a, b) => {
+                console.log(a.name);
+                const labels = itemFamilies.map((family) => family.name);
+                const aIndex = labels.indexOf(a.name);
+                const bIndex = labels.indexOf(b.name);
 
-              return 0;
-            })
-            .flatMap((plan) => (plan.status === 'active' ? plan.meals : []))
-            .map((item) =>
-              createVariant(customerSelection.customer, item, allMeals)
-            )
-            .map((item) => formatPlanItem(item.mealWithVariantString, item))),
-    ]);
+                if (aIndex > bIndex) {
+                  return 1;
+                } else if (aIndex < bIndex) {
+                  return -1;
+                }
+
+                return 0;
+              })
+              .flatMap((plan) => (plan.status === 'active' ? plan.meals : []))
+              .map((item) =>
+                createVariant(customerSelection.customer, item, allMeals)
+              )
+              .map((item) => formatPlanItem(item.mealWithVariantString, item))),
+      ],
+    }));
 
 const generateNameString = (customer: BackendCustomer) =>
   `${customer.surname}, ${customer.firstName}`;

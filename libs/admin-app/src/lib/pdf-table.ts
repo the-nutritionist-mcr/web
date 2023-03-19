@@ -18,7 +18,7 @@ export type TableRowBorders = [
 ];
 
 export interface TableRowStyle {
-  borders: TableRowBorders;
+  borders?: TableRowBorders;
   background?: string;
 }
 
@@ -93,14 +93,15 @@ export class PdfTable {
         },
         hLineWidth: (index) => {
           const top =
-            index < this.styles.length && this.styles[index].borders[2]?.width;
+            index < this.styles.length &&
+            this.styles[index].borders?.[2]?.width;
 
           if (top) {
             return top;
           }
 
           const bottom =
-            index !== 0 && this.styles[index - 1].borders[3]?.width;
+            index !== 0 && this.styles[index - 1].borders?.[3]?.width;
 
           if (bottom) {
             return bottom;

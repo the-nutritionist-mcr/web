@@ -16,14 +16,19 @@ export const planLabels: ReadonlyArray<PlanLabels> = [
 
 export const itemFamilies = [
   {
-    name: 'Equilibrium',
+    name: 'Low-CHO',
     isExtra: false,
-    shortName: 'EQ',
+    shortName: 'LC',
   },
   {
     name: 'Mass',
     isExtra: false,
     shortName: 'MA',
+  },
+  {
+    name: 'Equilibrium',
+    isExtra: false,
+    shortName: 'EQ',
   },
   {
     name: 'Micro',
@@ -34,11 +39,6 @@ export const itemFamilies = [
     name: 'Ultra Micro',
     isExtra: false,
     shortName: 'UM',
-  },
-  {
-    name: 'Low-CHO',
-    isExtra: false,
-    shortName: 'LC',
   },
   {
     name: 'Seasonal Soup',
