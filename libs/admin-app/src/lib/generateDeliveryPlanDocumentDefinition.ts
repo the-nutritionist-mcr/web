@@ -30,7 +30,13 @@ const makeRowsFromSelections = (
     .sort((a, b) => (a.customer.surname > b.customer.surname ? 1 : -1))
     .filter((customerSelection) => {
       if (!customerSelection.delivery.paused) {
-        return true;
+        const mealCount = customerSelection.delivery.plans.reduce(
+          (accum, plan) =>
+            accum + (plan.status === 'active' ? plan.meals.length : 0),
+          0
+        );
+
+        return mealCount > 0;
       }
       const {
         delivery: { paused, pausedUntil, pausedFrom },
