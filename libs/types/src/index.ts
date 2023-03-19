@@ -70,6 +70,7 @@ export {
 export type {
   PlanWithMeals,
   PlannedDelivery,
+  PausedDelivery,
   MealPlanGeneratedForIndividualCustomer,
   Swapped,
   SwappedMealPlan,

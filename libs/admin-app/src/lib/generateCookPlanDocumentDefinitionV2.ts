@@ -41,35 +41,6 @@ const formatRecipeVariantMapNoCustomisationsCell = (
     ),
 });
 
-const formatTotalCookCell = (cookPlan: NewCookPlan) => {
-  const countMap = new Map<string, number>();
-
-  const variantConfigs = cookPlan.plan.flatMap((plan) => {
-    return !plan.isExtra ? [...plan.primaries, ...plan.alternates.flat()] : [];
-  });
-
-  variantConfigs.forEach((config) =>
-    countMap.set(
-      config.planName,
-      (countMap.get(config.planName) ?? 0) + config.count
-    )
-  );
-
-  cookPlan.plan
-    .flatMap((plan) => (plan.isExtra ? [plan] : []))
-    .forEach((extra) => {
-      countMap.set(extra.name, (countMap.get(extra.name) ?? 0) + extra.count);
-    });
-
-  return {
-    fillColor: 'white',
-    // eslint-disable-next-line fp/no-mutating-methods
-    ul: Array.from(countMap.entries()).map(
-      ([plan, count]) => `${plan} x ${count}`
-    ),
-  };
-};
-
 const formatTotalPlanItemsCell = (
   variantConfigs: PlanVariantConfiguration[],
   rowSpan: number
@@ -232,21 +203,9 @@ const generateCookPlanDocumentDefinition = (
   };
 
   const newBuilder = new PdfBuilder(title, true);
-  const calendarFormat = {
-    sameElse: 'MMM Do YYYY',
-  };
-
-  const totalRows = cookPlan.map((cookPlan, index) => {
-    return [
-      { text: `Cook ${index + 1}`, style: 'header' },
-      formatTotalCookCell(cookPlan),
-    ];
-  });
-
-  newBuilder.header(`Totals`).table(totalRows, 1, ['*', '*']).pageBreak();
 
   const returnVal = cookPlan.reduce<PdfBuilder>((builder, plan, index) => {
-    const date = moment(plan.date).calendar(null, calendarFormat);
+    const date = moment(plan.date).format('MMM Do YYYY');
     return builder
       .header(`Cook ${index + 1} // ${date}`)
       .table(

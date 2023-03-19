@@ -50,6 +50,17 @@ export const makePdf = (
       bold: true,
       lineHeight: 1.5,
     },
+    smallHeaderWithMargin: {
+      fontSize: 16,
+      bold: true,
+      lineHeight: 1.2,
+      margin: [0, 10, 0, 0],
+    },
+    smallHeader: {
+      fontSize: 16,
+      bold: true,
+      lineHeight: 1.2,
+    },
   },
 });
 

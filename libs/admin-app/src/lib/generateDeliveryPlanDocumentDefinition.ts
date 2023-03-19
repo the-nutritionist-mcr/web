@@ -10,12 +10,14 @@ import {
   MealPlanGeneratedForIndividualCustomer,
   PlannedDelivery,
   Swapped,
-  PlanLabels,
+  PlannedCook,
 } from '@tnmw/types';
+import moment from 'moment';
+import { selectionIsIncludedInPlan } from './selection-is-included-in-plan';
 
 const COLUMNS = 6;
 
-interface CustomerMealDaySelection {
+export interface CustomerMealDaySelection {
   customer: BackendCustomer;
   delivery: PlannedDelivery;
 }
@@ -28,37 +30,7 @@ const makeRowsFromSelections = (
   customerSelections
     .slice()
     .sort((a, b) => (a.customer.surname > b.customer.surname ? 1 : -1))
-    .filter((customerSelection) => {
-      if (!customerSelection.delivery.paused) {
-        const mealCount = customerSelection.delivery.plans.reduce(
-          (accum, plan) =>
-            accum + (plan.status === 'active' ? plan.meals.length : 0),
-          0
-        );
-
-        return mealCount > 0;
-      }
-      const {
-        delivery: { paused, pausedUntil, pausedFrom },
-      } = customerSelection;
-
-      if (paused && !pausedUntil) {
-        return false;
-      }
-
-      if (paused && pausedFrom && pausedUntil) {
-        const diff = Number.parseInt(
-          `${
-            (Number(pausedUntil) - Number(pausedFrom)) / (1000 * 60 * 60 * 24)
-          }`,
-          10
-        );
-
-        return diff < 7 * 4;
-      }
-
-      return true;
-    })
+    .filter((customerSelection) => selectionIsIncludedInPlan(customerSelection))
     .map((customerSelection, customerIndex) => ({
       style: {
         background: customerIndex % 2 === 0 ? '#D3D3D3' : 'white',
@@ -109,7 +81,8 @@ const options = {
 
 const generateDeliveryPlanDocumentDefinition = (
   selections: Swapped<MealPlanGeneratedForIndividualCustomer>[],
-  allMeals: Recipe[]
+  allMeals: Recipe[],
+  plannedCooks: PlannedCook[]
 ): DocumentDefinition => {
   const date = new Date(Date.now());
 
@@ -119,18 +92,23 @@ const generateDeliveryPlanDocumentDefinition = (
     options as any
   )})`;
 
+  const newBuilder = new PdfBuilder(title, true);
+
   const builder = defaultDeliveryDays.reduce<PdfBuilder>(
     (topBuilder, current, cookIndex) => {
       const daySelections = selections.map(({ customer, deliveries }) => ({
         customer,
         delivery: deliveries[cookIndex],
       }));
+
+      const date = moment(plannedCooks[cookIndex].date).format('MMM Do YYYY');
+
       return topBuilder
-        .header(`Cook ${cookIndex + 1}`)
+        .header(`Cook ${cookIndex + 1} // ${date}`)
         .table(makeRowsFromSelections(daySelections, allMeals), COLUMNS)
         .pageBreak();
     },
-    new PdfBuilder(title, true)
+    newBuilder
   );
 
   return builder.toDocumentDefinition();

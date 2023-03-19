@@ -41,6 +41,7 @@ import generateDeliveryPlanDocumentDefinition from '../../lib/generateDeliveryPl
 import generateCookPlanDocumentDefinitionV2 from '../../lib/generateCookPlanDocumentDefinitionV2';
 import downloadPdf from '../../lib/downloadPdf';
 import { generateAddressDownload } from './generate-address-download';
+import { generateCookReport } from '../../lib/generate-cook-report';
 
 interface DownloadLabelsDialogProps {
   onClose: () => void;
@@ -185,11 +186,30 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
               onClick={() => {
                 const plan = generateDeliveryPlanDocumentDefinition(
                   swappedPlan,
-                  recipes
+                  recipes,
+                  originalPlan.cooks
                 );
                 downloadPdf(
                   plan,
                   generateDatestampedFilename('pack-plan', 'pdf')
+                );
+              }}
+            />
+
+            <Button
+              primary
+              label="Cook Data Report"
+              onClick={() => {
+                const plan = makeCookPlanV2(
+                  originalPlan.customerPlans,
+                  recipes,
+                  originalPlan.cooks
+                );
+                const report = generateCookReport(plan, swappedPlan);
+
+                downloadPdf(
+                  report,
+                  generateDatestampedFilename('cook-report', 'pdf')
                 );
               }}
             />
