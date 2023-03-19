@@ -1,7 +1,11 @@
-import { CookPlanGroup, PlanVariantConfiguration } from '@tnmw/meal-planning';
+import {
+  CookPlanGroup,
+  NewCookPlan,
+  PlanVariantConfiguration,
+} from '@tnmw/meal-planning';
 import { BackendCustomer } from '@tnmw/types';
+import moment from 'moment';
 import { Content } from 'pdfmake/interfaces';
-import { RecipeVariantMap } from '../types/CookPlan';
 import { DocumentDefinition } from './downloadPdf';
 import formatPlanItem from './formatPlanItem';
 import { PdfBuilder } from './pdf-builder';
@@ -36,6 +40,30 @@ const formatRecipeVariantMapNoCustomisationsCell = (
       formatPlanItem(`${config.planName} x ${config.count}`, config)
     ),
 });
+
+const formatTotalCookCell = (cookPlan: NewCookPlan) => {
+  const countMap = new Map<string, number>();
+
+  const variantConfigs = cookPlan.plan.flatMap((plan) => [
+    ...plan.primaries,
+    ...plan.alternates.flat(),
+  ]);
+
+  variantConfigs.forEach((config) =>
+    countMap.set(
+      config.planName,
+      (countMap.get(config.planName) ?? 0) + config.count
+    )
+  );
+
+  return {
+    fillColor: 'white',
+    // eslint-disable-next-line fp/no-mutating-methods
+    ul: Array.from(countMap.entries()).map(
+      ([plan, count]) => `${plan} x ${count}`
+    ),
+  };
+};
 
 const formatTotalPlanItemsCell = (
   variantConfigs: PlanVariantConfiguration[],
@@ -123,7 +151,7 @@ const formatRecipeVariantMapCustomisationsCell = (
 };
 
 const generateCookPlanDocumentDefinition = (
-  cookPlan: CookPlanGroup[][]
+  cookPlan: NewCookPlan[]
 ): DocumentDefinition => {
   const options = {
     weekday: 'long',
@@ -198,14 +226,27 @@ const generateCookPlanDocumentDefinition = (
     return result.flat();
   };
 
-  const returnVal = cookPlan.reduce<PdfBuilder>(
-    (builder, plan, index) =>
-      builder
-        .header(`Cook ${index + 1}`)
-        .table(convertPlanToRows(plan), 3, [200, '*', '*', 75])
-        .pageBreak(),
-    new PdfBuilder(title, true)
-  );
+  const newBuilder = new PdfBuilder(title, true);
+  const calendarFormat = {
+    sameElse: 'MMM Do YYYY',
+  };
+
+  const totalRows = cookPlan.map((cookPlan, index) => {
+    return [
+      { text: `Cook ${index + 1}`, style: 'header' },
+      formatTotalCookCell(cookPlan),
+    ];
+  });
+
+  newBuilder.header(`Totals`).table(totalRows, 1, ['*', '*']).pageBreak();
+
+  const returnVal = cookPlan.reduce<PdfBuilder>((builder, plan, index) => {
+    const date = moment(plan.date).calendar(null, calendarFormat);
+    return builder
+      .header(`Cook ${index + 1} // ${date}`)
+      .table(convertPlanToRows(plan.plan), 3, [200, '*', '*', 75])
+      .pageBreak();
+  }, newBuilder);
   const dd = returnVal.toDocumentDefinition();
   return dd;
 };

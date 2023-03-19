@@ -4,6 +4,7 @@ export { makeCookPlan as makeCookPlanV2 } from './lib/make-cook-plan-v2';
 export type {
   PlanVariantConfiguration,
   CookPlanGroup,
+  NewCookPlan,
 } from './lib/make-cook-plan-v2';
 export { createVariant } from './lib/create-variant';
 export { generateLabelData } from './lib/generate-label-data';

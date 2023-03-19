@@ -18,6 +18,11 @@ export interface PlanVariantConfiguration {
   customisation: boolean;
 }
 
+export interface NewCookPlan {
+  plan: CookPlanGroup[];
+  date: Date;
+}
+
 export interface CookPlanGroup {
   mainRecipe: Recipe;
   primaries: PlanVariantConfiguration[];
@@ -161,8 +166,14 @@ export const makeCookPlan = (
   selections: MealPlanGeneratedForIndividualCustomer[],
   allMeals: Recipe[],
   plannedCooks: PlannedCook[]
-): CookPlanGroup[][] => {
-  return defaultDeliveryDays.map((_, index) =>
-    makePlanForDeliveryDay(index, plannedCooks[index], selections, allMeals)
-  );
+): NewCookPlan[] => {
+  return defaultDeliveryDays.map((_, index) => ({
+    date: plannedCooks[index].date,
+    plan: makePlanForDeliveryDay(
+      index,
+      plannedCooks[index],
+      selections,
+      allMeals
+    ),
+  }));
 };
