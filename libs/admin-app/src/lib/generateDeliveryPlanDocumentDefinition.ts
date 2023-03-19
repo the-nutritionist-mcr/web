@@ -2,7 +2,7 @@ import { DocumentDefinition } from './downloadPdf';
 import formatPlanItem from './formatPlanItem';
 import { PdfBuilder } from './pdf-builder';
 import { createVariant, Delivery } from '@tnmw/meal-planning';
-import { defaultDeliveryDays } from '@tnmw/config';
+import { defaultDeliveryDays, itemFamilies, planLabels } from '@tnmw/config';
 
 import {
   Recipe,
@@ -10,6 +10,7 @@ import {
   MealPlanGeneratedForIndividualCustomer,
   PlannedDelivery,
   Swapped,
+  PlanLabels,
 } from '@tnmw/types';
 
 const COLUMNS = 6;
@@ -58,7 +59,30 @@ const makeRowsFromSelections = (
       ],
       ...(typeof customerSelection.delivery === 'string'
         ? [customerSelection.delivery]
-        : customerSelection.delivery.plans
+        : // eslint-disable-next-line fp/no-mutating-methods
+          customerSelection.delivery.plans
+            .slice()
+            .sort((a, b) => {
+              console.log(a.name);
+              const labels = itemFamilies.map((family) => family.name);
+              const aIndex = labels.indexOf(a.name);
+              const bIndex = labels.indexOf(b.name);
+
+              console.log({
+                aName: a.name,
+                aIndex,
+                bName: b.name,
+                bIndex,
+              });
+
+              if (aIndex > bIndex) {
+                return 1;
+              } else if (aIndex < bIndex) {
+                return -1;
+              }
+
+              return 0;
+            })
             .flatMap((plan) => (plan.status === 'active' ? plan.meals : []))
             .map((item) =>
               createVariant(customerSelection.customer, item, allMeals)

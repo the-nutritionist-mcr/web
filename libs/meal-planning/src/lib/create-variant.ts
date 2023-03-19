@@ -1,8 +1,10 @@
+import { planLabels } from '@tnmw/config';
 import {
   BackendCustomer,
   DeliveryItem,
   DeliveryMeal,
   Exclusion,
+  PlanLabels,
   Recipe,
 } from '@tnmw/types';
 import { SelectedItem, SelectedMeal } from './types';
@@ -34,11 +36,25 @@ const createVariantString = (
     );
   });
 
+  const planNamesMap: { [K in PlanLabels]: string } = {
+    Equilibrium: 'EQ',
+    Mass: 'MASS',
+    Micro: 'MICRO',
+    'Ultra Micro': 'ULTRA',
+    'Low-CHO': 'L-CHO',
+    'Seasonal Soup': 'SOUP',
+    Breakfast: 'BFAST',
+    Snacks: 'SNACK',
+  };
+
+  const variantName =
+    planNamesMap[item.chosenVariant as PlanLabels] ?? item.chosenVariant;
+
   return matchingExclusions.length > 0
-    ? `${item.chosenVariant} (${matchingExclusions
+    ? `${variantName} (${matchingExclusions
         .map((exclusion) => exclusion.name)
         .join(', ')})`
-    : `${item.chosenVariant}`;
+    : `${variantName}`;
 };
 
 const createMealWithVariantString = (
