@@ -890,16 +890,30 @@ describe('make cook plan', () => {
     );
 
     expect(result).toHaveLength(2);
-    expect(result[0]).toHaveLength(4);
-    expect(result[1]).toHaveLength(5);
+    expect(result[0].plan).toHaveLength(4);
+    expect(result[1].plan).toHaveLength(5);
 
-    expect(result[0][0].primaries).toHaveLength(2);
-    expect(result[0][1].primaries).toHaveLength(2);
-    expect(result[0][3].primaries).toHaveLength(1);
-    expect(result[1][0].primaries).toHaveLength(2);
-    expect(result[1][1].primaries).toHaveLength(2);
-    expect(result[1][2].primaries).toHaveLength(2);
-    expect(result[1][3].primaries).toHaveLength(1);
+    if (!result[0].plan[0].isExtra) {
+      expect(result[0].plan[0].primaries).toHaveLength(2);
+    }
+    if (!result[0].plan[1].isExtra) {
+      expect(result[0].plan[1].primaries).toHaveLength(2);
+    }
+    if (!result[0].plan[3].isExtra) {
+      expect(result[0].plan[3].primaries).toHaveLength(1);
+    }
+    if (!result[1].plan[0].isExtra) {
+      expect(result[1].plan[0].primaries).toHaveLength(2);
+    }
+    if (!result[1].plan[1].isExtra) {
+      expect(result[1].plan[1].primaries).toHaveLength(2);
+    }
+    if (!result[1].plan[2].isExtra) {
+      expect(result[1].plan[2].primaries).toHaveLength(2);
+    }
+    if (!result[1].plan[3].isExtra) {
+      expect(result[1].plan[3].primaries).toHaveLength(1);
+    }
 
     expect(result[0]).toEqual(
       expect.arrayContaining([

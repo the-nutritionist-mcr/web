@@ -44,10 +44,9 @@ const formatRecipeVariantMapNoCustomisationsCell = (
 const formatTotalCookCell = (cookPlan: NewCookPlan) => {
   const countMap = new Map<string, number>();
 
-  const variantConfigs = cookPlan.plan.flatMap((plan) => [
-    ...plan.primaries,
-    ...plan.alternates.flat(),
-  ]);
+  const variantConfigs = cookPlan.plan.flatMap((plan) => {
+    return !plan.isExtra ? [...plan.primaries, ...plan.alternates.flat()] : [];
+  });
 
   variantConfigs.forEach((config) =>
     countMap.set(
@@ -55,6 +54,12 @@ const formatTotalCookCell = (cookPlan: NewCookPlan) => {
       (countMap.get(config.planName) ?? 0) + config.count
     )
   );
+
+  cookPlan.plan
+    .flatMap((plan) => (plan.isExtra ? [plan] : []))
+    .forEach((extra) => {
+      countMap.set(extra.name, (countMap.get(extra.name) ?? 0) + extra.count);
+    });
 
   return {
     fillColor: 'white',
@@ -244,7 +249,13 @@ const generateCookPlanDocumentDefinition = (
     const date = moment(plan.date).calendar(null, calendarFormat);
     return builder
       .header(`Cook ${index + 1} // ${date}`)
-      .table(convertPlanToRows(plan.plan), 3, [200, '*', '*', 75])
+      .table(
+        convertPlanToRows(
+          plan.plan.flatMap((plan) => (plan.isExtra ? [] : [plan]))
+        ),
+        3,
+        [200, '*', '*', 75]
+      )
       .pageBreak();
   }, newBuilder);
   const dd = returnVal.toDocumentDefinition();

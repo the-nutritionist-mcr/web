@@ -8,6 +8,12 @@ import {
 } from '@tnmw/types';
 import { createVariant } from './create-variant';
 
+export interface PlanExtraConfiguration {
+  fullName: string;
+  customers: BackendCustomer[];
+  count: number;
+}
+
 export interface PlanVariantConfiguration {
   fullName: string;
   planName: string;
@@ -19,15 +25,52 @@ export interface PlanVariantConfiguration {
 }
 
 export interface NewCookPlan {
-  plan: CookPlanGroup[];
+  plan: (CookPlanGroup | ExtraCount)[];
   date: Date;
 }
 
+export interface ExtraCount {
+  isExtra: true;
+  name: string;
+  customers: BackendCustomer[];
+  count: number;
+}
+
 export interface CookPlanGroup {
+  isExtra: false;
   mainRecipe: Recipe;
   primaries: PlanVariantConfiguration[];
   alternates: PlanVariantConfiguration[][];
 }
+
+const countExtras = (
+  deliveryIndex: number,
+  selections: MealPlanGeneratedForIndividualCustomer[]
+) => {
+  const extrasMap = selections.reduce((primaryMap, selection) => {
+    const newMap = new Map<string, ExtraCount>(primaryMap);
+    const delivery = selection.deliveries[deliveryIndex];
+
+    delivery.plans.forEach((plan) => {
+      if (plan.status === 'active') {
+        plan.meals.forEach((meal) => {
+          if (meal.isExtra) {
+            const previous = primaryMap.get(meal.extraName);
+
+            newMap.set(meal.extraName, {
+              isExtra: true,
+              name: meal.extraName,
+              count: (previous?.count ?? 0) + 1,
+              customers: [...(previous?.customers ?? []), selection.customer],
+            });
+          }
+        });
+      }
+    });
+    return newMap;
+  }, new Map<string, ExtraCount>());
+  return Array.from(extrasMap.values());
+};
 
 const countPrimaries = (
   deliveryIndex: number,
@@ -155,6 +198,7 @@ const makePlanForDeliveryDay = (
     );
 
     return {
+      isExtra: false,
       mainRecipe: plannedRecipe,
       primaries,
       alternates,
@@ -169,11 +213,14 @@ export const makeCookPlan = (
 ): NewCookPlan[] => {
   return defaultDeliveryDays.map((_, index) => ({
     date: plannedCooks[index].date,
-    plan: makePlanForDeliveryDay(
-      index,
-      plannedCooks[index],
-      selections,
-      allMeals
-    ),
+    plan: [
+      ...makePlanForDeliveryDay(
+        index,
+        plannedCooks[index],
+        selections,
+        allMeals
+      ),
+      ...countExtras(index, selections),
+    ],
   }));
 };
