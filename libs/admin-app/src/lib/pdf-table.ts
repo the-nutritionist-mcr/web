@@ -34,7 +34,7 @@ export class PdfTable {
 
   private makeFillerCells(size: number) {
     return Array.from({ length: size })
-      .fill({ text: 'FILL' })
+      .fill({ text: '' })
       .map((cell, index) => (index === 0 ? { ...cell, colSpan: size } : cell));
   }
 
