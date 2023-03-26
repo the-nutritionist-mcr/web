@@ -48,8 +48,11 @@ const countExtras = (
   selections: MealPlanGeneratedForIndividualCustomer[]
 ) => {
   const extrasMap = selections.reduce((primaryMap, selection) => {
-    const newMap = new Map<string, ExtraCount>(primaryMap);
     const delivery = selection.deliveries[deliveryIndex];
+    if (delivery.paused) {
+      return primaryMap;
+    }
+    const newMap = new Map<string, ExtraCount>(primaryMap);
 
     delivery.plans.forEach((plan) => {
       if (plan.status === 'active') {
@@ -79,8 +82,11 @@ const countPrimaries = (
   allRecipes: Recipe[]
 ) => {
   const selectionsMap = selections.reduce((primaryMap, selection) => {
-    const newMap = new Map<string, PlanVariantConfiguration>(primaryMap);
     const delivery = selection.deliveries[deliveryIndex];
+    if (delivery.paused) {
+      return primaryMap;
+    }
+    const newMap = new Map<string, PlanVariantConfiguration>(primaryMap);
 
     delivery.plans.forEach((plan) => {
       if (plan.status === 'active') {
@@ -123,11 +129,14 @@ const countAlternates = (
   allRecipes: Recipe[]
 ) => {
   const selectionsMap = selections.reduce((primaryMap, selection) => {
+    const delivery = selection.deliveries[deliveryIndex];
+    if (delivery.paused) {
+      return primaryMap;
+    }
     const newMap: Map<string, PlanVariantConfiguration> = new Map<
       string,
       PlanVariantConfiguration
     >(primaryMap);
-    const delivery = selection.deliveries[deliveryIndex];
 
     delivery.plans.forEach((plan) => {
       if (plan.status === 'active') {

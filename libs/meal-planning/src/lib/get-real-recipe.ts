@@ -76,23 +76,32 @@ export const performSwaps = (
 ): SwappedMealPlan => {
   return {
     ...plan,
-    deliveries: plan.deliveries.map((delivery) => ({
-      ...delivery,
-      plans: delivery.plans.map((plan) =>
-        plan.status === 'active'
-          ? {
-              ...plan,
-              meals: plan.meals.map((meal) =>
-                isSelectedMeal(meal)
-                  ? {
-                      ...meal,
-                      recipe: getRealRecipe(meal.recipe, customer, recipes),
-                    }
-                  : meal
-              ),
-            }
-          : plan
-      ),
-    })),
+    deliveries: plan.deliveries.map((delivery) => {
+      const newDelivery = delivery.paused
+        ? { ...delivery }
+        : {
+            ...delivery,
+            plans: delivery.plans.map((plan) =>
+              plan.status === 'active'
+                ? {
+                    ...plan,
+                    meals: plan.meals.map((meal) =>
+                      isSelectedMeal(meal)
+                        ? {
+                            ...meal,
+                            recipe: getRealRecipe(
+                              meal.recipe,
+                              customer,
+                              recipes
+                            ),
+                          }
+                        : meal
+                    ),
+                  }
+                : plan
+            ),
+          };
+      return newDelivery;
+    }),
   };
 };

@@ -1,7 +1,6 @@
 import { createVariant } from './create-variant';
 import {
   Recipe,
-  MealPlanGeneratedForIndividualCustomer,
   DeliveryItem,
   BackendCustomer,
   DeliveryMeal,
@@ -154,6 +153,10 @@ export const generateLabelData = (
   selections
     .flatMap((selection) => {
       const delivery = selection.deliveries[deliveryNumber];
+
+      if (delivery.paused) {
+        return [];
+      }
 
       return delivery.plans.flatMap((plan) =>
         plan.status === 'active'

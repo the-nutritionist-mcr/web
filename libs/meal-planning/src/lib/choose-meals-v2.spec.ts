@@ -408,12 +408,24 @@ describe('Choose Meals', () => {
     const result = chooseMealSelections(dummyPlannedCooks, customers, 'me');
 
     expect(result).toBeDefined();
-    expect(result.customerPlans[0].deliveries[0].plans).toHaveLength(1);
-    expect(result.customerPlans[0].deliveries[1].plans).toHaveLength(1);
-    expect(result.customerPlans[1].deliveries[0].plans).toHaveLength(2);
-    expect(result.customerPlans[1].deliveries[1].plans).toHaveLength(2);
-    expect(result.customerPlans[2].deliveries[0].plans).toHaveLength(2);
-    expect(result.customerPlans[2].deliveries[1].plans).toHaveLength(2);
+    if (!result.customerPlans[0].deliveries[0].paused) {
+      expect(result.customerPlans[0].deliveries[0].plans).toHaveLength(1);
+    }
+    if (!result.customerPlans[0].deliveries[1].paused) {
+      expect(result.customerPlans[0].deliveries[1].plans).toHaveLength(1);
+    }
+    if (!result.customerPlans[1].deliveries[0].paused) {
+      expect(result.customerPlans[1].deliveries[0].plans).toHaveLength(2);
+    }
+    if (!result.customerPlans[1].deliveries[1].paused) {
+      expect(result.customerPlans[1].deliveries[1].plans).toHaveLength(2);
+    }
+    if (!result.customerPlans[2].deliveries[0].paused) {
+      expect(result.customerPlans[2].deliveries[0].plans).toHaveLength(2);
+    }
+    if (!result.customerPlans[2].deliveries[1].paused) {
+      expect(result.customerPlans[2].deliveries[1].plans).toHaveLength(2);
+    }
   });
 
   it('Inserts the status based on the cook date and the plan details', () => {
@@ -429,20 +441,29 @@ describe('Choose Meals', () => {
     const result = chooseMealSelections(dummyPlannedCooks, customers, 'me');
 
     expect(result).toBeDefined();
-    expect(result.customerPlans[0].deliveries[0].plans[0].status).toBe(
-      'active'
-    );
+    if (!result.customerPlans[0].deliveries[0].paused) {
+      expect(result.customerPlans[0].deliveries[0].plans[0].status).toBe(
+        'active'
+      );
+    }
 
-    expect(result.customerPlans[1].deliveries[0].plans[1].status).toBe(
-      'paused'
-    );
+    if (!result.customerPlans[1].deliveries[0].paused) {
+      expect(result.customerPlans[1].deliveries[0].plans[1].status).toBe(
+        'paused'
+      );
+    }
 
-    expect(result.customerPlans[1].deliveries[0].plans[0].status).toBe(
-      'active'
-    );
-    expect(result.customerPlans[2].deliveries[0].plans[0].status).toBe(
-      'active'
-    );
+    if (!result.customerPlans[1].deliveries[0].paused) {
+      expect(result.customerPlans[1].deliveries[0].plans[0].status).toBe(
+        'active'
+      );
+    }
+
+    if (!result.customerPlans[2].deliveries[0].paused) {
+      expect(result.customerPlans[2].deliveries[0].plans[0].status).toBe(
+        'active'
+      );
+    }
   });
 
   it('Generates a plan in each delivery for the customer plans', () => {
@@ -453,27 +474,31 @@ describe('Choose Meals', () => {
     ];
     const result = chooseMealSelections(dummyPlannedCooks, customers, 'me');
 
-    expect(result).toBeDefined();
-    const firstPlan = result.customerPlans[0].deliveries[0].plans[0];
+    if (!result.customerPlans[0].deliveries[0].paused) {
+      expect(result).toBeDefined();
+      const firstPlan = result.customerPlans[0].deliveries[0].plans[0];
 
-    if (firstPlan.status === 'active') {
-      expect(firstPlan.meals).toHaveLength(15);
-      expect(firstPlan.meals[0].isExtra).toBeFalsy();
+      if (firstPlan.status === 'active') {
+        expect(firstPlan.meals).toHaveLength(15);
+        expect(firstPlan.meals[0].isExtra).toBeFalsy();
 
-      if (firstPlan.meals[0].isExtra === false) {
-        expect(firstPlan.meals[0].recipe).toBe(recipeOne);
-        expect(firstPlan.name).toBe('Equilibrium');
-      }
+        if (firstPlan.meals[0].isExtra === false) {
+          expect(firstPlan.meals[0].recipe).toBe(recipeOne);
+          expect(firstPlan.name).toBe('Equilibrium');
+        }
 
-      expect(firstPlan.meals[6].isExtra).toBeFalsy();
-      if (firstPlan.meals[6].isExtra === false) {
-        expect(firstPlan.meals[6].recipe).toBe(recipeOne);
+        expect(firstPlan.meals[6].isExtra).toBeFalsy();
+        if (firstPlan.meals[6].isExtra === false) {
+          expect(firstPlan.meals[6].recipe).toBe(recipeOne);
+        }
       }
     }
 
-    const secondPlan = result.customerPlans[1].deliveries[0].plans[1];
-    if (secondPlan.status === 'active') {
-      expect(secondPlan.meals).toHaveLength(5);
+    if (!result.customerPlans[1].deliveries[0].paused) {
+      const secondPlan = result.customerPlans[1].deliveries[0].plans[1];
+      if (secondPlan.status === 'active') {
+        expect(secondPlan.meals).toHaveLength(5);
+      }
     }
   });
 
@@ -503,10 +528,12 @@ describe('Choose Meals', () => {
     ];
     const result = chooseMealSelections(notSixPlannedCooks, customers, 'me');
 
-    const secondPlan = result.customerPlans[2].deliveries[0].plans[1];
+    if (!result.customerPlans[2].deliveries[0].paused) {
+      const secondPlan = result.customerPlans[2].deliveries[0].plans[1];
 
-    if (secondPlan.status === 'active' && !secondPlan.meals[0].isExtra) {
-      expect(secondPlan.meals[0].recipe).toBe(recipeTwo);
+      if (secondPlan.status === 'active' && !secondPlan.meals[0].isExtra) {
+        expect(secondPlan.meals[0].recipe).toBe(recipeTwo);
+      }
     }
   });
 
@@ -519,10 +546,12 @@ describe('Choose Meals', () => {
     const result = chooseMealSelections(dummyPlannedCooks, customers, 'me');
 
     expect(result).toBeDefined();
-    const lastPlan = result.customerPlans[2].deliveries[1].plans[0];
+    if (!result.customerPlans[2].deliveries[1].paused) {
+      const lastPlan = result.customerPlans[2].deliveries[1].plans[0];
 
-    if (lastPlan.status === 'active') {
-      expect(lastPlan.meals).toHaveLength(55);
+      if (lastPlan.status === 'active') {
+        expect(lastPlan.meals).toHaveLength(55);
+      }
     }
   });
 
@@ -845,17 +874,21 @@ describe('Choose Meals', () => {
 
     expect(customerWithPlans).toBeDefined();
 
-    expect(customerWithPlans?.deliveries[0].plans).toHaveLength(3);
-    expect(customerWithPlans?.deliveries[0].plans[0].name).toEqual('Breakfast');
-    expect(customerWithPlans?.deliveries[0].plans[1].name).toEqual('Micro');
-    expect(customerWithPlans?.deliveries[0].plans[2].name).toEqual(
-      'Equilibrium'
-    );
+    if (customerWithPlans && !customerWithPlans.deliveries[0].paused) {
+      expect(customerWithPlans?.deliveries[0].plans).toHaveLength(3);
+      expect(customerWithPlans?.deliveries[0].plans[0].name).toEqual(
+        'Breakfast'
+      );
+      expect(customerWithPlans?.deliveries[0].plans[1].name).toEqual('Micro');
+      expect(customerWithPlans?.deliveries[0].plans[2].name).toEqual(
+        'Equilibrium'
+      );
 
-    const customPlan = customerWithPlans?.deliveries[0].plans[2];
-    expect(customPlan?.status).toEqual('active');
-    if (customPlan?.status === 'active') {
-      expect(customPlan.meals).toHaveLength(1);
+      const customPlan = customerWithPlans?.deliveries[0].plans[2];
+      expect(customPlan?.status).toEqual('active');
+      if (customPlan?.status === 'active') {
+        expect(customPlan.meals).toHaveLength(1);
+      }
     }
   });
 
@@ -912,24 +945,26 @@ describe('Choose Meals', () => {
 
     expect(result).toBeDefined();
 
-    const secondPlan = result.customerPlans[1].deliveries[0].plans[0];
-    expect(secondPlan.status).toBe('active');
+    if (!result.customerPlans[1].deliveries[0].paused) {
+      const secondPlan = result.customerPlans[1].deliveries[0].plans[0];
+      expect(secondPlan.status).toBe('active');
 
-    if (secondPlan.status === 'active') {
-      const foundRecipeTwo = secondPlan.meals.find(
-        (meal) => !meal.isExtra && meal.recipe === recipeTwoWithExclusion
-      );
-      expect(foundRecipeTwo).toBeFalsy();
-    }
+      if (secondPlan.status === 'active') {
+        const foundRecipeTwo = secondPlan.meals.find(
+          (meal) => !meal.isExtra && meal.recipe === recipeTwoWithExclusion
+        );
+        expect(foundRecipeTwo).toBeFalsy();
+      }
 
-    const secondPlanMore = result.customerPlans[1].deliveries[0].plans[1];
-    expect(secondPlanMore.status).toBe('active');
+      const secondPlanMore = result.customerPlans[1].deliveries[0].plans[1];
+      expect(secondPlanMore.status).toBe('active');
 
-    if (secondPlanMore.status === 'active') {
-      const foundRecipeTwo = secondPlanMore.meals.find(
-        (meal) => !meal.isExtra && meal.recipe === recipeTwoWithExclusion
-      );
-      expect(foundRecipeTwo).toBeFalsy();
+      if (secondPlanMore.status === 'active') {
+        const foundRecipeTwo = secondPlanMore.meals.find(
+          (meal) => !meal.isExtra && meal.recipe === recipeTwoWithExclusion
+        );
+        expect(foundRecipeTwo).toBeFalsy();
+      }
     }
   });
 });

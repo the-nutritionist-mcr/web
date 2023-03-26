@@ -75,6 +75,7 @@ describe('make cook plan', () => {
         customer: customerOne,
         deliveries: [
           {
+            paused: false,
             dateCooked: new Date(),
             plans: [
               {
@@ -90,6 +91,7 @@ describe('make cook plan', () => {
             ],
           },
           {
+            paused: false,
             dateCooked: new Date(),
             plans: [
               {
@@ -110,6 +112,7 @@ describe('make cook plan', () => {
         deliveries: [
           {
             dateCooked: new Date(),
+            paused: false,
             plans: [
               {
                 status: 'active',
@@ -123,6 +126,7 @@ describe('make cook plan', () => {
           },
           {
             dateCooked: new Date(),
+            paused: false,
             plans: [
               {
                 status: 'active',
@@ -144,6 +148,7 @@ describe('make cook plan', () => {
         deliveries: [
           {
             dateCooked: new Date(),
+            paused: false,
             plans: [
               {
                 status: 'active',
@@ -157,6 +162,7 @@ describe('make cook plan', () => {
           },
           {
             dateCooked: new Date(),
+            paused: false,
             plans: [
               {
                 status: 'active',
@@ -190,10 +196,10 @@ describe('make cook plan', () => {
     );
 
     expect(result).toHaveLength(2);
-    expect(result[0]).toHaveLength(4);
-    expect(result[1]).toHaveLength(5);
+    expect(result[0].plan).toHaveLength(4);
+    expect(result[1].plan).toHaveLength(5);
 
-    expect(result[0]).toEqual(
+    expect(result[0].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: one,
@@ -214,7 +220,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[0]).toEqual(
+    expect(result[0].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: two,
@@ -238,7 +244,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[0]).toEqual(
+    expect(result[0].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: three,
@@ -254,7 +260,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[0]).toEqual(
+    expect(result[0].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: four,
@@ -270,7 +276,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: five,
@@ -291,7 +297,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           alternates: [],
@@ -312,7 +318,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: seven,
@@ -333,7 +339,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: eight,
@@ -349,7 +355,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: eight,
@@ -365,7 +371,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: nine,
@@ -449,6 +455,7 @@ describe('make cook plan', () => {
         deliveries: [
           {
             dateCooked: new Date(),
+            paused: false,
             plans: [
               {
                 status: 'active',
@@ -464,6 +471,7 @@ describe('make cook plan', () => {
           },
           {
             dateCooked: new Date(),
+            paused: false,
             plans: [
               {
                 status: 'active',
@@ -483,6 +491,7 @@ describe('make cook plan', () => {
         deliveries: [
           {
             dateCooked: new Date(),
+            paused: false,
             plans: [
               {
                 status: 'active',
@@ -496,6 +505,7 @@ describe('make cook plan', () => {
           },
           {
             dateCooked: new Date(),
+            paused: false,
             plans: [
               {
                 status: 'active',
@@ -517,6 +527,7 @@ describe('make cook plan', () => {
         deliveries: [
           {
             dateCooked: new Date(),
+            paused: false,
             plans: [
               {
                 status: 'active',
@@ -530,6 +541,7 @@ describe('make cook plan', () => {
           },
           {
             dateCooked: new Date(),
+            paused: false,
             plans: [
               {
                 status: 'active',
@@ -563,10 +575,10 @@ describe('make cook plan', () => {
     );
 
     expect(result).toHaveLength(2);
-    expect(result[0]).toHaveLength(4);
-    expect(result[1]).toHaveLength(5);
+    expect(result[0].plan).toHaveLength(4);
+    expect(result[1].plan).toHaveLength(5);
 
-    expect(result[0]).toEqual(
+    expect(result[0].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: one,
@@ -587,7 +599,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[0]).toEqual(
+    expect(result[0].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: two,
@@ -611,7 +623,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[0]).toEqual(
+    expect(result[0].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: three,
@@ -627,7 +639,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[0]).toEqual(
+    expect(result[0].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: four,
@@ -643,7 +655,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: five,
@@ -664,7 +676,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           alternates: [],
@@ -685,7 +697,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: seven,
@@ -706,7 +718,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: eight,
@@ -722,7 +734,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: eight,
@@ -738,7 +750,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: nine,
@@ -776,6 +788,7 @@ describe('make cook plan', () => {
         deliveries: [
           {
             dateCooked: new Date(),
+            paused: false,
             plans: [
               {
                 status: 'active',
@@ -791,6 +804,7 @@ describe('make cook plan', () => {
           },
           {
             dateCooked: new Date(),
+            paused: false,
             plans: [
               {
                 status: 'active',
@@ -810,6 +824,7 @@ describe('make cook plan', () => {
         deliveries: [
           {
             dateCooked: new Date(),
+            paused: false,
             plans: [
               {
                 status: 'active',
@@ -823,6 +838,7 @@ describe('make cook plan', () => {
           },
           {
             dateCooked: new Date(),
+            paused: false,
             plans: [
               {
                 status: 'active',
@@ -843,6 +859,7 @@ describe('make cook plan', () => {
         customer: customerThree,
         deliveries: [
           {
+            paused: false,
             dateCooked: new Date(),
             plans: [
               {
@@ -857,6 +874,7 @@ describe('make cook plan', () => {
           },
           {
             dateCooked: new Date(),
+            paused: false,
             plans: [
               {
                 status: 'active',
@@ -915,7 +933,7 @@ describe('make cook plan', () => {
       expect(result[1].plan[3].primaries).toHaveLength(1);
     }
 
-    expect(result[0]).toEqual(
+    expect(result[0].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: one,
@@ -935,7 +953,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[0]).toEqual(
+    expect(result[0].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: two,
@@ -955,7 +973,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[0]).toEqual(
+    expect(result[0].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: three,
@@ -970,7 +988,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[0]).toEqual(
+    expect(result[0].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: four,
@@ -985,7 +1003,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: five,
@@ -1005,7 +1023,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: six,
@@ -1025,7 +1043,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: seven,
@@ -1045,7 +1063,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: eight,
@@ -1060,7 +1078,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: eight,
@@ -1075,7 +1093,7 @@ describe('make cook plan', () => {
       ])
     );
 
-    expect(result[1]).toEqual(
+    expect(result[1].plan).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           mainRecipe: nine,

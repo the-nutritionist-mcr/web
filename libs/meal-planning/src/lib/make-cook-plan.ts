@@ -56,6 +56,9 @@ export const makeCookPlan = (
     selections.reduce<Map<string, RecipeVariantMap>>(
       (startMap, customerSelections) => {
         const cook = customerSelections.deliveries[deliveryIndex];
+        if (cook.paused) {
+          return new Map<string, RecipeVariantMap>();
+        }
         return cook.plans
           .flatMap((plan) => (plan.status === 'active' ? plan.meals : []))
           .reduce(
