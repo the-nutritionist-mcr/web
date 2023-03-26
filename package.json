@@ -55,7 +55,7 @@
     "@mui/material": "5.11.14",
     "@nrwl/next": "15.4.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
-    "@reduxjs/toolkit": "1.9.1",
+    "@reduxjs/toolkit": "1.9.3",
     "@seeebiii/ses-verify-identities": "^4.1.0",
     "@sls-next/cdk-construct": "^3.7.0",
     "@sls-next/lambda-at-edge": "^3.7.0",
