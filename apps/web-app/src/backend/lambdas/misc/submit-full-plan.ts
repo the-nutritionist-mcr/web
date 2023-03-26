@@ -55,9 +55,12 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
     const meals = chooseMealSelections(cooks, list, `${firstName} ${surname}`);
 
     const removeCancelled = meals.customerPlans.filter((plan) =>
-      plan.deliveries.some((delivery) =>
-        delivery.plans.some((plan) => plan.status !== 'cancelled')
-      )
+      plan.deliveries.some((delivery) => {
+        if (delivery.paused) {
+          return true;
+        }
+        return delivery.plans.some((plan) => plan.status !== 'cancelled');
+      })
     );
 
     const finalMeals = {
