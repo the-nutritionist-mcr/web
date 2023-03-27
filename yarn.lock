@@ -13691,6 +13691,17 @@ amazon-cognito-identity-js@5.2.13:
     isomorphic-unfetch "^3.0.0"
     js-cookie "^2.2.1"
 
+amazon-cognito-identity-js@5.2.14:
+  version "5.2.14"
+  resolved "https://registry.yarnpkg.com/amazon-cognito-identity-js/-/amazon-cognito-identity-js-5.2.14.tgz#780d633e2912971e77b00d60d5b959f26d66e6a5"
+  integrity sha512-9LMgLZfbypbbGTpARQ+QqglE09b1MWti11NXhcD/wPom0uhU/L90dfmUOpTwknz//eE6/dGYf004mJucWzrfxQ==
+  dependencies:
+    buffer "4.9.2"
+    crypto-js "^4.1.1"
+    fast-base64-decode "^1.0.0"
+    isomorphic-unfetch "^3.0.0"
+    js-cookie "^2.2.1"
+
 amazon-cognito-identity-js@6.1.1:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/amazon-cognito-identity-js/-/amazon-cognito-identity-js-6.1.1.tgz#9b9915f1a752da80c08496fcb56f5dbbfa79a46f"
