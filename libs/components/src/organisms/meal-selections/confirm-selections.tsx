@@ -10,6 +10,8 @@ import {
 import { defaultDeliveryDays } from '@tnmw/config';
 import platesImage from './plates.png';
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import platesImageWebp from './plates.png?webp';
 import { ConfirmDelivery } from './confirm-delivery';
 import { countMeals } from './count-meals';

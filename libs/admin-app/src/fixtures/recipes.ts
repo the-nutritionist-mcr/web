@@ -1,4 +1,4 @@
-import Recipe, { HotOrCold } from '../domain/Recipe';
+import { HotOrCold, Recipe } from '@tnmw/types';
 
 const nutsExclusion = {
   id: '0',

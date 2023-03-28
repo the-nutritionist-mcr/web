@@ -39,7 +39,7 @@ const sizes: SizeMap = {
 };
 
 const ButtonElement = styled.button((props: ButtonProps) => {
-  const theme = useTheme();
+  const theme = useTheme() as unknown as { colors: { [key: string]: string } };
   const color =
     theme.colors[(props.color as keyof typeof props.color) ?? 'buttonBlack'];
   const size = props.size ?? 'medium';

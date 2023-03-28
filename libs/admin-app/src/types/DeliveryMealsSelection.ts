@@ -1,4 +1,4 @@
-import Recipe from '../domain/Recipe';
+import { Recipe } from '@tnmw/types';
 
 type DeliveryMealsSelection = Recipe[];
 

@@ -11,9 +11,10 @@ interface LoginFormProps {
 }
 
 const StyledLink = styled.a((props) => {
+  const theme = props.theme as unknown as { colors: { [key: string]: string } };
   return `
   font-family: acumin-pro, Arial, sans-serif;
-  color: ${props.theme.colors.buttonBlack};
+  color: ${theme.colors['buttonBlack']};
   text-decoration: 0;
 `;
 });

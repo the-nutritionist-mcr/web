@@ -26,11 +26,11 @@ const ErrorLabel = styled.label`
 ErrorLabel.displayName = 'label';
 
 const InputLabel = styled.label<InputProps>((props) => {
-  const theme = useTheme();
+  const theme = useTheme() as unknown as { colors: { [key: string]: string } };
   return {
     fontFamily: 'acumin-pro, Arial, sans-serif',
     fontWeight: 'bold',
-    color: props.disabled ? '#B8B8B8' : theme.colors.labelText,
+    color: props.disabled ? '#B8B8B8' : theme.colors['labelText'],
     flexGrow: 999,
     paddingBottom: '0.5rem',
   };
@@ -51,7 +51,7 @@ export interface InputProps {
 }
 
 const InputField = styled.input<InputProps>((props) => {
-  const theme = useTheme();
+  const theme = useTheme() as unknown as { colors: { [key: string]: string } };
 
   const width = props.width
     ? {
@@ -59,7 +59,7 @@ const InputField = styled.input<InputProps>((props) => {
       }
     : {};
 
-  const borderColor = props.disabled ? '#B8B8B8' : theme.colors.buttonBlack;
+  const borderColor = props.disabled ? '#B8B8B8' : theme.colors['buttonBlack'];
 
   return {
     fontFamily: 'acumin-pro, Arial, sans-serif',
