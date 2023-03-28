@@ -9,7 +9,7 @@
       "options": {
         "commands": [
           {
-            "command": "tsc --noEmit -p libs/web-app-e2e/tsconfig.json"
+            "command": "tsc --noEmit -p apps/web-app-e2e/tsconfig.json"
           }
         ]
       }

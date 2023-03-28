@@ -9,7 +9,7 @@
       "options": {
         "commands": [
           {
-            "command": "tsc --noEmit -p libs/connect-gmail-to-cypress/tsconfig.app.json && tsc --noEmit -p libs/connect-gmail-to-cypress/tsconfig.spec.json"
+            "command": "tsc --noEmit -p apps/connect-gmail-to-cypress/tsconfig.app.json && tsc --noEmit -p apps/connect-gmail-to-cypress/tsconfig.spec.json"
           }
         ]
       }
