@@ -1,4 +1,3 @@
-import { planLabels } from '@tnmw/config';
 import {
   BackendCustomer,
   DeliveryItem,
@@ -72,7 +71,9 @@ const createCustomisationsString = (
   if (item.isExtra) {
     return '';
   }
-  const realMeal = allMeals.find((theMeal) => theMeal.id === item.recipe.id);
+  const realMeal = allMeals.find(
+    (theMeal) => !item.isExtra && theMeal.id === item.recipe.id
+  );
 
   const matchingExclusions = customer.customisations.filter((allergen) => {
     return realMeal?.potentialExclusions.some(

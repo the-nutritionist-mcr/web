@@ -43,7 +43,8 @@ export const getPasswordFromMostRecentWelcomeEmailThenDelete = async (
         userId: 'me',
         id: message.id,
       });
-      return messageResponse.data;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return (messageResponse as any).data;
     }
   );
 

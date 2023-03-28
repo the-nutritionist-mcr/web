@@ -11,16 +11,20 @@ chargebee.configure({
 });
 
 const getCustomer = async (id: string) => {
-  const result = await new Promise((accept, reject) => {
-    chargebee.customer.retrieve(id).request(function (error, result) {
-      if (error) {
-        reject(error);
-      } else {
-        accept(result);
-      }
-    });
-  });
-  return result?.customer;
+  const result = await new Promise<typeof chargebee.customer>(
+    (accept, reject) => {
+      chargebee.customer.retrieve(id).request(function (error, result) {
+        if (error) {
+          reject(error);
+        } else {
+          const customer: typeof chargebee.customer = result.customer;
+          accept(customer);
+        }
+      });
+    }
+  );
+
+  return result;
 };
 
 export const deleteChargebeeCustomer = async (id: string) => {

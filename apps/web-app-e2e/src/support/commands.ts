@@ -1,5 +1,4 @@
 import '@testing-library/cypress/add-commands';
-import { E2E } from '@tnmw/constants';
 import { configureCognitoAndSignIn } from './configure-cognito-and-sign-in';
 import { seed } from './seed-app';
 
