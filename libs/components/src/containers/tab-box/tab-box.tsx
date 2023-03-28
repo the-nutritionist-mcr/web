@@ -14,6 +14,7 @@ interface TabButtonProps {
   onClick?: () => void;
   active?: boolean;
   tabListLength: number;
+  children: ReactNode;
 }
 
 interface TabBoxProps {

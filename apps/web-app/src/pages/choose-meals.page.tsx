@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { getClosedOrOpenStatus } from '../utils/get-closed-or-open-status';
 import { RedirectIfLoggedOut } from '../components/authentication/redirect-if-logged-out';
 import { useMe } from '../hooks/use-me';
-import Head from 'next/head';
 
 const ChooseMealsHeaderBox = styled('div')`
   text-align: center;

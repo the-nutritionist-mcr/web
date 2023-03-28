@@ -55,6 +55,7 @@ jobs:
         target:
           - test
           - lint
+          - types
 
     steps:
       - uses: actions/checkout@v3
