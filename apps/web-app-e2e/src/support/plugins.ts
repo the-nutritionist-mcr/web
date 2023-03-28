@@ -1,13 +1,11 @@
-import { ENV, CHARGEBEE_SITES, MAILSLURP_INBOX, E2E } from '@tnmw/constants';
+import { ENV, CHARGEBEE_SITES, E2E } from '@tnmw/constants';
 import { ChargeBee } from 'chargebee-typescript';
 import { TEST_USER } from './constants';
-import MailSlurp from 'mailslurp-client';
 
 import {
   AdminDeleteUserCommand,
   CognitoIdentityProviderClient,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { BackendCustomer } from '@tnmw/types';
 
 const chargebee = new ChargeBee();
 

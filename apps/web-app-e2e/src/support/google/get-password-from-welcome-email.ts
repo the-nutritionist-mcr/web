@@ -24,39 +24,43 @@ function extractTextArray(node: ChildNode): string[] {
   return textLines;
 }
 
-interface MessageResponse {
-  data: {
-    payload: {
-      parts: { body: { data: string } }[];
-    };
-  };
-}
-
 export const getPasswordFromMostRecentWelcomeEmailThenDelete = async (
   to: string
 ) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const response: any = await listMessages({
     userId: 'me',
     q: `label:tnm-transactional to:${to}`,
   });
 
   if (!Array.isArray(response.data.messages)) {
-    throw new Error('No results returned');
+    throw new TypeError('No results returned');
   }
 
-  const messagePromises = response.data.messages.map(async (message) => {
-    const messageResponse = await getMessage({
-      userId: 'me',
-      id: message.id,
-    });
-    return messageResponse.data;
-  });
+  const messagePromises = response.data.messages.map(
+    async (message: { id: string }) => {
+      const messageResponse = await getMessage({
+        userId: 'me',
+        id: message.id,
+      });
+      return messageResponse.data;
+    }
+  );
+
+  type Part = {
+    mimeType: string;
+    body: {
+      data:
+        | WithImplicitCoercion<string>
+        | { [Symbol.toPrimitive](hint: 'string'): string };
+    };
+  };
 
   const messages = await Promise.all(messagePromises);
 
   const parsedMessages = messages
     .flatMap((message) => {
-      return message.payload.parts?.map((part) => {
+      return message.payload.parts?.map((part: Part) => {
         return part.mimeType === 'text/html'
           ? {
               body: Buffer.from(part.body.data, 'base64').toString('ascii'),

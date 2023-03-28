@@ -2,6 +2,7 @@ import { listMessages } from './list-messages';
 import { deleteMessage } from './delete-message';
 
 export const deleteAllCypressWelcomeEmails = async (to: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const response: any = await listMessages({
     userId: 'me',
     q: `label:tnm-transactional to:${to}`,

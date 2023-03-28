@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'connect-gmail-to-cypress',
   preset: '../../jest.preset.js',

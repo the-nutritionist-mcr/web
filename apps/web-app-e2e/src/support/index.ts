@@ -18,7 +18,7 @@ import './commands';
 
 import addContext from 'mochawesome/addContext';
 
-Cypress.on('test:after:run', (test, runnable) => {
+Cypress.on('test:after:run', (test) => {
   // eslint-disable-next-line fp/no-let
   let videoName = Cypress.spec.name;
   videoName = videoName.replace('/.ts.*', '.ts');
