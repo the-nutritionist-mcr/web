@@ -1,4 +1,4 @@
-import { Customer, ICookDay, Recipe } from '@/entities';
+import { Customer, ICookDay, Recipe } from '../entities';
 import { IMealSelector } from './i-meal-selector';
 
 export class SimpleDistributionEngine implements IMealSelector {

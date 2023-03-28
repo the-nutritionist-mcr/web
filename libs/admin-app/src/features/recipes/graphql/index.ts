@@ -1,11 +1,4 @@
-import createRecipeMutation from './createRecipeMutation';
-import deleteRecipeMutation from './deleteRecipeMutation';
-import listRecipesQuery from './listRecipesQuery';
-import updateRecipeMutation from './updateRecipeMutation';
-
-export {
-  updateRecipeMutation,
-  deleteRecipeMutation,
-  createRecipeMutation,
-  listRecipesQuery,
-};
+export { default as updateRecipeMutation } from './updateRecipeMutation';
+export { default as createRecipeMutation } from './createRecipeMutation';
+export { default as deleteRecipeMutation } from './deleteRecipeMutation';
+export { default as listRecipesQuery } from './listRecipesQuery';

@@ -1,4 +1,4 @@
-import { E2E, ENV } from '@tnmw/constants';
+import { E2E } from '@tnmw/constants';
 import { Planner } from '../../src/pages/planner';
 import { Recipes } from '../../src/pages/recipes';
 import { Customers } from '../../src/pages/customers';
@@ -14,6 +14,8 @@ const recipes = new Recipes();
 
 const customerNameString = `${E2E.e2eCustomer.surname}, ${E2E.e2eCustomer.firstName}`;
 const notReversedName = `${E2E.e2eCustomer.firstName} ${E2E.e2eCustomer.surname}`;
+
+const normalise = (line: string) => line.split(`\n`).join('').trim();
 
 const todaysDatestamp = () => {
   const date = new Date(Date.now());
@@ -285,8 +287,6 @@ describe('The planner', () => {
     );
 
     const filename = getDownloadedFilename(stampedName);
-
-    const normalise = (line: string) => line.split(`\n`).join('').trim();
 
     cy.task('extractTable', filename).should((table: PageTablesOutput) => {
       const cookOne = table.pageTables.find((page) => page.page === 2);

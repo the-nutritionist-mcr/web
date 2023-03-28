@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'dynamo',
   preset: '../../jest.preset.js',

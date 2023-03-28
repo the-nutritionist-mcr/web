@@ -1,11 +1,4 @@
-import createCustomerMutation from './createCustomerMutation';
-import deleteCustomerMutation from './deleteCustomerMutation';
-import listCustomersQuery from './listCustomersQuery';
-import updateCustomerMutation from './updateCustomerMutation';
-
-export {
-  deleteCustomerMutation,
-  listCustomersQuery,
-  updateCustomerMutation,
-  createCustomerMutation,
-};
+export { default as deleteCustomerMutation } from './deleteCustomerMutation';
+export { default as listCustomersQuery } from './listCustomersQuery';
+export { default as updateCustomerMutation } from './updateCustomerMutation';
+export { default as createCustomerMutation } from './createCustomerMutation';

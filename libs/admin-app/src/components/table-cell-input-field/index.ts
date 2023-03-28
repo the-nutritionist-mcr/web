@@ -1,4 +1,1 @@
-import TableCellInputField from './table-cell-input-field';
-
-// eslint-disable-next-line import/prefer-default-export
-export { TableCellInputField };
+export { default as TableCellInputField } from './table-cell-input-field';

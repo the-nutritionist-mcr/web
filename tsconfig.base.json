@@ -21,9 +21,6 @@
       "@tnmw/authorise-cognito-jwt": [
         "libs/authorise-cognito-jwt/src/index.ts"
       ],
-      "@tnmw/cloudflore-dns-linker": [
-        "libs/cloudflore-dns-linker/src/index.ts"
-      ],
       "@tnmw/components": ["libs/components/src/index.ts"],
       "@tnmw/config": ["libs/config/src/index.ts"],
       "@tnmw/constants": ["libs/constants/src/index.ts"],
@@ -32,7 +29,6 @@
       "@tnmw/meal-planning": ["libs/meal-planning/src/index.ts"],
       "@tnmw/pdf": ["libs/pdf/src/index.ts"],
       "@tnmw/planner": ["libs/planner/src/index.ts"],
-      "@tnmw/route-optimiser": ["libs/route-optimiser/src/index.ts"],
       "@tnmw/seed-cognito": ["libs/seed-cognito/src/index.ts"],
       "@tnmw/seed-dynamo": ["libs/seed-dynamo/src/index.ts"],
       "@tnmw/static-pages": ["libs/static-pages/src/index.ts"],

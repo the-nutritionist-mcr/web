@@ -1,11 +1,11 @@
-import Customer, { Snack } from '../domain/Customer';
+import { Customer, Snack } from '@tnmw/types';
 import isActive from './isActive';
 
 describe('isActive', () => {
   const oldDateNow = Date.now.bind(global.Date);
   beforeEach(() => {
     // 17th November 2020
-    const dateNowStub = jest.fn(() => 1605635814000);
+    const dateNowStub = jest.fn(() => 1_605_635_814_000);
     global.Date.now = dateNowStub;
   });
 
@@ -56,7 +56,7 @@ describe('isActive', () => {
         costPerMeal: 1,
       },
       // 1st February 2021
-      pauseStart: new Date(1612137600000).toISOString(),
+      pauseStart: new Date(1_612_137_600_000).toISOString(),
       snack: Snack.None,
       breakfast: false,
       exclusions: [],
@@ -84,7 +84,7 @@ describe('isActive', () => {
         costPerMeal: 1,
       },
       // 1st of March 2020
-      pauseStart: new Date(1583020800000).toISOString(),
+      pauseStart: new Date(1_583_020_800_000).toISOString(),
       snack: Snack.None,
       breakfast: false,
       exclusions: [],
@@ -112,7 +112,7 @@ describe('isActive', () => {
         costPerMeal: 1,
       },
       // 1st February 2021
-      pauseEnd: new Date(1612137600000).toISOString(),
+      pauseEnd: new Date(1_612_137_600_000).toISOString(),
       snack: Snack.None,
       breakfast: false,
       exclusions: [],
@@ -140,10 +140,10 @@ describe('isActive', () => {
         costPerMeal: 1,
       },
       // 1st of March 2020
-      pauseStart: new Date(1583020800000).toISOString(),
+      pauseStart: new Date(1_583_020_800_000).toISOString(),
 
       // 1st of June 2020
-      pauseEnd: new Date(1590969600000).toISOString(),
+      pauseEnd: new Date(1_590_969_600_000).toISOString(),
       snack: Snack.None,
       breakfast: false,
       exclusions: [],
@@ -171,10 +171,10 @@ describe('isActive', () => {
         costPerMeal: 1,
       },
       // 1st of March 2020
-      pauseStart: new Date(1583020800000).toISOString(),
+      pauseStart: new Date(1_583_020_800_000).toISOString(),
 
       // 1st February 2021
-      pauseEnd: new Date(1612137600000).toISOString(),
+      pauseEnd: new Date(1_612_137_600_000).toISOString(),
       snack: Snack.None,
       breakfast: false,
       exclusions: [],

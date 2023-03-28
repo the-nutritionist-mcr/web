@@ -9,7 +9,7 @@
       "options": {
         "commands": [
           {
-            "command": "tsc --noEmit -p libs/authorise-cognito-jwt/tsconfig.json"
+            "command": "tsc --noEmit -p libs/authorise-cognito-jwt/tsconfig.lib.json && tsc --noEmit -p libs/authorise-cognito-jwt/tsconfig.spec.json"
           }
         ]
       }

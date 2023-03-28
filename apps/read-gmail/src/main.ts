@@ -13,7 +13,3 @@ const client = new google.auth.OAuth2(
 client.setCredentials({
   refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
 });
-
-const gmail = google.gmail({ version: 'v1', auth: client });
-
-);

@@ -2,11 +2,7 @@ import { CHARGEBEE, ENV } from '@tnmw/constants';
 import { ChargeBee } from 'chargebee-typescript';
 import { v4 } from 'uuid';
 
-export const addSubscription = async (
-  customerId: string,
-  planId: string,
-  price: number
-) => {
+export const addSubscription = async (customerId: string, planId: string) => {
   const chargebee = new ChargeBee();
   const key = process.env[`NX_${ENV.varNames.ChargeBeeToken}`];
 

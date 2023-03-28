@@ -1,4 +1,1 @@
-import TabsWithoutGaps from './tabs-without-gap';
-
-// eslint-disable-next-line import/prefer-default-export
-export { TabsWithoutGaps };
+export { default as TabsWithoutGaps } from './tabs-without-gap';

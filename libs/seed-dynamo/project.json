@@ -4,6 +4,16 @@
   "sourceRoot": "libs/seed-dynamo/src",
   "projectType": "library",
   "targets": {
+    "types": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --noEmit -p libs/seed-dynamo/tsconfig.lib.json && tsc --noEmit -p libs/seed-dynamo/tsconfig.spec.json"
+          }
+        ]
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'read-gmail',
   preset: '../../jest.preset.js',

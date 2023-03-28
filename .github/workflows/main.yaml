@@ -45,14 +45,12 @@ jobs:
       matrix:
         project:
           - admin-app
-          - cloudflore-dns-linker
           - components
           - config
           - dynamo
           - image-optimisation
           - connect-gmail-to-cypress
           - pdf
-          - route-optimiser
           - static-pages
           - types
           - read-gmail

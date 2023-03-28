@@ -4,6 +4,16 @@
   "sourceRoot": "libs/admin-app/src",
   "projectType": "library",
   "targets": {
+    "types": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --noEmit -p libs/admin-app/tsconfig.lib.json && tsc --noEmit -p libs/admin-app/tsconfig.spec.json"
+          }
+        ]
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

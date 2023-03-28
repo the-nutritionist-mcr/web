@@ -1,4 +1,4 @@
-import Recipe, { assertIsRecipe } from './Recipe';
+import Recipe from './Recipe';
 
 export const isWeeklyPlan = (plan: unknown): plan is WeeklyPlan => {
   if (typeof plan !== 'object') {

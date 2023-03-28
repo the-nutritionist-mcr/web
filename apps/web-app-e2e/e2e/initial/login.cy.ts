@@ -1,5 +1,4 @@
 import { E2E } from '@tnmw/constants';
-import { AccountPage } from '../../src/pages/account';
 import { LoginPage } from '../../src/pages/login';
 
 describe('The login page', { scrollBehavior: false }, () => {

@@ -3,7 +3,6 @@
   "projects": {
     "admin-app": "libs/admin-app",
     "authorise-cognito-jwt": "libs/authorise-cognito-jwt",
-    "cloudflore-dns-linker": "libs/cloudflore-dns-linker",
     "components": "libs/components",
     "config": "libs/config",
     "connect-gmail-to-cypress": "apps/connect-gmail-to-cypress",
@@ -14,7 +13,6 @@
     "pdf": "libs/pdf",
     "planner": "libs/planner",
     "read-gmail": "apps/read-gmail",
-    "route-optimiser": "libs/route-optimiser",
     "seed-cognito": "libs/seed-cognito",
     "seed-dynamo": "libs/seed-dynamo",
     "static-pages": "libs/static-pages",

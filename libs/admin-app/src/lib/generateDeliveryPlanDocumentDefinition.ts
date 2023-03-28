@@ -1,8 +1,8 @@
 import { DocumentDefinition } from './downloadPdf';
 import formatPlanItem from './formatPlanItem';
 import { PdfBuilder } from './pdf-builder';
-import { createVariant, Delivery } from '@tnmw/meal-planning';
-import { defaultDeliveryDays, itemFamilies, planLabels } from '@tnmw/config';
+import { createVariant } from '@tnmw/meal-planning';
+import { defaultDeliveryDays, itemFamilies } from '@tnmw/config';
 
 import {
   Recipe,
@@ -95,7 +95,7 @@ const generateDeliveryPlanDocumentDefinition = (
   const newBuilder = new PdfBuilder(title, true);
 
   const builder = defaultDeliveryDays.reduce<PdfBuilder>(
-    (topBuilder, current, cookIndex) => {
+    (topBuilder, _current, cookIndex) => {
       const daySelections = selections.map(({ customer, deliveries }) => ({
         customer,
         delivery: deliveries[cookIndex],

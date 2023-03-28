@@ -1,7 +1,6 @@
+import { Customer } from '@tnmw/types';
 import { mock } from 'jest-mock-extended';
-// eslint-disable-next-line import/no-unresolved
 import { Content, ContentTable } from 'pdfmake/interfaces';
-import Customer from '../domain/Customer';
 import generateDeliveryPlanDocumentDefinition from './generateDeliveryPlanDocumentDefinition';
 
 const isTable = (thing: Content): thing is ContentTable =>
@@ -32,7 +31,8 @@ describe('generate delivery plan document definition', () => {
         { customer: mockCustomer3, deliveries: ['paused', 'paused', 'paused'] },
         { customer: mockCustomer4, deliveries: ['paused', 'paused', 'paused'] },
       ],
-      []
+      [],
+      mock()
     );
 
     if (Array.isArray(definition.content)) {

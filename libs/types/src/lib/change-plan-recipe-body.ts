@@ -13,6 +13,7 @@ export interface ChangePlanRecipeBody {
 export const isChangePlanRecipeBody = (
   body: unknown
 ): body is ChangePlanRecipeBody => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const bodyAsAny = body as any;
 
   if (typeof bodyAsAny.recipe !== 'undefined') {

@@ -1,4 +1,1 @@
-import TableCellCheckbox from './table-cell-checkbox';
-
-// eslint-disable-next-line import/prefer-default-export
-export { TableCellCheckbox };
+export { default as TableCellCheckbox } from './table-cell-checkbox';

@@ -9,7 +9,7 @@
       "options": {
         "commands": [
           {
-            "command": "tsc --noEmit -p libs/constants/tsconfig.json"
+            "command": "tsc --noEmit -p libs/constants/tsconfig.lib.json && tsc --noEmit -p libs/constants/tsconfig.spec.json"
           }
         ]
       }

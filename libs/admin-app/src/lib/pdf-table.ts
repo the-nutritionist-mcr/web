@@ -1,5 +1,5 @@
 /* eslint-disable fp/no-this */
-import { Content, ContentTable, Size, Table } from 'pdfmake/interfaces';
+import { Content, ContentTable, Size } from 'pdfmake/interfaces';
 import { batchArray } from './batch-array';
 
 const defaultWidths = (columns: number) =>

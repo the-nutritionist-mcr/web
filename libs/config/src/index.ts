@@ -152,4 +152,3 @@ export const plans: Plan[] = [
 ];
 
 export { default as calendarFormat } from './lib/calendar-format';
-/* eslint-disable sonarjs/no-duplicate-string */

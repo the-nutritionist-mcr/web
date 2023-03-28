@@ -1,6 +1,5 @@
 import { E2E } from '@tnmw/constants';
 import {
-  ConfirmDeleteDialog,
   CreateCustomisationsDialog,
   Customisations,
 } from '../../src/pages/customisations';
