@@ -7,7 +7,7 @@ export default {
     'jest-extended/all',
   ],
   transform: {
-    '^.+\\.(svg|css|png)$': 'jest-transform-stub',
+    '^.+\\.(svg|css|png)(\\?.+)?$': 'jest-transform-stub',
     '^.+\\.[tj]sx?$': ['babel-jest', { presets: ['@nrwl/react/babel'] }],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],

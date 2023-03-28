@@ -4,40 +4,39 @@ export const updateDelivery = (
   deliveries: NewDelivery[],
   data: ChangePlanRecipeBody
 ) => {
-  if (data.itemIndex === undefined) {
+  const { recipe, chosenVariant, itemIndex, deliveryIndex } = data;
+  if (itemIndex === undefined && recipe && chosenVariant) {
     return deliveries.map((delivery, index) =>
-      index !== data.deliveryIndex ||
-      typeof delivery === 'string' ||
-      !data.recipe
+      index !== deliveryIndex || typeof delivery === 'string'
         ? delivery
         : [
             ...delivery,
             {
-              recipe: data.recipe,
-              chosenVariant: data.chosenVariant ?? '',
+              recipe,
+              chosenVariant,
             },
           ]
     );
   }
 
-  if (data.chosenVariant) {
+  if (chosenVariant) {
     return deliveries.map((delivery, index) =>
-      index !== data.deliveryIndex || typeof delivery === 'string'
+      index !== deliveryIndex || typeof delivery === 'string'
         ? delivery
         : delivery.map((item, itemIndex) =>
-            itemIndex !== data.itemIndex || !data.recipe || !data.chosenVariant
+            itemIndex !== itemIndex || !chosenVariant
               ? item
               : {
-                  recipe: data.recipe,
-                  chosenVariant: data.chosenVariant,
+                  recipe,
+                  chosenVariant,
                 }
           )
     );
   }
 
   return deliveries.map((delivery, index) =>
-    index !== data.deliveryIndex || typeof delivery === 'string' || !data.recipe
+    index !== deliveryIndex || typeof delivery === 'string'
       ? delivery
-      : delivery.filter((_item, index) => index !== data.itemIndex)
+      : delivery.filter((_item, index) => index !== itemIndex)
   );
 };
