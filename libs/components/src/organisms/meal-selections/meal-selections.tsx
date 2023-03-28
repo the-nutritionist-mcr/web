@@ -185,7 +185,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
                     ? submittingOrder
                       ? 'Submitting...'
                       : 'Submit'
-                    : continueText}
+                    : 'Continue'}
                 </Button>
               </div>
             </h2>

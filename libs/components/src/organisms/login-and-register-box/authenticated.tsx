@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect } from 'react';
+import { FC, ReactNode, useContext, useEffect } from 'react';
 import { User } from '../../contexts';
 import { NavigationContext } from '@tnmw/utils';
 
@@ -11,9 +11,10 @@ interface AuthenticatedProps {
   user: User | undefined;
   redirect: Redirect;
   redirectPath?: string;
+  children: ReactNode;
 }
 
-const Authenticated: FC<AuthenticatedProps> = (props) => {
+const Authenticated = (props: AuthenticatedProps) => {
   const { navigate } = useContext(NavigationContext);
 
   if (!navigate) {

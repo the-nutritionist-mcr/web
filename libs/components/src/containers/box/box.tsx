@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { FC } from 'react';
 
 const BoxContainer = styled.div`
   width: 500px;
@@ -7,7 +6,11 @@ const BoxContainer = styled.div`
   margin-top: -1px;
 `;
 
-const Box: FC = (props) => {
+interface BoxProps {
+  children: React.ReactNode;
+}
+
+const Box = (props: BoxProps) => {
   return <BoxContainer>{props.children}</BoxContainer>;
 };
 

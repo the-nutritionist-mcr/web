@@ -1,5 +1,3 @@
-import styled from '@emotion/styled';
-import { defaultDeliveryDays } from '@tnmw/config';
 import { Tab, TabBox } from '../../containers';
 import TabButton from './tab-button';
 import MealList from './meal-list';
@@ -20,7 +18,6 @@ import {
   daySelectorRow,
   gridParent,
   guidanceText,
-  header,
   planTabRow,
   tabGrid,
 } from './initial-selections.css';
@@ -80,8 +77,13 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
                   onChangeIndex={(which) => setCurrentPlan(which)}
                 >
                   {plans.flatMap((category) => {
+                    const delivery =
+                      props.currentSelection.deliveries[dayIndex];
+                    if (delivery.paused) {
+                      return [];
+                    }
                     const chosenSelection = getActivePlan(
-                      props.currentSelection.deliveries[dayIndex].plans,
+                      delivery.plans,
                       category
                     );
 

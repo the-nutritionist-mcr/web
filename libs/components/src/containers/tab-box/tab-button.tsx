@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
 interface TabButtonProps {
   onClick?: () => void;

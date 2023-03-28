@@ -13,7 +13,7 @@ export const updateAllSelectedMeals = (
   setSelected({
     ...currentSelection,
     deliveries: currentSelection.deliveries.map((delivery, dIndex) => {
-      return dIndex !== dayIndex
+      return dIndex !== dayIndex || delivery.paused
         ? delivery
         : {
             ...delivery,

@@ -14,11 +14,9 @@ import { updateAllSelectedMeals } from './update-all-selected';
 import {
   basketHeader,
   selectedBox,
-  divider,
   deliveryNameHeader,
   listBox,
 } from './combined-basket.css';
-import { deliveryNumberHeader } from './confirm-delivery.css';
 import { getDeliveryLabel } from './get-delivery-label';
 
 interface BasketProps {
@@ -61,8 +59,13 @@ const CombinedBasket = ({
             </h3>
             <div className={listBox}>
               {currentSelection.customer.plans.flatMap((standardPlan) => {
+                const delivery = currentSelection.deliveries[dayIndex];
+
+                if (delivery.paused) {
+                  return [];
+                }
                 const chosenSelection = getActivePlan(
-                  currentSelection.deliveries[dayIndex].plans,
+                  delivery.plans,
                   standardPlan
                 );
 

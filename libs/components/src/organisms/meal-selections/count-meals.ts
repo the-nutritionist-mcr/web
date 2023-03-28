@@ -5,28 +5,40 @@ export const countMeals = (
   selections: MealPlanGeneratedForIndividualCustomer
 ) => {
   const nonExtraMealCount = selections.deliveries.reduce(
-    (totalMeals, delivery) =>
-      totalMeals +
-      delivery.plans.reduce(
-        (mealsInDelivery, plan) =>
-          (plan.status === 'active' && !plan.isExtra
-            ? countMealsInPlans(plan)
-            : 0) + mealsInDelivery,
-        0
-      ),
+    (totalMeals, delivery) => {
+      if (delivery.paused) {
+        return totalMeals;
+      }
+      return (
+        totalMeals +
+        delivery.plans.reduce(
+          (mealsInDelivery, plan) =>
+            (plan.status === 'active' && !plan.isExtra
+              ? countMealsInPlans(plan)
+              : 0) + mealsInDelivery,
+          0
+        )
+      );
+    },
     0
   );
 
   const extraMealCount = selections.deliveries.reduce(
-    (totalMeals, delivery) =>
-      totalMeals +
-      delivery.plans.reduce(
-        (mealsInDelivery, plan) =>
-          (plan.status === 'active' && plan.isExtra
-            ? countMealsInPlans(plan)
-            : 0) + mealsInDelivery,
-        0
-      ),
+    (totalMeals, delivery) => {
+      if (delivery.paused) {
+        return totalMeals;
+      }
+      return (
+        totalMeals +
+        delivery.plans.reduce(
+          (mealsInDelivery, plan) =>
+            (plan.status === 'active' && plan.isExtra
+              ? countMealsInPlans(plan)
+              : 0) + mealsInDelivery,
+          0
+        )
+      );
+    },
     0
   );
 
