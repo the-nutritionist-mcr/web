@@ -37,6 +37,24 @@ jobs:
           AWS_REGION: eu-west-2
           DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
 
+  static-checks-2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup node environment
+        uses: ./.github/actions/setup-node-job
+
+      - uses: nrwl/nx-set-shas@v3
+      - run: npm ci
+
+      - run: npx nx format:check
+      - run: npx nx affected -t lint --parallel=3
+      - run: npx nx affected -t test --parallel=3
+      - run: npx nx affected -t types --parallel=3
+
   static-checks:
     name: Run Static Checks
     runs-on: ubuntu-latest
