@@ -4,6 +4,16 @@
   "sourceRoot": "libs/authorise-cognito-jwt/src",
   "projectType": "library",
   "targets": {
+    "types": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --noEmit -p libs/authorise-cognito-jwt/tsconfig.json"
+          }
+        ]
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

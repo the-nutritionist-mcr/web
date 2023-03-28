@@ -4,6 +4,16 @@
   "sourceRoot": "libs/constants/src",
   "projectType": "library",
   "targets": {
+    "types": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --noEmit -p libs/constants/tsconfig.json"
+          }
+        ]
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
