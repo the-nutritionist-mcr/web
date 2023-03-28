@@ -1,9 +1,13 @@
-import { ThemeProvider, Theme } from '@emotion/react';
+import { ThemeProvider } from '@emotion/react';
 import { render, RenderOptions } from '@testing-library/react';
-import { FC, ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
-const ProviderWrapper: FC = ({ children }) => {
-  const theme: Theme = {
+interface ProviderProps {
+  children: ReactNode;
+}
+
+const ProviderWrapper = ({ children }: ProviderProps) => {
+  const theme = {
     colors: {
       buttonBlack: 'black',
       labelText: 'black',

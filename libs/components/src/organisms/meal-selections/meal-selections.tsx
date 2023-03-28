@@ -1,6 +1,5 @@
 import { FC, useContext, useState } from 'react';
 import styled from '@emotion/styled';
-import { defaultDeliveryDays } from '@tnmw/config';
 import { Button } from '../../atoms';
 import { CONTACT_EMAIL } from '@tnmw/constants';
 import { ParagraphText } from '@tnmw/components';
@@ -17,7 +16,6 @@ import {
   header,
   headerButtons,
   headerText,
-  youNeedToChoose,
 } from './initial-selections.css';
 import { goAheadAndSubmit } from './confirm-selections-container.css';
 import { MealPlanGeneratedForIndividualCustomer } from '@tnmw/types';
@@ -57,7 +55,7 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
   const [submittingOrder, setSubmittingOrder] = useState(false);
   const [complete, setComplete] = useState(false);
 
-  const customerPlans = props.cooks.flatMap((cook, index) =>
+  const customerPlans = props.cooks.flatMap((cook) =>
     props.customer.plans.filter(
       (plan) =>
         getCookStatus(cook.date, plan).status === 'active' && !plan.isExtra
@@ -73,17 +71,6 @@ const MealSelections: FC<MealSelectionsProps> = (props) => {
     (total, value) => total + value,
     0
   );
-
-  const remainingBreakdownString =
-    Object.values(remainingWithoutExtras).length > 1
-      ? ` - (${Object.entries(remainingWithoutExtras)
-          .map(([name, total]) => `${total} ${name}`)
-          .join(', ')})`
-      : ``;
-
-  const remainingString = `You need to choose ${totalRemaining} meals${remainingBreakdownString}`;
-
-  const tabs = customerPlans.length;
 
   const [tabIndex, setTabIndex] = useState(0);
 

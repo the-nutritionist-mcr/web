@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 
 describe('the layout component', () => {
   it('renders without errors', () => {
-    render(<Layout />);
+    render(<Layout>Something</Layout>);
   });
 
   it('renders its children', () => {
@@ -28,7 +28,11 @@ describe('the layout component', () => {
         <>
           <button
             onClick={() =>
-              setUser?.({ email: 'email', name: 'a-new-username' })
+              setUser?.({
+                email: 'email',
+                name: 'a-new-username',
+                admin: false,
+              })
             }
           >
             Click me
@@ -39,7 +43,7 @@ describe('the layout component', () => {
     };
 
     render(
-      <Layout user={{ name: 'foo', email: 'foo' }}>
+      <Layout>
         <ChildComponent />
       </Layout>
     );
@@ -61,7 +65,7 @@ describe('the layout component', () => {
     };
 
     render(
-      <Layout user={{ name: 'foo!', email: 'a@b.com' }}>
+      <Layout>
         <ChildComponent />
       </Layout>
     );

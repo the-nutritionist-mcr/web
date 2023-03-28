@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 
 describe('The <TabBox> component', () => {
   it('renders without errors', () => {
-    render(<TabBox />);
+    render(<TabBox>Something</TabBox>);
   });
 
   it('renders the first tab by default', () => {

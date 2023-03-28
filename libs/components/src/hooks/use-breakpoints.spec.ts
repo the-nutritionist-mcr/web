@@ -1,6 +1,6 @@
 import { Breakpoints } from '../types/breakpoints';
 
-import { renderHook, act } from '@testing-library/reacts';
+import { renderHook, act } from '@testing-library/react';
 import { useBreakpoints } from './use-breakpoints';
 
 const setWindowWidth = (value: number) =>

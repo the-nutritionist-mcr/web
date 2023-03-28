@@ -3,7 +3,7 @@ import Heading from './heading';
 
 describe('The <Heading> component', () => {
   it('renders without errors', () => {
-    shallow(<Heading level={1} />);
+    shallow(<Heading level={1}>Something</Heading>);
   });
 
   it('renders its children', () => {

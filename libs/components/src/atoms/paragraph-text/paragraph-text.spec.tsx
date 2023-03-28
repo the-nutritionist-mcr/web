@@ -3,7 +3,7 @@ import ParagraphText from './paragraph-text';
 
 describe('The <ParagraphTest> component', () => {
   it('renders without errors', () => {
-    shallow(<ParagraphText />);
+    shallow(<ParagraphText>Something</ParagraphText>);
   });
 
   it('renders its children', () => {

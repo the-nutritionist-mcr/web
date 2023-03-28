@@ -79,6 +79,7 @@
     "@types/ramda": "0.28.23",
     "@types/randomstring": "^1.1.8",
     "@types/react-router-dom": "5.3.3",
+    "@types/react-test-renderer": "^18.0.0",
     "@types/redux-localstorage": "1.0.8",
     "@types/sharp": "^0.31.0",
     "@types/styled-components": "5.1.26",

@@ -3,7 +3,7 @@ import { SelectedThings } from './selected-things';
 
 export const setSelected = (
   selected: SelectedThings,
-  selectedMeals: (SelectedThings | undefined)[][],
+  selectedMeals: SelectedThings[][],
   categoryIndex: number,
   dayIndex: number,
   setSelectedMeals: (selected: SelectedMeals) => void

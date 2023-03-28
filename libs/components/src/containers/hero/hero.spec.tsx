@@ -15,7 +15,7 @@ describe('The hero box', () => {
   it('renders without error', () => {
     shallow(
       <ThemeProvider theme={theme}>
-        <Hero />
+        <Hero>Something</Hero>
       </ThemeProvider>
     );
   });

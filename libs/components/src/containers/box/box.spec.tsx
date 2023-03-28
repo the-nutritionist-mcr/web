@@ -3,7 +3,7 @@ import Box from './box';
 
 describe('The <Box> component', () => {
   it('renders without errors', () => {
-    shallow(<Box />);
+    shallow(<Box>Something</Box>);
   });
 
   it('renders its children', () => {

@@ -3,7 +3,7 @@ import Tab from './tab';
 
 describe('The <Tab > component', () => {
   it('renders without errors', () => {
-    shallow(<Tab tabTitle="Foo" />);
+    shallow(<Tab tabTitle="Foo">Something</Tab>);
   });
 
   it('renders its children', () => {

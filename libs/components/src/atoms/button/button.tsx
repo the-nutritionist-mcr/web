@@ -25,9 +25,9 @@ type SizeMap = {
 export interface ButtonProps {
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   primary?: boolean;
-  color?: keyof Theme['colors'];
-  disabled?: boolean;
+  color?: string;
   children: ReactNode;
+  disabled?: boolean;
   size?: Size;
   backgroundColor?: string;
 }
@@ -48,7 +48,8 @@ const sizes: SizeMap = {
 
 const ButtonElement = styled.button((props: ButtonProps) => {
   const theme = useTheme();
-  const color = theme.colors[props.color ?? 'buttonBlack'];
+  const color =
+    theme.colors[(props.color as keyof typeof props.color) ?? 'buttonBlack'];
   const size = props.size ?? 'medium';
   const backgroundColor = props.primary ? color : 'white';
 
@@ -80,7 +81,7 @@ const ButtonElement = styled.button((props: ButtonProps) => {
 
 ButtonElement.displayName = 'button';
 
-const Button: FC<ButtonProps> = (props) => (
+const Button = (props: ButtonProps) => (
   <ButtonElement {...props}>{props.children}</ButtonElement>
 );
 

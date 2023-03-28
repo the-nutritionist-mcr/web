@@ -16,7 +16,7 @@ describe('Generate CSV string', () => {
 
     const result = generateCsvStringFromObjectArray(bar);
 
-    const splitResult = result.split('\r\n');
+    const splitResult = result[0].data.split('\r\n');
     expect(splitResult[1]).toEqual(',bap');
   });
 
@@ -30,7 +30,7 @@ describe('Generate CSV string', () => {
 
     const result = generateCsvStringFromObjectArray(bar);
 
-    const splitResult = result.split('\r\n');
+    const splitResult = result[0].data.split('\r\n');
     expect(splitResult).toHaveLength(2);
   });
 
@@ -44,7 +44,7 @@ describe('Generate CSV string', () => {
 
     const result = generateCsvStringFromObjectArray(bar);
 
-    const splitResult = result.split('\r\n');
+    const splitResult = result[0].data.split('\r\n');
     expect(splitResult[0]).toEqual('foo,baz');
   });
 
@@ -66,7 +66,7 @@ describe('Generate CSV string', () => {
 
     const result = generateCsvStringFromObjectArray(bar);
 
-    const splitResult = result.split('\r\n');
+    const splitResult = result[0].data.split('\r\n');
     expect(splitResult[1]).toEqual('bar,bap');
     expect(splitResult[2]).toEqual('bap1,bap2');
     expect(splitResult[3]).toEqual('bif,boo');

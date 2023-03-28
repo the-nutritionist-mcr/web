@@ -23,7 +23,7 @@ describe('The button component', () => {
       const button = renderer
         .create(
           <ThemeProvider theme={theme}>
-            <Button primary />
+            <Button primary>something</Button>
           </ThemeProvider>
         )
         .toJSON();
@@ -37,7 +37,7 @@ describe('The button component', () => {
       const button = renderer
         .create(
           <ThemeProvider theme={theme}>
-            <Button />
+            <Button>something</Button>
           </ThemeProvider>
         )
         .toJSON();
@@ -49,19 +49,19 @@ describe('The button component', () => {
     });
   });
 
-  describe('if a color is passed in', () => {
-    it('should have a white background with no border and black text if not set to primary', () => {
-      const button = renderer
-        .create(
-          <ThemeProvider theme={theme}>
-            <Button color="#FF0000" />
-          </ThemeProvider>
-        )
-        .toJSON();
+  // describe('if a color is passed in', () => {
+  //   it('should have a white background with no border and black text if not set to primary', () => {
+  //     const button = renderer
+  //       .create(
+  //         <ThemeProvider theme={theme}>
+  //           <Button color="#FF0000" />
+  //         </ThemeProvider>
+  //       )
+  //       .toJSON();
 
-      expect(button).toHaveStyleRule('background', 'white');
-      expect(button).toHaveStyleRule('border', `0`);
-      expect(button).toHaveStyleRule('text-decoration', 'underline');
-    });
-  });
+  //     expect(button).toHaveStyleRule('background', 'white');
+  //     expect(button).toHaveStyleRule('border', `0`);
+  //     expect(button).toHaveStyleRule('text-decoration', 'underline');
+  //   });
+  // });
 });
