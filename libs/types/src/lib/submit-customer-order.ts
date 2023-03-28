@@ -1,4 +1,4 @@
-import { SelectedItem, SelectedMeal } from './customer-meal-selection';
+import { SelectedItem } from './customer-meal-selection';
 
 export interface SubmitCustomerOrderPayload {
   deliveries: SelectedItem[][];
@@ -9,6 +9,7 @@ export interface SubmitCustomerOrderPayload {
 export const isSubmitCustomerOrderPayload = (
   body: unknown
 ): body is SubmitCustomerOrderPayload => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const bodyAsAny = body as any;
 
   if (typeof bodyAsAny.plan !== 'string') {

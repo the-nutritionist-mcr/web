@@ -5,7 +5,7 @@ import { mockClient } from 'aws-sdk-client-mock';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { authoriseJwt } from './authorise';
 import { v4 } from 'uuid';
-import { APIGatewayProxyEventV2 } from 'aws-lambda';
+import { APIGatewayProxyEventV2, EventBridgeEvent } from 'aws-lambda';
 import { HTTP } from '../../../infrastructure/constants';
 import { HttpError } from './http-error';
 
@@ -34,7 +34,9 @@ describe('the get handler', () => {
 
     jest.mocked(v4).mockReturnValue('my-uuid');
 
-    const mockInput = mock<APIGatewayProxyEventV2>();
+    const mockInput = mock<
+      APIGatewayProxyEventV2 & EventBridgeEvent<string, unknown>
+    >();
 
     mockInput.body = JSON.stringify(inputItem);
 
@@ -54,7 +56,9 @@ describe('the get handler', () => {
 
     jest.mocked(v4).mockReturnValue('my-uuid');
 
-    const mockInput = mock<APIGatewayProxyEventV2>();
+    const mockInput = mock<
+      APIGatewayProxyEventV2 & EventBridgeEvent<string, unknown>
+    >();
 
     mockInput.body = JSON.stringify(inputItem);
 

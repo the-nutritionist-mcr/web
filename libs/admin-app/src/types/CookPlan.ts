@@ -1,5 +1,4 @@
-import { Recipe } from '@tnmw/types';
-import { Customer } from '..';
+import { BackendCustomer, Recipe } from '@tnmw/types';
 
 type CookPlan = {
   recipe: Recipe | string;
@@ -14,7 +13,7 @@ type CookPlan = {
 
 export interface RecipeVariantMap {
   [variantName: string]: {
-    customers: Customer[];
+    customers: BackendCustomer[];
     count: number;
     allergen: boolean;
     customisation: boolean;

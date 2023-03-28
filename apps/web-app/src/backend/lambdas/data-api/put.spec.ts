@@ -3,7 +3,7 @@ import { handler } from './put';
 
 import { mockClient } from 'aws-sdk-client-mock';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
-import { APIGatewayProxyEventV2 } from 'aws-lambda';
+import { APIGatewayProxyEventV2, EventBridgeEvent } from 'aws-lambda';
 import { authoriseJwt } from './authorise';
 import { HttpError } from './http-error';
 import { HTTP } from '../../../infrastructure/constants';
@@ -30,7 +30,9 @@ describe('the get handler', () => {
       foo: 'baz',
     };
 
-    const mockInput = mock<APIGatewayProxyEventV2>();
+    const mockInput = mock<
+      APIGatewayProxyEventV2 & EventBridgeEvent<string, unknown>
+    >();
 
     mockInput.body = JSON.stringify(inputItem);
 
@@ -48,7 +50,9 @@ describe('the get handler', () => {
       foo: 'baz',
     };
 
-    const mockInput = mock<APIGatewayProxyEventV2>();
+    const mockInput = mock<
+      APIGatewayProxyEventV2 & EventBridgeEvent<string, unknown>
+    >();
 
     mockInput.body = JSON.stringify(inputItem);
 

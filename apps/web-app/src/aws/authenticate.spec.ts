@@ -16,9 +16,10 @@ describe('The authenticate module', () => {
         DomainName: 'foo',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
-        RedirectUrl: 'redirect-url',
-        AuthUrl: 'auth-url',
         ApiDomainName: 'locahost',
+        Environment: 'prod',
+        AwsRegion: 'eu-west-1',
+        ChargebeeUrl: 'localhost',
       });
 
       const mockResult = mock<ISignUpResult>();
@@ -59,8 +60,9 @@ describe('The authenticate module', () => {
         UserPoolId: 'pool-id',
         ApiDomainName: 'locahost',
         ClientId: 'client-id',
-        RedirectUrl: 'redirect-url',
-        AuthUrl: 'auth-url',
+        Environment: 'prod',
+        AwsRegion: 'eu-west-1',
+        ChargebeeUrl: 'localhost',
       });
 
       const response = {
@@ -84,8 +86,9 @@ describe('The authenticate module', () => {
         ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
-        RedirectUrl: 'redirect-url',
-        AuthUrl: 'auth-url',
+        Environment: 'prod',
+        AwsRegion: 'eu-west-1',
+        ChargebeeUrl: 'localhost',
       });
 
       const response = {
@@ -116,8 +119,9 @@ describe('The authenticate module', () => {
         ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
-        RedirectUrl: 'redirect-url',
-        AuthUrl: 'auth-url',
+        Environment: 'prod',
+        AwsRegion: 'eu-west-1',
+        ChargebeeUrl: 'localhost',
       });
 
       class FakeCognitoResponse {
@@ -150,8 +154,9 @@ describe('The authenticate module', () => {
         ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
-        RedirectUrl: 'redirect-url',
-        AuthUrl: 'auth-url',
+        Environment: 'prod',
+        AwsRegion: 'eu-west-1',
+        ChargebeeUrl: 'localhost',
       });
 
       jest.mocked(Auth.signOut).mockResolvedValue('logoutResponse');
@@ -169,8 +174,9 @@ describe('The authenticate module', () => {
         ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
-        RedirectUrl: 'redirect-url',
-        AuthUrl: 'auth-url',
+        Environment: 'prod',
+        AwsRegion: 'eu-west-1',
+        ChargebeeUrl: 'localhost',
       });
 
       const usernameValue = 'the-username';
@@ -198,8 +204,9 @@ describe('The authenticate module', () => {
         ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
-        RedirectUrl: 'redirect-url',
-        AuthUrl: 'auth-url',
+        Environment: 'prod',
+        AwsRegion: 'eu-west-1',
+        ChargebeeUrl: 'localhost',
       });
 
       const usernameValue = 'the-username';
@@ -229,8 +236,9 @@ describe('The authenticate module', () => {
         ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
-        RedirectUrl: 'redirect-url',
-        AuthUrl: 'auth-url',
+        Environment: 'prod',
+        AwsRegion: 'eu-west-1',
+        ChargebeeUrl: 'localhost',
       });
 
       when(jest.mocked(Auth.confirmSignUp))
@@ -250,8 +258,9 @@ describe('The authenticate module', () => {
         ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
-        RedirectUrl: 'redirect-url',
-        AuthUrl: 'auth-url',
+        Environment: 'prod',
+        AwsRegion: 'eu-west-1',
+        ChargebeeUrl: 'localhost',
       });
 
       jest
@@ -269,8 +278,9 @@ describe('The authenticate module', () => {
         ApiDomainName: 'locahost',
         UserPoolId: 'pool-id',
         ClientId: 'client-id',
-        RedirectUrl: 'redirect-url',
-        AuthUrl: 'auth-url',
+        Environment: 'prod',
+        AwsRegion: 'eu-west-1',
+        ChargebeeUrl: 'localhost',
       });
 
       jest

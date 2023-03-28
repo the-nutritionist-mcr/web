@@ -1,13 +1,14 @@
-import { FC } from 'react';
+import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 
 interface MealsSelectionsTabButtonProps {
   onClick?: () => void;
   active?: boolean;
   tabListLength: number;
+  children: ReactNode;
 }
 
-const MealsSelectionsTabButton: FC<MealsSelectionsTabButtonProps> = (props) => {
+const MealsSelectionsTabButton = (props: MealsSelectionsTabButtonProps) => {
   const StyledButton = styled.button`
     font-family: acumin-pro-semi-condensed, Arial, sans-serif;
     min-width: 10rem;

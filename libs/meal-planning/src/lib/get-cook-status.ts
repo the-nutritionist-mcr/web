@@ -1,36 +1,5 @@
 import { StandardPlan } from '@tnmw/types';
 
-const isPaused = (cookDate: Date, plan: StandardPlan) => {
-  const pauseStart = plan.pauseStart && new Date(plan.pauseStart);
-  const pauseEnd = plan.pauseEnd && new Date(plan.pauseEnd);
-
-  if (plan.subscriptionStatus === 'paused' && !pauseEnd) {
-    return false;
-  }
-
-  if (pauseEnd && cookDate > pauseEnd) {
-    return true;
-  }
-
-  if (pauseStart && cookDate < pauseStart) {
-    return true;
-  }
-
-  if (pauseStart && cookDate > pauseStart && pauseEnd && cookDate < pauseEnd) {
-    return false;
-  }
-
-  if (!pauseStart && pauseEnd && cookDate < pauseEnd) {
-    return false;
-  }
-
-  if (pauseStart && cookDate > pauseStart && !pauseEnd) {
-    return false;
-  }
-
-  return true;
-};
-
 interface InTrialStatus {
   status: 'in_trial';
 }
@@ -70,7 +39,7 @@ export const getCookStatus = (cookDate: Date, plan: StandardPlan): Status => {
 
     case 'non_renewing':
       // eslint-disable-next-line no-case-declarations
-      const termEnd = new Date(plan.termEnd);
+      const termEnd = new Date(plan.termEnd ?? '');
       return termEnd > cookDate
         ? {
             status: 'active',

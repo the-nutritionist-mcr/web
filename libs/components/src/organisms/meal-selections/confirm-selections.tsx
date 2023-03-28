@@ -48,11 +48,12 @@ export const ConfirmSelections = (props: ConfirmSelectionsProps) => {
         <hr className={divider} />
         <h2 className={countHeader}>{totalsString}</h2>
         {defaultDeliveryDays.map((_, index) => {
-          const sections = props.customer.plans.flatMap((category) => {
-            const chosenSelection = getActivePlan(
-              props.selectedMeals.deliveries[index].plans,
-              category
-            );
+          const sections = props.customer.plans.flatMap(function (category) {
+            const delivery = props.selectedMeals.deliveries[index];
+            if (delivery.paused) {
+              return [];
+            }
+            const chosenSelection = getActivePlan(delivery.plans, category);
 
             if (chosenSelection?.status !== 'active') {
               return [];

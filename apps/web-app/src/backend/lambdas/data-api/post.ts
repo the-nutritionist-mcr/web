@@ -19,7 +19,7 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
 
     const command = new PutCommand({
       TableName: process.env['DYNAMODB_TABLE'],
-      Item: { ...JSON.parse(event.body), id },
+      Item: { ...JSON.parse(event.body ?? ''), id },
       ConditionExpression: 'attribute_not_exists(id)',
     });
 

@@ -1,6 +1,5 @@
 export { ExtendedParagraph } from './extended-paragraph';
 export { OkCancelDialog } from './ok-cancel-dialog';
-export { PauseDialog } from './pause-dialog';
 export {
   PrintableTbody,
   PrintableTableCell,
