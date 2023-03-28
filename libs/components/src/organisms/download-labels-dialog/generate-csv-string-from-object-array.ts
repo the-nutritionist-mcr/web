@@ -33,8 +33,9 @@ const processField = pipe(
 );
 
 const createCsvRowString = (fields: ValueType[]) =>
-  // eslint-disable-next-line unicorn/no-array-callback-reference
-  fields.map(processField).join(',');
+  // eslint-disable-next-line unicorn/no-array-callback-reference, @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  fields.map((element) => processField(element)).join(',');
 
 interface ArbitraryObjectType {
   [key: string]: ValueType;

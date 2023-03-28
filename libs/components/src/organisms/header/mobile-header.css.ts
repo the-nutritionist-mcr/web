@@ -73,7 +73,6 @@ export const mobileHeaderGettingStartedButton = style({
 
 export const accountButtonMobile = style({
   background: `url(${Account})`,
-  width: '92.3203px',
   flexGrow: 2,
   fontFamily: 'acumin-pro,sans-serif',
   backgroundRepeat: 'no-repeat',

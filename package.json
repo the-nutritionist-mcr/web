@@ -67,6 +67,7 @@
     "@trumbitta/nx-plugin-unused-deps": "^1.12.1",
     "@types/aws-lambda": "8.10.114",
     "@types/deep-equal": "^1.0.1",
+    "@types/enzyme": "^3.10.12",
     "@types/imap-simple": "4.2.5",
     "@types/jest-when": "^3.5.2",
     "@types/jsonwebtoken": "8.5.9",
