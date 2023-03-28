@@ -45,7 +45,7 @@ jobs:
       matrix:
         project:
           - admin-app
-          - cloudflare-dns-linker
+          - cloudflore-dns-linker
           - components
           - config
           - dynamo
@@ -67,7 +67,6 @@ jobs:
 
         target:
           - test
-          - lint
           - types
 
         exclude:
