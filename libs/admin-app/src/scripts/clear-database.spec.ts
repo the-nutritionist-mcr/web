@@ -10,6 +10,7 @@ jest.mock('./clear-table');
 
 describe('ClearDatabaseTables', () => {
   const oldCwd = process.cwd();
+  // eslint-disable-next-line fp/no-let
   let tempDir: string | undefined;
 
   beforeEach(async () => {

@@ -1,4 +1,3 @@
-/* eslint-disable filenames/match-regex */
 // Jest-dom adds custom jest matchers for asserting on DOM nodes.
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
@@ -16,4 +15,5 @@ const noop = () => {
   // NOOP
 };
 
+// eslint-disable-next-line fp/no-mutating-methods
 Object.defineProperty(window, 'scrollTo', { value: noop, writable: true });

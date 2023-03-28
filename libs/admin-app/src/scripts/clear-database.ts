@@ -22,17 +22,19 @@ const clearDatabaseTables = async (outputs: string) => {
       .filter((key) => key.endsWith('TableName'))
       .map((tableKey) => stackObj[tableKey]);
 
-    if (tables.find((table) => table.toLowerCase().includes('prod'))) {
+    if (tables.some((table) => table.toLowerCase().includes('prod'))) {
       throw new Error(TRYING_TO_CLEAR_PROD_TABLES_ERROR);
     }
 
     await Promise.all(tables.map((tableName) => clearTable(tableName)));
   } catch (error) {
-    if (error.message.startsWith('ENOENT')) {
-      throw new Error('Outputs file was not present');
-    }
-    if (error.message.includes('Unexpected token')) {
-      throw new Error('Outputs file was not valid JSON');
+    if (error instanceof Error) {
+      if (error.message.startsWith('ENOENT')) {
+        throw new Error('Outputs file was not present');
+      }
+      if (error.message.includes('Unexpected token')) {
+        throw new Error('Outputs file was not valid JSON');
+      }
     }
 
     throw error;

@@ -20,8 +20,8 @@ const doCopy = async (sourceEnv: string, destinationEnv: string) => {
           copy(
             {
               config: {
-                accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+                accessKeyId: process.env['AWS_ACCESS_KEY_ID'],
+                secretAccessKey: process.env['AWS_SECRET_ACCESS_KEY'],
                 region: 'eu-west-2',
               },
               source: {
@@ -47,6 +47,7 @@ const doCopy = async (sourceEnv: string, destinationEnv: string) => {
   );
 };
 
+// eslint-disable-next-line unicorn/prefer-top-level-await
 doCopy('prod', 'dev').catch((error: Error) => {
   // eslint-disable-next-line no-console
   console.log(error);
