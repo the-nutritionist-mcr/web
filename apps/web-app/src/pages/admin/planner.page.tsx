@@ -22,6 +22,7 @@ const PlannerPage: FC = () => {
             items &&
             data.available &&
             data.admin &&
+            publish &&
             customers && (
               <Planner
                 update={update}

@@ -69,7 +69,7 @@ export const authoriseBasic = (
   password: string
 ) => {
   const credentials = decodeBasicAuth(
-    event.headers[HTTP.headerNames.Authorization]
+    event.headers[HTTP.headerNames.Authorization] ?? ''
   );
 
   if (credentials.username !== username || credentials.password !== password) {

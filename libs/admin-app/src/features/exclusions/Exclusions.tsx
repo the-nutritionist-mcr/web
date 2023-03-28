@@ -8,12 +8,11 @@ import {
   TableCell,
   TableHeader,
   TableRow,
-  Text,
 } from 'grommet';
 import EditExclusionDialog from './EditExclusionDialog';
 import ExclusionRow from './ExclusionRow';
 import React, { Dispatch, SetStateAction } from 'react';
-import Exclusion from '../../domain/Exclusion';
+import { Exclusion } from '@tnmw/types';
 import { PAGE_SIZE } from '@tnmw/constants';
 import { useRouter } from 'next/router';
 import { BeatLoader } from 'react-spinners';

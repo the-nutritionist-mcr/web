@@ -8,24 +8,23 @@ import styled from 'styled-components';
 import { NavigationContext } from '@tnmw/utils';
 import { CustomisationsCell } from '../customers/customisations-cell';
 import { actionsCell } from '../customers/customers.css';
-import { ProjectedRecipe } from './Recipes';
 
 const SlimButton = styled(Button)`
   padding: 0 5px 0 5px;
 `;
 
 interface RecipesRowProps {
-  recipe: ProjectedRecipe;
+  recipe: Recipe;
   exclusions?: Exclusion[];
-  onChange: (newRecipe: ProjectedRecipe) => void;
-  remove: (recipe: ProjectedRecipe) => Promise<void>;
-  update: (recipe: ProjectedRecipe) => Promise<void>;
+  onChange: (newRecipe: Recipe) => void;
+  remove: (recipe: Recipe) => Promise<void>;
+  update: (recipe: Recipe) => Promise<void>;
   showCheckBoxes: boolean;
   plannerMode: boolean;
   selectedDeliveryDay: number;
-  recipes?: ProjectedRecipe[];
-  plannerSelection: ProjectedRecipe[][];
-  onSelect: (plannerSelection: ProjectedRecipe[][]) => void;
+  recipes?: Recipe[];
+  plannerSelection: Recipe[][];
+  onSelect: (plannerSelection: Recipe[][]) => void;
 }
 
 const RecipesRow: React.FC<RecipesRowProps> = (props) => {

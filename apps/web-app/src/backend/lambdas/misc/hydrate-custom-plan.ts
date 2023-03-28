@@ -13,6 +13,7 @@ export const hydrateCustomPlan = (
     ...delivery,
     items: delivery.items.map((item) => ({
       ...item,
-      isExtra: itemFamilies.find((family) => family.name === item.name).isExtra,
+      isExtra: itemFamilies?.find((family) => family.name === item.name)
+        ?.isExtra,
     })),
-  }));
+  })) ?? [];

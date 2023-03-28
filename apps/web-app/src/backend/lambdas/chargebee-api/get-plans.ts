@@ -27,67 +27,76 @@ export const getPlans = async (
     list.map(async (entry) => {
       const subscription = entry.subscription;
 
-      const items = subscription.subscription_items.map(
+      const items = subscription.subscription_items?.map(
         ({ item_type, item_price_id }) => ({
           item_type,
           item_price_id,
         })
       );
 
-      const plans = await Promise.all(
-        items
-          .filter((item) => item.item_type === CHARGEBEE.itemTypes.plan)
-          .map(async (item) => {
-            const itemPriceResult = await client.item_price
-              .retrieve(item.item_price_id)
-              .request();
+      const plans = items
+        ? await Promise.all(
+            items
+              .filter((item) => item.item_type === CHARGEBEE.itemTypes.plan)
+              .map(async (item) => {
+                const itemPriceResult = await client.item_price
+                  .retrieve(item.item_price_id)
+                  .request();
 
-            const itemPrice = itemPriceResult.item_price;
+                const itemPrice = itemPriceResult.item_price;
 
-            const itemResult = await client.item
-              .retrieve(itemPrice.item_id)
-              .request();
+                const itemResult = await client.item
+                  .retrieve(itemPrice.item_id ?? '')
+                  .request();
 
-            const plan = itemResult.item;
+                const plan = itemResult.item;
 
-            const daysPerWeek = Number(
-              plan[CHARGEBEE.customFields.plan.daysPerWeek]
-            );
-            const itemsPerDay = Number(
-              plan[CHARGEBEE.customFields.plan.itemsPerDay]
-            );
+                const daysPerWeek = Number(
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  plan[CHARGEBEE.customFields.plan.daysPerWeek]
+                );
+                const itemsPerDay = Number(
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  plan[CHARGEBEE.customFields.plan.itemsPerDay]
+                );
 
-            const itemFamilyResult = await client.item_family
-              .retrieve(itemPrice.item_family_id)
-              .request();
+                const itemFamilyResult = await client.item_family
+                  .retrieve(itemPrice.item_family_id ?? '')
+                  .request();
 
-            const itemFamily = itemFamilyResult.item_family;
+                const itemFamily = itemFamilyResult.item_family;
 
-            const pauseDate = subscription.pause_date;
-            const pauseResume = subscription.resume_date;
-            const startDate = subscription.start_date;
-            const cancelledAt = subscription.cancelled_at;
-            const termEnd = subscription.current_term_end;
+                const pauseDate = subscription.pause_date;
+                const pauseResume = subscription.resume_date;
+                const startDate = subscription.start_date;
+                const cancelledAt = subscription.cancelled_at;
+                const termEnd = subscription.current_term_end;
 
-            const totalMeals = daysPerWeek * itemsPerDay;
-            // eslint-disable-next-line unicorn/no-await-expression-member
-            return {
-              id: subscription.id,
-              name: itemFamily.name,
-              daysPerWeek,
-              itemsPerDay,
-              pauseStart: pauseDate && pauseDate * 1000,
-              startDate: startDate && startDate * 1000,
-              pauseEnd: pauseResume && pauseResume * 1000,
-              cancelledAt: cancelledAt && cancelledAt * 1000,
-              termEnd: termEnd && termEnd * 1000,
-              subscriptionStatus: subscription.status as SubscriptionStatus,
-              isExtra:
-                itemFamily[CHARGEBEE.customFields.itemFamily.isExtra] === 'Yes',
-              totalMeals,
-            };
-          })
-      );
+                const totalMeals = daysPerWeek * itemsPerDay;
+                // eslint-disable-next-line unicorn/no-await-expression-member
+                return {
+                  id: subscription.id,
+                  name: itemFamily.name,
+                  daysPerWeek,
+                  itemsPerDay,
+                  pauseStart: pauseDate && pauseDate * 1000,
+                  startDate: startDate && startDate * 1000,
+                  pauseEnd: pauseResume && pauseResume * 1000,
+                  cancelledAt: cancelledAt && cancelledAt * 1000,
+                  termEnd: termEnd && termEnd * 1000,
+                  subscriptionStatus: subscription.status as SubscriptionStatus,
+                  isExtra:
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    itemFamily[CHARGEBEE.customFields.itemFamily.isExtra] ===
+                    'Yes',
+                  totalMeals,
+                };
+              })
+          )
+        : [];
 
       return plans.filter(Boolean);
     })

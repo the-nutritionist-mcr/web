@@ -79,6 +79,7 @@ export const InitialSelections = (props: InitialSelectionsProps) => {
                   {plans.flatMap((category) => {
                     const delivery =
                       props.currentSelection.deliveries[dayIndex];
+
                     if (delivery.paused) {
                       return [];
                     }

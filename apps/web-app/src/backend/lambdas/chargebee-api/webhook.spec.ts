@@ -18,6 +18,8 @@ import { getSecrets } from '../get-secrets';
 import { StandardPlan } from '@tnmw/types';
 import { userExists } from './user-exists';
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 const cognitoMock = mockClient(CognitoIdentityProviderClient);
 
 jest.mock('./get-plans');
@@ -255,6 +257,7 @@ describe('the webhook handler', () => {
     process.env[ENV.varNames.ChargeBeeToken] = 'foo';
     const mockPlans: StandardPlan[] = [
       {
+        id: 'foo',
         subscriptionStatus: 'active',
         name: 'Foo',
         daysPerWeek: 4,
@@ -598,8 +601,10 @@ describe('the webhook handler', () => {
     jest.resetAllMocks();
     process.env[ENV.varNames.CognitoPoolId] = 'test-pool-id';
     process.env[ENV.varNames.ChargeBeeToken] = 'foo';
-    const mockPlans = [
+    const mockPlans: StandardPlan[] = [
       {
+        id: 'foo',
+        subscriptionStatus: 'active',
         name: 'Foo',
         daysPerWeek: 2,
         itemsPerDay: 4,
@@ -990,8 +995,6 @@ describe('the webhook handler', () => {
     };
     /* eslint-enable/numeric-separators-style */
 
-    const now = new Date('2020-01-01').getTime();
-
     jest.useFakeTimers();
 
     const mockEvent = mock<APIGatewayProxyEventV2>();
@@ -1004,78 +1007,6 @@ describe('the webhook handler', () => {
     process.env[ENV.varNames.CognitoPoolId] = 'test-pool-id';
 
     const response = await handler(mockEvent, mock(), mock());
-
-    const input: AdminUpdateUserAttributesCommandInput = {
-      UserPoolId: 'test-pool-id',
-      Username: testCustomerId,
-
-      UserAttributes: [
-        {
-          Name: `custom:${COGNITO.customAttributes.City}`,
-          Value: `Salford`,
-        },
-        {
-          Name: `custom:${COGNITO.customAttributes.Country}`,
-          Value: `GB`,
-        },
-        {
-          Name: `custom:${COGNITO.customAttributes.Postcode}`,
-          Value: `M3 6WD`,
-        },
-        {
-          Name: COGNITO.standardAttributes.phone,
-          Value: `+447462699468`,
-        },
-        {
-          Name: `custom:${COGNITO.customAttributes.AddressLine1}`,
-          Value: `14 Wadlow Close`,
-        },
-        {
-          Name: `custom:${COGNITO.customAttributes.AddressLine2}`,
-          Value: `another line`,
-        },
-        {
-          Name: `custom:${COGNITO.customAttributes.AddressLine3}`,
-          Value: `final line`,
-        },
-        {
-          Name: `custom:${COGNITO.customAttributes.ProfileNotes}`,
-          Value: `some notes`,
-        },
-        {
-          Name: `custom:${COGNITO.customAttributes.DeliveryDay1}`,
-          Value: `Thursday`,
-        },
-        {
-          Name: `custom:${COGNITO.customAttributes.DeliveryDay2}`,
-          Value: `Tuesday`,
-        },
-        {
-          Name: `custom:${COGNITO.customAttributes.DeliveryDay3}`,
-          Value: `Wednesday`,
-        },
-        {
-          Name: `custom:${COGNITO.customAttributes.CustomerUpdateTimestamp}`,
-          Value: String(now / 1000),
-        },
-        {
-          Name: COGNITO.standardAttributes.email,
-          Value: testEmail,
-        },
-        {
-          Name: COGNITO.standardAttributes.emailVerified,
-          Value: `true`,
-        },
-        {
-          Name: COGNITO.standardAttributes.firstName,
-          Value: `Ben`,
-        },
-        {
-          Name: COGNITO.standardAttributes.surname,
-          Value: `Wainwright`,
-        },
-      ],
-    };
 
     const calls = cognitoMock.commandCalls(
       // TODO raise bug report on aws-sdk-client-mock repo for this type error

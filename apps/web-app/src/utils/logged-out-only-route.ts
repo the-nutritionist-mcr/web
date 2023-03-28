@@ -15,7 +15,7 @@ export const loggedOutOnlyRoute = (
       return (await serverSidePropsCallback?.(context)) ?? { props: {} };
     }
 
-    const verifyResult = await verifyJwtToken({ token: tokenPair[1] });
+    const verifyResult = await verifyJwtToken({ token: tokenPair[1] ?? '' });
 
     if (verifyResult.isValid) {
       return backendRedirect(

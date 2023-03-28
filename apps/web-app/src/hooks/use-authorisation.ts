@@ -14,9 +14,9 @@ export const useAuthorisation = (authorisedGroups?: ReadonlyArray<string>) => {
           (!authorisedGroups ||
             authorisedGroups?.length === 0 ||
             authorisedGroups?.some((group) =>
-              user.signInUserSession.accessToken.payload[
+              user?.signInUserSession.accessToken.payload[
                 'cognito:groups'
-              ].includes(group)
+              ]?.includes(group)
             ));
 
         if (!authorised) {

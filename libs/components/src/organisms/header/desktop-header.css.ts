@@ -25,7 +25,6 @@ export const getStartedButton = style({
   lineHeight: 1,
   '@media': {
     'screen and (max-width: 900px)': {
-      display: 'block',
       width: '75px',
       fontSize: '13px',
       padding: '10px 45px',
@@ -42,7 +41,6 @@ export const getStartedButton = style({
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      fontWeight: 700,
       background: '#292929',
       color: '#fff',
       border: '1px solid #000',

@@ -57,7 +57,7 @@ const ChooseMealsPage = () => {
     return <></>;
   }
 
-  if (!data?.available) {
+  if (!data?.available || !data.currentUserSelection) {
     return <></>;
   }
 

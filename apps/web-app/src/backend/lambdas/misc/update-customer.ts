@@ -19,9 +19,9 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
     const cognito = new CognitoIdentityProviderClient({});
     const poolId = process.env[ENV.varNames.CognitoPoolId];
 
-    const username = event.pathParameters.username;
+    const username = event.pathParameters?.username;
 
-    const body = JSON.parse(event.body);
+    const body = JSON.parse(event.body ?? '');
 
     if (!username || !isUpdateCustomerBody(body)) {
       throw new HttpError(HTTP.statusCodes.BadRequest, 'Request was invalid');

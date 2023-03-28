@@ -2,7 +2,7 @@ import {
   AdminDeleteUserCommand,
   CognitoIdentityProviderClient,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { SeedUser } from './cognito';
+import { SeedUser } from './create-users';
 
 export const deleteUsers = async (
   cognito: CognitoIdentityProviderClient,

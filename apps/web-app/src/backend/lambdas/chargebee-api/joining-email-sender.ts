@@ -21,7 +21,7 @@ export const handler: Handler<
       emailSubject: 'Welcome to your personal Members Area',
       emailMessage: makeEmail(
         event.request.userAttributes.given_name,
-        event.request.usernameParameter,
+        event.request.usernameParameter ?? '',
         event.request.codeParameter,
         `https://${domainName}`
       ),

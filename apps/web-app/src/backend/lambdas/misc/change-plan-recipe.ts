@@ -25,7 +25,7 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
     };
 
     const dynamodbClient = new DynamoDBClient({});
-    const changePlanData = JSON.parse(event.body);
+    const changePlanData = JSON.parse(event.body ?? '');
     const tableName = process.env[ENV.varNames.DynamoDBTable];
 
     if (!isChangePlanRecipeBody(changePlanData)) {
@@ -48,7 +48,7 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
     const result = await dynamo.send(queryCommand);
 
     const selection: CustomerMealsSelectionWithChargebeeCustomer[number] =
-      result.Items[0].selection;
+      result.Items?.[0].selection;
 
     const newSelection: CustomerMealsSelectionWithChargebeeCustomer[number] = {
       customer: selection.customer,

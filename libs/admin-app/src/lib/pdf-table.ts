@@ -33,7 +33,7 @@ export class PdfTable {
   private styles: TableRowStyle[] = [];
 
   private makeFillerCells(size: number) {
-    return Array.from({ length: size })
+    return Array.from<{ text: string }>({ length: size })
       .fill({ text: '' })
       .map((cell, index) => (index === 0 ? { ...cell, colSpan: size } : cell));
   }

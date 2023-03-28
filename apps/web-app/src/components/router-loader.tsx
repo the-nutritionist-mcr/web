@@ -14,7 +14,7 @@ export const RouterLoader = (props: RouterProps) => {
   const router = useRouter();
 
   useEffect(() => {
-    const handleStart = (path, config) => {
+    const handleStart = (path: string, config: { shallow: boolean }) => {
       if (!config.shallow) {
         resetLoading();
         startLoading(LOADING_KEY);

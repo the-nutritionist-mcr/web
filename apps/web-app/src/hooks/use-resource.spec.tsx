@@ -65,7 +65,7 @@ afterEach(async () => {
 
 describe('useResource', () => {
   it.skip('returns undefined on first load', () => {
-    const { result } = renderHook(() => useResource('foo'), {
+    const { result } = renderHook(() => useResource({ type: 'foo' }), {
       wrapper: SwrConfigComponent,
     });
 
@@ -97,9 +97,12 @@ describe('useResource', () => {
       .get('/foo')
       .reply(200, mockResponse);
 
-    const { result, waitForNextUpdate } = renderHook(() => useResource('foo'), {
-      wrapper: SwrConfigComponent,
-    });
+    const { result, waitForNextUpdate } = renderHook(
+      () => useResource({ type: 'foo' }),
+      {
+        wrapper: SwrConfigComponent,
+      }
+    );
 
     await waitForNextUpdate();
 
@@ -134,7 +137,7 @@ describe('useResource', () => {
       .reply(200, { id: '3' });
 
     const { result, waitForNextUpdate } = renderHook(
-      () => useResource<{ id: string; foo: string }>('foo'),
+      () => useResource<{ id: string; foo: string }>({ type: 'foo' }),
       {
         wrapper: SwrConfigComponent,
       }

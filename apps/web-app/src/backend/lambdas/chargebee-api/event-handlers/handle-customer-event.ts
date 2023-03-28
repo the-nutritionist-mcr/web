@@ -10,12 +10,13 @@ import { ChargeBee } from 'chargebee-typescript';
 import { transformPhoneNumberToCognitoFormat } from '../../transform-phone-number';
 import { handleSubscriptionEvent } from './handle-subscription-event';
 import { userExists } from '../user-exists';
+import { getEnv } from '../get-env';
 
 export const handleCustomerEvent = async (
   client: ChargeBee,
   event: ReturnType<typeof client.event.deserialize>
 ) => {
-  const poolId = process.env[ENV.varNames.CognitoPoolId];
+  const poolId = getEnv(ENV.varNames.CognitoPoolId);
   const environment = process.env[ENV.varNames.EnvironmentName];
 
   const { id, email, first_name, last_name, billing_address, phone } =
@@ -159,7 +160,7 @@ export const handleCustomerEvent = async (
 
   if (
     environment !== 'prod' &&
-    email.trim().toLowerCase() === E2E.testCustomer.email
+    email?.trim()?.toLowerCase() === E2E.testCustomer.email
   ) {
     const client = new CognitoIdentityProviderClient({});
 

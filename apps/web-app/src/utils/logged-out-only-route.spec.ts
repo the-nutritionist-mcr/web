@@ -8,6 +8,8 @@ jest.mock('@tnmw/authorise-cognito-jwt');
 describe('logged out only route', () => {
   it('redirects to the supplied route if there is an accessToken and verification is successful', async () => {
     jest.mocked(verifyJwtToken).mockResolvedValue({
+      firstName: 'Ben',
+      surname: 'W',
       userName: 'user',
       isValid: true,
       groups: [],
@@ -27,6 +29,8 @@ describe('logged out only route', () => {
 
   it('does not redirect if there is no token', async () => {
     jest.mocked(verifyJwtToken).mockResolvedValue({
+      firstName: 'Ben',
+      surname: 'W',
       userName: 'user',
       isValid: true,
       groups: [],
@@ -46,6 +50,8 @@ describe('logged out only route', () => {
 
   it('does not redirect if verification fails', async () => {
     jest.mocked(verifyJwtToken).mockResolvedValue({
+      firstName: 'Ben',
+      surname: 'W',
       userName: '',
       isValid: false,
       groups: [],
@@ -65,6 +71,8 @@ describe('logged out only route', () => {
 
   it('calls the supplied serverSideProps callback and returns the result if supplied', async () => {
     jest.mocked(verifyJwtToken).mockResolvedValue({
+      firstName: 'Ben',
+      surname: 'W',
       userName: '',
       isValid: false,
       groups: [],

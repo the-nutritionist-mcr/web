@@ -1,7 +1,7 @@
-import { CheckBox, FormField, TextInput } from "grommet";
-import Exclusion from "../../domain/Exclusion";
-import { OkCancelDialog } from "../../components";
-import React from "react";
+import { CheckBox, FormField, TextInput } from 'grommet';
+import { Exclusion } from '@tnmw/types';
+import { OkCancelDialog } from '../../components';
+import React from 'react';
 
 interface EditExclusionDialogProps {
   exclusion: Exclusion;

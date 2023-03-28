@@ -4,7 +4,7 @@ import {
   CognitoIdentityProviderClient,
   AdminGetUserCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { BackendCustomer, CustomerWithChargebeePlan } from '@tnmw/types';
+import { BackendCustomer } from '@tnmw/types';
 import { ENV, HTTP } from '@tnmw/constants';
 import { authoriseJwt } from '../data-api/authorise';
 import { returnOkResponse } from '../data-api/return-ok-response';
@@ -20,7 +20,7 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
     const cognito = new CognitoIdentityProviderClient({});
     const poolId = process.env[ENV.varNames.CognitoPoolId];
 
-    const username = event.pathParameters.username;
+    const username = event.pathParameters?.username;
 
     if (!username) {
       throw new HttpError(HTTP.statusCodes.BadRequest, 'Request was invalid');
@@ -32,10 +32,10 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
     };
     const response = await cognito.send(new AdminGetUserCommand(input));
 
-    const user: BackendCustomer & { id: string } = {
-      id: response.Username,
-      username: response.Username,
-      ...parseCognitoResponse(response.UserAttributes),
+    const user: Omit<BackendCustomer, 'groups'> & { id: string } = {
+      id: response.Username ?? '',
+      username: response.Username ?? '',
+      ...parseCognitoResponse(response?.UserAttributes ?? []),
     };
 
     return returnOkResponse(user);

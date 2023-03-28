@@ -43,8 +43,12 @@ export const getClosedOrOpenStatus = (
       }
     | { available: false }
     | undefined,
-  customer: BackendCustomer
+  customer?: BackendCustomer
 ) => {
+  if (!customer) {
+    return false;
+  }
+
   if (!data) {
     return false;
   }

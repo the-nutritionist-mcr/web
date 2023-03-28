@@ -1,6 +1,7 @@
 import {
   DeliveryMeal,
   MealPlanGeneratedForIndividualCustomer,
+  Swapped,
 } from '@tnmw/types';
 
 const isSelectedMeal = (item: unknown): item is DeliveryMeal => {
@@ -12,7 +13,7 @@ const isSelectedMeal = (item: unknown): item is DeliveryMeal => {
 
 export const makeEmail = (
   name: string,
-  deliveries: MealPlanGeneratedForIndividualCustomer
+  deliveries: Swapped<MealPlanGeneratedForIndividualCustomer>
 ) => `
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
@@ -1086,8 +1087,18 @@ export const makeEmail = (
                                       style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
 
                                       ${deliveries.deliveries
-                                        .map(
-                                          (delivery, index) => `
+                                        .map((delivery, index) => {
+                                          if (delivery.paused) {
+                                            return `<span
+                                        style="font-family:arial,helvetica neue,helvetica,sans-serif"><strong>Delivery ${
+                                          index + 1
+                                        }</strong></span>
+                                          <ul>
+                                            <li><span style="font-family:arial,helvetica neue,helvetica,sans-serif">paused</</li>
+                                          </ul>
+                                          `;
+                                          }
+                                          return `
                                       <span
                                         style="font-family:arial,helvetica neue,helvetica,sans-serif"><strong>Delivery
                                           ${index + 1}</strong></span>
@@ -1107,8 +1118,8 @@ export const makeEmail = (
                                             )
                                             .join('')}
                                           </ul>
-                                          `
-                                        )
+                                          `;
+                                        })
                                         .join('')}
                                     </td>
                                   </tr>

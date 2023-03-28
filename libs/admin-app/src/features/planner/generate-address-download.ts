@@ -30,6 +30,9 @@ export const generateAddressDownload = (
   // eslint-disable-next-line fp/no-mutating-methods
   selections.forEach((selection) => {
     const delivery = selection.deliveries[deliveryNumber];
+    if (delivery.paused) {
+      return;
+    }
     delivery.plans.forEach((plan) => {
       if (plan.status === 'active' && plan.meals.length > 0) {
         includeCustomers.add(selection.customer.username);

@@ -25,6 +25,10 @@ const CreateRecipe = () => {
                 await create(recipe);
                 navigate?.(`/admin/recipes`);
               }}
+              onDuplicate={async (recipe) => {
+                await create(recipe);
+                navigate?.(`/admin/edit-recipe/?recipeId=${recipe.id}`);
+              }}
               // eslint-disable-next-line fp/no-mutating-methods
               customisations={customisations
                 .slice()

@@ -33,7 +33,7 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
 
     const dynamodbClient = new DynamoDBClient({});
     const ses = new SESClient({});
-    const submitOrderData = JSON.parse(event.body);
+    const submitOrderData = JSON.parse(event.body ?? '');
     const tableName = process.env[ENV.varNames.DynamoDBTable];
 
     if (!isSubmitCustomerOrderPayload(submitOrderData)) {
@@ -56,7 +56,7 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
     const result = await dynamo.send(queryCommand);
 
     const selection: CustomerMealsSelectionWithChargebeeCustomer[number] =
-      result.Items[0].selection;
+      result.Items?.[0].selection;
 
     if (authedUsername !== selection.customer.id) {
       throw new HttpError(

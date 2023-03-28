@@ -56,6 +56,8 @@ export const useSwrWrapper = <T = unknown>(
 
   return {
     ...response,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     data: data && recursivelyDeserialiseDate<T>(data),
   };
 };

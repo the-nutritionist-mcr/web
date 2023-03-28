@@ -18,13 +18,14 @@ import React from 'react';
 import { debounce } from 'lodash';
 import { ParagraphText } from '@tnmw/components';
 import { TagInput } from '../../components';
+import { ProjectedRecipe } from './Recipes';
 
 interface EditRecipesDialogProps {
   recipe: Recipe;
   exclusions?: Exclusion[];
   onOk: (recipe: Recipe) => void;
   title: string;
-  recipes?: Recipe[];
+  recipes?: ProjectedRecipe[];
   onCancel: () => void;
 }
 
