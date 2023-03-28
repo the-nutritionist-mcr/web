@@ -15,6 +15,6 @@
     "noFallthroughCasesInSwitch": true,
     "types": []
   },
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["**/*.spec.ts", "jest.config.ts"]
 }

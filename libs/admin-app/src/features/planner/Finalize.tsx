@@ -5,7 +5,6 @@ import {
   Recipe,
 } from '@tnmw/types';
 import { FaInfo } from 'react-icons/fa';
-import { RiNumber1, RiNumber2 } from 'react-icons/ri';
 import { calendarFormat } from '@tnmw/config';
 import { Card, Paragraph } from 'grommet';
 import moment from 'moment';

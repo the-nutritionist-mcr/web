@@ -11,8 +11,11 @@ export const updateRecipeInSelection = (
 ): MealPlanGeneratedForIndividualCustomer => {
   return {
     ...currentPlan,
-    deliveries: currentPlan.deliveries.map((delivery, dIndex) =>
-      deliveryIndex !== dIndex
+    deliveries: currentPlan.deliveries.map((delivery, dIndex) => {
+      if (delivery.paused) {
+        return delivery;
+      }
+      return deliveryIndex !== dIndex
         ? delivery
         : {
             ...delivery,
@@ -26,8 +29,8 @@ export const updateRecipeInSelection = (
                   }
                 : plan
             ),
-          }
-    ),
+          };
+    }),
   };
 };
 
@@ -39,8 +42,11 @@ export const deleteRecipeInSelection = (
 ): MealPlanGeneratedForIndividualCustomer => {
   return {
     ...currentPlan,
-    deliveries: currentPlan.deliveries.map((delivery, dIndex) =>
-      deliveryIndex !== dIndex
+    deliveries: currentPlan.deliveries.map((delivery, dIndex) => {
+      if (delivery.paused) {
+        return delivery;
+      }
+      return deliveryIndex !== dIndex
         ? delivery
         : {
             ...delivery,
@@ -54,8 +60,8 @@ export const deleteRecipeInSelection = (
                   }
                 : plan
             ),
-          }
-    ),
+          };
+    }),
   };
 };
 
@@ -70,8 +76,11 @@ export const addPlanRowToDelivery = (
   const id = v4();
   return {
     ...currentPlan,
-    deliveries: currentPlan.deliveries.map((delivery, dIndex) =>
-      deliveryIndex !== dIndex
+    deliveries: currentPlan.deliveries.map((delivery, dIndex) => {
+      if (delivery.paused) {
+        return delivery;
+      }
+      return deliveryIndex !== dIndex
         ? delivery
         : {
             ...delivery,
@@ -86,8 +95,8 @@ export const addPlanRowToDelivery = (
                 planId: id,
               },
             ],
-          }
-    ),
+          };
+    }),
   };
 };
 
@@ -98,14 +107,17 @@ export const removePlanRowFromDelivery = (
 ): MealPlanGeneratedForIndividualCustomer => {
   return {
     ...currentPlan,
-    deliveries: currentPlan.deliveries.map((delivery, dIndex) =>
-      deliveryIndex !== dIndex
+    deliveries: currentPlan.deliveries.map((delivery, dIndex) => {
+      if (delivery.paused) {
+        return delivery;
+      }
+      return deliveryIndex !== dIndex
         ? delivery
         : {
             ...delivery,
             plans: delivery.plans.filter((_, index) => planIndex !== index),
-          }
-    ),
+          };
+    }),
   };
 };
 
@@ -118,8 +130,11 @@ export const addRecipeToSelection = (
 ): MealPlanGeneratedForIndividualCustomer => {
   return {
     ...currentPlan,
-    deliveries: currentPlan.deliveries.map((delivery, dIndex) =>
-      deliveryIndex !== dIndex
+    deliveries: currentPlan.deliveries.map((delivery, dIndex) => {
+      if (delivery.paused) {
+        return delivery;
+      }
+      return deliveryIndex !== dIndex
         ? delivery
         : {
             ...delivery,
@@ -136,7 +151,7 @@ export const addRecipeToSelection = (
                   }
                 : plan
             ),
-          }
-    ),
+          };
+    }),
   };
 };

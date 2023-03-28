@@ -28,7 +28,6 @@ import {
   PlannedDelivery,
   PlanWithMeals,
   Recipe,
-  Swapped,
 } from '@tnmw/types';
 import {
   addPlanRowToDelivery,
@@ -40,7 +39,7 @@ import {
 import { itemFamilies } from '@tnmw/config';
 
 interface FinalizeRowProps {
-  customerSelection: Swapped<MealPlanGeneratedForIndividualCustomer>;
+  customerSelection: MealPlanGeneratedForIndividualCustomer;
   deliveryMeals: PlannedCook[];
   allRecipes: Recipe[];
   columns: number;
@@ -82,6 +81,12 @@ const deliveryIsEqual = (
   delivery: PlannedDelivery,
   otherDelivery: PlannedDelivery
 ) => {
+  const bothActive = !delivery.paused && !otherDelivery.paused;
+
+  if (!bothActive) {
+    return false;
+  }
+
   if (delivery.plans.length !== otherDelivery.plans.length) {
     return false;
   }
@@ -216,8 +221,26 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {deliveries.flatMap((delivery, deliveryIndex) =>
-          delivery.plans.map((plan, planIndex) => {
+        {deliveries.flatMap((delivery, deliveryIndex) => {
+          if (delivery.paused) {
+            return (
+              <AlternatingTableRow>
+                <td style={{ padding: 0, color: 'grey' }}>
+                  <Text>
+                    <Box justify="start" align="center" direction="row">
+                      <strong style={{ flexGrow: 2, textAlign: 'left' }}>
+                        D{deliveryIndex + 1}
+                      </strong>
+                    </Box>
+                  </Text>
+                </td>
+                <td style={{ padding: '6px', color: 'grey' }}>
+                  <Text>Paused</Text>
+                </td>
+              </AlternatingTableRow>
+            );
+          }
+          return delivery.plans.map((plan, planIndex) => {
             if (plan.status === 'cancelled') {
               return null;
             }
@@ -336,8 +359,8 @@ const FinalizeCustomerTableUnMemoized: React.FC<FinalizeRowProps> = (props) => {
                 </td>
               </AlternatingTableRow>
             );
-          })
-        )}
+          });
+        })}
       </TableBody>
     </Table>
   );

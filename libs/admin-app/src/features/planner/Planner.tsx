@@ -1,5 +1,4 @@
 import { Heading, Header, Button } from 'grommet';
-import JSZip from 'jszip';
 import { AddAdHocRowDialog } from './add-ad-hoc-row-dialog';
 
 import React, { useState } from 'react';
@@ -12,7 +11,6 @@ import {
   Exclusion,
 } from '@tnmw/types';
 import { DownloadLabelsDialog } from './download-labels-dialog';
-import { v4 } from 'uuid';
 
 interface PlannerProps {
   createdBy: string;

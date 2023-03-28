@@ -80,12 +80,14 @@ export const AddAdHocRowDialog = (props: AddAdHocRowDialogProps) => {
               wasUpdatedByCustomer: false,
               deliveries: [
                 {
+                  paused: false,
                   dateCooked: new Date(),
                   plans: [],
                 },
                 {
                   dateCooked: new Date(),
                   plans: [],
+                  paused: false,
                 },
               ],
               customer,
