@@ -44,18 +44,38 @@ jobs:
       fail-fast: false
       matrix:
         project:
+          - admin-app
+          - cloudflare-dns-linker
+          - components
+          - config
+          - dynamo
+          - image-optimisation
+          - connect-gmail-to-cypress
+          - pdf
+          - route-optimiser
+          - static-pages
+          - types
+          - read-gmail
           - planner
           - seed-cognito
           - constants
           - utils
           - web-app
           - meal-planning
+          - web-app-e2e
           - authorise-cognito-jwt
 
         target:
           - test
           - lint
           - types
+
+        exclude:
+          - project: components
+            target: test
+
+          - project: web-app-e2e
+            target: test
 
     steps:
       - uses: actions/checkout@v3

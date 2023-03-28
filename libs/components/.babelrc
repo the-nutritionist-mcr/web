@@ -9,5 +9,8 @@
       }
     ]
   ],
-  "plugins": ["@emotion/babel-plugin"]
+  "plugins": [
+    "@emotion/babel-plugin",
+    "babel-plugin-import-remove-resource-query"
+  ]
 }

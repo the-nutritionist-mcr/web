@@ -14587,6 +14587,11 @@ babel-plugin-extract-import-names@1.6.22:
   dependencies:
     "@babel/helper-plugin-utils" "7.10.4"
 
+babel-plugin-import-remove-resource-query@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/babel-plugin-import-remove-resource-query/-/babel-plugin-import-remove-resource-query-1.0.0.tgz#a7c0226997a795a415af95344866ad709400a612"
+  integrity sha512-WWxioHi9MJlmOk7xVfbwUMCBITEB7vN/ZMoY79LUtAHsXjteLIwtePC1jORV+q6Tf8PeV25lcPlgEADKXdGiDA==
+
 babel-plugin-istanbul@^5.1.0:
   version "5.2.0"
   resolved "https://registry.npmjs.org/babel-plugin-istanbul/-/babel-plugin-istanbul-5.2.0.tgz#df4ade83d897a92df069c4d9a25cf2671293c854"
