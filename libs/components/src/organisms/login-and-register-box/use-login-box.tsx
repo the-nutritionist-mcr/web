@@ -39,12 +39,9 @@ const isLoginData = (
   loginState === LoginState.DoLogin;
 
 export const useLoginBox = () => {
-  const {
-    login,
-    newPasswordChallengeResponse,
-    forgotPassword,
-    waitForAuthEvent,
-  } = useContext(AuthenticationServiceContext);
+  const { login, newPasswordChallengeResponse, forgotPassword } = useContext(
+    AuthenticationServiceContext
+  );
   const { navigate } = useContext(NavigationContext);
   if (!login || !newPasswordChallengeResponse || !navigate || !forgotPassword) {
     throw new Error('Dependencies not configured!');

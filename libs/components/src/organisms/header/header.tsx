@@ -16,9 +16,7 @@ interface HeaderProps {
 const isBrowser = typeof window !== 'undefined';
 
 const Header = (props: HeaderProps) => {
-  const [prevScrollPos, setPrevScrollPos] = useState(
-    isBrowser ? window.pageYOffset : 0
-  );
+  const [, setPrevScrollPos] = useState(isBrowser ? window.pageYOffset : 0);
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {

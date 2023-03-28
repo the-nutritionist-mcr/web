@@ -61,6 +61,7 @@ describe('the layout component', () => {
     // eslint-disable-next-line unicorn/consistent-function-scoping
     const ChildComponent = () => {
       const { user } = useContext(UserContext);
+      // eslint-disable-next-line react/jsx-no-useless-fragment
       return <>{user?.name}</>;
     };
 

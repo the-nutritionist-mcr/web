@@ -42,7 +42,7 @@ export const Account: FC<AccountProps> = ({
     ?.filter((plan) => plan.totalMeals > 0)
     ?.filter((plan) => plan.subscriptionStatus === 'active');
 
-  const { navigate, prefetch } = useContext(NavigationContext);
+  const { prefetch } = useContext(NavigationContext);
 
   useEffect(() => {
     prefetch?.('/choose-meals/');

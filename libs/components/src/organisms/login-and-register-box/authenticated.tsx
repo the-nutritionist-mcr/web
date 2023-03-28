@@ -1,4 +1,4 @@
-import { FC, ReactNode, useContext, useEffect } from 'react';
+import { ReactNode, useContext, useEffect } from 'react';
 import { User } from '../../contexts';
 import { NavigationContext } from '@tnmw/utils';
 
@@ -30,8 +30,10 @@ const Authenticated = (props: AuthenticatedProps) => {
         navigate(props.redirectPath ?? '/login/');
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.redirectPath, props.redirect]);
 
+  // eslint-disable-next-line react/jsx-no-useless-fragment
   return <>{props.children}</>;
 };
 

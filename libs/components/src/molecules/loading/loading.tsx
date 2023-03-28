@@ -33,7 +33,7 @@ interface UseLoadingReturn {
 export const LoadingContext = createContext<LoadingContextType>({
   isLoading: false,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  startLoading: (id: string) => {},
+  startLoading: () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   getLoadingState: () => {
     return undefined;
@@ -119,6 +119,7 @@ export const Loading = (props: LoadingProps) => {
 
   useEffect(() => {
     stopLoading();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getLoadingState = (id: string): LoadingState | undefined => {

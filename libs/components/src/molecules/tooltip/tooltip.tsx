@@ -1,4 +1,4 @@
-import { Children, isValidElement, ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import { tooltipContainer, tooltipText } from './tooltip.css';
 
 interface ToolTipProps {

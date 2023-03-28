@@ -1,7 +1,7 @@
 import { Header, Footer, AuthenticationServiceContext } from '../../organisms';
 import { useAxe } from '../../hooks';
 import styled from '@emotion/styled';
-import React, { FC, ReactNode, useContext, useState } from 'react';
+import { ReactNode, useContext } from 'react';
 import { Loader } from '@tnmw/components';
 
 const MainContainer = styled('main')`

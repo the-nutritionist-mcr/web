@@ -1,14 +1,6 @@
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import type {
-  FC,
-  MouseEvent,
-  Children,
-  ReactChild,
-  ReactChildren,
-  ReactNode,
-} from 'react';
-import { Theme } from '@emotion/react';
+import type { MouseEvent, ReactNode } from 'react';
 
 type Size = 'medium' | 'large';
 

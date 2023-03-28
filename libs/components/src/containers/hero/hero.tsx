@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import { FC, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
-const HeroBox = styled('div')(({ theme }) => {
+const HeroBox = styled('div')(() => {
   return {
     minHeight: '130px',
     width: '100%',

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { FC, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 const StyledP = styled.p`
   font-family: ibm-plex-serif, 'Times New Roman', serif;

@@ -4,6 +4,16 @@
   "sourceRoot": "apps/web-app-e2e/src",
   "projectType": "application",
   "targets": {
+    "types": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --noEmit -p libs/types/tsconfig.json"
+          }
+        ]
+      }
+    },
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
       "options": {

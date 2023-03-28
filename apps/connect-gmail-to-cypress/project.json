@@ -4,6 +4,16 @@
   "sourceRoot": "apps/connect-gmail-to-cypress/src",
   "projectType": "application",
   "targets": {
+    "types": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --noEmit -p libs/types/tsconfig.app.json && tsc --noEmit -p libs/types/tsconfig.spec.json"
+          }
+        ]
+      }
+    },
     "build": {
       "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],

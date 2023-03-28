@@ -92,7 +92,7 @@ const generateCsvStringFromObjectArray = (
     return accum;
   }, {});
 
-  return Object.entries({ ...mealNameMap, ['Custom Flags']: flags }).map(
+  return Object.entries({ ...mealNameMap, 'Custom Flags': flags }).map(
     ([key, value]) => ({
       filename: key,
       data: generateIndividualCsv(value),

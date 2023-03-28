@@ -10,6 +10,7 @@ import { NavigationContext, NavigationContextType } from '@tnmw/utils';
 export const mockDependencies = (
   dependencies?: AuthenticationContextType & NavigationContextType
 ) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const useContext = jest.spyOn(React, 'useContext') as any;
   const deps = {
     register: jest.fn(),
