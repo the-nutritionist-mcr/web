@@ -26,9 +26,7 @@ Cypress.Commands.add('seed', () => {
   });
 });
 
-Cypress.Commands.add('seed', () =>
-  seed(E2E.adminUserOne.username, E2E.adminUserOne.password)
-);
+Cypress.Commands.add('seed', () => seed());
 
 // Taken from https://docs.cypress.io/guides/testing-strategies/amazon-cognito-authentication#Custom-Command-for-Amazon-Cognito-Authentication
 // Amazon Cognito
