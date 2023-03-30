@@ -52,7 +52,7 @@
     "@emotion/react": "11.10.6",
     "@emotion/server": "11.10.0",
     "@emotion/styled": "11.10.6",
-    "@mui/material": "5.11.14",
+    "@mui/material": "5.11.15",
     "@nrwl/next": "15.4.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@reduxjs/toolkit": "1.9.3",
