@@ -13,7 +13,7 @@ import {
   Box,
 } from 'grommet';
 import fileDownload from 'js-file-download';
-import { Checkmark, Close } from 'grommet-icons';
+import { Checkmark } from 'grommet-icons';
 import JSZip from 'jszip';
 import { FC, useState } from 'react';
 import { defaultDeliveryDays } from '@tnmw/config';

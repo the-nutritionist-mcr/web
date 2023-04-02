@@ -53,46 +53,6 @@ const Finalize: React.FC<FinalizeProps> = ({
       )
     );
 
-  // const customersCookedFor = customers
-  //   .filter((customer) => !customerUsernames.has(customer.username))
-  //   .filter((customer) =>
-  //     customer.plans.some((plan) =>
-  //       cooks.some(
-  //         (cook) => getCookStatus(cook.date, plan).status !== 'cancelled'
-  //       )
-  //     )
-  //   );
-
-  // const customersCookedForOne = customerMeals.filter((meal) =>
-  //   meal.deliveries[0].plans.some(
-  //     (plan) => plan.status === 'active' && plan.meals.length > 0
-  //   )
-  // ).length;
-
-  // const mealsForOne = customerMeals.reduce((accum, item) => {
-  //   return (
-  //     accum +
-  //     item.deliveries[0].plans.reduce((accum2, plan) => {
-  //       return plan.status === 'active' ? plan.meals.length + accum2 : accum2;
-  //     }, 0)
-  //   );
-  // }, 0);
-
-  // const mealsForTwo = customerMeals.reduce((accum, item) => {
-  //   return (
-  //     accum +
-  //     item.deliveries[1].plans.reduce((accum2, plan) => {
-  //       return plan.status === 'active' ? plan.meals.length + accum2 : accum2;
-  //     }, 0)
-  //   );
-  // }, 0);
-
-  // const customersCookedForTwo = customerMeals.filter((meal) =>
-  //   meal.deliveries[1].plans.some(
-  //     (plan) => plan.status === 'active' && plan.meals.length > 0
-  //   )
-  // ).length;
-
   if (!customerMeals) {
     return (
       <Paragraph fill>
@@ -124,22 +84,6 @@ const Finalize: React.FC<FinalizeProps> = ({
             </span>
           </li>
 
-          {/*
-          <li className={plannerInfoLi}>
-            <RiNumber1 size="25px" className={icon} />
-            <span>
-              <strong>{mealsForOne}</strong> meals for{' '}
-              <strong>{customersCookedForOne}</strong> customers
-            </span>
-          </li>
-          <li className={plannerInfoLi}>
-            <RiNumber2 size="25px" className={icon} />
-            <span>
-              <strong>{mealsForTwo}</strong> meals for{' '}
-              <strong>{customersCookedForTwo}</strong> customers
-            </span>
-          </li>
-          */}
           {missingCustomers.length > 0 && (
             <li className={plannerWarningLi}>
               The planner is missing an entry for the following customer(s):{' '}

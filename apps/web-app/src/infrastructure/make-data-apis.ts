@@ -180,6 +180,29 @@ export const makeDataApis = (
     })
   );
 
+  const submitOrderFunction = makeFunction(`submit-order-function`, {
+    entry: entryName('misc', 'customer-submit-order.ts'),
+    environment: {
+      ...defaultEnvironmentVars,
+      [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
+    },
+  });
+
+  submitOrderFunction.addToRolePolicy(
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [IAM.actions.ses.sendEmail],
+      resources: [sesIdentityArn],
+    })
+  );
+
+  const submitOrder = planResource.addResource('submit-order');
+  submitOrder.addMethod(
+    HTTP.verbs.Post,
+    new LambdaIntegration(submitOrderFunction)
+  );
+  planDataTable.grantReadWriteData(submitOrderFunction);
+
   const getPlanFunction = makeFunction(`get-plan-function`, {
     entry: entryName('misc', 'get-current-plan.ts'),
     environment: {
