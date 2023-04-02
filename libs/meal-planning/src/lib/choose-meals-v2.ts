@@ -121,11 +121,13 @@ const generateCustomerDeliveryFromCook = (
   // eslint-disable-next-line fp/no-let
   let lastIndex = 0;
 
-  const notPaused = customer.plans.some((plan) => {
-    const status = getCookStatus(cook.date, plan);
+  const notPaused = customer.plans
+    .filter((plan) => plan.subscriptionStatus !== 'cancelled')
+    .some((plan) => {
+      const status = getCookStatus(cook.date, plan);
 
-    return status.status !== 'paused';
-  });
+      return status.status !== 'paused';
+    });
 
   const firstPaused = customer.plans.find((plan) => {
     const status = getCookStatus(cook.date, plan);
