@@ -205,7 +205,7 @@ const generateCookPlanDocumentDefinition = (
   const newBuilder = new PdfBuilder(title, true);
 
   const returnVal = cookPlan.reduce<PdfBuilder>((builder, plan, index) => {
-    const date = moment(plan.date).format('MMM Do YYYY');
+    const date = moment(plan.date).format('dddd MMM Do YYYY');
     return builder
       .header(`Cook ${index + 1} // ${date}`)
       .table(

@@ -101,7 +101,9 @@ const generateDeliveryPlanDocumentDefinition = (
         delivery: deliveries[cookIndex],
       }));
 
-      const date = moment(plannedCooks[cookIndex].date).format('MMM Do YYYY');
+      const date = moment(plannedCooks[cookIndex].date).format(
+        'dddd MMM Do YYYY'
+      );
 
       return topBuilder
         .header(`Cook ${cookIndex + 1} // ${date}`)

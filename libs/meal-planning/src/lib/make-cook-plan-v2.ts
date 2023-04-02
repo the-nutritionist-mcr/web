@@ -58,7 +58,7 @@ const countExtras = (
       if (plan.status === 'active') {
         plan.meals.forEach((meal) => {
           if (meal.isExtra) {
-            const previous = primaryMap.get(meal.extraName);
+            const previous = newMap.get(meal.extraName);
 
             newMap.set(meal.extraName, {
               isExtra: true,
@@ -103,7 +103,7 @@ const countPrimaries = (
             }
 
             const variant = createVariant(selection.customer, meal, allRecipes);
-            const previous = primaryMap.get(variant.string);
+            const previous = newMap.get(variant.string);
             newMap.set(variant.string, {
               fullName: variant.string,
               planName: plan.name,
@@ -158,7 +158,7 @@ const countAlternates = (
               allRecipes
             );
 
-            const previous = primaryMap.get(variant.string);
+            const previous = newMap.get(variant.string);
             newMap.set(variant.string, {
               fullName: variant.string,
               planName: plan.name,
