@@ -25,8 +25,8 @@ import { ErrorFallback } from '../components/error-fallback';
 const navigator = {
   navigate: async (path: string, withRouter = true) => {
     // eslint-disable-next-line fp/no-mutating-methods
-    // await Router.push(path);
-    window.location.href = path
+    await Router.push(path);
+    // window.location.href = path
   },
   prefetch: (path: string) => {
     Router.prefetch(path);
