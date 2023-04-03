@@ -10,7 +10,6 @@ import { handleSubscriptionEvent } from './event-handlers/handle-subscription-ev
 import { authoriseBasic } from '../data-api/authorise';
 import { getEnv } from './get-env';
 import { getSecrets } from '../get-secrets';
-import { approvedTesters } from './approved-testers';
 import { handleDeleteCustomer } from './event-handlers/handle-delete-customer';
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {

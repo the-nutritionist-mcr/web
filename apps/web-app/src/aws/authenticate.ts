@@ -166,6 +166,7 @@ export const forgotPassword = async (
 };
 
 export const newPasswordChallengeResponse = async (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   user: any,
   password: string
 ) => {

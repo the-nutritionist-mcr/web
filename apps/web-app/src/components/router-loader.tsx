@@ -32,6 +32,7 @@ export const RouterLoader = (props: RouterProps) => {
       router?.events?.off('routeChangeStart', handleStart);
       router?.events?.off('routeChangeComplete', handleStop);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   return <>{props.children}</>;

@@ -5,7 +5,6 @@ import { UsersStack } from './permissions-stack';
 import { BackendStack } from './backend-stack';
 import { AccountUsersStack } from './account-users-stack';
 import { FrontendStack } from './frontend-stack';
-import { SeedStack } from './seed-stack';
 
 const app = new App();
 
@@ -33,7 +32,7 @@ const sesIdentityArn = `arn:aws:ses:eu-west-2:568693217207:identity/thenutrition
 const forceUpdateKey = 'force-update-key';
 
 const main = async () => {
-  const userStack = new AccountUsersStack(app, 'tnm-web-credentials-stack', {
+  new AccountUsersStack(app, 'tnm-web-credentials-stack', {
     businessOwners: ['lawrence', 'jess', 'ryan'],
     developers: ['ben'],
     stackProps: { env },

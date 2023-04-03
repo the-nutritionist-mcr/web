@@ -2,7 +2,6 @@
 const withNx = require('@nrwl/next/plugins/with-nx');
 const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin');
 const withVanillaExtract = createVanillaExtractPlugin();
-const withPlugins = require('next-compose-plugins');
 const withOptimizedImages = require('next-optimized-images');
 
 const withPWA = require('next-pwa')({

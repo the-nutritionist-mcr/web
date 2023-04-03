@@ -1,6 +1,6 @@
 import { AuthenticationServiceContext, LoadingContext } from '@tnmw/components';
 import { NavigationContext } from '@tnmw/utils';
-import { ReactNode, useContext, useEffect, useLayoutEffect } from 'react';
+import { ReactNode, useContext, useEffect } from 'react';
 import { LOADING_KEY } from '../authenticationprovider';
 
 interface RedirectIfLoggedOutProps {

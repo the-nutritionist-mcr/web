@@ -56,6 +56,7 @@ export const AuthenticationProvider = (props: AuthenticationProviderProps) => {
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     return () => Hub.remove('auth', loadUser);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
   return (
     <AuthenticationServiceContext.Provider

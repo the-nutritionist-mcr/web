@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { MenuPaddedContent } from './menu-padded-content';
 import { AdminTemplate } from './admin-template';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { Recipes } from '@tnmw/admin-app';
 import { useCustomisations, useRecipes } from '../../hooks';
 import { swrFetcher } from '../../utils/swr-fetcher';
