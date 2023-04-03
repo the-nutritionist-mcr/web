@@ -8,7 +8,7 @@ interface ItemFamily {
 export const hydrateCustomPlan = (
   customPlan: Delivery[] | undefined,
   itemFamilies: ItemFamily[]
-): Delivery[] =>
+): Delivery[] | undefined =>
   customPlan?.map?.((delivery) => ({
     ...delivery,
     items: delivery.items.map((item) => ({
@@ -16,4 +16,4 @@ export const hydrateCustomPlan = (
       isExtra: itemFamilies?.find((family) => family.name === item.name)
         ?.isExtra,
     })),
-  })) ?? [];
+  }));
