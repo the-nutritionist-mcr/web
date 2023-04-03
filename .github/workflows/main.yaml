@@ -81,8 +81,12 @@ jobs:
         target:
           - test
           - types
+          - lint
 
         exclude:
+          - project: web-app
+            target: lint
+
           - project: components
             target: test
 
