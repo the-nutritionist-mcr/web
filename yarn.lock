@@ -16466,10 +16466,10 @@ constants-browserify@1.0.0, constants-browserify@^1.0.0:
   resolved "https://registry.npmjs.org/constants-browserify/-/constants-browserify-1.0.0.tgz#c20b96d8c617748aaf1c16021760cd27fcb8cb75"
   integrity sha1-wguW2MYXdIqvHBYCF2DNJ/y4y3U=
 
-constructs@10.1.299:
-  version "10.1.299"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.1.299.tgz#28e2464ed290c5ecc14c9ed35ee6c32a2ed90dfe"
-  integrity sha512-2CL8nv1vCk6q4RZl9qVvGzPKKT/kOzTZZJvjW64/Dmw42WTQod07/DwJjxzTtxFD85tsY3/fIx2hW0/3WmclZg==
+constructs@10.1.300:
+  version "10.1.300"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.1.300.tgz#758bbcddbb47c4a92057fe23bd73ae98c44fb0a7"
+  integrity sha512-u3+h8uSKwcH/HRNhtk9CUlFgIGr5pY+17pAF10SoX/eD1dBFSr2qZNpMi+61eUnxt0zISMTdgy+0iBDI+8zK9g==
 
 content-disposition@0.5.4, content-disposition@^0.5.2:
   version "0.5.4"
