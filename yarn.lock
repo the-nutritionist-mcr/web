@@ -112,15 +112,6 @@
     amazon-cognito-identity-js "5.2.14"
     crypto-js "^4.1.1"
 
-"@aws-amplify/auth@5.1.1":
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/auth/-/auth-5.1.1.tgz#cac3b36316b39fbd36e2b9bcf5fca200bf119d28"
-  integrity sha512-NucpdoPdwvEIxT08EBVk4sQSMD24WESaJhDiHlQ4dpFVWV8M3uoPSRebs+DrGH5KBXIW1F2AcX63tCapv7Q8uA==
-  dependencies:
-    "@aws-amplify/core" "5.0.7"
-    amazon-cognito-identity-js "6.1.1"
-    tslib "^1.8.0"
-
 "@aws-amplify/auth@5.2.3":
   version "5.2.3"
   resolved "https://registry.yarnpkg.com/@aws-amplify/auth/-/auth-5.2.3.tgz#5c7c3751799547ca3229eca033fdea1086fff8fb"
@@ -13050,17 +13041,6 @@ amazon-cognito-identity-js@5.2.14:
   dependencies:
     buffer "4.9.2"
     crypto-js "^4.1.1"
-    fast-base64-decode "^1.0.0"
-    isomorphic-unfetch "^3.0.0"
-    js-cookie "^2.2.1"
-
-amazon-cognito-identity-js@6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/amazon-cognito-identity-js/-/amazon-cognito-identity-js-6.1.1.tgz#9b9915f1a752da80c08496fcb56f5dbbfa79a46f"
-  integrity sha512-udhv6lQhcL2Tw8Y/xDiLg+h+2e0d+G4/vJyTRGVdDpvQiypMFjw/FOt7xyFtklk2EdQFXo3HDc3IMoQ19H2gqg==
-  dependencies:
-    "@aws-crypto/sha256-js" "1.2.2"
-    buffer "4.9.2"
     fast-base64-decode "^1.0.0"
     isomorphic-unfetch "^3.0.0"
     js-cookie "^2.2.1"
