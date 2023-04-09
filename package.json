@@ -41,7 +41,7 @@
     "@aws-sdk/lib-storage": "^3.216.0",
     "@aws-sdk/token-providers": "^3.226.0",
     "@aws-sdk/util-base64": "^3.208.0",
-    "@axe-core/react": "4.5.2",
+    "@axe-core/react": "4.6.1",
     "@cloudcomponents/cdk-dynamodb-seeder": "^2.1.0",
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
