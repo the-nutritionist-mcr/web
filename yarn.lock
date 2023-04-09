@@ -12337,10 +12337,10 @@
     "@babel/template" "^7.12.13"
     "@vanilla-extract/integration" "^5.0.0"
 
-"@vanilla-extract/css@1.9.2", "@vanilla-extract/css@^1.9.2":
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/@vanilla-extract/css/-/css-1.9.2.tgz#2c4bcc58f3c7441a1d041083c76bf5c3e2c77675"
-  integrity sha512-CE5+R89LOl9XG5dRwEIvVyl/YcS2GkqjdE/XnGJ+p7Fp6Exu08fifv7tY87XxFeCIRAbc9psM+h4lF+wC3Y0fg==
+"@vanilla-extract/css@1.11.0":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@vanilla-extract/css/-/css-1.11.0.tgz#ad285f31e0b0dff0d7a02cab6a2e5c39e5f2ddf3"
+  integrity sha512-uohj+8cGWbnrVzTfrjlJeXqdGjH3d3TcscdQxKe3h5bb5QQXTpPSq+c+SeWADIGiZybzcW0CBvZV8jsy1ywY9w==
   dependencies:
     "@emotion/hash" "^0.9.0"
     "@vanilla-extract/private" "^1.0.3"
@@ -12349,7 +12349,7 @@
     css-what "^5.0.1"
     cssesc "^3.0.0"
     csstype "^3.0.7"
-    deep-object-diff "^1.1.0"
+    deep-object-diff "^1.1.9"
     deepmerge "^4.2.2"
     media-query-parser "^2.0.2"
     outdent "^0.8.0"
@@ -12368,6 +12368,23 @@
     deep-object-diff "^1.1.0"
     deepmerge "^4.2.2"
     escape-string-regexp "^4.0.0"
+    media-query-parser "^2.0.2"
+    outdent "^0.8.0"
+
+"@vanilla-extract/css@^1.9.2":
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/@vanilla-extract/css/-/css-1.9.2.tgz#2c4bcc58f3c7441a1d041083c76bf5c3e2c77675"
+  integrity sha512-CE5+R89LOl9XG5dRwEIvVyl/YcS2GkqjdE/XnGJ+p7Fp6Exu08fifv7tY87XxFeCIRAbc9psM+h4lF+wC3Y0fg==
+  dependencies:
+    "@emotion/hash" "^0.9.0"
+    "@vanilla-extract/private" "^1.0.3"
+    ahocorasick "1.0.2"
+    chalk "^4.1.1"
+    css-what "^5.0.1"
+    cssesc "^3.0.0"
+    csstype "^3.0.7"
+    deep-object-diff "^1.1.0"
+    deepmerge "^4.2.2"
     media-query-parser "^2.0.2"
     outdent "^0.8.0"
 
@@ -16872,6 +16889,11 @@ deep-object-diff@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/deep-object-diff/-/deep-object-diff-1.1.0.tgz#d6fabf476c2ed1751fc94d5ca693d2ed8c18bc5a"
   integrity sha512-b+QLs5vHgS+IoSNcUE4n9HP2NwcHj7aqnJWsjPtuG75Rh5TOaGt0OjAYInh77d5T16V5cRDC+Pw/6ZZZiETBGw==
+
+deep-object-diff@^1.1.9:
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/deep-object-diff/-/deep-object-diff-1.1.9.tgz#6df7ef035ad6a0caa44479c536ed7b02570f4595"
+  integrity sha512-Rn+RuwkmkDwCi2/oXOFS9Gsr5lJZu/yTGpK7wAaAIE75CC+LCGEZHpY6VQJa/RoJcrmaA/docWJZvYohlNkWPA==
 
 deepmerge@4.2.2, deepmerge@^4.2.2:
   version "4.2.2"
