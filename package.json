@@ -85,7 +85,7 @@
     "@types/styled-components": "5.1.26",
     "@types/uuid": "8.3.4",
     "@vanilla-extract/babel-plugin": "1.2.0",
-    "@vanilla-extract/css": "1.9.2",
+    "@vanilla-extract/css": "1.11.0",
     "@vanilla-extract/next-plugin": "2.1.1",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
     "amazon-cognito-identity-js": "5.2.14",
