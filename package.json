@@ -45,7 +45,7 @@
     "@cloudcomponents/cdk-dynamodb-seeder": "^2.1.0",
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
-    "@cypress/code-coverage": "3.10.3",
+    "@cypress/code-coverage": "3.10.4",
     "@datadog/browser-rum": "^4.16.1",
     "@datadog/datadog-ci": "^2.0.0",
     "@emotion/jest": "11.10.5",
