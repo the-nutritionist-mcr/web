@@ -92,7 +92,7 @@
     "aws-amplify": "4.3.46",
     "aws-cdk": "2.73.0",
     "aws-cdk-lib": "2.73.0",
-    "aws-crt": "1.15.13",
+    "aws-crt": "1.15.14",
     "aws-sdk": "2.1353.0",
     "aws-sdk-client-mock": "1.0.0",
     "axios": "0.27.2",
