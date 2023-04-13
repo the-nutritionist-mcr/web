@@ -13758,10 +13758,10 @@ aws-cdk@2.73.0:
   optionalDependencies:
     fsevents "2.3.2"
 
-aws-crt@1.15.14:
-  version "1.15.14"
-  resolved "https://registry.yarnpkg.com/aws-crt/-/aws-crt-1.15.14.tgz#a2b9a21dc8084dcb2d286a9ea5a805eb65945554"
-  integrity sha512-F1E1wBt4BHbpxbRAy0UqbXR7Abwq2CX+ZomY4/I2ff82zasYHhBk0zp9uL5QleMNfiMHo8PPm5DA1VZjJQzxQA==
+aws-crt@1.15.15:
+  version "1.15.15"
+  resolved "https://registry.yarnpkg.com/aws-crt/-/aws-crt-1.15.15.tgz#52e92934015108ba57a3e40d3bd341d36bf6bc36"
+  integrity sha512-StdpO3MREZLpAvkGs+PQNMLn0tvBagfl9iaeo7FYSHV0hQvnD5XoOARE2esQg1RxIH+2yRPvg4ccqLFNWC2qGw==
   dependencies:
     "@aws-sdk/util-utf8-browser" "^3.109.0"
     "@httptoolkit/websocket-stream" "^6.0.0"
