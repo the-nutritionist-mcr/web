@@ -155,7 +155,7 @@
     "next": "13.3.0",
     "next-aws-lambda-webpack-plugin": "0.2.8",
     "next-compose-plugins": "^2.2.1",
-    "next-images": "1.8.4",
+    "next-images": "1.8.5",
     "next-optimized-images": "^2.6.2",
     "next-pwa": "^5.6.0",
     "next-router-mock": "^0.8.0",
