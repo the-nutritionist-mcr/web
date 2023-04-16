@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { LoginAndRegisterBox, Hero, Layout } from '@tnmw/components';
+import { LoginAndRegisterBox, Hero } from '@tnmw/components';
 import Image from 'next/image';
 import { loader } from '../utils/loader';
 import { RedirectIfLoggedIn } from '../components/authentication/redirect-if-logged-in';

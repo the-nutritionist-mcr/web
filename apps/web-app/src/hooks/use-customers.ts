@@ -1,4 +1,4 @@
-import { BackendCustomer, CustomerWithChargebeePlan } from '@tnmw/types';
+import { BackendCustomer } from '@tnmw/types';
 import { useSwrWrapper } from './use-swr-wrapper';
 
 interface CustomersResponse {

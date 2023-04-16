@@ -3,7 +3,6 @@ import {
   GetPlanResponseAdmin,
   GetPlanResponseNonAdmin,
   NotYetPublishedResponse,
-  SubmitCustomerOrderPayload,
   MealPlanGeneratedForIndividualCustomer,
 } from '@tnmw/types';
 import useMutation from 'use-mutation';
@@ -17,15 +16,6 @@ type GetPlanResponse =
   | GetPlanResponseAdmin
   | GetPlanResponseNonAdmin
   | NotYetPublishedResponse;
-
-const submitOrder = async (
-  details: SubmitCustomerOrderPayload
-): Promise<void> => {
-  return await swrFetcher('plan/submit-order', {
-    method: HTTP.verbs.Post,
-    body: JSON.stringify(details),
-  });
-};
 
 export const usePlan = () => {
   const { mutate, cache } = useSWRConfig();
@@ -118,7 +108,7 @@ export const usePlan = () => {
   });
 
   if (!data) {
-    return { data: undefined, update, publish, submitOrder };
+    return { data: undefined, update, publish };
   }
 
   if (data.available === true) {
@@ -128,13 +118,11 @@ export const usePlan = () => {
       publish: async () => {
         await publish();
       },
-      submitOrder,
     };
   }
 
   return {
     data,
     update,
-    submitOrder,
   };
 };

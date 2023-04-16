@@ -182,7 +182,8 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/web-app/**/*.{ts,tsx,js,jsx}"]
+        "ignorePath": "apps/web-app/.eslintignore",
+        "lintFilePatterns": ["apps/web-app/**/*.{ts,tsx,js}"]
       }
     }
   },

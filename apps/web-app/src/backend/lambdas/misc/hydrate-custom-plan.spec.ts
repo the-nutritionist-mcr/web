@@ -115,7 +115,10 @@ describe('hydrate custom plan', () => {
 
     const result = hydrateCustomPlan(delivery, families);
 
-    expect(result[0].items[0].isExtra).toEqual(false);
-    expect(result[1].items[3].isExtra).toEqual(false);
+    expect(result).toBeDefined();
+    if (result) {
+      expect(result[0].items[0].isExtra).toEqual(false);
+      expect(result[1].items[3].isExtra).toEqual(false);
+    }
   });
 });

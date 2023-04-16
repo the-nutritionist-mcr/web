@@ -1,8 +1,6 @@
 import { Grommet } from 'grommet';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { Loading } from '@tnmw/components';
-import { prefetch } from '../../hooks/pre-fetch';
 
 const theme = {
   global: {

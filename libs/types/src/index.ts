@@ -10,8 +10,6 @@ export { HotOrCold } from './lib/Recipe';
 export type { default as Recipe, Alternate } from './lib/Recipe';
 export { assertIsRecipe } from './lib/Recipe';
 
-export { isSubmitCustomerOrderPayload } from './lib/submit-customer-order';
-export type { SubmitCustomerOrderPayload } from './lib/submit-customer-order';
 export { isChangePlanRecipeBody } from './lib/change-plan-recipe-body';
 export { isPublishPlanBody } from './lib/publish-plan-body';
 

@@ -1,5 +1,4 @@
 import { AuthenticationServiceContext, LoadingContext } from '@tnmw/components';
-import { NavigationContext } from '@tnmw/utils';
 import { ReactNode, useContext, useEffect } from 'react';
 
 interface RedirectIfLoggedInProps {
@@ -19,6 +18,7 @@ export const RedirectIfLoggedIn = (props: RedirectIfLoggedInProps) => {
       console.debug(`Redirecting to ${props.redirectTo}`);
       window.location.href = props.redirectTo;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [willRedirect]);
 
   return <>{willRedirect ? null : props.children}</>;

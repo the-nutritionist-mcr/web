@@ -48,6 +48,7 @@ export const useSwrWrapper = <T = unknown>(
   ] as const;
 
   const response = useSWR<SerialisedDate<T>>(...finalArgs);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data, ...rest } = response;
 
   if (data !== undefined) {
