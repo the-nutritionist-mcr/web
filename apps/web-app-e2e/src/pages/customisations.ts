@@ -38,8 +38,10 @@ export const ConfirmDeleteDialog = {
 export const CreateCustomisationsDialog = {
   getCreateDialog: () => cy.get('form'),
 
-  editNameField: (text: string) =>
-    cy.get('form').find(`input[name='name']`).clear().type(text),
+  editNameField: (text: string) => {
+    cy.get('form').find(`input[name='name']`).clear();
+    cy.get('form').find(`input[name='name']`).type(text);
+  },
 
   editAllergenField: (isAllergen: boolean) => {
     return isAllergen

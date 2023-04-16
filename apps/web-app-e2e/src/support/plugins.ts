@@ -1,4 +1,4 @@
-import { ENV, CHARGEBEE_SITES, E2E } from '@tnmw/constants';
+import { ENV, CHARGEBEE_SITES } from '@tnmw/constants';
 import { ChargeBee } from 'chargebee-typescript';
 import { TEST_USER } from './constants';
 

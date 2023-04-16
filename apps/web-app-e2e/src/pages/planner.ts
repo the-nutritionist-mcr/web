@@ -49,9 +49,10 @@ export const Planner = {
     oldMeal: string,
     newMeal: string
   ) => {
+    cy.contains(customerName).parents('table').scrollIntoView();
+
     cy.contains(customerName)
       .parents('table')
-      .scrollIntoView()
       .contains(`D${deliveryNumber} (${planName})`)
       .parents('tr')
       .contains(oldMeal)

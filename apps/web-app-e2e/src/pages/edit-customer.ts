@@ -32,7 +32,8 @@ export const EditCustomer = {
   resetPassword: (forceChange: boolean, password?: string) => {
     cy.contains('button', 'Reset Password').click();
     if (password) {
-      cy.get('input[name="password"]').clear().type(password);
+      cy.get('input[name="password"]').clear();
+      cy.get('input[name="password"]').type(password);
     }
 
     if (forceChange) {

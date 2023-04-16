@@ -126,18 +126,24 @@ export const CreateRecipeDialog = {
 
   getEditDialog: () => cy.get('form'),
 
-  editNameField: (text: string) =>
-    cy.get('form').find(`input[name='name']`).clear().type(text),
+  editNameField: (text: string) => {
+    cy.get('form').find(`input[name='name']`).clear();
+    cy.get('form').find(`input[name='name']`).type(text);
+  },
 
   getEditNameField: () => cy.get('form').find(`input[name='name']`),
 
-  editShortnameField: (text: string) =>
-    cy.get('form').find(`input[name='shortName']`).clear().type(text),
+  editShortnameField: (text: string) => {
+    cy.get('form').find(`input[name='shortName']`).clear();
+    cy.get('form').find(`input[name='shortName']`).type(text);
+  },
 
   getEditShortnameField: () => cy.get('form').find(`input[name='shortName']`),
 
-  editDescriptionField: (text: string) =>
-    cy.get('form').find(`input[name='description']`).clear().type(text),
+  editDescriptionField: (text: string) => {
+    cy.get('form').find(`input[name='description']`).clear();
+    cy.get('form').find(`input[name='description']`).type(text);
+  },
 
   getEditDescriptionField: () =>
     cy.get('form').find(`input[name='description']`),
@@ -148,8 +154,10 @@ export const CreateRecipeDialog = {
 
   getAllergensField: () => cy.get('form').find(`input[name='allergens']`),
 
-  editAllergensField: (text: string) =>
-    cy.get('form').find(`input[name='allergens']`).clear().type(text),
+  editAllergensField: (text: string) => {
+    cy.get('form').find(`input[name='allergens']`).clear();
+    cy.get('form').find(`input[name='allergens']`).type(text);
+  },
 
   getCustomisationsField: () =>
     cy.get('form').find(`input[name='potentialExclusions']`),

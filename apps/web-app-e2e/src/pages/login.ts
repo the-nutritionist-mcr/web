@@ -13,13 +13,17 @@ export const LoginPage = {
 
   clickLoginButton: () => cy.contains('form button', 'Login').click(),
 
-  fillEmailInput: (text: string) =>
-    cy.get('form').find("input[name='email']").clear().type(text),
+  fillEmailInput: (text: string) => {
+    cy.get('form').find("input[name='email']").clear();
+    cy.get('form').find("input[name='email']").type(text);
+  },
 
   getEmailInput: () => cy.get('form').find("input[name='email']"),
 
   getPasswordInput: () => cy.get('form').find("input[name='password']"),
 
-  fillPasswordInput: (text: string) =>
-    cy.get('form').find("input[name='password']").clear().type(text),
+  fillPasswordInput: (text: string) => {
+    cy.get('form').find("input[name='password']").clear();
+    cy.get('form').find("input[name='password']").type(text);
+  },
 };
