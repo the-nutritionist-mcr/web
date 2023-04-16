@@ -288,32 +288,6 @@ const dummyPlannedCooks: Cook[] = [
 ];
 
 describe('Choose Meals', () => {
-  // it('ignores inactive customers', () => {
-  //   const selection: DeliveryMealsSelection[] = [
-  //     [recipeOne, recipeTwo, recipeThree, recipeFour, recipeFive, recipeSix],
-  //     [
-  //       recipeSeven,
-  //       recipeEight,
-  //       recipeNine,
-  //       recipeTen,
-  //       recipeEleven,
-  //       recipeTwelve,
-  //     ],
-  //   ];
-
-  //   const customers: BackendCustomer[] = [
-  //     customerOne,
-  //     customerTwo,
-  //     customerThree,
-  //   ];
-  //   const dates = [new Date(1_630_702_130_000), new Date(1_630_702_130_000)];
-  //   const result = chooseMealSelections(selection, dates, customers);
-
-  //   expect(result[0].customer).toBe(customerOne);
-  //   expect(result[1].customer).toBe(customerTwo);
-  //   expect(result[2].customer).toBe(customerThree);
-  // });
-
   it('generates a selection for each customer', () => {
     const customers: BackendCustomer[] = [
       customerOne,

@@ -132,7 +132,7 @@ const generateCustomerDeliveryFromCook = (
   const firstPaused = customer.plans.find((plan) => {
     const status = getCookStatus(cook.date, plan);
 
-    status.status === 'paused';
+    return status.status === 'paused';
   });
 
   return !notPaused
