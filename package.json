@@ -25,6 +25,14 @@
     "webpack-bundle-analyzer": "webpack-bundle-analyzer dist/apps/web-app/stats.json"
   },
   "private": true,
+  "overrides": {
+    "@aws-sdk/client-dynamodb": {
+      "@aws-sdk/smithy-client": "3.310.0"
+    },
+    "@aws-sdk/lib-dynamodb": {
+      "@aws-sdk/smithy-client": "3.310.0"
+    }
+  },
   "dependencies": {
     "@aws-amplify/api": "5.0.27",
     "@aws-amplify/auth": "5.2.3",
@@ -34,13 +42,14 @@
     "@aws-cdk/aws-s3objectlambda-alpha": "^2.47.0-alpha.0",
     "@aws-sdk/client-cognito-identity-provider": "3.312.0",
     "@aws-sdk/client-dynamodb": "3.312.0",
-    "@aws-sdk/client-s3": "^3.194.0",
+    "@aws-sdk/client-s3": "3.312.0",
     "@aws-sdk/client-secrets-manager": "3.312.0",
     "@aws-sdk/client-ses": "3.312.0",
     "@aws-sdk/lib-dynamodb": "3.312.0",
-    "@aws-sdk/lib-storage": "^3.216.0",
-    "@aws-sdk/token-providers": "^3.226.0",
-    "@aws-sdk/util-base64": "^3.208.0",
+    "@aws-sdk/lib-storage": "3.312.0",
+    "@aws-sdk/smithy-client": "3.310.0",
+    "@aws-sdk/token-providers": "3.310.0",
+    "@aws-sdk/util-base64": "3.310.0",
     "@axe-core/react": "4.6.1",
     "@cloudcomponents/cdk-dynamodb-seeder": "^2.1.0",
     "@commitlint/cli": "^17.0.3",
