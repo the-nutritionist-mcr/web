@@ -7640,9 +7640,9 @@
     "@datadog/browser-rum-core" "4.39.0"
 
 "@datadog/datadog-ci@^2.0.0":
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/@datadog/datadog-ci/-/datadog-ci-2.8.0.tgz#c4510ffeb30178142782ae5a4db088d7dc52428d"
-  integrity sha512-fuaxumzQkIsQII4g+vZeNgRN+iUDyFrZnK2rHbvs0C1WAHWVMntJpmd524mJIwb4LKA2O7lwuzkMMZntaNgS+g==
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/@datadog/datadog-ci/-/datadog-ci-2.8.1.tgz#84609bbfe7b1aaf4471edf150897a04714cd9a89"
+  integrity sha512-CLjFGY/8f3fi0peeb0a1ocMohSO+MqYGyWiTBS30DgQwCKkeo0kyWPh90QUhMpA4WxB4bBIRa5jhR+IK9unm2g==
   dependencies:
     "@aws-sdk/client-cloudwatch-logs" "^3.293.0"
     "@aws-sdk/client-lambda" "^3.293.0"
@@ -32687,9 +32687,9 @@ vm-browserify@1.1.2, vm-browserify@^1.0.1:
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
 
 vm2@^3.9.11:
-  version "3.9.16"
-  resolved "https://registry.yarnpkg.com/vm2/-/vm2-3.9.16.tgz#0fbc2a265f7bf8b837cea6f4a908f88a3f93b8e6"
-  integrity sha512-3T9LscojNTxdOyG+e8gFeyBXkMlOBYDoF6dqZbj+MPVHi9x10UfiTAJIobuchRCp3QvC+inybTbMJIUrLsig0w==
+  version "3.9.17"
+  resolved "https://registry.yarnpkg.com/vm2/-/vm2-3.9.17.tgz#251b165ff8a0e034942b5181057305e39570aeab"
+  integrity sha512-AqwtCnZ/ERcX+AVj9vUsphY56YANXxRuqMb7GsDtAr0m0PcQX3u0Aj3KWiXM0YAHy7i6JEeHrwOnwXbGYgRpAw==
   dependencies:
     acorn "^8.7.0"
     acorn-walk "^8.2.0"
