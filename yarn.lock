@@ -53,16 +53,16 @@
     uuid "^3.2.1"
     zen-observable-ts "0.8.19"
 
-"@aws-amplify/api-graphql@3.1.15":
-  version "3.1.15"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/api-graphql/-/api-graphql-3.1.15.tgz#4835305a2b6d909eb53c5a6487952f36b085a45b"
-  integrity sha512-C7o4KbRN8c5c1qO7MIIOeJJlmVPG+CI/Mf0umGhuohGi6AYfBDXfe4fsn+eEi9D7DpwCWYzMcomIcyE+AqcbPw==
+"@aws-amplify/api-graphql@3.1.16":
+  version "3.1.16"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/api-graphql/-/api-graphql-3.1.16.tgz#4db9874293a4c0466de8fbe60fa7d1ce5322ed7c"
+  integrity sha512-xGegidT2pNxWAY4e60bvsQpU1+8LkcD2XcQvoN5awUuaody+tBxnNlVt+Pqi8qkm1k9TZmT58uavzo2osAEFtA==
   dependencies:
-    "@aws-amplify/api-rest" "3.0.27"
-    "@aws-amplify/auth" "5.3.1"
-    "@aws-amplify/cache" "5.0.27"
-    "@aws-amplify/core" "5.1.10"
-    "@aws-amplify/pubsub" "5.1.10"
+    "@aws-amplify/api-rest" "3.0.28"
+    "@aws-amplify/auth" "5.3.2"
+    "@aws-amplify/cache" "5.0.28"
+    "@aws-amplify/core" "5.1.11"
+    "@aws-amplify/pubsub" "5.1.11"
     graphql "15.8.0"
     tslib "^1.8.0"
     uuid "^3.2.1"
@@ -76,12 +76,12 @@
     "@aws-amplify/core" "4.7.15"
     axios "0.26.0"
 
-"@aws-amplify/api-rest@3.0.27":
-  version "3.0.27"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/api-rest/-/api-rest-3.0.27.tgz#b34d9d609ea6fc5a18068bf6a6a6bfcf3ea5846d"
-  integrity sha512-auKq9PNDag5HlUqcipzjgmrFX9ogi/MP51eG7Lcmf/YLp2dGC4bm1+nY5kO8Mrp2+BC6n0eTBzNbttKvT8IcjA==
+"@aws-amplify/api-rest@3.0.28":
+  version "3.0.28"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/api-rest/-/api-rest-3.0.28.tgz#0a3740459dd13c976ce97a97bb9861b87026cd20"
+  integrity sha512-D2pRRXf6HokkFmZaGOxHJ9McNtvU8xx0FTLe1fkPjXenIQEQd0356mQEt5r1VVPsTDpeoCZ3m+Ia5LPOl5vIvA==
   dependencies:
-    "@aws-amplify/core" "5.1.10"
+    "@aws-amplify/core" "5.1.11"
     axios "0.26.0"
     tslib "^1.8.0"
 
@@ -93,13 +93,13 @@
     "@aws-amplify/api-graphql" "2.3.28"
     "@aws-amplify/api-rest" "2.0.64"
 
-"@aws-amplify/api@5.0.27":
-  version "5.0.27"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/api/-/api-5.0.27.tgz#58c33a8306648725ec2b36a6790c144c23f327db"
-  integrity sha512-1cDXGvn2nyUv/98A4aaapyAL9sNS8FVIVuHhTJIXS1m9SCFWDGZMQfQwO96Jca3bYzxQ5heOFdjCt4UnJ2JM/A==
+"@aws-amplify/api@5.0.28":
+  version "5.0.28"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/api/-/api-5.0.28.tgz#61027ff8c8edcd566b6dd5fab9b784eb81711ff2"
+  integrity sha512-dq0E26ZDpIegy4B9PPzCGWZZcezwpQU+5iQupvfDnuZfFZf3IDE98Sw0Hr3FsFOI/YoBlamOeZ/TdzO3KjZsnw==
   dependencies:
-    "@aws-amplify/api-graphql" "3.1.15"
-    "@aws-amplify/api-rest" "3.0.27"
+    "@aws-amplify/api-graphql" "3.1.16"
+    "@aws-amplify/api-rest" "3.0.28"
     tslib "^1.8.0"
 
 "@aws-amplify/auth@4.6.17":
@@ -121,12 +121,12 @@
     amazon-cognito-identity-js "6.2.0"
     tslib "^1.8.0"
 
-"@aws-amplify/auth@5.3.1":
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/auth/-/auth-5.3.1.tgz#4a3915b6a35b9651ddd529a561be6c499d895798"
-  integrity sha512-NvfReatipgSOIWaNtcmJeLqLigMZls9PvVOdN2zk6UyrpqOcTpfXsbX0u3pcRQUIbaln0pSV2NwZrOgHGP/rbQ==
+"@aws-amplify/auth@5.3.2":
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/auth/-/auth-5.3.2.tgz#7fbba4a894cefea7709e67560aa7a4e9b1b3c723"
+  integrity sha512-7PLh4orjUusqwQLQBCh+f5w37Xdiwg3ZcPERhD3pUcqbqfYXi5dME8gTca7O1X83wF5lJHWlB82RUgZXxzyyUw==
   dependencies:
-    "@aws-amplify/core" "5.1.10"
+    "@aws-amplify/core" "5.1.11"
     amazon-cognito-identity-js "6.2.0"
     tslib "^1.8.0"
 
@@ -137,12 +137,12 @@
   dependencies:
     "@aws-amplify/core" "4.7.15"
 
-"@aws-amplify/cache@5.0.27":
-  version "5.0.27"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/cache/-/cache-5.0.27.tgz#e20258cbc2954bae0af7daa904ff3c7c9344b085"
-  integrity sha512-jvwp1sAv+zz9Jbv1Tt/gNnyNrhcd4YsYL4ZbD5mOo7p01oN70ZaVr91ltnEx2pqICwA8Ck8sQi6kwwVTOvykWA==
+"@aws-amplify/cache@5.0.28":
+  version "5.0.28"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/cache/-/cache-5.0.28.tgz#82d50dd3b375baa593635c6d39181db04af9b40a"
+  integrity sha512-yCZ3JqdWyY0+L1qPTfMqSehMNR8LzgmnYVXyyetMBGLiZH3FlyzUsEbww4sC/MgENwJ2EP6nkEX2hSvhI4SzPA==
   dependencies:
-    "@aws-amplify/core" "5.1.10"
+    "@aws-amplify/core" "5.1.11"
     tslib "^1.8.0"
 
 "@aws-amplify/core@4.7.15":
@@ -163,6 +163,21 @@
   version "5.1.10"
   resolved "https://registry.yarnpkg.com/@aws-amplify/core/-/core-5.1.10.tgz#75c22ade8ee8e5ae539623159770c8b66f29e833"
   integrity sha512-h7Hwfb6nwXDwmEBJ2Mbsaom0E2kcSoTG3I5H+/PTPcD6mt894fHDiysMYekUHxzBmaLqyEy01CR7DVWNVbJcKA==
+  dependencies:
+    "@aws-crypto/sha256-js" "1.2.2"
+    "@aws-sdk/client-cloudwatch-logs" "3.6.1"
+    "@aws-sdk/client-cognito-identity" "3.6.1"
+    "@aws-sdk/credential-provider-cognito-identity" "3.6.1"
+    "@aws-sdk/types" "3.6.1"
+    "@aws-sdk/util-hex-encoding" "3.6.1"
+    tslib "^1.8.0"
+    universal-cookie "^4.0.4"
+    zen-observable-ts "0.8.19"
+
+"@aws-amplify/core@5.1.11":
+  version "5.1.11"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/core/-/core-5.1.11.tgz#ed93d0254c3ecab93d7ea6a68d5f714bd8955b9a"
+  integrity sha512-BLk8UUNr+1W0zCrHpTkoxGwjMaYk7ekTr4OeSN8+Xq/EaRK47PDWhIIp9VnyA0ngW/72Tsei3J3ZtbdS3UaEWA==
   dependencies:
     "@aws-crypto/sha256-js" "1.2.2"
     "@aws-sdk/client-cloudwatch-logs" "3.6.1"
@@ -257,14 +272,14 @@
     uuid "^3.2.1"
     zen-observable-ts "0.8.19"
 
-"@aws-amplify/pubsub@5.1.10":
-  version "5.1.10"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/pubsub/-/pubsub-5.1.10.tgz#d1a06c43f093724bc5d0a86694f254364bd442a3"
-  integrity sha512-ke89QjFtkxk0kpO3nXXHHmtipP9hQgoZSh6c8F7M/2jORBUyjhL5bq7Dg/g+QmMibGFFQoj1Wla0o4SJn6SBPg==
+"@aws-amplify/pubsub@5.1.11":
+  version "5.1.11"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/pubsub/-/pubsub-5.1.11.tgz#02589ffc2b5e1335e4b8a433d2aac1509fe44fda"
+  integrity sha512-uN8NlLZ834XKjz1nAF0TjqTA0EvtlXz3niupmSiDat+VFY9TOCoeWuaxOB6CIt8tHp/NqXrtqbBJXPpZrqThGA==
   dependencies:
-    "@aws-amplify/auth" "5.3.1"
-    "@aws-amplify/cache" "5.0.27"
-    "@aws-amplify/core" "5.1.10"
+    "@aws-amplify/auth" "5.3.2"
+    "@aws-amplify/cache" "5.0.28"
+    "@aws-amplify/core" "5.1.11"
     graphql "15.8.0"
     tslib "^1.8.0"
     uuid "^3.2.1"
