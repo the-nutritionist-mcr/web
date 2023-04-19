@@ -14104,10 +14104,10 @@ aws-amplify@4.3.46:
     "@aws-amplify/ui" "2.0.7"
     "@aws-amplify/xr" "3.0.64"
 
-aws-cdk-lib@2.75.0:
-  version "2.75.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.75.0.tgz#d9c230126fc803b4c68a7e6c65558af3e458bccc"
-  integrity sha512-lFMrRJPt5TDRm4PGllo0aFcSi8nHzs0mZbYUF/lnMc15ORroV8Iv38U1I0CHiZwWO/QtLuxIzEXWA5hSbgpKzw==
+aws-cdk-lib@2.75.1:
+  version "2.75.1"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.75.1.tgz#e3bc4b1860178c61e2c3df5a43573c36f460f48a"
+  integrity sha512-rVG9PYqpe7rR1POswmbTJ2aw60zrNPzWwIYbN0VTp6smc4axG2JHlp9ep1nyfR1rdPd+uzl7d3W1765QbHchPw==
   dependencies:
     "@aws-cdk/asset-awscli-v1" "^2.2.97"
     "@aws-cdk/asset-kubectl-v20" "^2.1.1"
@@ -14123,10 +14123,10 @@ aws-cdk-lib@2.75.0:
     table "^6.8.1"
     yaml "1.10.2"
 
-aws-cdk@2.75.0:
-  version "2.75.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.75.0.tgz#6839d139240cf666d3b914492447571711368b93"
-  integrity sha512-BkyWNpYZz66Ewoi7rBPYZnW+0BAKbWYawhQ1v7KQWmGB0cFlQmvIfoOFklF5EOyAKOltUVRQF6KJf1/AIedkmg==
+aws-cdk@2.75.1:
+  version "2.75.1"
+  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.75.1.tgz#71193f6c4b381ce25bee2e4419675026483e1aaf"
+  integrity sha512-LB0pvt3FwHEvljBIczNwvVCrknZ8u/s7CFNaCC6AmpFajwy8BZrbcRL8iKxHKwaWvPULY1bzvsqhHAoE34h4Ow==
   optionalDependencies:
     fsevents "2.3.2"
 
