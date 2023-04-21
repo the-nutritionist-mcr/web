@@ -112,15 +112,6 @@
     amazon-cognito-identity-js "5.2.14"
     crypto-js "^4.1.1"
 
-"@aws-amplify/auth@5.3.2":
-  version "5.3.2"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/auth/-/auth-5.3.2.tgz#7fbba4a894cefea7709e67560aa7a4e9b1b3c723"
-  integrity sha512-7PLh4orjUusqwQLQBCh+f5w37Xdiwg3ZcPERhD3pUcqbqfYXi5dME8gTca7O1X83wF5lJHWlB82RUgZXxzyyUw==
-  dependencies:
-    "@aws-amplify/core" "5.1.11"
-    amazon-cognito-identity-js "6.2.0"
-    tslib "^1.8.0"
-
 "@aws-amplify/auth@5.3.3":
   version "5.3.3"
   resolved "https://registry.yarnpkg.com/@aws-amplify/auth/-/auth-5.3.3.tgz#d3270a803eeeda0ba8d6326a4e3ecd7aed3bc341"
