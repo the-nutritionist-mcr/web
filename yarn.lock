@@ -150,21 +150,6 @@
     universal-cookie "^4.0.4"
     zen-observable-ts "0.8.19"
 
-"@aws-amplify/core@5.1.11":
-  version "5.1.11"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/core/-/core-5.1.11.tgz#ed93d0254c3ecab93d7ea6a68d5f714bd8955b9a"
-  integrity sha512-BLk8UUNr+1W0zCrHpTkoxGwjMaYk7ekTr4OeSN8+Xq/EaRK47PDWhIIp9VnyA0ngW/72Tsei3J3ZtbdS3UaEWA==
-  dependencies:
-    "@aws-crypto/sha256-js" "1.2.2"
-    "@aws-sdk/client-cloudwatch-logs" "3.6.1"
-    "@aws-sdk/client-cognito-identity" "3.6.1"
-    "@aws-sdk/credential-provider-cognito-identity" "3.6.1"
-    "@aws-sdk/types" "3.6.1"
-    "@aws-sdk/util-hex-encoding" "3.6.1"
-    tslib "^1.8.0"
-    universal-cookie "^4.0.4"
-    zen-observable-ts "0.8.19"
-
 "@aws-amplify/core@5.1.12":
   version "5.1.12"
   resolved "https://registry.yarnpkg.com/@aws-amplify/core/-/core-5.1.12.tgz#4d5e154010ff897ceaac49c1c7a770d22d03ec15"
