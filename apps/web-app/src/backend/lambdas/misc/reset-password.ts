@@ -6,6 +6,7 @@ import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import {
   CognitoIdentityProviderClient,
   AdminSetUserPasswordCommand,
+  ListUsersCommand,
 } from '@aws-sdk/client-cognito-identity-provider';
 import {
   SendEmailCommand,
@@ -16,6 +17,8 @@ import { getUserFromAws } from '../../../utils/get-user-from-aws';
 import { makeEmail } from '../chargebee-api/portal-welcome-email';
 import { getDomainName } from '@tnmw/utils';
 import { warmer } from './warmer';
+import { HttpError } from '../data-api/http-error';
+import { HTTP } from '@tnmw/constants';
 
 export interface ResetPassswordPayload {
   username: string;
@@ -31,11 +34,34 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
 
     const body = JSON.parse(event.body ?? '{}');
 
-    const user = await getUserFromAws(body.username);
-
     const cognito = new CognitoIdentityProviderClient({
       region: process.env.AWS_REGION,
     });
+
+    const getUsernameFromEmail = async (email: string): Promise<string> => {
+      const command = new ListUsersCommand({
+        UserPoolId: process.env['COGNITO_POOL_ID'],
+        Limit: 1,
+        Filter: `email = \\"${email}\\"`,
+      });
+
+      const response = await cognito.send(command);
+
+      if (!response.Users || response.Users?.length === 1) {
+        throw new HttpError(
+          HTTP.statusCodes.BadRequest,
+          `User with email ${email} was not found`
+        );
+      }
+
+      return response.Users[0].Username ?? '';
+    };
+
+    const username = authenticated
+      ? body.username
+      : await getUsernameFromEmail(body.username);
+
+    const user = await getUserFromAws(username);
 
     const password = authenticated
       ? body.newPassword
@@ -47,7 +73,7 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
 
     const command = new AdminSetUserPasswordCommand({
       UserPoolId: process.env.COGNITO_POOL_ID,
-      Username: body.username,
+      Username: username,
       Password: password,
       Permanent: !forceChange,
     });
