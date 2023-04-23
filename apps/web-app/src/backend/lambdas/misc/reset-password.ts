@@ -39,15 +39,18 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
     });
 
     const getUsernameFromEmail = async (email: string): Promise<string> => {
-      const command = new ListUsersCommand({
+      const params = {
         UserPoolId: process.env['COGNITO_POOL_ID'],
         Limit: 1,
-        Filter: `email = \\"${email}\\"`,
-      });
+        // eslint-disable-next-line no-useless-escape
+        Filter: `email ^= \"${email.trim()}\"`,
+      };
+
+      const command = new ListUsersCommand(params);
 
       const response = await cognito.send(command);
 
-      if (!response.Users || response.Users?.length === 1) {
+      if (!response.Users || response.Users?.length !== 1) {
         throw new HttpError(
           HTTP.statusCodes.BadRequest,
           `User with email ${email} was not found`
@@ -61,11 +64,11 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
       ? body.username
       : await getUsernameFromEmail(body.username);
 
-    const user = await getUserFromAws(username);
-
     const password = authenticated
       ? body.newPassword
       : randomString.generate(8);
+
+    const user = await getUserFromAws(username);
 
     const forceChange = authenticated ? body.forceChange : true;
 
