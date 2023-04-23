@@ -1,3 +1,4 @@
+import randomString from 'randomstring';
 import { authoriseJwt } from '../data-api/authorise';
 import { returnOkResponse } from '../data-api/return-ok-response';
 import { returnErrorResponse } from '../data-api/return-error-response';
@@ -24,7 +25,9 @@ export interface ResetPassswordPayload {
 
 export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
   try {
-    await authoriseJwt(event, ['admin']);
+    const { authenticated } = await authoriseJwt(event, ['admin'], {
+      allowUnauthenticated: true,
+    });
 
     const body = JSON.parse(event.body ?? '{}');
 
@@ -34,13 +37,19 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
       region: process.env.AWS_REGION,
     });
 
+    const password = authenticated
+      ? body.newPassword
+      : randomString.generate(8);
+
+    const forceChange = authenticated ? body.forceChange : true;
+
     const ses = new SESClient({});
 
     const command = new AdminSetUserPasswordCommand({
       UserPoolId: process.env.COGNITO_POOL_ID,
       Username: body.username,
-      Password: body.newPassword,
-      Permanent: !body.forceChange,
+      Password: password,
+      Permanent: !forceChange,
     });
 
     await cognito.send(command);

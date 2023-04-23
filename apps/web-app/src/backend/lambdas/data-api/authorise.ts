@@ -9,17 +9,29 @@ interface AuthoriseResponse {
   groups: ReadonlyArray<string>;
   firstName: string;
   surname: string;
+  authenticated: boolean;
 }
 
 export const authoriseJwt = async (
   event: APIGatewayProxyEventV2,
-  groups?: string[]
+  groups?: string[],
+  options?: { allowUnauthenticated: boolean }
 ): Promise<AuthoriseResponse> => {
   const authHeader =
     event.headers &&
     Object.entries(event.headers).find(
       (pair) => pair[0].toLowerCase() === 'authorization'
     )?.[1];
+
+  if (!authHeader && !options?.allowUnauthenticated) {
+    return {
+      authenticated: false,
+      username: '',
+      groups: [],
+      firstName: '',
+      surname: '',
+    };
+  }
 
   if (!authHeader) {
     throw new HttpError(
@@ -41,6 +53,7 @@ export const authoriseJwt = async (
   }
 
   return {
+    authenticated: true,
     username: verifyResult.userName,
     groups: verifyResult.groups,
     firstName: verifyResult.firstName,
