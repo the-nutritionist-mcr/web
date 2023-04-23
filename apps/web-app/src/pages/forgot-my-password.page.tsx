@@ -25,7 +25,7 @@ const ForgotPasswordBox = styled('div')`
 const PageSpacing = styled.section`
   display: flex;
   width: 100%;
-  padding: 0 auto;
+  padding: 0 1em;
   align-items: center;
   flex-direction: column;
 `;
