@@ -19,8 +19,8 @@ import { warmer } from './warmer';
 
 export interface ResetPassswordPayload {
   username: string;
-  newPassword: string;
-  forceChange: boolean;
+  newPassword?: string;
+  forceChange?: boolean;
 }
 
 export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
