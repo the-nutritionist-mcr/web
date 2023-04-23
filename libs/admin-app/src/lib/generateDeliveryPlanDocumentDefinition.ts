@@ -14,6 +14,7 @@ import {
 } from '@tnmw/types';
 import moment from 'moment';
 import { selectionIsIncludedInPlan } from './selection-is-included-in-plan';
+import calendarFormat from './calendarFormat';
 
 const COLUMNS = 6;
 
@@ -44,7 +45,11 @@ const makeRowsFromSelections = (
           },
         ],
         ...(customerSelection.delivery.paused
-          ? [`Paused until ${customerSelection.delivery}`]
+          ? [
+              `Paused until ${moment(
+                customerSelection.delivery.pausedUntil as Date
+              ).calendar(null, calendarFormat)}`,
+            ]
           : // eslint-disable-next-line fp/no-mutating-methods
             customerSelection.delivery.plans
               .slice()
