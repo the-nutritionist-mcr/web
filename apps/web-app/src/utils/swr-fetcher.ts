@@ -29,7 +29,7 @@ export const swrFetcher = async <T>(
 ): Promise<T> => {
   const { ApiDomainName: domainName } = await getAppConfig();
 
-  const finalInit = auth ? await getFetchInit(init) : {};
+  const finalInit = auth ? await getFetchInit(init) : init;
   const fullPath = `https://${domainName}/${path}`;
   const response = await fetch(fullPath, finalInit);
 

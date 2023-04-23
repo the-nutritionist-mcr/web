@@ -280,6 +280,7 @@ export const makeDataApis = (
       actions: [
         IAM.actions.cognito.adminSetUserPassword,
         IAM.actions.cognito.adminGetUser,
+        IAM.actions.cognito.listUsers,
       ],
       resources: [pool.userPoolArn],
     })

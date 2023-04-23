@@ -23,7 +23,7 @@ export const authoriseJwt = async (
       (pair) => pair[0].toLowerCase() === 'authorization'
     )?.[1];
 
-  if (!authHeader && !options?.allowUnauthenticated) {
+  if (!authHeader && options?.allowUnauthenticated) {
     return {
       authenticated: false,
       username: '',
