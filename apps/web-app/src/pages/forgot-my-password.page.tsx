@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { Hero, ParagraphText } from '@tnmw/components';
-import { CONTACT_EMAIL } from '@tnmw/constants';
+import { Button, Hero, Input, ParagraphText } from '@tnmw/components';
+import { actions, container } from './forgot-my-password.css';
 
 const Header = styled('h1')`
   font-size: 40px;
@@ -18,8 +18,12 @@ const ForgotPasswordBox = styled('div')`
   gap: 1rem;
 `;
 
-const Label = styled('div')`
-  margin-top: 1rem;
+const PageSpacing = styled.section`
+  display: flex;
+  width: 100%;
+  padding: 0 auto;
+  align-items: center;
+  flex-direction: column;
 `;
 
 const ForgotMyPassword = () => (
@@ -29,12 +33,21 @@ const ForgotMyPassword = () => (
         <Header>Forgot Your Password</Header>
       </ForgotPasswordBox>
     </Hero>
-    <Label>
-      <ParagraphText>
-        If you have forgotten your password, please get in touch with us at{' '}
-        <strong>{CONTACT_EMAIL}</strong> in order to request a reset
-      </ParagraphText>
-    </Label>
+
+    <PageSpacing>
+      <form className={container}>
+        <ParagraphText>
+          If you have forgotten your password, enter your email address below
+          and a new password will be sent to you
+        </ParagraphText>
+        <Input name="email" label="Email Address" />
+      </form>
+      <div className={actions}>
+        <Button size="large" primary>
+          Send new password
+        </Button>
+      </div>
+    </PageSpacing>
   </>
 );
 
