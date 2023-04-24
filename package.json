@@ -143,7 +143,7 @@
     "lint-staged": "13.2.1",
     "lodash": "4.17.21",
     "loglevel": "1.8.1",
-    "mailslurp-client": "15.14.1",
+    "mailslurp-client": "15.17.1",
     "minipass": "^4.0.0",
     "mocha": "^10.1.0",
     "mochawesome": "^7.1.3",
