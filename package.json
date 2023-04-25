@@ -107,7 +107,7 @@
     "babel-plugin-polyfill-corejs2": "0.3.3",
     "babel-plugin-polyfill-regenerator": "0.4.1",
     "chargebee-typescript": "2.18.0",
-    "constructs": "10.2.5",
+    "constructs": "10.2.6",
     "core-js": "3.30.1",
     "cypress-multi-reporters": "^1.6.1",
     "cypress-recurse": "^1.23.0",
