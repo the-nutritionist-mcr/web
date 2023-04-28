@@ -33,7 +33,7 @@
     }
   },
   "dependencies": {
-    "@aws-amplify/api": "5.0.29",
+    "@aws-amplify/api": "5.0.30",
     "@aws-amplify/auth": "5.3.3",
     "@aws-amplify/core": "5.1.12",
     "@aws-amplify/ui-react": "^4.0.3",
