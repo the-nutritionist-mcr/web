@@ -15463,10 +15463,10 @@ chardet@^0.7.0:
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
 
-chargebee-typescript@2.18.0:
-  version "2.18.0"
-  resolved "https://registry.yarnpkg.com/chargebee-typescript/-/chargebee-typescript-2.18.0.tgz#0f46e663de7b526dfae2660d1f96dfde36f9c978"
-  integrity sha512-2Ko2oA2R9PrSlpy/IoDoCxJ4UqnwjPdFs66VmL+J7YHJCiREzCXomm/i6C7zpJ2Y97iAlNXxuK+Y/9ehwcSVdQ==
+chargebee-typescript@2.19.0:
+  version "2.19.0"
+  resolved "https://registry.yarnpkg.com/chargebee-typescript/-/chargebee-typescript-2.19.0.tgz#5f1e04dfc13d2255f9b372fe68ff1d81d8cabf9f"
+  integrity sha512-XC7dkVMGHVtYVe6WhZCguKYWPyAEbn6aDKsZvA2ohdbUnlYGvDRawrjOqoDa6EpHGFvNoSjlqTRitFWx8wZ+4g==
   dependencies:
     q ">=1.0.1"
 
