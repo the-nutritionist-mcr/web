@@ -4427,12 +4427,12 @@
   dependencies:
     tslib "^1.8.0"
 
-"@axe-core/react@4.6.1":
-  version "4.6.1"
-  resolved "https://registry.yarnpkg.com/@axe-core/react/-/react-4.6.1.tgz#1fba0b2284877dbb6d3c54d4901bff60faaa59f8"
-  integrity sha512-5L5i/lEz0eu8jB1rjFqP3pwkBC2wLR1eqyLX+B8RJtVAD135lUvBjc2AGnMkcsAneVAbazgOX6hhoNHdRdcsUg==
+"@axe-core/react@4.7.0":
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/@axe-core/react/-/react-4.7.0.tgz#72202ff46e0386271a1b6987d6f6981a72568db1"
+  integrity sha512-13XJxwTx+oPmqUGRjS/LYB3Z0iFyyKo47ilNqChuFOhLEgwQgSp8Bhd8OvudXpNRqArgwFqcLj8s9w4gMPUg2g==
   dependencies:
-    axe-core "^4.6.3"
+    axe-core "^4.7.0"
     requestidlecallback "^0.3.0"
 
 "@babel/code-frame@7.12.11":
@@ -14103,10 +14103,15 @@ axe-core@^4.3.5:
   resolved "https://registry.npmjs.org/axe-core/-/axe-core-4.3.5.tgz#78d6911ba317a8262bfee292aeafcc1e04b49cc5"
   integrity sha512-WKTW1+xAzhMS5dJsxWkliixlO/PqC4VhmO9T4juNYcaTg9jzWiJsou6m5pxWYGfigWbwzJWeFY6z47a+4neRXA==
 
-axe-core@^4.6.2, axe-core@^4.6.3:
+axe-core@^4.6.2:
   version "4.6.3"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.6.3.tgz#fc0db6fdb65cc7a80ccf85286d91d64ababa3ece"
   integrity sha512-/BQzOX780JhsxDnPpH4ZiyrJAzcd8AfzFPkv+89veFSr1rcMjuq2JDCwypKaPeB6ljHp9KjXhPpjgCvQlWYuqg==
+
+axe-core@^4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.7.0.tgz#34ba5a48a8b564f67e103f0aa5768d76e15bbbbf"
+  integrity sha512-M0JtH+hlOL5pLQwHOLNYZaXuhqmvS8oExsqB1SBYgA4Dk7u/xx+YdGHXaK5pyUfed5mYXdlYiphWq3G8cRi5JQ==
 
 axios@0.21.4, axios@^0.21.1:
   version "0.21.4"
