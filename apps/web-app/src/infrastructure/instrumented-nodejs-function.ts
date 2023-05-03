@@ -90,12 +90,6 @@ export const makeInstrumentedFunctionGenerator = (
       environment,
     });
 
-    const eventRule = new Rule(context, `${id}-lambda-warming-schedule`, {
-      schedule: Schedule.rate(Duration.minutes(5)),
-    });
-
-    eventRule.addTarget(new LambdaFunction(func));
-
     func.addToRolePolicy(getDatadogSecretPolicy);
     if (gitHash) {
       contexts[context.node.id].addGitCommitMetadata([func], gitHash);
