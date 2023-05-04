@@ -98,7 +98,7 @@ const distributeAndMultiply = curry(
  * based on a supplied multiple
  */
 const multiplyItem = curry(
-  <T extends typeof extrasLabels[number] | typeof planLabels[number]>(
+  <T extends (typeof extrasLabels)[number] | (typeof planLabels)[number]>(
     items: Item<T>[],
     multiple: number,
     targetItem: string
@@ -174,7 +174,7 @@ export const makeNewPlan = (
   };
 };
 
-type AllItemTypes = typeof extrasLabels[number] | typeof planLabels[number];
+type AllItemTypes = (typeof extrasLabels)[number] | (typeof planLabels)[number];
 
 const itemsAreEqual = (
   first: Item<AllItemTypes>,
@@ -264,6 +264,8 @@ export const generateDistribution = (
     // @ts-ignore
     config.extrasChosen.reduce(
       (func, extra) =>
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         pipe(
           func,
           distributeAndMultiply(

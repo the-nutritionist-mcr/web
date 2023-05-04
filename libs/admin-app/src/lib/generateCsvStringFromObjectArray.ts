@@ -22,12 +22,12 @@ const escapeQuotes = (field: string | undefined) =>
   field?.replace(/"/gu, '""') ?? '';
 
 const processField = pipe(
-  convertTypeToString('number'),
-  convertTypeToString('boolean'),
   // This was working before. The types for Ramda are clearly hard work
   // I don't have time to fix it
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
+  convertTypeToString('number'),
+  convertTypeToString('boolean'),
   escapeQuotes,
   surroundFieldsWithSpecialCharactersInQuotes([',', '"', '\n', '\r'])
 );
