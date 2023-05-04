@@ -63,18 +63,18 @@ runs:
         AWS_REGION: us-east-1
         DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
 
-    - name: Upload NextJS sourcemaps
-      shell: bash
-      run: yarn datadog-ci sourcemaps upload ./dist/apps/web-app/.next --service=tnm-web --release-version=${{ env.APP_VERSION }} --minified-path-prefix=${{ inputs.url }}/_next --project-path=_N_E/./ --repository-url=https:://github.com/the-nutritionist-mcr/web
-      env:
-        DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
-        DATADOG_SITE: datadoghq.eu
-        DATADOG_API_HOST: api.datadoghq.eu
+    # - name: Upload NextJS sourcemaps
+    #   shell: bash
+    #   run: yarn datadog-ci sourcemaps upload ./dist/apps/web-app/.next --service=tnm-web --release-version=${{ env.APP_VERSION }} --minified-path-prefix=${{ inputs.url }}/_next --project-path=_N_E/./ --repository-url=https:://github.com/the-nutritionist-mcr/web
+    #   env:
+    #     DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
+    #     DATADOG_SITE: datadoghq.eu
+    #     DATADOG_API_HOST: api.datadoghq.eu
 
-    - name: Upload Backend sourcemaps
-      shell: bash
-      run: yarn datadog-ci sourcemaps upload ./dist/nodejs-bundled-func-output --service=tnm-web --release-version=${{ env.APP_VERSION }} --minified-path-prefix=${{ inputs.url }}/_next --project-path=../../ --repository-url=https:://github.com/the-nutritionist-mcr/web
-      env:
-        DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
-        DATADOG_SITE: datadoghq.eu
-        DATADOG_API_HOST: api.datadoghq.eu
+    # - name: Upload Backend sourcemaps
+    #   shell: bash
+    #   run: yarn datadog-ci sourcemaps upload ./dist/nodejs-bundled-func-output --service=tnm-web --release-version=${{ env.APP_VERSION }} --minified-path-prefix=${{ inputs.url }}/_next --project-path=../../ --repository-url=https:://github.com/the-nutritionist-mcr/web
+    #   env:
+    #     DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
+    #     DATADOG_SITE: datadoghq.eu
+    #     DATADOG_API_HOST: api.datadoghq.eu
