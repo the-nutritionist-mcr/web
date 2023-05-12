@@ -122,6 +122,7 @@ const recipeTwelve: Recipe = {
 
 const customerOne: BackendCustomer = {
   phoneNumber: '123123',
+  numberOfBags: 1,
   salutation: 'Mr',
   groups: [],
   addressLine1: 'somewhere',
@@ -156,6 +157,7 @@ const customerOne: BackendCustomer = {
 };
 
 const customerTwo: BackendCustomer = {
+  numberOfBags: 1,
   salutation: 'mr',
   addressLine1: 'somewhere',
   addressLine2: 'somehow',
@@ -203,6 +205,7 @@ const customerTwo: BackendCustomer = {
 
 const customerThree: BackendCustomer = {
   customisations: [],
+  numberOfBags: 1,
   salutation: 'Mr',
   country: 'GB',
   username: 'person',
