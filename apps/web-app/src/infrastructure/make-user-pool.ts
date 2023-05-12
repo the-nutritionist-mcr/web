@@ -101,6 +101,9 @@ export const makeUserPool = (
       [COGNITO.customAttributes.DeliveryNotes]: new StringAttribute({
         mutable: true,
       }),
+      [COGNITO.customAttributes.NumberOfBags]: new StringAttribute({
+        mutable: true,
+      }),
 
       [COGNITO.customAttributes.DeliveryDay1]: new StringAttribute({
         mutable: true,

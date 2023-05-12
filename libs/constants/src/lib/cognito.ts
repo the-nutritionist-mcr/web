@@ -4,6 +4,7 @@ export const COGNITO = {
     ChargebeeId: 'chargebeeId',
     UserCustomisations: 'userCustomisations',
     DeliveryDay1: 'deliveryDay1',
+    NumberOfBags: 'numberOfBags',
     DeliveryDay2: 'deliveryDay2',
     DeliveryDay3: 'deliveryDay3',
     ProfileNotes: 'profileNotes',

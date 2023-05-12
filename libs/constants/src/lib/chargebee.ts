@@ -11,6 +11,7 @@ export const CHARGEBEE = {
   },
   customFields: {
     customer: {
+      numberOfBags: 'cf_number_of_bags',
       customerProfileNotes: 'cf_customer_profile_notes',
       deliveryDay1: 'cf_cook_1_delivery_day',
       deliveryDay2: 'cf_cook_2_delivery_day',

@@ -6,6 +6,7 @@ export interface BackendCustomer {
   groups: string[];
   username: string;
   country: string;
+  numberOfBags: number;
   deliveryDay1: string;
   deliveryDay2: string;
   deliveryDay3: string;

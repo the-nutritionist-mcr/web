@@ -26,6 +26,7 @@ export const handleCustomerEvent = async (
     [key: string]: string | undefined;
   };
 
+  const numberOfBags = customer[CHARGEBEE.customFields.customer.numberOfBags];
   const delivery1 = customer[CHARGEBEE.customFields.customer.deliveryDay1];
   const delivery2 = customer[CHARGEBEE.customFields.customer.deliveryDay2];
   const delivery3 = customer[CHARGEBEE.customFields.customer.deliveryDay3];
@@ -68,6 +69,10 @@ export const handleCustomerEvent = async (
       {
         Name: `custom:${COGNITO.customAttributes.Postcode}`,
         Value: postcode ?? '',
+      },
+      {
+        Name: `custom:${COGNITO.customAttributes.NumberOfBags}`,
+        Value: numberOfBags,
       },
       {
         Name: COGNITO.standardAttributes.phone,
