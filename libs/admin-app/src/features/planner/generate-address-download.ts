@@ -45,7 +45,7 @@ export const generateAddressDownload = (
     .map((username) => customerMap.get(username))
     .flatMap((customer) =>
       customer
-        ? Array.from({ length: customer.numberOfBags }).map(() => customer)
+        ? Array.from({ length: customer.numberOfBags || 1 }).map(() => customer)
         : []
     )
     .slice()
