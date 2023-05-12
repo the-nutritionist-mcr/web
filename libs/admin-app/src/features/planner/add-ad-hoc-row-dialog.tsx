@@ -32,6 +32,7 @@ interface AddAdHocRowDialogProps {
 export const defaultCustomer = (): BackendCustomer => ({
   groups: [],
   username: v4(),
+  numberOfBags: 1,
   country: '',
   deliveryDay1: '',
   deliveryDay2: '',
