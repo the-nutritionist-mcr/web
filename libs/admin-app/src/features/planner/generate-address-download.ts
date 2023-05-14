@@ -15,10 +15,18 @@ export const generateAddressDownload = (
   deliveryNumber: number
 ) => {
   const customerMap = new Map<string, BackendCustomer>();
+  const allCustomerMap = new Map<string, BackendCustomer>();
 
-  selections.forEach((selections) =>
-    customerMap.set(selections.customer.username, selections.customer)
+  customers.forEach((customer) =>
+    allCustomerMap.set(customer.username, customer)
   );
+
+  selections.forEach((selections) => {
+    const customer = allCustomerMap.get(selections.customer.username);
+    if (customer) {
+      customerMap.set(selections.customer.username, customer);
+    }
+  });
 
   customers.forEach((customer) => {
     if (customerMap.has(customer.username)) {
