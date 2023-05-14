@@ -72,7 +72,7 @@ export const handleCustomerEvent = async (
       },
       {
         Name: `custom:${COGNITO.customAttributes.NumberOfBags}`,
-        Value: numberOfBags ?? '1',
+        Value: String(numberOfBags ?? '1'),
       },
       {
         Name: COGNITO.standardAttributes.phone,
