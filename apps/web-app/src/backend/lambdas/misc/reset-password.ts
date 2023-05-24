@@ -22,6 +22,7 @@ import { HTTP } from '@tnmw/constants';
 
 export interface ResetPassswordPayload {
   username: string;
+  generateNew?: boolean;
   newPassword?: string;
   forceChange?: boolean;
 }
@@ -64,7 +65,7 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
       ? body.username
       : await getUsernameFromEmail(body.username);
 
-    const password = authenticated
+    const password = !body.generateNew
       ? body.newPassword
       : randomString.generate(8);
 

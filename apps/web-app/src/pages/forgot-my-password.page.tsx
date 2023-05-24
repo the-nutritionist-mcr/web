@@ -35,7 +35,7 @@ const resetPassword = async (payload: { username: string }): Promise<void> => {
     'customer/reset-password',
     {
       method: HTTP.verbs.Post,
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ ...payload, generateNew: true }),
     },
     false
   );
