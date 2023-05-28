@@ -1,7 +1,7 @@
 import { AttributeType } from '@aws-sdk/client-cognito-identity-provider';
 import { itemFamilies } from '@tnmw/config';
 import { COGNITO } from '@tnmw/constants';
-import { BackendCustomer } from '@tnmw/types';
+import { BackendCustomer, StandardPlan } from '@tnmw/types';
 import { hydrateCustomPlan } from '../backend/lambdas/misc/hydrate-custom-plan';
 
 const getAttributeValue = (attributes: AttributeType[], key: string) =>
@@ -76,7 +76,9 @@ export const parseCognitoResponse = (
       attributes,
       `custom:${COGNITO.customAttributes.Postcode}`
     ),
-    plans: JSON.parse(plansValue ? plansValue : '[]'),
+    plans: (
+      JSON.parse(plansValue ? plansValue : '[]') as StandardPlan[]
+    ).filter((plan) => plan.subscriptionStatus !== 'cancelled'),
     customerUpdateTime: getAttributeValue(
       attributes,
       `custom:${COGNITO.customAttributes.CustomerUpdateTimestamp}`
