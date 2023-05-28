@@ -15,7 +15,6 @@ export const getPlans = async (
           CHARGEBEE.subscriptionStatuses.paused,
           CHARGEBEE.subscriptionStatuses.nonRenewing,
           CHARGEBEE.subscriptionStatuses.future,
-          CHARGEBEE.subscriptionStatuses.cancelled,
         ],
       },
     })
