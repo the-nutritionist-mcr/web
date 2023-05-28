@@ -19,7 +19,7 @@ const NewPasswordForm: FC<NewPasswordFormProps> = (props) => (
     <StyledP>
       You need to change your password. Enter a new one in the box below:
     </StyledP>
-    <Input label="Password" name="password" />
+    <Input label="Password" name="password" type="password" />
   </ChallengeForm>
 );
 
