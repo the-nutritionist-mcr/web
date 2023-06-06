@@ -98,7 +98,7 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
             Data: makeEmail(
               user.firstName,
               user.username ?? '',
-              body.newPassword,
+              password,
               `https://${domainName}`
             ),
           },
