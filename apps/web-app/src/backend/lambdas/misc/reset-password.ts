@@ -71,7 +71,7 @@ export const handler = warmer<APIGatewayProxyHandlerV2>(async (event) => {
 
     const user = await getUserFromAws(username);
 
-    const forceChange = authenticated ? body.forceChange : false;
+    const forceChange = authenticated ? body.forceChange : true;
 
     const ses = new SESClient({});
 
