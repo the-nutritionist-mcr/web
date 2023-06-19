@@ -1,9 +1,27 @@
 import { BackendCustomer, SwappedMealPlan } from '@tnmw/types';
 
+const titleCase = (string: string) =>
+  string
+    .toLocaleLowerCase()
+    .split(' ')
+    .map((word) => `${word.slice(0, 1).toLocaleUpperCase()}${word.slice(1)}`)
+    .join(' ');
+
+const generateNormalisedAddress = ({
+  addressLine1,
+  addressLine2,
+  addressLine3,
+  postcode,
+}: BackendCustomer) =>
+  [addressLine1, addressLine2, addressLine3, postcode]
+    .map((line) => line.replace(/(^[\W(]+|[\W(]+$)/gm, ''))
+    .map((line) => titleCase(line))
+    .join(', ');
+
 const makeLabelObject = (customer: BackendCustomer) => {
   return {
     name: `${customer.firstName} ${customer.surname}`,
-    address: `${customer.addressLine1} ${customer.addressLine2} ${customer.addressLine3} ${customer.postcode}`,
+    address: generateNormalisedAddress(customer),
     phone: customer.phoneNumber,
     email: customer.email,
     notes: customer.deliveryNotes,
