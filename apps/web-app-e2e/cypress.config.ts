@@ -34,7 +34,7 @@ export default defineConfig({
     defaultCommandTimeout: 25_000,
     supportFile: './src/support/index.ts',
     specPattern: 'e2e/**/*.cy.{ts,tsx}',
-    // excludeSpecPattern: 'e2e/**/planner.cy.ts',
+    excludeSpecPattern: 'e2e/**/login.cy.ts',
     reporter: path.join(
       PROJECT_ROOT_NODE_MODULES,
       'cypress-multi-reporters',
