@@ -13,7 +13,7 @@ const generateNormalisedAddress = ({
   addressLine3,
   postcode,
 }: BackendCustomer) =>
-  [addressLine1, addressLine2, addressLine3, postcode]
+  [addressLine1, addressLine2, addressLine3, postcode.toLocaleUpperCase()]
     .filter(Boolean)
     .map((line) => line.replace(/(^[\W(]+|[\W(]+$)/gm, ''))
     .map((line) => titleCase(line))
