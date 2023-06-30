@@ -29,7 +29,9 @@ export const parseCognitoResponse = (
   );
 
   return {
-    numberOfBags: Number(bags === null || bags === undefined ? 1 : bags),
+    numberOfBags: Number(
+      bags === null || typeof bags === 'undefined' || bags === '' ? 1 : bags
+    ),
     salutation: getAttributeValue(
       attributes,
       `custom:${COGNITO.customAttributes.Salutation}`
