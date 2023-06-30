@@ -14,6 +14,7 @@ const generateNormalisedAddress = ({
   postcode,
 }: BackendCustomer) =>
   [addressLine1, addressLine2, addressLine3, postcode]
+    .filter(Boolean)
     .map((line) => line.replace(/(^[\W(]+|[\W(]+$)/gm, ''))
     .map((line) => titleCase(line))
     .join(', ');
