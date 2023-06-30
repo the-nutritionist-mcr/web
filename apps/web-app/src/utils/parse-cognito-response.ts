@@ -22,13 +22,14 @@ export const parseCognitoResponse = (
     attributes,
     `custom:${COGNITO.customAttributes.UserCustomisations}`
   );
+
+  const bags = getAttributeValue(
+    attributes,
+    `custom:${COGNITO.customAttributes.NumberOfBags}`
+  );
+
   return {
-    numberOfBags: Number(
-      getAttributeValue(
-        attributes,
-        `custom:${COGNITO.customAttributes.NumberOfBags}`
-      ) ?? 1
-    ),
+    numberOfBags: Number(bags === null || bags === undefined ? 1 : bags),
     salutation: getAttributeValue(
       attributes,
       `custom:${COGNITO.customAttributes.Salutation}`
