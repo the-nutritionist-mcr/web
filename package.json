@@ -49,7 +49,7 @@
     "@aws-sdk/smithy-client": "3.316.0",
     "@aws-sdk/token-providers": "3.321.1",
     "@aws-sdk/util-base64": "3.310.0",
-    "@axe-core/react": "4.7.0",
+    "@axe-core/react": "4.7.3",
     "@cloudcomponents/cdk-dynamodb-seeder": "^2.1.0",
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
