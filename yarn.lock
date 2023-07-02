@@ -4436,10 +4436,10 @@
   dependencies:
     tslib "^1.8.0"
 
-"@axe-core/react@4.7.0":
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/@axe-core/react/-/react-4.7.0.tgz#72202ff46e0386271a1b6987d6f6981a72568db1"
-  integrity sha512-13XJxwTx+oPmqUGRjS/LYB3Z0iFyyKo47ilNqChuFOhLEgwQgSp8Bhd8OvudXpNRqArgwFqcLj8s9w4gMPUg2g==
+"@axe-core/react@4.7.3":
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/@axe-core/react/-/react-4.7.3.tgz#e042746e30615dcb4a2492664dbcc6b2a76b26f3"
+  integrity sha512-dN2ZqUdaWJNmxEuedJKkAZBBQWs1qj/Aeby2x8ZKMhhcDBGkcT42MRlaOMWTvPG/YosP6RaGi160eFFZ3TiUMg==
   dependencies:
     axe-core "^4.7.0"
     requestidlecallback "^0.3.0"
