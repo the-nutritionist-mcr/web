@@ -11922,10 +11922,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/imap-simple@4.2.5":
-  version "4.2.5"
-  resolved "https://registry.npmjs.org/@types/imap-simple/-/imap-simple-4.2.5.tgz#bc666127f449dae511b86f6149c3c9e9d8721001"
-  integrity sha512-Sfu70sdFXzVIhivsflpanlED8gZr4VRzz2AVU9i1ARU8gskr9nDd4tVGkqYtxfwajQfZDklkXbeHSOZYEeJmTQ==
+"@types/imap-simple@4.2.6":
+  version "4.2.6"
+  resolved "https://registry.yarnpkg.com/@types/imap-simple/-/imap-simple-4.2.6.tgz#92b66c52d6d2ecf0f8197fb19a334246257b8d00"
+  integrity sha512-rsqZFRjRhBE6Hcho6KTbc6BN/G/Q7fyhipiB3CW+IFsCb+BL0/bvDxG9RyKPy3uQYTj4YUFbP6HkX/KPq9t1jw==
   dependencies:
     "@types/imap" "*"
     "@types/node" "*"
