@@ -73,7 +73,7 @@
     "@testing-library/react-hooks": "8.0.1",
     "@testing-library/user-event": "14.4.3",
     "@trumbitta/nx-plugin-unused-deps": "^1.12.1",
-    "@types/aws-lambda": "8.10.114",
+    "@types/aws-lambda": "8.10.119",
     "@types/deep-equal": "^1.0.1",
     "@types/enzyme": "^3.10.12",
     "@types/imap-simple": "4.2.5",
