@@ -80,7 +80,7 @@
     "@types/jest-when": "^3.5.2",
     "@types/jsonwebtoken": "8.5.9",
     "@types/jwk-to-pem": "2.0.1",
-    "@types/lodash": "4.14.194",
+    "@types/lodash": "4.14.195",
     "@types/mochawesome": "^6.2.1",
     "@types/pdf-parse": "^1.1.1",
     "@types/pdfmake": "0.2.2",
