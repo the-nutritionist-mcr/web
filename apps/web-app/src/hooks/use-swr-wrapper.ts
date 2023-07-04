@@ -11,7 +11,6 @@ export const useSwrWrapper = <T = unknown>(
   options?: ParamsType<T>[2],
   useLoader?: boolean
 ) => {
-  console.log(useLoader);
   const { useLoading } = useContext(LoadingContext);
 
   const finalKey = typeof key === 'function' ? key() : key;
@@ -20,7 +19,6 @@ export const useSwrWrapper = <T = unknown>(
   }
 
   const loadingKey = `swr-${finalKey}`;
-  console.log({ finalKey, loadingKey, useLoader });
 
   const { stopLoading, getLoadingState, setLoadingState } = useLoading(
     loadingKey,

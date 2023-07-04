@@ -52,20 +52,22 @@ const TabBox = (props: TabBoxProps) => {
   const ButtonComponent = props.tabButton ?? TabButton;
   const buttons = (
     <div className={props.buttonBoxClass}>
-      {tabs.map((tab, index) => (
-        <ButtonComponent
-          tabListLength={tabs.length}
-          key={index}
-          onClick={() => {
-            setTabIndex(index);
-            props.onChange?.(tab);
-            props.onChangeIndex?.(index, tabs.length);
-          }}
-          active={activeTab === index}
-        >
-          {tab.props.tabTitle}
-        </ButtonComponent>
-      ))}
+      {tabs.map((tab, index) =>
+        tab.props.tabTitle ? (
+          <ButtonComponent
+            tabListLength={tabs.length}
+            key={index}
+            onClick={() => {
+              setTabIndex(index);
+              props.onChange?.(tab);
+              props.onChangeIndex?.(index, tabs.length);
+            }}
+            active={activeTab === index}
+          >
+            {tab.props.tabTitle}
+          </ButtonComponent>
+        ) : null
+      )}
     </div>
   );
   return (
