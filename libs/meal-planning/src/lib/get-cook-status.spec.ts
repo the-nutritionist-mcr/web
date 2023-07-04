@@ -28,6 +28,7 @@ describe('getCookStatus', () => {
     ${date(5, 6, 2022)}  | ${undefined}         | ${date(3, 6, 2022)}  | ${undefined}        | ${'paused'}        | ${undefined} | ${{ status: 'active' }}                                                               | ${date(12, 7, 2022)}
     ${date(2, 6, 2022)}  | ${undefined}         | ${date(3, 6, 2022)}  | ${undefined}        | ${'paused'}        | ${undefined} | ${{ status: 'paused', pausedUntil: date(3, 6, 2022) }}                                | ${date(12, 7, 2022)}
     ${date(5, 6, 2022)}  | ${undefined}         | ${undefined}         | ${undefined}        | ${'cancelled'}     | ${undefined} | ${{ status: 'cancelled' }}                                                            | ${date(12, 7, 2022)}
+    ${date(1, 7, 2023)}  | ${date(11, 6, 2023)} | ${undefined}         | ${undefined}        | ${'paused'}        | ${undefined} | ${{ status: 'paused', pausedFrom: date(11, 6, 2023) }}                                | ${date(25, 6, 2023)}
   `(
     `Should return result if the cookday is $cookDay, pause start is $pauseStart and pause end is $pauseEnd with a subscription status of $subscriptionStatus and subscription start of $subscriptionStart`,
     ({

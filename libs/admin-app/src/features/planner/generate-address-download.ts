@@ -13,10 +13,14 @@ const generateNormalisedAddress = ({
   addressLine3,
   postcode,
 }: BackendCustomer) =>
-  [addressLine1, addressLine2, addressLine3, postcode.toLocaleUpperCase()]
+  [
+    titleCase(addressLine1),
+    titleCase(addressLine2),
+    titleCase(addressLine3),
+    postcode.toLocaleUpperCase(),
+  ]
     .filter(Boolean)
     .map((line) => line.replace(/(^[\W(]+|[\W(]+$)/gm, ''))
-    .map((line) => titleCase(line))
     .join(', ');
 
 const makeLabelObject = (customer: BackendCustomer) => {
