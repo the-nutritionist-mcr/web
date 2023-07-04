@@ -228,7 +228,7 @@
     "babel-loader": "8.3.0",
     "babel-plugin-import-remove-resource-query": "^1.0.0",
     "cypress": "12.16.0",
-    "eslint": "8.39.0",
+    "eslint": "8.44.0",
     "eslint-config-next": "13.3.4",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-cdk": "1.8.0",
