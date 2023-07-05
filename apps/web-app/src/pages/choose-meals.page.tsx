@@ -34,7 +34,10 @@ const ChooseMealsPage = () => {
   const recipeIds = initialRecipes.map((recipe) => recipe.id);
   const { items: recipes } = useRecipes(recipeIds);
 
+  // eslint-disable-next-line fp/no-mutating-methods
   const alternateRecipeIds = (recipes ?? [])
+    .slice()
+    .sort((a, b) => (a.id > b.id ? 1 : 0))
     .flatMap((recipe) => recipe.alternates ?? [])
     .map((alternate) => alternate.recipeId);
 
