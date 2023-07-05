@@ -479,27 +479,6 @@ describe('Choose Meals', () => {
     }
   });
 
-  it("doesn't accidentilly unpause customers", () => {
-    const notSixPlannedCooks: Cook[] = [
-      {
-        date: date(1, 7, 2023),
-        menu: [recipeOne, recipeTwo, recipeThree, recipeFour],
-      },
-
-      {
-        date: new Date(),
-        menu: [
-          recipeSeven,
-          recipeEight,
-          recipeNine,
-          recipeTen,
-          recipeEleven,
-          recipeTwelve,
-        ],
-      },
-    ];
-  });
-
   it('When there is multiple plans, the picking algorithm does not start again for the second plan', () => {
     const notSixPlannedCooks: Cook[] = [
       {
@@ -519,97 +498,11 @@ describe('Choose Meals', () => {
         ],
       },
     ];
-    const testCustomer: BackendCustomer = {
-      country: 'GB',
-      subscriptionUpdateTime: '1686524570.413',
-      customerUpdateTime: '1682498121.267',
-      city: 'Manchester',
-      postcode: 'M15 4UB',
-      groups: [],
-      customisations: [
-        {
-          name: 'No Onions',
-          allergen: false,
-          id: '29bb4317-8904-471c-8f29-c3dad147aa91',
-        },
-        {
-          name: 'No Raw Onion',
-          allergen: false,
-          id: '0cfbe036-a57a-4909-8f07-d2935f7abbdd',
-        },
-        {
-          name: 'No Pork',
-          allergen: false,
-          id: '36c83f0a-ab62-4800-b927-82ddb0052c7f',
-        },
-        {
-          name: 'No Pulled Pork',
-          allergen: false,
-          id: '20344f5f-bff3-4615-be94-3a6f85922963',
-        },
-        {
-          name: 'No Chorizo',
-          allergen: false,
-          id: '8b6d4f8a-a4ba-481b-9634-d75dba76bb56',
-        },
-        {
-          name: 'No Veggie',
-          allergen: false,
-          id: 'c370ee7e-4afa-45a6-990b-11aa83d642d5',
-        },
-        {
-          name: 'Add meat',
-          allergen: false,
-          id: '7014367d-e549-46d4-8dc5-bcbb7931a31d',
-        },
-        {
-          name: 'No Courgette',
-          allergen: false,
-          id: '62ac3209-8fc6-4b1f-a7d7-873557080d08',
-        },
-      ],
-      deliveryNotes: '',
-      numberOfBags: 0,
-      firstName: 'Samih',
-      phoneNumber: '+447426777961',
-      deliveryDay2: 'Wednesday',
-      deliveryDay3: '',
-      plans: [
-        {
-          isExtra: false,
-          itemsPerDay: 1,
-          name: 'Micro',
-          subscriptionStatus: 'paused',
-          pauseStart: 1_686_524_400_000,
-          termEnd: 1_687_733_999_000,
-          id: '199UH2TcWN2CtBcp',
-          totalMeals: 5,
-          daysPerWeek: 5,
-        },
-        {
-          isExtra: false,
-          itemsPerDay: 1,
-          name: 'Low-CHO',
-          subscriptionStatus: 'paused',
-          pauseStart: 1_686_524_400_000,
-          termEnd: 1_687_733_999_000,
-          id: 'BTceTQTcWMrliBc2',
-          totalMeals: 5,
-          daysPerWeek: 5,
-        },
-      ],
-      surname: 'Fattouh',
-      deliveryDay1: 'Sunday',
-      addressLine1: 'APT 1506',
-      addressLine2: 'EAST TOWER',
-      salutation: '',
-      addressLine3: '9 OWEN STREET',
-      email: 'samihfattouh@hotmail.com',
-      username: 'btcetqtcwmbkrbrp',
-    };
-
-    const customers: BackendCustomer[] = [testCustomer];
-
+    const customers: BackendCustomer[] = [
+      customerOne,
+      customerTwo,
+      customerThree,
+    ];
     const result = chooseMealSelections(notSixPlannedCooks, customers, 'me');
 
     if (!result.customerPlans[2].deliveries[0].paused) {
