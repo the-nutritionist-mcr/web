@@ -38,7 +38,7 @@ import {
   planTagFuture,
   planTagPaused,
 } from './edit-customer-page.css';
-import { convertPlanFormat } from '@tnmw/meal-planning';
+import { convertPlanFormat, validateCustomPlan } from '@tnmw/meal-planning';
 
 const SUBMIT_DEBOUNCE = 500;
 
@@ -124,7 +124,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
     setShowPlanChangedDialog(false);
   }, SUBMIT_DEBOUNCE);
 
-  const validChange = true;
+  const validChange = validateCustomPlan(customer);
 
   return (
     <>
@@ -163,7 +163,7 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
         />
         <Button
           primary
-          disabled={!dirty}
+          disabled={!dirty || !validChange}
           label="Save"
           name="submit"
           onClick={() => setShowPlanChangedDialog(true)}
