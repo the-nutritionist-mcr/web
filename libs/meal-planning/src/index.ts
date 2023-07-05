@@ -16,6 +16,9 @@ export {
   makeNewPlan,
 } from './lib/distribution-generator';
 
+export { convertPlanFormat } from './lib/convert-plan-format';
+export { validateCustomPlan } from './lib/validate-custom-plan';
+
 export type {
   SelectedMeal,
   CustomerMealsSelection,

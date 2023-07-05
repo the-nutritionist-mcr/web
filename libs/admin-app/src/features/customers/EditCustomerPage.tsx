@@ -21,7 +21,6 @@ import {
   defaultDeliveryDays,
   itemFamilies,
 } from '@tnmw/config';
-import { convertPlanFormat } from '@tnmw/utils';
 import { debounce } from 'lodash';
 import PlanPanel from './PlanPanel';
 
@@ -39,6 +38,7 @@ import {
   planTagFuture,
   planTagPaused,
 } from './edit-customer-page.css';
+import { convertPlanFormat } from '@tnmw/meal-planning';
 
 const SUBMIT_DEBOUNCE = 500;
 
@@ -123,6 +123,8 @@ const EditCustomerPage: FC<EditCustomerPathParams> = ({
     setDirty(false);
     setShowPlanChangedDialog(false);
   }, SUBMIT_DEBOUNCE);
+
+  const validChange = true;
 
   return (
     <>
