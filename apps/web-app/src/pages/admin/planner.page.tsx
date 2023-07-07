@@ -6,10 +6,12 @@ import { Planner } from '@tnmw/admin-app';
 import { useRecipes, usePlan, useCustomisations } from '../../hooks';
 import { RedirectIfLoggedOut } from '../../components/authentication/redirect-if-logged-out';
 import { useCustomers } from '../../hooks/use-customers';
+import { usePlansList } from '../../hooks/use-plans-list';
 
 const PlannerPage: FC = () => {
   const { items } = useRecipes();
   const { data, update, publish } = usePlan();
+  const { data: plansList } = usePlansList();
   const { items: customers } = useCustomers();
   const { items: customisations } = useCustomisations();
 
@@ -20,6 +22,7 @@ const PlannerPage: FC = () => {
           {customisations &&
             data &&
             items &&
+            plansList &&
             data.available &&
             data.admin &&
             publish &&
@@ -32,6 +35,7 @@ const PlannerPage: FC = () => {
                 creationDate={data.date}
                 customers={customers}
                 plan={data.plan}
+                plansList={plansList}
                 published={data.published}
                 publish={publish}
               />

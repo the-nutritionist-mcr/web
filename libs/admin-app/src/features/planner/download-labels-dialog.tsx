@@ -12,6 +12,7 @@ import {
   Button,
   Box,
 } from 'grommet';
+import { DateTime } from 'luxon';
 import fileDownload from 'js-file-download';
 import { Checkmark } from 'grommet-icons';
 import JSZip from 'jszip';
@@ -43,9 +44,15 @@ import downloadPdf from '../../lib/downloadPdf';
 import { generateAddressDownload } from './generate-address-download';
 import { generateCookReport } from '../../lib/generate-cook-report';
 
+interface PlanId {
+  sort: string;
+  createdOn: Date;
+}
+
 interface DownloadLabelsDialogProps {
   onClose: () => void;
   plan: WeeklyCookPlan;
+  plansList: PlanId[];
   customers: BackendCustomer[];
   recipes: Recipe[];
 }
@@ -69,6 +76,7 @@ const downloadLabels = async (
 
 export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
   onClose,
+  plansList,
   recipes,
   plan: originalPlan,
   customers,
@@ -98,6 +106,23 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
           align="center"
           width="400px"
         >
+          <FormField name="Plan" label="Plan" required width="100%">
+            <Select
+              options={[
+                'Current',
+                ...plansList.map((plan) =>
+                  DateTime.fromJSDate(plan.createdOn).toLocaleString(
+                    DateTime.DATETIME_MED
+                  )
+                ),
+              ]}
+              value={'Current'}
+              onChange={() => {
+                // Noop
+              }}
+            />
+          </FormField>
+
           <FormField name="Which Cook" label="Which Cook" required width="100%">
             <Select
               options={cooks}

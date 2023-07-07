@@ -159,6 +159,14 @@ export const makeDataApis = (
     },
   });
 
+  const listPlansFunction = makeFunction(`list-plans-function`, {
+    entry: entryName('misc', 'list-recent-plans.ts'),
+    environment: {
+      ...defaultEnvironmentVars,
+      [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
+    },
+  });
+
   const planFunction = makeFunction(`plan-function`, {
     entry: entryName('misc', 'submit-full-plan.ts'),
     environment: {
@@ -168,6 +176,15 @@ export const makeDataApis = (
   });
 
   const planResource = api.root.addResource('plan');
+
+  const listResource = planResource.addResource('list');
+
+  listResource.addMethod(
+    HTTP.verbs.Get,
+    new LambdaIntegration(listPlansFunction)
+  );
+
+  planDataTable.grantReadData(listPlansFunction);
 
   planResource.addMethod(HTTP.verbs.Post, new LambdaIntegration(planFunction));
   planDataTable.grantReadWriteData(planFunction);

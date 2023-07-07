@@ -16,12 +16,18 @@ interface PlannerProps {
   createdBy: string;
   creationDate: Date;
   plan: WeeklyCookPlan;
+  plansList: PlanId[];
   customers: BackendCustomer[];
   customisations: Exclusion[];
   recipes: Recipe[];
   update: (item: MealPlanGeneratedForIndividualCustomer) => Promise<void>;
   publish: () => Promise<void>;
   published: boolean;
+}
+
+interface PlanId {
+  sort: string;
+  createdOn: Date;
 }
 
 const Planner: React.FC<PlannerProps> = (props) => {
@@ -39,6 +45,7 @@ const Planner: React.FC<PlannerProps> = (props) => {
           recipes={recipes}
           customers={props.customers}
           plan={props.plan}
+          plansList={props.plansList}
         />
       )}
       {showAdhocDialog && (

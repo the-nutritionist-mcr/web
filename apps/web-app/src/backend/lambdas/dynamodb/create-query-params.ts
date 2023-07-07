@@ -635,13 +635,16 @@ export const createQueryParams = (
 export const doQuery = async (
   tableName: string,
   query: string,
-  values: string[]
+  values: string[],
+  limit?: number
 ) => {
   const dynamodbClient = new DynamoDBClient({});
   const dynamo = DynamoDBDocumentClient.from(dynamodbClient);
+  const limitObj = limit ? { Limit: limit } : {};
   const input = {
     TableName: tableName,
     ...createQueryParams(query, ...values),
+    ...limitObj,
   };
 
   return await dynamo.send(new QueryCommand(input));
