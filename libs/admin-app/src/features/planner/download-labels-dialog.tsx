@@ -82,14 +82,19 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
   customers,
 }) => {
   const [cookNumber, setCookNumber] = useState('1');
+  const [plan, setPlan] = useState('Current');
   const [useBy, setUseBy] = useState('');
   const cooks = Array.from({ length: defaultDeliveryDays.length }, (_, i) =>
     String(i + 1)
   );
 
-  const swappedPlan = originalPlan.customerPlans.map((plan) =>
-    performSwaps(plan, plan.customer, recipes)
-  );
+  const getPlan = async () => {
+    const returnPlan = plan === 'Current' ? originalPlan : originalPlan;
+
+    return returnPlan.customerPlans.map((plan) =>
+      performSwaps(plan, plan.customer, recipes)
+    );
+  };
 
   return (
     <Layer>
@@ -108,17 +113,20 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
         >
           <FormField name="Plan" label="Plan" required width="100%">
             <Select
+              labelKey="label"
+              valueKey="value"
               options={[
                 'Current',
-                ...plansList.map((plan) =>
-                  DateTime.fromJSDate(plan.createdOn).toLocaleString(
+                ...plansList.map((plan) => ({
+                  value: plan.sort,
+                  label: DateTime.fromJSDate(plan.createdOn).toLocaleString(
                     DateTime.DATETIME_MED
-                  )
-                ),
+                  ),
+                })),
               ]}
-              value={'Current'}
-              onChange={() => {
-                // Noop
+              value={plan}
+              onChange={({ value }) => {
+                setPlan(value.value);
               }}
             />
           </FormField>
@@ -154,9 +162,9 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
             <Button
               primary
               label="Meal Label Data"
-              onClick={() => {
+              onClick={async () => {
                 downloadLabels(
-                  swappedPlan,
+                  await getPlan(),
                   new Date(useBy),
                   recipes,
                   Number(cookNumber) - 1
@@ -181,8 +189,8 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
             <Button
               primary
               label="Cook Plan"
-              onClick={() => {
-                const plan = makeCookPlan(swappedPlan, recipes);
+              onClick={async () => {
+                const plan = makeCookPlan(await getPlan(), recipes);
                 downloadPdf(
                   generateCookPlanDocumentDefinition(plan),
                   generateDatestampedFilename('cook-plan', 'pdf')
@@ -192,9 +200,9 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
             <Button
               primary
               label="Address Data"
-              onClick={() => {
+              onClick={async () => {
                 const addresses = generateAddressDownload(
-                  swappedPlan,
+                  await getPlan(),
                   customers,
                   Number(cookNumber) - 1
                 );
@@ -208,9 +216,9 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
             <Button
               primary
               label="Pack Plan"
-              onClick={() => {
+              onClick={async () => {
                 const plan = generateDeliveryPlanDocumentDefinition(
-                  swappedPlan,
+                  await getPlan(),
                   recipes,
                   originalPlan.cooks
                 );
@@ -224,13 +232,13 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
             <Button
               primary
               label="Cook Data Report"
-              onClick={() => {
+              onClick={async () => {
                 const plan = makeCookPlanV2(
                   originalPlan.customerPlans,
                   recipes,
                   originalPlan.cooks
                 );
-                const report = generateCookReport(plan, swappedPlan);
+                const report = generateCookReport(plan, await getPlan());
 
                 downloadPdf(
                   report,
