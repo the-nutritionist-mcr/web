@@ -205,6 +205,18 @@ export const makeDataApis = (
     },
   });
 
+  const getOldPlanFunction = makeFunction(`get-old-plan-function`, {
+    entry: entryName('misc', 'get-old-plan.ts'),
+    environment: {
+      ...defaultEnvironmentVars,
+      [ENV.varNames.DynamoDBTable]: planDataTable.tableName,
+    },
+  });
+
+  const oldPlan = planResource.addResource('{plan}');
+  oldPlan.addMethod(HTTP.verbs.Get, new LambdaIntegration(getPlanFunction));
+  planDataTable.grantReadData(getOldPlanFunction);
+
   planResource.addMethod(
     HTTP.verbs.Get,
     new LambdaIntegration(getPlanFunction)
