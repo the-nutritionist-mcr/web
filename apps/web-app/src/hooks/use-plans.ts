@@ -10,12 +10,12 @@ import { HTTP } from '@tnmw/constants';
 
 import { useSWRConfig } from 'swr';
 import toast from 'react-hot-toast';
-import { useSwrWrapper } from './use-swr-wrapper';
-
 type GetPlanResponse =
   | GetPlanResponseAdmin
   | GetPlanResponseNonAdmin
   | NotYetPublishedResponse;
+
+import { useSwrWrapper } from './use-swr-wrapper';
 
 export const usePlan = () => {
   const { mutate, cache } = useSWRConfig();

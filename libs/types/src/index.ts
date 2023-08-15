@@ -44,6 +44,7 @@ export type { default as CookPlan, RecipeVariantMap } from './lib/cook-plan';
 export type {
   StoredPlan,
   StoredMealSelection,
+  GetPlanResponseNew,
   GetPlanResponseAdmin,
   GetPlanResponseNonAdmin,
   NotYetPublishedResponse,

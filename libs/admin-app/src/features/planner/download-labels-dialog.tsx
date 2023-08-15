@@ -24,6 +24,7 @@ import {
   Recipe,
   Swapped,
   WeeklyCookPlan,
+  GetPlanResponseNew,
 } from '@tnmw/types';
 import generateCookPlanDocumentDefinition from '../../lib/generateCookPlanDocumentDefinition';
 import {
@@ -37,7 +38,7 @@ import {
   makeCookPlanV2,
   performSwaps,
 } from '@tnmw/meal-planning';
-import { generateDatestampedFilename } from '@tnmw/utils';
+import { fetchData, generateDatestampedFilename } from '@tnmw/utils';
 import generateDeliveryPlanDocumentDefinition from '../../lib/generateDeliveryPlanDocumentDefinition';
 import generateCookPlanDocumentDefinitionV2 from '../../lib/generateCookPlanDocumentDefinitionV2';
 import downloadPdf from '../../lib/downloadPdf';
@@ -89,11 +90,20 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
   );
 
   const getPlan = async () => {
-    const returnPlan = plan === 'Current' ? originalPlan : originalPlan;
+    if (plan === 'Current') {
+      return originalPlan.customerPlans.map((plan) =>
+        performSwaps(plan, plan.customer, recipes)
+      );
+    }
 
-    return returnPlan.customerPlans.map((plan) =>
-      performSwaps(plan, plan.customer, recipes)
-    );
+    const response = await fetchData<GetPlanResponseNew>(`plan/${plan}`);
+    if (response.admin) {
+      return response.plan.customerPlans.map((plan) =>
+        performSwaps(plan, plan.customer, recipes)
+      );
+    }
+
+    return [];
   };
 
   return (

@@ -49,6 +49,11 @@ export interface GetPlanResponseNonAdmin {
   admin: false;
 }
 
+export type GetPlanResponseNew =
+  | GetPlanResponseAdmin
+  | GetPlanResponseNonAdmin
+  | NotYetPublishedResponse;
+
 export interface GetPlanResponse {
   planId: string;
   cooks: Cook[];
