@@ -84,8 +84,6 @@ export const Loading = (props: LoadingProps) => {
       loadingHandles = {};
     };
 
-    console.log({ isLoading });
-
     const setLoadingState = (state: LoadingState) => {
       loadingHandles[key] = state;
 
