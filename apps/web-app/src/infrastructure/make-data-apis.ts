@@ -214,7 +214,7 @@ export const makeDataApis = (
   });
 
   const oldPlan = planResource.addResource('{plan}');
-  oldPlan.addMethod(HTTP.verbs.Get, new LambdaIntegration(getPlanFunction));
+  oldPlan.addMethod(HTTP.verbs.Get, new LambdaIntegration(getOldPlanFunction));
   planDataTable.grantReadData(getOldPlanFunction);
 
   planResource.addMethod(
