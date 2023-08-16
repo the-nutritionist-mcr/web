@@ -91,19 +91,25 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
 
   const getPlan = async () => {
     if (plan === 'Current') {
-      return originalPlan.customerPlans.map((plan) =>
-        performSwaps(plan, plan.customer, recipes)
-      );
+      return {
+        swappedCustomerPlans: originalPlan.customerPlans.map((plan) =>
+          performSwaps(plan, plan.customer, recipes)
+        ),
+        originalPlan,
+      };
     }
 
     const response = await fetchData<GetPlanResponseNew>(`plan/${plan}`);
     if (response.admin) {
-      return response.plan.customerPlans.map((plan) =>
-        performSwaps(plan, plan.customer, recipes)
-      );
+      return {
+        swappedCustomerPlans: response.plan.customerPlans.map((plan) =>
+          performSwaps(plan, plan.customer, recipes)
+        ),
+        originalPlan: response.plan,
+      };
     }
 
-    return [];
+    return { swappedCustomerPlans: [], originalPlan: undefined };
   };
 
   return (
@@ -173,8 +179,9 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
               primary
               label="Meal Label Data"
               onClick={async () => {
+                const { swappedCustomerPlans } = await getPlan();
                 downloadLabels(
-                  await getPlan(),
+                  swappedCustomerPlans,
                   new Date(useBy),
                   recipes,
                   Number(cookNumber) - 1
@@ -184,23 +191,27 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
             <Button
               primary
               label="Cook Plan V2"
-              onClick={() => {
-                const plan = makeCookPlanV2(
-                  originalPlan.customerPlans,
-                  recipes,
-                  originalPlan.cooks
-                );
-                downloadPdf(
-                  generateCookPlanDocumentDefinitionV2(plan),
-                  generateDatestampedFilename('cook-plan', 'pdf')
-                );
+              onClick={async () => {
+                const { originalPlan } = await getPlan();
+                if (originalPlan) {
+                  const plan = makeCookPlanV2(
+                    originalPlan.customerPlans,
+                    recipes,
+                    originalPlan.cooks
+                  );
+                  downloadPdf(
+                    generateCookPlanDocumentDefinitionV2(plan),
+                    generateDatestampedFilename('cook-plan', 'pdf')
+                  );
+                }
               }}
             />
             <Button
               primary
               label="Cook Plan"
               onClick={async () => {
-                const plan = makeCookPlan(await getPlan(), recipes);
+                const { swappedCustomerPlans } = await getPlan();
+                const plan = makeCookPlan(swappedCustomerPlans, recipes);
                 downloadPdf(
                   generateCookPlanDocumentDefinition(plan),
                   generateDatestampedFilename('cook-plan', 'pdf')
@@ -211,8 +222,9 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
               primary
               label="Address Data"
               onClick={async () => {
+                const { swappedCustomerPlans } = await getPlan();
                 const addresses = generateAddressDownload(
-                  await getPlan(),
+                  swappedCustomerPlans,
                   customers,
                   Number(cookNumber) - 1
                 );
@@ -227,8 +239,9 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
               primary
               label="Pack Plan"
               onClick={async () => {
+                const { swappedCustomerPlans } = await getPlan();
                 const plan = generateDeliveryPlanDocumentDefinition(
-                  await getPlan(),
+                  swappedCustomerPlans,
                   recipes,
                   originalPlan.cooks
                 );
@@ -243,12 +256,13 @@ export const DownloadLabelsDialog: FC<DownloadLabelsDialogProps> = ({
               primary
               label="Cook Data Report"
               onClick={async () => {
+                const { swappedCustomerPlans } = await getPlan();
                 const plan = makeCookPlanV2(
                   originalPlan.customerPlans,
                   recipes,
                   originalPlan.cooks
                 );
-                const report = generateCookReport(plan, await getPlan());
+                const report = generateCookReport(plan, swappedCustomerPlans);
 
                 downloadPdf(
                   report,
