@@ -39,8 +39,7 @@ export const Account: FC<AccountProps> = ({
   logout,
 }) => {
   const plans = userDetails?.plans
-    ?.filter((plan) => plan.totalMeals > 0)
-    ?.filter((plan) => plan.subscriptionStatus === 'active');
+    ?.filter((plan) => plan.totalMeals > 0);
 
   const { prefetch } = useContext(NavigationContext);
 
