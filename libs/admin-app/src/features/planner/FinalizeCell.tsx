@@ -26,7 +26,8 @@ interface FinalizeCellProps {
 const FinalizeCell = (props: FinalizeCellProps) => {
   const renderEntry = (recipe: Recipe) => {
     const realRecipe = getRealRecipe(recipe, props.customer, props.recipes);
-    const isAlternate = realRecipe.name !== realRecipe.originalName;
+    const isAlternate =
+      realRecipe.name.trim() !== realRecipe.originalName.trim();
     return (
       <Box>
         <Text
