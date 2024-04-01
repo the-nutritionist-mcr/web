@@ -139,6 +139,9 @@ const EditRecipesDialog: React.FC<EditRecipesDialogProps> = (props) => {
                     valueKey="name"
                   />
                 </FormField>
+                <FormField>
+                  <TextInput name="ingredients" />
+                </FormField>
               </Box>
               <Box direction="column" width="20rem" gap="small">
                 <Heading margin="none" level={3}>

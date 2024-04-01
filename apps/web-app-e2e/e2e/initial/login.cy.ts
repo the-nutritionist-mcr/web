@@ -10,6 +10,7 @@ describe('The login page', { scrollBehavior: false }, () => {
 
   it('Should load a page with a login form', () => {
     LoginPage.visit();
+    
     LoginPage.getLoginButton();
   });
 
